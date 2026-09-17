@@ -66,14 +66,20 @@ az storage blob download-batch --account-name fbrdevstorage --source maps-keywor
 
 ## Stop, revoke, rotate
 
-- Stop a running batch. The summary line with `manifestReceipt` is written only after SIGTERM, and deleting the Job also deletes the Pod and its log, so follow the log before deleting:
+- Stop a running batch. The summary line with `manifestReceipt` is written only after SIGTERM, so stream the Pod's log before stopping it, and stop the Pod rather than the Job: `kubectl logs -f` on a Job fails with NotFound if the Job is deleted before the stream attaches, and deleting the Job removes the Pod log.
 
   ```bash
   mkdir -p outputs
-  kubectl -n dev-ai logs -f "$JOB" > "outputs/$(basename "$JOB").log" &
-  kubectl -n dev-ai delete "$JOB"
+  POD=$(kubectl -n dev-ai get pods -l job-name="${JOB#job.batch/}" -o jsonpath='{.items[0].metadata.name}')
+  kubectl -n dev-ai logs -f "$POD" > "outputs/$POD.log" &
+  sleep 3
+  kubectl -n dev-ai delete pod "$POD"
   wait
+  tail -n 1 "outputs/$POD.log"
+  kubectl -n dev-ai delete "$JOB"
   ```
+
+  With `backoffLimit: 0` the Job does not start a replacement Pod; it is marked failed and the last command removes it.
 
   The Pod receives SIGTERM, stops the current keyword at its next round, skips the rest, and uploads the manifest within the 120-second grace period. The worst case is about 100 s plus the in-flight round with a stalled storage account. Storage cannot stall that shutdown indefinitely: each blob call is aborted on the client after 15 s (the SDK's `tryTimeoutInMs` is only the server-side operation timeout), uploads stop after two consecutive failures, and the final manifest still gets one bounded attempt.
 - Revoke the SAS immediately. Read the key again first, since setup unsets it: `export AZURE_STORAGE_KEY=$(az storage account keys list -g FBRDev -n fbrdevstorage --query '[0].value' -o tsv)`, then `az storage container policy delete --account-name fbrdevstorage --container-name maps-keyword-capture --name maps-capture-writer`, then `unset AZURE_STORAGE_KEY`.

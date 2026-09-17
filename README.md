@@ -72,6 +72,6 @@ docs/implementation-plan.md  Implementation milestones and acceptance gates
 2. Authenticate the Pod with workload identity instead of a container SAS.
 3. Add a results viewer.
 4. Add report generation.
-5. Exercise SAS rotation and revocation, and a storage outage, in the Pod.
+5. Observe a CAPTCHA or consent page and a stalled or throttling storage account from the Pod; revocation and rotation were exercised on 2026-09-17.
 
 Batches are started manually today; see [deploy/job/README.md](deploy/job/README.md).
