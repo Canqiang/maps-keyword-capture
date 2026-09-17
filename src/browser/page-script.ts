@@ -12,7 +12,10 @@ export function readFeedSnapshotInPage(): FeedSnapshot | null {
   const children = Array.from(feed.children).map((el, index) => {
     const r = el.getBoundingClientRect();
     const link = el.querySelector('a[href*="/maps/place/"]');
-    const rating = el.querySelector('span[role="img"][aria-label$=" stars"], span[role="img"][aria-label$=" star"]');
+    // Cards that show a review count label the rating "4.8 stars 97 Reviews", so an
+    // aria-label suffix match misses them. Pick the first role=img whose label starts with a rating.
+    const rating = Array.from(el.querySelectorAll('span[role="img"]'))
+      .find((s) => /^\d(?:\.\d)?\s+stars?\b/.test(s.getAttribute('aria-label') || '')) ?? null;
     const text = ((el as HTMLElement).innerText || '').replace(/\s+/g, ' ').trim();
     const sponsoredLabels: { text: string; ownerAriaLabel: string | null; depth: number }[] = [];
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT);
@@ -35,7 +38,9 @@ export function readFeedSnapshotInPage(): FeedSnapshot | null {
     };
   });
   const feedText = feed.innerText || '';
-  const input = document.querySelector('input#searchboxinput, input[aria-label*="Search" i]') as HTMLInputElement | null;
+  // The `?api=1&query=` entry page carries the query in `input[name="q"]` and never renders
+  // `input#searchboxinput`; the interactive `/maps/search/<query>` layout uses the latter.
+  const input = document.querySelector('input#searchboxinput, input[name="q"], input[aria-label*="Search" i]') as HTMLInputElement | null;
   return {
     children,
     paneBounds: box(pane),

@@ -7,6 +7,7 @@ import type { KeywordResult, RunMetadata } from '../src/contracts.js';
 import { runQueryAttempt } from '../src/runner/query-runner.js';
 import { LocalArtifactStore } from '../src/storage/local.js';
 import { parseConfig } from '../src/config.js';
+import { openSearch } from '../src/browser/maps-adapter.js';
 import { namedCards, writeFixture } from './fixtures/feed-fixture.js';
 
 let browser: Browser;
@@ -87,6 +88,36 @@ describe('runQueryAttempt', () => {
     const out = await runQueryAttempt(deps(url), input({ queryId: 'q0004', keyword: 'q' }));
     expect(out.result).toMatchObject({ status: 'partial', stopReason: 'query_mismatch', observedCount: 0 });
     expect(out.result.quality.observedQueryText).toBe('something else');
+  });
+
+  it('waits for the entry page to fill in the query instead of reporting query_mismatch', async () => {
+    const url = await writeFixture({
+      query: 'bubble tea garden city', cards: namedCards(5), endOfList: true, queryInputName: 'q', deferQueryMs: 2500,
+    });
+    const out = await runQueryAttempt(deps(url), input({ queryId: 'q0008' }));
+    expect(out.result.stopReason).not.toBe('query_mismatch');
+    expect(out.result).toMatchObject({ status: 'captured', observedCount: 5 });
+    expect(out.result.quality.observedQueryText).toBe('bubble tea garden city');
+  });
+
+  it('reports timeout, not query_mismatch, when the budget expires before the query renders', async () => {
+    // Observed live with keywordTimeoutMs=5000: the feed is up but the entry page has not filled in
+    // the query yet, and the budget is already spent. The honest reason is the budget, not a mismatch.
+    const url = await writeFixture({ query: 'bubble tea garden city', cards: namedCards(5), queryInputName: 'q', deferQueryMs: 60_000 });
+    const deadlineAt = Date.now() + 5000;
+    const d = {
+      ...deps(url),
+      openSearchImpl: async (page: Parameters<typeof openSearch>[0], u: string, t: number) => {
+        const opened = await openSearch(page, u, t);
+        await new Promise((r) => setTimeout(r, Math.max(0, deadlineAt - Date.now() - 200)));
+        return opened;
+      },
+    };
+    const out = await runQueryAttempt(d, input({ queryId: 'q0009', deadlineAt }));
+    expect(out.result.stopReason).toBe('timeout');
+    // Nothing was collected, so deriveOutcome downgrades the timeout to failed.
+    expect(out.result.status).toBe('failed');
+    expect(out.result.error).toMatchObject({ code: 'timeout' });
   });
 
   it('treats a no-results page as captured with zero listings and a diagnostic screenshot', async () => {

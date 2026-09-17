@@ -15,9 +15,10 @@ export function parsePlaceIdentity(href: string): { placeId: string | null; plac
   return { placeId: null, placeKey: pathname };
 }
 
+/** Accepts both live label shapes: "4.8 stars" and, when the card shows a count, "4.8 stars 97 Reviews". */
 export function parseRating(label: string | null): number | null {
   if (!label) return null;
-  const m = /^(\d(?:\.\d)?) stars?$/.exec(label.trim());
+  const m = /^(\d(?:\.\d)?) stars?(?:\s+\d{1,3}(?:,\d{3})*\s+Reviews?)?$/.exec(label.trim());
   return m ? Number(m[1]) : null;
 }
 

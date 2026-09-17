@@ -1,8 +1,9 @@
 import { chromium, type Browser, type Page } from 'playwright';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { classifyFeedChildren } from '../src/core/feed-model.js';
+import { classifyCard } from '../src/core/classify.js';
 import {
-  END_OF_LIST_TEXT, buildSearchUrl, detectPageState, nextScrollTop, openSearch, queryMatches, readSnapshot, scrollFeedTo, waitForFeedChange,
+  END_OF_LIST_TEXT, buildSearchUrl, detectPageState, hasQuerySignal, nextScrollTop, openSearch, pageFunctionSource, queryMatches, readSnapshot, scrollFeedTo, waitForFeedChange,
 } from '../src/browser/maps-adapter.js';
 import { namedCards, writeFixture } from './fixtures/feed-fixture.js';
 
@@ -19,6 +20,21 @@ describe('buildSearchUrl', () => {
     expect(buildSearchUrl('bubble tea garden city', 'en-US')).toBe('https://www.google.com/maps/search/?api=1&query=bubble+tea+garden+city&hl=en');
     expect(buildSearchUrl('café & "tea" / 奶茶', 'en-US')).toContain('query=caf%C3%A9+%26+%22tea%22+%2F+%E5%A5%B6%E8%8C%B6');
     expect(buildSearchUrl('x', 'en-US')).not.toMatch(/@|ll=|center=|near/);
+  });
+});
+
+describe('page function serialization', () => {
+  // `npm run capture` runs through tsx, whose esbuild transform hardcodes `keepNames`: inner
+  // functions become `__name(fn, "box")`, and the page has no `__name` binding. Vitest's transform
+  // does not add the helper, so serializing the real page script here cannot reproduce the failure;
+  // assert against the shape esbuild emits instead.
+  const keepNamesFn = `function probe(){const count=__name((f)=>f.children.length,"count");return count(document.querySelector('div[role="feed"]'));}`;
+
+  it('runs a keepNames-transformed page function in a page that has no __name helper', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(3) });
+    await openSearch(page, url, 5000);
+    await expect(page.evaluate(`(${keepNamesFn})()`)).rejects.toThrow(/__name is not defined/);
+    await expect(page.evaluate(pageFunctionSource(keepNamesFn))).resolves.toBeGreaterThan(0);
   });
 });
 
@@ -80,6 +96,45 @@ describe('page reading against the fixture', () => {
     expect(snap.endOfList).toBe(true);
     expect(snap.children.some((c) => c.text.includes(END_OF_LIST_TEXT))).toBe(true);
     expect(await waitForFeedChange(page, { childCount: snap.children.length, scrollHeight: snap.scrollHeight }, 300)).toBe('end');
+  });
+
+  // Measured on the live `?api=1&query=` entry page on 2026-09-17: `input#searchboxinput` never
+  // appears, the query sits in `input[name="q"]`, and both that field and the document title are
+  // filled in roughly 0.8s after the results feed has already rendered.
+  it('reads the query from the entry page field named q', async () => {
+    const url = await writeFixture({ query: 'bubble tea garden city', cards: namedCards(3), queryInputName: 'q' });
+    await openSearch(page, url, 5000);
+    const snap = (await readSnapshot(page))!;
+    expect(snap.observedQueryText).toBe('bubble tea garden city');
+    expect(hasQuerySignal(snap)).toBe(true);
+    expect(queryMatches(snap, 'bubble tea garden city')).toBe(true);
+  });
+
+  it('reports no query signal while the entry page has not filled in the field or the title', async () => {
+    const url = await writeFixture({ query: 'bubble tea garden city', cards: namedCards(3), queryInputName: 'q', deferQueryMs: 1500 });
+    await openSearch(page, url, 5000);
+    const early = (await readSnapshot(page))!;
+    expect(early.children.length).toBeGreaterThan(0);
+    expect(early.observedQueryText).toBeNull();
+    expect(early.pageTitle).toBe('Google Maps');
+    expect(hasQuerySignal(early)).toBe(false);
+    await page.waitForTimeout(1800);
+    const late = (await readSnapshot(page))!;
+    expect(late.observedQueryText).toBe('bubble tea garden city');
+    expect(hasQuerySignal(late)).toBe(true);
+    expect(queryMatches(late, 'bubble tea garden city')).toBe(true);
+  });
+
+  it('reads the rating label of cards that also show a review count', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(3), ratingLabelStyle: 'stars_reviews' });
+    await openSearch(page, url, 5000);
+    const snap = (await readSnapshot(page))!;
+    const layout = classifyFeedChildren(snap.children);
+    expect(layout.ok).toBe(true);
+    if (!layout.ok) return;
+    expect(layout.layout.cards[0]!.ratingAriaLabel).toBe('4.5 stars 100 Reviews');
+    const card = classifyCard(layout.layout.cards[0]!, snap.paneBounds, 'qa01_obs001');
+    expect(card.parsed.rating).toBe(4.5);
   });
 
   it('detects the no-results page', async () => {

@@ -13,7 +13,7 @@ import { observationIdFor } from '../ids.js';
 import { isoWithOffset, queryAttemptRelativeDir, resultBaseName, screenshotFileName } from '../naming.js';
 import { newSearchContext } from '../browser/launch.js';
 import {
-  buildSearchUrl, nextScrollTop, openSearch, queryMatches, scrollFeedTo, waitForFeedChange,
+  buildSearchUrl, hasQuerySignal, nextScrollTop, openSearch, queryMatches, scrollFeedTo, waitForFeedChange,
 } from '../browser/maps-adapter.js';
 import { captureStableObservation } from '../browser/stability.js';
 import type { ArtifactStore } from '../storage/types.js';
@@ -149,6 +149,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     let scrolls = 0;
     let stalls = 0;
     let waitedForCards = false;
+    let waitedForQuery = false;
     while (!stop) {
       const obs = await captureStableObservation(page, { deadlineAt: input.deadlineAt });
       if (!obs) { stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null }; warnings.push({ code: 'feed_vanished', message: 'results feed disappeared', observationIds: [] }); break; }
@@ -156,6 +157,17 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       const snapshot: FeedSnapshot = obs.snapshot;
       if (observations.length === 0) {
         observedQueryText = snapshot.observedQueryText;
+        // The entry page renders the feed before it fills in the query field and the title. Give
+        // that one bounded wait so an unrendered query is not recorded as a mismatch, and report a
+        // spent budget as a timeout rather than blaming the query.
+        if (!hasQuerySignal(snapshot)) {
+          if (remaining() <= 0) { stop = { kind: 'incomplete', reason: 'timeout', error: null }; break; }
+          if (!waitedForQuery) {
+            waitedForQuery = true;
+            await page.waitForTimeout(Math.max(0, Math.min(2000, remaining())));
+            continue;
+          }
+        }
         stage('ready');
         if (!queryMatches(snapshot, input.keyword)) { stop = { kind: 'incomplete', reason: 'query_mismatch', error: null }; break; }
       }

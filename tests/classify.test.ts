@@ -30,6 +30,11 @@ describe('parsers', () => {
     expect(parseRating('5.0 stars')).toBe(5);
     expect(parseRating(null)).toBeNull();
     expect(parseRating('Wheelchair accessible entrance')).toBeNull();
+    // Measured live on 2026-09-17: cards that show a review count label the rating
+    // "4.8 stars 97 Reviews", so the value must survive the trailing review text.
+    expect(parseRating('4.8 stars 97 Reviews')).toBe(4.8);
+    expect(parseRating('4.8 stars 1,592 Reviews')).toBe(4.8);
+    expect(parseRating('5 stars 1 Review')).toBe(5);
     expect(parseReviewCount('Gong Cha 3.9 (217) Bubble tea store')).toBe(217);
     expect(parseReviewCount('Name 4.8 (1,592) Cafe')).toBe(1592);
     expect(parseReviewCount('Name 4.8 Cafe · (516) 690-8378')).toBeNull();

@@ -42,8 +42,33 @@ export async function openSearch(page: Page, url: string, timeoutMs: number): Pr
   return { state, finalUrl: page.url() };
 }
 
+/**
+ * Serializes a page function for `page.evaluate` inside a scope that defines `__name`.
+ * Bundlers that keep function names (esbuild via tsx, which `npm run capture` uses) rewrite inner
+ * functions to `__name(fn, "box")`. Playwright ships only the function source to the page, where
+ * that helper does not exist, so the call fails with `ReferenceError: __name is not defined`.
+ * The real helper only stamps `fn.name`, so identity is a safe stand-in.
+ */
+export function pageFunctionSource(fn: (() => unknown) | string): string {
+  return `(() => { const __name = (target) => target; return (${String(fn)})(); })()`;
+}
+
 export async function readSnapshot(page: Page): Promise<FeedSnapshot | null> {
-  return page.evaluate(readFeedSnapshotInPage);
+  return page.evaluate<FeedSnapshot | null>(pageFunctionSource(readFeedSnapshotInPage));
+}
+
+/** Title the entry page carries before it fills in the searched query (English desktop profile). */
+export const PLACEHOLDER_TITLE = 'google maps';
+
+/**
+ * Whether the page has produced any query evidence yet. The `?api=1&query=` entry page renders the
+ * results feed about 0.8s before it fills in the query field and the document title, so an absent
+ * signal means "not yet", which must not be read as a mismatch.
+ */
+export function hasQuerySignal(snapshot: FeedSnapshot): boolean {
+  if ((snapshot.observedQueryText ?? '').trim() !== '') return true;
+  const title = snapshot.pageTitle.trim().toLowerCase();
+  return title !== '' && title !== PLACEHOLDER_TITLE;
 }
 
 export function queryMatches(snapshot: FeedSnapshot, keyword: string): boolean {
