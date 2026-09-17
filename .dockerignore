@@ -1,0 +1,13 @@
+node_modules
+dist
+outputs
+.git
+.idea
+.superpowers
+evidence
+docs
+tests
+deploy
+*.log
+.env
+.env.*
