@@ -47,9 +47,11 @@ spec:
                 secretKeyRef:
                   name: maps-keyword-capture-storage
                   key: AZURE_STORAGE_CONTAINER_SAS_URL
+          # The aiapp pool has a fixed 4 nodes (no autoscaler) with little unreserved CPU; 500m fits
+          # where 1 core did not (2026-09-17). The measured peak was ~1.1 cores, covered by the limit.
           resources:
             requests:
-              cpu: "1"
+              cpu: 500m
               memory: 1Gi
               ephemeral-storage: 1Gi
             limits:
