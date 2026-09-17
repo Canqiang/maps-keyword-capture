@@ -12,7 +12,7 @@ Start with manual Jobs. Scheduling, a queue, and a run controller are later work
 
 | Setting | Proposed value |
 |---|---|
-| Browser launch | bundled Chromium, `headless: true`, `chromiumSandbox: true` |
+| Browser launch | bundled Chromium with `channel: "chromium"` (new headless mode, not the headless shell), `headless: true`, `chromiumSandbox: true` |
 | Job parallelism / completions | 1 / 1 |
 | Restart policy / backoff limit | `Never` / 0 |
 | CPU request / limit | 500m / 2 |
@@ -31,7 +31,7 @@ Storage target: Azure Blob account `fbrdevstorage`, container `seo`, prefix `map
 
 ## Delivery and recovery
 
-Persist and independently read back each completed keyword before starting the next. Store immutable artifacts under unique run/worker-attempt/query-attempt prefixes. Publish a final attempt manifest only after the artifact index is verified.
+Persist and independently read back each completed keyword before starting the next. Store immutable artifacts under unique run/worker-attempt/query-attempt prefixes. Record each verified artifact's key, size, checksum, and verification time in the manifest, then upload the manifest and read it back; there is no separate artifact index.
 
 Collection quality and storage verification are separate states. Partial results may be durably saved; a successful process exit alone does not prove complete collection. Do not merge different attempts or automatically choose the attempt showing the best rank.
 
@@ -39,7 +39,7 @@ Use bounded application retries for transient browser errors. Stop on CAPTCHA an
 
 ## Before deploying
 
-Confirm Chromium sandbox behavior on the `aiapp` nodes and measured resource use. Namespace, registry, egress profile (Virginia), and storage target were confirmed on 2026-09-17. Validate 3–5 live keywords in the target Pod before a larger batch; at least one must show a Sponsored card, since laptop runs showed none. Exercise timeout, SIGTERM, upload failure, and access to artifacts after Pod deletion.
+Confirm Chromium sandbox behavior on the `aiapp` nodes and measured resource use. Namespace, registry, egress profile (Virginia), and storage target were confirmed on 2026-09-17. Validate 3–5 live keywords in the target Pod before a larger batch; at least one must show a Sponsored card, since laptop runs showed none. The laptop probe used headless Chrome, so screenshot legibility, DOM structure, and ad markup must be re-checked under the `channel: "chromium"` launch configuration before the results are treated as equivalent. Exercise timeout, SIGTERM, upload failure, and access to artifacts after Pod deletion.
 
 ## Official references
 

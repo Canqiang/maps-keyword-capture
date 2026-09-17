@@ -4,7 +4,7 @@ Status: planned work, not completed features. This plan implements [the detailed
 
 ## Milestone 0 — Verify the browser surface
 
-Deliver a small local browser probe for 3–5 keywords. A first pass on 2026-09-17 measured card geometry, scroll behavior, DOM stability, and screenshot legibility for three keywords; ad, no-results, consent, and CAPTCHA samples are still missing. Inspect the current results list, ad label ownership, internal scrolling, empty/blocked states, and screenshot legibility. Record browser/version/profile details and the supported layout signatures.
+Deliver a small local browser probe for 3–5 keywords. A first pass on 2026-09-17 measured card geometry, scroll behavior, DOM stability, feed child structure, and screenshot legibility for three keywords in both headless Chrome and Playwright Chromium (`channel: "chromium"`), with matching geometry. One Sponsored card was observed and its label placement recorded in the detailed design; no-results, consent, and CAPTCHA samples are still missing, and only one ad layout has been seen. Inspect the current results list, ad label ownership, internal scrolling, empty/blocked states, and screenshot legibility. Record browser/version/profile details and the supported layout signatures.
 
 Acceptance: actual PNGs and observation logs are manually reconciled with the visible page. Do not declare an ad classifier validated solely because no ad appeared. Produce synthetic or sanitized fixtures for cases missing from the live run. A reliable classifier and list model are prerequisites for assigning automatic rankings.
 
@@ -39,7 +39,7 @@ Acceptance: the probe keywords produce reviewable raw screenshots and CSV/JSON w
 
 ## Milestone 3 — Durable artifacts
 
-Confirm the existing storage provider and implement only that provider first, behind a small storage interface. Add scoped credential handling, immutable attempt prefixes, per-query checkpoints, independent checksum readback, artifact index, and final manifest publication.
+Confirm the existing storage provider and implement only that provider first, behind a small storage interface. Add credential handling, immutable attempt prefixes, per-query checkpoints, independent checksum readback, and final manifest publication. Verify each artifact, record its key, size, checksum, and verification time in the manifest, then upload the manifest and read it back; there is no separate artifact index.
 
 Acceptance: uploaded PNG/JSON/CSV artifacts independently read back with matching bytes; interrupted uploads do not create a verified completion; different worker attempts cannot overwrite each other. The manifest and logs do not expose credentials or signed URLs.
 
