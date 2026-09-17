@@ -65,6 +65,16 @@ describe('runQueryAttempt', () => {
     expect(Date.parse(first.capturedAt) - Date.parse(out.result.startedAt)).toBeGreaterThanOrEqual(2900);
   });
 
+  it('records the URL the page has when the screenshot is taken, even with a single observation', async () => {
+    // The live page rewrites its URL ~3.5 s after the feed appears, while the first screenshot is
+    // still waiting for the view to settle. The URL must be read after that wait, not before it.
+    const url = await writeFixture({ query: 'q', cards: namedCards(3), endMarkerInitially: true, viewInUrlAfterMs: 1000, transientHintMs: 1500 });
+    const out = await runQueryAttempt({ ...deps(url), viewSettle: { firstBudgetMs: 4000, laterBudgetMs: 800, intervalMs: 150 } }, input({ queryId: 'q0093', keyword: 'q' }));
+    const observations = (await readFile(join(root, 'maps-keyword-capture/2026-09-17/run_t/att_t/q0093/qa01/observations.jsonl'), 'utf8')).trim().split('\n');
+    expect(observations).toHaveLength(1);
+    expect(out.result.context.observedMapView).toEqual({ latitude: 40.7336673, longitude: -73.648544, zoom: 14 });
+  });
+
   it('records the final URL and the observed map view the page settles on', async () => {
     const url = await writeFixture({ query: 'q', cards: namedCards(5), endOfList: true, viewInUrlAfterMs: 100 });
     const out = await runQueryAttempt(deps(url), input({ queryId: 'q0092', keyword: 'q' }));

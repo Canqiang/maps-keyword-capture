@@ -29,6 +29,8 @@ export interface FixtureOptions {
   transientHintMs?: number;
   /** After N ms, put the map view into the URL the way the live page rewrites it (`@lat,lng,zoomz`). */
   viewInUrlAfterMs?: number;
+  /** Render "You've reached the end of the list" from the start, as a short live result list does. */
+  endMarkerInitially?: boolean;
 }
 
 function esc(s: string): string {
@@ -99,6 +101,7 @@ ${defer ? '' : inputHtml}
   <div class="hdr0">Rating Hours All filters</div>
   <div class="hdr1">Results Share</div>
   ${initial}
+  ${o.endMarkerInitially ? '<div class="end">You\'ve reached the end of the list.</div>' : ''}
   <div class="trail0"></div>
   <div class="trail1">You're seeing a limited view of Google Maps. Learn more</div>
 </div>

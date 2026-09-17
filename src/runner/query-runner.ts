@@ -181,9 +181,10 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
         viewBlocker: () => transientHintVisible(page),
         ...(deps.signal ? { signal: deps.signal } : {}),
       });
-      // The entry URL is rewritten to /maps/search/<query>/@lat,lng,zoomz a few seconds after load;
-      // record the URL the evidence was actually taken on.
-      if (obs) finalUrl = obs.snapshot.url;
+      // The entry URL is rewritten to /maps/search/<query>/@lat,lng,zoomz a few seconds after load,
+      // usually while the first screenshot is still waiting for the view to settle. The snapshot was
+      // read before that wait, so take the URL the page has now, when the screenshot is final.
+      if (obs) finalUrl = page.url();
       if (!obs) { stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null }; warnings.push({ code: 'feed_vanished', message: 'results feed disappeared', observationIds: [] }); break; }
       if (!obs.accepted) {
         // A rejected observation is still evidence of what the page showed: keep its cards and the
