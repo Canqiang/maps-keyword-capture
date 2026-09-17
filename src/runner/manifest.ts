@@ -1,4 +1,4 @@
-import type { Artifact, BatchManifest, PersistenceStatus, QueryAttemptSummary, QueryManifestEntry, RunMetadata, SkipReason } from '../contracts.js';
+import type { Artifact, BatchManifest, ManifestDeliveryReceipt, PersistenceStatus, QueryAttemptSummary, QueryManifestEntry, RunMetadata, SkipReason } from '../contracts.js';
 import { queryIdFor } from '../ids.js';
 
 export function createManifest(args: {
@@ -44,9 +44,21 @@ export function selectAttempt(attempts: QueryAttemptSummary[]): QueryAttemptSumm
     ?? first;
 }
 
+export function persistenceStatusFor(mode: BatchManifest['persistenceMode'], artifacts: Artifact[]): PersistenceStatus {
+  if (mode === 'local_only') return 'not_requested';
+  if (artifacts.some((a) => a.storageStatus === 'failed')) return 'failed';
+  if (artifacts.length > 0 && artifacts.every((a) => a.storageStatus === 'verified')) return 'verified';
+  return 'pending';
+}
+
+/** Artifacts that belong to the batch rather than a query, such as request.json. */
+export function recordBatchArtifact(m: BatchManifest, artifact: Artifact): BatchManifest {
+  return { ...m, artifacts: [...m.artifacts, artifact] };
+}
+
 export function recordQueryAttempt(m: BatchManifest, queryId: string, summary: QueryAttemptSummary, artifacts: Artifact[]): BatchManifest {
-  const persistenceStatus: PersistenceStatus = m.persistenceMode === 'local_only' ? 'not_requested' : 'pending';
   const withArtifacts: BatchManifest = { ...m, artifacts: [...m.artifacts, ...artifacts] };
+  const persistenceStatus = persistenceStatusFor(m.persistenceMode, withArtifacts.artifacts.filter((a) => a.queryId === queryId));
   return updateRow(withArtifacts, queryId, (row) => {
     const attempts: [QueryAttemptSummary, ...QueryAttemptSummary[]] = [...row.attempts, summary] as [QueryAttemptSummary, ...QueryAttemptSummary[]];
     const selected = selectAttempt(attempts);
@@ -83,8 +95,21 @@ export function finalizeManifest(m: BatchManifest, finishedAt: string): BatchMan
   return { ...m, finishedAt, status };
 }
 
-export function exitCodeFor(m: BatchManifest): 0 | 1 | 2 {
+function remoteDeliveryFailed(m: BatchManifest, receipt: ManifestDeliveryReceipt | null): boolean {
+  if (m.persistenceMode === 'local_only') return false;
+  if (m.queries.some((q) => q.persistenceStatus === 'failed')) return true;
+  if (m.artifacts.some((a) => a.queryId === null && a.storageStatus !== 'verified')) return true;
+  return receipt === null || receipt.storageStatus !== 'verified';
+}
+
+export function exitCodeFor(m: BatchManifest, receipt: ManifestDeliveryReceipt | null = null): 0 | 1 | 2 {
+  if (remoteDeliveryFailed(m, receipt)) return 1;
   if (m.status === 'completed') return 0;
   if (m.status === 'failed') return 1;
   return 2;
+}
+
+export function deliveryStatus(m: BatchManifest, receipt: ManifestDeliveryReceipt | null): 'not_requested' | 'verified' | 'failed' {
+  if (m.persistenceMode === 'local_only') return 'not_requested';
+  return remoteDeliveryFailed(m, receipt) ? 'failed' : 'verified';
 }
