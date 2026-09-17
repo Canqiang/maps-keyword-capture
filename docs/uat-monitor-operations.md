@@ -1,6 +1,6 @@
 # UAT daily keyword monitor
 
-This workload reads fresh UAT keyword records for the seven explicitly enrolled stores in `deploy/uat-monitor/configmap.yaml`. It runs at **00:00 Asia/Shanghai** using `0 0 * * *`. This document and the suspended manifests do not prove deployment, successful capture, or activation. Only enable the schedule after the release owner has completed the manual acceptance and independent Azure verification below.
+This workload reads fresh UAT keyword records for the seven explicitly enrolled stores in `deploy/uat-monitor/configmap.yaml`. It runs at **00:00 Asia/Shanghai** using `0 0 * * *`. This document and the suspended manifests do not prove deployment, successful capture, or activation. Only enable the schedule after the release owner has completed the explicitly scoped manual acceptance and independent Azure verification below. Record whether acceptance covered the 14-query release smoke test or a full-capacity cycle.
 
 The source is `GET http://operation-assistant-api.uat.svc.cluster.local:80/seo/keyword/local/{place_id}`. Each cycle validates the merchant and Place ID, selects up to 40 distinct words by P0–P3 priority and stable source order, and splits them into batches of at most 20. Query text remains unchanged. Empty surface tags do not remove local keywords. An API failure or identity mismatch must be recorded as a source failure, never as a successful empty list. The API currently omits the record update timestamp: snapshots record `updatedTime: null`, fetch time, record ID, and source hash rather than inventing a timestamp.
 
@@ -95,7 +95,7 @@ SH
 
 The final public-access value must be `null`. Record the policy expiry in the release record and renew it before expiration. Extend the stored policy with `az storage container policy update` using the same account-key capture method; never display the key. Following account-key rotation, generate a new SAS, then replace the Secret using `kubectl create secret ... --dry-run=client -o json | kubectl replace -f -` inside the protected block, and repeat the captured-value comparison. Avoid `kubectl apply` for Secrets because its last-applied annotation duplicates their contents. Existing Pods retain their original environment until restarted.
 
-## Apply suspended and run manual acceptance
+## Apply suspended and choose manual acceptance scope
 
 Before this block, pin the new image as described above. Apply only the UAT directory, preserving unrelated Dev workloads.
 
@@ -109,7 +109,13 @@ kubectl -n uat get cronjob maps-keyword-monitor-daily \
 SH
 ```
 
-Expected: `0 0 * * * Asia/Shanghai suspend=true` with the new digest. A manual acceptance Job uses all seven stores and a unique run-key, leaving the next scheduled daily claim available. Keep the printed Job name and run-key in the acceptance record.
+Expected: `0 0 * * * Asia/Shanghai suspend=true` with the new digest.
+
+The release owner's selected acceptance scope is **two keywords per enrolled store: 14 actual queries across all seven stores**. Create a separate temporary acceptance ConfigMap from the production monitor config, change only `maxKeywordsPerStore` to `2`, and point only the manual acceptance Job's config volume at that ConfigMap. Keep `maps-keyword-monitor-config` at the production cap of 40 and leave the CronJob's volume reference unchanged. Use a unique acceptance run-key. Delete the temporary ConfigMap only after the acceptance Job has terminated and its evidence has been independently verified.
+
+This smoke test exercises all seven source, capture and storage pipelines. It does **not** validate the 260-query production capacity estimate, 13-batch runtime, sustained staging behavior, or full-cycle coverage. Unit tests cover the 40-to-20 split; those tests do not establish live full-capacity acceptance. Record the exact temporary config, 14-query denominator, actual capture/delivery counts, image digest, Job name, run-key and remote receipts. If fewer than 14 queries are selected or any query is incomplete, report the actual denominator and shortfall.
+
+The following optional command block runs a **full-capacity acceptance cycle** using the unmodified production ConfigMap. It is not the 14-query smoke procedure. Use it only when full-capacity acceptance is intended; the current release smoke alone leaves that capacity unproved. Both scopes use all seven stores and a unique run-key, leaving the next scheduled daily claim available. Keep the printed Job name and run-key in the acceptance record.
 
 ```bash
 bash <<'SH'
@@ -155,7 +161,7 @@ SH
 
 Confirm all seven enrolled stores are accounted for, selection snapshots were saved before browser capture, and the actual selected pool determines the denominator. Inspect representative PNGs visually and compare their displayed listings with JSON/CSV rank and ad fields. Check that any block, storage failure or cancellation stops further dispatch and is reported for remaining work. Preserve the acceptance evidence and exact image/source commit. Partial coverage remains partial even if all produced files were delivered.
 
-Only after full functional acceptance, the release owner may enable the UAT daily schedule:
+After the selected acceptance scope passes capture and independent delivery verification, the release owner may enable the UAT daily schedule. When the accepted scope is the 14-query smoke, record explicitly that the production cap remains 40 per store and full 260-query capacity has not yet been validated. Do not label the smoke as complete production coverage:
 
 ```bash
 bash <<'SH'
@@ -166,7 +172,7 @@ kubectl -n uat get cronjob maps-keyword-monitor-daily \
 SH
 ```
 
-Keep the committed initial manifest suspended as the acceptance default. Reapplying it suspends future scheduling; every later release should repeat acceptance before activation. Unsuspending may trigger a missed run within the 3,600-second starting deadline. Check current Jobs and daily claims before enabling. Production enablement beyond UAT is a separate release and requires its own configuration and acceptance; these manifests target UAT only.
+Keep the committed initial manifest suspended as the acceptance default. Reapplying it suspends future scheduling; every later release should repeat explicitly scoped acceptance before activation. Unsuspending may trigger a missed run within the 3,600-second starting deadline. Check current Jobs and daily claims before enabling. Production enablement beyond UAT is a separate release and requires its own configuration and acceptance; these manifests target UAT only.
 
 ## Failure, claims and retention
 
