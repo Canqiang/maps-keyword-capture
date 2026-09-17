@@ -1,4 +1,5 @@
-# UAT only. Keep suspended until a complete manual cycle passes independent Azure readback.
+# UAT only. Keep suspended until scoped acceptance and independent Azure readback are recorded.
+# See docs/uat-monitor-operations.md for the release acceptance boundary.
 apiVersion: batch/v1
 kind: CronJob
 metadata:

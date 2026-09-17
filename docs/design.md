@@ -19,7 +19,7 @@ The unit of work is a keyword under a recorded search profile, not a target busi
 - Export per-query JSON, CSV, PNG files, raw observations, and an attempt manifest.
 - Run the same collector locally and in a dedicated Kubernetes Job; persist cluster outputs to private object storage.
 
-The first version does not require an LLM, OCR, a database, a queue, a dashboard, or a Core AI Agent session. It does not enrich listings by opening every business detail page. Extra language layouts, scheduled execution, and report generation are later work.
+The first version does not require an LLM, OCR, a database, a queue, a dashboard, or a Core AI Agent session. It does not enrich listings by opening every business detail page. Extra language layouts and report generation are later work. Scheduled execution is a daily CronJob (§12).
 
 ## 2. Architecture and alternatives
 
@@ -327,7 +327,7 @@ Use non-root execution, minimal permissions, writable mounts only where needed, 
 | Disk-backed work volume | `emptyDir.sizeLimit: 2Gi` |
 | Shared memory | Separate memory-backed `/dev/shm`, 512Mi |
 | Termination grace | 120 seconds |
-| Finished Job retention | TTL of 24 hours; evidence retention is separate |
+| Finished Job retention | TTL of 24 hours for manual Jobs; the CronJob keeps its last 7 successful and 7 failed Jobs; evidence retention is separate |
 
 These are load-test inputs, not confirmed cluster capacity. Memory-backed volumes count against container memory; keep browser and shared-memory usage within the total budget. [Kubernetes volume behavior](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
 

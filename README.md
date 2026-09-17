@@ -6,7 +6,14 @@ Capture Google Maps business listings and original screenshots by keyword, prese
 
 The collector, Azure Blob delivery with read-back verification, the container image, and the production Kubernetes Job are implemented. They were accepted in Dev on 2026-09-17: a 20-keyword batch ran in the target Pod with every artifact delivered to the private container and verified by read-back, and a Job stopped with SIGTERM still published a verified final manifest. See [validation status](docs/validation-status.md) for what those runs did and did not show.
 
-A UAT daily monitor is deployed and enabled for fresh per-store keyword selection at 00:00 Asia/Shanghai. Its scoped live test produced 12 complete and 2 partial captures; all 116 evidence objects passed independent Azure readback. Full 260-query capacity remains untested. See the [UAT operations guide](docs/uat-monitor-operations.md) for enrollment, storage, acceptance and activation. Workload identity, a results viewer, and report generation remain outside this rollout.
+Two daily workloads are deployed, with separate keyword sources and Azure containers:
+
+| Workload | Schedule | Keyword source | Azure container |
+|---|---|---|---|
+| [Dev batch](deploy/cronjob/README.md) | 10:00 `America/New_York` | Fixed list, currently 20 keywords | `maps-keyword-capture` |
+| [UAT monitor](docs/uat-monitor-operations.md) | 00:00 `Asia/Shanghai` | Fresh source records, up to 40 keywords per store | `maps-keyword-capture-uat` |
+
+The UAT scoped live test produced 12 complete and 2 partial captures; all 116 evidence objects passed independent Azure readback. Full 260-query capacity remains untested. See the [UAT operations guide](docs/uat-monitor-operations.md) for enrollment, acceptance and activation. Workload identity, a results viewer, and report generation remain outside this rollout.
 
 No target business is required. Each run collects the listings observed for a keyword; downstream consumers can filter by business, compare observations over time, or prepare reports.
 
@@ -74,4 +81,4 @@ docs/implementation-plan.md  Implementation milestones and acceptance gates
 4. Add report generation.
 5. Observe a CAPTCHA or consent page and a stalled or throttling storage account from the Pod; revocation and rotation were exercised on 2026-09-17.
 
-For individual manual batches, see [deploy/job/README.md](deploy/job/README.md). For the UAT daily monitor, see [docs/uat-monitor-operations.md](docs/uat-monitor-operations.md).
+For Dev scheduled batches, see [deploy/cronjob/README.md](deploy/cronjob/README.md); for individual manual batches, see [deploy/job/README.md](deploy/job/README.md); for the UAT monitor, see [docs/uat-monitor-operations.md](docs/uat-monitor-operations.md).

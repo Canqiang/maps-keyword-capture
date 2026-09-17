@@ -69,7 +69,7 @@ Acceptance: all requested queries are accounted for, all declared successful evi
 
 ## Later work
 
-- Scheduled Jobs and an explicit run launcher/controller with retry/resume policy.
+- An explicit run launcher/controller with retry/resume policy. A daily CronJob (`deploy/cronjob/`) was deployed on 2026-09-17; it does not retry or resume.
 - Additional locale adapters and separately measured browser profiles.
 - A read-only results viewer and business association across keyword runs.
 - Report annotations derived from raw screenshots, with evidence links.

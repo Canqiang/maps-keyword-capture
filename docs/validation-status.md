@@ -1,6 +1,6 @@
 # Validation status
 
-Updated 2026-09-17. This page distinguishes recovered historical evidence, compile-time checks, and unfinished runtime acceptance. The local collector now exists and has run against the live site once; see [Local collector run](#local-collector-run-2026-09-17) for what that run did and did not show. No container image, storage adapter, or deployed Job exists yet, and no artifact has been delivered anywhere but the local disk.
+Updated 2026-09-17. This page distinguishes recovered historical evidence, compile-time checks, and unfinished runtime acceptance. The local collector has run against the live site; see [Local collector run](#local-collector-run-2026-09-17). The container image, Azure Blob delivery, and the production Job were accepted in Dev (see [Production Job acceptance](#production-job-acceptance-2026-09-17)), and a daily CronJob now runs the batch (see [Scheduled CronJob](#scheduled-cronjob-2026-09-17)). A separate UAT daily monitor is enabled with explicitly scoped partial-coverage acceptance; see [UAT daily monitor](#uat-daily-monitor--2026-09-17).
 
 ## Evidence ledger
 
@@ -229,6 +229,11 @@ All steps used the commands in `deploy/job/README.md` as written, with image `bc
 - **Rotation.** The policy was recreated with the same name, and the README's rotation block regenerated the SAS and replaced the Secret with `kubectl replace`. The Secret kept its single key and has no `last-applied-configuration` annotation. The next Jobs delivered with receipt `verified`. (`kubectl replace` from `create --dry-run=client` drops the Secret's labels; nothing depends on them.)
 - **Stop runbook defect found and fixed.** The documented "follow the log, then delete the Job" sequence lost the log: `kubectl logs -f job/…` in the background had not attached before the Job was deleted and exited with NotFound, so the receipt was not captured. Delivery itself was unaffected: that run's manifest (`run_20260917T130537Z_cd1aea`) was uploaded and verified, with the in-flight keyword `partial / cancelled` and the rest `skipped / cancelled`. The runbook now streams the Pod's log, deletes the Pod, waits for the stream, prints the summary, and then deletes the Job. Rerun (`run_20260917T130646Z_ce400e`): the saved log held the summary with receipt `verified`, and no Job or Pod was left.
 
+## Scheduled CronJob (2026-09-17)
+
+CronJob `maps-capture-daily` (`deploy/cronjob/cronjob.yaml`) was applied in `dev-ai` after a server-side dry run, with ConfigMap `maps-capture-keywords-daily` (the same 20 keywords as the production Job acceptance) and image `bc25853` (`sha256:c48e031f…`). Schedule `0 10 * * *` in `America/New_York`, `concurrencyPolicy: Forbid`, starting deadline 3600 s, history limits 7 and 7. `tests/deploy-manifests.test.ts` checks that its Job template matches `deploy/job/job.yaml`; changing one CPU request in the CronJob made it fail.
+
+- **Run created from the CronJob** (`kubectl create job --from=cronjob/maps-capture-daily`, `run_20260917T132000Z_7c5a95`). The Job carried the CronJob owner reference and the `app.kubernetes.io/instance` label. All 20 keywords `captured` with `persistenceStatus: verified`; 14 reached 15 listings and 6 ended at the list end, 252 listings in total, all organic, with no Sponsored card. The Job was `Complete` after 6 min 8 s, exit 0, receipt `verified`. An independent download with `az login` found 127 objects: the 125 manifest artifacts matched size and SHA-256, all 64 PNGs start with the PNG signature, the only unlisted objects are `manifest.json` and `manifest.progress.json`, and `manifest.json` matched the receipt in the Pod log. Total 47.5 MiB. No log line contained a SAS signature.
 
 ## UAT daily monitor — 2026-09-17
 
