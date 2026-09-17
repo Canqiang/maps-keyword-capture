@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -44,6 +45,28 @@ describe('runBatch with remote delivery', () => {
     expect(gateway.objects.get(`${prefix}manifest.json`)!.equals(local)).toBe(true);
     const published = JSON.parse(local.toString()) as BatchManifest;
     expect(JSON.stringify(published)).not.toContain('manifest.json"');
+  });
+
+  it('exits 0 when only the progress checkpoints fail, because they are best-effort', async () => {
+    const gateway = new FakeGateway();
+    gateway.failOn = (op, key) => op === 'put' && key.endsWith('manifest.progress.json');
+    const url = await writeFixture({ query: 'progress', cards: namedCards(4), endMarkerInitially: true });
+    const { config } = parseConfig({ schemaVersion: '1', keywords: ['progress'], outputDirectory: root });
+    const out = await runBatch({ config, store: remoteStore(gateway), searchUrlFor: () => url });
+    expect(out.exitCode).toBe(0);
+    expect(out.manifestReceipt?.storageStatus).toBe('verified');
+    expect(out.manifest.queries.map((q) => [q.status, q.persistenceStatus])).toEqual([['captured', 'verified']]);
+  });
+
+  it('logs the size and SHA-256 of the published manifest', async () => {
+    const gateway = new FakeGateway();
+    const events: Record<string, unknown>[] = [];
+    const { config } = parseConfig({ schemaVersion: '1', keywords: ['a'], outputDirectory: root });
+    const out = await runBatch({ config, store: remoteStore(gateway), launch: async () => { throw new Error('no chromium'); }, log: (e) => events.push(e) });
+    const local = await readFile(out.manifestPath);
+    const published = events.find((e) => e['stage'] === 'manifest_published');
+    expect(published).toMatchObject({ storageStatus: 'verified', bytes: local.byteLength, sha256: createHash('sha256').update(local).digest('hex') });
+    expect(published).toMatchObject({ bytes: out.manifestReceipt!.bytes, sha256: out.manifestReceipt!.sha256 });
   });
 
   it('skips every keyword and never launches a browser when storage is unavailable', async () => {
@@ -97,6 +120,25 @@ describe('runBatch with remote delivery', () => {
     expect(gateway.calls.filter((c) => c.startsWith('put ') && c.endsWith('manifest.progress.json'))).toHaveLength(1);
     expect(out.manifestReceipt?.storageStatus).toBe('verified');
     expect(out.exitCode).toBe(1);
+  });
+});
+
+describe('runBatch checkpoints on a batch stop', () => {
+  it('skips the remaining rows with one progress checkpoint after a blocked keyword', async () => {
+    const gateway = new FakeGateway();
+    const url = await writeFixture({ query: 'q', cards: namedCards(3) });
+    const { config } = parseConfig({ schemaVersion: '1', keywords: ['a', 'b', 'c', 'd', 'e'], outputDirectory: root });
+    const out = await runBatch({
+      config, store: remoteStore(gateway), searchUrlFor: () => url,
+      openSearchImpl: async () => ({ state: { kind: 'consent' as const }, finalUrl: 'https://consent.google.com/m' }),
+    });
+    expect(out.manifest.queries.map((q) => [q.status, q.stopReason])).toEqual([
+      ['blocked', 'consent_required'],
+      ['skipped', 'batch_blocked'], ['skipped', 'batch_blocked'], ['skipped', 'batch_blocked'], ['skipped', 'batch_blocked'],
+    ]);
+    // batch start, after q0001, and one checkpoint for the skip
+    expect(gateway.calls.filter((c) => c.startsWith('put ') && c.endsWith('manifest.progress.json'))).toHaveLength(3);
+    expect(out.exitCode).toBe(2);
   });
 });
 

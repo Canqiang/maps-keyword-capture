@@ -96,6 +96,17 @@ describe('remote persistence bookkeeping', () => {
     expect(m.queries.map((q) => q.persistenceStatus)).toEqual(['failed', 'verified']);
   });
 
+  it('treats a non-skipped row whose delivery is still pending as a delivery failure', () => {
+    let m = recordBatchArtifact(remoteBase(), remoteArtifact('request_json', 'verified', null));
+    m = recordQueryAttempt(m, 'q0001', captured('qa01', 'q0001'), [remoteArtifact('a1', 'verified')]);
+    m = recordQueryAttempt(m, 'q0002', captured('qa01', 'q0002'), []);
+    const done = finalizeManifest(m, 't9');
+    expect(done.status).toBe('completed');
+    expect(done.queries.map((q) => q.persistenceStatus)).toEqual(['verified', 'pending']);
+    expect(exitCodeFor(done, receipt('verified'))).toBe(1);
+    expect(deliveryStatus(done, receipt('verified'))).toBe('failed');
+  });
+
   it('records batch-level artifacts without changing rows', () => {
     const m = recordBatchArtifact(remoteBase(), remoteArtifact('request_json', 'verified', null));
     expect(m.artifacts.map((a) => [a.id, a.queryId])).toEqual([['request_json', null]]);

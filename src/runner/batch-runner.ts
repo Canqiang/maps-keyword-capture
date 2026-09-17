@@ -102,7 +102,7 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
         // The terminal record always gets one bounded attempt, even after the store has fast-failed.
         const state = await store.persist(written, { alwaysAttempt: true });
         receipt = { ...state, runId, attemptId, filename: 'manifest.json', bytes: written.bytes, sha256: written.sha256 };
-        log({ stage: 'manifest_published', runId, attemptId, storageStatus: receipt.storageStatus, objectKey: receipt.objectKey });
+        log({ stage: 'manifest_published', runId, attemptId, storageStatus: receipt.storageStatus, objectKey: receipt.objectKey, bytes: receipt.bytes, sha256: receipt.sha256 });
       }
     } catch (err) {
       log({ stage: 'manifest_write_failed', runId, attemptId, message: err instanceof Error ? err.message : String(err) });
@@ -144,10 +144,10 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
     for (const [inputIndex, keyword] of config.keywords.entries()) {
       const queryId = queryIdFor(inputIndex);
       if (batchStop === 'storage_unavailable') { skipRemaining(batchStop); break; }
-      if (batchStop) { manifest = markSkipped(manifest, queryId, batchStop); await writeProgress(); continue; }
-      if (deps.signal?.aborted) { manifest = markSkipped(manifest, queryId, 'cancelled'); await writeProgress(); continue; }
-      if (breaker) { manifest = markSkipped(manifest, queryId, 'batch_blocked'); await writeProgress(); continue; }
-      if (Date.now() > batchDeadlineAt) { manifest = markSkipped(manifest, queryId, 'batch_timeout'); await writeProgress(); continue; }
+      // Any other stop skips every remaining row at once, with a single checkpoint.
+      const stopReason: SkipReason | null = batchStop
+        ?? (deps.signal?.aborted ? 'cancelled' : breaker ? 'batch_blocked' : Date.now() > batchDeadlineAt ? 'batch_timeout' : null);
+      if (stopReason) { skipRemaining(stopReason); await writeProgress(); break; }
 
       manifest = markRunning(manifest, queryId);
       const keywordDeadline = Math.min(Date.now() + config.keywordTimeoutMs, batchDeadlineAt);

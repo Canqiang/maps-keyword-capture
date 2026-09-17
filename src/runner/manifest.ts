@@ -97,7 +97,8 @@ export function finalizeManifest(m: BatchManifest, finishedAt: string): BatchMan
 
 function remoteDeliveryFailed(m: BatchManifest, receipt: ManifestDeliveryReceipt | null): boolean {
   if (m.persistenceMode === 'local_only') return false;
-  if (m.queries.some((q) => q.persistenceStatus === 'failed')) return true;
+  // Every row that ran must be delivered: failed, and also still pending (for example no artifacts recorded).
+  if (m.queries.some((q) => q.status !== 'skipped' && q.persistenceStatus !== 'verified')) return true;
   if (m.artifacts.some((a) => a.queryId === null && a.storageStatus !== 'verified')) return true;
   return receipt === null || receipt.storageStatus !== 'verified';
 }
