@@ -83,6 +83,19 @@ describe('runBatch with remote delivery', () => {
     expect(out.manifest.queries.map((q) => [q.status, q.stopReason])).toEqual([['captured', 'end_of_results'], ['skipped', 'storage_unavailable'], ['skipped', 'storage_unavailable']]);
     expect(out.exitCode).toBe(1);
   });
+
+  it('stops touching storage for the remaining keywords after a storage stop', async () => {
+    const gateway = new FakeGateway();
+    gateway.failOn = (op, key) => op === 'create' && key.includes('/q0001/');
+    const url = await writeFixture({ query: 'q', cards: namedCards(3), endMarkerInitially: true });
+    const { config } = parseConfig({ schemaVersion: '1', keywords: ['q', 'q', 'q', 'q', 'q'], outputDirectory: root });
+    const out = await runBatch({ config, store: remoteStore(gateway), searchUrlFor: () => url });
+    expect(out.manifest.queries.map((q) => q.status)).toEqual(['captured', 'skipped', 'skipped', 'skipped', 'skipped']);
+    expect(out.manifest.queries.slice(1).every((q) => q.stopReason === 'storage_unavailable')).toBe(true);
+    // one checkpoint at batch start and one after q0001; none for the skipped rows
+    expect(gateway.calls.filter((c) => c.startsWith('put ') && c.endsWith('manifest.progress.json'))).toHaveLength(2);
+    expect(out.exitCode).toBe(1);
+  });
 });
 
 describe('runBatch layout breaker', () => {

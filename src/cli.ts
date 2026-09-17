@@ -2,7 +2,7 @@ import { ConfigError, loadConfigFile } from './config.js';
 import { runBatch } from './runner/batch-runner.js';
 import { deliveryStatus } from './runner/manifest.js';
 import { createSignalHandler } from './runner/signals.js';
-import { createStore, parseStorageFlag } from './storage/factory.js';
+import { createStore, parseStorageArg } from './storage/factory.js';
 
 function argValue(flag: string): string | null {
   const i = process.argv.indexOf(flag);
@@ -15,7 +15,7 @@ async function main(): Promise<number> {
     process.stderr.write('usage: npm run capture -- --config <keywords.json> [--storage local|azure]\n');
     return 64;
   }
-  const storageMode = parseStorageFlag(argValue('--storage'));
+  const storageMode = parseStorageArg(process.argv.slice(2));
   const { config, duplicateKeywordCount } = await loadConfigFile(configPath);
   if (duplicateKeywordCount > 0) {
     process.stderr.write(`note: ${duplicateKeywordCount} duplicate keyword row(s); each row is collected separately\n`);

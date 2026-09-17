@@ -142,6 +142,7 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
   try {
     for (const [inputIndex, keyword] of config.keywords.entries()) {
       const queryId = queryIdFor(inputIndex);
+      if (batchStop === 'storage_unavailable') { skipRemaining(batchStop); break; }
       if (batchStop) { manifest = markSkipped(manifest, queryId, batchStop); await writeProgress(); continue; }
       if (deps.signal?.aborted) { manifest = markSkipped(manifest, queryId, 'cancelled'); await writeProgress(); continue; }
       if (breaker) { manifest = markSkipped(manifest, queryId, 'batch_blocked'); await writeProgress(); continue; }
