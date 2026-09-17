@@ -1,13 +1,18 @@
 import type { Browser } from 'playwright';
-import type { BatchManifest, CaptureConfig, RunMetadata, SkipReason } from '../contracts.js';
+import type { Artifact, BatchManifest, CaptureConfig, ManifestDeliveryReceipt, RunMetadata, SkipReason } from '../contracts.js';
 import { launchBrowser } from '../browser/launch.js';
 import { hashJson, newAttemptId, newRunId, queryAttemptIdFor, queryIdFor } from '../ids.js';
 import { attemptRelativeDir, isoWithOffset } from '../naming.js';
 import { LocalArtifactStore } from '../storage/local.js';
-import { createManifest, exitCodeFor, finalizeManifest, markRunning, markSkipped, recordQueryAttempt } from './manifest.js';
+import type { ArtifactStore } from '../storage/types.js';
+import { createManifest, exitCodeFor, finalizeManifest, markRunning, markSkipped, recordBatchArtifact, recordQueryAttempt } from './manifest.js';
 import { runQueryAttempt, TransientBrowserError, type QueryRunnerDeps } from './query-runner.js';
 
 export const ADAPTER_VERSION = 'maps-feed-card/v1';
+/** A layout the adapter cannot read on this many keywords in a row is treated as global (design §9). */
+export const UNSUPPORTED_LAYOUT_STREAK = 3;
+/** A hung browser close must not keep the final manifest from being published. */
+export const BROWSER_CLOSE_TIMEOUT_MS = 10_000;
 
 export interface BatchDeps {
   config: CaptureConfig;
@@ -17,13 +22,32 @@ export interface BatchDeps {
   searchUrlFor?: (keyword: string) => string;
   openSearchImpl?: QueryRunnerDeps['openSearchImpl'];
   signal?: AbortSignal;
+  /** Where artifacts are written and delivered. Defaults to local disk under config.outputDirectory. */
+  store?: ArtifactStore;
 }
 
-export interface BatchOutput { manifest: BatchManifest; attemptRoot: string; manifestPath: string; exitCode: 0 | 1 | 2 }
+export interface BatchOutput {
+  manifest: BatchManifest;
+  attemptRoot: string;
+  manifestPath: string;
+  /** Delivery receipt for manifest.json in remote mode; null in local mode or if it could not be written. */
+  manifestReceipt: ManifestDeliveryReceipt | null;
+  exitCode: 0 | 1 | 2;
+}
 
 export function batchDeadlineMs(config: CaptureConfig): number {
   const n = config.keywords.length;
   return (60 + n * (config.keywordTimeoutMs / 1000 + 30) + 60) * 1000;
+}
+
+export async function closeWithin(browser: Pick<Browser, 'close'>, timeoutMs: number): Promise<'closed' | 'timed_out'> {
+  let timer: NodeJS.Timeout | undefined;
+  const timeout = new Promise<'timed_out'>((resolve) => { timer = setTimeout(() => resolve('timed_out'), timeoutMs); });
+  try {
+    return await Promise.race([browser.close().then(() => 'closed' as const, () => 'closed' as const), timeout]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
 }
 
 export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
@@ -34,9 +58,10 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
   const runId = newRunId(startedAtDate);
   const attemptId = newAttemptId();
   const tz = config.filenameTimezone;
-  const store = new LocalArtifactStore(config.outputDirectory);
+  const store = deps.store ?? new LocalArtifactStore(config.outputDirectory);
   const attemptRel = attemptRelativeDir(startedAtDate, tz, runId, attemptId);
   const attemptRoot = store.absolutePath(attemptRel);
+  const manifestPath = store.absolutePath(`${attemptRel}/manifest.json`);
   const metadata: RunMetadata = {
     configHash: hashJson(config),
     profileHash: hashJson({ surface: 'google-maps-desktop', locale: config.locale, browserTimezoneId: config.browserTimezoneId, viewport: config.viewport, deviceScaleFactor: 1, locationMode: 'query_only', adapterVersion: ADAPTER_VERSION }),
@@ -47,13 +72,52 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
     egressProfileId: process.env['EGRESS_PROFILE_ID'] ?? null,
   };
   const startedAt = isoWithOffset(startedAtDate, tz);
-  await store.writeFile(`${attemptRel}/request.json`, JSON.stringify({ runId, attemptId, startedAt, config }, null, 2));
+  let manifest = createManifest({ runId, attemptId, startedAt, metadata, persistenceMode: store.mode, keywords: config.keywords });
 
-  let manifest = createManifest({ runId, attemptId, startedAt, metadata, persistenceMode: 'local_only', keywords: config.keywords });
-  const writeProgress = () => store.writeFile(`${attemptRel}/manifest.progress.json`, JSON.stringify(manifest, null, 2));
-  const writeFinal = () => store.writeFile(`${attemptRel}/manifest.json`, JSON.stringify(manifest, null, 2));
+  // request.json is also the storage preflight: nothing is launched if it cannot be delivered.
+  const requestWritten = await store.writeFile(`${attemptRel}/request.json`, JSON.stringify({ runId, attemptId, startedAt, config }, null, 2));
+  const requestState = await store.persist(requestWritten);
+  const requestArtifact: Artifact = {
+    ...requestState, id: 'request_json', filename: 'request.json', kind: 'request_json',
+    bytes: requestWritten.bytes, sha256: requestWritten.sha256, queryId: null, queryAttemptId: null,
+  };
+  manifest = recordBatchArtifact(manifest, requestArtifact);
+
+  let progressWarned = false;
+  const writeProgress = async () => {
+    const written = await store.writeFile(`${attemptRel}/manifest.progress.json`, JSON.stringify(manifest, null, 2));
+    const state = await store.persist(written, { mutable: true });
+    if (state.storageStatus === 'failed' && !progressWarned) {
+      progressWarned = true;
+      log({ stage: 'progress_persist_failed', runId, attemptId, code: state.storageError.code, message: state.storageError.message });
+    }
+  };
+
+  const finish = async (): Promise<BatchOutput> => {
+    manifest = finalizeManifest(manifest, isoWithOffset(now(), tz));
+    let receipt: ManifestDeliveryReceipt | null = null;
+    try {
+      const written = await store.writeFile(`${attemptRel}/manifest.json`, JSON.stringify(manifest, null, 2));
+      if (store.mode !== 'local_only') {
+        const state = await store.persist(written);
+        receipt = { ...state, runId, attemptId, filename: 'manifest.json', bytes: written.bytes, sha256: written.sha256 };
+        log({ stage: 'manifest_published', runId, attemptId, storageStatus: receipt.storageStatus, objectKey: receipt.objectKey });
+      }
+    } catch (err) {
+      log({ stage: 'manifest_write_failed', runId, attemptId, message: err instanceof Error ? err.message : String(err) });
+    }
+    log({ stage: 'batch_done', runId, attemptId, status: manifest.status });
+    return { manifest, attemptRoot, manifestPath, manifestReceipt: receipt, exitCode: exitCodeFor(manifest, receipt) };
+  };
+
   await writeProgress();
-  log({ stage: 'batch_start', runId, attemptId, keywords: config.keywords.length, attemptRoot });
+  log({ stage: 'batch_start', runId, attemptId, keywords: config.keywords.length, attemptRoot, storage: store.mode });
+
+  if (requestState.storageStatus === 'failed') {
+    log({ stage: 'storage_unavailable', runId, attemptId, code: requestState.storageError.code, message: requestState.storageError.message });
+    for (const q of manifest.queries) manifest = markSkipped(manifest, q.queryId, 'storage_unavailable');
+    return finish();
+  }
 
   let browser: Browser;
   try {
@@ -61,9 +125,7 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
   } catch (err) {
     log({ stage: 'browser_startup_failed', runId, attemptId, message: (err as Error).message });
     for (const q of manifest.queries) manifest = markSkipped(manifest, q.queryId, 'browser_startup_failed');
-    manifest = finalizeManifest(manifest, isoWithOffset(now(), tz));
-    await writeFinal();
-    return { manifest, attemptRoot, manifestPath: store.absolutePath(`${attemptRel}/manifest.json`), exitCode: exitCodeFor(manifest) };
+    return finish();
   }
   manifest = { ...manifest, metadata: { ...metadata, browserVersion: browser.version() } };
 
@@ -75,6 +137,8 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
   };
   let breaker = false;
   let batchStop: SkipReason | null = null;
+  let unsupportedStreak = 0;
+  let output: BatchOutput | undefined;
   try {
     for (const [inputIndex, keyword] of config.keywords.entries()) {
       const queryId = queryIdFor(inputIndex);
@@ -101,6 +165,15 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
             // Any blocked outcome, CAPTCHA or an unresolved consent wall, means the session cannot
             // collect; do not push the rest of the batch through it.
             if (out.summary.status === 'blocked') breaker = true;
+            unsupportedStreak = out.summary.stopReason === 'unsupported_layout' ? unsupportedStreak + 1 : 0;
+            if (unsupportedStreak >= UNSUPPORTED_LAYOUT_STREAK && !batchStop) {
+              batchStop = 'unsupported_layout';
+              log({ stage: 'layout_breaker', runId, attemptId, queryId, streak: unsupportedStreak });
+            }
+            if (store.mode !== 'local_only' && out.artifacts.length > 0 && !out.artifacts.some((a) => a.storageStatus === 'verified')) {
+              batchStop = 'storage_unavailable';
+              log({ stage: 'storage_unavailable', runId, attemptId, queryId });
+            }
             break;
           } catch (err) {
             if (err instanceof TransientBrowserError && attemptNumber === 1) {
@@ -114,7 +187,7 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
         }
         await writeProgress();
         const row = manifest.queries.find((q) => q.queryId === queryId);
-        log({ stage: 'query_done', queryId, status: row?.status, stopReason: row?.stopReason });
+        log({ stage: 'query_done', queryId, status: row?.status, stopReason: row?.stopReason, persistence: row?.persistenceStatus });
       } catch (err) {
         // runQueryAttempt records its own terminal result for everything it can observe, so an
         // exception here means the browser or the store is gone. Keep the row terminal either way.
@@ -131,11 +204,9 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
       }
     }
   } finally {
-    await browser.close().catch(() => undefined);
-    manifest = finalizeManifest(manifest, isoWithOffset(now(), tz));
-    await writeFinal().catch((err: unknown) => log({ stage: 'manifest_write_failed', runId, attemptId, message: err instanceof Error ? err.message : String(err) }));
+    if (await closeWithin(browser, BROWSER_CLOSE_TIMEOUT_MS) === 'timed_out') log({ stage: 'browser_close_timeout', runId, attemptId });
+    output = await finish();
   }
-
-  log({ stage: 'batch_done', runId, attemptId, status: manifest.status });
-  return { manifest, attemptRoot, manifestPath: store.absolutePath(`${attemptRel}/manifest.json`), exitCode: exitCodeFor(manifest) };
+  if (!output) throw new Error('batch finished without publishing a manifest');
+  return output;
 }
