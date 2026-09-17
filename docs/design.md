@@ -325,8 +325,8 @@ Use non-root execution, minimal permissions, writable mounts only where needed, 
 | Memory request / limit | 1Gi / 2Gi |
 | Ephemeral storage request / limit | 1Gi / 3Gi |
 | Disk-backed work volume | `emptyDir.sizeLimit: 2Gi` |
-| Shared memory | Separate memory-backed `/dev/shm`, 256Mi initial size |
-| Termination grace | 30 seconds |
+| Shared memory | Separate memory-backed `/dev/shm`, 512Mi |
+| Termination grace | 60 seconds |
 | Finished Job retention | TTL of 24 hours; evidence retention is separate |
 
 These are load-test inputs, not confirmed cluster capacity. Memory-backed volumes count against container memory; keep browser and shared-memory usage within the total budget. [Kubernetes volume behavior](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
@@ -336,12 +336,12 @@ Compute the application deadline from the configured batch size rather than hard
 ```text
 application budget = startup allowance + N * (browser budget + persistence budget) + finalization allowance
 initial example = 60 + N * (90 + 30) + 60 seconds
-Job activeDeadlineSeconds = application budget + 60 seconds
+Job activeDeadlineSeconds = application budget + margin
 ```
 
-For 20 keywords this is a 42-minute application ceiling and a 43-minute Job ceiling, not an expected runtime. Tune from measured percentiles. On SIGTERM, stop starting queries, close the active context, save a bounded checkpoint, and terminate remaining browser children before the grace period ends. OOM/SIGKILL cannot guarantee a final checkpoint; durable per-query progress is the recovery evidence.
+For 20 keywords the application budget is 2520 seconds (42 minutes), and `deploy/job/job.yaml` sets `activeDeadlineSeconds: 3000` (50 minutes), which leaves margin for measured per-keyword overshoot and manifest publication. Both are ceilings, not expected runtimes. Tune from measured percentiles. On SIGTERM, stop starting queries, close the active context, save a bounded checkpoint, and terminate remaining browser children before the grace period ends. Storage cannot stretch that shutdown indefinitely: every blob call carries a client-side abort signal (15 seconds), while the SDK's `tryTimeoutInMs` only sets the server-side operation timeout. After two consecutive upload failures the store skips further uploads, except that the final manifest always gets one bounded attempt. Against a stalled account the worst case is about 45 seconds, inside the 60-second grace. OOM/SIGKILL cannot guarantee a final checkpoint; durable per-query progress is the recovery evidence.
 
-Inject the storage account name and key from the existing `dev-ai` Secret as environment variables; the container name and prefix come from the ConfigMap. Keep credentials out of input files and Git. No cluster API privileges are needed inside the collector. Validate DNS, Google access, storage access, fonts, writable paths, and Chromium startup in the actual namespace before accepting the deployment.
+Inject a container-scoped SAS URL from Secret `maps-keyword-capture-storage` (key `AZURE_STORAGE_CONTAINER_SAS_URL`) as an environment variable; the container name comes from the SAS URL, and no account name or key reaches the Pod. Keep credentials out of input files and Git. No cluster API privileges are needed inside the collector. Validate DNS, Google access, storage access, fonts, writable paths, and Chromium startup in the actual namespace before accepting the deployment.
 
 ## 13. Observability, maintenance, and comparison
 
