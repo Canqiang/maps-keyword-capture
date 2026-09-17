@@ -37,11 +37,11 @@ spec:
         fsGroup: 1001
       containers:
         - name: capture
-          image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:367902f0d642f57bb0d969ebcd3e109a4007c776969c9cb45fbf8a12eeaab7b8
+          image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:c48e031f03187aee3f3af4665b586d835e49ad21876b4d194fb57d8aad587766
           args: ["node", "dist/cli.js", "--config", "/config/keywords.json", "--storage", "azure"]
           env:
             - name: IMAGE_DIGEST
-              value: sha256:367902f0d642f57bb0d969ebcd3e109a4007c776969c9cb45fbf8a12eeaab7b8
+              value: sha256:c48e031f03187aee3f3af4665b586d835e49ad21876b4d194fb57d8aad587766
             - name: EGRESS_PROFILE_ID
               value: aks-fbrdev-eastus2-aiapp
             - name: AZURE_STORAGE_CONTAINER_SAS_URL
