@@ -10,22 +10,23 @@ Start with manual Jobs. Scheduling, a queue, and a run controller are later work
 
 The first version uses query-only search: omit `mapView` from the input, submit the original keyword without coordinates or simulated geolocation, and do not pan the map or click "Search this area". Retain the egress context and final URL as metadata. Inspect the returned area for region-bearing keywords on the target Pod; the [local query-only samples](../evidence/2026-09-17/README.md) show that an area name alone does not ensure local results. Record ambiguity for review; do not silently rewrite queries or force the map view if results differ.
 
-## Initial settings to validate
+## Settings in `deploy/job/job.yaml`
 
-| Setting | Proposed value |
+| Setting | Value |
 |---|---|
 | Browser launch | bundled Chromium with `channel: "chromium"` (new headless mode, not the headless shell), `headless: true`, `chromiumSandbox: true` |
 | Job parallelism / completions | 1 / 1 |
 | Restart policy / backoff limit | `Never` / 0 |
-| CPU request / limit | 500m / 2 |
+| CPU request / limit | 500m / 2 (a 1-core request did not schedule on the fixed four-node `aiapp` pool) |
 | Memory request / limit | 1Gi / 2Gi |
 | Ephemeral storage request / limit | 1Gi / 3Gi |
 | Disk-backed work volume | 2Gi maximum |
-| Dedicated memory-backed `/dev/shm` | 256Mi |
-| Termination grace period | 30 seconds |
+| Dedicated memory-backed `/dev/shm` | 512Mi |
+| Termination grace period | 60 seconds |
+| Active deadline | 3000 seconds (20 keywords) |
 | Finished Job TTL | 24 hours |
 
-These are unmeasured starting values. Set the application deadline from batch size and per-keyword budgets, with a separate outer Job deadline. Verify Chromium sandbox compatibility rather than silently disabling it. Shared-memory usage counts against the memory budget.
+Measured on 2026-09-17 with 20 keywords: 6 min 10 s, peak about 1.1 CPU and 654Mi memory (15-second `kubectl top` samples). Set the application deadline from batch size and per-keyword budgets, with a separate outer Job deadline. Verify Chromium sandbox compatibility rather than silently disabling it. Shared-memory usage counts against the memory budget.
 
 Run as non-root, keep permissions minimal, and mount writable paths required by the tested image. Do not enable privileged mode or host IPC by default. Pin the image digest and record Chromium, adapter, and application versions.
 

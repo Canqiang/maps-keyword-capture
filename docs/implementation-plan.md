@@ -45,13 +45,15 @@ Status 2026-09-17: local run completed; see validation-status.md. Four keywords 
 
 ## Milestone 3 — Durable artifacts
 
+Status 2026-09-17: done. Artifacts are delivered to the private container `maps-keyword-capture`, read back, and verified; the final manifest is published last with an external receipt. Verified locally (Azurite, `az login`) and in the Pod. See validation-status.md.
+
 Confirm the existing storage provider and implement only that provider first, behind a small storage interface. Add credential handling, immutable attempt prefixes, per-query checkpoints, independent checksum readback, and final manifest publication. Verify each artifact, record its key, size, checksum, and verification time in the manifest, then upload the manifest and read it back; there is no separate artifact index.
 
 Acceptance: uploaded PNG/JSON/CSV artifacts independently read back with matching bytes; interrupted uploads do not create a verified completion; different worker attempts cannot overwrite each other. The manifest and logs do not expose credentials or signed URLs.
 
 ## Milestone 4 — Container and target Job
 
-Status 2026-09-17: container image and a Dev trial Job exist (`Dockerfile`, `deploy/dev-trial/`); one five-keyword batch ran in `dev-ai` with the Chromium sandbox enabled. Azure delivery, the production Job template, and SIGTERM/deadline acceptance are not done. See validation-status.md.
+Status 2026-09-17: done for one batch. The production Job (`deploy/job/`) ran 20 keywords in `dev-ai` with verified Azure delivery, and SIGTERM shutdown was verified in the Pod. See validation-status.md.
 
 Build the image on the official Playwright base with bundled Chromium, record its browser version, and add a manual Job template with explicit CPU, memory, disk, shared-memory, deadline, and cleanup settings. Keep `backoffLimit: 0` initially and use the application's bounded retry rules.
 

@@ -263,7 +263,7 @@ maps-keyword-capture/2026-09-17/<run-id>/<attempt-id>/
 
 Each browser attempt writes its own result JSON, CSV, observations, and PNGs. Manifest rows retain every attempt summary and point `resultFile` to the selected attempt; select the earliest captured attempt, otherwise the earliest with usable evidence, otherwise the earliest failed/blocked attempt for diagnostics. No attempt is selected by best rank.
 
-Locally this tree lives under `outputDirectory`; remotely it is the blob prefix inside the `seo` container. The manifest carries the per-artifact object keys, sizes, checksums, and verification times; there is no separate artifact index.
+Locally this tree lives under `outputDirectory`; remotely the same tree, without its leading `maps-keyword-capture/`, is the blob prefix inside the private container `maps-keyword-capture`. The manifest carries the per-artifact object keys, sizes, checksums, and verification times; there is no separate artifact index.
 
 Use UTF-8. JSON timestamps carry an explicit offset; filenames use the configured timezone with numeric offset. Sanitize separators/control characters, normalize Unicode, cap filename length by encoded bytes, and retain original query text in JSON. IDs prevent collisions after sanitization. This layout refines the initial example by adding worker-attempt isolation.
 
@@ -279,7 +279,7 @@ Use empty cells for nulls. Apply CSV escaping and spreadsheet-formula protection
 
 ## 11. Persistence and completion protocol
 
-The local adapter writes into the output directory. The cluster adapter writes to Azure Blob Storage, account `fbrdevstorage`, container `seo`, under the same run/attempt/query tree, using `@azure/storage-blob` with the account name and key from the existing `dev-ai` Secret `azure-storage-account-f6eab793693c54a6891af3c-secret`. The account key grants whole-account access; narrowing to the prefix through workload identity is later hardening. Azure Blob is the only provider in the first implementation, behind a small storage interface.
+The local adapter writes into the output directory. The cluster adapter writes to Azure Blob Storage, account `fbrdevstorage`, private container `maps-keyword-capture`, under the same run/attempt/query tree, using `@azure/storage-blob`. Pods authenticate with a container-scoped SAS tied to stored access policy `maps-capture-writer` (read, create, write; revocable by deleting the policy), from Secret `maps-keyword-capture-storage`; local runs use `az login` through `DefaultAzureCredential`. The public `seo` container is not used. Workload identity is later hardening; it needs a role assignment the current operators cannot make. Azure Blob is the only provider in the first implementation, behind a small storage interface.
 
 1. Write local artifacts using temporary filenames followed by same-filesystem rename; calculate SHA-256 and size from final bytes.
 2. Upload and verify each keyword's screenshots and observation logs first. Then finalize JSON with those evidence references, derive CSV, and upload and verify both before starting the next keyword. A Pod crash may lose the current unfinished query; it must not erase earlier verified queries.
@@ -371,6 +371,6 @@ Prototype keywords include `bubble tea garden city`, `best bubble tea mineola`, 
 
 Implement in this order: current-page feasibility probe; contracts and ranking core; local collector and exporters; object-storage delivery; container and cluster validation; then optional integration. Detailed deliverables are in [implementation-plan.md](implementation-plan.md).
 
-Before promising unattended production runs, verify the current Maps layouts and ad-label ownership, Chromium sandbox compatibility with the target node security profile, and measured browser resources. Egress behavior (Virginia) and the storage target (Azure Blob, `seo` container) were confirmed on 2026-09-17. These are bounded engineering checks, not claims already established by this document.
+Before promising unattended production runs, verify the current Maps layouts and ad-label ownership, Chromium sandbox compatibility with the target node security profile, and measured browser resources. Egress behavior (Virginia), the storage target (private container `maps-keyword-capture`), Chromium sandbox startup, a 20-keyword batch with verified delivery, and SIGTERM shutdown were confirmed on 2026-09-17; see validation-status.md. These are bounded engineering checks, not claims already established by this document.
 
 The counterintuitive but deliberate rule is that an honestly partial, reproducible observation is more useful than a complete-looking table whose order or ad classification cannot be supported by screenshots.
