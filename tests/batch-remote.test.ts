@@ -61,7 +61,7 @@ describe('runBatch with remote delivery', () => {
 
   it('finishes the batch but exits 1 when part of one keyword cannot be delivered', async () => {
     const gateway = new FakeGateway();
-    gateway.failOn = (op, key) => op === 'create' && key.includes('/q0001/') && key.endsWith('.png');
+    gateway.failOn = (op, key) => op === 'create' && key.includes('/q0001/') && key.endsWith('__01.png');
     const urls: Record<string, string> = {
       one: await writeFixture({ query: 'one', cards: namedCards(4), endMarkerInitially: true }),
       two: await writeFixture({ query: 'two', cards: namedCards(4), endMarkerInitially: true }),
@@ -92,8 +92,10 @@ describe('runBatch with remote delivery', () => {
     const out = await runBatch({ config, store: remoteStore(gateway), searchUrlFor: () => url });
     expect(out.manifest.queries.map((q) => q.status)).toEqual(['captured', 'skipped', 'skipped', 'skipped', 'skipped']);
     expect(out.manifest.queries.slice(1).every((q) => q.stopReason === 'storage_unavailable')).toBe(true);
-    // one checkpoint at batch start and one after q0001; none for the skipped rows
-    expect(gateway.calls.filter((c) => c.startsWith('put ') && c.endsWith('manifest.progress.json'))).toHaveLength(2);
+    // one checkpoint at batch start; the checkpoint after q0001 is fast-failed because the store
+    // tripped during q0001, and there are none for the skipped rows
+    expect(gateway.calls.filter((c) => c.startsWith('put ') && c.endsWith('manifest.progress.json'))).toHaveLength(1);
+    expect(out.manifestReceipt?.storageStatus).toBe('verified');
     expect(out.exitCode).toBe(1);
   });
 });

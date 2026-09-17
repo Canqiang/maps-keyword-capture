@@ -99,7 +99,8 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
     try {
       const written = await store.writeFile(`${attemptRel}/manifest.json`, JSON.stringify(manifest, null, 2));
       if (store.mode !== 'local_only') {
-        const state = await store.persist(written);
+        // The terminal record always gets one bounded attempt, even after the store has fast-failed.
+        const state = await store.persist(written, { alwaysAttempt: true });
         receipt = { ...state, runId, attemptId, filename: 'manifest.json', bytes: written.bytes, sha256: written.sha256 };
         log({ stage: 'manifest_published', runId, attemptId, storageStatus: receipt.storageStatus, objectKey: receipt.objectKey });
       }

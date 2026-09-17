@@ -100,4 +100,51 @@ describe('RemoteArtifactStore', () => {
     expect(gateway.objects.get(objectKeyFor(rel))!.toString()).toBe('payload');
     expect(gateway.calls).toEqual([`create ${objectKeyFor(rel)}`, `get ${objectKeyFor(rel)}`]);
   });
+
+  it('skips the gateway after two consecutive upload failures', async () => {
+    gateway.failOn = () => true;
+    const files = await Promise.all(['a', 'b', 'c', 'd'].map((n) => store.writeFile(`maps-keyword-capture/2026-09-17/run_1/att_1/q0001/qa01/${n}.json`, n)));
+    expect((await store.persist(files[0]!)).storageError?.code).toBe('upload_failed');
+    expect((await store.persist(files[1]!)).storageError?.code).toBe('upload_failed');
+    const callsBefore = gateway.calls.length;
+    expect(await store.persist(files[2]!)).toEqual({
+      storageStatus: 'failed', objectKey: objectKeyFor(files[2]!.relativePath), verifiedAt: null,
+      storageError: { code: 'storage_unavailable', message: 'skipped after repeated upload failures' },
+    });
+    gateway.failOn = () => false;
+    expect((await store.persist(files[3]!, { mutable: true })).storageError?.code).toBe('storage_unavailable');
+    expect(gateway.calls).toHaveLength(callsBefore);
+  });
+
+  it('still attempts delivery after fast-failing when asked to always attempt', async () => {
+    const files = await Promise.all(['a', 'b', 'manifest'].map((n) => store.writeFile(`maps-keyword-capture/2026-09-17/run_1/att_1/${n}.json`, n)));
+    gateway.failOn = () => true;
+    await store.persist(files[0]!);
+    await store.persist(files[1]!);
+    expect((await store.persist(files[2]!)).storageError?.code).toBe('storage_unavailable');
+    gateway.failOn = () => false;
+    const callsBefore = gateway.calls.length;
+    expect((await store.persist(files[2]!, { alwaysAttempt: true })).storageStatus).toBe('verified');
+    expect(gateway.calls.slice(callsBefore)).toEqual([`create ${objectKeyFor(files[2]!.relativePath)}`, `get ${objectKeyFor(files[2]!.relativePath)}`]);
+  });
+
+  it('resets the upload failure count after a verified persist', async () => {
+    const files = await Promise.all(['a', 'b', 'c', 'd'].map((n) => store.writeFile(`maps-keyword-capture/2026-09-17/run_1/att_1/q0001/qa01/${n}.json`, n)));
+    gateway.failOn = (_op, key) => !key.endsWith('/b.json');
+    expect((await store.persist(files[0]!)).storageError?.code).toBe('upload_failed');
+    expect((await store.persist(files[1]!)).storageStatus).toBe('verified');
+    expect((await store.persist(files[2]!)).storageError?.code).toBe('upload_failed');
+    const callsBefore = gateway.calls.length;
+    expect((await store.persist(files[3]!)).storageError?.code).toBe('upload_failed');
+    expect(gateway.calls.length).toBeGreaterThan(callsBefore);
+  });
+
+  it('does not count failures other than upload_failed toward the skip', async () => {
+    const files = await Promise.all(['a', 'b', 'c'].map((n) => store.writeFile(`maps-keyword-capture/2026-09-17/run_1/att_1/q0001/qa01/${n}.json`, n)));
+    gateway.corruptGet = () => true;
+    for (const f of files) expect((await store.persist(f)).storageError?.code).toBe('readback_mismatch');
+    gateway.corruptGet = () => false;
+    const late = await store.writeFile('maps-keyword-capture/2026-09-17/run_1/att_1/q0001/qa01/late.json', 'late');
+    expect((await store.persist(late)).storageStatus).toBe('verified');
+  });
 });

@@ -5,6 +5,8 @@ export interface WrittenFile { relativePath: string; bytes: number; sha256: stri
 export interface PersistOptions {
   /** Replace an existing object. Only the progress manifest is mutable; everything else is created once. */
   mutable?: boolean;
+  /** Attempt delivery even after the store has fast-failed; used only for the final manifest, the run's terminal record. */
+  alwaysAttempt?: boolean;
 }
 
 export interface ArtifactStore {
