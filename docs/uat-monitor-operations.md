@@ -51,6 +51,8 @@ Use the registry-readback digest, not a mutable tag. Review and commit the pinne
 
 The private container is `fbrdevstorage/maps-keyword-capture-uat`; Dev uses a different container. `AZURE_STORAGE_CONTAINER` documents the intended target, but a SAS URL directly chooses its container, so verify the Secret value against the newly generated URL. Never print account keys, SAS values, Secret YAML/JSON, or browser environments. Do not run this block with shell tracing, Azure `--debug`, or transcript tooling that records environment values.
 
+Release metadata: the UAT container and Secret have been created and the Secret value independently read back by the release owner. The live stored policy is `maps-uat-monitor-writer`, expiring at `2027-09-17T13:35Z`. This proves storage provisioning, not monitor capture acceptance or schedule activation. The 90-day expiry calculation below is an example for a new policy, not the current live expiry.
+
 This first-time setup intentionally uses `create`, which refuses to overwrite an existing Secret. It uses an expiring, container-scoped stored access policy with read/create/write permission and no delete permission. The account key is passed through an environment variable; credentials and generated Secret manifests are never command-line arguments or committed files.
 
 ```bash
@@ -67,10 +69,10 @@ export AZURE_STORAGE_KEY
 test -n "$AZURE_STORAGE_KEY"
 MONITOR_EXPIRY=$(python3 -c 'from datetime import datetime,timedelta,timezone; print((datetime.now(timezone.utc)+timedelta(days=90)).strftime("%Y-%m-%dT%H:%MZ"))')
 az storage container policy create --account-name fbrdevstorage \
-  --container-name maps-keyword-capture-uat --name maps-monitor-uat-writer \
+  --container-name maps-keyword-capture-uat --name maps-uat-monitor-writer \
   --permissions rcw --expiry "$MONITOR_EXPIRY" --only-show-errors -o none
 MONITOR_SAS=$(az storage container generate-sas --account-name fbrdevstorage \
-  --name maps-keyword-capture-uat --policy-name maps-monitor-uat-writer \
+  --name maps-keyword-capture-uat --policy-name maps-uat-monitor-writer \
   --https-only --only-show-errors -o tsv)
 test -n "$MONITOR_SAS"
 printf 'AZURE_STORAGE_CONTAINER_SAS_URL=https://fbrdevstorage.blob.core.windows.net/maps-keyword-capture-uat?%s\n' "$MONITOR_SAS" > "$MONITOR_SECRET_DIR/storage.env"
