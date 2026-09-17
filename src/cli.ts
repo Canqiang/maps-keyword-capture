@@ -1,5 +1,6 @@
 import { ConfigError, loadConfigFile } from './config.js';
 import { runBatch } from './runner/batch-runner.js';
+import { createSignalHandler } from './runner/signals.js';
 
 function argValue(flag: string): string | null {
   const i = process.argv.indexOf(flag);
@@ -17,9 +18,8 @@ async function main(): Promise<number> {
     process.stderr.write(`note: ${duplicateKeywordCount} duplicate keyword row(s); each row is collected separately\n`);
   }
   const controller = new AbortController();
-  const onSignal = (sig: string) => { process.stderr.write(`${sig} received: finishing the current keyword, skipping the rest\n`); controller.abort(); };
-  process.once('SIGTERM', () => onSignal('SIGTERM'));
-  process.once('SIGINT', () => onSignal('SIGINT'));
+  const onSignal = createSignalHandler(controller, (m) => process.stderr.write(m));
+  for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP'] as const) process.on(sig, () => onSignal(sig));
 
   const out = await runBatch({
     config,
