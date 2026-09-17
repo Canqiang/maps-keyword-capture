@@ -1,0 +1,85 @@
+# UAT only. Keep suspended until a complete manual cycle passes independent Azure readback.
+# IMAGE BUILD PENDING: this inherited hardened digest has no monitor CLI.
+# Root must replace BOTH image and IMAGE_DIGEST after the monitor build, before any deployment.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: maps-keyword-monitor-daily
+  namespace: uat
+  labels:
+    app.kubernetes.io/name: maps-keyword-monitor
+    app.kubernetes.io/component: daily
+spec:
+  schedule: "0 0 * * *"
+  timeZone: Asia/Shanghai
+  suspend: true
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 3600
+  successfulJobsHistoryLimit: 7
+  failedJobsHistoryLimit: 7
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      # 14-hour application deadline plus 600s for termination/finalization margin.
+      activeDeadlineSeconds: 51000
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: maps-keyword-monitor
+            app.kubernetes.io/component: daily
+        spec:
+          restartPolicy: Never
+          nodeSelector:
+            envpool: aiapp
+          automountServiceAccountToken: false
+          terminationGracePeriodSeconds: 300
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+          containers:
+            - name: monitor
+              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:c48e031f03187aee3f3af4665b586d835e49ad21876b4d194fb57d8aad587766
+              args: ["node", "dist/monitor/cli.js", "--config", "/config/monitor.json", "--storage", "azure"]
+              env:
+                - name: IMAGE_DIGEST
+                  value: sha256:c48e031f03187aee3f3af4665b586d835e49ad21876b4d194fb57d8aad587766
+                - name: EGRESS_PROFILE_ID
+                  value: aks-fbrdev-eastus2-aiapp
+                - name: AZURE_STORAGE_CONTAINER
+                  value: maps-keyword-capture-uat
+                - name: AZURE_STORAGE_CONTAINER_SAS_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: maps-keyword-monitor-storage
+                      key: AZURE_STORAGE_CONTAINER_SAS_URL
+              resources:
+                requests:
+                  cpu: 500m
+                  memory: 1Gi
+                  ephemeral-storage: 1Gi
+                limits:
+                  cpu: "2"
+                  memory: 2Gi
+                  ephemeral-storage: 3Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              volumeMounts:
+                - { name: config, mountPath: /config, readOnly: true }
+                - { name: work, mountPath: /work }
+                - { name: tmp, mountPath: /tmp }
+                - { name: dshm, mountPath: /dev/shm }
+          volumes:
+            - name: config
+              configMap:
+                name: maps-keyword-monitor-config
+            - name: work
+              emptyDir: { sizeLimit: 2Gi }
+            - name: tmp
+              emptyDir: { sizeLimit: 1Gi }
+            - name: dshm
+              emptyDir: { medium: Memory, sizeLimit: 512Mi }
