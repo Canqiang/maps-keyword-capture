@@ -29,7 +29,7 @@ These are unmeasured starting values. Set the application deadline from batch si
 
 Run as non-root, keep permissions minimal, and mount writable paths required by the tested image. Do not enable privileged mode or host IPC by default. Pin the image digest and record Chromium, adapter, and application versions.
 
-Storage target: Azure Blob account `fbrdevstorage`, container `seo`, prefix `maps-keyword-capture/`. Credentials come from the existing `dev-ai` Secret `azure-storage-account-f6eab793693c54a6891af3c-secret`; the account key is whole-account access, and prefix-scoped workload identity is later hardening.
+Storage target: private container `maps-keyword-capture` in account `fbrdevstorage` (the `seo` container is publicly readable and is not used). Pods authenticate with a container-scoped SAS tied to stored access policy `maps-capture-writer`, from Secret `maps-keyword-capture-storage`; local runs use `az login` with `AZURE_STORAGE_ACCOUNT_URL`. Setup, run, inspection, and revocation steps are in [deploy/job/README.md](../deploy/job/README.md).
 
 ## Delivery and recovery
 

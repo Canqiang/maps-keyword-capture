@@ -33,6 +33,7 @@ npm ci
 npx playwright install chromium
 npm test                      # contract type tests + unit and fixture tests
 npm run capture -- --config examples/keywords.json
+AZURE_STORAGE_ACCOUNT_URL=https://fbrdevstorage.blob.core.windows.net npm run capture -- --config examples/keywords.json --storage azure   # after az login
 ```
 
 `npm run capture` runs the local collector in local-only persistence mode. It launches the bundled Chromium (`channel: "chromium"`), collects each keyword sequentially, and writes `outputs/maps-keyword-capture/<date>/<runId>/<attemptId>/` with `request.json`, per-query `q000N/qa0M/` folders (result JSON, CSV, `observations.jsonl`, PNGs), `manifest.progress.json`, and the final `manifest.json`. The exit code is 0 when every keyword is captured, 2 for a partial batch, 1 for a failed batch, and 64 for an invalid configuration. The summary line printed last includes the manifest path and `remotePersistence: not_requested`.
