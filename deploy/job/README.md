@@ -1,6 +1,6 @@
 # Production batch Job
 
-Runs a keyword batch in `dev-ai` on the `aiapp` pool and delivers every artifact to the private container `maps-keyword-capture` in storage account `fbrdevstorage`. Each file is read back and checked by size and SHA-256 before the manifest calls it verified. For a run that keeps results on the Pod instead, see `deploy/dev-trial/`.
+Runs a keyword batch in `dev-ai` on the `aiapp` pool and delivers every artifact to the private container `maps-keyword-capture` in storage account `fbrdevstorage`. Each file is read back and checked by size and SHA-256 before the manifest calls it verified. For a run that keeps results on the Pod instead, see `deploy/dev-trial/`. The same batch also runs daily from a CronJob; see [`deploy/cronjob/README.md`](../cronjob/README.md).
 
 ## One-time setup
 
@@ -39,11 +39,11 @@ az acr build --registry FBRDevAcr --platform linux/amd64 \
   --image ai/maps-keyword-capture:$SHA --build-arg GIT_COMMIT=$SHA .
 ```
 
-Put the printed digest into `job.yaml` in both `image` and `IMAGE_DIGEST`, and commit.
+Put the printed digest into both `image` and `IMAGE_DIGEST` in `job.yaml` and in `deploy/cronjob/cronjob.yaml`, run `npm test` (it fails if the two files differ), apply `deploy/cronjob/cronjob.yaml`, and commit.
 
 ## Run a batch
 
-Edit the keywords in `configmap.yaml` (at most 20), then:
+Edit the keywords in `configmap.yaml` (at most 20), then run the commands below. This ConfigMap is separate from the scheduled one, so it does not change the daily keywords.
 
 ```bash
 kubectl apply -f deploy/job/configmap.yaml
@@ -59,9 +59,14 @@ The last log line is a JSON summary with `remotePersistence` (`verified` or `fai
 # The run prefix is the receipt's object key without manifest.json, e.g. 2026-09-18/run_.../att_.../
 # Read it from the summary line (the last log line) while the Job still exists, or from a saved log file.
 PREFIX=$(kubectl -n dev-ai logs "$JOB" | tail -n 1 | python3 -c 'import sys, json; print(json.load(sys.stdin)["manifestReceipt"]["objectKey"].removesuffix("manifest.json"))')
-az storage blob list --account-name fbrdevstorage --container-name maps-keyword-capture --auth-mode login --prefix "$PREFIX" --query "[].name" -o tsv
-mkdir -p outputs/azure
-az storage blob download-batch --account-name fbrdevstorage --source maps-keyword-capture --auth-mode login --pattern "${PREFIX}*" --destination outputs/azure
+case "$PREFIX" in
+  */run_*/att_*/)
+    az storage blob list --account-name fbrdevstorage --container-name maps-keyword-capture --auth-mode login --prefix "$PREFIX" --query "[].name" -o tsv
+    mkdir -p outputs/azure
+    az storage blob download-batch --account-name fbrdevstorage --source maps-keyword-capture --auth-mode login --pattern "${PREFIX}*" --destination outputs/azure
+    ;;
+  *) echo "Could not read the run prefix from the summary line; nothing was downloaded" >&2 ;;
+esac
 ```
 
 ## Stop, revoke, rotate

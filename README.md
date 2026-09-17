@@ -6,7 +6,7 @@ Capture Google Maps business listings and original screenshots by keyword, prese
 
 The collector, Azure Blob delivery with read-back verification, the container image, and the production Kubernetes Job are implemented. They were accepted in Dev on 2026-09-17: a 20-keyword batch ran in the target Pod with every artifact delivered to the private container and verified by read-back, and a Job stopped with SIGTERM still published a verified final manifest. See [validation status](docs/validation-status.md) for what those runs did and did not show.
 
-Scheduling (CronJob), workload identity, a results viewer, and report generation are not implemented.
+A CronJob runs the batch in Dev every day at 10:00 New York time and stores the results in Azure; see [deploy/cronjob/README.md](deploy/cronjob/README.md). Workload identity, a results viewer, and report generation are not implemented.
 
 No target business is required. Each run collects the listings observed for a keyword; downstream consumers can filter by business, compare observations over time, or prepare reports.
 
@@ -68,10 +68,9 @@ docs/implementation-plan.md  Implementation milestones and acceptance gates
 
 ## Next steps
 
-1. Schedule batches with a CronJob.
-2. Authenticate the Pod with workload identity instead of a container SAS.
-3. Add a results viewer.
-4. Add report generation.
-5. Observe a CAPTCHA or consent page and a stalled or throttling storage account from the Pod; revocation and rotation were exercised on 2026-09-17.
+1. Authenticate the Pod with workload identity instead of a container SAS.
+2. Add a results viewer.
+3. Add report generation.
+4. Observe a CAPTCHA or consent page and a stalled or throttling storage account from the Pod; revocation and rotation were exercised on 2026-09-17.
 
-Batches are started manually today; see [deploy/job/README.md](deploy/job/README.md).
+Scheduled batches are described in [deploy/cronjob/README.md](deploy/cronjob/README.md); ad hoc batches in [deploy/job/README.md](deploy/job/README.md).
