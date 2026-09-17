@@ -3,7 +3,7 @@ import type {
   Artifact, CaptureConfig, CaptureError, CollectionOutcome, KeywordResult, Observation, QueryAttemptSummary, QueryQuality, RunMetadata, ScreenshotArtifact,
 } from '../contracts.js';
 import { classifyCard } from '../core/classify.js';
-import { classifyFeedChildren } from '../core/feed-model.js';
+import { classifyFeedChildren, isCard } from '../core/feed-model.js';
 import { deriveOutcome, type StopCause } from '../core/outcome.js';
 import { assignRanks, toListing } from '../core/ranking.js';
 import { applyRound, createReconcileState, type ReconcileState } from '../core/reconcile.js';
@@ -167,7 +167,20 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       if (deps.signal?.aborted) { stop = { kind: 'incomplete', reason: 'cancelled', error: null }; break; }
       const obs = await captureStableObservation(page, { deadlineAt: input.deadlineAt });
       if (!obs) { stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null }; warnings.push({ code: 'feed_vanished', message: 'results feed disappeared', observationIds: [] }); break; }
-      if (!obs.accepted) { stop = { kind: 'incomplete', reason: obs.rejectionReason === 'timeout' ? 'timeout' : 'unstable_results', error: null }; break; }
+      if (!obs.accepted) {
+        // A rejected observation is still evidence of what the page showed: keep its cards and the
+        // reason it was refused, with no screenshot to point at.
+        const rejectedId = observationIdFor(input.queryAttemptId, observations.length + 1);
+        observations.push({
+          observationId: rejectedId, runId: deps.runId, attemptId: deps.attemptId, queryId: input.queryId, queryAttemptId: input.queryAttemptId,
+          observedAt: isoWithOffset(now(), tz), scrollOffset: obs.snapshot.scrollTop, paneBounds: obs.snapshot.paneBounds,
+          preSignature: obs.preSignature, postSignature: obs.postSignature, accepted: false, rejectionReason: obs.rejectionReason,
+          cards: obs.snapshot.children.filter(isCard).map((c) => classifyCard(c, obs.snapshot.paneBounds, rejectedId)),
+          screenshotIds: [],
+        });
+        stop = { kind: 'incomplete', reason: obs.rejectionReason === 'timeout' ? 'timeout' : 'unstable_results', error: null };
+        break;
+      }
       const snapshot: FeedSnapshot = obs.snapshot;
       if (observations.length === 0) {
         observedQueryText = snapshot.observedQueryText;

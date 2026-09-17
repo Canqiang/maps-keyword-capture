@@ -30,6 +30,9 @@ describe('captureStableObservation', () => {
     expect(obs!.accepted).toBe(false);
     expect(obs!.rejectionReason).toBe('unstable_results');
     expect(obs!.attempts).toBe(3);
+    // A settle mismatch must record both reads; mirroring one signature would claim a stable page.
+    expect(obs!.preSignature).not.toBe(obs!.postSignature);
+    expect(obs!.postSignature).toBe(snapshotSignature(obs!.snapshot));
   });
 
   it('returns null without a feed', async () => {

@@ -4,6 +4,13 @@ export function isCard(child: RawFeedChild): boolean {
   return child.placeHref !== null && child.placeAriaLabel !== null && child.placeAriaLabel.trim().length > 0;
 }
 
+/**
+ * A group-level ad marker: "Sponsored", "Ads", "Ad". Section 7 of the design requires the adapter to
+ * establish which cards a marker covers, so a marker on a header or trailer child, where ownership
+ * cannot be resolved from the card itself, fails closed instead of leaving the cards below organic.
+ */
+const GROUP_AD_LABEL = /\b(sponsored|ads?)\b/i;
+
 export function classifyFeedChildren(children: RawFeedChild[]): FeedLayoutResult {
   const cards = children.filter(isCard);
   const first = cards[0];
@@ -14,9 +21,11 @@ export function classifyFeedChildren(children: RawFeedChild[]): FeedLayoutResult
   for (const c of children) {
     if (isCard(c)) { kinds.set(c.index, 'card'); continue; }
     if (c.index < first.index) {
-      kinds.set(c.index, c.placeHref === null ? 'header' : 'unsupported');
+      const header = c.placeHref === null && !GROUP_AD_LABEL.test(c.text);
+      kinds.set(c.index, header ? 'header' : 'unsupported');
     } else if (c.index > last.index) {
-      kinds.set(c.index, c.heightPx <= 2 && c.text.trim() === '' && c.index === last.index + 1 ? 'separator' : 'trailer');
+      const separator = c.heightPx <= 2 && c.text.trim() === '' && c.index === last.index + 1;
+      kinds.set(c.index, separator ? 'separator' : GROUP_AD_LABEL.test(c.text) ? 'unsupported' : 'trailer');
     } else {
       kinds.set(c.index, c.heightPx <= 2 && c.text.trim() === '' ? 'separator' : 'unsupported');
     }

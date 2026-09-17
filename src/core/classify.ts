@@ -3,7 +3,8 @@ import { occurrenceIdFor, sha256Hex } from '../ids.js';
 import type { ClassifiedCard, ParsedCardFields, RawFeedChild } from './types.js';
 
 export const LAYOUT_SIGNATURE = 'maps-feed-card/v1';
-const LABEL_LOCATIONS = ['card_text', 'aria_label'];
+/** Frozen: every evidence record gets its own copy, so one card's array is never another's. */
+export const LABEL_LOCATIONS = Object.freeze(['card_text', 'aria_label'] as const);
 
 export function parsePlaceIdentity(href: string): { placeId: string | null; placeKey: string } {
   const hex = /!1s(0x[0-9a-f]+:0x[0-9a-f]+)/i.exec(href);
@@ -70,13 +71,13 @@ export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observa
   let evidence: ClassificationEvidence;
   if (sponsored) {
     classification = { resultType: 'ad', adLabel: 'Sponsored', organicRank: null };
-    evidence = { source: 'card_label', owner: `feed-child:${raw.index}`, labelText: sponsored.text.trim(), layoutSignature: LAYOUT_SIGNATURE, evaluatedLabelLocations: LABEL_LOCATIONS, observationIds: [observationId] };
+    evidence = { source: 'card_label', owner: `feed-child:${raw.index}`, labelText: sponsored.text.trim(), layoutSignature: LAYOUT_SIGNATURE, evaluatedLabelLocations: [...LABEL_LOCATIONS], observationIds: [observationId] };
   } else if (layoutRecognized) {
     classification = { resultType: 'organic', adLabel: null, organicRank: null };
-    evidence = { source: 'supported_layout', owner: `feed-child:${raw.index}`, labelText: null, layoutSignature: LAYOUT_SIGNATURE, evaluatedLabelLocations: LABEL_LOCATIONS, observationIds: [observationId] };
+    evidence = { source: 'supported_layout', owner: `feed-child:${raw.index}`, labelText: null, layoutSignature: LAYOUT_SIGNATURE, evaluatedLabelLocations: [...LABEL_LOCATIONS], observationIds: [observationId] };
   } else {
     classification = { resultType: 'unknown', adLabel: null, organicRank: null };
-    evidence = { source: 'unresolved', owner: null, labelText: null, layoutSignature: null, evaluatedLabelLocations: LABEL_LOCATIONS, observationIds: [observationId] };
+    evidence = { source: 'unresolved', owner: null, labelText: null, layoutSignature: null, evaluatedLabelLocations: [...LABEL_LOCATIONS], observationIds: [observationId] };
   }
 
   const isAdCard = classification.resultType === 'ad';

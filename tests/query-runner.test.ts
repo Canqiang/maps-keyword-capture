@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { chromium, type Browser } from 'playwright';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import type { KeywordResult, RunMetadata } from '../src/contracts.js';
+import type { KeywordResult, Observation, RunMetadata } from '../src/contracts.js';
 import { runQueryAttempt } from '../src/runner/query-runner.js';
 import { LocalArtifactStore } from '../src/storage/local.js';
 import type { ArtifactStore, WrittenFile } from '../src/storage/types.js';
@@ -142,11 +142,18 @@ describe('runQueryAttempt', () => {
     expect(out.result.screenshots.map((s) => s.kind)).toEqual(['diagnostic']);
   });
 
-  it('marks unstable feeds as partial / unstable_results', async () => {
+  it('marks unstable feeds as partial / unstable_results and writes the rejected observation', async () => {
     const url = await writeFixture({ query: 'q', cards: namedCards(5), jitterMs: 120 });
     const out = await runQueryAttempt(deps(url), input({ queryId: 'q0006', keyword: 'q' }));
     expect(out.result.status).toBe('partial');
     expect(out.result.stopReason).toBe('unstable_results');
+    const jsonl = await readFile(join(root, 'maps-keyword-capture/2026-09-17/run_t/att_t/q0006/qa01/observations.jsonl'), 'utf8');
+    const lines = jsonl.split('\n').filter((l) => l.trim().length > 0);
+    expect(lines).toHaveLength(1);
+    const rejected = JSON.parse(lines[0]!) as Observation;
+    expect(rejected).toMatchObject({ observationId: 'qa01_obs001', accepted: false, rejectionReason: 'unstable_results', screenshotIds: [] });
+    expect(rejected.cards).toHaveLength(5);
+    expect(rejected.cards[0]!.name).toBe('Shop 01');
   });
 
   it('turns a blocked page state into blocked / captcha', async () => {

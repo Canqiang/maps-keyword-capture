@@ -47,6 +47,20 @@ describe('classifyFeedChildren', () => {
     expect(r).toEqual({ ok: false, reason: 'unsupported_layout', detail: expect.stringContaining('index 3') });
   });
 
+  it('fails closed on a group-level Sponsored label in a header child', () => {
+    const withHeaderLabel = [...observed];
+    withHeaderLabel[1] = child(1, { heightPx: 48, text: 'Sponsored results' });
+    const r = classifyFeedChildren(withHeaderLabel);
+    expect(r).toEqual({ ok: false, reason: 'unsupported_layout', detail: expect.stringContaining('index 1') });
+  });
+
+  it('fails closed on a group-level Ads label in a trailer child', () => {
+    const withTrailerLabel = [...observed];
+    withTrailerLabel[8] = child(8, { heightPx: 104, text: 'Ads' });
+    const r = classifyFeedChildren(withTrailerLabel);
+    expect(r).toEqual({ ok: false, reason: 'unsupported_layout', detail: expect.stringContaining('index 8') });
+  });
+
   it('fails closed on an irregular stride', () => {
     const r = classifyFeedChildren([card(2, 'A'), separator(3), card(4, 'B'), separator(5), separator(6), card(7, 'C')]);
     expect(r.ok).toBe(false);

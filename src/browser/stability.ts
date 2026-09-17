@@ -36,7 +36,9 @@ export async function captureStableObservation(
     if (!s2) return null;
     const pre = snapshotSignature(s2);
     if (snapshotSignature(s1) !== pre) {
-      last = { snapshot: s2, png: Buffer.alloc(0), preSignature: pre, postSignature: pre, accepted: false, rejectionReason: 'unstable_results', attempts: attempt };
+      // Record both reads. Mirroring one signature into the other would make a rejected
+      // observation look like a stable page that was never screenshotted.
+      last = { snapshot: s2, png: Buffer.alloc(0), preSignature: snapshotSignature(s1), postSignature: pre, accepted: false, rejectionReason: 'unstable_results', attempts: attempt };
       continue;
     }
     const png = await page.screenshot({ type: 'png' });

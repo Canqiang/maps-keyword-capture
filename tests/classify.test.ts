@@ -97,3 +97,14 @@ describe('classifyCard', () => {
     }
   });
 });
+
+describe('classification evidence', () => {
+  it('gives every card its own evaluatedLabelLocations array', () => {
+    const a = classifyCard(raw({}), pane, 'qa01_obs001');
+    const b = classifyCard(raw({ index: 6 }), pane, 'qa01_obs001');
+    expect(a.classificationEvidence.evaluatedLabelLocations).toEqual(['card_text', 'aria_label']);
+    expect(a.classificationEvidence.evaluatedLabelLocations).not.toBe(b.classificationEvidence.evaluatedLabelLocations);
+    a.classificationEvidence.evaluatedLabelLocations.push('mutated');
+    expect(b.classificationEvidence.evaluatedLabelLocations).toEqual(['card_text', 'aria_label']);
+  });
+});
