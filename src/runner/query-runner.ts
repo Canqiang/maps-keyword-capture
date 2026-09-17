@@ -13,7 +13,7 @@ import { observationIdFor } from '../ids.js';
 import { isoWithOffset, queryAttemptRelativeDir, resultBaseName, screenshotFileName } from '../naming.js';
 import { newSearchContext } from '../browser/launch.js';
 import {
-  buildSearchUrl, hasQuerySignal, nextScrollTop, openSearch, queryMatches, scrollFeedTo, waitForFeedChange,
+  buildSearchUrl, hasQuerySignal, nextScrollTop, openSearch, queryMatches, scrollFeedTo, waitForFeedChange, transientHintVisible,
 } from '../browser/maps-adapter.js';
 import { captureStableObservation } from '../browser/stability.js';
 import type { ArtifactStore } from '../storage/types.js';
@@ -38,7 +38,14 @@ export interface QueryRunnerDeps {
   openSearchImpl?: typeof openSearch;
   /** Cancellation reaches the results loop, so an in-flight keyword stops at its verified prefix. */
   signal?: AbortSignal;
+  /**
+   * How long a screenshot may wait for the view to settle. The first frame of a keyword waits for
+   * map tiles and Google's transient hint (measured ~8.4 s); later frames only follow a scroll.
+   */
+  viewSettle?: { firstBudgetMs: number; laterBudgetMs: number; intervalMs: number };
 }
+
+export const DEFAULT_VIEW_SETTLE = { firstBudgetMs: 10_000, laterBudgetMs: 2_500, intervalMs: 300 } as const;
 
 export interface QueryAttemptInput {
   queryId: string; inputIndex: number; keyword: string; queryAttemptId: string;
@@ -163,9 +170,20 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     let stalls = 0;
     let waitedForCards = false;
     let waitedForQuery = false;
+    let warnedUnsettled = false;
     while (!stop) {
       if (deps.signal?.aborted) { stop = { kind: 'incomplete', reason: 'cancelled', error: null }; break; }
-      const obs = await captureStableObservation(page, { deadlineAt: input.deadlineAt });
+      const viewSettle = deps.viewSettle ?? DEFAULT_VIEW_SETTLE;
+      const obs = await captureStableObservation(page, {
+        deadlineAt: input.deadlineAt,
+        viewSettleIntervalMs: viewSettle.intervalMs,
+        viewSettleBudgetMs: observations.length === 0 ? viewSettle.firstBudgetMs : viewSettle.laterBudgetMs,
+        viewBlocker: () => transientHintVisible(page),
+        ...(deps.signal ? { signal: deps.signal } : {}),
+      });
+      // The entry URL is rewritten to /maps/search/<query>/@lat,lng,zoomz a few seconds after load;
+      // record the URL the evidence was actually taken on.
+      if (obs) finalUrl = obs.snapshot.url;
       if (!obs) { stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null }; warnings.push({ code: 'feed_vanished', message: 'results feed disappeared', observationIds: [] }); break; }
       if (!obs.accepted) {
         // A rejected observation is still evidence of what the page showed: keep its cards and the
@@ -182,6 +200,10 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
         break;
       }
       const snapshot: FeedSnapshot = obs.snapshot;
+      if (!obs.viewSettled && !warnedUnsettled) {
+        warnedUnsettled = true;
+        warnings.push({ code: 'map_unsettled', message: 'the view was still repainting or showing a transient hint when a screenshot was taken; list evidence is unaffected', observationIds: [] });
+      }
       if (observations.length === 0) {
         observedQueryText = snapshot.observedQueryText;
         // The entry page renders the feed before it fills in the query field and the title. Give

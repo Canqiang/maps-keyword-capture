@@ -3,7 +3,15 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-export interface FixtureCard { name: string; ad?: boolean; placeId?: string; rating?: string; reviews?: number; category?: string; address?: string; tall?: boolean }
+export interface FixtureCard {
+  name: string; ad?: boolean; placeId?: string; rating?: string; reviews?: number; category?: string; address?: string; tall?: boolean;
+  /** Render the live card's icon-font glyphs (private-use characters) around the action links, as the entry page does. */
+  iconGlyphs?: boolean;
+  /** Omit the rating line, as a business with no reviews renders. */
+  noRating?: boolean;
+  /** Extra description line after the category/address line. */
+  description?: string;
+}
 export interface FixtureOptions {
   title?: string; query: string; cards: FixtureCard[]; moreCards?: FixtureCard[];
   endOfList?: boolean; noResults?: boolean; jitterMs?: number;
@@ -15,6 +23,12 @@ export interface FixtureOptions {
   ratingLabelStyle?: 'stars' | 'stars_reviews';
   /** Replace an already mounted card's name and href when `moreCards` load, as a reordered feed would. */
   replaceCardAtOnScroll?: { index: number; name: string };
+  /** Keep repainting the map area every N ms, as unloaded tiles arriving would. */
+  mapAnimateMs?: number;
+  /** Show Google's first-visit "Collapse side panel" hint over the map and remove it after N ms. */
+  transientHintMs?: number;
+  /** After N ms, put the map view into the URL the way the live page rewrites it (`@lat,lng,zoomz`). */
+  viewInUrlAfterMs?: number;
 }
 
 function esc(s: string): string {
@@ -28,14 +42,20 @@ export function cardHtml(c: FixtureCard, i: number, ratingLabelStyle: 'stars' | 
   const category = c.category ?? 'Bubble tea store';
   const address = c.address ?? `${100 + i} Main St`;
   const href = `https://www.google.com/maps/place/${encodeURIComponent(c.name)}/data=!4m7!3m6!1s${placeId}!8m2!3d40.7!4d-73.6`;
-  const label = c.ad ? '<div aria-label="Sponsored" class="lbl"><span>Sponsored</span></div>' : '';
+  const label = c.ad ? `<div aria-label="Sponsored" class="lbl"><span>Sponsored</span>${c.iconGlyphs ? ' <span>\ue5d4</span>' : ''}</div>` : '';
+  const ratingLine = c.noRating
+    ? '<div>No reviews</div>'
+    : `<div><span role="img" aria-label="${rating} stars${ratingLabelStyle === 'stars_reviews' ? ` ${reviews.toLocaleString('en-US')} Reviews` : ''}">${rating}</span> (${reviews.toLocaleString('en-US')})</div>`;
+  const actions = c.iconGlyphs ? '<div><span>\ue80b</span> Website <span>\ue52e</span> Directions</div>' : '';
   return `<div class="card${c.tall ? ' tall' : ''}">
     <a href="${esc(href)}" aria-label="${esc(c.name)}"></a>
     ${label}
     <div class="name">${esc(c.name)}</div>
-    <div><span role="img" aria-label="${rating} stars${ratingLabelStyle === 'stars_reviews' ? ` ${reviews.toLocaleString('en-US')} Reviews` : ''}">${rating}</span> (${reviews.toLocaleString('en-US')})</div>
+    ${ratingLine}
     <div>${esc(category)} · ${esc(address)}</div>
+    ${c.description ? `<div>${esc(c.description)}</div>` : ''}
     <div>Closed · Opens 9 AM</div>
+    ${actions}
   </div>
   <div class="sep"></div>`;
 }
@@ -83,6 +103,7 @@ ${defer ? '' : inputHtml}
   <div class="trail1">You're seeing a limited view of Google Maps. Learn more</div>
 </div>
 <div id="map"></div>
+${o.transientHintMs ? '<span id="hint" style="position:absolute;left:520px;top:490px;background:#000;color:#fff">Collapse side panel</span>' : ''}
 <script>
   const feed = document.getElementById('feed');
   const more = ${more};
@@ -111,6 +132,9 @@ ${defer ? '' : inputHtml}
     }
   });
   ${defer ? `setTimeout(() => { document.title = ${JSON.stringify(title)}; document.body.insertAdjacentHTML('afterbegin', ${JSON.stringify(inputHtml)}); }, ${defer});` : ''}
+  ${o.transientHintMs ? `setTimeout(() => { const h = document.getElementById('hint'); if (h) h.remove(); }, ${o.transientHintMs});` : ''}
+  ${o.viewInUrlAfterMs ? `setTimeout(() => { location.hash = '@40.7336673,-73.648544,14z'; }, ${o.viewInUrlAfterMs});` : ''}
+  ${o.mapAnimateMs ? `let hue = 0; const mapEl = document.getElementById('map'); setInterval(() => { hue = (hue + 37) % 360; mapEl.style.background = 'hsl(' + hue + ', 60%, 80%)'; }, ${o.mapAnimateMs});` : ''}
   ${o.jitterMs ? `let jitter = 0; const nameEl = feed.querySelector('.card .name'); const baseName = nameEl ? nameEl.textContent : ''; setInterval(() => { if (nameEl) nameEl.textContent = baseName + ' ' + (++jitter); }, ${o.jitterMs});` : ''}
 </script></body></html>`;
 }

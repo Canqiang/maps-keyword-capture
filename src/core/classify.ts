@@ -34,21 +34,46 @@ export function parseReviewCount(text: string): number | null {
 }
 
 const STATUS_WORDS = /\b(Closed|Open|Opens|Closes|Temporarily closed|Permanently closed)\b/;
+const PHONE_TAIL = /\s*\(?\d{3}\)?[\s-]\d{3}-\d{4}\b.*$/;
+const RATING_PREFIX = /^\d(?:\.\d)?(\s*\(\d[\d,]*\))?$/;
 
-export function parseCategoryAndAddress(text: string, name: string): { category: string | null; address: string | null } {
-  let body = text;
-  // Drop the repeated name prefix(es) and the rating/review prefix.
-  while (name && body.startsWith(name)) body = body.slice(name.length).trim();
+/** Remove icon-font glyphs (private-use characters) and collapse whitespace. */
+export function cleanCardText(s: string): string {
+  return s.replace(/[\ue000-\uf8ff]/g, '').replace(/\s+/g, ' ').trim();
+}
+
+function splitCategoryLine(line: string): { category: string | null; address: string | null } | null {
+  if (!line.includes('·')) return null;
+  const parts = line.split('·').map((p) => cleanCardText(p)).filter((p) => p.length > 0);
+  const first = parts[0];
+  if (!first || RATING_PREFIX.test(first) || STATUS_WORDS.test(first)) return null;
+  const last = parts.length >= 2 ? parts[parts.length - 1] ?? null : null;
+  return { category: first, address: last ? cleanCardText(last.replace(PHONE_TAIL, '')) || null : null };
+}
+
+/**
+ * Category and address come from the card line "Category · address". When the page script
+ * supplies the rendered lines, that line is found directly; otherwise the collapsed text is
+ * parsed after stripping the repeated name, the Sponsored label, and the rating prefix.
+ */
+export function parseCategoryAndAddress(text: string, name: string, lines?: string[]): { category: string | null; address: string | null } {
+  if (lines) {
+    for (const line of lines) {
+      const hit = splitCategoryLine(cleanCardText(line));
+      if (hit) return hit;
+    }
+    return { category: null, address: null };
+  }
+  let body = cleanCardText(text);
+  const cleanName = cleanCardText(name);
+  // Drop the repeated name prefix(es), the Sponsored label, and the rating/review prefix.
+  while (cleanName && body.startsWith(cleanName)) body = body.slice(cleanName.length).trim();
   body = body.replace(/^Sponsored\s*/, '');
-  while (name && body.startsWith(name)) body = body.slice(name.length).trim();
+  while (cleanName && body.startsWith(cleanName)) body = body.slice(cleanName.length).trim();
   body = body.replace(/^\d(?:\.\d)?\s*(\(\d[\d,]*\))?\s*/, '');
   const statusAt = body.search(STATUS_WORDS);
   const head = (statusAt >= 0 ? body.slice(0, statusAt) : body).trim();
-  if (!head.includes('·')) return { category: null, address: null };
-  const parts = head.split('·').map((p) => p.trim()).filter((p) => p.length > 0);
-  const category = parts[0] ?? null;
-  const address = parts.length >= 2 ? parts[parts.length - 1] ?? null : null;
-  return { category, address };
+  return splitCategoryLine(head) ?? { category: null, address: null };
 }
 
 function withinPane(b: BoundingBox, pane: BoundingBox): boolean {
@@ -65,7 +90,10 @@ export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observa
   const identity = raw.placeHref ? parsePlaceIdentity(raw.placeHref) : { placeId: null, placeKey: `feed-child:${raw.index}` };
   const sponsored = raw.sponsoredLabels.find((l) => l.text.trim() === 'Sponsored') ?? null;
   const rating = parseRating(raw.ratingAriaLabel);
-  const layoutRecognized = raw.placeHref !== null && name !== null && (rating !== null || raw.text.includes(name));
+  const parsedFields = name ? parseCategoryAndAddress(raw.text, name, raw.lines) : { category: null, address: null };
+  // A recognized business card carries a rating or a "Category · address" line. A bare place card
+  // (a locality, a region) has neither and must not be ranked as an organic business result.
+  const layoutRecognized = raw.placeHref !== null && name !== null && (rating !== null || parsedFields.category !== null);
 
   let classification: ListingClassification;
   let evidence: ClassificationEvidence;
@@ -81,11 +109,10 @@ export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observa
   }
 
   const isAdCard = classification.resultType === 'ad';
-  const parsedFields = name ? parseCategoryAndAddress(raw.text, name) : { category: null, address: null };
   const parsed: ParsedCardFields = {
     placeId: identity.placeId,
     rating,
-    reviewCount: parseReviewCount(raw.text),
+    reviewCount: parseReviewCount(cleanCardText(raw.text)),
     category: parsedFields.category,
     address: parsedFields.address,
   };
@@ -97,7 +124,7 @@ export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observa
     businessKey: identity.placeId,
     name,
     mapsUrl: raw.placeHref,
-    rawText: raw.text,
+    rawText: cleanCardText(raw.text),
     bounds: raw.bounds,
     fullyVisible: withinPane(raw.bounds, paneBounds),
     classification,

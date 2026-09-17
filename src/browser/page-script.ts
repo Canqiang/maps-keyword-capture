@@ -16,7 +16,12 @@ export function readFeedSnapshotInPage(): FeedSnapshot | null {
     // aria-label suffix match misses them. Pick the first role=img whose label starts with a rating.
     const rating = Array.from(el.querySelectorAll('span[role="img"]'))
       .find((s) => /^\d(?:\.\d)?\s+stars?\b/.test(s.getAttribute('aria-label') || '')) ?? null;
-    const text = ((el as HTMLElement).innerText || '').replace(/\s+/g, ' ').trim();
+    // Icon fonts render as private-use characters inside innerText (menu, website, directions glyphs);
+    // they are not content and would otherwise glue onto neighbouring words.
+    const clean = (s: string) => s.replace(/[\ue000-\uf8ff]/g, '').replace(/\s+/g, ' ').trim();
+    const rawInner = (el as HTMLElement).innerText || '';
+    const text = clean(rawInner);
+    const lines = rawInner.split(/\r?\n/).map(clean).filter((l) => l.length > 0);
     const sponsoredLabels: { text: string; ownerAriaLabel: string | null; depth: number }[] = [];
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT);
     let node = walker.nextNode() as Element | null;
@@ -34,7 +39,7 @@ export function readFeedSnapshotInPage(): FeedSnapshot | null {
       placeHref: link?.getAttribute('href') ?? null,
       placeAriaLabel: link?.getAttribute('aria-label') ?? null,
       ratingAriaLabel: rating?.getAttribute('aria-label') ?? null,
-      text, sponsoredLabels,
+      text, lines, sponsoredLabels,
     };
   });
   const feedText = feed.innerText || '';

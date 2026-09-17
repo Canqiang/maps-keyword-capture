@@ -13,6 +13,39 @@ beforeAll(async () => {
 afterAll(async () => { await browser.close(); });
 
 describe('captureStableObservation', () => {
+  it('reports whether the whole view settled between consecutive screenshots', async () => {
+    await openSearch(page, await writeFixture({ query: 'q', cards: namedCards(6) }), 5000);
+    const still = await captureStableObservation(page, { deadlineAt: Date.now() + 10_000, settleMs: 200 });
+    expect(still!.accepted).toBe(true);
+    expect(still!.viewSettled).toBe(true);
+
+    await openSearch(page, await writeFixture({ query: 'q', cards: namedCards(6), mapAnimateMs: 100 }), 5000);
+    const moving = await captureStableObservation(page, { deadlineAt: Date.now() + 10_000, settleMs: 200, viewSettleIntervalMs: 150, viewSettleBudgetMs: 900 });
+    expect(moving!.accepted).toBe(true);
+    expect(moving!.viewSettled).toBe(false);
+    expect(moving!.png.length).toBeGreaterThan(0);
+  });
+
+  it('needs several identical frames, not one lucky pair, and waits for a view blocker to clear', async () => {
+    await openSearch(page, await writeFixture({ query: 'q', cards: namedCards(6) }), 5000);
+    const clearAt = Date.now() + 700;
+    const started = Date.now();
+    const obs = await captureStableObservation(page, {
+      deadlineAt: Date.now() + 10_000, settleMs: 100, viewSettleIntervalMs: 100, viewSettleBudgetMs: 3000,
+      viewBlocker: async () => Date.now() < clearAt,
+    });
+    expect(obs!.accepted).toBe(true);
+    expect(obs!.viewSettled).toBe(true);
+    expect(Date.now() - started).toBeGreaterThanOrEqual(700);
+
+    const blocked = await captureStableObservation(page, {
+      deadlineAt: Date.now() + 10_000, settleMs: 100, viewSettleIntervalMs: 100, viewSettleBudgetMs: 500,
+      viewBlocker: async () => true,
+    });
+    expect(blocked!.accepted).toBe(true);
+    expect(blocked!.viewSettled).toBe(false);
+  });
+
   it('accepts a stable page on the first attempt and returns a PNG', async () => {
     await openSearch(page, await writeFixture({ query: 'q', cards: namedCards(6) }), 5000);
     const obs = await captureStableObservation(page, { deadlineAt: Date.now() + 10_000, settleMs: 200 });

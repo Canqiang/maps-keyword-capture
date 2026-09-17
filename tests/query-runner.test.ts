@@ -49,6 +49,29 @@ const input = (over: Record<string, unknown> = {}) => ({
 });
 
 describe('runQueryAttempt', () => {
+  it('warns when the map area never settles but still captures the list', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(5), endOfList: true, mapAnimateMs: 100 });
+    const out = await runQueryAttempt({ ...deps(url), viewSettle: { firstBudgetMs: 800, laterBudgetMs: 800, intervalMs: 150 } }, input({ queryId: 'q0090', keyword: 'q' }));
+    expect(out.result.status).toBe('captured');
+    expect(out.result.quality.warnings.map((w) => w.code)).toContain('map_unsettled');
+  });
+
+  it('waits for the transient hint to clear before the first screenshot', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(5), endOfList: true, transientHintMs: 3000 });
+    const out = await runQueryAttempt({ ...deps(url), viewSettle: { firstBudgetMs: 6000, laterBudgetMs: 800, intervalMs: 150 } }, input({ queryId: 'q0091', keyword: 'q' }));
+    expect(out.result.status).toBe('captured');
+    expect(out.result.quality.warnings.map((w) => w.code)).not.toContain('map_unsettled');
+    const first = out.result.screenshots.find((s) => s.kind === 'results')!;
+    expect(Date.parse(first.capturedAt) - Date.parse(out.result.startedAt)).toBeGreaterThanOrEqual(2900);
+  });
+
+  it('records the final URL and the observed map view the page settles on', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(5), endOfList: true, viewInUrlAfterMs: 100 });
+    const out = await runQueryAttempt(deps(url), input({ queryId: 'q0092', keyword: 'q' }));
+    expect(out.result.finalUrl).toContain('@40.7336673,-73.648544,14z');
+    expect(out.result.context.observedMapView).toEqual({ latitude: 40.7336673, longitude: -73.648544, zoom: 14 });
+  });
+
   it('captures 15 listings with an ad at position 1, screenshots, observations, JSON, and CSV', async () => {
     const url = await writeFixture({
       query: 'bubble tea garden city',

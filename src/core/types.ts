@@ -11,7 +11,9 @@ export interface RawFeedChild {
   placeHref: string | null;       // first a[href*="/maps/place/"]
   placeAriaLabel: string | null;  // its aria-label (business name)
   ratingAriaLabel: string | null; // e.g. "4.8 stars"
-  text: string;                   // innerText, whitespace collapsed
+  text: string;                   // innerText, icon glyphs removed, whitespace collapsed
+  /** innerText split into rendered lines, cleaned the same way; absent in older observations. */
+  lines?: string[];
   sponsoredLabels: RawSponsoredLabel[];
 }
 

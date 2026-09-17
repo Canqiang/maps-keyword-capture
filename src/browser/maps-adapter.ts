@@ -57,6 +57,19 @@ export async function openSearch(page: Page, url: string, timeoutMs: number): Pr
  * that helper does not exist, so the call fails with `ReferenceError: __name is not defined`.
  * The real helper only stamps `fn.name`, so identity is a safe stand-in.
  */
+/**
+ * UI hints Google paints over a fresh, signed-out session (measured on 2026-09-17: the
+ * "Collapse side panel" hint shows from ~0.3 s to ~8.4 s after the results feed appears).
+ * They are not results; screenshots wait for them to clear instead of removing them.
+ */
+export const TRANSIENT_HINT_TEXTS: readonly string[] = ['Collapse side panel'];
+
+export async function transientHintVisible(page: Page): Promise<boolean> {
+  return page.evaluate((texts) => Array.from(document.querySelectorAll('span, div'))
+    .some((e) => e.children.length === 0 && texts.includes((e.textContent || '').trim()) && e.getBoundingClientRect().width > 0),
+  [...TRANSIENT_HINT_TEXTS]).catch(() => false);
+}
+
 export function pageFunctionSource(fn: (() => unknown) | string): string {
   return `(() => { const __name = (target) => target; return (${String(fn)})(); })()`;
 }

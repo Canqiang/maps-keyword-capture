@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { classifyFeedChildren } from '../src/core/feed-model.js';
 import { classifyCard } from '../src/core/classify.js';
 import {
-  END_OF_LIST_TEXT, buildSearchUrl, detectPageState, hasQuerySignal, nextScrollTop, openSearch, pageFunctionSource, queryMatches, readSnapshot, scrollFeedTo, waitForFeedChange,
+  END_OF_LIST_TEXT, buildSearchUrl, detectPageState, hasQuerySignal, nextScrollTop, openSearch, pageFunctionSource, queryMatches, readSnapshot, scrollFeedTo, waitForFeedChange, transientHintVisible,
 } from '../src/browser/maps-adapter.js';
 import { namedCards, writeFixture } from './fixtures/feed-fixture.js';
 
@@ -71,6 +71,28 @@ describe('openSearch budget', () => {
 });
 
 describe('page reading against the fixture', () => {
+  it('detects the transient collapse-panel hint until the page removes it', async () => {
+    await openSearch(page, await writeFixture({ query: 'q', cards: namedCards(3), transientHintMs: 600 }), 5000);
+    expect(await transientHintVisible(page)).toBe(true);
+    await page.waitForTimeout(900);
+    expect(await transientHintVisible(page)).toBe(false);
+  });
+
+  it('strips icon-font glyphs from card text and returns the card lines', async () => {
+    const url = await writeFixture({ query: 'q', cards: [{ name: 'Gong Cha', ad: true, iconGlyphs: true, address: '630 Old Country Road' }, { name: 'Boba Baar', iconGlyphs: true }] });
+    await openSearch(page, url, 5000);
+    const snap = (await readSnapshot(page))!;
+    const cards = snap.children.filter((c) => c.placeHref);
+    expect(cards).toHaveLength(2);
+    for (const c of cards) {
+      expect(c.text).not.toMatch(/[\ue000-\uf8ff]/);
+      expect(c.lines).toBeDefined();
+      expect(c.lines!.some((l) => /[\ue000-\uf8ff]/.test(l))).toBe(false);
+    }
+    expect(cards[0]!.text).toMatch(/^Sponsored Gong Cha /);
+    expect(cards[0]!.lines).toEqual(expect.arrayContaining(['Sponsored', 'Gong Cha', 'Bubble tea store · 630 Old Country Road', 'Website Directions']));
+  });
+
   it('detects results, reads the feed, and classifies its children', async () => {
     const url = await writeFixture({ query: 'bubble tea garden city', cards: [{ name: 'Gong Cha', ad: true }, ...namedCards(10)] });
     const opened = await openSearch(page, url, 5000);

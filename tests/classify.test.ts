@@ -108,3 +108,44 @@ describe('classification evidence', () => {
     expect(b.classificationEvidence.evaluatedLabelLocations).toEqual(['card_text', 'aria_label']);
   });
 });
+
+describe('live-page parsing', () => {
+  const gongChaText = 'Gong Cha Sponsored \ue5d4 Gong Cha 3.9 Bubble tea store · 630 Old Country Road Closed · Opens 11 AM · (516) 589-8400 \ue80b Website \ue52e Directions';
+
+  it('ignores icon-font glyphs when parsing an ad card', () => {
+    expect(parseCategoryAndAddress(gongChaText, 'Gong Cha')).toEqual({ category: 'Bubble tea store', address: '630 Old Country Road' });
+  });
+
+  it('prefers the category line and never carries a phone number or description into the address', () => {
+    expect(parseCategoryAndAddress(
+      'Gramman Plumbing & Heating Gramman Plumbing & Heating 4.9 Plumber · 356 Westbury Ave Ste A (516) 746-0045 \ue80b Website',
+      'Gramman Plumbing & Heating',
+      ['Gramman Plumbing & Heating', '4.9', 'Plumber · 356 Westbury Ave Ste A', '(516) 746-0045'],
+    )).toEqual({ category: 'Plumber', address: '356 Westbury Ave Ste A' });
+    expect(parseCategoryAndAddress(
+      'Churrasqueira Bairrada Churrasqueira Bairrada 4.4 (2,827) Barbecue restaurant · 144 Jericho Tpke Portuguese fare & grilled-meat skewers Closed · Opens 12 PM',
+      'Churrasqueira Bairrada',
+      ['Churrasqueira Bairrada', '4.4 (2,827)', 'Barbecue restaurant · 144 Jericho Tpke', 'Portuguese fare & grilled-meat skewers', 'Closed · Opens 12 PM'],
+    )).toEqual({ category: 'Barbecue restaurant', address: '144 Jericho Tpke' });
+    expect(parseCategoryAndAddress('X X 4.9 Plumber · 356 Westbury Ave Ste A (516) 746-0045', 'X')).toEqual({ category: 'Plumber', address: '356 Westbury Ave Ste A' });
+  });
+
+  it('classifies a locality card with no rating and no category as unknown', () => {
+    const card = classifyCard(raw({
+      placeHref: 'https://www.google.com/maps/place/Mineola/data=!4m7!3m6!1s0x864996bda94a5213:0xdf2c6138fa1', placeAriaLabel: 'Mineola', ratingAriaLabel: null,
+      text: 'Mineola Mineola No reviews Texas 75773 mineola', lines: ['Mineola', 'Mineola', 'No reviews', 'Texas 75773 mineola'],
+    }), pane, 'o1');
+    expect(card.classification.resultType).toBe('unknown');
+    expect(card.classificationEvidence.source).toBe('unresolved');
+    expect(card.parsed).toMatchObject({ rating: null, category: null, address: null });
+  });
+
+  it('still classifies a business without reviews as organic when it has a category line', () => {
+    const card = classifyCard(raw({
+      placeAriaLabel: 'New Shop', ratingAriaLabel: null,
+      text: 'New Shop New Shop No reviews Cafe · 1 Main St Closed · Opens 9 AM', lines: ['New Shop', 'New Shop', 'No reviews', 'Cafe · 1 Main St', 'Closed · Opens 9 AM'],
+    }), pane, 'o1');
+    expect(card.classification.resultType).toBe('organic');
+    expect(card.parsed).toMatchObject({ rating: null, reviewCount: null, category: 'Cafe', address: '1 Main St' });
+  });
+});
