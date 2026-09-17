@@ -4,8 +4,18 @@
   "private": true,
   "description": "Keyword-first Google Maps listing and screenshot capture, including clearly identified ads.",
   "type": "module",
-  "engines": { "node": ">=22" },
-  "scripts": { "typecheck": "tsc --noEmit" },
-  "dependencies": { "playwright": "1.63.0" },
-  "devDependencies": { "typescript": "7.0.2" }
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test:contracts": "tsc -p tsconfig.contract-tests.json --noEmit",
+    "test": "npm run test:contracts"
+  },
+  "dependencies": {
+    "playwright": "1.63.0"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
 }

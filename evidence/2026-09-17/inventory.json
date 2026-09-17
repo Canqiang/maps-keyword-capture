@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "archive-1",
+  "recoveredAt": "2026-09-17T03:13:44.120326+00:00",
+  "sourceDirectory": "/private/tmp/claude-502/-Users-xander-git-repo-maps-keyword-capture/6c6235e3-5a34-4d4c-8ee3-6fea1f7c1bd0/scratchpad/measure",
+  "provenance": "Recovered local historical files. Source mtime is not a trusted browser capture timestamp. Script-to-image association is inferred from output filenames, not a saved run manifest.",
+  "missing": [
+    "raw DOM snapshots",
+    "console output / structured observation logs",
+    "original run manifests",
+    "target Pod evidence"
+  ],
+  "files": [
+    {
+      "path": "screenshots/ad_shot_00.png",
+      "sourceBasename": "ad_shot_00.png",
+      "bytes": 905274,
+      "sha256": "517fe14c036c7a2a4edce784eb252a89b54532a0a78f6a2acaba9817543aa0f6",
+      "sourceMtimeUtc": "2026-09-17T02:57:40.811252+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "screenshots/ad_shot_01.png",
+      "sourceBasename": "ad_shot_01.png",
+      "bytes": 1063588,
+      "sha256": "48dd80655e4904dafffe96c69c98b35e25d5ebc8e45d509ef94bfde71b765e99",
+      "sourceMtimeUtc": "2026-09-17T02:57:43.108207+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "screenshots/ad_shot_02.png",
+      "sourceBasename": "ad_shot_02.png",
+      "bytes": 1045152,
+      "sha256": "b87493173d1d20439f8da93047f1f0d6042d936c2bc82f1394782cb9a330c6b5",
+      "sourceMtimeUtc": "2026-09-17T02:57:45.241135+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "screenshots/ad_shot_03.png",
+      "sourceBasename": "ad_shot_03.png",
+      "bytes": 1066655,
+      "sha256": "46214686869e10fb9270f098a52b0fc36aa0d78a7502dabd03081d3e850b100b",
+      "sourceMtimeUtc": "2026-09-17T02:57:47.367674+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "scripts/adprobe.mjs",
+      "sourceBasename": "adprobe.mjs",
+      "bytes": 2249,
+      "sha256": "d91f41cc0fd9391dac7de8dae7c88f72340c812a97644e7a6eaa37376fffaa7c",
+      "sourceMtimeUtc": "2026-09-17T02:56:38.944068+00:00"
+    },
+    {
+      "path": "screenshots/cr_shot_00.png",
+      "sourceBasename": "cr_shot_00.png",
+      "bytes": 976877,
+      "sha256": "46417a495746cfd56c1fdb2fad52516f0ae8376281d38f825fe3d818d9181873",
+      "sourceMtimeUtc": "2026-09-17T02:56:09.454865+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "screenshots/cr_shot_01.png",
+      "sourceBasename": "cr_shot_01.png",
+      "bytes": 1131440,
+      "sha256": "d7e81e9696c27dd16a223bdd785d818f9d6afddfdf0d23535ee0030a737524dc",
+      "sourceMtimeUtc": "2026-09-17T02:56:11.607137+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "screenshots/cr_shot_02.png",
+      "sourceBasename": "cr_shot_02.png",
+      "bytes": 1103498,
+      "sha256": "331b6833e906aa69fd41906380c56c48e423541e5fdbd9b83a73c118d96e2e11",
+      "sourceMtimeUtc": "2026-09-17T02:56:13.743695+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "screenshots/cr_shot_03.png",
+      "sourceBasename": "cr_shot_03.png",
+      "bytes": 1128174,
+      "sha256": "6250bc5459940407cbf7c884a342b785c73722ff823e85bd1ca7a90d47ee99fe",
+      "sourceMtimeUtc": "2026-09-17T02:56:15.863088+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "scripts/measure.mjs",
+      "sourceBasename": "measure.mjs",
+      "bytes": 3205,
+      "sha256": "85388e001251b700e56a36c3e85713e6aa5f31ed42ce32d1642b3107560e596e",
+      "sourceMtimeUtc": "2026-09-17T02:20:06.631336+00:00"
+    },
+    {
+      "path": "scripts/measure_ad.mjs",
+      "sourceBasename": "measure_ad.mjs",
+      "bytes": 3244,
+      "sha256": "dd2dc3b8993d96559a12c53ff96760cb3cc74030cb9dfe64a9da432e08090009",
+      "sourceMtimeUtc": "2026-09-17T02:57:31.062699+00:00"
+    },
+    {
+      "path": "scripts/measure_chromium.mjs",
+      "sourceBasename": "measure_chromium.mjs",
+      "bytes": 3244,
+      "sha256": "49bc80261b48168d2f69ec6654fecd6521da4c155d9c68a3759f85b36d6f69f3",
+      "sourceMtimeUtc": "2026-09-17T02:54:08.244528+00:00"
+    },
+    {
+      "path": "screenshots/q_bubble_tea_garden_city.png",
+      "sourceBasename": "q_bubble_tea_garden_city.png",
+      "bytes": 637839,
+      "sha256": "242620832d6f1bb3c796157cc8c366d66f8ea8b854fc43402aa979795000004f",
+      "sourceMtimeUtc": "2026-09-17T03:05:03.796109+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "query_only"
+    },
+    {
+      "path": "screenshots/q_fried_chicken_mineola.png",
+      "sourceBasename": "q_fried_chicken_mineola.png",
+      "bytes": 800665,
+      "sha256": "ad2daa07f1e217116234d6afbf3a8105c4d0050e6771f00c0f4beb07e2a5a733",
+      "sourceMtimeUtc": "2026-09-17T03:05:15.010461+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "query_only"
+    },
+    {
+      "path": "screenshots/q_matcha_mineola.png",
+      "sourceBasename": "q_matcha_mineola.png",
+      "bytes": 518400,
+      "sha256": "ead34f05d31d4c10517cb243cd7fca31127e27d825f487f4d0058900be524ab8",
+      "sourceMtimeUtc": "2026-09-17T03:05:23.697623+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "query_only"
+    },
+    {
+      "path": "scripts/qonly.mjs",
+      "sourceBasename": "qonly.mjs",
+      "bytes": 2039,
+      "sha256": "eec7d763150c69016e68ff8f319242c44102cad63f954ed35f9ef67c3cbd48bd",
+      "sourceMtimeUtc": "2026-09-17T03:04:43.919637+00:00"
+    },
+    {
+      "path": "screenshots/shot_00.png",
+      "sourceBasename": "shot_00.png",
+      "bytes": 938538,
+      "sha256": "931dca89de847f5d1fd37234959d9862692ebb3b943cb550b6bbf8eb021e0c51",
+      "sourceMtimeUtc": "2026-09-17T02:21:00.279334+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "screenshots/shot_01.png",
+      "sourceBasename": "shot_01.png",
+      "bytes": 1090157,
+      "sha256": "523ebeb5ec79e1689ec9e8de580428c1d6a6e2a06c38afcc753d43a9492dcee5",
+      "sourceMtimeUtc": "2026-09-17T02:21:02.423108+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "screenshots/shot_02.png",
+      "sourceBasename": "shot_02.png",
+      "bytes": 1083108,
+      "sha256": "b426f8d64553dc672c08d8dbf273bd9192802bfa89dfa0632b3a6cff54e97a0b",
+      "sourceMtimeUtc": "2026-09-17T02:21:04.558029+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    },
+    {
+      "path": "screenshots/shot_03.png",
+      "sourceBasename": "shot_03.png",
+      "bytes": 1102412,
+      "sha256": "592063e12db7afb8e8f9bc7542157c765deef3fbf673055660e627eda69a64ef",
+      "sourceMtimeUtc": "2026-09-17T02:21:06.690220+00:00",
+      "width": 1440,
+      "height": 1000,
+      "profileFromScriptAndFilename": "explicit_map_center"
+    }
+  ]
+}

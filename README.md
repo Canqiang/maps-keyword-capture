@@ -4,7 +4,7 @@ Capture Google Maps business listings and original screenshots by keyword, prese
 
 ## Project status
 
-This repository is an initial scaffold containing requirements, preliminary data contracts, an input example, a detailed design, and an implementation plan. **Browser collection, ad classification, screenshots, and uploads are not implemented, and nothing has been deployed to the cluster.**
+This repository is an initial scaffold containing requirements, design-aligned TypeScript contracts with compile-time checks, an input example, a detailed design, and recovered historical probe evidence. **Browser collection, ad classification, screenshots, and uploads are not implemented, and nothing has been deployed to the cluster.**
 
 No target business is required. Each run collects the listings observed for a keyword; downstream consumers can filter by business, compare observations over time, or prepare reports.
 
@@ -31,9 +31,10 @@ The container image is based on the official Playwright Linux image, which bundl
 ```bash
 npm ci
 npm run typecheck
+npm test
 ```
 
-These commands validate the data contracts only. There is no executable capture command yet. Dependencies are pinned in the lockfile; browser compatibility has not been validated.
+These commands check TypeScript contracts only; they do not validate external JSON or exercise a browser. There is no executable capture command yet. Historical laptop probes exist, but production readiness, the target Linux/Pod profile, and storage integration remain unvalidated. See [validation status](docs/validation-status.md).
 
 ## Design documents
 
@@ -43,12 +44,17 @@ These commands validate the data contracts only. There is no executable capture 
 - [Deployment summary](docs/deployment.md): runtime choices and cluster validation.
 - [Decisions and deviations, 2026-09-17](docs/superpowers/specs/2026-09-17-keyword-capture-design.md): why Chromium, 15 listings, query-only location behavior, Azure target, and DOM-index reconciliation.
 
-These describe planned behavior. The preliminary TypeScript contracts must be extended as listed in the detailed design before runtime implementation.
+These describe planned runtime behavior. [TypeScript contracts](src/contracts.ts) now cover attempts, observations, quality, skipped inputs, and artifact readback. Runtime validation and collector implementation remain outstanding.
+
+- [Validation status](docs/validation-status.md): evidence-backed findings and remaining acceptance gates.
+- [Recovered probe archive](evidence/2026-09-17/README.md): original scripts and screenshots with checksums and explicit provenance limits.
 
 ## Repository layout
 
 ```text
-src/contracts.ts         Input, result, and batch status contracts
+src/contracts.ts         Input, result, evidence, and delivery contracts
+tests/contracts.type-test.ts  Compile-time contract regression checks
+evidence/2026-09-17/     Recovered laptop probes and provenance inventory
 examples/keywords.json   Example keyword configuration
 docs/spec.md             Ranking, ads, deduplication, and output conventions
 docs/deployment.md       Independent Job deployment summary
@@ -58,7 +64,7 @@ docs/implementation-plan.md  Implementation milestones and acceptance gates
 
 ## Next steps
 
-1. Implement local Chromium collection: keyword input, result readiness, scrolling, ad classification, screenshots, and JSON/CSV output.
+1. Add runtime schema validation and deterministic ranking/evidence tests; then implement local Chromium collection: keyword input, result readiness, scrolling, ad classification, screenshots, and JSON/CSV output.
 2. Run 3–5 keywords in the target Pod to verify access, screenshots, ad markup, and challenge detection.
 3. Integrate Azure Blob Storage with independent readback verification; add the container image and Job manifest.
 4. Verify partial failures, timeouts, process cleanup, and artifact persistence after Pod deletion.

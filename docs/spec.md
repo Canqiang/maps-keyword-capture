@@ -1,6 +1,6 @@
 # Collection Specification
 
-This is the concise specification. See [the detailed design](design.md) for the algorithm, attempt isolation, evidence protocol, and planned contract extensions. No collector is implemented yet.
+This is the concise specification. See [the detailed design](design.md) for the algorithm, attempt isolation, evidence protocol, and data contracts. No collector is implemented yet.
 
 ## Scope
 
@@ -25,10 +25,10 @@ Keep ad and organic occurrences of the same business separately. A business iden
 ## Page collection
 
 - Use a fresh, signed-out Chromium context with a fixed viewport and language. Submit the original keyword without map coordinates, manual panning, "Search this area", or browser geolocation overrides. Process one keyword at a time.
-- Record `locationMode: "query_only"`, `configuredMapView: null`, the final URL, and observed map/location context where available. Do not silently append a city to a keyword. Broad or "near me" queries describe the runner's environment, not a selected customer area.
+- Record `locationMode: "query_only"`, `configuredMapView: null`, the final URL, and observed map/location context where available. Do not silently append a city to a keyword. Broad, ambiguous city names, and "near me" queries describe the runner's environment, not a guaranteed customer area. The [recovered query-only samples](../evidence/2026-09-17/README.md) already show geographic ambiguity; preserve the keyword and flag observed ambiguity for review.
 - Wait for the query to match the result list and for visible map content and images to render. A fixed sleep alone is not evidence of readiness.
 - Handle CAPTCHA, consent pages, no results, business detail pages, and blank pages explicitly.
-- Scroll the internal results list within configured bounds (6 scrolls and 5 screenshots by default; 15 listings measured at about 3 and 4). Each scroll moves the top of the last partially visible card to the top of the panel so every card is complete in at least one screenshot. A `fullPage` screenshot is not a substitute for scrolling that list.
+- Scroll the internal results list within configured bounds (provisional defaults: 6 scrolls and 5 results screenshots; query-only coverage remains unvalidated). Move the last partially visible card to the top; if none exists, retain the last full card as overlap. Oversized cards require consecutive screenshots that jointly cover the card. Budget exhaustion yields partial evidence, as detailed in [scroll coverage](design.md#scroll-step-and-screenshot-coverage). A `fullPage` screenshot is not a substitute for scrolling that list.
 - Capture the visible list and map while preserving ad labels. Adjacent screenshots may overlap, but data must not be counted twice.
 - Stop at the listing limit, confirmed end of results, scroll limit, stalled loading, or timeout, and record `stopReason`.
 - Keep original screenshots free of added ranking annotations. Report annotations belong in separate derived files with references to the originals.
@@ -37,13 +37,14 @@ Keep ad and organic occurrences of the same business separately. A business iden
 
 ```text
 maps-keyword-capture/2026-09-17/<run-id>/<attempt-id>/q0001/
-  20260917T143025.123+0800__bubble-tea-garden-city__<query-id>.json
-  20260917T143025.123+0800__bubble-tea-garden-city__<query-id>.csv
   qa01/
+    20260917T143025.123+0800__bubble-tea-garden-city__<query-id>.json
+    20260917T143025.123+0800__bubble-tea-garden-city__<query-id>.csv
+    observations.jsonl
     20260917T143025.123+0800__bubble-tea-garden-city__<query-id>__01.png
 ```
 
-The final manifest is at the attempt root; screenshot files are isolated by query attempt as detailed in [the output layout](design.md#10-data-model-and-output).
+The final manifest is at the attempt root; all query artifacts are isolated by query attempt as detailed in [the output layout](design.md#10-data-model-and-output).
 
 Use the configured timezone in filenames and retain the UTC offset. JSON timestamps use ISO 8601 with a timezone. Normalize Unicode, sanitize path characters, and limit keyword length in filenames; retain the complete original keyword in JSON. Run and query IDs prevent collisions within the same second or after sanitization.
 

@@ -8,7 +8,7 @@ Run one independent Kubernetes Job per keyword batch in namespace `dev-ai` of th
 
 Start with manual Jobs. Scheduling, a queue, and a run controller are later work.
 
-The first version uses query-only search: omit `mapView` from the input, submit the original keyword without coordinates or simulated geolocation, and do not pan the map or click "Search this area". Retain the egress context and final URL as metadata. Validate that region-bearing keywords return the intended area on the target Pod; do not silently rewrite queries or force the map view if results differ.
+The first version uses query-only search: omit `mapView` from the input, submit the original keyword without coordinates or simulated geolocation, and do not pan the map or click "Search this area". Retain the egress context and final URL as metadata. Inspect the returned area for region-bearing keywords on the target Pod; the [local query-only samples](../evidence/2026-09-17/README.md) show that an area name alone does not ensure local results. Record ambiguity for review; do not silently rewrite queries or force the map view if results differ.
 
 ## Initial settings to validate
 
@@ -41,7 +41,7 @@ Use bounded application retries for transient browser errors. Stop on CAPTCHA an
 
 ## Before deploying
 
-Confirm Chromium sandbox behavior on the `aiapp` nodes and measured resource use. Namespace, registry, egress profile (Virginia), and storage target were confirmed on 2026-09-17. Validate 3–5 live keywords in the target Pod before a larger batch; at least one must show a Sponsored card, since laptop runs showed none. The laptop probe used headless Chrome, so screenshot legibility, DOM structure, and ad markup must be re-checked under the `channel: "chromium"` launch configuration before the results are treated as equivalent. Exercise timeout, SIGTERM, upload failure, and access to artifacts after Pod deletion.
+Confirm Chromium sandbox behavior on the `aiapp` nodes and measured resource use. Earlier environment notes reported the namespace, registry, Virginia egress, and storage target on 2026-09-17; recheck operational values before deployment. Recovered laptop probes include Chrome, Chromium, a visible Sponsored card, and three query-only first screens. No target-Pod acceptance evidence exists in this repository, and the archived scripts did not explicitly enable the sandbox. Validate 3–5 live query-only keywords in the target Pod before a larger batch, including ad coverage. If no live ad appears, record that gap and use fixtures for parser checks; do not declare live ad acceptance passed. Reconcile full listing order and screenshot coverage under the provisional budgets, record geographic ambiguity, and exercise timeout, SIGTERM, upload failure, and artifact access after Pod deletion. See [validation status](validation-status.md).
 
 ## Official references
 

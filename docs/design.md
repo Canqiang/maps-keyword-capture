@@ -1,6 +1,6 @@
 # Detailed Design
 
-Status: proposed implementation design. No collector, storage integration, container image, or cluster deployment has been implemented or validated. Existing TypeScript contracts are preliminary; the extensions listed below must be reconciled before implementation.
+Status: proposed implementation design. No collector, storage integration, container image, or cluster deployment has been implemented or validated. The unreleased TypeScript contracts now reflect the design and have compile-time regression checks. Runtime schema validation and behavioral tests are still required. See [validation status](validation-status.md) for recovered evidence and remaining gates.
 
 Decisions made on 2026-09-17 that refine this design (Chromium instead of Chrome, 15 listings, query-only location behavior, Azure Blob target, DOM-index reconciliation) are recorded with their rationale in [Decisions and Deviations, 2026-09-17](superpowers/specs/2026-09-17-keyword-capture-design.md). This document has been updated to match.
 
@@ -87,9 +87,9 @@ Default profile: desktop viewport 1440 × 1000, device scale factor 1, locale `e
 
 The first version uses query-only search: submit the original keyword without a configured map center, zoom, or simulated browser geolocation. A supported entry point is `https://www.google.com/maps/search/?api=1&query=<encoded keyword>`, constructed with URL utilities and no location parameters. Do not pan the map, click "Search this area", grant geolocation permission, or append a city to the query. Google may reposition the map itself; record that outcome rather than forcing a preferred area. [Google Maps search URLs](https://developers.google.com/maps/documentation/urls/get-started#search)
 
-`mapView` is optional in the preliminary input contract and reserved for a later explicit area-search mode. Omit it from first-version inputs. Until that mode is implemented, supplying it must produce a clear unsupported-configuration error rather than silently applying or ignoring it. Results record `locationMode: "query_only"` and `configuredMapView: null`; record any observed map view separately from requested settings.
+`mapView` is optional in the input contract and reserved for a later explicit area-search mode. Omit it from first-version inputs. Until that mode is implemented, supplying it must produce a clear unsupported-configuration error rather than silently applying or ignoring it. Results record `locationMode: "query_only"` and `configuredMapView: null`; record any observed map view separately from requested settings.
 
-Queries such as `bubble tea garden city` already express a target area in their text. Generic or "near me" queries remain valid raw queries, but their results must be described as observations from the runner's environment. The previously recorded Virginia egress is context to retain, not a reason to inject a map center. No explicit location input does not mean location-independent results.
+Queries such as `bubble tea garden city` express an area name but do not guarantee an unambiguous city. The recovered [query-only screenshot](../evidence/2026-09-17/screenshots/q_bubble_tea_garden_city.png) shows a broad US map and geographically mixed card details; [the archive](../evidence/2026-09-17/README.md) explains the limits of that observation. Generic, ambiguous, and "near me" queries remain valid raw queries, but their results must be described as observations from the runner's environment. Do not automatically rewrite queries or infer a customer-local rank. A caller may explicitly submit a more specific keyword as a new input. Record any observed ambiguity in quality warnings with evidence references; automatic geographic detection is not implemented. The previously recorded Virginia egress is context to retain, not a reason to inject a map center. No explicit location input does not mean location-independent results.
 
 Record requested and observed conditions separately: configured map view, final URL, visible location text if available, active filters, account state, browser version, and configured egress region/source. Do not guess actual Google-inferred location from these fields. Google can use multiple location signals, including network address and prior activity; fixed browser coordinates alone do not establish equivalence with a user's desktop search. [Google location guidance](https://support.google.com/websearch/answer/179386?hl=en)
 
@@ -161,7 +161,7 @@ The absence of the word "Sponsored" alone is not a general organic classifier. A
 
 No live selector set is specified as verified in this design. The first implementation milestone must inspect current pages, establish label ownership, and create sanitized fixtures for supported layouts. Parser changes require a new adapter version.
 
-Live observation, 2026-09-17, Playwright Chromium 153.0.8010.12 with `channel: "chromium"`, `hl=en`, signed out, 1440x1000: for `bubble tea garden city` the first card was a Sponsored placement for Gong Cha, and the same business appeared again as an organic card at display position 11. The Sponsored label was a leaf `span` inside the card element, six levels deep, whose parent carried `aria-label="Sponsored"`; the label was legible in the screenshot together with name, rating, and review count. The ad card had no "Order online" button and was shorter than its neighbors. This is one sample from one layout; it confirms the ad/organic-pair rule but does not establish label ownership for group-level ad markers. Rating appeared as `span[role="img"]` with `aria-label="4.8 stars"`; the review count appeared in card text as `(304)`. Two card layout variants were observed on different runs, one with a thumbnail on the right and one with Website/Directions buttons; both must be fixture-covered.
+Recovered laptop evidence, 2026-09-17: the centered-map Chromium [first screenshot](../evidence/2026-09-17/screenshots/ad_shot_00.png) visibly shows a Sponsored Gong Cha card; a [later screenshot](../evidence/2026-09-17/screenshots/ad_shot_02.png) shows Gong Cha with the same address/phone and no visible Sponsored label. This supports keeping both occurrences, but does not validate a production organic classifier. Earlier notes reported browser version 153.0.8010.12, a later display position of 11, a leaf `span` six levels deep, and an enclosing `aria-label="Sponsored"`. The inspection script was recovered, but its DOM/stdout output was not; those details remain historical reports pending fixture validation. Do not mix rating examples from another card into the Gong Cha evidence. Thumbnail and Website/Directions layouts are visible in the archive; both, plus group-level labels and unsupported structures, require parser fixtures.
 
 ## 8. Ordering, deduplication, and rankings
 
@@ -180,15 +180,15 @@ An unknown classification at position 4 does not invalidate verified organic ran
 ### Reconcile scroll overlap
 
 - Start from the top of the list and verify the initial scroll position.
-- Classify every feed child explicitly before using indices. Observed on 2026-09-17 in both headless Chrome and Playwright Chromium: children 0 and 1 are header nodes (the filter bar with zero height, and the "Results" header); business cards start at child 2 and occupy even indices; odd indices are 1px separator nodes; after the last mounted card come a loading spacer and promotional blocks ("limited view", "Sign in"). Header, card, separator, and trailer are the four recognized kinds; any child that matches none of them produces `unsupported_layout`.
-- Use the card's index among the feed's children as the primary placement key, combined with the place identifier and the ad flag. The feed is append-only while scrolling, mounted cards keep their index, and the card stride and start offset are derived from the classified first screen, never hard-coded. The stride held with a Sponsored card in first position in the one ad sample observed; a card that breaks the stride still produces `unsupported_layout`, not a guessed position.
+- Classify every feed child explicitly before using indices. Historical laptop notes reported the following structure in headless Chrome and Playwright Chromium (raw DOM logs were not recovered; revalidate before enabling this adapter): children 0 and 1 are header nodes (the filter bar with zero height, and the "Results" header); business cards start at child 2 and occupy even indices; odd indices are 1px separator nodes; after the last mounted card come a loading spacer and promotional blocks ("limited view", "Sign in"). Header, card, separator, and trailer are the four recognized kinds; any child that matches none of them produces `unsupported_layout`.
+- Use the card's index among the feed's children as the primary placement key, combined with the place identifier and the ad flag. The proposed supported layout requires an append-only feed with stable mounted-card indices; this is a condition to verify, not a guarantee about Google Maps. Derive the card stride and start offset from the classified first screen, never hard-code them. Historical notes reported the stride holding with the Sponsored card; a card that breaks the stride still produces `unsupported_layout`, not a guessed position.
 - Re-verify the committed `index -> occurrence` mapping on every round, not only the new suffix. For each committed index that is still mounted, the place identifier, the ad flag, and the name must be unchanged. A replacement at the same index (`[A,B,C]` becoming `[X,B,C,D]`), a committed index that disappears while later indices remain, or an ad-type change on a committed card invalidates the prefix from that index onward: scroll back once to the top of the affected region and re-read; if the mismatch persists, terminate with `sequence_ambiguous` and preserve the prefix before the first mismatch.
 - Verify visual order against DOM order on every round: bounding-box tops must increase with index. A violation, a known occurrence reappearing at a different index, or a gap in the index sequence terminates with `sequence_ambiguous` and preserves the last verified prefix.
 - Append only new indices that extend the verified prefix contiguously.
 
 ### Scroll step and screenshot coverage
 
-- Default step: scroll so that the top of the last partially visible card becomes the top of the pane. Every card is then complete in at least one screenshot. Screenshot overlap is for evidence; ordering comes from the verified index sequence.
+- Default step: scroll so that the top of the last partially visible card becomes the top of the pane. Require complete readable coverage; oversized cards use the multi-screenshot rule below. Screenshot overlap is for evidence; ordering comes from the verified index sequence.
 - No partially visible card at the bottom: keep the last fully visible card as the overlap and scroll it to the top of the pane.
 - A card taller than the visible pane: scroll by the pane height inside that card and take consecutive screenshots until its bottom is visible; the occurrence references all of them.
 - After every scroll, confirm that `scrollTop` increased or the end-of-list marker appeared. A scroll that does not advance counts toward the stall limit; three in a row produce `load_stalled`.
@@ -199,18 +199,18 @@ Same-name businesses, an ad plus an organic listing for one business, and a seco
 
 Example: first viewport `[A-ad, B, C]`, next viewport `[B, C, A-organic]` becomes four occurrences. It must not collapse to three businesses.
 
-If the page reorders between observations, preserve evidence and stop at the verified prefix. Do not splice two different visible sequences into an apparently complete top-20 list.
+If the page reorders between observations, preserve evidence and stop at the verified prefix. Do not splice two different visible sequences into an apparently complete list at the configured limit.
 
 ## 9. Bounded collection and failure rules
 
-Initial defaults below are design choices to be validated, not measured performance promises.
+Initial defaults below are provisional hard budgets, not performance promises. Earlier centered-map probes motivated them, but the recovered scripts scroll by a full pane rather than the proposed overlap algorithm. The query-only archive contains first-screen captures only. Neither archive establishes complete 15-listing coverage within these budgets; validate that separately in the target Pod. Exhaustion must preserve partial evidence rather than claim success.
 
 | Limit | Initial value | Behavior on exhaustion |
 |---|---|---|
 | Keywords per batch | 20 | Reject larger input; split explicitly into batches |
 | Listings per keyword | 15, counting ads and unknown classifications | Stop accepting ranked occurrences at the limit; screenshots may show neighboring extra cards. If the last accepted card is cut off, take one more screenshot |
-| Scroll operations | 6 (measured: about 3 needed for 15 listings) | `partial / scroll_limit` |
-| Screenshots per query attempt | 5 (measured: about 4 needed for 15 listings) | `partial / screenshot_limit`; do not silently discard evidence |
+| Scroll operations | 6; query-only coverage unvalidated | `partial / scroll_limit` |
+| Screenshots per query attempt | 5 results screenshots; query-only coverage unvalidated | `partial / screenshot_limit`; do not silently discard evidence |
 | Local bytes per keyword, across its attempts | 50 MiB | `partial / artifact_limit` |
 | Browser work per keyword, across retries | 90 seconds | `partial` if evidence exists, otherwise `failed`; stop reason `timeout` |
 | Final persistence work per keyword | 30 seconds | Preserve diagnostics and mark persistence failed |
@@ -223,11 +223,11 @@ A confirmed CAPTCHA opens a batch-level circuit breaker: save its diagnostic evi
 
 ## 10. Data model and output
 
-### Existing contracts and planned changes
+### Contracts and remaining runtime validation
 
-[src/contracts.ts](../src/contracts.ts) defines the initial shape. It is not a published stable schema. Before runtime implementation, update it together with executable validation and fixture expectations:
+[src/contracts.ts](../src/contracts.ts) now defines the following design-aligned, unreleased v1 shapes. [Compile-time tests](../tests/contracts.type-test.ts) check critical type constraints. This is not an executable JSON schema: runtime input/output validation and behavioral fixtures remain implementation work.
 
-| Area | Required addition or clarification |
+| Area | Current TypeScript contract |
 |---|---|
 | Run metadata | `attemptId`, canonical configuration and profile hashes, source/image/adapter versions |
 | Query attempts | IDs, separate timestamps/outcomes, and the selected attempt; never merge observations across attempts |
@@ -235,10 +235,12 @@ A confirmed CAPTCHA opens a batch-level circuit breaker: save its diagnostic evi
 | Classification | Evidence source and label ownership, not just a nullable `adLabel` |
 | Query quality | `verifiedPrefixLength`, classification completeness, warnings, query correction text |
 | Location context | `locationMode: "query_only"`, null `configuredMapView`, and separately recorded observed map/location context |
-| Terminal reasons | Add `unsupported_layout`, `unstable_results`, `sequence_ambiguous`, `screenshot_limit`, `artifact_limit`, `query_mismatch`, and `batch_blocked` |
-| Manifest rows | Add `skipped` and an explicit reason; retain all input rows |
-| Persistence | Track JSON, CSV, observation logs, and manifests as well as images; include checksums and verification times |
+| Terminal reasons | Complete, incomplete, blocked, and skipped reason unions, including `classification_unknown` for an otherwise complete list with unsupported classification |
+| Manifest rows | Discriminated skipped rows require a stop reason and cannot claim a selected attempt or result file |
+| Persistence | Artifact index covers request/result JSON, CSV, observations, and images; verified state requires a key and readback time. Final manifest readback uses a separate CLI receipt, avoiding a self-verification claim |
 | Local-only execution | Represent persistence as `not_requested`, not verified remote delivery |
+
+Runtime validators must still check positive integer positions/limits, valid timestamps and SHA-256 values, configuration rejection (including reserved `mapView`), prefix continuity, screenshot coverage, classification evidence ownership, attempt/artifact references, and selection policy. A captured result requires complete classification and screenshot coverage; use `partial / classification_unknown` if classification is the remaining failure. On cancellation or the batch deadline, a query with usable evidence is `partial` with `cancelled` or `batch_timeout`; without usable evidence it is `failed`, and unstarted inputs are `skipped` with the same reason. A terminal manifest row must match its selected attempt. Storage failure changes delivery status without rewriting collection quality.
 
 Keep `displayPosition` numeric in the ranked output by admitting only the verified prefix. Unordered/unmatched observations stay in the observation log without a claimed global position. This avoids overloading a sequential counter with an unverified ranking.
 
@@ -249,13 +251,17 @@ maps-keyword-capture/2026-09-17/<run-id>/<attempt-id>/
   request.json
   manifest.progress.json
   q0001/
-    20260917T143025.123+0800__bubble-tea-garden-city__q0001.json
-    20260917T143025.123+0800__bubble-tea-garden-city__q0001.csv
-    observations.jsonl
     qa01/
+      20260917T143025.123+0800__bubble-tea-garden-city__q0001.json
+      20260917T143025.123+0800__bubble-tea-garden-city__q0001.csv
+      observations.jsonl
       20260917T143025.123+0800__bubble-tea-garden-city__q0001__01.png
+    qa02/
+      ... separate retry artifacts, never merged with qa01
   manifest.json
 ```
+
+Each browser attempt writes its own result JSON, CSV, observations, and PNGs. Manifest rows retain every attempt summary and point `resultFile` to the selected attempt; select the earliest captured attempt, otherwise the earliest with usable evidence, otherwise the earliest failed/blocked attempt for diagnostics. No attempt is selected by best rank.
 
 Locally this tree lives under `outputDirectory`; remotely it is the blob prefix inside the `seo` container. The manifest carries the per-artifact object keys, sizes, checksums, and verification times; there is no separate artifact index.
 
@@ -307,7 +313,7 @@ Proposed exit codes: `0` for a fully successful run in its declared mode; `2` fo
 
 Deploy one independent Job per batch in namespace `dev-ai` of the FBRDev AKS cluster, with one Pod and a dedicated container image built on `mcr.microsoft.com/playwright:v1.63.0-noble`, which contains Chromium, fonts, and runtime libraries. Publish it as `fbrdevacr.azurecr.io/ai/maps-keyword-capture:<git-sha>`, pin the Job to the digest, and record the runtime browser version. Schedule on `nodeSelector: envpool=aiapp` with `imagePullSecrets: docker-registry-secret`, matching the existing `dev-ai` Jobs.
 
-Launch design: `channel: "chromium"` so Playwright uses the full Chromium build in its new headless mode rather than the default headless shell, `headless: true`, and explicitly `chromiumSandbox: true`. The laptop probe used headless Google Chrome; equivalence of rendering, DOM structure, and ad markup under this launch configuration is an assumption until the probe is repeated with the same settings. [Chromium headless modes](https://playwright.dev/docs/browsers#chromium-new-headless-mode) Playwright's `chromiumSandbox` option defaults to false, so non-root execution alone is not a sufficient configuration statement. Validate the required kernel/seccomp behavior in the target cluster; report a startup incompatibility instead of silently downgrading. [Playwright launch options](https://playwright.dev/docs/api/class-browsertype#browser-type-launch-option-chromium-sandbox)
+Launch design: `channel: "chromium"` so Playwright uses the full Chromium build in its new headless mode rather than the default headless shell, `headless: true`, and explicitly `chromiumSandbox: true`. Recovered laptop probes include both headless Chrome and the Chromium channel, including an ad sample and three query-only first screens. They do not explicitly enable `chromiumSandbox` and are not equivalent to the target Linux/Pod runtime; sandbox startup, DOM fixtures, rendering, complete query-only coverage, and ad handling remain cluster acceptance gates. [Chromium headless modes](https://playwright.dev/docs/browsers#chromium-new-headless-mode) Playwright's `chromiumSandbox` option defaults to false, so non-root execution alone is not a sufficient configuration statement. Validate the required kernel/seccomp behavior in the target cluster; report a startup incompatibility instead of silently downgrading. [Playwright launch options](https://playwright.dev/docs/api/class-browsertype#browser-type-launch-option-chromium-sandbox)
 
 Use non-root execution, minimal permissions, writable mounts only where needed, and a read-only root filesystem if the tested image supports it. Avoid privileged mode and host IPC. Use an init process and explicit browser teardown; container guidance and the actual image's behavior must be tested together. [Playwright container guidance](https://playwright.dev/docs/docker)
 

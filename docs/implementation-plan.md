@@ -4,15 +4,15 @@ Status: planned work, not completed features. This plan implements [the detailed
 
 ## Milestone 0 — Verify the browser surface
 
-Deliver a small local browser probe for 3–5 keywords. A first pass on 2026-09-17 measured card geometry, scroll behavior, DOM stability, feed child structure, and screenshot legibility for three keywords in both headless Chrome and Playwright Chromium (`channel: "chromium"`), with matching geometry. One Sponsored card was observed and its label placement recorded in the detailed design; no-results, consent, and CAPTCHA samples are still missing, and only one ad layout has been seen. Inspect the current results list, ad label ownership, internal scrolling, empty/blocked states, and screenshot legibility. Record browser/version/profile details and the supported layout signatures.
+Historical local probes have been [archived with checksums](../evidence/2026-09-17/README.md): Chrome/Chromium centered-map screenshots, a Sponsored sample, and three query-only first screens. Exact geometry, DOM stride, and label-depth claims remain historical notes because raw logs were not recovered. This partially supplies the evidence-gathering work, not acceptance. No-results, consent, CAPTCHA, and a second ad layout are still missing. Inspect the current results list, ad label ownership, internal scrolling, empty/blocked states, and screenshot legibility. Record browser/version/profile details and the supported layout signatures.
 
 Acceptance: actual PNGs and observation logs are manually reconciled with the visible page. Do not declare an ad classifier validated solely because no ad appeared. Produce synthetic or sanitized fixtures for cases missing from the live run. A reliable classifier and list model are prerequisites for assigning automatic rankings.
 
-The earlier laptop probe used an explicitly centered map. It is evidence about that profile only and must be repeated with query-only search before accepting the new default. Use the same original keywords, omit all center/zoom parameters and geolocation overrides, and record the final map/URL and the area of the returned businesses. Do not assume the earlier rankings or card measurements transfer unchanged.
+The centered-map measurements do not establish query-only coverage. The recovered query-only first screens show geographic ambiguity for some keywords and no completed scrolling sequence. Repeat the supported probe under query-only settings before accepting the new default. Use the same original keywords, omit all center/zoom parameters and geolocation overrides, and record the final map/URL and the area of the returned businesses. Do not assume the earlier rankings or card measurements transfer unchanged.
 
 ## Milestone 1 — Contracts and deterministic core
 
-Reconcile the preliminary TypeScript contracts with the design's attempt, observation, skipped-state, and persistence fields. Add runtime validation for config and output. Implement naming, overlap reconciliation, ranking, JSON/CSV exports, and output-budget checks independently of browser automation.
+TypeScript contracts now cover attempt, observation, skipped-state, quality, and persistence fields, with compile-time regression checks (`npm test`). Runtime schema validation and deterministic behavior are still unimplemented. Add runtime validation for config and output. Implement naming, overlap reconciliation, ranking, JSON/CSV exports, and output-budget checks independently of browser automation.
 
 Required cases:
 
@@ -22,7 +22,8 @@ Required cases:
 - Ambiguous overlap or a reorder preserves the verified prefix and raw evidence without inventing positions.
 - Filenames handle Unicode, path characters, long queries, repeated input rows, and collisions.
 - CSV escapes external text safely while JSON preserves original values.
-- No-results, partial, blocked, skipped, and failed outcomes remain distinct.
+- No-results, partial, blocked, skipped, and failed outcomes remain distinct. Unknown classification produces `partial / classification_unknown` when scope and evidence are otherwise complete.
+- Failed/unselected attempts retain separate artifacts; selection follows the documented earliest-usable policy, and a final manifest cannot verify its own upload.
 - The default input works without `mapView`; generated search URLs contain the original keyword and no location parameters. Query-only output records a null configured view separately from observed location. A supplied reserved map view is rejected explicitly until an area-search mode is implemented.
 
 Acceptance: deterministic fixture tests pass and serialized examples validate against the executable contract. No live browser or cluster is needed for these tests.
@@ -56,7 +57,7 @@ No cluster deployment is implied by writing the template. Registry, namespace, i
 
 ## Milestone 5 — Initial operational batch
 
-Run up to 20 requested keywords. Review the summary of captured, partial, blocked, failed, and skipped queries, including unknown classifications and persistence failures. Reconcile a sample of structured results against screenshots and inspect every exceptional outcome.
+Run up to 20 requested keywords. Do not equate ambiguous regional results with a client-local ranking; review observed region and keep original query text. Review the summary of captured, partial, blocked, failed, and skipped queries, including unknown classifications and persistence failures. Reconcile a sample of structured results against screenshots and inspect every exceptional outcome.
 
 Acceptance: all requested queries are accounted for, all declared successful evidence verifies, and operational limitations are documented. A CAPTCHA-blocked batch is a valid diagnostic outcome, not successful keyword coverage.
 
