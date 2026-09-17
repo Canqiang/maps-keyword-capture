@@ -22,14 +22,14 @@ export class LocalArtifactStore implements ArtifactStore {
     const finalPath = this.absolutePath(relativePath);
     await mkdir(dirname(finalPath), { recursive: true });
     const tmpPath = `${finalPath}.tmp-${randomBytes(4).toString('hex')}`;
-    const handle = await open(tmpPath, 'w');
     try {
-      await handle.writeFile(buffer);
-      await handle.sync();
-    } finally {
-      await handle.close();
-    }
-    try {
+      const handle = await open(tmpPath, 'wx');
+      try {
+        await handle.writeFile(buffer);
+        await handle.sync();
+      } finally {
+        await handle.close();
+      }
       await rename(tmpPath, finalPath);
     } catch (err) {
       await rm(tmpPath, { force: true });

@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -25,5 +25,12 @@ describe('LocalArtifactStore', () => {
     expect(await readFile(join(root, 'm.json'), 'utf8')).toBe('{"a":2}');
     expect(await store.persist(second)).toEqual({ storageStatus: 'local_only', objectKey: null, verifiedAt: null, storageError: null });
     expect(store.mode).toBe('local_only');
+  });
+
+  it('removes the temp file when the final write cannot complete', async () => {
+    const store = new LocalArtifactStore(root);
+    await mkdir(join(root, 'blocked.txt'), { recursive: true }); // a directory where the file should go
+    await expect(store.writeFile('blocked.txt', 'x')).rejects.toThrow();
+    expect((await readdir(root)).filter((f) => f.includes('.tmp-'))).toEqual([]);
   });
 });
