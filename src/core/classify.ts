@@ -58,7 +58,8 @@ export function isAd(card: ObservedCard): boolean {
 }
 
 export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observationId: string): ClassifiedCard {
-  const name = raw.placeAriaLabel?.trim() ?? null;
+  const trimmed = raw.placeAriaLabel?.trim();
+  const name = trimmed ? trimmed : null;
   const identity = raw.placeHref ? parsePlaceIdentity(raw.placeHref) : { placeId: null, placeKey: `feed-child:${raw.index}` };
   const sponsored = raw.sponsoredLabels.find((l) => l.text.trim() === 'Sponsored') ?? null;
   const rating = parseRating(raw.ratingAriaLabel);
@@ -68,7 +69,7 @@ export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observa
   let evidence: ClassificationEvidence;
   if (sponsored) {
     classification = { resultType: 'ad', adLabel: 'Sponsored', organicRank: null };
-    evidence = { source: 'card_label', owner: `feed-child:${raw.index}`, labelText: sponsored.text, layoutSignature: LAYOUT_SIGNATURE, evaluatedLabelLocations: LABEL_LOCATIONS, observationIds: [observationId] };
+    evidence = { source: 'card_label', owner: `feed-child:${raw.index}`, labelText: sponsored.text.trim(), layoutSignature: LAYOUT_SIGNATURE, evaluatedLabelLocations: LABEL_LOCATIONS, observationIds: [observationId] };
   } else if (layoutRecognized) {
     classification = { resultType: 'organic', adLabel: null, organicRank: null };
     evidence = { source: 'supported_layout', owner: `feed-child:${raw.index}`, labelText: null, layoutSignature: LAYOUT_SIGNATURE, evaluatedLabelLocations: LABEL_LOCATIONS, observationIds: [observationId] };

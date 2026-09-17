@@ -82,4 +82,13 @@ describe('classifyCard', () => {
     const cut = classifyCard(raw({ bounds: { x: 72, y: 900, width: 408, height: 230 } }), pane, 'o1');
     expect(cut.fullyVisible).toBe(false);
   });
+
+  it('treats a blank aria-label as unrecognized, never organic', () => {
+    for (const label of ['', '   ']) {
+      const card = classifyCard(raw({ placeAriaLabel: label, ratingAriaLabel: null, text: 'unrelated filler text' }), pane, 'o1');
+      expect(card.classification.resultType).toBe('unknown');
+      expect(card.classificationEvidence.source).toBe('unresolved');
+      expect(card.name).toBeNull();
+    }
+  });
 });
