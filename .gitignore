@@ -1,0 +1,14 @@
+node_modules/
+dist/
+outputs/
+artifacts/
+playwright-report/
+test-results/
+*.log
+*.tsbuildinfo
+.DS_Store
+.env
+.env.*
+!.env.example
+credentials/
+kubeconfig*

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1",
+  "keywords": [
+    "bubble tea garden city",
+    "best bubble tea mineola",
+    "fried chicken mineola",
+    "matcha mineola"
+  ],
+  "maxResultsPerKeyword": 20,
+  "maxScrollsPerKeyword": 30,
+  "keywordTimeoutMs": 90000,
+  "locale": "en-US",
+  "browserTimezoneId": "America/New_York",
+  "filenameTimezone": "Asia/Shanghai",
+  "viewport": { "width": 1440, "height": 1000 },
+  "outputDirectory": "./outputs"
+}
