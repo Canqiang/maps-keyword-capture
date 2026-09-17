@@ -1,0 +1,176 @@
+{
+  "verificationIdentity": "Azure CLI login (independent of Pod SAS)",
+  "container": "maps-keyword-capture-uat",
+  "verifiedObjects": 116,
+  "verifiedBytes": 43657617,
+  "pngCount": 52,
+  "resultCount": 14,
+  "batches": [
+    {
+      "runId": "run_20260917T135347Z_eec2ea",
+      "status": "partial",
+      "queries": 2
+    },
+    {
+      "runId": "run_20260917T135424Z_76bbda",
+      "status": "completed",
+      "queries": 2
+    },
+    {
+      "runId": "run_20260917T135505Z_a0ba2f",
+      "status": "completed",
+      "queries": 2
+    },
+    {
+      "runId": "run_20260917T135540Z_d10ec4",
+      "status": "partial",
+      "queries": 2
+    },
+    {
+      "runId": "run_20260917T135605Z_9c922c",
+      "status": "completed",
+      "queries": 2
+    },
+    {
+      "runId": "run_20260917T135650Z_aca1b8",
+      "status": "completed",
+      "queries": 2
+    },
+    {
+      "runId": "run_20260917T135736Z_af6bab",
+      "status": "completed",
+      "queries": 2
+    }
+  ],
+  "results": [
+    {
+      "keyword": "bakery",
+      "status": "partial",
+      "stopReason": "classification_unknown",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 1
+    },
+    {
+      "keyword": "breakfast",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "brunch",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "breakfast near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "bubble tea delivery mineola",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "bubble tea mineola",
+      "status": "captured",
+      "stopReason": "end_of_results",
+      "listingCount": 6,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "flushing",
+      "status": "partial",
+      "stopReason": "unsupported_layout",
+      "listingCount": 0,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "noodles",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "burger",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "fries",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "massage",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "float",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "sichuan restaurant Upper West Side",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    },
+    {
+      "keyword": "szechuan restaurant Upper West Side",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listingCount": 15,
+      "ads": 0,
+      "unknown": 0
+    }
+  ],
+  "sampleScreenshots": [
+    "2026-09-17/choice-upper-west-side/run_20260917T135347Z_64774f/batches/b01-43f9683cf236/run_20260917T135347Z_eec2ea/att_53be53c1/q0001/qa01/20260917T215347.961+0800__bakery__q0001__01.png",
+    "2026-09-17/choice-upper-west-side/run_20260917T135347Z_64774f/batches/b01-43f9683cf236/run_20260917T135347Z_eec2ea/att_53be53c1/q0001/qa01/20260917T215347.961+0800__bakery__q0001__02.png",
+    "2026-09-17/choice-upper-west-side/run_20260917T135347Z_64774f/batches/b01-43f9683cf236/run_20260917T135347Z_eec2ea/att_53be53c1/q0001/qa01/20260917T215347.961+0800__bakery__q0001__03.png",
+    "2026-09-17/choice-upper-west-side/run_20260917T135347Z_64774f/batches/b01-43f9683cf236/run_20260917T135347Z_eec2ea/att_53be53c1/q0002/qa01/20260917T215405.435+0800__breakfast__q0002__01.png",
+    "2026-09-17/choice-upper-west-side/run_20260917T135347Z_64774f/batches/b01-43f9683cf236/run_20260917T135347Z_eec2ea/att_53be53c1/q0002/qa01/20260917T215405.435+0800__breakfast__q0002__02.png",
+    "2026-09-17/choice-upper-west-side/run_20260917T135347Z_64774f/batches/b01-43f9683cf236/run_20260917T135347Z_eec2ea/att_53be53c1/q0002/qa01/20260917T215405.435+0800__breakfast__q0002__03.png"
+  ],
+  "finalReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-17/daily/run_20260917T135347Z_64774f/manifest.json",
+    "verifiedAt": "2026-09-17T13:58:28.408Z",
+    "storageError": null,
+    "relativePath": "2026-09-17/daily/run_20260917T135347Z_64774f/manifest.json",
+    "bytes": 19633,
+    "sha256": "5579865e1fd13762287f52cb698dec647f4d0e99a64c99faf7dd9ce051016d44"
+  }
+}

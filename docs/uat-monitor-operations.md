@@ -26,7 +26,7 @@ The 260 queries / 13 batches are an inventory estimate; the actual daily source 
 
 Run commands from the repository root, with the intended AKS context already selected. The snippets run in child Bash processes so failures stop that block without exiting the interactive shell. Build requires ACR permission. Container setup requires access to the `FBRDev` storage account keys and the appropriate Azure data-plane role; the Pod receives only a container-scoped SAS and no Kubernetes API token or new RBAC permissions.
 
-The inherited hardened digest in the initial manifest does **not** contain the monitor CLI. The release owner must build the monitor and update both `image` and `IMAGE_DIGEST` before applying or creating a manual Job. Keep `suspend: true` committed for acceptance. Remove the pending-image comment when the new digest is pinned.
+The manifest pins the monitor image built from runtime commit `2ef649aefac659bcfcb4e247f67cdb871f9724f0` (ACR build `ch144d`). For later releases, build the monitor and update both `image` and `IMAGE_DIGEST` before applying or creating a manual Job. Keep `suspend: true` committed as the acceptance default.
 
 ```bash
 bash <<'SH'
@@ -185,3 +185,7 @@ To pause future dispatch, patch `suspend: true`; this does not stop a running Jo
 Azure history is retained. Immutable run/attempt IDs preserve selections and original evidence; recovery never overwrites a historical attempt. Daily manifests live under `<Beijing-date>/daily/<daily-run-id>/manifest.json`, and store/batch paths under `<Beijing-date>/<store-id>/<daily-run-id>/`. Only active progress/checkpoint manifests are mutable. Staging is removed only after verified remote delivery and a persisted daily checkpoint; local-only runs retain local files. Kubernetes keeps seven successful and seven failed scheduled Jobs, which is not an Azure retention policy. No lifecycle deletion or claim expiration is installed by these manifests. Any later retention policy needs an explicit historical-evidence decision.
 
 There is no UI in this rollout. Use stored manifests, preserved logs and independent Azure readback to distinguish source coverage, capture quality, durable delivery and active scheduling.
+
+## First UAT release acceptance boundary
+
+The 2026-09-17 release uses an explicit evidence-collection-only activation exception: 14 live queries produced 12 complete captures and 2 accurately preserved partial outcomes. All 116 referenced objects passed independent readback. The original 14/14 complete-capture gate did not pass; the exception and its limits are recorded in the [release evidence](../evidence/2026-09-17/uat-monitor/README.md). The application still returns exit 2 for partial coverage. This is not a blanket waiver for missing evidence, query mismatch, incorrect ranks, CAPTCHA, or storage failure in later releases. Full 260-query capacity remains untested.

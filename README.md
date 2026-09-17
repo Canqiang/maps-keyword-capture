@@ -6,7 +6,7 @@ Capture Google Maps business listings and original screenshots by keyword, prese
 
 The collector, Azure Blob delivery with read-back verification, the container image, and the production Kubernetes Job are implemented. They were accepted in Dev on 2026-09-17: a 20-keyword batch ran in the target Pod with every artifact delivered to the private container and verified by read-back, and a Job stopped with SIGTERM still published a verified final manifest. See [validation status](docs/validation-status.md) for what those runs did and did not show.
 
-A UAT daily monitor is being added for fresh per-store keyword selection at 00:00 Asia/Shanghai. See the [UAT operations guide](docs/uat-monitor-operations.md) for enrollment, storage, acceptance and activation. Workload identity, a results viewer, and report generation remain outside this rollout.
+A UAT daily monitor is deployed and enabled for fresh per-store keyword selection at 00:00 Asia/Shanghai. Its scoped live test produced 12 complete and 2 partial captures; all 116 evidence objects passed independent Azure readback. Full 260-query capacity remains untested. See the [UAT operations guide](docs/uat-monitor-operations.md) for enrollment, storage, acceptance and activation. Workload identity, a results viewer, and report generation remain outside this rollout.
 
 No target business is required. Each run collects the listings observed for a keyword; downstream consumers can filter by business, compare observations over time, or prepare reports.
 
@@ -68,7 +68,7 @@ docs/implementation-plan.md  Implementation milestones and acceptance gates
 
 ## Next steps
 
-1. Complete UAT acceptance and activate the daily keyword monitor.
+1. Validate full-volume UAT daily operation and improve coverage for documented partial outcomes.
 2. Authenticate the Pod with workload identity instead of a container SAS.
 3. Add a results viewer.
 4. Add report generation.

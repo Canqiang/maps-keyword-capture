@@ -1,0 +1,79 @@
+[
+  {
+    "storeId": "choice-upper-west-side",
+    "available": 101,
+    "selected": 40,
+    "duplicates": 0,
+    "unknownPriorities": 0,
+    "smokeKeywords": [
+      "bakery",
+      "breakfast"
+    ]
+  },
+  {
+    "storeId": "choice-clinton-hill",
+    "available": 101,
+    "selected": 40,
+    "duplicates": 0,
+    "unknownPriorities": 0,
+    "smokeKeywords": [
+      "brunch",
+      "breakfast near me"
+    ]
+  },
+  {
+    "storeId": "only-bear",
+    "available": 65,
+    "selected": 40,
+    "duplicates": 0,
+    "unknownPriorities": 0,
+    "smokeKeywords": [
+      "bubble tea delivery mineola",
+      "bubble tea mineola"
+    ]
+  },
+  {
+    "storeId": "keke-flushing",
+    "available": 91,
+    "selected": 40,
+    "duplicates": 0,
+    "unknownPriorities": 0,
+    "smokeKeywords": [
+      "flushing",
+      "noodles"
+    ]
+  },
+  {
+    "storeId": "george-merchant",
+    "available": 91,
+    "selected": 40,
+    "duplicates": 0,
+    "unknownPriorities": 0,
+    "smokeKeywords": [
+      "burger",
+      "fries"
+    ]
+  },
+  {
+    "storeId": "massage-float",
+    "available": 51,
+    "selected": 40,
+    "duplicates": 0,
+    "unknownPriorities": 0,
+    "smokeKeywords": [
+      "massage",
+      "float"
+    ]
+  },
+  {
+    "storeId": "szechuan-gourmet",
+    "available": 20,
+    "selected": 20,
+    "duplicates": 0,
+    "unknownPriorities": 0,
+    "smokeKeywords": [
+      "sichuan restaurant Upper West Side",
+      "szechuan restaurant Upper West Side"
+    ]
+  }
+]

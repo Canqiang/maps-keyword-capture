@@ -6,7 +6,7 @@ The complete runtime design is in [Detailed Design](design.md#12-kubernetes-exec
 
 Run one independent Kubernetes Job per keyword batch in namespace `dev-ai` of the FBRDev AKS cluster (eastus2). Use an image based on the official Playwright Linux image with its bundled Chromium, one browser, and sequential keyword processing. Publish to `fbrdevacr.azurecr.io/ai/maps-keyword-capture`, schedule on `envpool=aiapp`, and pull through the kubelet identity (no `imagePullSecrets`), matching the existing `dev-ai` workloads. Do not depend on a Core AI Agent session or long-running sandbox lifecycle.
 
-Start with manual Jobs. Scheduling, a queue, and a run controller are later work.
+The manual Job setup below remains available for individual batches. The separate [UAT daily keyword monitor](uat-monitor-operations.md) adds fresh per-store keyword selection and a midnight Beijing CronJob; its [release record](../evidence/2026-09-17/uat-monitor/README.md) distinguishes deployment, evidence verification, partial coverage and activation. A queue and general run controller remain later work.
 
 The first version uses query-only search: omit `mapView` from the input, submit the original keyword without coordinates or simulated geolocation, and do not pan the map or click "Search this area". Retain the egress context and final URL as metadata. Inspect the returned area for region-bearing keywords on the target Pod; the [local query-only samples](../evidence/2026-09-17/README.md) show that an area name alone does not ensure local results. Record ambiguity for review; do not silently rewrite queries or force the map view if results differ.
 

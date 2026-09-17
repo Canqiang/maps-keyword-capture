@@ -1,0 +1,10 @@
+{
+  "job": "maps-monitor-smoke-20260917t135332-f717dd",
+  "configMap": "maps-monitor-smoke-config-20260917t135332-f717dd",
+  "runKey": "acceptance-20260917t135332-f717dd",
+  "stores": 7,
+  "maxKeywordsPerStore": 2,
+  "expectedQueries": 14,
+  "productionCap": 40,
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:78669533e5e6c6218d0e415992b665b48b1de3e9ab541030101a6c63e2f5d360"
+}

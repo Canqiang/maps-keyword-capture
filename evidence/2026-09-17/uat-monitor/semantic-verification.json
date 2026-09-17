@@ -1,0 +1,27 @@
+{
+  "checks": {
+    "partial": 2,
+    "listings": 186,
+    "captured": 12
+  },
+  "partial": [
+    {
+      "keyword": "bakery",
+      "status": "partial",
+      "reason": "classification_unknown",
+      "listings": 15
+    },
+    {
+      "keyword": "flushing",
+      "status": "partial",
+      "reason": "unsupported_layout",
+      "listings": 0
+    }
+  ],
+  "ads": [],
+  "queryTextMatches": true,
+  "queryOnlyContext": true,
+  "csvRowCountsMatch": true,
+  "displayPositionsContinuous": true,
+  "sourceCommitMatches": true
+}

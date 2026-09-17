@@ -1,6 +1,4 @@
 # UAT only. Keep suspended until a complete manual cycle passes independent Azure readback.
-# IMAGE BUILD PENDING: this inherited hardened digest has no monitor CLI.
-# Root must replace BOTH image and IMAGE_DIGEST after the monitor build, before any deployment.
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -40,11 +38,11 @@ spec:
             fsGroup: 1001
           containers:
             - name: monitor
-              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:c48e031f03187aee3f3af4665b586d835e49ad21876b4d194fb57d8aad587766
+              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:78669533e5e6c6218d0e415992b665b48b1de3e9ab541030101a6c63e2f5d360
               args: ["node", "dist/monitor/cli.js", "--config", "/config/monitor.json", "--storage", "azure"]
               env:
                 - name: IMAGE_DIGEST
-                  value: sha256:c48e031f03187aee3f3af4665b586d835e49ad21876b4d194fb57d8aad587766
+                  value: sha256:78669533e5e6c6218d0e415992b665b48b1de3e9ab541030101a6c63e2f5d360
                 - name: EGRESS_PROFILE_ID
                   value: aks-fbrdev-eastus2-aiapp
                 - name: AZURE_STORAGE_CONTAINER
