@@ -84,4 +84,20 @@ describe('RemoteArtifactStore', () => {
     expect(gateway.objects.get(objectKeyFor(progress))!.toString()).toBe('v2');
     expect(gateway.calls.filter((c) => c.startsWith('put'))).toHaveLength(2);
   });
+
+  it('reports upload_failed when the overwrite of a mutable object fails', async () => {
+    const progress = 'maps-keyword-capture/2026-09-17/run_1/att_1/manifest.progress.json';
+    const written = await store.writeFile(progress, 'v1');
+    gateway.failOn = (op) => op === 'put';
+    expect(await store.persist(written, { mutable: true })).toMatchObject({ storageStatus: 'failed', objectKey: objectKeyFor(progress), verifiedAt: null, storageError: { code: 'upload_failed' } });
+    expect(gateway.objects.has(objectKeyFor(progress))).toBe(false);
+  });
+
+  it('reports upload_failed when the read-back download fails, even though the object was created', async () => {
+    const written = await store.writeFile(rel, 'payload');
+    gateway.failOn = (op) => op === 'get';
+    expect(await store.persist(written)).toMatchObject({ storageStatus: 'failed', storageError: { code: 'upload_failed' } });
+    expect(gateway.objects.get(objectKeyFor(rel))!.toString()).toBe('payload');
+    expect(gateway.calls).toEqual([`create ${objectKeyFor(rel)}`, `get ${objectKeyFor(rel)}`]);
+  });
 });
