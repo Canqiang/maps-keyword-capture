@@ -1,14 +1,14 @@
-# 采集约定
+# Collection Specification
 
-## 范围
+## Scope
 
-输入仅需要关键词和公共查询配置，不需要目标店铺。默认前 20 条展示结果（含广告），不是“所有 Google Maps 店铺”。对普通网页搜索另建适配器，不与 Maps 排序混用。
+Input consists of keywords and shared query settings; no target business is required. The default scope is the first 20 displayed listings, including ads, not every business available on Google Maps. General web search would require a separate adapter and must not share Maps ranking semantics.
 
-## 排名与广告
+## Rankings and ads
 
-`displayPosition` 从 1 起，表示本次采集的列表顺序，包括广告。`organicRank` 只对已确认的自然结果计算。示例为虚构数据：
+`displayPosition` is the one-based list order observed during collection, including ads. `organicRank` is calculated only for confirmed organic results. The following example uses fictional data:
 
-| 展示顺序 | 店铺 | 类型 | 自然排名 |
+| Display position | Business | Type | Organic rank |
 |---|---|---|---|
 | 1 | A | ad | null |
 | 2 | B | organic | 1 |
@@ -16,21 +16,21 @@
 | 4 | D | ad | null |
 | 5 | E | organic | 3 |
 
-广告判断保留实际标识文本和截图证据。仅“未找到广告文本”不足以在未知页面结构下断言自然结果。遇到 `unknown`、顺序缺口或不稳定重排后，受影响条目的自然排名为 null，批次结果标为 partial，不能跳过不确定条目后继续输出确定名次。
+Preserve the actual ad label and screenshot evidence used for classification. Failure to find ad text is not sufficient to classify a listing as organic when the page structure is unknown. After an `unknown` classification, a gap in the sequence, or an unstable reorder, set affected organic rankings to null and mark the result as partial. Do not skip uncertain entries and continue reporting definitive rankings.
 
-同一店铺的广告与自然结果分别保存。商家标识用于后续关联，不能单独用作展示条目的去重键。滚动重叠应根据稳定的展示条目标识及相邻顺序核对；不能确认时标记部分结果。不得把地图标记顺序当作列表顺序。
+Keep ad and organic occurrences of the same business separately. A business identifier supports downstream association but cannot serve as the sole deduplication key for displayed occurrences. Resolve scroll overlap using stable occurrence identifiers and neighboring order; mark results as partial when this cannot be verified. Map marker order must not be treated as list order.
 
-## 页面采集
+## Page collection
 
-- 未登录的新浏览器 context；固定 viewport、语言和配置中的地图起始视图。一次一个关键词。
-- 等待查询词与结果列表匹配，并等待可见地图与图片渲染；禁止只靠固定 sleep 判断成功。
-- 明确处理验证码、同意页、无结果、详情页和空白页面。
-- 对结果列表这个内部滚动区域进行有界滚动。`fullPage` 截图不能替代内部列表滚动。
-- 每次保存可见列表与地图截图，保留广告标识；允许相邻截图重叠，数据不能重复计数。
-- 达到条目上限、明确列表结束、滚动上限、加载停滞或超时时结束，并记录 stopReason。
-- 原始截图不加排名标注；后续报告标注是独立派生文件，保留来源关联。
+- Use a fresh, signed-out browser context with a fixed viewport, language, and configured initial map view. Process one keyword at a time.
+- Wait for the query to match the result list and for visible map content and images to render. A fixed sleep alone is not evidence of readiness.
+- Handle CAPTCHA, consent pages, no results, business detail pages, and blank pages explicitly.
+- Scroll the internal results list within configured bounds. A `fullPage` screenshot is not a substitute for scrolling that list.
+- Capture the visible list and map while preserving ad labels. Adjacent screenshots may overlap, but data must not be counted twice.
+- Stop at the listing limit, confirmed end of results, scroll limit, stalled loading, or timeout, and record `stopReason`.
+- Keep original screenshots free of added ranking annotations. Report annotations belong in separate derived files with references to the originals.
 
-## 文件与存储
+## Files and storage
 
 ```text
 outputs/2026-09-17/<run-id>/
@@ -40,14 +40,14 @@ outputs/2026-09-17/<run-id>/
   manifest.json
 ```
 
-文件名时间采用配置的时区并保留偏移；JSON 内时间使用带时区的 ISO 8601。关键词做 Unicode 规范化、路径字符清理和长度限制，原始词完整保存在 JSON。批次与查询 ID 防止同秒或清理后重名。
+Use the configured timezone in filenames and retain the UTC offset. JSON timestamps use ISO 8601 with a timezone. Normalize Unicode, sanitize path characters, and limit keyword length in filenames; retain the complete original keyword in JSON. Run and query IDs prevent collisions within the same second or after sanitization.
 
-CSV 保留 JSON 中的排名与类型字段，正确转义逗号、双引号、换行，并处理可能被电子表格识别为公式的外部文本。JSON 保存原始数据。
+CSV retains the ranking and classification fields from JSON. Escape commas, quotes, and line breaks correctly, and handle external text that spreadsheet software could interpret as a formula. JSON retains the original values.
 
-Pod 临时文件不是持久交付。每个查询及时上传，保存对象键、字节数和摘要；用独立读回核对文件，再更新 manifest 的 persistenceStatus。截图应能解码，验证码截图只能作为 diagnostic。
+Temporary Pod files are not durable delivery. Upload each query promptly and record object keys, byte counts, and checksums. Independently read back and verify the files before updating the manifest's `persistenceStatus`. Screenshots must decode successfully; CAPTCHA screenshots are diagnostic artifacts only.
 
-## 成功边界
+## Success criteria
 
-captured 表示达到配置上限或有证据确认结果结束，且列表顺序、分类和截图符合约定；不表示搜到了该关键词的全球完整结果。partial 保留已获取证据及终止原因。未完成的关键词也必须出现在 manifest 中。
+`captured` means collection reached the configured limit or a confirmed end of results, and the list order, classification, and screenshots meet this specification. It does not imply exhaustive global results for a keyword. `partial` preserves the evidence collected and the reason collection stopped. Incomplete keywords must also appear in the manifest.
 
-程序不要从一次截图推断长期第一，也不要把不同时期的查询自动解释成服务带来的提升。浏览器定位、地图视图、出口网络、语言、时间可能影响结果；未知的实际位置保持未知。
+Do not infer a persistent first-place ranking from one screenshot or automatically attribute changes between observations to the service. Browser geolocation, map view, network egress, language, and time may affect results. Leave the actual search location unknown when it cannot be established.
