@@ -1,9 +1,11 @@
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { chromium, type Browser } from 'playwright';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { parseConfig } from '../src/config.js';
 import type { BatchManifest } from '../src/contracts.js';
+import { openSearch } from '../src/browser/maps-adapter.js';
 import { batchDeadlineMs, runBatch } from '../src/runner/batch-runner.js';
 import { namedCards, writeFixture } from './fixtures/feed-fixture.js';
 
@@ -69,5 +71,88 @@ describe('runBatch', () => {
     });
     expect(out.manifest.queries.map((q) => q.status)).toEqual(['captured', 'skipped']);
     expect(out.manifest.queries[1]!.stopReason).toBe('cancelled');
+  });
+  it('trips the circuit breaker on a consent wall as well', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(5) });
+    const { config } = parseConfig({ schemaVersion: '1', keywords: ['one', 'two'], outputDirectory: root });
+    let calls = 0;
+    const out = await runBatch({
+      config, searchUrlFor: () => url,
+      openSearchImpl: async () => { calls += 1; return { state: { kind: 'consent' as const }, finalUrl: 'https://consent.google.com/m' }; },
+    });
+    expect(calls).toBe(1);
+    expect(out.manifest.queries.map((q) => [q.status, q.stopReason])).toEqual([['blocked', 'consent_required'], ['skipped', 'batch_blocked']]);
+  });
+
+  it('cancels the in-flight keyword and still publishes a final manifest', async () => {
+    const urls: Record<string, string> = {
+      'cancel one': await writeFixture({ query: 'cancel one', cards: namedCards(6), moreCards: namedCards(12, 6) }),
+      'cancel two': await writeFixture({ query: 'cancel two', cards: namedCards(6), endOfList: true }),
+    };
+    const { config } = parseConfig({ schemaVersion: '1', keywords: Object.keys(urls), outputDirectory: root });
+    const controller = new AbortController();
+    const out = await runBatch({
+      config, searchUrlFor: (k) => urls[k]!, signal: controller.signal,
+      log: (e) => { if (e['stage'] === 'round') controller.abort(); },
+    });
+    const first = out.manifest.queries[0]!;
+    const second = out.manifest.queries[1]!;
+    expect(['partial', 'failed']).toContain(first.status);
+    expect(first.stopReason).toBe('cancelled');
+    expect([second.status, second.stopReason]).toEqual(['skipped', 'cancelled']);
+    const onDisk = JSON.parse(await readFile(out.manifestPath, 'utf8')) as BatchManifest;
+    expect(onDisk.finishedAt).not.toBeNull();
+    expect(onDisk.queries.every((q) => q.status !== 'pending' && q.status !== 'running')).toBe(true);
+  });
+
+  it('retries a keyword in a fresh attempt when the browser context fails once', async () => {
+    const url = await writeFixture({ query: 'flaky', cards: namedCards(5), endOfList: true });
+    const { config } = parseConfig({ schemaVersion: '1', keywords: ['flaky'], outputDirectory: root });
+    const real = await chromium.launch({ channel: 'chromium', headless: true });
+    let contexts = 0;
+    const flaky = new Proxy(real, {
+      get(target, prop) {
+        if (prop === 'newContext') {
+          return async (...args: unknown[]) => {
+            contexts += 1;
+            if (contexts === 1) throw new Error('Target browser has been closed');
+            return (target.newContext as (...a: never[]) => unknown)(...(args as never[]));
+          };
+        }
+        const value = Reflect.get(target, prop) as unknown;
+        return typeof value === 'function' ? value.bind(target) : value;
+      },
+    }) as Browser;
+    try {
+      const out = await runBatch({ config, searchUrlFor: () => url, launch: async () => flaky });
+      const row = out.manifest.queries[0]!;
+      expect(contexts).toBe(2);
+      expect(row.status).toBe('captured');
+      expect(row.selectedQueryAttemptId).toBe('qa02');
+      expect(row.resultFile).toMatch(/^q0001\/qa02\//);
+      const onDisk = JSON.parse(await readFile(out.manifestPath, 'utf8')) as BatchManifest;
+      expect(onDisk.finishedAt).not.toBeNull();
+    } finally {
+      await real.close().catch(() => undefined);
+    }
+  });
+
+  it('records a terminal row and keeps going when a keyword throws a non-transient error', async () => {
+    const url = await writeFixture({ query: 'good', cards: namedCards(5), endOfList: true });
+    const { config } = parseConfig({ schemaVersion: '1', keywords: ['good', 'boom'], outputDirectory: root, keywordTimeoutMs: 10_000 });
+    let current = '';
+    const out = await runBatch({
+      config,
+      searchUrlFor: (k) => { current = k; return url; },
+      openSearchImpl: async (page, u, t) => {
+        if (current === 'boom') throw new Error('page exploded');
+        return openSearch(page, u, t);
+      },
+    });
+    expect(out.manifest.queries.map((q) => q.status)).toEqual(['captured', 'failed']);
+    expect(out.manifest.queries[1]!.stopReason).toBe('error');
+    const onDisk = JSON.parse(await readFile(out.manifestPath, 'utf8')) as BatchManifest;
+    expect(onDisk.finishedAt).not.toBeNull();
+    expect(onDisk.queries.every((q) => q.status !== 'pending' && q.status !== 'running')).toBe(true);
   });
 });

@@ -23,7 +23,7 @@ export function deriveOutcome(input: OutcomeInput): CollectionOutcome {
       if (!input.sequenceVerified) return { status: 'partial', stopReason: 'sequence_ambiguous', error: null };
       return { status: 'captured', stopReason: stop.reason, error: null };
     case 'incomplete':
-      if (input.listingCount === 0 && (stop.reason === 'timeout' || stop.reason === 'error')) {
+      if (input.listingCount === 0 && (stop.reason === 'timeout' || stop.reason === 'error' || stop.reason === 'cancelled')) {
         return { status: 'failed', stopReason: stop.reason, error: stop.error ?? { code: stop.reason, message: `no listings collected before ${stop.reason}` } };
       }
       return { status: 'partial', stopReason: stop.reason, error: stop.error };

@@ -1,6 +1,6 @@
-import type { Browser, Page } from 'playwright';
+import type { Browser, BrowserContext, Page } from 'playwright';
 import type {
-  Artifact, CaptureConfig, CaptureError, KeywordResult, Observation, QueryAttemptSummary, QueryQuality, RunMetadata, ScreenshotArtifact,
+  Artifact, CaptureConfig, CaptureError, CollectionOutcome, KeywordResult, Observation, QueryAttemptSummary, QueryQuality, RunMetadata, ScreenshotArtifact,
 } from '../contracts.js';
 import { classifyCard } from '../core/classify.js';
 import { classifyFeedChildren } from '../core/feed-model.js';
@@ -36,6 +36,8 @@ export interface QueryRunnerDeps {
   log?: (event: Record<string, unknown>) => void;
   searchUrlFor?: (keyword: string) => string;
   openSearchImpl?: typeof openSearch;
+  /** Cancellation reaches the results loop, so an in-flight keyword stops at its verified prefix. */
+  signal?: AbortSignal;
 }
 
 export interface QueryAttemptInput {
@@ -109,8 +111,11 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     return shot;
   }
 
-  const context = await newSearchContext(deps.browser, config);
+  let context: BrowserContext | null = null;
   try {
+    // Inside the try: a browser crash here is a transient failure like any other, not an
+    // exception that escapes before the attempt can record its own terminal result.
+    context = await newSearchContext(deps.browser, config);
     const page: Page = await context.newPage();
     const url = deps.searchUrlFor?.(input.keyword) ?? buildSearchUrl(input.keyword, config.locale);
     const open = deps.openSearchImpl ?? openSearch;
@@ -151,6 +156,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     let waitedForCards = false;
     let waitedForQuery = false;
     while (!stop) {
+      if (deps.signal?.aborted) { stop = { kind: 'incomplete', reason: 'cancelled', error: null }; break; }
       const obs = await captureStableObservation(page, { deadlineAt: input.deadlineAt });
       if (!obs) { stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null }; warnings.push({ code: 'feed_vanished', message: 'results feed disappeared', observationIds: [] }); break; }
       if (!obs.accepted) { stop = { kind: 'incomplete', reason: obs.rejectionReason === 'timeout' ? 'timeout' : 'unstable_results', error: null }; break; }
@@ -242,7 +248,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     }
     stop = { kind: observations.length === 0 ? 'failed' : 'incomplete', reason: 'error', error: errorOf(err, 'unexpected_error') } as StopCause;
   } finally {
-    await context.close().catch(() => undefined);
+    await context?.close().catch(() => undefined);
   }
 
   const { ranked, classificationComplete } = assignRanks(state.committed);
@@ -255,14 +261,23 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
   });
   stage('stop', { status: outcome.status, stopReason: outcome.stopReason, listings: listings.length });
 
-  const obsWritten = await store.writeFile(rel('observations.jsonl'), observations.map((o) => JSON.stringify(o)).join('\n') + (observations.length ? '\n' : ''));
-  const obsArtifact: Artifact = { ...(await store.persist(obsWritten)), id: `${input.queryAttemptId}_observations`, filename: 'observations.jsonl', kind: 'observations_jsonl', bytes: obsWritten.bytes, sha256: obsWritten.sha256, queryId: input.queryId, queryAttemptId: input.queryAttemptId };
-  artifacts.push(obsArtifact);
+  // Exports are guarded: a store failure downgrades the attempt to failed / export_failed and keeps
+  // whatever artifacts were written, rather than throwing away a completed collection.
+  let exportError: CaptureError | null = null;
+  const observationArtifactIds: string[] = [];
+  try {
+    const obsWritten = await store.writeFile(rel('observations.jsonl'), observations.map((o) => JSON.stringify(o)).join('\n') + (observations.length ? '\n' : ''));
+    const obsArtifact: Artifact = { ...(await store.persist(obsWritten)), id: `${input.queryAttemptId}_observations`, filename: 'observations.jsonl', kind: 'observations_jsonl', bytes: obsWritten.bytes, sha256: obsWritten.sha256, queryId: input.queryId, queryAttemptId: input.queryAttemptId };
+    artifacts.push(obsArtifact);
+    observationArtifactIds.push(obsArtifact.id);
+  } catch (err) {
+    exportError = errorOf(err, 'export_failed');
+    warnings.push({ code: 'export_failed', message: `observations.jsonl could not be written: ${exportError.message}`, observationIds: [] });
+  }
 
   const finishedAt = isoWithOffset(now(), tz);
-  const result: KeywordResult = {
-    ...outcome,
-    schemaVersion: '1',
+  const body = {
+    schemaVersion: '1' as const,
     runId: deps.runId, attemptId: deps.attemptId, queryId: input.queryId, queryAttemptId: input.queryAttemptId,
     keyword: input.keyword,
     startedAt: isoWithOffset(startedAtDate, tz), finishedAt,
@@ -270,24 +285,41 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     metadata: deps.metadata,
     context: {
       locale: config.locale, browserTimezoneId: config.browserTimezoneId, viewport: config.viewport, deviceScaleFactor: 1,
-      locationMode: 'query_only', configuredMapView: null, observedMapView: parseObservedMapView(finalUrl),
-      loggedIn: false, geolocationPermission: 'not_granted', egressRegion: null, egressSource: null, observedLocationText: null, filters: [],
+      locationMode: 'query_only' as const, configuredMapView: null, observedMapView: parseObservedMapView(finalUrl),
+      loggedIn: false as const, geolocationPermission: 'not_granted' as const, egressRegion: null, egressSource: null, observedLocationText: null, filters: [],
     },
     quality: { verifiedPrefixLength: state.committed.length, classificationComplete, screenshotCoverageComplete, warnings, observedQueryText, queryCorrectionText: null },
-    listings, screenshots, observationArtifactIds: [obsArtifact.id],
+    listings, screenshots, observationArtifactIds,
   };
 
-  const jsonName = `${base}.json`;
-  const jsonWritten = await store.writeFile(rel(jsonName), JSON.stringify(result, null, 2));
-  artifacts.push({ ...(await store.persist(jsonWritten)), id: `${input.queryAttemptId}_result_json`, filename: jsonName, kind: 'result_json', bytes: jsonWritten.bytes, sha256: jsonWritten.sha256, queryId: input.queryId, queryAttemptId: input.queryAttemptId });
   const csvName = `${base}.csv`;
-  const csvWritten = await store.writeFile(rel(csvName), resultToCsv(result));
-  artifacts.push({ ...(await store.persist(csvWritten)), id: `${input.queryAttemptId}_result_csv`, filename: csvName, kind: 'result_csv', bytes: csvWritten.bytes, sha256: csvWritten.sha256, queryId: input.queryId, queryAttemptId: input.queryAttemptId });
-  stage('export', { artifacts: artifacts.length });
+  try {
+    const csvWritten = await store.writeFile(rel(csvName), resultToCsv({ ...outcome, ...body }));
+    artifacts.push({ ...(await store.persist(csvWritten)), id: `${input.queryAttemptId}_result_csv`, filename: csvName, kind: 'result_csv', bytes: csvWritten.bytes, sha256: csvWritten.sha256, queryId: input.queryId, queryAttemptId: input.queryAttemptId });
+  } catch (err) {
+    const csvError = errorOf(err, 'export_failed');
+    exportError = exportError ?? csvError;
+    warnings.push({ code: 'export_failed', message: `${csvName} could not be written: ${csvError.message}`, observationIds: [] });
+  }
+
+  const finalOutcome: CollectionOutcome = exportError ? { status: 'failed', stopReason: 'error', error: exportError } : outcome;
+  const result: KeywordResult = { ...finalOutcome, ...body };
+
+  const jsonName = `${base}.json`;
+  let jsonWritten;
+  try {
+    jsonWritten = await store.writeFile(rel(jsonName), JSON.stringify(result, null, 2));
+  } catch (err) {
+    // Without its result JSON the attempt has no terminal record to point a manifest row at; the
+    // batch runner treats this as a storage failure for the whole batch.
+    throw new Error(`result JSON could not be written for ${input.queryId}/${input.queryAttemptId}: ${err instanceof Error ? err.message : String(err)}`);
+  }
+  artifacts.push({ ...(await store.persist(jsonWritten)), id: `${input.queryAttemptId}_result_json`, filename: jsonName, kind: 'result_json', bytes: jsonWritten.bytes, sha256: jsonWritten.sha256, queryId: input.queryId, queryAttemptId: input.queryAttemptId });
+  stage('export', { artifacts: artifacts.length, exportError: exportError?.code ?? null });
 
   const resultFile = `${qdir}/${jsonName}`;
   const summary: QueryAttemptSummary = {
-    ...outcome,
+    ...finalOutcome,
     queryAttemptId: input.queryAttemptId, startedAt: result.startedAt, finishedAt, resultFile,
     artifactIds: artifacts.map((a) => a.id),
   };

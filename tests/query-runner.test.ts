@@ -6,9 +6,24 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { KeywordResult, RunMetadata } from '../src/contracts.js';
 import { runQueryAttempt } from '../src/runner/query-runner.js';
 import { LocalArtifactStore } from '../src/storage/local.js';
+import type { ArtifactStore, WrittenFile } from '../src/storage/types.js';
 import { parseConfig } from '../src/config.js';
 import { openSearch } from '../src/browser/maps-adapter.js';
 import { namedCards, writeFixture } from './fixtures/feed-fixture.js';
+
+/** Wraps the local store and refuses the paths a test wants to see fail. */
+class RefusingStore implements ArtifactStore {
+  readonly mode = 'local_only' as const;
+  readonly rootDirectory: string;
+  constructor(private readonly inner: LocalArtifactStore, private readonly refuse: (relativePath: string) => boolean) {
+    this.rootDirectory = inner.rootDirectory;
+  }
+  async writeFile(relativePath: string, data: Buffer | string): Promise<WrittenFile> {
+    if (this.refuse(relativePath)) throw new Error(`store refused ${relativePath}`);
+    return this.inner.writeFile(relativePath, data);
+  }
+  async persist(file: WrittenFile) { return this.inner.persist(file); }
+}
 
 let browser: Browser;
 let root: string;
@@ -139,5 +154,18 @@ describe('runQueryAttempt', () => {
     const d = { ...deps(url), openSearchImpl: async () => ({ state: { kind: 'captcha' as const }, finalUrl: 'https://www.google.com/sorry/index' }) };
     const out = await runQueryAttempt(d, input({ queryId: 'q0007', keyword: 'q' }));
     expect(out.result).toMatchObject({ status: 'blocked', stopReason: 'captcha', finalUrl: 'https://www.google.com/sorry/index' });
+  });
+  it('downgrades to failed / export_failed when the observations log cannot be written', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(5), endOfList: true });
+    const d = { ...deps(url), store: new RefusingStore(new LocalArtifactStore(root), (p) => p.endsWith('observations.jsonl')) };
+    const out = await runQueryAttempt(d, input({ queryId: 'q0010', keyword: 'q' }));
+    expect(out.result).toMatchObject({ status: 'failed', stopReason: 'error', error: { code: 'export_failed' } });
+    expect(out.result.observationArtifactIds).toEqual([]);
+    expect(out.result.listings.length).toBe(5);
+    expect(out.summary.status).toBe('failed');
+    expect(out.artifacts.map((a) => a.kind)).toEqual(expect.arrayContaining(['result_json', 'result_csv']));
+    const written = JSON.parse(await readFile(join(root, 'maps-keyword-capture/2026-09-17/run_t/att_t', out.resultFile), 'utf8')) as KeywordResult;
+    expect(written).toMatchObject({ status: 'failed', stopReason: 'error' });
+    expect(written.quality.warnings.some((w) => w.code === 'export_failed')).toBe(true);
   });
 });
