@@ -4,7 +4,7 @@ Runs a keyword batch in `dev-ai` on the `aiapp` pool and delivers every artifact
 
 ## One-time setup
 
-Requires Contributor on resource group `FBRDev` and `kubectl` access to `dev-ai`. The SAS is container-scoped and tied to a stored access policy, so it can be revoked without rotating the account key. Never paste the SAS into a terminal, a chat, or a commit.
+Requires Contributor on resource group `FBRDev` (to read the account key and create the access policy), Storage Blob Data Contributor on account `fbrdevstorage` (for the `--auth-mode login` commands), and `kubectl` access to `dev-ai`. The SAS is container-scoped and tied to a stored access policy, so it can be revoked without rotating the account key. Never paste the SAS into a terminal, a chat, or a commit.
 
 ```bash
 az storage container create --account-name fbrdevstorage --name maps-keyword-capture --public-access off --auth-mode login
