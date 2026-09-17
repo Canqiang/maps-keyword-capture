@@ -235,4 +235,16 @@ describe('runQueryAttempt', () => {
     expect(out.result.listings.map((l) => l.name)).toEqual(['Shop 01', 'Shop 02', 'Shop 03']);
     expect(out.result.quality.warnings.map((w) => w.code)).toContain('sequence_ambiguous');
   });
+  it('keeps blocked / captcha when an export write fails, so the batch breaker still trips', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(5) });
+    const d = {
+      ...deps(url),
+      store: new RefusingStore(new LocalArtifactStore(root), (p) => p.endsWith('observations.jsonl')),
+      openSearchImpl: async () => ({ state: { kind: 'captcha' as const }, finalUrl: 'https://www.google.com/sorry/index' }),
+    };
+    const out = await runQueryAttempt(d, input({ queryId: 'q0095', keyword: 'q' }));
+    expect(out.result).toMatchObject({ status: 'blocked', stopReason: 'captcha' });
+    expect(out.summary.status).toBe('blocked');
+    expect(out.result.quality.warnings.map((w) => w.code)).toContain('export_failed');
+  });
 });

@@ -346,7 +346,11 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     warnings.push({ code: 'export_failed', message: `${csvName} could not be written: ${csvError.message}`, observationIds: [] });
   }
 
-  const finalOutcome: CollectionOutcome = exportError ? { status: 'failed', stopReason: 'error', error: exportError } : outcome;
+  // A blocked page stays blocked: the batch breaker depends on it, and the export failure is
+  // already recorded as a warning on the result.
+  const finalOutcome: CollectionOutcome = exportError && outcome.status !== 'blocked'
+    ? { status: 'failed', stopReason: 'error', error: exportError }
+    : outcome;
   const result: KeywordResult = { ...finalOutcome, ...body };
 
   const jsonName = `${base}.json`;
