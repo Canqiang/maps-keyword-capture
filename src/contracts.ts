@@ -15,10 +15,11 @@ export interface CaptureConfig {
   viewport: { width: number; height: number };
   outputDirectory: string;
   /**
-   * Required initial map view. The cluster egress IP geolocates to Virginia, so the
-   * target area must be set explicitly. Not proof of Google-inferred search location.
+   * Reserved optional map view for a future explicit area-search mode.
+   * Omit for query-only search. The first runner must reject a supplied value
+   * until that mode is implemented; never silently apply or ignore it.
    */
-  mapView: { latitude: number; longitude: number; zoom: number };
+  mapView?: { latitude: number; longitude: number; zoom: number };
 }
 
 export type ListingClassification =
@@ -83,7 +84,9 @@ export interface KeywordResult {
     locale: string;
     browserTimezoneId: string;
     viewport: CaptureConfig["viewport"];
-    configuredMapView: CaptureConfig["mapView"];
+    locationMode: "query_only";
+    /** No location override in the first version; observed location is separate. */
+    configuredMapView: null;
     loggedIn: false;
     egressRegion: string | null;
     observedLocationText: string | null;

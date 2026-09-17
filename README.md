@@ -18,7 +18,7 @@ English is the primary language for project documentation and code comments. Pre
 - Preserve separate ad and organic occurrences of the same business. Do not count overlapping scroll observations twice.
 - Save original list and map screenshots with the query, ad labels, and surrounding context. Do not alter the page to manufacture a ranking.
 - Produce CSV, JSON, and one or more PNG files per keyword, plus a batch manifest.
-- Record query conditions and timestamps in metadata. The initial map view is required input because the cluster's egress IP geolocates to Virginia. A single observation does not establish a persistent ranking or prove an SEO effect.
+- Record query conditions and timestamps in metadata. Search the original keyword without setting a map center or simulated location. Google may still use network and other location signals. A single observation does not establish a persistent ranking or prove an SEO effect.
 
 ## Technical direction
 
@@ -41,7 +41,7 @@ These commands validate the data contracts only. There is no executable capture 
 - [Implementation plan](docs/implementation-plan.md): phased deliverables and acceptance gates.
 - [Collection specification](docs/spec.md): concise output and ranking conventions.
 - [Deployment summary](docs/deployment.md): runtime choices and cluster validation.
-- [Decisions and deviations, 2026-09-17](docs/superpowers/specs/2026-09-17-keyword-capture-design.md): why Chromium, 15 listings, required map view, Azure target, and DOM-index reconciliation.
+- [Decisions and deviations, 2026-09-17](docs/superpowers/specs/2026-09-17-keyword-capture-design.md): why Chromium, 15 listings, query-only location behavior, Azure target, and DOM-index reconciliation.
 
 These describe planned behavior. The preliminary TypeScript contracts must be extended as listed in the detailed design before runtime implementation.
 

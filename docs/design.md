@@ -2,7 +2,7 @@
 
 Status: proposed implementation design. No collector, storage integration, container image, or cluster deployment has been implemented or validated. Existing TypeScript contracts are preliminary; the extensions listed below must be reconciled before implementation.
 
-Decisions made on 2026-09-17 that refine this design (Chromium instead of Chrome, 15 listings, required map view, Azure Blob target, DOM-index reconciliation) are recorded with their rationale in [Decisions and Deviations, 2026-09-17](superpowers/specs/2026-09-17-keyword-capture-design.md). This document has been updated to match.
+Decisions made on 2026-09-17 that refine this design (Chromium instead of Chrome, 15 listings, query-only location behavior, Azure Blob target, DOM-index reconciliation) are recorded with their rationale in [Decisions and Deviations, 2026-09-17](superpowers/specs/2026-09-17-keyword-capture-design.md). This document has been updated to match.
 
 ## 1. Product definition
 
@@ -85,7 +85,11 @@ Record a hash of canonical configuration, a separate hash of the search profile,
 
 Default profile: desktop viewport 1440 × 1000, device scale factor 1, locale `en-US`, browser timezone `America/New_York`, signed out, no manual filters, and no browser geolocation permission. Filenames use `Asia/Shanghai` unless configured otherwise. Browser timezone and filename timezone serve different purposes.
 
-`mapView` (center and zoom) is required configuration. The cluster egress IP geolocates to Boydton, Virginia, so Google cannot infer the target area from the network. The adapter opens `https://www.google.com/maps/search/<encoded keyword>/@<lat>,<lng>,<zoom>z?hl=en` directly instead of typing into the search box, and records the configured view and the resulting URL. Browser geolocation is a separate, optional setting; do not infer it from a map center or a city in a keyword.
+The first version uses query-only search: submit the original keyword without a configured map center, zoom, or simulated browser geolocation. A supported entry point is `https://www.google.com/maps/search/?api=1&query=<encoded keyword>`, constructed with URL utilities and no location parameters. Do not pan the map, click "Search this area", grant geolocation permission, or append a city to the query. Google may reposition the map itself; record that outcome rather than forcing a preferred area. [Google Maps search URLs](https://developers.google.com/maps/documentation/urls/get-started#search)
+
+`mapView` is optional in the preliminary input contract and reserved for a later explicit area-search mode. Omit it from first-version inputs. Until that mode is implemented, supplying it must produce a clear unsupported-configuration error rather than silently applying or ignoring it. Results record `locationMode: "query_only"` and `configuredMapView: null`; record any observed map view separately from requested settings.
+
+Queries such as `bubble tea garden city` already express a target area in their text. Generic or "near me" queries remain valid raw queries, but their results must be described as observations from the runner's environment. The previously recorded Virginia egress is context to retain, not a reason to inject a map center. No explicit location input does not mean location-independent results.
 
 Record requested and observed conditions separately: configured map view, final URL, visible location text if available, active filters, account state, browser version, and configured egress region/source. Do not guess actual Google-inferred location from these fields. Google can use multiple location signals, including network address and prior activity; fixed browser coordinates alone do not establish equivalence with a user's desktop search. [Google location guidance](https://support.google.com/websearch/answer/179386?hl=en)
 
@@ -230,6 +234,7 @@ A confirmed CAPTCHA opens a batch-level circuit breaker: save its diagnostic evi
 | Observations | `observationId`, visible occurrence fingerprints, scroll offset, bounding boxes, pre/post signatures |
 | Classification | Evidence source and label ownership, not just a nullable `adLabel` |
 | Query quality | `verifiedPrefixLength`, classification completeness, warnings, query correction text |
+| Location context | `locationMode: "query_only"`, null `configuredMapView`, and separately recorded observed map/location context |
 | Terminal reasons | Add `unsupported_layout`, `unstable_results`, `sequence_ambiguous`, `screenshot_limit`, `artifact_limit`, `query_mismatch`, and `batch_blocked` |
 | Manifest rows | Add `skipped` and an explicit reason; retain all input rows |
 | Persistence | Track JSON, CSV, observation logs, and manifests as well as images; include checksums and verification times |

@@ -8,6 +8,8 @@ Run one independent Kubernetes Job per keyword batch in namespace `dev-ai` of th
 
 Start with manual Jobs. Scheduling, a queue, and a run controller are later work.
 
+The first version uses query-only search: omit `mapView` from the input, submit the original keyword without coordinates or simulated geolocation, and do not pan the map or click "Search this area". Retain the egress context and final URL as metadata. Validate that region-bearing keywords return the intended area on the target Pod; do not silently rewrite queries or force the map view if results differ.
+
 ## Initial settings to validate
 
 | Setting | Proposed value |

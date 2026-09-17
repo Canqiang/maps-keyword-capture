@@ -4,7 +4,7 @@ This is the concise specification. See [the detailed design](design.md) for the 
 
 ## Scope
 
-Input consists of keywords and shared query settings; no target business is required. The default scope is the first 15 displayed listings, including ads, not every business available on Google Maps. The initial map view is required input because the cluster's egress IP geolocates to Virginia; the collector opens the search URL with that view directly. General web search would require a separate adapter and must not share Maps ranking semantics.
+Input consists of keywords and shared query settings; no target business is required. The default scope is the first 15 displayed listings, including ads, not every business available on Google Maps. The first version submits only the original keyword, without a configured map center, zoom, or simulated geolocation. Optional map-view configuration is reserved for a later explicit mode; it is not enabled in this version. General web search would require a separate adapter and must not share Maps ranking semantics.
 
 ## Rankings and ads
 
@@ -24,7 +24,8 @@ Keep ad and organic occurrences of the same business separately. A business iden
 
 ## Page collection
 
-- Use a fresh, signed-out Chromium context with a fixed viewport, language, and the required initial map view. Process one keyword at a time.
+- Use a fresh, signed-out Chromium context with a fixed viewport and language. Submit the original keyword without map coordinates, manual panning, "Search this area", or browser geolocation overrides. Process one keyword at a time.
+- Record `locationMode: "query_only"`, `configuredMapView: null`, the final URL, and observed map/location context where available. Do not silently append a city to a keyword. Broad or "near me" queries describe the runner's environment, not a selected customer area.
 - Wait for the query to match the result list and for visible map content and images to render. A fixed sleep alone is not evidence of readiness.
 - Handle CAPTCHA, consent pages, no results, business detail pages, and blank pages explicitly.
 - Scroll the internal results list within configured bounds (6 scrolls and 5 screenshots by default; 15 listings measured at about 3 and 4). Each scroll moves the top of the last partially visible card to the top of the panel so every card is complete in at least one screenshot. A `fullPage` screenshot is not a substitute for scrolling that list.

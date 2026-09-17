@@ -8,6 +8,8 @@ Deliver a small local browser probe for 3–5 keywords. A first pass on 2026-09-
 
 Acceptance: actual PNGs and observation logs are manually reconciled with the visible page. Do not declare an ad classifier validated solely because no ad appeared. Produce synthetic or sanitized fixtures for cases missing from the live run. A reliable classifier and list model are prerequisites for assigning automatic rankings.
 
+The earlier laptop probe used an explicitly centered map. It is evidence about that profile only and must be repeated with query-only search before accepting the new default. Use the same original keywords, omit all center/zoom parameters and geolocation overrides, and record the final map/URL and the area of the returned businesses. Do not assume the earlier rankings or card measurements transfer unchanged.
+
 ## Milestone 1 — Contracts and deterministic core
 
 Reconcile the preliminary TypeScript contracts with the design's attempt, observation, skipped-state, and persistence fields. Add runtime validation for config and output. Implement naming, overlap reconciliation, ranking, JSON/CSV exports, and output-budget checks independently of browser automation.
@@ -21,6 +23,7 @@ Required cases:
 - Filenames handle Unicode, path characters, long queries, repeated input rows, and collisions.
 - CSV escapes external text safely while JSON preserves original values.
 - No-results, partial, blocked, skipped, and failed outcomes remain distinct.
+- The default input works without `mapView`; generated search URLs contain the original keyword and no location parameters. Query-only output records a null configured view separately from observed location. A supplied reserved map view is rejected explicitly until an area-search mode is implemented.
 
 Acceptance: deterministic fixture tests pass and serialized examples validate against the executable contract. No live browser or cluster is needed for these tests.
 
