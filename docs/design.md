@@ -2,17 +2,19 @@
 
 Status: proposed implementation design. No collector, storage integration, container image, or cluster deployment has been implemented or validated. Existing TypeScript contracts are preliminary; the extensions listed below must be reconciled before implementation.
 
+Decisions made on 2026-09-17 that refine this design (Chromium instead of Chrome, 15 listings, required map view, Azure Blob target, DOM-index reconciliation) are recorded with their rationale in [Decisions and Deviations, 2026-09-17](superpowers/specs/2026-09-17-keyword-capture-design.md). This document has been updated to match.
+
 ## 1. Product definition
 
-Maps Keyword Capture records what a signed-out Google Chrome session observes when searching Google Maps for a keyword. It produces structured business listings, explicit ad classifications, and screenshots that support the observed order.
+Maps Keyword Capture records what a signed-out Chromium session observes when searching Google Maps for a keyword. It produces structured business listings, explicit ad classifications, and screenshots that support the observed order.
 
 The unit of work is a keyword under a recorded search profile, not a target business. Consumers can locate any business after collection. The output describes a bounded observation at a particular time, not a universal or permanent ranking.
 
 ### Scope of the first usable version
 
 - Accept a JSON configuration or a UTF-8 CSV keyword list; keep one JSON settings file as the canonical configuration.
-- Process up to 20 keywords per batch and up to 20 displayed business listings per keyword by default, including ads.
-- Use desktop Google Maps, an English-language page profile, and installed Google Chrome controlled through Playwright.
+- Process up to 20 keywords per batch and up to 15 displayed business listings per keyword by default, including ads.
+- Use desktop Google Maps, an English-language page profile, and the Chromium bundled with the official Playwright image, controlled through Playwright.
 - Capture the visible results list and map, scroll the results list, preserve business occurrences, and calculate supported rankings.
 - Export per-query JSON, CSV, PNG files, raw observations, and an attempt manifest.
 - Run the same collector locally and in a dedicated Kubernetes Job; persist cluster outputs to private object storage.
@@ -21,12 +23,12 @@ The first version does not require an LLM, OCR, a database, a queue, a dashboard
 
 ## 2. Architecture and alternatives
 
-The selected architecture is a deterministic CLI with an isolated Google Maps adapter, packaged as a batch container. Playwright supports installed Google Chrome via its `chrome` channel; the branded browser must be installed separately from the npm package. [Playwright browser documentation](https://playwright.dev/docs/browsers#google-chrome--microsoft-edge)
+The selected architecture is a deterministic CLI with an isolated Google Maps adapter, packaged as a batch container. The container is based on the official Playwright Linux image matching the pinned Playwright version, which bundles Chromium and its system dependencies; Google Chrome is not installed. [Playwright Docker documentation](https://playwright.dev/docs/docker)
 
 ```mermaid
 flowchart TD
     A[Keyword file and search profile] --> B[CLI validation and batch runner]
-    B --> C[Google Chrome session]
+    B --> C[Chromium session]
     C --> D[Maps adapter: classify page and read visible cards]
     D --> E[Ordered observations and raw screenshots]
     E --> F[Sequence validation and ranking]
@@ -44,7 +46,7 @@ flowchart TD
 | Script inside an existing sandbox | Diagnostic fallback only | Adds a dependency on another runtime's lifetime, resource limits, and cancellation behavior. |
 | Long-running worker plus queue | Defer | Useful for concurrent users and continuous workloads; unnecessary for the initial manual batches. |
 | Screenshot interpretation by an LLM | Defer to optional review | The main collector needs explicit, testable classification and ordering rules. |
-| Data API as the primary source | Not selected for this product | The requirement is evidence of the observed Chrome page, including its ad placements and screenshots. |
+| Data API as the primary source | Not selected for this product | The requirement is evidence of the observed browser page, including its ad placements and screenshots. |
 
 ### Planned module boundaries
 
@@ -52,7 +54,7 @@ flowchart TD
 |---|---|---|
 | `cli` / `config` | Validate configuration, resolve input, create IDs, print output locations | Treat invalid configuration as a successful empty run |
 | `runner` | Sequential scheduling, deadlines, attempt accounting, cleanup | Contain Google-specific selectors |
-| `browser` | Launch Chrome, create isolated contexts, close/recycle processes | Reuse an authenticated personal profile |
+| `browser` | Launch Chromium, create isolated contexts, close/recycle processes | Reuse an authenticated personal profile |
 | `adapters/google-maps` | Page states, query submission, visible card extraction, scroll actions | Assign an unsupported global rank |
 | `sequence` / `ranking` | Reconcile overlapping observations and derive rankings | Deduplicate all occurrences by business ID |
 | `evidence` | Capture PNGs, coordinates, signatures, and observation timestamps | Modify the page to make a desired ranking appear |
@@ -83,7 +85,7 @@ Record a hash of canonical configuration, a separate hash of the search profile,
 
 Default profile: desktop viewport 1440 × 1000, device scale factor 1, locale `en-US`, browser timezone `America/New_York`, signed out, no manual filters, and no browser geolocation permission. Filenames use `Asia/Shanghai` unless configured otherwise. Browser timezone and filename timezone serve different purposes.
 
-The default search submits the literal keyword without pre-panning the map. A later explicit map-view option must record the initial center/zoom, whether it was applied before submission, and the resulting URL. Browser geolocation is a separate, optional setting; do not infer it from a map center or a city in a keyword.
+`mapView` (center and zoom) is required configuration. The cluster egress IP geolocates to Boydton, Virginia, so Google cannot infer the target area from the network. The adapter opens `https://www.google.com/maps/search/<encoded keyword>/@<lat>,<lng>,<zoom>z?hl=en` directly instead of typing into the search box, and records the configured view and the resulting URL. Browser geolocation is a separate, optional setting; do not infer it from a map center or a city in a keyword.
 
 Record requested and observed conditions separately: configured map view, final URL, visible location text if available, active filters, account state, browser version, and configured egress region/source. Do not guess actual Google-inferred location from these fields. Google can use multiple location signals, including network address and prior activity; fixed browser coordinates alone do not establish equivalence with a user's desktop search. [Google location guidance](https://support.google.com/websearch/answer/179386?hl=en)
 
@@ -91,8 +93,8 @@ Create a fresh context per keyword attempt. Reuse a browser process within the b
 
 ## 5. End-to-end execution
 
-1. Validate the complete input before opening Chrome. Write the resolved configuration and a manifest containing every input row as `pending`.
-2. Verify that the configured Chrome executable is available; log its actual version. A startup failure must not produce empty successful results.
+1. Validate the complete input before launching the browser. Write the resolved configuration and a manifest containing every input row as `pending`.
+2. Verify that Chromium launches; log its actual version. A startup failure must not produce empty successful results.
 3. For the next keyword, create a clean context, assign a query-attempt ID, and start its deadline.
 4. Open Google Maps and submit the keyword through the supported adapter. Build any URLs with proper query encoding; never pass keyword text through shell interpolation.
 5. Classify the page: search results, explicit no-results state, consent, CAPTCHA, unsupported layout, detail page, or navigation error.
@@ -172,10 +174,10 @@ An unknown classification at position 4 does not invalidate verified organic ran
 ### Reconcile scroll overlap
 
 - Start from the top of the list and verify the initial scroll position.
-- Read visible cards in visual order, rather than assuming the order of all mounted DOM nodes is the displayed order.
-- Scroll by roughly 60% of the results pane height to retain overlap; adjust for actual card sizes.
-- Match the previous committed suffix against the new visible prefix, using occurrence evidence and neighboring order. Prefer a unique overlap of two or more cards. A single-card overlap needs an independently stable placement identifier.
-- Append only a uniquely reconciled new suffix. If several alignments are possible, scroll back once to reacquire an anchor; otherwise terminate with `sequence_ambiguous` and preserve the last verified prefix.
+- Use the card's index among the feed's children as the primary placement key, combined with the place identifier and the ad flag. Measured on 2026-09-17: the feed is append-only while scrolling, mounted cards keep their index, and cards alternate with separator nodes so indices step by a constant inferred from the first screen.
+- Verify visual order against DOM order on every round: bounding-box tops must increase with index. A violation, a known occurrence reappearing at a different index, or a gap in the index sequence terminates with `sequence_ambiguous` and preserves the last verified prefix.
+- Scroll so that the top of the last partially visible card becomes the top of the pane, so every card is complete in at least one screenshot. Screenshot overlap is for evidence; ordering comes from the verified index sequence.
+- Append only new indices that extend the verified prefix contiguously.
 - Keep unmatched observations in the raw observation log. Do not put uncertain entries into the ranked CSV as if their global positions were known.
 
 Same-name businesses, an ad plus an organic listing for one business, and a second legitimate occurrence of one business are not automatically duplicates. A fingerprint may combine business association, placement type, and stable content, but a global set of fingerprints is insufficient: contextual overlap proves duplicate observations.
@@ -191,9 +193,9 @@ Initial defaults below are design choices to be validated, not measured performa
 | Limit | Initial value | Behavior on exhaustion |
 |---|---|---|
 | Keywords per batch | 20 | Reject larger input; split explicitly into batches |
-| Listings per keyword | 20, counting ads and unknown classifications | Stop accepting ranked occurrences at the limit; screenshots may show neighboring extra cards |
-| Scroll operations | 30 | `partial / scroll_limit` |
-| Screenshots per query attempt | 20 | `partial / screenshot_limit`; do not silently discard evidence |
+| Listings per keyword | 15, counting ads and unknown classifications | Stop accepting ranked occurrences at the limit; screenshots may show neighboring extra cards. If the last accepted card is cut off, take one more screenshot |
+| Scroll operations | 6 (measured: about 3 needed for 15 listings) | `partial / scroll_limit` |
+| Screenshots per query attempt | 5 (measured: about 4 needed for 15 listings) | `partial / screenshot_limit`; do not silently discard evidence |
 | Local bytes per keyword, across its attempts | 50 MiB | `partial / artifact_limit` |
 | Browser work per keyword, across retries | 90 seconds | `partial` if evidence exists, otherwise `failed`; stop reason `timeout` |
 | Final persistence work per keyword | 30 seconds | Preserve diagnostics and mark persistence failed |
@@ -227,7 +229,7 @@ Keep `displayPosition` numeric in the ranked output by admitting only the verifi
 ### File organization
 
 ```text
-outputs/2026-09-17/<run-id>/<attempt-id>/
+maps-keyword-capture/2026-09-17/<run-id>/<attempt-id>/
   request.json
   manifest.progress.json
   q0001/
@@ -236,9 +238,10 @@ outputs/2026-09-17/<run-id>/<attempt-id>/
     observations.jsonl
     qa01/
       20260917T143025.123+0800__bubble-tea-garden-city__q0001__01.png
-  artifact-index.json
   manifest.json
 ```
+
+Locally this tree lives under `outputDirectory`; remotely it is the blob prefix inside the `seo` container. The manifest carries the per-artifact object keys, sizes, checksums, and verification times; there is no separate artifact index.
 
 Use UTF-8. JSON timestamps carry an explicit offset; filenames use the configured timezone with numeric offset. Sanitize separators/control characters, normalize Unicode, cap filename length by encoded bytes, and retain original query text in JSON. IDs prevent collisions after sanitization. This layout refines the initial example by adding worker-attempt isolation.
 
@@ -254,16 +257,15 @@ Use empty cells for nulls. Apply CSV escaping and spreadsheet-formula protection
 
 ## 11. Persistence and completion protocol
 
-The local adapter writes into the output directory. The cluster adapter uses a private object-storage prefix with the same run/attempt/query isolation. Reuse the existing storage infrastructure if its provider and scoped access are confirmed; the first implementation should support one actual provider, not build every provider at once.
+The local adapter writes into the output directory. The cluster adapter writes to Azure Blob Storage, account `fbrdevstorage`, container `seo`, under the same run/attempt/query tree, using `@azure/storage-blob` with the account name and key from the existing `dev-ai` Secret `azure-storage-account-f6eab793693c54a6891af3c-secret`. The account key grants whole-account access; narrowing to the prefix through workload identity is later hardening. Azure Blob is the only provider in the first implementation, behind a small storage interface.
 
 1. Write local artifacts using temporary filenames followed by same-filesystem rename; calculate SHA-256 and size from final bytes.
 2. Upload and verify each keyword's screenshots and observation logs first. Then finalize JSON with those evidence references, derive CSV, and upload and verify both before starting the next keyword. A Pod crash may lose the current unfinished query; it must not erase earlier verified queries.
 3. Read each uploaded artifact back through the storage adapter, compare byte count and SHA-256, and decode PNGs. A HEAD request alone does not verify the image content; an object ETag must not be assumed to be a SHA-256 checksum.
 4. Update the attempt's progress manifest after each keyword. Mark collection quality and persistence separately.
-5. Write, upload, and independently verify `artifact-index.json` with artifact keys, sizes, and checksums. Exclude the index and manifest themselves to avoid recursive hashes.
-6. Publish the final attempt manifest last, referencing the verified artifact index. Read the manifest back and compare it with the expected bytes before printing a verified completion result.
+5. Publish the final attempt manifest last, listing every artifact's object key, size, checksum, and verification time. The manifest excludes itself from those hashes. Read the manifest back and compare it with the expected bytes before printing a verified completion result.
 
-No artifact claims to have verified its own upload: the artifact index and manifest record verification of previously persisted artifacts, and the final manifest readback is reported externally in the CLI result. Local staging files may be removed only after their remote copies are verified and the progress checkpoint records their object keys.
+No artifact claims to have verified its own upload: the manifest records verification of previously persisted artifacts, and the final manifest readback is reported externally in the CLI result. Local staging files may be removed only after their remote copies are verified and the progress checkpoint records their object keys.
 
 One attempt is the only writer of its prefix. Temporary progress state is mutable; finalized evidence and manifests are immutable. Storage retry uses the same object key and expected checksum for the same artifact; an existing object with different bytes is a conflict, not something to overwrite silently.
 
@@ -287,9 +289,9 @@ Proposed exit codes: `0` for a fully successful run in its declared mode; `2` fo
 
 ## 12. Kubernetes execution
 
-Deploy one independent Job per batch, with one Pod and a dedicated container image. The image contains the application, fonts, runtime libraries, and installed Google Chrome. Pin the image by digest, validate its CPU architecture, and record the runtime browser version.
+Deploy one independent Job per batch in namespace `dev-ai` of the FBRDev AKS cluster, with one Pod and a dedicated container image built on `mcr.microsoft.com/playwright:v1.63.0-noble`, which contains Chromium, fonts, and runtime libraries. Publish it as `fbrdevacr.azurecr.io/ai/maps-keyword-capture:<git-sha>`, pin the Job to the digest, and record the runtime browser version. Schedule on `nodeSelector: envpool=aiapp` with `imagePullSecrets: docker-registry-secret`, matching the existing `dev-ai` Jobs.
 
-Launch design: `channel: "chrome"`, `headless: true`, and explicitly `chromiumSandbox: true`. Playwright's `chromiumSandbox` option defaults to false, so non-root execution alone is not a sufficient configuration statement. Validate the required kernel/seccomp behavior in the target cluster; report a startup incompatibility instead of silently downgrading. [Playwright launch options](https://playwright.dev/docs/api/class-browsertype#browser-type-launch-option-chromium-sandbox)
+Launch design: bundled Chromium, `headless: true`, and explicitly `chromiumSandbox: true`. Playwright's `chromiumSandbox` option defaults to false, so non-root execution alone is not a sufficient configuration statement. Validate the required kernel/seccomp behavior in the target cluster; report a startup incompatibility instead of silently downgrading. [Playwright launch options](https://playwright.dev/docs/api/class-browsertype#browser-type-launch-option-chromium-sandbox)
 
 Use non-root execution, minimal permissions, writable mounts only where needed, and a read-only root filesystem if the tested image supports it. Avoid privileged mode and host IPC. Use an init process and explicit browser teardown; container guidance and the actual image's behavior must be tested together. [Playwright container guidance](https://playwright.dev/docs/docker)
 
@@ -317,7 +319,7 @@ Job activeDeadlineSeconds = application budget + 60 seconds
 
 For 20 keywords this is a 42-minute application ceiling and a 43-minute Job ceiling, not an expected runtime. Tune from measured percentiles. On SIGTERM, stop starting queries, close the active context, save a bounded checkpoint, and terminate remaining browser children before the grace period ends. OOM/SIGKILL cannot guarantee a final checkpoint; durable per-query progress is the recovery evidence.
 
-Give the workload only its artifact-prefix access through workload identity or a dedicated Secret. Keep credentials out of input files and Git. No cluster API privileges are needed inside the collector. Validate DNS, Google access, storage access, fonts, writable paths, and Chrome startup in the actual namespace before accepting the deployment.
+Inject the storage account name and key from the existing `dev-ai` Secret as environment variables; the container name and prefix come from the ConfigMap. Keep credentials out of input files and Git. No cluster API privileges are needed inside the collector. Validate DNS, Google access, storage access, fonts, writable paths, and Chromium startup in the actual namespace before accepting the deployment.
 
 ## 13. Observability, maintenance, and comparison
 
@@ -327,7 +329,7 @@ Track capture success, unknown-classification rate, sequence ambiguity, blocked 
 
 A page-layout change should increase explicit unsupported/unknown outcomes, not silently turn ads into organic results. Update sanitized fixtures and the adapter version before changing classification logic.
 
-For downstream comparisons, match the keyword, surface, search profile, limits, and reliable business identity. Report exact observation dates and context differences. "Not observed in the first 20 displayed results" is different from "ranked below 20 organically" and from "no ranking." Ad appearance and organic rank remain separate measures. A screenshot series never establishes causality on its own.
+For downstream comparisons, match the keyword, surface, search profile, limits, and reliable business identity. Report exact observation dates and context differences. "Not observed in the first 15 displayed results" is different from "ranked below 15 organically" and from "no ranking." Ad appearance and organic rank remain separate measures. A screenshot series never establishes causality on its own.
 
 ## 14. Validation and delivery gates
 
@@ -347,6 +349,6 @@ Prototype keywords include `bubble tea garden city`, `best bubble tea mineola`, 
 
 Implement in this order: current-page feasibility probe; contracts and ranking core; local collector and exporters; object-storage delivery; container and cluster validation; then optional integration. Detailed deliverables are in [implementation-plan.md](implementation-plan.md).
 
-Before promising unattended production runs, verify the current Maps layouts and ad-label ownership, Chrome compatibility with the target node architecture/security profile, actual egress behavior, storage provider and scoped identity, and measured browser resources. These are bounded engineering checks, not claims already established by this document.
+Before promising unattended production runs, verify the current Maps layouts and ad-label ownership, Chromium sandbox compatibility with the target node security profile, and measured browser resources. Egress behavior (Virginia) and the storage target (Azure Blob, `seo` container) were confirmed on 2026-09-17. These are bounded engineering checks, not claims already established by this document.
 
 The counterintuitive but deliberate rule is that an honestly partial, reproducible observation is more useful than a complete-looking table whose order or ad classification cannot be supported by screenshots.

@@ -12,19 +12,19 @@ English is the primary language for project documentation and code comments. Pre
 
 ## Agreed behavior
 
-- Collect the first 20 displayed listings per keyword by default, including ads. The limit is configurable.
+- Collect the first 15 displayed listings per keyword by default, including ads. The limit is configurable.
 - Store `displayPosition` (list order including ads) separately from `organicRank` (excluding ads).
 - Identify ads explicitly. Use `unknown` when classification is uncertain; do not guess organic rankings.
 - Preserve separate ad and organic occurrences of the same business. Do not count overlapping scroll observations twice.
 - Save original list and map screenshots with the query, ad labels, and surrounding context. Do not alter the page to manufacture a ranking.
 - Produce CSV, JSON, and one or more PNG files per keyword, plus a batch manifest.
-- Record query conditions and timestamps in metadata. A single observation does not establish a persistent ranking or prove an SEO effect.
+- Record query conditions and timestamps in metadata. The initial map view is required input because the cluster's egress IP geolocates to Virginia. A single observation does not establish a persistent ranking or prove an SEO effect.
 
 ## Technical direction
 
-Node.js / TypeScript + Playwright + Google Chrome + Kubernetes Job + private object storage.
+Node.js 22 / TypeScript + Playwright + bundled Chromium + Kubernetes Job on the FBRDev AKS cluster + Azure Blob Storage.
 
-Installing the Playwright package does not install Google Chrome. The planned runner will use `channel: "chrome"`; the dedicated Linux image must install and validate Chrome separately and record its actual version.
+The container image is based on the official Playwright Linux image, which bundles Chromium. Google Chrome is not installed. The runner records the actual browser version in each result.
 
 ## Development setup
 
@@ -41,6 +41,7 @@ These commands validate the data contracts only. There is no executable capture 
 - [Implementation plan](docs/implementation-plan.md): phased deliverables and acceptance gates.
 - [Collection specification](docs/spec.md): concise output and ranking conventions.
 - [Deployment summary](docs/deployment.md): runtime choices and cluster validation.
+- [Decisions and deviations, 2026-09-17](docs/superpowers/specs/2026-09-17-keyword-capture-design.md): why Chromium, 15 listings, required map view, Azure target, and DOM-index reconciliation.
 
 These describe planned behavior. The preliminary TypeScript contracts must be extended as listed in the detailed design before runtime implementation.
 
@@ -57,9 +58,9 @@ docs/implementation-plan.md  Implementation milestones and acceptance gates
 
 ## Next steps
 
-1. Implement local Chrome collection: keyword input, result readiness, scrolling, ad classification, screenshots, and JSON/CSV output.
-2. Run 3–5 keywords in the target Pod to verify access, screenshots, and challenge detection.
-3. Integrate object storage with independent readback verification; add the container image and Job manifest.
+1. Implement local Chromium collection: keyword input, result readiness, scrolling, ad classification, screenshots, and JSON/CSV output.
+2. Run 3–5 keywords in the target Pod to verify access, screenshots, ad markup, and challenge detection.
+3. Integrate Azure Blob Storage with independent readback verification; add the container image and Job manifest.
 4. Verify partial failures, timeouts, process cleanup, and artifact persistence after Pod deletion.
 
 Start with manually triggered Jobs. Scheduled execution and an administration UI are outside the initial scope.

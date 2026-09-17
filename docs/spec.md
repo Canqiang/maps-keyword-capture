@@ -4,7 +4,7 @@ This is the concise specification. See [the detailed design](design.md) for the 
 
 ## Scope
 
-Input consists of keywords and shared query settings; no target business is required. The default scope is the first 20 displayed listings, including ads, not every business available on Google Maps. General web search would require a separate adapter and must not share Maps ranking semantics.
+Input consists of keywords and shared query settings; no target business is required. The default scope is the first 15 displayed listings, including ads, not every business available on Google Maps. The initial map view is required input because the cluster's egress IP geolocates to Virginia; the collector opens the search URL with that view directly. General web search would require a separate adapter and must not share Maps ranking semantics.
 
 ## Rankings and ads
 
@@ -24,10 +24,10 @@ Keep ad and organic occurrences of the same business separately. A business iden
 
 ## Page collection
 
-- Use a fresh, signed-out browser context with a fixed viewport, language, and configured initial map view. Process one keyword at a time.
+- Use a fresh, signed-out Chromium context with a fixed viewport, language, and the required initial map view. Process one keyword at a time.
 - Wait for the query to match the result list and for visible map content and images to render. A fixed sleep alone is not evidence of readiness.
 - Handle CAPTCHA, consent pages, no results, business detail pages, and blank pages explicitly.
-- Scroll the internal results list within configured bounds. A `fullPage` screenshot is not a substitute for scrolling that list.
+- Scroll the internal results list within configured bounds (6 scrolls and 5 screenshots by default; 15 listings measured at about 3 and 4). Each scroll moves the top of the last partially visible card to the top of the panel so every card is complete in at least one screenshot. A `fullPage` screenshot is not a substitute for scrolling that list.
 - Capture the visible list and map while preserving ad labels. Adjacent screenshots may overlap, but data must not be counted twice.
 - Stop at the listing limit, confirmed end of results, scroll limit, stalled loading, or timeout, and record `stopReason`.
 - Keep original screenshots free of added ranking annotations. Report annotations belong in separate derived files with references to the originals.
@@ -35,7 +35,7 @@ Keep ad and organic occurrences of the same business separately. A business iden
 ## Files and storage
 
 ```text
-outputs/2026-09-17/<run-id>/<attempt-id>/q0001/
+maps-keyword-capture/2026-09-17/<run-id>/<attempt-id>/q0001/
   20260917T143025.123+0800__bubble-tea-garden-city__<query-id>.json
   20260917T143025.123+0800__bubble-tea-garden-city__<query-id>.csv
   qa01/
@@ -48,7 +48,7 @@ Use the configured timezone in filenames and retain the UTC offset. JSON timesta
 
 CSV retains the ranking and classification fields from JSON. Escape commas, quotes, and line breaks correctly, and handle external text that spreadsheet software could interpret as a formula. JSON retains the original values.
 
-Temporary Pod files are not durable delivery. Upload each query promptly and record object keys, byte counts, and checksums. Independently read back and verify the files before updating the manifest's `persistenceStatus`. Screenshots must decode successfully; CAPTCHA screenshots are diagnostic artifacts only.
+Temporary Pod files are not durable delivery. Upload each query promptly to the `seo` container of the `fbrdevstorage` account under the tree above, and record object keys, byte counts, and checksums. Independently read back and verify the files before updating the manifest's `persistenceStatus`. Screenshots must decode successfully; CAPTCHA screenshots are diagnostic artifacts only.
 
 ## Success criteria
 

@@ -2,17 +2,23 @@
 export interface CaptureConfig {
   schemaVersion: "1";
   keywords: string[];
-  /** Positive integer; counts both ads and organic listings. */
+  /** Positive integer; counts both ads and organic listings. Default 15. */
   maxResultsPerKeyword: number;
+  /** Default 6. */
   maxScrollsPerKeyword: number;
+  /** Upper bound on saved results screenshots per query attempt. Default 5. */
+  maxScreenshotsPerKeyword: number;
   keywordTimeoutMs: number;
   locale: string;
   browserTimezoneId: string;
   filenameTimezone: string;
   viewport: { width: number; height: number };
   outputDirectory: string;
-  /** Optional initial map view, not proof of Google-inferred search location. */
-  mapView?: { latitude: number; longitude: number; zoom: number };
+  /**
+   * Required initial map view. The cluster egress IP geolocates to Virginia, so the
+   * target area must be set explicitly. Not proof of Google-inferred search location.
+   */
+  mapView: { latitude: number; longitude: number; zoom: number };
 }
 
 export type ListingClassification =
@@ -77,7 +83,7 @@ export interface KeywordResult {
     locale: string;
     browserTimezoneId: string;
     viewport: CaptureConfig["viewport"];
-    configuredMapView: NonNullable<CaptureConfig["mapView"]> | null;
+    configuredMapView: CaptureConfig["mapView"];
     loggedIn: false;
     egressRegion: string | null;
     observedLocationText: string | null;
@@ -99,6 +105,6 @@ export interface BatchManifest {
     keyword: string;
     status: "pending" | "running" | KeywordResult["status"];
     resultFile: string | null;
-    persistenceStatus: "pending" | "verified" | "failed";
+    persistenceStatus: "pending" | "not_requested" | "verified" | "failed";
   }[];
 }

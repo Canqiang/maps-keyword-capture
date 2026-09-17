@@ -6,12 +6,14 @@
     "fried chicken mineola",
     "matcha mineola"
   ],
-  "maxResultsPerKeyword": 20,
-  "maxScrollsPerKeyword": 30,
+  "maxResultsPerKeyword": 15,
+  "maxScrollsPerKeyword": 6,
+  "maxScreenshotsPerKeyword": 5,
   "keywordTimeoutMs": 90000,
   "locale": "en-US",
   "browserTimezoneId": "America/New_York",
   "filenameTimezone": "Asia/Shanghai",
   "viewport": { "width": 1440, "height": 1000 },
+  "mapView": { "latitude": 40.7268, "longitude": -73.6343, "zoom": 13 },
   "outputDirectory": "./outputs"
 }

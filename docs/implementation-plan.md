@@ -4,7 +4,7 @@ Status: planned work, not completed features. This plan implements [the detailed
 
 ## Milestone 0 — Verify the browser surface
 
-Deliver a small local Chrome probe for 3–5 keywords. Inspect the current results list, ad label ownership, internal scrolling, empty/blocked states, and screenshot legibility. Record browser/version/profile details and the supported layout signatures.
+Deliver a small local browser probe for 3–5 keywords. A first pass on 2026-09-17 measured card geometry, scroll behavior, DOM stability, and screenshot legibility for three keywords; ad, no-results, consent, and CAPTCHA samples are still missing. Inspect the current results list, ad label ownership, internal scrolling, empty/blocked states, and screenshot legibility. Record browser/version/profile details and the supported layout signatures.
 
 Acceptance: actual PNGs and observation logs are manually reconciled with the visible page. Do not declare an ad classifier validated solely because no ad appeared. Produce synthetic or sanitized fixtures for cases missing from the live run. A reliable classifier and list model are prerequisites for assigning automatic rankings.
 
@@ -26,7 +26,7 @@ Acceptance: deterministic fixture tests pass and serialized examples validate ag
 
 ## Milestone 2 — Local collector
 
-Implement the planned CLI, Chrome lifecycle, Maps adapter, bounded scrolling, screenshot consistency checks, query-attempt isolation, and local output manifests. Implement the agreed English desktop profile first; unsupported layouts are explicit outcomes.
+Implement the planned CLI, Chromium lifecycle, Maps adapter, bounded scrolling, screenshot consistency checks, query-attempt isolation, and local output manifests. Implement the agreed English desktop profile first; unsupported layouts are explicit outcomes.
 
 Proposed command interface, not currently available:
 
@@ -45,7 +45,7 @@ Acceptance: uploaded PNG/JSON/CSV artifacts independently read back with matchin
 
 ## Milestone 4 — Container and target Job
 
-Build the dedicated Chrome image, record its browser version, and add a manual Job template with explicit CPU, memory, disk, shared-memory, deadline, and cleanup settings. Keep `backoffLimit: 0` initially and use the application's bounded retry rules.
+Build the image on the official Playwright base with bundled Chromium, record its browser version, and add a manual Job template with explicit CPU, memory, disk, shared-memory, deadline, and cleanup settings. Keep `backoffLimit: 0` initially and use the application's bounded retry rules.
 
 Acceptance: run the same 3–5 keyword probe in the actual namespace, verify sandbox compatibility, screenshot rendering, network behavior, storage readback, timeout/SIGTERM cleanup, and evidence access after Pod deletion. Measure resources and tune proposed limits before a larger batch.
 
