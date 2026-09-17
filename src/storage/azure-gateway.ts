@@ -16,7 +16,9 @@ export interface GatewayLimits { callTimeoutMs: number; maxTries: number; tryTim
 
 /**
  * SIGTERM worst case against a stalled account: two failed persists before the store fast-fails,
- * plus the final manifest's one attempt, is about 3 x 15 s = 45 s, inside the Job's 60 s grace period.
+ * plus the final manifest's one attempt, is about 3 x 15 s = 45 s of storage time, inside the Job's
+ * 60 s grace period. The in-flight round and the browser close (capped at 10 s) come on top, and a
+ * read-back that stalls after a successful upload costs a second timeout for that persist.
  */
 export const DEFAULT_GATEWAY_LIMITS: GatewayLimits = { callTimeoutMs: 15_000, maxTries: 3, tryTimeoutMs: 10_000, retryDelayMs: 500, maxRetryDelayMs: 2_000 };
 
