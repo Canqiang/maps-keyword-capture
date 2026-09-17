@@ -36,4 +36,20 @@ describe('captureStableObservation', () => {
     await openSearch(page, await writeFixture({ query: 'q', cards: [], noResults: true }), 3000);
     expect(await captureStableObservation(page, { deadlineAt: Date.now() + 2000, settleMs: 100 })).toBeNull();
   });
+
+  it('returns null when the deadline has already passed before any read', async () => {
+    await openSearch(page, await writeFixture({ query: 'q', cards: namedCards(6) }), 5000);
+    expect(await captureStableObservation(page, { deadlineAt: Date.now() - 1, settleMs: 100 })).toBeNull();
+  });
+
+  it('reports timeout when the deadline passes after an unstable attempt', async () => {
+    await openSearch(page, await writeFixture({ query: 'q', cards: namedCards(6), jitterMs: 120 }), 5000);
+    // Attempt 1 takes ~300 ms and fails the settle check; the deadline expires before attempt 3 can start.
+    const obs = await captureStableObservation(page, { deadlineAt: Date.now() + 450, settleMs: 300, maxAttempts: 5 });
+    expect(obs).not.toBeNull();
+    expect(obs!.accepted).toBe(false);
+    expect(obs!.rejectionReason).toBe('timeout');
+    expect(obs!.attempts).toBeGreaterThanOrEqual(1);
+    expect(obs!.attempts).toBeLessThan(5);
+  });
 });
