@@ -23,7 +23,7 @@ Start with manual Jobs. Scheduling, a queue, and a run controller are later work
 | Termination grace period | 30 seconds |
 | Finished Job TTL | 24 hours |
 
-These are unmeasured starting values. Set the application deadline from batch size and per-keyword budgets, with a separate outer Job deadline. Verify Chrome sandbox compatibility rather than silently disabling it. Shared-memory usage counts against the memory budget.
+These are unmeasured starting values. Set the application deadline from batch size and per-keyword budgets, with a separate outer Job deadline. Verify Chromium sandbox compatibility rather than silently disabling it. Shared-memory usage counts against the memory budget.
 
 Run as non-root, keep permissions minimal, and mount writable paths required by the tested image. Do not enable privileged mode or host IPC by default. Pin the image digest and record Chromium, adapter, and application versions.
 
