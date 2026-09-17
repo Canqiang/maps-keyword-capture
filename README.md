@@ -4,7 +4,7 @@ Capture Google Maps business listings and original screenshots by keyword, prese
 
 ## Project status
 
-This repository is an initial scaffold containing requirements, design-aligned TypeScript contracts with compile-time checks, an input example, a detailed design, and recovered historical probe evidence. **Browser collection, ad classification, screenshots, and uploads are not implemented, and nothing has been deployed to the cluster.**
+The local collector is implemented and has been validated locally: keyword input, readiness checks, results scrolling, ad classification, screenshots, sequence reconciliation, and JSON/CSV/manifest output run under fixture tests and have completed one end-to-end run of four keywords against the live site on one machine. See [validation status](docs/validation-status.md) for what that run did and did not show. **Azure Blob delivery, the container image, the Kubernetes Job, and target-Pod acceptance are not implemented. Nothing has been deployed to the cluster, and no artifact has been delivered anywhere but the local disk.**
 
 No target business is required. Each run collects the listings observed for a keyword; downstream consumers can filter by business, compare observations over time, or prepare reports.
 
@@ -45,7 +45,7 @@ npm run capture -- --config examples/keywords.json
 - [Deployment summary](docs/deployment.md): runtime choices and cluster validation.
 - [Decisions and deviations, 2026-09-17](docs/superpowers/specs/2026-09-17-keyword-capture-design.md): why Chromium, 15 listings, query-only location behavior, Azure target, and DOM-index reconciliation.
 
-These describe planned runtime behavior. [TypeScript contracts](src/contracts.ts) now cover attempts, observations, quality, skipped inputs, and artifact readback. Runtime validation and collector implementation remain outstanding.
+The collection parts of these documents are implemented locally; the storage, container, and cluster parts still describe planned behavior. [TypeScript contracts](src/contracts.ts) cover attempts, observations, quality, skipped inputs, and artifact readback, with compile-time checks. Runtime schema validation of external JSON remains outstanding.
 
 - [Validation status](docs/validation-status.md): evidence-backed findings and remaining acceptance gates.
 - [Recovered probe archive](evidence/2026-09-17/README.md): original scripts and screenshots with checksums and explicit provenance limits.

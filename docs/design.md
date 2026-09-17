@@ -1,6 +1,6 @@
 # Detailed Design
 
-Status: proposed implementation design. No collector, storage integration, container image, or cluster deployment has been implemented or validated. The unreleased TypeScript contracts now reflect the design and have compile-time regression checks. Runtime schema validation and behavioral tests are still required. See [validation status](validation-status.md) for recovered evidence and remaining gates.
+Status: implemented for local collection, proposed for delivery. The local collector described in sections 3 to 10 exists and has been validated locally under fixture tests and in one end-to-end run of four keywords against the live site; see [validation status](validation-status.md) for what that run did and did not show. Azure Blob delivery, the container image, the Kubernetes Job, and target-Pod acceptance are not implemented or validated. The unreleased TypeScript contracts reflect the design and have compile-time regression checks; runtime schema validation of external JSON is still required.
 
 Decisions made on 2026-09-17 that refine this design (Chromium instead of Chrome, 15 listings, query-only location behavior, Azure Blob target, DOM-index reconciliation) are recorded with their rationale in [Decisions and Deviations, 2026-09-17](superpowers/specs/2026-09-17-keyword-capture-design.md). This document has been updated to match.
 
