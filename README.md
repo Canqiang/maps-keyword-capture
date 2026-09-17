@@ -30,11 +30,12 @@ The container image is based on the official Playwright Linux image, which bundl
 
 ```bash
 npm ci
-npm run typecheck
-npm test
+npx playwright install chromium
+npm test                      # contract type tests + unit and fixture tests
+npm run capture -- --config examples/keywords.json
 ```
 
-These commands check TypeScript contracts only; they do not validate external JSON or exercise a browser. There is no executable capture command yet. Historical laptop probes exist, but production readiness, the target Linux/Pod profile, and storage integration remain unvalidated. See [validation status](docs/validation-status.md).
+`npm run capture` runs the local collector in local-only persistence mode. It launches the bundled Chromium (`channel: "chromium"`), collects each keyword sequentially, and writes `outputs/maps-keyword-capture/<date>/<runId>/<attemptId>/` with `request.json`, per-query `q000N/qa0M/` folders (result JSON, CSV, `observations.jsonl`, PNGs), `manifest.progress.json`, and the final `manifest.json`. The exit code is 0 when every keyword is captured, 2 for a partial batch, 1 for a failed batch, and 64 for an invalid configuration. The summary line printed last includes the manifest path and `remotePersistence: not_requested`.
 
 ## Design documents
 
@@ -64,7 +65,7 @@ docs/implementation-plan.md  Implementation milestones and acceptance gates
 
 ## Next steps
 
-1. Add runtime schema validation and deterministic ranking/evidence tests; then implement local Chromium collection: keyword input, result readiness, scrolling, ad classification, screenshots, and JSON/CSV output.
+1. Done locally: keyword input, result readiness, scrolling, ad classification, screenshots, and JSON/CSV output. See docs/validation-status.md for what the local run has and has not shown.
 2. Run 3–5 keywords in the target Pod to verify access, screenshots, ad markup, and challenge detection.
 3. Integrate Azure Blob Storage with independent readback verification; add the container image and Job manifest.
 4. Verify partial failures, timeouts, process cleanup, and artifact persistence after Pod deletion.
