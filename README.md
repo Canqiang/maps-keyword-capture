@@ -4,7 +4,9 @@ Capture Google Maps business listings and original screenshots by keyword, prese
 
 ## Project status
 
-The local collector is implemented and has been validated locally: keyword input, readiness checks, results scrolling, ad classification, screenshots, sequence reconciliation, and JSON/CSV/manifest output run under fixture tests and have completed one end-to-end run of four keywords against the live site on one machine. See [validation status](docs/validation-status.md) for what that run did and did not show. **Azure Blob delivery, the container image, the Kubernetes Job, and target-Pod acceptance are not implemented. Nothing has been deployed to the cluster, and no artifact has been delivered anywhere but the local disk.**
+The collector, Azure Blob delivery with read-back verification, the container image, and the production Kubernetes Job are implemented. They were accepted in Dev on 2026-09-17: a 20-keyword batch ran in the target Pod with every artifact delivered to the private container and verified by read-back, and a Job stopped with SIGTERM still published a verified final manifest. See [validation status](docs/validation-status.md) for what those runs did and did not show.
+
+Scheduling (CronJob), workload identity, a results viewer, and report generation are not implemented.
 
 No target business is required. Each run collects the listings observed for a keyword; downstream consumers can filter by business, compare observations over time, or prepare reports.
 
@@ -66,9 +68,10 @@ docs/implementation-plan.md  Implementation milestones and acceptance gates
 
 ## Next steps
 
-1. Done locally: keyword input, result readiness, scrolling, ad classification, screenshots, and JSON/CSV output. See docs/validation-status.md for what the local run has and has not shown.
-2. Run 3–5 keywords in the target Pod to verify access, screenshots, ad markup, and challenge detection.
-3. Integrate Azure Blob Storage with independent readback verification; add the container image and Job manifest.
-4. Verify partial failures, timeouts, process cleanup, and artifact persistence after Pod deletion.
+1. Schedule batches with a CronJob.
+2. Authenticate the Pod with workload identity instead of a container SAS.
+3. Add a results viewer.
+4. Add report generation.
+5. Exercise SAS rotation and revocation, and a storage outage, in the Pod.
 
-Start with manually triggered Jobs. Scheduled execution and an administration UI are outside the initial scope.
+Batches are started manually today; see [deploy/job/README.md](deploy/job/README.md).

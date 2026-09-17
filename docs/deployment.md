@@ -22,7 +22,7 @@ The first version uses query-only search: omit `mapView` from the input, submit 
 | Ephemeral storage request / limit | 1Gi / 3Gi |
 | Disk-backed work volume | 2Gi maximum |
 | Dedicated memory-backed `/dev/shm` | 512Mi |
-| Termination grace period | 60 seconds |
+| Termination grace period | 120 seconds (worst case about 90 s with a stalled storage account) |
 | Active deadline | 3000 seconds (20 keywords) |
 | Finished Job TTL | 24 hours |
 
