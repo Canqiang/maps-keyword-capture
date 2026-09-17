@@ -15,10 +15,9 @@ export const DEFAULT_CONTAINER = 'maps-keyword-capture';
 export interface GatewayLimits { callTimeoutMs: number; maxTries: number; tryTimeoutMs: number; retryDelayMs: number; maxRetryDelayMs: number }
 
 /**
- * SIGTERM worst case against a stalled account: two failed persists before the store fast-fails,
- * plus the final manifest's one attempt, is about 3 x 15 s = 45 s of storage time, inside the Job's
- * 60 s grace period. The in-flight round and the browser close (capped at 10 s) come on top, and a
- * read-back that stalls after a successful upload costs a second timeout for that persist.
+ * SIGTERM worst case against a stalled account: the in-flight round, the browser close (capped at
+ * 10 s), two failed persists at 15 s each before the store fast-fails, and the final manifest's one
+ * attempt with its read-back (15 s each), about 90 s in all, inside the Job's 120 s grace period.
  */
 export const DEFAULT_GATEWAY_LIMITS: GatewayLimits = { callTimeoutMs: 15_000, maxTries: 3, tryTimeoutMs: 10_000, retryDelayMs: 500, maxRetryDelayMs: 2_000 };
 

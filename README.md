@@ -48,7 +48,7 @@ AZURE_STORAGE_ACCOUNT_URL=https://fbrdevstorage.blob.core.windows.net npm run ca
 - [Deployment summary](docs/deployment.md): runtime choices and cluster validation.
 - [Decisions and deviations, 2026-09-17](docs/superpowers/specs/2026-09-17-keyword-capture-design.md): why Chromium, 15 listings, query-only location behavior, Azure target, and DOM-index reconciliation.
 
-The collection parts of these documents are implemented locally; the storage, container, and cluster parts still describe planned behavior. [TypeScript contracts](src/contracts.ts) cover attempts, observations, quality, skipped inputs, and artifact readback, with compile-time checks. Runtime schema validation of external JSON remains outstanding.
+These documents describe implemented behavior, except for the items listed under Next steps. [TypeScript contracts](src/contracts.ts) cover attempts, observations, quality, skipped inputs, and artifact readback, with compile-time checks. Runtime schema validation of external JSON remains outstanding.
 
 - [Validation status](docs/validation-status.md): evidence-backed findings and remaining acceptance gates.
 - [Recovered probe archive](evidence/2026-09-17/README.md): original scripts and screenshots with checksums and explicit provenance limits.

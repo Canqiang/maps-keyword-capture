@@ -1,6 +1,6 @@
-# Deployment Summary (Not Yet Implemented)
+# Deployment Summary
 
-The complete runtime design is in [Detailed Design](design.md#12-kubernetes-execution). Delivery gates are in [Implementation Plan](implementation-plan.md). No image, Job manifest, or live resources exist yet.
+The complete runtime design is in [Detailed Design](design.md#12-kubernetes-execution). Delivery gates are in [Implementation Plan](implementation-plan.md). The image is built with `az acr build` (see [deploy/job/README.md](../deploy/job/README.md)), the production Job is [deploy/job/job.yaml](../deploy/job/job.yaml), and acceptance evidence is in [validation status](validation-status.md).
 
 ## Selected approach
 
