@@ -51,6 +51,8 @@ Acceptance: uploaded PNG/JSON/CSV artifacts independently read back with matchin
 
 ## Milestone 4 — Container and target Job
 
+Status 2026-09-17: container image and a Dev trial Job exist (`Dockerfile`, `deploy/dev-trial/`); one five-keyword batch ran in `dev-ai` with the Chromium sandbox enabled. Azure delivery, the production Job template, and SIGTERM/deadline acceptance are not done. See validation-status.md.
+
 Build the image on the official Playwright base with bundled Chromium, record its browser version, and add a manual Job template with explicit CPU, memory, disk, shared-memory, deadline, and cleanup settings. Keep `backoffLimit: 0` initially and use the application's bounded retry rules.
 
 Acceptance: run the same 3–5 keyword probe in the actual namespace, verify sandbox compatibility, screenshot rendering, network behavior, storage readback, timeout/SIGTERM cleanup, and evidence access after Pod deletion. Measure resources and tune proposed limits before a larger batch.

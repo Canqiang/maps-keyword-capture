@@ -4,7 +4,7 @@ The complete runtime design is in [Detailed Design](design.md#12-kubernetes-exec
 
 ## Selected approach
 
-Run one independent Kubernetes Job per keyword batch in namespace `dev-ai` of the FBRDev AKS cluster (eastus2). Use an image based on the official Playwright Linux image with its bundled Chromium, one browser, and sequential keyword processing. Publish to `fbrdevacr.azurecr.io/ai/maps-keyword-capture`, schedule on `envpool=aiapp`, and pull with `docker-registry-secret`, matching the existing `dev-ai` Jobs. Do not depend on a Core AI Agent session or long-running sandbox lifecycle.
+Run one independent Kubernetes Job per keyword batch in namespace `dev-ai` of the FBRDev AKS cluster (eastus2). Use an image based on the official Playwright Linux image with its bundled Chromium, one browser, and sequential keyword processing. Publish to `fbrdevacr.azurecr.io/ai/maps-keyword-capture`, schedule on `envpool=aiapp`, and pull through the kubelet identity (no `imagePullSecrets`), matching the existing `dev-ai` workloads. Do not depend on a Core AI Agent session or long-running sandbox lifecycle.
 
 Start with manual Jobs. Scheduling, a queue, and a run controller are later work.
 

@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: maps-capture-dev-trial-keywords
+  namespace: dev-ai
+  labels:
+    app.kubernetes.io/name: maps-keyword-capture
+    app.kubernetes.io/component: dev-trial
+data:
+  keywords.json: |
+    {
+      "schemaVersion": "1",
+      "keywords": [
+        "bubble tea garden city ny",
+        "fried chicken mineola",
+        "matcha mineola",
+        "plumber mineola ny",
+        "dentist garden city ny"
+      ],
+      "maxResultsPerKeyword": 15,
+      "maxScrollsPerKeyword": 6,
+      "maxScreenshotsPerKeyword": 5,
+      "keywordTimeoutMs": 90000,
+      "locale": "en-US",
+      "browserTimezoneId": "America/New_York",
+      "filenameTimezone": "Asia/Shanghai",
+      "viewport": { "width": 1440, "height": 1000 },
+      "outputDirectory": "/work/outputs"
+    }

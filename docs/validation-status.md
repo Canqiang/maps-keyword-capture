@@ -14,8 +14,8 @@ Updated 2026-09-17. This page distinguishes recovered historical evidence, compi
 | 15 listings within 6 scrolls / 5 results screenshots | Measured on 2026-09-17: `fried chicken mineola` reached the 15-listing limit in 4 scrolls and 5 results screenshots, the only keyword to reach the limit. The other three ended at the list end first: 13 listings / 3 scrolls / 4 PNGs, 5 / 1 / 2, and 14 / 3 / 4 | Both budgets held, but the screenshot budget was consumed exactly at 5/5 on the one keyword that reached 15, so it has no margin. Four keywords on one machine; not a distribution, and not measured in the Pod |
 | Contract shape | `src/contracts.ts`, `tests/contracts.type-test.ts` | Compile-time constraints covered; external JSON and cross-field relationships still need runtime validators |
 | Empty, consent, CAPTCHA, second ad layout | No recovered samples | Missing fixtures and runtime evidence |
-| Sandboxed Chromium in target Pod | No recovered evidence; scripts do not explicitly enable sandbox | Startup, resource use, timeout/SIGTERM, and query-only batch acceptance outstanding |
-| Azure persistence | Design only | Upload plus independent byte/hash/image readback and final manifest receipt outstanding |
+| Sandboxed Chromium in target Pod | Dev trial Job on 2026-09-17 (`deploy/dev-trial`): Chromium launched with `chromiumSandbox: true` as uid 1001, all capabilities dropped, no privilege escalation, read-only root filesystem, default seccomp; 5 keywords captured and no browser process left after the batch | Startup and one query-only batch verified in the Pod. SIGTERM inside the Pod, a 20-keyword batch, and repeated runs from the same egress are not yet exercised |
+| Azure persistence | Design only; the Dev trial kept results on the Pod and copied them out with `kubectl cp` | Upload plus independent byte/hash/image readback and final manifest receipt outstanding |
 
 See the [evidence archive](../evidence/2026-09-17/README.md) and its [inventory](../evidence/2026-09-17/inventory.json) for original files and hashes. Source modification times are not browser capture timestamps. No recovered PNG is promoted to a structured, verified ranking result.
 
@@ -182,3 +182,24 @@ A review of the screenshots and field values from the local runs found six probl
 | Ctrl+C under `npm run capture` killed the process before `manifest.json` and left two browser processes | The terminal delivers SIGINT to both npm and node and npm forwards it again; signal handlers are now persistent and idempotent (SIGINT, SIGTERM, SIGHUP), so repeated signals are ignored while the in-flight keyword stops. |
 
 Verification run `run_20260917T094345Z_c373eb` (four keywords): three `captured`, the nonsense keyword `partial / classification_unknown`; no `map_unsettled` warnings; `observedMapView` recorded for the three real keywords; no address containing a phone number or longer than 40 characters, and no category starting with a rating. `fried chicken mineola` again used all 5 results screenshots for 15 listings.
+
+## Dev trial run in the target cluster (2026-09-17)
+
+A manual Job (`deploy/dev-trial/job.yaml`) ran image `fbrdevacr.azurecr.io/ai/maps-keyword-capture:35cd4db` (`sha256:172bbbd9…`) in namespace `dev-ai` on node `aks-aiapp-34077033-vmss000004`, run `run_20260917T100353Z_3a51a6`, with no Azure upload. Results were copied out with `kubectl cp`; all 30 artifacts matched the manifest's size and SHA-256.
+
+| Keyword | Status / stop reason | Listings | Results PNGs | Observed map view |
+|---|---|---|---|---|
+| bubble tea garden city ny | captured / end_of_results | 7 | 2 | 40.7337, -73.6485, z14 |
+| fried chicken mineola | captured / limit_reached | 15 | 5 | 40.7485, -73.6363, z14 |
+| matcha mineola | captured / end_of_results | 4 | 1 | none (see below) |
+| plumber mineola ny | captured / limit_reached | 15 | 4 | 38.8421, -83.6258, z5 |
+| dentist garden city ny | captured / limit_reached | 15 | 3 | 40.7278, -73.6365, z14 |
+
+- **Access from the cluster egress.** The Pod egress is Microsoft AS8075 in Boydton, Virginia. Every keyword reached the results page on the first navigation (~1.2 s); no CAPTCHA, consent page, or retry. One batch of five keywords; repeated or larger batches from this egress are untested.
+- **Sandbox and security context.** Chromium started with its sandbox enabled under `runAsNonRoot` (uid 1001), `capabilities: drop [ALL]`, `allowPrivilegeEscalation: false`, and `readOnlyRootFilesystem: true`, with memory-backed `/dev/shm` (512Mi) and `emptyDir` mounts for `/tmp` and `/work`. No `imagePullSecrets`: the kubelet identity pulls from `fbrdevacr`, as for other `dev-ai` workloads.
+- **Rendering.** Screenshots show loaded map tiles, the filter bar, and no transient hint; fonts render normally in the container.
+- **Time and resources.** The batch took 88 s for five keywords (10.7-24.6 s each, including the first-frame settle wait). `kubectl top` samples every ~16 s peaked at 1120m CPU and 441Mi memory, within the requests of 500m / 1Gi and limits of 2 / 2Gi; the sampling is too coarse to rule out short spikes. No browser process remained after the batch.
+- **Results differ from the laptop.** `matcha mineola` returned 4 listings ending in "You've reached the end of the list", against 14 from the laptop earlier the same day; the screenshot confirms the short list. Rankings for the other keywords matched the laptop runs at the top positions. No Sponsored card appeared in this run.
+- **Defect found and fixed.** For a keyword finished in a single observation (`matcha mineola`), `observedMapView` was null: the URL was read from the snapshot taken before the first screenshot waits for the view to settle, and the page rewrites its URL during that wait. The runner now reads the page URL after the screenshot; the fix is in image `bd59879` (`sha256:9c7c86e3…`), which `deploy/dev-trial/job.yaml` now pins. The trial was not re-run with that image.
+
+Still outstanding before a production Job: Azure Blob upload with read-back verification, SIGTERM and deadline behaviour inside the Pod, a full 20-keyword batch, and the deferred hardening items (final manifest written before closing the browser, a breaker for repeated unsupported layouts).
