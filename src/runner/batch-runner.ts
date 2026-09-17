@@ -22,6 +22,8 @@ export interface BatchDeps {
   searchUrlFor?: (keyword: string) => string;
   openSearchImpl?: QueryRunnerDeps['openSearchImpl'];
   signal?: AbortSignal;
+  /** Consecutive unsupported layouts from the preceding daily batch. Defaults to zero. */
+  initialUnsupportedLayoutStreak?: number;
   /** Where artifacts are written and delivered. Defaults to local disk under config.outputDirectory. */
   store?: ArtifactStore;
 }
@@ -33,6 +35,14 @@ export interface BatchOutput {
   /** Delivery receipt for manifest.json in remote mode; null in local mode or if it could not be written. */
   manifestReceipt: ManifestDeliveryReceipt | null;
   exitCode: 0 | 1 | 2;
+}
+
+/** A terminal manifest was published before an operational exception escaped the batch. */
+export class BatchExecutionError extends Error {
+  constructor(cause: unknown, readonly output: BatchOutput) {
+    super(cause instanceof Error ? cause.message : String(cause), { cause });
+    this.name = 'BatchExecutionError';
+  }
 }
 
 export function batchDeadlineMs(config: CaptureConfig): number {
@@ -138,8 +148,9 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
   };
   let breaker = false;
   let batchStop: SkipReason | null = null;
-  let unsupportedStreak = 0;
+  let unsupportedStreak = deps.initialUnsupportedLayoutStreak ?? 0;
   let output: BatchOutput | undefined;
+  let failure: { cause: unknown } | undefined;
   try {
     for (const [inputIndex, keyword] of config.keywords.entries()) {
       const queryId = queryIdFor(inputIndex);
@@ -205,10 +216,13 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
         throw err;
       }
     }
+  } catch (cause) {
+    failure = { cause };
   } finally {
     if (await closeWithin(browser, BROWSER_CLOSE_TIMEOUT_MS) === 'timed_out') log({ stage: 'browser_close_timeout', runId, attemptId });
     output = await finish();
   }
   if (!output) throw new Error('batch finished without publishing a manifest');
+  if (failure) throw new BatchExecutionError(failure.cause, output);
   return output;
 }

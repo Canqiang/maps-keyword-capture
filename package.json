@@ -13,7 +13,8 @@
     "test:unit": "vitest run",
     "test": "npm run test:contracts && npm run test:unit",
     "build": "tsc -p tsconfig.build.json",
-    "capture": "tsx src/cli.ts"
+    "capture": "tsx src/cli.ts",
+    "monitor": "tsx src/monitor/cli.ts"
   },
   "dependencies": {
     "@azure/identity": "4.13.3",
@@ -26,6 +27,7 @@
     "azurite": "3.37.0",
     "tsx": "4.23.13",
     "typescript": "7.0.2",
-    "vitest": "5.0.1"
+    "vitest": "5.0.1",
+    "yaml": "2.9.1"
   }
 }
