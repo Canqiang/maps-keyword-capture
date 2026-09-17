@@ -1,38 +1,48 @@
-# Independent Kubernetes Job Design (Not Yet Implemented)
+# Deployment Summary (Not Yet Implemented)
+
+The complete runtime design is in [Detailed Design](design.md#12-kubernetes-execution). Delivery gates are in [Implementation Plan](implementation-plan.md). No image, Job manifest, or live resources exist yet.
 
 ## Selected approach
 
-Run an independent Job in the existing cluster, once per batch, and exit when finished. The collector does not depend on a Core AI Agent session or the lifecycle of a long-running sandbox. No image, Job manifest, or live resources exist yet.
+Run one independent Kubernetes Job per keyword batch in the existing cluster. Use a dedicated Node.js/Playwright image with installed Google Chrome, one browser, and sequential keyword processing. Do not depend on a Core AI Agent session or long-running sandbox lifecycle.
 
-## Image and resources
+Start with manual Jobs. Scheduling, a queue, and a run controller are later work.
 
-- Use Node.js, a pinned Playwright version, and Google Chrome. Validate architecture compatibility during the build, record the Chrome version, and deploy by image digest.
-- Run as a non-root user and verify the cluster capabilities required for Chrome's sandbox. Do not enable privileged mode, `hostIPC`, or `SYS_ADMIN` by default, or disable Chrome's sandbox without validating the implications.
-- Configure an init process, child-process reaping, SIGTERM handling, per-keyword deadlines, and a batch deadline. Timeouts must terminate browser child processes.
-- Start with one browser processing keywords sequentially. CPU request 500m / limit 2, memory request 1Gi / limit 2Gi, and shared memory of 256–512Mi are initial load-test candidates, not validated capacity requirements.
-- Set explicit ephemeral-storage requests/limits and a temporary-disk `sizeLimit`. Mount `/dev/shm` separately and account for memory-backed volumes in the total memory budget.
-- Bound viewport size and screenshot count instead of producing extremely tall full-page images. Preserve browser stderr, exit codes, and stage timings.
+## Initial settings to validate
 
-## Jobs and storage
+| Setting | Proposed value |
+|---|---|
+| Browser launch | `channel: "chrome"`, `headless: true`, `chromiumSandbox: true` |
+| Job parallelism / completions | 1 / 1 |
+| Restart policy / backoff limit | `Never` / 0 |
+| CPU request / limit | 500m / 2 |
+| Memory request / limit | 1Gi / 2Gi |
+| Ephemeral storage request / limit | 1Gi / 3Gi |
+| Disk-backed work volume | 2Gi maximum |
+| Dedicated memory-backed `/dev/shm` | 256Mi |
+| Termination grace period | 30 seconds |
+| Finished Job TTL | 24 hours |
 
-- Create Jobs manually in the first version. Configure `activeDeadlineSeconds`, a bounded `backoffLimit`, and `ttlSecondsAfterFinished`. Automatic retries must preserve the logical `runId` to prevent duplicate data.
-- Add a CronJob later if scheduling is required; it is not part of the current default scope.
-- Grant access only to the object-storage prefix needed by the capture task. Use workload identity or a dedicated Secret rather than copying the full Core AI configuration.
-- Local output, upload completion, and verified persistence are separate states. Verified artifacts and the manifest must remain readable after Pod deletion.
-- Record CAPTCHA as `blocked`. Do not bypass it automatically or treat a challenge page as a valid result.
+These are unmeasured starting values. Set the application deadline from batch size and per-keyword budgets, with a separate outer Job deadline. Verify Chrome sandbox compatibility rather than silently disabling it. Shared-memory usage counts against the memory budget.
 
-## Acceptance criteria
+Run as non-root, keep permissions minimal, use scoped storage access, and mount writable paths required by the tested image. Do not enable privileged mode or host IPC by default. Pin the image digest and record Chrome, adapter, and application versions.
 
-1. Validate extraction locally, then run 3–5 keywords in the target Pod, including `bubble tea garden city`.
-2. Check display order including ads, ad labels, organic rankings, and separate ad/organic occurrences of the same business.
-3. Confirm that overlapping scroll observations are not counted twice, lower listings have screenshot evidence, and uncertain rankings remain null.
-4. Exercise no-result, CAPTCHA, timeout, and partial-success cases. Every input keyword must appear in the manifest.
-5. Independently read back PNG/JSON/CSV files after upload and verify content and checksums. Confirm that the files remain accessible after Pod deletion.
-6. Check that timeouts, termination, and normal completion leave no browser processes behind. Measure actual peak CPU, memory, and disk usage.
+## Delivery and recovery
+
+Persist and independently read back each completed keyword before starting the next. Store immutable artifacts under unique run/worker-attempt/query-attempt prefixes. Publish a final attempt manifest only after the artifact index is verified.
+
+Collection quality and storage verification are separate states. Partial results may be durably saved; a successful process exit alone does not prove complete collection. Do not merge different attempts or automatically choose the attempt showing the best rank.
+
+Use bounded application retries for transient browser errors. Stop on CAPTCHA and mark remaining inputs as skipped. Job-level retries are initially disabled. A crashed Pod may lose its unfinished query, while earlier verified results remain available. Exactly-once execution and automatic Pod-level resume are not promised by the initial version.
+
+## Before deploying
+
+Confirm the actual namespace, registry, node architecture, Chrome sandbox behavior, egress profile, storage provider and identity, and measured resource use. Validate 3–5 live keywords in the target Pod before a larger batch. Exercise timeout, SIGTERM, upload failure, and access to artifacts after Pod deletion.
 
 ## Official references
 
 - [Playwright and Google Chrome](https://playwright.dev/docs/browsers#google-chrome--microsoft-edge)
-- [Running Playwright in Docker](https://playwright.dev/docs/docker)
+- [Playwright launch options](https://playwright.dev/docs/api/class-browsertype#browser-type-launch-option-chromium-sandbox)
+- [Playwright in Docker](https://playwright.dev/docs/docker)
 - [Kubernetes Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
-- [Google local ranking guidance](https://support.google.com/business/answer/7091?hl=en)
+- [Kubernetes emptyDir volumes](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)

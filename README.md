@@ -4,7 +4,7 @@ Capture Google Maps business listings and original screenshots by keyword, prese
 
 ## Project status
 
-This repository is an initial scaffold containing requirements, data contracts, an input example, and a deployment design. **Browser collection, ad classification, screenshots, and uploads are not implemented, and nothing has been deployed to the cluster.**
+This repository is an initial scaffold containing requirements, preliminary data contracts, an input example, a detailed design, and an implementation plan. **Browser collection, ad classification, screenshots, and uploads are not implemented, and nothing has been deployed to the cluster.**
 
 No target business is required. Each run collects the listings observed for a keyword; downstream consumers can filter by business, compare observations over time, or prepare reports.
 
@@ -35,13 +35,24 @@ npm run typecheck
 
 These commands validate the data contracts only. There is no executable capture command yet. Dependencies are pinned in the lockfile; browser compatibility has not been validated.
 
+## Design documents
+
+- [Detailed design](docs/design.md): architecture, browser workflow, ad evidence, sequence reconciliation, output contracts, persistence, and Job operations.
+- [Implementation plan](docs/implementation-plan.md): phased deliverables and acceptance gates.
+- [Collection specification](docs/spec.md): concise output and ranking conventions.
+- [Deployment summary](docs/deployment.md): runtime choices and cluster validation.
+
+These describe planned behavior. The preliminary TypeScript contracts must be extended as listed in the detailed design before runtime implementation.
+
 ## Repository layout
 
 ```text
 src/contracts.ts         Input, result, and batch status contracts
 examples/keywords.json   Example keyword configuration
 docs/spec.md             Ranking, ads, deduplication, and output conventions
-docs/deployment.md       Independent Job design and acceptance criteria
+docs/deployment.md       Independent Job deployment summary
+docs/design.md           Detailed architecture and behavior
+docs/implementation-plan.md  Implementation milestones and acceptance gates
 ```
 
 ## Next steps

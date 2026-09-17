@@ -1,5 +1,7 @@
 # Collection Specification
 
+This is the concise specification. See [the detailed design](design.md) for the algorithm, attempt isolation, evidence protocol, and planned contract extensions. No collector is implemented yet.
+
 ## Scope
 
 Input consists of keywords and shared query settings; no target business is required. The default scope is the first 20 displayed listings, including ads, not every business available on Google Maps. General web search would require a separate adapter and must not share Maps ranking semantics.
@@ -33,12 +35,14 @@ Keep ad and organic occurrences of the same business separately. A business iden
 ## Files and storage
 
 ```text
-outputs/2026-09-17/<run-id>/
+outputs/2026-09-17/<run-id>/<attempt-id>/q0001/
   20260917T143025.123+0800__bubble-tea-garden-city__<query-id>.json
   20260917T143025.123+0800__bubble-tea-garden-city__<query-id>.csv
-  20260917T143025.123+0800__bubble-tea-garden-city__<query-id>__01.png
-  manifest.json
+  qa01/
+    20260917T143025.123+0800__bubble-tea-garden-city__<query-id>__01.png
 ```
+
+The final manifest is at the attempt root; screenshot files are isolated by query attempt as detailed in [the output layout](design.md#10-data-model-and-output).
 
 Use the configured timezone in filenames and retain the UTC offset. JSON timestamps use ISO 8601 with a timezone. Normalize Unicode, sanitize path characters, and limit keyword length in filenames; retain the complete original keyword in JSON. Run and query IDs prevent collisions within the same second or after sanitization.
 
