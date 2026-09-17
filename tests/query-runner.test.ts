@@ -187,4 +187,18 @@ describe('runQueryAttempt', () => {
     expect(out.result.quality.warnings.map((w) => w.code)).toContain('diagnostic_screenshot_failed');
     expect(out.result.screenshots).toEqual([]);
   });
+  it('stops at the verified prefix when a committed card is replaced between rounds', async () => {
+    const url = await writeFixture({
+      query: 'q', cards: namedCards(6), moreCards: namedCards(6, 6),
+      replaceCardAtOnScroll: { index: 3, name: 'Swapped Shop' },
+    });
+    const out = await runQueryAttempt(deps(url), input({ queryId: 'q0012', keyword: 'q' }));
+    expect(out.result.status).toBe('partial');
+    expect(out.result.stopReason).toBe('sequence_ambiguous');
+    expect(out.result.sequenceVerified).toBe(false);
+    expect(out.result.observedCount).toBe(3);
+    expect(out.result.quality.verifiedPrefixLength).toBe(3);
+    expect(out.result.listings.map((l) => l.name)).toEqual(['Shop 01', 'Shop 02', 'Shop 03']);
+    expect(out.result.quality.warnings.map((w) => w.code)).toContain('sequence_ambiguous');
+  });
 });

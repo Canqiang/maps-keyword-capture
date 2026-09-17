@@ -13,6 +13,8 @@ export interface FixtureOptions {
   deferQueryMs?: number;
   /** Live cards that show a review count label the rating "4.8 stars 97 Reviews" rather than "4.8 stars". */
   ratingLabelStyle?: 'stars' | 'stars_reviews';
+  /** Replace an already mounted card's name and href when `moreCards` load, as a reordered feed would. */
+  replaceCardAtOnScroll?: { index: number; name: string };
 }
 
 function esc(s: string): string {
@@ -52,6 +54,13 @@ export function buildFeedFixtureHtml(o: FixtureOptions): string {
     ? `<input name="q" type="text" value="${esc(o.query)}">`
     : `<input id="searchboxinput" value="${esc(o.query)}">`;
   const defer = o.deferQueryMs ?? 0;
+  const swap = o.replaceCardAtOnScroll
+    ? JSON.stringify({
+        index: o.replaceCardAtOnScroll.index,
+        name: o.replaceCardAtOnScroll.name,
+        href: `https://www.google.com/maps/place/${encodeURIComponent(o.replaceCardAtOnScroll.name)}/data=!4m7!3m6!1s0x89c2ffffffffffff:0xffff!8m2!3d40.7!4d-73.6`,
+      })
+    : 'null';
   return `<!doctype html><html><head><title>${esc(defer ? 'Google Maps' : title)}</title>
 <style>
   body { margin: 0; width: 1440px; height: 1000px; font: 14px sans-serif; position: relative; }
@@ -78,6 +87,16 @@ ${defer ? '' : inputHtml}
   const feed = document.getElementById('feed');
   const more = ${more};
   const endOfList = ${o.endOfList ? 'true' : 'false'};
+  const swap = ${swap};
+  const applySwap = () => {
+    if (!swap) return;
+    const el = feed.querySelectorAll('.card')[swap.index];
+    if (!el) return;
+    const link = el.querySelector('a');
+    link.setAttribute('aria-label', swap.name);
+    link.setAttribute('href', swap.href);
+    el.querySelector('.name').textContent = swap.name;
+  };
   let ended = false, pending = false;
   feed.addEventListener('scroll', () => {
     if (pending) return;
@@ -85,7 +104,7 @@ ${defer ? '' : inputHtml}
     const trailer = feed.querySelector('.trail0');
     if (more.length > 0) {
       pending = true;
-      setTimeout(() => { trailer.insertAdjacentHTML('beforebegin', more.splice(0, more.length).join('')); pending = false; }, 150);
+      setTimeout(() => { trailer.insertAdjacentHTML('beforebegin', more.splice(0, more.length).join('')); applySwap(); pending = false; }, 150);
     } else if (endOfList && !ended) {
       ended = true;
       trailer.insertAdjacentHTML('beforebegin', '<div class="end">You\\'ve reached the end of the list.</div>');

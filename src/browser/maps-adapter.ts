@@ -16,6 +16,11 @@ export function buildSearchUrl(keyword: string, locale: string): string {
   return url.toString();
 }
 
+/**
+ * The inline `page.evaluate` closures below must contain no named inner functions: the tsx/esbuild
+ * transform rewrites those to `__name(fn, "…")`, which does not exist in the page. Anything that
+ * needs a helper goes through `pageFunctionSource`.
+ */
 export async function detectPageState(page: Page): Promise<PageState> {
   const url = new URL(page.url());
   if (url.pathname.includes('/sorry/')) return { kind: 'captcha' };
@@ -31,12 +36,15 @@ export async function detectPageState(page: Page): Promise<PageState> {
   return { kind: 'unknown', detail: `no feed at ${page.url()}` };
 }
 
+/** One absolute deadline covers navigation and the readiness poll, so a slow page cannot spend the
+ * navigation budget and then a second, full polling budget on top of it. */
 export async function openSearch(page: Page, url: string, timeoutMs: number): Promise<{ state: PageState; finalUrl: string }> {
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: timeoutMs });
   const deadline = Date.now() + timeoutMs;
+  const remaining = () => deadline - Date.now();
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: Math.max(1, remaining()) });
   let state = await detectPageState(page);
-  while (state.kind === 'unknown' && Date.now() < deadline) {
-    await page.waitForTimeout(250);
+  while (state.kind === 'unknown' && remaining() > 0) {
+    await page.waitForTimeout(Math.min(250, remaining()));
     state = await detectPageState(page);
   }
   return { state, finalUrl: page.url() };

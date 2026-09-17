@@ -36,6 +36,38 @@ describe('page function serialization', () => {
     await expect(page.evaluate(`(${keepNamesFn})()`)).rejects.toThrow(/__name is not defined/);
     await expect(page.evaluate(pageFunctionSource(keepNamesFn))).resolves.toBeGreaterThan(0);
   });
+
+  it('always sends readSnapshot through the __name wrapper', async () => {
+    let seen: unknown = null;
+    const fake = { evaluate: async (arg: unknown) => { seen = arg; return null; } } as unknown as Page;
+    expect(await readSnapshot(fake)).toBeNull();
+    expect(typeof seen).toBe('string');
+    expect(seen as string).toContain('const __name');
+  });
+});
+
+describe('openSearch budget', () => {
+  it('keeps one absolute deadline across navigation and polling', async () => {
+    const timeoutMs = 1200;
+    let gotoTimeout = 0;
+    const fake = {
+      goto: async (_u: string, opts: { timeout: number }) => {
+        gotoTimeout = opts.timeout;
+        await new Promise((r) => setTimeout(r, 900));
+        return null;
+      },
+      url: () => 'https://www.google.com/maps/search/?api=1&query=x',
+      frames: () => [],
+      evaluate: async () => ({ feed: false, noResults: false }),
+      waitForTimeout: async (ms: number) => { await new Promise((r) => setTimeout(r, ms)); },
+    } as unknown as Page;
+    const startedAt = Date.now();
+    const opened = await openSearch(fake, 'https://www.google.com/maps/search/?api=1&query=x', timeoutMs);
+    const elapsed = Date.now() - startedAt;
+    expect(opened.state.kind).toBe('unknown');
+    expect(gotoTimeout).toBeLessThanOrEqual(timeoutMs);
+    expect(elapsed).toBeLessThan(timeoutMs + 300);
+  });
 });
 
 describe('page reading against the fixture', () => {
