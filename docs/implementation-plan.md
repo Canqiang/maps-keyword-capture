@@ -41,6 +41,8 @@ npm run capture -- --config examples/keywords.json --keywords-file keywords.csv
 
 Acceptance: the probe keywords produce reviewable raw screenshots and CSV/JSON with matching query/ordering evidence. Every input has a terminal result. Demonstrate one controlled timeout and clean process shutdown. Clearly identify local-only persistence.
 
+Status 2026-09-17: local run completed; see validation-status.md. Four keywords captured end to end and reconciled against their screenshots, one controlled timeout and one SIGINT shutdown exercised, no leftover browser processes. Three collector defects were found and fixed by this run (page-script serialization, the entry-page query selector, and rating parsing). No Sponsored card appeared, so live ad classification is still unexercised, and consent/CAPTCHA/no-results layouts remain fixture-only.
+
 ## Milestone 3 — Durable artifacts
 
 Confirm the existing storage provider and implement only that provider first, behind a small storage interface. Add credential handling, immutable attempt prefixes, per-query checkpoints, independent checksum readback, and final manifest publication. Verify each artifact, record its key, size, checksum, and verification time in the manifest, then upload the manifest and read it back; there is no separate artifact index.
