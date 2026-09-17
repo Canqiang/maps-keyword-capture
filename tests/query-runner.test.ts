@@ -22,6 +22,7 @@ class RefusingStore implements ArtifactStore {
     if (this.refuse(relativePath)) throw new Error(`store refused ${relativePath}`);
     return this.inner.writeFile(relativePath, data);
   }
+  absolutePath(relativePath: string): string { return this.inner.absolutePath(relativePath); }
   async persist(file: WrittenFile) { return this.inner.persist(file); }
 }
 

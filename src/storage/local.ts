@@ -3,7 +3,7 @@ import { randomBytes } from 'node:crypto';
 import { dirname, join, resolve } from 'node:path';
 import type { StorageState } from '../contracts.js';
 import { sha256Hex } from '../ids.js';
-import type { ArtifactStore, WrittenFile } from './types.js';
+import type { ArtifactStore, PersistOptions, WrittenFile } from './types.js';
 
 export class LocalArtifactStore implements ArtifactStore {
   readonly mode = 'local_only' as const;
@@ -38,7 +38,7 @@ export class LocalArtifactStore implements ArtifactStore {
     return { relativePath, bytes: buffer.byteLength, sha256: sha256Hex(buffer) };
   }
 
-  async persist(_file: WrittenFile): Promise<StorageState> {
+  async persist(_file: WrittenFile, _options?: PersistOptions): Promise<StorageState> {
     return { storageStatus: 'local_only', objectKey: null, verifiedAt: null, storageError: null };
   }
 }
