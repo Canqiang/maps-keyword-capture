@@ -168,4 +168,16 @@ describe('runQueryAttempt', () => {
     expect(written).toMatchObject({ status: 'failed', stopReason: 'error' });
     expect(written.quality.warnings.some((w) => w.code === 'export_failed')).toBe(true);
   });
+  it('keeps blocked / captcha when the diagnostic screenshot cannot be saved', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(5) });
+    const d = {
+      ...deps(url),
+      store: new RefusingStore(new LocalArtifactStore(root), (p) => p.endsWith('.png')),
+      openSearchImpl: async () => ({ state: { kind: 'captcha' as const }, finalUrl: 'https://www.google.com/sorry/index' }),
+    };
+    const out = await runQueryAttempt(d, input({ queryId: 'q0011', keyword: 'q' }));
+    expect(out.result).toMatchObject({ status: 'blocked', stopReason: 'captcha', error: null });
+    expect(out.result.quality.warnings.map((w) => w.code)).toContain('diagnostic_screenshot_failed');
+    expect(out.result.screenshots).toEqual([]);
+  });
 });

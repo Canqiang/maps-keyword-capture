@@ -147,7 +147,15 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       }
       if (stop) {
         const png = await page.screenshot({ type: 'png' }).catch(() => null);
-        if (png) await saveScreenshot(png, 'diagnostic', null);
+        // A store failure here loses the diagnostic image, not the reason the page was blocked:
+        // keep the stop cause and record the missing evidence as a warning.
+        if (png) {
+          try {
+            await saveScreenshot(png, 'diagnostic', null);
+          } catch (err) {
+            warnings.push({ code: 'diagnostic_screenshot_failed', message: `diagnostic screenshot could not be saved: ${errorOf(err, 'diagnostic_screenshot_failed').message}`, observationIds: [] });
+          }
+        }
       }
     }
 
