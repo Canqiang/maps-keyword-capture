@@ -22,7 +22,7 @@ The first version uses query-only search: omit `mapView` from the input, submit 
 | Ephemeral storage request / limit | 1Gi / 3Gi |
 | Disk-backed work volume | 2Gi maximum |
 | Dedicated memory-backed `/dev/shm` | 512Mi |
-| Termination grace period | 120 seconds (worst case about 90 s with a stalled storage account) |
+| Termination grace period | 120 seconds (worst case about 100 s plus the in-flight round with a stalled storage account) |
 | Active deadline | 3000 seconds (20 keywords) |
 | Finished Job TTL | 24 hours |
 
@@ -42,7 +42,7 @@ Use bounded application retries for transient browser errors. Stop on CAPTCHA an
 
 ## Before deploying
 
-Confirm Chromium sandbox behavior on the `aiapp` nodes and measured resource use. Earlier environment notes reported the namespace, registry, Virginia egress, and storage target on 2026-09-17; recheck operational values before deployment. Recovered laptop probes include Chrome, Chromium, a visible Sponsored card, and three query-only first screens. Target-Pod acceptance evidence is recorded under [Production Job acceptance](validation-status.md#production-job-acceptance-2026-09-17) in the validation status; the archived laptop scripts did not explicitly enable the sandbox. Validate 3–5 live query-only keywords in the target Pod before a larger batch, including ad coverage. If no live ad appears, record that gap and use fixtures for parser checks; do not declare live ad acceptance passed. Reconcile full listing order and screenshot coverage under the provisional budgets, record geographic ambiguity, and exercise timeout, SIGTERM, upload failure, and artifact access after Pod deletion. See [validation status](validation-status.md).
+Confirm Chromium sandbox behavior on the `aiapp` nodes and measured resource use. Earlier environment notes reported the namespace, registry, Virginia egress, and storage target on 2026-09-17; recheck operational values before deployment. Recovered laptop probes include Chrome, Chromium, a visible Sponsored card, and three query-only first screens. Target-Pod acceptance evidence is recorded under [Production Job acceptance](validation-status.md#production-job-acceptance-2026-09-17) in the validation status; the archived laptop scripts did not explicitly enable the sandbox. A 20-keyword batch, independent read-back, access after Pod deletion, and SIGTERM have been exercised in the Pod. Still open: live ad coverage from the cluster egress (no Sponsored card appeared in the Pod runs; parser checks rely on fixtures and one laptop sample), a blocked (CAPTCHA or consent) page in the Pod, and repeated batches over days. Record geographic ambiguity for every new keyword set. See [validation status](validation-status.md).
 
 ## Official references
 

@@ -16,8 +16,9 @@ export interface GatewayLimits { callTimeoutMs: number; maxTries: number; tryTim
 
 /**
  * SIGTERM worst case against a stalled account: the in-flight round, the browser close (capped at
- * 10 s), two failed persists at 15 s each before the store fast-fails, and the final manifest's one
- * attempt with its read-back (15 s each), about 90 s in all, inside the Job's 120 s grace period.
+ * 10 s), two failed persists before the store fast-fails (each can spend 15 s on the upload and,
+ * if the upload succeeded, another 15 s on a stalled read-back), and the final manifest's one
+ * attempt with its read-back (15 s each): about 100 s plus the round, inside the Job's 120 s grace.
  */
 export const DEFAULT_GATEWAY_LIMITS: GatewayLimits = { callTimeoutMs: 15_000, maxTries: 3, tryTimeoutMs: 10_000, retryDelayMs: 500, maxRetryDelayMs: 2_000 };
 

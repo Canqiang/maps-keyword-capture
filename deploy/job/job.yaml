@@ -27,8 +27,8 @@ spec:
       automountServiceAccountToken: false
       # SIGTERM stops the in-flight keyword at its next round, then results and the manifest are
       # uploaded. Worst case with a stalled storage account: the in-flight round, up to 10 s browser
-      # close, two failed persists bounded at 15 s each, and one final-manifest attempt with its
-      # read-back (15 s each), about 90 s.
+      # close, two failed persists (15 s upload plus 15 s stalled read-back each), and one
+      # final-manifest attempt with its read-back (15 s each), about 100 s plus the round.
       terminationGracePeriodSeconds: 120
       securityContext:
         runAsNonRoot: true
