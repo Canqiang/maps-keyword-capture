@@ -95,6 +95,14 @@ describe('applyRound', () => {
     expect(s.committed).toHaveLength(0);
   });
 
+  it('keeps the verified prefix when a later round has a visual-order violation', () => {
+    let s = createReconcileState();
+    s = applyRound(s, round('o1', [[2, 'A'], [4, 'B']]), 15);
+    s = applyRound(s, round('o2', [[6, 'C', { y: 680 }], [8, 'D', { y: 600 }]]), 15);
+    expect(s.failure?.reason).toBe('sequence_ambiguous');
+    expect(s.committed.map((c) => c.card.name)).toEqual(['A', 'B']);
+  });
+
   it('fails when the stride changes between rounds', () => {
     let s = createReconcileState();
     s = applyRound(s, round('o1', [[2, 'A'], [4, 'B']]), 15);

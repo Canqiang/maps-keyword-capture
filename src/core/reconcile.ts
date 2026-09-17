@@ -43,7 +43,7 @@ export function applyRound(state: ReconcileState, round: ReconcileRound, limit: 
   // 2. Visual order must follow index order.
   for (let i = 1; i < cards.length; i++) {
     if (cards[i]!.bounds.y <= cards[i - 1]!.bounds.y) {
-      return fail(state, [], { reason: 'sequence_ambiguous', detail: `card at index ${cards[i]!.feedChildIndex} is not below index ${cards[i - 1]!.feedChildIndex}`, atIndex: cards[i]!.feedChildIndex });
+      return fail(state, state.committed, { reason: 'sequence_ambiguous', detail: `card at index ${cards[i]!.feedChildIndex} is not below index ${cards[i - 1]!.feedChildIndex}`, atIndex: cards[i]!.feedChildIndex });
     }
   }
 
