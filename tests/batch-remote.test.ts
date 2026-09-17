@@ -135,19 +135,22 @@ describe('runBatch against Azurite', () => {
 
   it('uploads a whole batch through the real SDK and reads it back', async () => {
     const dir = await mkdtemp(join(tmpdir(), 'mkc-azurite-'));
-    const { store } = createStore('azure', dir, { AZURE_STORAGE_CONNECTION_STRING: azurite.connectionString });
-    const url = await writeFixture({ query: 'azurite', cards: namedCards(4), endMarkerInitially: true });
-    const { config } = parseConfig({ schemaVersion: '1', keywords: ['azurite'], outputDirectory: dir });
-    const out = await runBatch({ config, store, searchUrlFor: () => url });
-    expect(out.exitCode).toBe(0);
-    const container = BlobServiceClient.fromConnectionString(azurite.connectionString).getContainerClient(DEFAULT_CONTAINER);
-    const names: string[] = [];
-    for await (const blob of container.listBlobsFlat({ prefix: out.manifestReceipt!.objectKey!.replace(/manifest\.json$/, '') })) names.push(blob.name);
-    expect(names.some((n) => n.endsWith('/manifest.json'))).toBe(true);
-    expect(names.some((n) => n.endsWith('.png'))).toBe(true);
-    expect(names.some((n) => n.endsWith('.csv'))).toBe(true);
-    const remote = await container.getBlockBlobClient(out.manifestReceipt!.objectKey!).downloadToBuffer();
-    expect(remote.equals(await readFile(out.manifestPath))).toBe(true);
-    await rm(dir, { recursive: true, force: true });
+    try {
+      const { store } = createStore('azure', dir, { AZURE_STORAGE_CONNECTION_STRING: azurite.connectionString });
+      const url = await writeFixture({ query: 'azurite', cards: namedCards(4), endMarkerInitially: true });
+      const { config } = parseConfig({ schemaVersion: '1', keywords: ['azurite'], outputDirectory: dir });
+      const out = await runBatch({ config, store, searchUrlFor: () => url });
+      expect(out.exitCode).toBe(0);
+      const container = BlobServiceClient.fromConnectionString(azurite.connectionString).getContainerClient(DEFAULT_CONTAINER);
+      const names: string[] = [];
+      for await (const blob of container.listBlobsFlat({ prefix: out.manifestReceipt!.objectKey!.replace(/manifest\.json$/, '') })) names.push(blob.name);
+      expect(names.some((n) => n.endsWith('/manifest.json'))).toBe(true);
+      expect(names.some((n) => n.endsWith('.png'))).toBe(true);
+      expect(names.some((n) => n.endsWith('.csv'))).toBe(true);
+      const remote = await container.getBlockBlobClient(out.manifestReceipt!.objectKey!).downloadToBuffer();
+      expect(remote.equals(await readFile(out.manifestPath))).toBe(true);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
   });
 });

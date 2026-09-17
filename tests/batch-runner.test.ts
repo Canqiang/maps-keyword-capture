@@ -160,26 +160,29 @@ describe('runBatch', () => {
 
   it('publishes a terminal manifest and rethrows when a keyword cannot write its result JSON', async () => {
     const dir = await mkdtemp(join(tmpdir(), 'mkc-batch-throw-'));
-    const inner = new LocalArtifactStore(dir);
-    const store: ArtifactStore = {
-      mode: 'local_only',
-      rootDirectory: inner.rootDirectory,
-      absolutePath: (p: string) => inner.absolutePath(p),
-      writeFile: async (p: string, data: Buffer | string): Promise<WrittenFile> => {
-        if (/__q0001\.json$/.test(p)) throw new Error('disk full');
-        return inner.writeFile(p, data);
-      },
-      persist: (file: WrittenFile, options?: PersistOptions) => inner.persist(file, options),
-    };
-    const url = await writeFixture({ query: 'q', cards: namedCards(3), endMarkerInitially: true });
-    const { config } = parseConfig({ schemaVersion: '1', keywords: ['q', 'q'], outputDirectory: dir });
-    await expect(runBatch({ config, store, searchUrlFor: () => url })).rejects.toThrow(/result JSON could not be written/);
-    const files = (await readdir(dir, { recursive: true })).map(String);
-    const manifestFile = files.find((f) => f.endsWith('manifest.json') && !f.endsWith('progress.json'));
-    expect(manifestFile).toBeDefined();
-    const published = JSON.parse(await readFile(join(dir, manifestFile!), 'utf8')) as BatchManifest;
-    expect(published.finishedAt).not.toBeNull();
-    expect(published.queries.map((q) => [q.status, q.stopReason])).toEqual([['skipped', 'storage_unavailable'], ['skipped', 'storage_unavailable']]);
-    await rm(dir, { recursive: true, force: true });
+    try {
+      const inner = new LocalArtifactStore(dir);
+      const store: ArtifactStore = {
+        mode: 'local_only',
+        rootDirectory: inner.rootDirectory,
+        absolutePath: (p: string) => inner.absolutePath(p),
+        writeFile: async (p: string, data: Buffer | string): Promise<WrittenFile> => {
+          if (/__q0001\.json$/.test(p)) throw new Error('disk full');
+          return inner.writeFile(p, data);
+        },
+        persist: (file: WrittenFile, options?: PersistOptions) => inner.persist(file, options),
+      };
+      const url = await writeFixture({ query: 'q', cards: namedCards(3), endMarkerInitially: true });
+      const { config } = parseConfig({ schemaVersion: '1', keywords: ['q', 'q'], outputDirectory: dir });
+      await expect(runBatch({ config, store, searchUrlFor: () => url })).rejects.toThrow(/result JSON could not be written/);
+      const files = (await readdir(dir, { recursive: true })).map(String);
+      const manifestFile = files.find((f) => f.endsWith('manifest.json') && !f.endsWith('progress.json'));
+      expect(manifestFile).toBeDefined();
+      const published = JSON.parse(await readFile(join(dir, manifestFile!), 'utf8')) as BatchManifest;
+      expect(published.finishedAt).not.toBeNull();
+      expect(published.queries.map((q) => [q.status, q.stopReason])).toEqual([['skipped', 'storage_unavailable'], ['skipped', 'storage_unavailable']]);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
   });
 });
