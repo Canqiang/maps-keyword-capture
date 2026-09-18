@@ -1,0 +1,412 @@
+{
+  "reviewedAt": "2026-09-18T02:31:19.021766+00:00",
+  "dailyRunId": "run_20260918T003336Z_1bd373",
+  "mode": "local evidence visual review only; no downloads or source changes",
+  "scope": {
+    "stores": 2,
+    "queries": 5,
+    "pngsVisuallyReviewed": 6,
+    "jsonFilesChecked": 5,
+    "csvFilesChecked": 5,
+    "csvRowsCompared": 72,
+    "visibleListingOrderComparisons": 26,
+    "hashAndSizeCheckedObjects": 16,
+    "limitations": [
+      "Only these six PNGs were visually reviewed; other screenshots and the complete scrolling sequences were not reviewed.",
+      "Visible absence of ad labels applies only to the checked cards, not to all queries.",
+      "CSV comparisons cover all rows of the five sampled queries; visual order checks cover only the listed visible positions.",
+      "Geographic observations do not replace configured expectedArea validation.",
+      "Visible map area and result locality do not establish the browser/searcher location or prove which Google location signal caused those results."
+    ]
+  },
+  "samples": [
+    {
+      "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0010/qa01/20260918T083633.696+0800__bakery-upper-west-side__q0010__01.png",
+      "bytes": 1113175,
+      "sha256": "e1c679e28eb91762864b6f10647627012995295c353874d5aac44a6b5735edbe",
+      "matchesBatchReceipt": true,
+      "storeId": "choice-upper-west-side",
+      "keyword": "bakery upper west side",
+      "screenshotId": "qa01_shot01",
+      "selectedAs": "first",
+      "mapLoaded": true,
+      "visibleAdLabelObserved": false,
+      "visiblePositionsCompared": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "visibleNamesCompared": [
+        "Levain Bakery",
+        "Janie's Life-Changing Baked Goods",
+        "Levain Bakery",
+        "Breads Bakery - Upper West Side"
+      ],
+      "observations": [
+        "Rendered search box shows bakery Upper West Side; Google Maps tiles, roads, restaurant pins, Upper West Side and Central Park labels are loaded.",
+        "Visible result order matches JSON/CSV display positions 1-4: Levain Bakery (351 Amsterdam Ave), Janie's Life-Changing Baked Goods, Levain Bakery (167 W 74th St), Breads Bakery - Upper West Side. The two Levain listings have distinct visible addresses.",
+        "No Sponsored or Ad label is visible on the four checked cards; all four are exported organic with organic ranks 1-4. This checks visible order, not a numeric rank printed by Google.",
+        "Map appears geographically consistent with the Upper West Side query; machine geographic status remains unverified because no expectedArea reference was configured."
+      ]
+    },
+    {
+      "objectKey": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0019/qa01/20260918T085405.230+0800__brooklyn-cafe__q0019__01.png",
+      "bytes": 718330,
+      "sha256": "3f0fbf8abebc218a3b2d9f20f5cfa649c88385635a218b1562e77b8797f7dd50",
+      "matchesBatchReceipt": true,
+      "storeId": "choice-clinton-hill",
+      "keyword": "brooklyn cafe",
+      "screenshotId": "qa01_shot01",
+      "selectedAs": "first",
+      "mapLoaded": true,
+      "visibleAdLabelObserved": false,
+      "visiblePositionsCompared": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "visibleNamesCompared": [
+        "Brooklyn Cafe",
+        "Brooklyn Cafe & Eatery",
+        "Brooklyn's At Ball Arena",
+        "The Original Brooklyn's",
+        "Brooklyn Pizza"
+      ],
+      "observations": [
+        "Rendered search box shows Brooklyn cafe; map tiles and place pins are loaded, but the map spans the United States rather than Brooklyn only.",
+        "Visible result order matches JSON/CSV display positions 1-5: Brooklyn Cafe, Brooklyn Cafe & Eatery, Brooklyn's At Ball Arena, The Original Brooklyn's, Brooklyn Pizza.",
+        "No Sponsored or Ad label is visible on those five cards; all five are exported organic with organic ranks 1-5. This checks visible order, not a numeric rank printed by Google.",
+        "Visible national map and distributed pins do not support treating this capture as a local Clinton Hill ranking. The exported geographic status unverified is appropriate; capture completion is distinct from local relevance."
+      ]
+    },
+    {
+      "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0017/qa01/20260918T083912.103+0800__brunch-near-me__q0017__01.png",
+      "bytes": 765792,
+      "sha256": "95cd8f457cc2503deddf34a62c75ed3a67e80162df4618c5a6914fbbdd53d299",
+      "matchesBatchReceipt": true,
+      "storeId": "choice-upper-west-side",
+      "keyword": "brunch near me",
+      "screenshotId": "qa01_shot01",
+      "selectedAs": "first",
+      "mapLoaded": true,
+      "visibleAdLabelObserved": false,
+      "visiblePositionsCompared": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "visibleNamesCompared": [
+        "The Outpost Cafe",
+        "The Biker & The Baker",
+        "Robbin’s Nest",
+        "George & Gather"
+      ],
+      "observations": [
+        "Rendered search box shows brunch near me; map tiles and result pins are loaded around Colorado and New Mexico, including Denver, Colorado Springs, Santa Fe and Albuquerque.",
+        "Visible result order matches JSON/CSV display positions 1-4: The Outpost Cafe, The Biker & The Baker, Robbin’s Nest, George & Gather.",
+        "No Sponsored or Ad label is visible on the four checked cards; they are exported organic with organic ranks 1-4.",
+        "The map provides no evidence of Upper West Side local relevance; geographic status remains unverified."
+      ]
+    },
+    {
+      "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0017/qa01/20260918T083912.103+0800__brunch-near-me__q0017__03.png",
+      "bytes": 739964,
+      "sha256": "19ae5d87a1ba5dee75f26e13d7d7bd392b17eaa9fb55753479e02dad610325a5",
+      "matchesBatchReceipt": true,
+      "storeId": "choice-upper-west-side",
+      "keyword": "brunch near me",
+      "screenshotId": "qa01_shot03",
+      "selectedAs": "last",
+      "mapLoaded": true,
+      "visibleAdLabelObserved": false,
+      "visiblePositionsCompared": [
+        11,
+        12,
+        13
+      ],
+      "visibleNamesCompared": [
+        "Tully's Pizza & Smokehouse",
+        "Pine Creek Cookhouse",
+        "The Twin Lakes Inn & Saloon"
+      ],
+      "observations": [
+        "Last retained screenshot shows Tully's Pizza & Smokehouse, Pine Creek Cookhouse, and The Twin Lakes Inn & Saloon in that order, matching JSON/CSV positions and organic ranks 11-13.",
+        "The map remains loaded around Colorado/New Mexico. No Sponsored or Ad label is visible on the three checked cards.",
+        "Below the final card the screenshot visibly states \"You've reached the end of the list.\" and \"You're seeing a limited view of Google Maps.\"",
+        "Result JSON records partial/scroll_limit with 13 rows. The visible end marker conflicts with that stop reason and warrants end-marker/layout detection investigation. A screenshot alone does not prove the full observation/reconciliation sequence; this review does not upgrade the stored partial result to complete."
+      ]
+    },
+    {
+      "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0001/qa01/20260918T083337.335+0800__bakery__q0001__01.png",
+      "bytes": 516285,
+      "sha256": "5301574ba4104a73059fa49e7fb50e9efadf4188b88e0e655f69b86b53765c25",
+      "matchesBatchReceipt": true,
+      "matchesIndependentInventory": true,
+      "storeId": "choice-upper-west-side",
+      "keyword": "bakery",
+      "screenshotId": "qa01_shot01",
+      "selectedAs": "recommended_store_coverage_first",
+      "mapLoaded": true,
+      "visibleAdLabelObserved": false,
+      "visiblePositionsCompared": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "visibleNamesCompared": [
+        "Memo Fırın",
+        "Restaurant asif",
+        "Siam",
+        "Polo Naharlagun",
+        "Bake Haus 232",
+        "Lotis Bakeshop"
+      ],
+      "observations": [
+        "The search box reads bakery and map tiles are loaded at a near-world scale spanning the Americas and Greenland; visible pins are clustered in the central/southwestern United States. This does not establish Upper West Side local relevance.",
+        "The first six visible names are Memo Fırın, Restaurant asif, Siam, Polo Naharlagun, Bake Haus 232, and Lotis Bakeshop, matching JSON/CSV display positions and organic ranks 1-6.",
+        "Memo Fırın visibly has No reviews followed by Bakery on a separate line. JSON/CSV preserve category Bakery, null rating and no address, and classify it organic rather than unknown, directly reproducing the repaired no-review card case. The next three visible cards also show No reviews.",
+        "No Sponsored or Ad label is visible on the six compared cards. Missing merchant photographs for the first four appear as normal gray placeholders; map rendering is loaded."
+      ]
+    },
+    {
+      "objectKey": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0001/qa01/20260918T084801.240+0800__brunch__q0001__01.png",
+      "bytes": 767089,
+      "sha256": "61f1e622c9ec986ab7365080646cefafdf73da4e958f332028aedfab328598ad",
+      "matchesBatchReceipt": true,
+      "matchesIndependentInventory": true,
+      "storeId": "choice-clinton-hill",
+      "keyword": "brunch",
+      "screenshotId": "qa01_shot01",
+      "selectedAs": "recommended_store_coverage_first",
+      "mapLoaded": true,
+      "visibleAdLabelObserved": false,
+      "visiblePositionsCompared": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "visibleNamesCompared": [
+        "The Outpost Cafe",
+        "The Biker & The Baker",
+        "The Henry",
+        "Farm and Craft Scottsdale"
+      ],
+      "observations": [
+        "The search box reads brunch. Map tiles and pins are loaded around Colorado and New Mexico, with Denver, Colorado Springs, Santa Fe and Albuquerque labels; this does not establish Clinton Hill local relevance.",
+        "The first four visible names are The Outpost Cafe, The Biker & The Baker, The Henry, and Farm and Craft Scottsdale, matching JSON/CSV display positions and organic ranks 1-4. Visible address clues include 531 Front St, 129 W Sackett Ave St, 4455 E Camelback Rd and 4302 N Scottsdale Rd.",
+        "No Sponsored or Ad label is visible on these four compared cards. Both added samples remain geographically unverified in exported data; visible map area is not evidence of searcher location."
+      ]
+    }
+  ],
+  "queries": [
+    {
+      "storeId": "choice-upper-west-side",
+      "keyword": "bakery upper west side",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "observedCount": 15,
+      "geographicStatus": "unverified",
+      "jsonAndCsv": [
+        {
+          "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0010/qa01/20260918T083633.696+0800__bakery-upper-west-side__q0010.json",
+          "bytes": 28746,
+          "sha256": "ec59d811c8c4f36ee673031ca1ea53cdd82800cbfe44f253b20c6131c0c5e58a",
+          "matchesBatchReceipt": true
+        },
+        {
+          "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0010/qa01/20260918T083633.696+0800__bakery-upper-west-side__q0010.csv",
+          "bytes": 9408,
+          "sha256": "f0c7b7a37ce4125dc4f6b6fae2a5c276fa3cee0082ed4407d208aa2209e27798",
+          "matchesBatchReceipt": true
+        }
+      ],
+      "csvRowComparisonsPassed": 15,
+      "csvComparedFields": [
+        "name",
+        "display_position",
+        "result_type",
+        "organic_rank",
+        "ad_label"
+      ]
+    },
+    {
+      "storeId": "choice-clinton-hill",
+      "keyword": "brooklyn cafe",
+      "status": "captured",
+      "stopReason": "end_of_results",
+      "observedCount": 14,
+      "geographicStatus": "unverified",
+      "jsonAndCsv": [
+        {
+          "objectKey": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0019/qa01/20260918T085405.230+0800__brooklyn-cafe__q0019.json",
+          "bytes": 24219,
+          "sha256": "ec50854ca7f01b9779959f44b44531146c4bab4f8c2f09b54595e8c7ac3187bf",
+          "matchesBatchReceipt": true
+        },
+        {
+          "objectKey": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0019/qa01/20260918T085405.230+0800__brooklyn-cafe__q0019.csv",
+          "bytes": 8323,
+          "sha256": "6c5f3b099daf97ba9bd5ac32d14715f15144c1cb602fc23ed53ef29be8e3fda3",
+          "matchesBatchReceipt": true
+        }
+      ],
+      "csvRowComparisonsPassed": 14,
+      "csvComparedFields": [
+        "name",
+        "display_position",
+        "result_type",
+        "organic_rank",
+        "ad_label"
+      ]
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "keyword": "brunch near me",
+      "status": "partial",
+      "stopReason": "scroll_limit",
+      "observedCount": 13,
+      "geographicStatus": "unverified",
+      "jsonAndCsv": [
+        {
+          "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0017/qa01/20260918T083912.103+0800__brunch-near-me__q0017.json",
+          "bytes": 25471,
+          "sha256": "2163935abda41a20e57f7dc5f99a4e3f2e7dbe4b483329d563c6f0c42608111f",
+          "matchesBatchReceipt": true
+        },
+        {
+          "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0017/qa01/20260918T083912.103+0800__brunch-near-me__q0017.csv",
+          "bytes": 7814,
+          "sha256": "681e760540ab5a2ff9061e69915bb8d89d873e4895d155d81fa6bef52ea04593",
+          "matchesBatchReceipt": true
+        }
+      ],
+      "csvRowComparisonsPassed": 13,
+      "csvComparedFields": [
+        "name",
+        "display_position",
+        "result_type",
+        "organic_rank",
+        "ad_label"
+      ]
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "keyword": "bakery",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "observedCount": 15,
+      "geographicStatus": "unverified",
+      "jsonAndCsv": [
+        {
+          "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0001/qa01/20260918T083337.335+0800__bakery__q0001.json",
+          "bytes": 24627,
+          "sha256": "30616b774da38e6bb59d2cfdd5aeed7ef248454c27e46a07d107b38961356d3a",
+          "matchesBatchReceipt": true,
+          "matchesIndependentInventory": true
+        },
+        {
+          "objectKey": "2026-09-18/choice-upper-west-side/run_20260918T003336Z_1bd373/batches/b01-bfa0da9ed751/run_20260918T003336Z_5c7445/att_3b2d1377/q0001/qa01/20260918T083337.335+0800__bakery__q0001.csv",
+          "bytes": 8500,
+          "sha256": "3edd01193f855ca1f6580017699d875817e2b7acc97dd40283a24baf1dda62d7",
+          "matchesBatchReceipt": true,
+          "matchesIndependentInventory": true
+        }
+      ],
+      "csvRowComparisonsPassed": 15,
+      "csvComparedFields": [
+        "name",
+        "display_position",
+        "result_type",
+        "organic_rank",
+        "ad_label"
+      ]
+    },
+    {
+      "storeId": "choice-clinton-hill",
+      "keyword": "brunch",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "observedCount": 15,
+      "geographicStatus": "unverified",
+      "jsonAndCsv": [
+        {
+          "objectKey": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0001/qa01/20260918T084801.240+0800__brunch__q0001.json",
+          "bytes": 28434,
+          "sha256": "7bd7724671b1c2ecf209f2b7d1742615b6c82b4485af73e87f300353270b8585",
+          "matchesBatchReceipt": true,
+          "matchesIndependentInventory": true
+        },
+        {
+          "objectKey": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0001/qa01/20260918T084801.240+0800__brunch__q0001.csv",
+          "bytes": 8900,
+          "sha256": "599af8b2389c3447449f518ac061e58b6827c4a7547aa12bfb5152e954dfd7b0",
+          "matchesBatchReceipt": true,
+          "matchesIndependentInventory": true
+        }
+      ],
+      "csvRowComparisonsPassed": 15,
+      "csvComparedFields": [
+        "name",
+        "display_position",
+        "result_type",
+        "organic_rank",
+        "ad_label"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "severity": "warning",
+      "storeId": "choice-upper-west-side",
+      "keyword": "brunch near me",
+      "code": "visible_end_marker_vs_scroll_limit",
+      "detail": "Diagnostic candidate: the last saved screenshot visibly has an end-of-list marker, while the stored result remains partial/scroll_limit. This visual mismatch does not prove a parser root cause; investigate detector/reconciliation behavior without silently upgrading historical status."
+    },
+    {
+      "severity": "limitation",
+      "code": "geographic_relevance_unverified",
+      "keywords": [
+        "brooklyn cafe",
+        "brunch near me"
+      ],
+      "detail": "Loaded screenshots show nationwide or Colorado/New Mexico results; these cannot be presented as verified local rankings for the enrolled NYC stores."
+    }
+  ],
+  "finalCountSemanticsReview": {
+    "sources": [
+      "readback/readback-report.json",
+      "readback/query-inventory.json",
+      "log-analysis.json"
+    ],
+    "countsAgree": true,
+    "selectedAndAttempted": 260,
+    "capturedStatusTotal": 233,
+    "capturedWithRankedResultsLists": 231,
+    "capturedNoResults": 2,
+    "noResultsKeywords": [
+      "luwei",
+      "cold dishes"
+    ],
+    "partialTotal": 27,
+    "nonRankingDetails": 25,
+    "remainingPartialReasons": {
+      "scroll_limit": 1,
+      "classification_unknown": 1
+    },
+    "blockedFailedSkippedSourceFailed": 0,
+    "independentlyVerifiedObjectsReported": 1744,
+    "independentlyVerifiedArtifactsReported": 1723,
+    "allSelectedKeywordsAttempted": true,
+    "allKeywordsRankingComplete": false,
+    "collectionAcceptancePassed": false,
+    "interpretation": "All 260 selected keywords were attempted and evidence integrity passed. This is not all-green acceptance: 25 recognized non-ranking detail pages stay partial and two further list captures stay partial. The 233 captured statuses include two observed no-results pages, so only 231 are complete nonempty ranked-list captures. All 260 remain geographically unverified. The 1744 independently checked objects comprise one daily manifest, seven source-selection snapshots, thirteen batch manifests and 1723 artifacts."
+  }
+}

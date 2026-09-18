@@ -1,0 +1,875 @@
+{
+  "source": "pod.log + final summary + locally available daily manifest; no independent remote reads by this analysis",
+  "dailyRunId": "run_20260918T003336Z_1bd373",
+  "runKey": "verify-20260918t003315z-544bac",
+  "startedAt": "2026-09-18T00:33:36.300Z",
+  "finishedAt": "2026-09-18T01:56:25.408Z",
+  "runtimeSeconds": 4969.108,
+  "summaryCounts": {
+    "stores": 7,
+    "batches": 13,
+    "selected": 260,
+    "captured": 233,
+    "partial": 27,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0,
+    "sourceFailed": 0,
+    "empty": 0
+  },
+  "stages": {
+    "source_selected": 7,
+    "batch_start": 13,
+    "navigate": 260,
+    "ready": 233,
+    "round": 909,
+    "stop": 260,
+    "export": 260,
+    "query_done": 260,
+    "manifest_published": 13,
+    "batch_done": 13,
+    "daily_done": 1,
+    "None": 1
+  },
+  "navigationStates": {
+    "results": 233,
+    "place_redirect": 25,
+    "no_results": 2
+  },
+  "stopReasons": {
+    "limit_reached": 179,
+    "scroll_limit": 1,
+    "end_of_results": 54,
+    "non_ranking_result": 25,
+    "classification_unknown": 1
+  },
+  "partialReasons": {
+    "scroll_limit": 1,
+    "non_ranking_result": 25,
+    "classification_unknown": 1
+  },
+  "stores": [
+    {
+      "storeId": "choice-upper-west-side",
+      "selected": 40,
+      "attempted": 40,
+      "counts": {
+        "captured": 39,
+        "partial": 1
+      },
+      "partialReasons": {
+        "scroll_limit": 1
+      }
+    },
+    {
+      "storeId": "choice-clinton-hill",
+      "selected": 40,
+      "attempted": 40,
+      "counts": {
+        "captured": 39,
+        "partial": 1
+      },
+      "partialReasons": {
+        "non_ranking_result": 1
+      }
+    },
+    {
+      "storeId": "only-bear",
+      "selected": 40,
+      "attempted": 40,
+      "counts": {
+        "captured": 32,
+        "partial": 8
+      },
+      "partialReasons": {
+        "non_ranking_result": 8
+      }
+    },
+    {
+      "storeId": "keke-flushing",
+      "selected": 40,
+      "attempted": 40,
+      "counts": {
+        "partial": 4,
+        "captured": 36
+      },
+      "partialReasons": {
+        "non_ranking_result": 4
+      }
+    },
+    {
+      "storeId": "george-merchant",
+      "selected": 40,
+      "attempted": 40,
+      "counts": {
+        "captured": 37,
+        "partial": 3
+      },
+      "partialReasons": {
+        "non_ranking_result": 3
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "selected": 40,
+      "attempted": 40,
+      "counts": {
+        "captured": 30,
+        "partial": 10
+      },
+      "partialReasons": {
+        "classification_unknown": 1,
+        "non_ranking_result": 9
+      }
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "selected": 20,
+      "attempted": 20,
+      "counts": {
+        "captured": 20
+      },
+      "partialReasons": {}
+    }
+  ],
+  "batches": [
+    {
+      "storeId": "choice-upper-west-side",
+      "batchId": "b01-bfa0da9ed751",
+      "runId": "run_20260918T003336Z_5c7445",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "captured": 19,
+        "partial": 1
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "batchId": "b02-c3c9d84db217",
+      "runId": "run_20260918T004041Z_d846b0",
+      "selected": 20,
+      "attempted": 20,
+      "status": "completed",
+      "counts": {
+        "captured": 20
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "choice-clinton-hill",
+      "batchId": "b01-5b6ded813afc",
+      "runId": "run_20260918T004800Z_557dd2",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "captured": 19,
+        "partial": 1
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "choice-clinton-hill",
+      "batchId": "b02-a9ea0d9a74b9",
+      "runId": "run_20260918T005430Z_074649",
+      "selected": 20,
+      "attempted": 20,
+      "status": "completed",
+      "counts": {
+        "captured": 20
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b01-ee309ff3788d",
+      "runId": "run_20260918T010218Z_a2f02a",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "captured": 17,
+        "partial": 3
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b02-5b7b4ed427e4",
+      "runId": "run_20260918T010746Z_98190d",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "captured": 15,
+        "partial": 5
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b01-5c6bfe65a683",
+      "runId": "run_20260918T011312Z_611a49",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "partial": 2,
+        "captured": 18
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b02-80078f5babfa",
+      "runId": "run_20260918T011842Z_abbe7f",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "captured": 18,
+        "partial": 2
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "george-merchant",
+      "batchId": "b01-4c4c3e50b44f",
+      "runId": "run_20260918T012430Z_f808bf",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "captured": 18,
+        "partial": 2
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "george-merchant",
+      "batchId": "b02-6efd944b9c0b",
+      "runId": "run_20260918T013047Z_02b9f5",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "captured": 19,
+        "partial": 1
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b01-5155c3517e4d",
+      "runId": "run_20260918T013733Z_d51a84",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "captured": 16,
+        "partial": 4
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b02-e34120a155a3",
+      "runId": "run_20260918T014331Z_5ddee3",
+      "selected": 20,
+      "attempted": 20,
+      "status": "partial",
+      "counts": {
+        "captured": 14,
+        "partial": 6
+      },
+      "stopReason": null
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "batchId": "b01-b62ef0b26cbe",
+      "runId": "run_20260918T014816Z_804e6e",
+      "selected": 20,
+      "attempted": 20,
+      "status": "completed",
+      "counts": {
+        "captured": 20
+      },
+      "stopReason": null
+    }
+  ],
+  "partials": [
+    {
+      "storeId": "choice-upper-west-side",
+      "batchId": "b01-bfa0da9ed751",
+      "runId": "run_20260918T003336Z_5c7445",
+      "queryId": "q0017",
+      "keyword": "brunch near me",
+      "status": "partial",
+      "reason": "scroll_limit",
+      "listings": 13,
+      "ts": "2026-09-18T00:39:33.779Z",
+      "navigationState": "results",
+      "finalUrl": "https://www.google.com/maps/search/?api=1&query=brunch+near+me&hl=en",
+      "nextQuery": {
+        "runId": "run_20260918T003336Z_5c7445",
+        "queryId": "q0018",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "choice-clinton-hill",
+      "batchId": "b01-5b6ded813afc",
+      "runId": "run_20260918T004800Z_557dd2",
+      "queryId": "q0006",
+      "keyword": "Brooklyn bakery",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T00:49:49.904Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Brooklyn+Baking+Company/@41.5380324,-72.9962618,17z/data=!3m1!4b1!4m6!3m5!1s0x89e7c13254a8239f:0xa3410b2e8c5f6c98!8m2!3d41.5380324!4d-72.9962618!16s%2Fg%2F1q5btx4c3?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T004800Z_557dd2",
+        "queryId": "q0007",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b01-ee309ff3788d",
+      "runId": "run_20260918T010218Z_a2f02a",
+      "queryId": "q0008",
+      "keyword": "cha dao bubble tea mineola",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:04:34.493Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Only+Bear+Chicken+%26+Boba/@40.749241,-73.6415096,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2878d28001d81:0x1c3e7bb22bbfc970!8m2!3d40.749241!4d-73.6415096!16s%2Fg%2F11t57zyjjk?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T010218Z_a2f02a",
+        "queryId": "q0009",
+        "status": "captured",
+        "reason": "end_of_results"
+      }
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b01-ee309ff3788d",
+      "runId": "run_20260918T010218Z_a2f02a",
+      "queryId": "q0013",
+      "keyword": "boba mineola",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:06:02.144Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Only+Bear+Chicken+%26+Boba/@40.749241,-73.6415096,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2878d28001d81:0x1c3e7bb22bbfc970!8m2!3d40.749241!4d-73.6415096!16s%2Fg%2F11t57zyjjk?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T010218Z_a2f02a",
+        "queryId": "q0014",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b01-ee309ff3788d",
+      "runId": "run_20260918T010218Z_a2f02a",
+      "queryId": "q0018",
+      "keyword": "bubble tea carle place",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:07:18.224Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/TIGER+SUGAR/@40.7471728,-73.616803,17z/data=!3m1!4b1!4m6!3m5!1s0x89c287279f457d67:0x7d4395c22e5620e9!8m2!3d40.7471728!4d-73.616803!16s%2Fg%2F11rrbnspww?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T010218Z_a2f02a",
+        "queryId": "q0019",
+        "status": "captured",
+        "reason": "end_of_results"
+      }
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b02-5b7b4ed427e4",
+      "runId": "run_20260918T010746Z_98190d",
+      "queryId": "q0003",
+      "keyword": "bubble tea near winthrop hospital",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:08:43.088Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Tsaocaa+Westminster/@39.8619956,-105.0526706,17z/data=!3m1!4b1!4m6!3m5!1s0x876b89c816f5c847:0xc6767704842ccd59!8m2!3d39.8619956!4d-105.0526706!16s%2Fg%2F11py9rygrr?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T010746Z_98190d",
+        "queryId": "q0004",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b02-5b7b4ed427e4",
+      "runId": "run_20260918T010746Z_98190d",
+      "queryId": "q0006",
+      "keyword": "best boba mineola",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:09:23.848Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Only+Bear+Chicken+%26+Boba/@40.749241,-73.6415096,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2878d28001d81:0x1c3e7bb22bbfc970!8m2!3d40.749241!4d-73.6415096!16s%2Fg%2F11t57zyjjk?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T010746Z_98190d",
+        "queryId": "q0007",
+        "status": "captured",
+        "reason": "end_of_results"
+      }
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b02-5b7b4ed427e4",
+      "runId": "run_20260918T010746Z_98190d",
+      "queryId": "q0017",
+      "keyword": "slush mineola",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:12:37.224Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Manny's+Sweet+Treats/@40.7491229,-73.6419758,17z/data=!3m1!4b1!4m6!3m5!1s0x89c287f9c52bd605:0x662c2ead2bf7e674!8m2!3d40.7491229!4d-73.6419758!16s%2Fg%2F11btwtmpqj?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T010746Z_98190d",
+        "queryId": "q0018",
+        "status": "partial",
+        "reason": "non_ranking_result"
+      }
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b02-5b7b4ed427e4",
+      "runId": "run_20260918T010746Z_98190d",
+      "queryId": "q0018",
+      "keyword": "only bear chicken & boba mineola",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:12:42.469Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Only+Bear+Chicken+%26+Boba/@40.749241,-73.6415096,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2878d28001d81:0x1c3e7bb22bbfc970!8m2!3d40.749241!4d-73.6415096!16s%2Fg%2F11t57zyjjk?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T010746Z_98190d",
+        "queryId": "q0019",
+        "status": "partial",
+        "reason": "non_ranking_result"
+      }
+    },
+    {
+      "storeId": "only-bear",
+      "batchId": "b02-5b7b4ed427e4",
+      "runId": "run_20260918T010746Z_98190d",
+      "queryId": "q0019",
+      "keyword": "only bear mineola",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:12:47.658Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Only+Bear+Chicken+%26+Boba/@40.749241,-73.6415096,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2878d28001d81:0x1c3e7bb22bbfc970!8m2!3d40.749241!4d-73.6415096!16s%2Fg%2F11t57zyjjk?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T010746Z_98190d",
+        "queryId": "q0020",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b01-5c6bfe65a683",
+      "runId": "run_20260918T011312Z_611a49",
+      "queryId": "q0001",
+      "keyword": "flushing",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:13:17.561Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Flushing,+Queens,+NY/@40.7598591,-73.8264094,14z/data=!3m1!4b1!4m6!3m5!1s0x89c260054dc0633f:0xfaec24d1b474281e!8m2!3d40.7647238!4d-73.8306716!16zL20vMDFubDc5?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T011312Z_611a49",
+        "queryId": "q0002",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b01-5c6bfe65a683",
+      "runId": "run_20260918T011312Z_611a49",
+      "queryId": "q0011",
+      "keyword": "new york city",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:15:36.107Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/New+York,+NY/@40.6971415,-73.979506,10z/data=!3m1!4b1!4m6!3m5!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62!8m2!3d40.7127753!4d-74.0059728!16zL20vMDJfMjg2?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T011312Z_611a49",
+        "queryId": "q0012",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b02-80078f5babfa",
+      "runId": "run_20260918T011842Z_abbe7f",
+      "queryId": "q0011",
+      "keyword": "pork trotters near leavitts park",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:22:00.444Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Ridgewood+Pork+Store/@40.7049795,-73.9117396,17z/data=!3m1!4b1!4m6!3m5!1s0x89c25c200fec8d19:0x3ff81e93bed7ff70!8m2!3d40.7049795!4d-73.9117396!16s%2Fg%2F1tcvq5kv?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T011842Z_abbe7f",
+        "queryId": "q0012",
+        "status": "captured",
+        "reason": "end_of_results"
+      }
+    },
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b02-80078f5babfa",
+      "runId": "run_20260918T011842Z_abbe7f",
+      "queryId": "q0018",
+      "keyword": "spicy duck neck flushing",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:23:40.454Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Xiaowei+Duck+Neck/@40.7603227,-73.828244,17z/data=!3m1!4b1!4m6!3m5!1s0x89c261ef53915c97:0xb6993a935bcd37ec!8m2!3d40.7603227!4d-73.828244!16s%2Fg%2F11s9759cw5?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T011842Z_abbe7f",
+        "queryId": "q0019",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "george-merchant",
+      "batchId": "b01-4c4c3e50b44f",
+      "runId": "run_20260918T012430Z_f808bf",
+      "queryId": "q0011",
+      "keyword": "new york",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:28:19.460Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/New+York,+NY/@40.6971415,-73.979506,10z/data=!3m1!4b1!4m6!3m5!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62!8m2!3d40.7127753!4d-74.0059728!16zL20vMDJfMjg2?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T012430Z_f808bf",
+        "queryId": "q0012",
+        "status": "partial",
+        "reason": "non_ranking_result"
+      }
+    },
+    {
+      "storeId": "george-merchant",
+      "batchId": "b01-4c4c3e50b44f",
+      "runId": "run_20260918T012430Z_f808bf",
+      "queryId": "q0012",
+      "keyword": "burger near lincoln center",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:28:24.379Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/P.J.+Clarke's+Lincoln+Square/@40.7715018,-73.9828633,17z/data=!3m1!4b1!4m6!3m5!1s0x89c258f5922d74b9:0xee57658d4a61b935!8m2!3d40.7715018!4d-73.9828633!16s%2Fg%2F1tcxf366?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T012430Z_f808bf",
+        "queryId": "q0013",
+        "status": "captured",
+        "reason": "end_of_results"
+      }
+    },
+    {
+      "storeId": "george-merchant",
+      "batchId": "b02-6efd944b9c0b",
+      "runId": "run_20260918T013047Z_02b9f5",
+      "queryId": "q0013",
+      "keyword": "fries near american museum of natural history",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:35:20.828Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Shake+Shack+Upper+West+Side/@40.7808671,-73.9765697,17z/data=!3m1!4b1!4m6!3m5!1s0x89c2588ed0477bab:0x33e8043ff298be7c!8m2!3d40.7808671!4d-73.9765697!16s%2Fg%2F1tm8fx5_?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T013047Z_02b9f5",
+        "queryId": "q0014",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b01-5155c3517e4d",
+      "runId": "run_20260918T013733Z_d51a84",
+      "queryId": "q0004",
+      "keyword": "spa",
+      "status": "partial",
+      "reason": "classification_unknown",
+      "listings": 15,
+      "ts": "2026-09-18T01:38:51.422Z",
+      "navigationState": "results",
+      "finalUrl": "https://www.google.com/maps/search/?api=1&query=spa&hl=en",
+      "nextQuery": {
+        "runId": "run_20260918T013733Z_d51a84",
+        "queryId": "q0005",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b01-5155c3517e4d",
+      "runId": "run_20260918T013733Z_d51a84",
+      "queryId": "q0011",
+      "keyword": "chesapeake",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:40:57.827Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Chesapeake,+VA/@36.7084835,-76.2785245,11z/data=!3m1!4b1!4m6!3m5!1s0x89baa57a802f6d99:0x4c7b1b1790710b79!8m2!3d36.7682088!4d-76.2874927!16zL20vMG1wMzY?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T013733Z_d51a84",
+        "queryId": "q0012",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b01-5155c3517e4d",
+      "runId": "run_20260918T013733Z_d51a84",
+      "queryId": "q0013",
+      "keyword": "float kempsville rd",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:41:28.177Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Massage+%26+float/@36.744416,-76.2234979,17z/data=!3m1!4b1!4m6!3m5!1s0x89babb0ab787facd:0x233e9799824a40be!8m2!3d36.744416!4d-76.2234979!16s%2Fg%2F11s699603c?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T013733Z_d51a84",
+        "queryId": "q0014",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b01-5155c3517e4d",
+      "runId": "run_20260918T013733Z_d51a84",
+      "queryId": "q0015",
+      "keyword": "float chesapeake",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:41:55.553Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Massage+%26+float/@36.744416,-76.2234979,17z/data=!3m1!4b1!4m6!3m5!1s0x89babb0ab787facd:0x233e9799824a40be!8m2!3d36.744416!4d-76.2234979!16s%2Fg%2F11s699603c?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T013733Z_d51a84",
+        "queryId": "q0016",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b02-e34120a155a3",
+      "runId": "run_20260918T014331Z_5ddee3",
+      "queryId": "q0005",
+      "keyword": "float spa kempsville rd",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:44:51.657Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Massage+%26+float/@36.744416,-76.2234979,17z/data=!3m1!4b1!4m6!3m5!1s0x89babb0ab787facd:0x233e9799824a40be!8m2!3d36.744416!4d-76.2234979!16s%2Fg%2F11s699603c?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T014331Z_5ddee3",
+        "queryId": "q0006",
+        "status": "partial",
+        "reason": "non_ranking_result"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b02-e34120a155a3",
+      "runId": "run_20260918T014331Z_5ddee3",
+      "queryId": "q0006",
+      "keyword": "float tank kempsville rd",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:44:56.522Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Massage+%26+float/@36.744416,-76.2234979,17z/data=!3m1!4b1!4m6!3m5!1s0x89babb0ab787facd:0x233e9799824a40be!8m2!3d36.744416!4d-76.2234979!16s%2Fg%2F11s699603c?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T014331Z_5ddee3",
+        "queryId": "q0007",
+        "status": "captured",
+        "reason": "end_of_results"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b02-e34120a155a3",
+      "runId": "run_20260918T014331Z_5ddee3",
+      "queryId": "q0015",
+      "keyword": "reservation kempsville rd",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:47:21.628Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Kappo+Nara+Ramen/@36.8120232,-76.1671328,17z/data=!3m1!4b1!4m6!3m5!1s0x89babe0e210c38a7:0x3f0bf2aa1ad40f6c!8m2!3d36.8120232!4d-76.1671328!16s%2Fg%2F11btwvb7p6?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T014331Z_5ddee3",
+        "queryId": "q0016",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b02-e34120a155a3",
+      "runId": "run_20260918T014331Z_5ddee3",
+      "queryId": "q0017",
+      "keyword": "float spa chesapeake",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:47:46.238Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Massage+%26+float/@36.744416,-76.2234979,17z/data=!3m1!4b1!4m6!3m5!1s0x89babb0ab787facd:0x233e9799824a40be!8m2!3d36.744416!4d-76.2234979!16s%2Fg%2F11s699603c?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T014331Z_5ddee3",
+        "queryId": "q0018",
+        "status": "partial",
+        "reason": "non_ranking_result"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b02-e34120a155a3",
+      "runId": "run_20260918T014331Z_5ddee3",
+      "queryId": "q0018",
+      "keyword": "float tank chesapeake",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:47:51.342Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Massage+%26+float/@36.744416,-76.2234979,17z/data=!3m1!4b1!4m6!3m5!1s0x89babb0ab787facd:0x233e9799824a40be!8m2!3d36.744416!4d-76.2234979!16s%2Fg%2F11s699603c?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T014331Z_5ddee3",
+        "queryId": "q0019",
+        "status": "partial",
+        "reason": "non_ranking_result"
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b02-e34120a155a3",
+      "runId": "run_20260918T014331Z_5ddee3",
+      "queryId": "q0019",
+      "keyword": "sensory deprivation tank chesapeake",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "listings": 0,
+      "ts": "2026-09-18T01:47:56.431Z",
+      "navigationState": "place_redirect",
+      "finalUrl": "https://www.google.com/maps/place/Massage+%26+float/@36.744416,-76.2234979,17z/data=!3m1!4b1!4m6!3m5!1s0x89babb0ab787facd:0x233e9799824a40be!8m2!3d36.744416!4d-76.2234979!16s%2Fg%2F11s699603c?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D",
+      "nextQuery": {
+        "runId": "run_20260918T014331Z_5ddee3",
+        "queryId": "q0020",
+        "status": "captured",
+        "reason": "limit_reached"
+      }
+    }
+  ],
+  "runtimeErrorEvents": [],
+  "nonJsonLogLines": [],
+  "allExportsNoError": true,
+  "allQueryPersistenceVerified": true,
+  "reportedArtifactCount": 1710,
+  "allDetailQueriesContinued": true,
+  "unverifiedLimitations": [
+    "Logs report persistence verification but do not independently prove Azure bytes; parent verifier covers that.",
+    "classification_unknown requires JSON/card and PNG review to determine unresolved advertising ownership or unsupported card layout.",
+    "scroll_limit indicates result list truncated before requested limit or confirmed end, not a browser crash.",
+    "Place/region pages and URL geography cannot be presented as ranked business results."
+  ],
+  "capturedNoResultsQueries": [
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b01-5c6bfe65a683",
+      "runId": "run_20260918T011312Z_611a49",
+      "queryId": "q0007",
+      "keyword": "luwei",
+      "finalUrl": "https://www.google.com/maps/search/?api=1&query=luwei&hl=en"
+    },
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b01-5c6bfe65a683",
+      "runId": "run_20260918T011312Z_611a49",
+      "queryId": "q0010",
+      "keyword": "cold dishes",
+      "finalUrl": "https://www.google.com/maps/search/?api=1&query=cold+dishes&hl=en"
+    }
+  ],
+  "capturedRankingListCountByLogSurface": 231,
+  "regionalNonRankingQueries": [
+    {
+      "storeId": "keke-flushing",
+      "keyword": "flushing",
+      "reason": "non_ranking_result",
+      "finalUrl": "https://www.google.com/maps/place/Flushing,+Queens,+NY/@40.7598591,-73.8264094,14z/data=!3m1!4b1!4m6!3m5!1s0x89c260054dc0633f:0xfaec24d1b474281e!8m2!3d40.7647238!4d-73.8306716!16zL20vMDFubDc5?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+    },
+    {
+      "storeId": "keke-flushing",
+      "keyword": "new york city",
+      "reason": "non_ranking_result",
+      "finalUrl": "https://www.google.com/maps/place/New+York,+NY/@40.6971415,-73.979506,10z/data=!3m1!4b1!4m6!3m5!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62!8m2!3d40.7127753!4d-74.0059728!16zL20vMDJfMjg2?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+    },
+    {
+      "storeId": "george-merchant",
+      "keyword": "new york",
+      "reason": "non_ranking_result",
+      "finalUrl": "https://www.google.com/maps/place/New+York,+NY/@40.6971415,-73.979506,10z/data=!3m1!4b1!4m6!3m5!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62!8m2!3d40.7127753!4d-74.0059728!16zL20vMDJfMjg2?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "chesapeake",
+      "reason": "non_ranking_result",
+      "finalUrl": "https://www.google.com/maps/place/Chesapeake,+VA/@36.7084835,-76.2785245,11z/data=!3m1!4b1!4m6!3m5!1s0x89baa57a802f6d99:0x4c7b1b1790710b79!8m2!3d36.7682088!4d-76.2874927!16zL20vMG1wMzY?hl=en&entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D"
+    }
+  ]
+}

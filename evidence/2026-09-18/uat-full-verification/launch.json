@@ -1,0 +1,31 @@
+{
+  "recordStage": "created and running, capture not yet complete",
+  "jobName": "maps-monitor-verify-20260918t003315z-544bac",
+  "runKey": "verify-20260918t003315z-544bac",
+  "context": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:969d8592e7d3369591195d5a102287d3fca39268e36417b49fbf8f4a394315e0",
+  "storeCount": 7,
+  "maxKeywordsPerStore": 40,
+  "expectedQueries": 260,
+  "selectionCountSource": "actual fresh source snapshots govern denominator",
+  "sourceConfigSha256": "bd234af3fe285627bd6735e0bad0ac127eeac3aa7f2e40c926e15e2d03213dbd",
+  "cronResourceVersion": "696748963",
+  "configResourceVersion": "696107865",
+  "scheduledRunClaimUntouched": true,
+  "args": [
+    "node",
+    "dist/monitor/cli.js",
+    "--config",
+    "/config/monitor.json",
+    "--storage",
+    "azure",
+    "--run-key",
+    "verify-20260918t003315z-544bac"
+  ],
+  "dailyRunId": "run_20260918T003336Z_1bd373",
+  "podName": "maps-monitor-verify-20260918t003315z-544bac-n26vk",
+  "actualImageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:969d8592e7d3369591195d5a102287d3fca39268e36417b49fbf8f4a394315e0",
+  "startedAt": "2026-09-18T00:33:35Z",
+  "claimVerifiedAt": "2026-09-18T00:34:42.679170+00:00"
+}

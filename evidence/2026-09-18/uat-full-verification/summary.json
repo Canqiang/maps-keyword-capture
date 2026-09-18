@@ -1,0 +1,42 @@
+{
+  "summary": true,
+  "status": "partial",
+  "dailyRunId": "run_20260918T003336Z_1bd373",
+  "runKey": "verify-20260918t003315z-544bac",
+  "counts": {
+    "stores": 7,
+    "batches": 13,
+    "selected": 260,
+    "captured": 233,
+    "partial": 27,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0,
+    "sourceFailed": 0,
+    "empty": 0
+  },
+  "manifest": "/work/outputs/2026-09-18/daily/run_20260918T003336Z_1bd373/manifest.json",
+  "manifestReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-18/daily/run_20260918T003336Z_1bd373/manifest.json",
+    "verifiedAt": "2026-09-18T01:56:25.440Z",
+    "storageError": null,
+    "relativePath": "2026-09-18/daily/run_20260918T003336Z_1bd373/manifest.json",
+    "bytes": 224272,
+    "sha256": "643a37d82fa6c31ba38b026a2a0838c1a84a895f7a8c605a0961d1f66e4e0f65"
+  },
+  "claim": {
+    "status": "created",
+    "key": "claims/verify-20260918t003315z-544bac.json",
+    "claim": {
+      "schemaVersion": "1",
+      "dailyRunId": "run_20260918T003336Z_1bd373",
+      "runKey": "verify-20260918t003315z-544bac",
+      "date": "2026-09-18",
+      "startedAt": "2026-09-18T00:33:36.300Z",
+      "configHash": "94f79cb803a5aca2766902e26d3182562ac8e7b8f2e4533ddde0b408c680bb72"
+    }
+  },
+  "deliveryMode": "azure_blob",
+  "exitCode": 2
+}

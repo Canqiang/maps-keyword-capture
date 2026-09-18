@@ -1,0 +1,504 @@
+{
+  "dailyRunId": "run_20260918T003336Z_1bd373",
+  "scope": {
+    "visualReviewPlanIndices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "pngsVisuallyReviewed": 8,
+    "pngsReceiptAndHashRechecked": 8,
+    "resultJsonsReceiptAndHashRechecked": 8,
+    "resultCsvsReceiptAndHashRechecked": 8,
+    "jsonCsvListingRowsCompared": 30,
+    "listingPositionsVisuallyCompared": 8,
+    "stores": [
+      "choice-clinton-hill",
+      "only-bear",
+      "keke-flushing"
+    ],
+    "otherPlanIndices": "8-15 assigned to parent; not reviewed here"
+  },
+  "surfaceCounts": {
+    "business_detail": 2,
+    "ranked_results_list": 2,
+    "region_detail": 2,
+    "no_results": 2
+  },
+  "screenshotStatusMatchesJson": true,
+  "criticalFindings": [
+    "Only Bear is visually first for bubble tea delivery mineola in this sample.",
+    "Three samples visibly concern another area: Brooklyn bakery detail in Waterbury CT; Winthrop Hospital query detail in Westminster CO; Keke noodles list across Colorado.",
+    "Flushing and new york city are region pages, with zero ranked merchants.",
+    "luwei and cold dishes are explicit Google no-results pages; their captured count must not be described as nonempty ranking lists.",
+    "All8JSON results remain geographicRelevance.status=unverified with no expectedArea; no searcher-location inference is made."
+  ],
+  "entries": [
+    {
+      "planIndex": 0,
+      "storeId": "choice-clinton-hill",
+      "keyword": "Brooklyn bakery",
+      "pngKey": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0006/qa01/20260918T084945.137+0800__brooklyn-bakery__q0006__diag.png",
+      "jsonKey": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0006/qa01/20260918T084945.137+0800__brooklyn-bakery__q0006.json",
+      "csvKey": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0006/qa01/20260918T084945.137+0800__brooklyn-bakery__q0006.csv",
+      "pngReceipt": {
+        "bytes": 761615,
+        "sha256": "d0f2d481032762fd78733f865b93276cf6e0802157ebcc9e95cccbf516afc4c5"
+      },
+      "jsonCsvReceipts": [
+        {
+          "key": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0006/qa01/20260918T084945.137+0800__brooklyn-bakery__q0006.json",
+          "bytes": 3497,
+          "sha256": "71de6782cd7781d315b2a5b02c1df12fc1b1b22a48f3f976b4bcbc8885adc53d"
+        },
+        {
+          "key": "2026-09-18/choice-clinton-hill/run_20260918T003336Z_1bd373/batches/b01-5b6ded813afc/run_20260918T004800Z_557dd2/att_042cb562/q0006/qa01/20260918T084945.137+0800__brooklyn-bakery__q0006.csv",
+          "bytes": 210,
+          "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+        }
+      ],
+      "receiptReadbackPassed": true,
+      "visualReview": "completed",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "resultSurface": "place_details",
+      "observedCount": 0,
+      "csvRows": 0,
+      "classificationCounts": {},
+      "geographicRelevance": {
+        "status": "unverified",
+        "expectedArea": null,
+        "scope": "detail_place",
+        "checkedCount": 1,
+        "insideCount": 0,
+        "outsideCount": 0,
+        "unknownCount": 0,
+        "reason": "expected_area_not_configured"
+      },
+      "visualSurface": "business_detail",
+      "visibleBusinessName": "Brooklyn Baking Company",
+      "visibleAddress": "464 Reidville Dr, Waterbury, CT 06705",
+      "visibleGeographicClues": [
+        "Waterbury, CT 06705",
+        "G2Q3+6F Waterbury, Connecticut"
+      ],
+      "findings": [
+        "A single business detail panel with Directions/Save/Nearby controls; no ranked results list.",
+        "JSON and header-only CSV correctly contain zero listings and partial/non_ranking_result.",
+        "This is visibly Waterbury, Connecticut; it cannot establish Choice Clinton Hill local ranking."
+      ],
+      "visuallyComparedListingPositions": []
+    },
+    {
+      "planIndex": 1,
+      "storeId": "only-bear",
+      "keyword": "bubble tea delivery mineola",
+      "pngKey": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b01-ee309ff3788d/run_20260918T010218Z_a2f02a/att_f55dcfa8/q0001/qa01/20260918T090218.421+0800__bubble-tea-delivery-mineola__q0001__01.png",
+      "jsonKey": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b01-ee309ff3788d/run_20260918T010218Z_a2f02a/att_f55dcfa8/q0001/qa01/20260918T090218.421+0800__bubble-tea-delivery-mineola__q0001.json",
+      "csvKey": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b01-ee309ff3788d/run_20260918T010218Z_a2f02a/att_f55dcfa8/q0001/qa01/20260918T090218.421+0800__bubble-tea-delivery-mineola__q0001.csv",
+      "pngReceipt": {
+        "bytes": 783781,
+        "sha256": "ab3342d254e3c2efe7dd3cf6a3edf8ba3b37deb47baa24d35111877bc690ed13"
+      },
+      "jsonCsvReceipts": [
+        {
+          "key": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b01-ee309ff3788d/run_20260918T010218Z_a2f02a/att_f55dcfa8/q0001/qa01/20260918T090218.421+0800__bubble-tea-delivery-mineola__q0001.json",
+          "bytes": 27427,
+          "sha256": "81c4e595089c5a440ad827ebc7397c11a5eb9afd798951f9942c842bab84b015"
+        },
+        {
+          "key": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b01-ee309ff3788d/run_20260918T010218Z_a2f02a/att_f55dcfa8/q0001/qa01/20260918T090218.421+0800__bubble-tea-delivery-mineola__q0001.csv",
+          "bytes": 9424,
+          "sha256": "fccc70a276d36506a6d5462ae57d8b30c04665b455bdf7f9a120378de37eec3c"
+        }
+      ],
+      "receiptReadbackPassed": true,
+      "visualReview": "completed",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "resultSurface": "results_list",
+      "observedCount": 15,
+      "csvRows": 15,
+      "classificationCounts": {
+        "organic": 15
+      },
+      "geographicRelevance": {
+        "status": "unverified",
+        "expectedArea": null,
+        "scope": "observed_listings",
+        "checkedCount": 15,
+        "insideCount": 0,
+        "outsideCount": 0,
+        "unknownCount": 0,
+        "reason": "expected_area_not_configured"
+      },
+      "visualSurface": "ranked_results_list",
+      "visibleBusinessName": "Only Bear Chicken & Boba",
+      "visibleAddress": "142b Jericho Tpke",
+      "visibleGeographicClues": [
+        "Williston Park",
+        "Carle Place",
+        "Garden City",
+        "Mineola map labels"
+      ],
+      "findings": [
+        "Search field displays the exact requested keyword.",
+        "First four complete cards in order: Only Bear Chicken & Boba, Smo Tea, Tea Magic, Kung Fu Tea Williston Park, New York.",
+        "Their JSON/CSV displayPosition and organicRank are respectively 1,2,3,4, with resultType organic and null/empty adLabel; no Sponsored/Ad label is visible on these four cards.",
+        "Only Bear is visibly first for this specific captured query; its displayed rating4.8/reviews98/address142b Jericho Tpke match JSON.",
+        "The fifth card is partly visible; the remaining captured results are outside this first PNG and were checked through JSON/CSV, not visually in this subtask."
+      ],
+      "visuallyComparedListingPositions": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "planIndex": 2,
+      "storeId": "only-bear",
+      "keyword": "bubble tea near winthrop hospital",
+      "pngKey": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b02-5b7b4ed427e4/run_20260918T010746Z_98190d/att_26c56d95/q0003/qa01/20260918T090838.129+0800__bubble-tea-near-winthrop-hospital__q0003__diag.png",
+      "jsonKey": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b02-5b7b4ed427e4/run_20260918T010746Z_98190d/att_26c56d95/q0003/qa01/20260918T090838.129+0800__bubble-tea-near-winthrop-hospital__q0003.json",
+      "csvKey": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b02-5b7b4ed427e4/run_20260918T010746Z_98190d/att_26c56d95/q0003/qa01/20260918T090838.129+0800__bubble-tea-near-winthrop-hospital__q0003.csv",
+      "pngReceipt": {
+        "bytes": 663447,
+        "sha256": "552e31cb151a8cb02022590f7d6b8a9f2b360189ea282bd81983186731474e0f"
+      },
+      "jsonCsvReceipts": [
+        {
+          "key": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b02-5b7b4ed427e4/run_20260918T010746Z_98190d/att_26c56d95/q0003/qa01/20260918T090838.129+0800__bubble-tea-near-winthrop-hospital__q0003.json",
+          "bytes": 3541,
+          "sha256": "a8cfc82f62bc102553099d086c6c70d5275cbc98b436d207ddd165245aeba47c"
+        },
+        {
+          "key": "2026-09-18/only-bear/run_20260918T003336Z_1bd373/batches/b02-5b7b4ed427e4/run_20260918T010746Z_98190d/att_26c56d95/q0003/qa01/20260918T090838.129+0800__bubble-tea-near-winthrop-hospital__q0003.csv",
+          "bytes": 210,
+          "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+        }
+      ],
+      "receiptReadbackPassed": true,
+      "visualReview": "completed",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "resultSurface": "place_details",
+      "observedCount": 0,
+      "csvRows": 0,
+      "classificationCounts": {},
+      "geographicRelevance": {
+        "status": "unverified",
+        "expectedArea": null,
+        "scope": "detail_place",
+        "checkedCount": 1,
+        "insideCount": 0,
+        "outsideCount": 0,
+        "unknownCount": 0,
+        "reason": "expected_area_not_configured"
+      },
+      "visualSurface": "business_detail",
+      "visibleBusinessName": "Tsaocaa Westminster",
+      "visibleAddress": "5092 W 92nd Ave, Westminster, CO 80031",
+      "visibleGeographicClues": [
+        "Westminster, CO 80031",
+        "Westminster, Colorado",
+        "H Mart Westminster"
+      ],
+      "findings": [
+        "A single business detail panel, not a ranked list; JSON/CSV correctly retain zero listings with partial/non_ranking_result.",
+        "The query mentioning Winthrop Hospital opened a business visibly addressed in Colorado. It cannot establish Only Bear Mineola ranking.",
+        "The search field has changed to the selected business name; this is consistent with a detail redirect, not evidence the submitted keyword was rewritten."
+      ],
+      "visuallyComparedListingPositions": []
+    },
+    {
+      "planIndex": 3,
+      "storeId": "keke-flushing",
+      "keyword": "flushing",
+      "pngKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0001/qa01/20260918T091312.589+0800__flushing__q0001__diag.png",
+      "jsonKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0001/qa01/20260918T091312.589+0800__flushing__q0001.json",
+      "csvKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0001/qa01/20260918T091312.589+0800__flushing__q0001.csv",
+      "pngReceipt": {
+        "bytes": 1009466,
+        "sha256": "c2ffa9831464d0938ccc97bffff390131a28db0b9425feb8cb26a49b41b20245"
+      },
+      "jsonCsvReceipts": [
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0001/qa01/20260918T091312.589+0800__flushing__q0001.json",
+          "bytes": 3464,
+          "sha256": "3dbbde37a899dea5f270bdd66dd8791caf0dd2b1414f3bf32f52393918c15021"
+        },
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0001/qa01/20260918T091312.589+0800__flushing__q0001.csv",
+          "bytes": 210,
+          "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+        }
+      ],
+      "receiptReadbackPassed": true,
+      "visualReview": "completed",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "resultSurface": "place_details",
+      "observedCount": 0,
+      "csvRows": 0,
+      "classificationCounts": {},
+      "geographicRelevance": {
+        "status": "unverified",
+        "expectedArea": null,
+        "scope": "detail_place",
+        "checkedCount": 1,
+        "insideCount": 0,
+        "outsideCount": 0,
+        "unknownCount": 0,
+        "reason": "expected_area_not_configured"
+      },
+      "visualSurface": "region_detail",
+      "visibleRegion": "Flushing, Queens, NY",
+      "visibleGeographicClues": [
+        "Flushing",
+        "Queens, NY",
+        "Queens Botanical Garden",
+        "NewYork-Presbyterian Queens Hospital"
+      ],
+      "findings": [
+        "The panel is a neighborhood page with Quick facts and a dotted regional boundary, not a business list.",
+        "The limited-view Google Maps notice is visible; no CAPTCHA challenge is present in the PNG.",
+        "JSON uses resultSurface place_details and partial/non_ranking_result; zero listings and a header-only CSV are consistent. Reporting should call this a region page rather than a ranked merchant result."
+      ],
+      "visuallyComparedListingPositions": []
+    },
+    {
+      "planIndex": 4,
+      "storeId": "keke-flushing",
+      "keyword": "noodles",
+      "pngKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0002/qa01/20260918T091317.709+0800__noodles__q0002__01.png",
+      "jsonKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0002/qa01/20260918T091317.709+0800__noodles__q0002.json",
+      "csvKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0002/qa01/20260918T091317.709+0800__noodles__q0002.csv",
+      "pngReceipt": {
+        "bytes": 774083,
+        "sha256": "07fba928737ce3cc4a0d104cd3458afcfff6eb1a3dfc01c463ef84bff8d9a308"
+      },
+      "jsonCsvReceipts": [
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0002/qa01/20260918T091317.709+0800__noodles__q0002.json",
+          "bytes": 27301,
+          "sha256": "a230d68c70ad4e620c1c4f39bf299fb1e32c9365f1e9e5332834a6ae9040f640"
+        },
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0002/qa01/20260918T091317.709+0800__noodles__q0002.csv",
+          "bytes": 8913,
+          "sha256": "41dcc540087506d37a0be696f264a8b1bff21fe79d60cca9f4fe58d718a2a6fd"
+        }
+      ],
+      "receiptReadbackPassed": true,
+      "visualReview": "completed",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "resultSurface": "results_list",
+      "observedCount": 15,
+      "csvRows": 15,
+      "classificationCounts": {
+        "organic": 15
+      },
+      "geographicRelevance": {
+        "status": "unverified",
+        "expectedArea": null,
+        "scope": "observed_listings",
+        "checkedCount": 15,
+        "insideCount": 0,
+        "outsideCount": 0,
+        "unknownCount": 0,
+        "reason": "expected_area_not_configured"
+      },
+      "visualSurface": "ranked_results_list",
+      "visibleGeographicClues": [
+        "Fort Collins",
+        "Rocky Mountain National Park",
+        "Pueblo",
+        "Colorado City",
+        "Colorado Springs-area result markers"
+      ],
+      "findings": [
+        "Search field displays noodles. The map spans Colorado locations, visibly away from Flushing, New York. This is not valid local ranking evidence for Keke Flushing.",
+        "First four complete referenced cards in order: Noodles by Nina, Insee Noodle House, Shanxi Noodle Dumplings, One More Noodle.",
+        "Their JSON/CSV displayPosition and organicRank are1,2,3,4 with organic classification and null/empty ad labels; no Sponsored/Ad label is visible on those cards.",
+        "A fifth Kungfu Noodles & Dumplings card is visible near the lower edge but is not referenced to this screenshot by the emitted evidence mapping; it was not counted among the four fully compared listing positions.",
+        "JSON/CSV contain15listings; only this first PNG was visually inspected. Capture success does not establish geographic suitability."
+      ],
+      "visuallyComparedListingPositions": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "planIndex": 5,
+      "storeId": "keke-flushing",
+      "keyword": "luwei",
+      "pngKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0007/qa01/20260918T091444.926+0800__luwei__q0007__diag.png",
+      "jsonKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0007/qa01/20260918T091444.926+0800__luwei__q0007.json",
+      "csvKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0007/qa01/20260918T091444.926+0800__luwei__q0007.csv",
+      "pngReceipt": {
+        "bytes": 415459,
+        "sha256": "0ee9d824cb7a833bc634806d0ea206dde7a7c5195e3d72ed2939b8f6ee7ee138"
+      },
+      "jsonCsvReceipts": [
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0007/qa01/20260918T091444.926+0800__luwei__q0007.json",
+          "bytes": 2985,
+          "sha256": "43af37d0d3fe7dc6d2b87b3de73cd40e830ca6705571c8669a46af37138dfa46"
+        },
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0007/qa01/20260918T091444.926+0800__luwei__q0007.csv",
+          "bytes": 210,
+          "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+        }
+      ],
+      "receiptReadbackPassed": true,
+      "visualReview": "completed",
+      "status": "captured",
+      "stopReason": "end_of_results",
+      "resultSurface": "no_results",
+      "observedCount": 0,
+      "csvRows": 0,
+      "classificationCounts": {},
+      "geographicRelevance": {
+        "status": "unverified",
+        "expectedArea": null,
+        "scope": "observed_listings",
+        "checkedCount": 0,
+        "insideCount": 0,
+        "outsideCount": 0,
+        "unknownCount": 0,
+        "reason": "expected_area_not_configured"
+      },
+      "visualSurface": "no_results",
+      "visibleMessage": "Google Maps can't find luwei",
+      "visibleGeographicClues": [
+        "World map view centered broadly on North America"
+      ],
+      "findings": [
+        "The submitted luwei text is visible in the search field and explicit no-results message. No results list or merchant detail is shown.",
+        "JSON status captured, stopReason end_of_results, resultSurface no_results, observedCount0, listings[], verifiedPrefixLength0, geographic checkedCount0; the CSV has headers and0data rows.",
+        "This is a completed search yielding no results, not a ranked list or proof of a merchant being absent from a particular local area."
+      ],
+      "visuallyComparedListingPositions": []
+    },
+    {
+      "planIndex": 6,
+      "storeId": "keke-flushing",
+      "keyword": "cold dishes",
+      "pngKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0010/qa01/20260918T091529.079+0800__cold-dishes__q0010__diag.png",
+      "jsonKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0010/qa01/20260918T091529.079+0800__cold-dishes__q0010.json",
+      "csvKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0010/qa01/20260918T091529.079+0800__cold-dishes__q0010.csv",
+      "pngReceipt": {
+        "bytes": 416702,
+        "sha256": "45b8920b7669688f3a061f466a21fbae7bf49b05f37af6dbf36cf38823c7c59d"
+      },
+      "jsonCsvReceipts": [
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0010/qa01/20260918T091529.079+0800__cold-dishes__q0010.json",
+          "bytes": 3009,
+          "sha256": "1cc8564e740879ae47d2f8fe58efd304714b03711e6e985e88ff17b3999921c6"
+        },
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0010/qa01/20260918T091529.079+0800__cold-dishes__q0010.csv",
+          "bytes": 210,
+          "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+        }
+      ],
+      "receiptReadbackPassed": true,
+      "visualReview": "completed",
+      "status": "captured",
+      "stopReason": "end_of_results",
+      "resultSurface": "no_results",
+      "observedCount": 0,
+      "csvRows": 0,
+      "classificationCounts": {},
+      "geographicRelevance": {
+        "status": "unverified",
+        "expectedArea": null,
+        "scope": "observed_listings",
+        "checkedCount": 0,
+        "insideCount": 0,
+        "outsideCount": 0,
+        "unknownCount": 0,
+        "reason": "expected_area_not_configured"
+      },
+      "visualSurface": "no_results",
+      "visibleMessage": "Google Maps can't find cold dishes",
+      "visibleGeographicClues": [
+        "World map view centered broadly on North America"
+      ],
+      "findings": [
+        "The submitted cold dishes text is visible in the search field and explicit no-results message.",
+        "JSON status captured, stopReason end_of_results, resultSurface no_results, observedCount0, listings[], verifiedPrefixLength0, geographic checkedCount0; the CSV has headers and0data rows.",
+        "No searcher location can be inferred from the generic world map view. This is completed no-result capture, not a ranked list."
+      ],
+      "visuallyComparedListingPositions": []
+    },
+    {
+      "planIndex": 7,
+      "storeId": "keke-flushing",
+      "keyword": "new york city",
+      "pngKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0011/qa01/20260918T091530.989+0800__new-york-city__q0011__diag.png",
+      "jsonKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0011/qa01/20260918T091530.989+0800__new-york-city__q0011.json",
+      "csvKey": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0011/qa01/20260918T091530.989+0800__new-york-city__q0011.csv",
+      "pngReceipt": {
+        "bytes": 958511,
+        "sha256": "4e0a0195e1e72b204f0fc0fbe625fbc4da0bda0c6579e68859909bb50981711d"
+      },
+      "jsonCsvReceipts": [
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0011/qa01/20260918T091530.989+0800__new-york-city__q0011.json",
+          "bytes": 3468,
+          "sha256": "6a34a64375005d36ff4c02cc34775deaafec496fa450203d71ff5aeeb803a376"
+        },
+        {
+          "key": "2026-09-18/keke-flushing/run_20260918T003336Z_1bd373/batches/b01-5c6bfe65a683/run_20260918T011312Z_611a49/att_b3914e3d/q0011/qa01/20260918T091530.989+0800__new-york-city__q0011.csv",
+          "bytes": 210,
+          "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+        }
+      ],
+      "receiptReadbackPassed": true,
+      "visualReview": "completed",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "resultSurface": "place_details",
+      "observedCount": 0,
+      "csvRows": 0,
+      "classificationCounts": {},
+      "geographicRelevance": {
+        "status": "unverified",
+        "expectedArea": null,
+        "scope": "detail_place",
+        "checkedCount": 1,
+        "insideCount": 0,
+        "outsideCount": 0,
+        "unknownCount": 0,
+        "reason": "expected_area_not_configured"
+      },
+      "visualSurface": "region_detail",
+      "visibleRegion": "New York",
+      "visibleGeographicClues": [
+        "New York City Quick facts",
+        "New York outlined boundary",
+        "Yonkers",
+        "Newark",
+        "Long Island"
+      ],
+      "findings": [
+        "City detail page with Quick facts and a dotted NYC boundary; no ranked merchant feed.",
+        "Limited-view notice and optional Sign in button are visible, with no blocking consent/CAPTCHA page.",
+        "JSON resultSurface place_details and partial/non_ranking_result with zero listing/CSV rows are consistent. Reporting should identify a region page."
+      ],
+      "visuallyComparedListingPositions": []
+    }
+  ]
+}

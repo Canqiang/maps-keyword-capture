@@ -1,0 +1,135 @@
+{
+  "scope": "manual visual samples only; full structural and hash verification is separate",
+  "samples": [
+    {
+      "storeId": "george-merchant",
+      "keyword": "burger",
+      "status": "captured",
+      "reason": "limit_reached",
+      "key": "2026-09-18/george-merchant/run_20260918T003336Z_1bd373/batches/b01-4c4c3e50b44f/run_20260918T012430Z_f808bf/att_2f892131/q0001/qa01/20260918T092430.419+0800__burger__q0001__01.png",
+      "jsonKey": "2026-09-18/george-merchant/run_20260918T003336Z_1bd373/batches/b01-4c4c3e50b44f/run_20260918T012430Z_f808bf/att_2f892131/q0001/qa01/20260918T092430.419+0800__burger__q0001.json",
+      "sha256": "d950cb1abb04d99560de8a4e4e81c919db8eb9bb15396043df91642a452385ae",
+      "bytes": 792244,
+      "visualStatus": "reviewed",
+      "listingComparisons": 5,
+      "observations": [
+        "Loaded results and map. First five complete cards: GAIA MASALA & BURGER, Empire Burger, BurgerBarn, Hopdoddy Burger Bar, Butte Burgers; order agrees with the saved result.",
+        "No Sponsored label on these visible cards. Screenshot map and listed results show the Colorado Front Range; not certified local to the enrolled merchant. Searcher location is unknown."
+      ]
+    },
+    {
+      "storeId": "george-merchant",
+      "keyword": "new york",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "key": "2026-09-18/george-merchant/run_20260918T003336Z_1bd373/batches/b01-4c4c3e50b44f/run_20260918T012430Z_f808bf/att_2f892131/q0011/qa01/20260918T092814.377+0800__new-york__q0011__diag.png",
+      "jsonKey": "2026-09-18/george-merchant/run_20260918T003336Z_1bd373/batches/b01-4c4c3e50b44f/run_20260918T012430Z_f808bf/att_2f892131/q0011/qa01/20260918T092814.377+0800__new-york__q0011.json",
+      "sha256": "6ae1913f7a666f65381c83a552e5e12aaf288ff73a6d51bdb20179698d5bae3d",
+      "bytes": 1065213,
+      "visualStatus": "reviewed",
+      "listingComparisons": 0,
+      "observations": [
+        "New York city/region detail panel with Quick facts and boundary map, not a ranked merchant list. Empty listings and non_ranking_result are appropriate.",
+        "Limited-view notice and Collapse side panel hint are visible; original diagnostic evidence retained."
+      ]
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "massage",
+      "status": "captured",
+      "reason": "limit_reached",
+      "key": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0001/qa01/20260918T093733.960+0800__massage__q0001__01.png",
+      "jsonKey": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0001/qa01/20260918T093733.960+0800__massage__q0001.json",
+      "sha256": "c46cc46f3ab5c5518312f499e42b4e75769a364ade7cef948f73a154c8a53da5",
+      "bytes": 726471,
+      "visualStatus": "reviewed",
+      "listingComparisons": 6,
+      "observations": [
+        "Loaded map/results; first six complete cards (Jane massage & spa through Massage Crested Butte) agree with saved order and organic positions1–6. Several cards visibly have No reviews; null ratings are preserved.",
+        "Visible map spans Colorado and surrounding states; no searcher location is inferred and geographic status stays unverified."
+      ]
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "spa",
+      "status": "partial",
+      "reason": "classification_unknown",
+      "key": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0004/qa01/20260918T093834.339+0800__spa__q0004__01.png",
+      "jsonKey": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0004/qa01/20260918T093834.339+0800__spa__q0004.json",
+      "sha256": "fa15aecff357520dc0d1f850e7f4bef1465bad656170e197c69bf1e0bc858a05",
+      "bytes": 553003,
+      "visualStatus": "reviewed",
+      "listingComparisons": 6,
+      "observations": [
+        "First spa frame shows the second result Blue Stone Chateau Yosemite Pool Spa Secluded - Deluxe Villa with only Lodging, no rating/address. It is preserved as unknown; no Sponsored label is visible, but that alone is not enough to override classification.",
+        "First six displayed names agree with JSON. Jane remains organic rank1; rank2 and later organic ranks are null after the ambiguous card. Broad world map is loaded."
+      ]
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "spa",
+      "status": "partial",
+      "reason": "classification_unknown",
+      "key": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0004/qa01/20260918T093834.339+0800__spa__q0004__02.png",
+      "jsonKey": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0004/qa01/20260918T093834.339+0800__spa__q0004.json",
+      "sha256": "e409de462f324f99da00b46fae72190114009f728b98b9ff21b2338504115614",
+      "bytes": 585654,
+      "visualStatus": "reviewed",
+      "listingComparisons": 6,
+      "observations": [
+        "Second spa frame visibly follows order4–9: The Spa at Tiny Timbers, Four Seasons Vail, Layton spa one, Halo's Spa & Boutique, Thermal Spa at The Springs Resort, Luna Grace Spa. Saved display positions and null natural ranks agree.",
+        "No Sponsored label appears on the compared cards. This is a sample of visible ad markers, not an assertion about all Google ads."
+      ]
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "spa",
+      "status": "partial",
+      "reason": "classification_unknown",
+      "key": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0004/qa01/20260918T093834.339+0800__spa__q0004__03.png",
+      "jsonKey": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0004/qa01/20260918T093834.339+0800__spa__q0004.json",
+      "sha256": "6854714c6b14f95a8cd59fdae9b23fb1c4705ad01c5f16e685004a479d7cb733",
+      "bytes": 582635,
+      "visualStatus": "reviewed",
+      "listingComparisons": 6,
+      "observations": [
+        "Third spa frame visibly follows order10–15: Rocky Mountain Day Spa, Elevation Recovery Spa, Jenna spa, Infinity Spa, Soak Wellness Spa, Intentions Spa. Saved names/order agree; natural ranks remain null due to the earlier unknown.",
+        "No Sponsored label appears on these cards. PNG includes the full original world-scale map."
+      ]
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "chesapeake",
+      "status": "partial",
+      "reason": "non_ranking_result",
+      "key": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0011/qa01/20260918T094052.520+0800__chesapeake__q0011__diag.png",
+      "jsonKey": "2026-09-18/massage-float/run_20260918T003336Z_1bd373/batches/b01-5155c3517e4d/run_20260918T013733Z_d51a84/att_53edd530/q0011/qa01/20260918T094052.520+0800__chesapeake__q0011.json",
+      "sha256": "0d4cda90897221d8802a91ecec1f1188fdbc6678de48ebd9e5ce5482809995b8",
+      "bytes": 778656,
+      "visualStatus": "reviewed",
+      "listingComparisons": 0,
+      "observations": [
+        "Chesapeake, Virginia city detail page with Quick facts, area boundary and limited-view notice. No comparable ranked merchant list is visible; non_ranking_result with zero rows is appropriate.",
+        "Collapse-side-panel hint remains in original diagnostic screenshot; evidence is not edited."
+      ]
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "keyword": "sichuan restaurant Upper West Side",
+      "status": "captured",
+      "reason": "limit_reached",
+      "key": "2026-09-18/szechuan-gourmet/run_20260918T003336Z_1bd373/batches/b01-b62ef0b26cbe/run_20260918T014816Z_804e6e/att_4b62a2f7/q0001/qa01/20260918T094816.704+0800__sichuan-restaurant-upper-west-side__q0001__01.png",
+      "jsonKey": "2026-09-18/szechuan-gourmet/run_20260918T003336Z_1bd373/batches/b01-b62ef0b26cbe/run_20260918T014816Z_804e6e/att_4b62a2f7/q0001/qa01/20260918T094816.704+0800__sichuan-restaurant-upper-west-side__q0001.json",
+      "sha256": "4ca9d5ddcefdaed919b7a6f1e0d49abd2cd89d614b561f1d455963f6db9db58d",
+      "bytes": 1238092,
+      "visualStatus": "reviewed",
+      "listingComparisons": 4,
+      "observations": [
+        "Loaded NYC map with first four complete cards Han Dynasty Upper West Side, Legend72, The Best Sichuan, Mountain House Times Square; JSON display/organic ranks1–4 agree. Szechuan Gourmet name is visible on the partly clipped fifth card, not counted among complete-card comparisons.",
+        "No Sponsored marker on compared cards. This sample shows NYC content but does not change the unverified geographic assessment of the run."
+      ]
+    }
+  ],
+  "pngCount": 8,
+  "queryCount": 6
+}

@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-09-18T02:11:56.832665+00:00",
+  "context": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "jobName": "maps-monitor-verify-20260918t003315z-544bac",
+  "jobUid": "785090b2-efff-475c-94f3-c16a4908ac38",
+  "jobConditions": [
+    {
+      "lastProbeTime": "2026-09-18T01:56:28Z",
+      "lastTransitionTime": "2026-09-18T01:56:28Z",
+      "message": "Job has reached the specified backoff limit",
+      "reason": "BackoffLimitExceeded",
+      "status": "True",
+      "type": "FailureTarget"
+    },
+    {
+      "lastProbeTime": "2026-09-18T01:56:28Z",
+      "lastTransitionTime": "2026-09-18T01:56:28Z",
+      "message": "Job has reached the specified backoff limit",
+      "reason": "BackoffLimitExceeded",
+      "status": "True",
+      "type": "Failed"
+    }
+  ],
+  "podName": "maps-monitor-verify-20260918t003315z-544bac-n26vk",
+  "podUid": "4f5de44c-593a-457b-b452-7a9bb8e171a8",
+  "phase": "Failed",
+  "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:969d8592e7d3369591195d5a102287d3fca39268e36417b49fbf8f4a394315e0",
+  "restartCount": 0,
+  "termination": {
+    "containerID": "containerd://17eff46eddc35ddcffa4c159b628bfc48410718c1d8236c960670cf2c35a6017",
+    "exitCode": 2,
+    "finishedAt": "2026-09-18T01:56:25Z",
+    "reason": "Error",
+    "startedAt": "2026-09-18T00:33:35Z"
+  },
+  "manualRun": true
+}
