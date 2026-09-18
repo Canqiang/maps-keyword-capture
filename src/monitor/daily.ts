@@ -1,6 +1,7 @@
 import { readFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { KeywordResult, ManifestDeliveryReceipt, StorageState } from '../contracts.js';
+import type { GeographicRelevance, KeywordResult, ManifestDeliveryReceipt, StorageState } from '../contracts.js';
+import { assessGeographicRelevance } from '../core/geography.js';
 import { hashJson, newRunId } from '../ids.js';
 import { dateFolder } from '../naming.js';
 import { BatchExecutionError, UNSUPPORTED_LAYOUT_STREAK, runBatch, type BatchDeps, type BatchOutput } from '../runner/batch-runner.js';
@@ -18,7 +19,7 @@ export type DailyReceipt = StorageState & { relativePath: string; bytes: number;
 interface DailyBatch {
   batchId: string; keywords: string[]; prefix: string; status: 'pending' | 'completed' | 'partial' | 'failed' | 'skipped'; stopReason: DailyStopReason | null;
   runId: string | null; attemptId: string | null; manifestReceipt: ManifestDeliveryReceipt | null;
-  counts: Record<string, number>; ownStore: { queryId: string; keyword: string; summary: OwnStoreSummary }[];
+  counts: Record<string, number>; ownStore: { queryId: string; keyword: string; summary: OwnStoreSummary; geographicRelevance: GeographicRelevance }[];
 }
 interface DailyStore extends EnrolledStore {
   status: 'pending' | 'selected' | 'source_failed' | 'empty' | 'completed' | 'partial' | 'failed' | 'skipped';
@@ -58,18 +59,20 @@ function sourceError(err: unknown): string {
   const message = err instanceof Error ? err.message : '';
   return /^(source_[a-z_]+|source_http_\d{3}|cancelled)$/.test(message) ? message : 'source_request_failed';
 }
-async function ownSummaries(out: BatchOutput, placeId: string): Promise<DailyBatch['ownStore']> {
+async function ownSummaries(out: BatchOutput, store: EnrolledStore): Promise<DailyBatch['ownStore']> {
   const summaries: DailyBatch['ownStore'] = [];
   for (const query of out.manifest.queries) {
     if (query.status === 'skipped' || query.status === 'pending' || query.status === 'running') continue;
-    let summary = summarizeOwnStore(placeId, []);
+    let summary = summarizeOwnStore(store.placeId, []);
+    let geographicRelevance = assessGeographicRelevance(store.expectedArea, [], 'observed_listings');
     if (query.resultFile && !query.resultFile.startsWith('/') && !query.resultFile.split('/').includes('..')) {
       try {
         const result = JSON.parse(await readFile(join(out.attemptRoot, query.resultFile), 'utf8')) as KeywordResult;
-        if (Array.isArray(result.listings)) summary = summarizeOwnStore(placeId, result.listings);
+        if (Array.isArray(result.listings)) summary = summarizeOwnStore(store.placeId, result.listings);
+        geographicRelevance = result.quality?.geographicRelevance ?? geographicRelevance;
       } catch { /* A raw result without readable canonical identity never gets a name-based match. */ }
     }
-    summaries.push({ queryId: query.queryId, keyword: query.keyword, summary });
+    summaries.push({ queryId: query.queryId, keyword: query.keyword, summary, geographicRelevance });
   }
   return summaries;
 }
@@ -135,7 +138,7 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
         const keywords = batch.map(k => k.keyword); const batchId = batchIdFor(index, keywords);
         return { batchId, keywords, prefix: `${prefix}/batches/${batchId}`, status: 'pending', stopReason: null, runId: null, attemptId: null, manifestReceipt: null, counts: {}, ownStore: [] };
       });
-      row.snapshotReceipt = await persistJson(`${prefix}/keyword-selection.json`, { schemaVersion: '1', dailyRunId, runKey, date, store: { storeId: row.storeId, merchantId: row.merchantId, placeId: row.placeId, name: row.name }, source: record, selectionPolicy: SELECTION_POLICY, ...selection, selectionHash: row.selectionHash });
+      row.snapshotReceipt = await persistJson(`${prefix}/keyword-selection.json`, { schemaVersion: '1', dailyRunId, runKey, date, store: { storeId: row.storeId, merchantId: row.merchantId, placeId: row.placeId, name: row.name, expectedArea: row.expectedArea ?? null }, source: record, selectionPolicy: SELECTION_POLICY, ...selection, selectionHash: row.selectionHash });
       if (!isDelivered(row.snapshotReceipt)) { row.status = 'failed'; failStorage(); }
       else row.status = selection.keywords.length ? 'selected' : 'empty';
       log({ stage: 'source_selected', storeId: row.storeId, selected: row.selectedCount, available: selection.availableCount, snapshotStatus: row.snapshotReceipt.storageStatus });
@@ -150,7 +153,7 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
           let out: BatchOutput;
           let executionFailed = false;
           try {
-            out = await (deps.batchRunner ?? runBatch)({ config: { ...deps.config.capture, schemaVersion: '1', keywords: batch.keywords, outputDirectory: scoped.rootDirectory }, store: scoped, signal: controller.signal, initialUnsupportedLayoutStreak: unsupportedStreak, log });
+            out = await (deps.batchRunner ?? runBatch)({ config: { ...deps.config.capture, ...(row.expectedArea ? { expectedArea: row.expectedArea } : {}), schemaVersion: '1', keywords: batch.keywords, outputDirectory: scoped.rootDirectory }, store: scoped, signal: controller.signal, initialUnsupportedLayoutStreak: unsupportedStreak, log });
           } catch (error) {
             if (error instanceof BatchExecutionError) {
               out = error.output;
@@ -170,7 +173,7 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
           batch.status = out.manifest.status === 'running' ? 'failed' : out.manifest.status;
           batch.runId = out.manifest.runId; batch.attemptId = out.manifest.attemptId; batch.manifestReceipt = out.manifestReceipt;
           for (const query of out.manifest.queries) batch.counts[query.status] = (batch.counts[query.status] ?? 0) + 1;
-          batch.ownStore = await ownSummaries(out, row.placeId);
+          batch.ownStore = await ownSummaries(out, row);
           for (const query of out.manifest.queries) {
             if (query.status === 'skipped') continue;
             unsupportedStreak = query.stopReason === 'unsupported_layout' ? unsupportedStreak + 1 : 0;

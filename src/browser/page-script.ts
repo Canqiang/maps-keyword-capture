@@ -5,7 +5,9 @@ import type { FeedSnapshot } from '../core/types.js';
  * no imports used at runtime, no references to module-scope values.
  */
 export function readFeedSnapshotInPage(): FeedSnapshot | null {
-  const feed = document.querySelector('div[role="feed"]') as HTMLElement | null;
+  // Match the adapter's visible-feed probe: hidden panels may precede the active list.
+  const feed = Array.from(document.querySelectorAll<HTMLElement>('div[role="feed"]')).find(e =>
+    e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden') ?? null;
   if (!feed) return null;
   const pane = feed.getBoundingClientRect();
   const box = (r: DOMRect) => ({ x: r.x, y: r.y, width: r.width, height: r.height });

@@ -9,6 +9,8 @@ export interface FixtureCard {
   iconGlyphs?: boolean;
   /** Omit the rating line, as a business with no reviews renders. */
   noRating?: boolean;
+  /** Render a standalone category with no separator or address, as Memo Fırın does. */
+  categoryOnly?: boolean;
   /** Extra description line after the category/address line. */
   description?: string;
 }
@@ -54,7 +56,7 @@ export function cardHtml(c: FixtureCard, i: number, ratingLabelStyle: 'stars' | 
     ${label}
     <div class="name">${esc(c.name)}</div>
     ${ratingLine}
-    <div>${esc(category)} · ${esc(address)}</div>
+    <div>${esc(category)}${c.categoryOnly ? '' : ` · ${esc(address)}`}</div>
     ${c.description ? `<div>${esc(c.description)}</div>` : ''}
     <div>Closed · Opens 9 AM</div>
     ${actions}

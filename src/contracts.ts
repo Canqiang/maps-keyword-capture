@@ -1,7 +1,29 @@
-/** Unreleased v1 contracts. No collector or runtime validator exists yet.
+/** Version 1 data contracts, including additive quality metadata.
  * Numeric ranges, timestamps, hashes, cross-references, and quality invariants
  * require runtime validation; TypeScript alone does not validate external JSON.
  */
+/** Reference area for passive validation only; never applied as browser location. */
+export interface ExpectedArea {
+  label: string;
+  latitude: number;
+  longitude: number;
+  radiusKm: number;
+  /** Provenance of the verified reference coordinates and intended coverage. */
+  source: string;
+}
+export interface GeographicRelevance {
+  status: 'unverified' | 'matched' | 'outside' | 'mixed';
+  expectedArea: ExpectedArea | null;
+  scope: 'observed_listings' | 'detail_place';
+  /** Number of supplied place URLs with unambiguous coordinates, even without a reference. */
+  checkedCount: number;
+  /** Inside/outside remain zero when no expected area is configured. */
+  insideCount: number;
+  outsideCount: number;
+  unknownCount: number;
+  reason: 'expected_area_not_configured' | 'no_observations' | 'incomplete_coordinates' | 'all_observed_places_inside' | 'all_observed_places_outside' | 'observed_places_mixed';
+}
+
 export interface CaptureConfig {
   schemaVersion: "1";
   keywords: string[];
@@ -17,6 +39,8 @@ export interface CaptureConfig {
   filenameTimezone: string;
   viewport: { width: number; height: number };
   outputDirectory: string;
+  /** Optional comparison area; does not set browser geolocation or map view. */
+  expectedArea?: ExpectedArea;
   /**
    * Reserved optional map view for a future explicit area-search mode.
    * Omit for query-only search. The first runner must reject a supplied value
@@ -141,7 +165,7 @@ export type IncompleteReason =
   | "scroll_limit" | "load_stalled" | "timeout" | "error"
   | "unsupported_layout" | "unstable_results" | "sequence_ambiguous"
   | "screenshot_limit" | "artifact_limit" | "query_mismatch"
-  | "classification_unknown" | "cancelled" | "batch_timeout";
+  | "classification_unknown" | "non_ranking_result" | "cancelled" | "batch_timeout";
 export type SkipReason =
   | "batch_blocked" | "browser_startup_failed" | "storage_unavailable"
   | "unsupported_layout" | "batch_timeout" | "cancelled";
@@ -171,6 +195,9 @@ export interface SearchContext {
 }
 
 export interface QueryQuality {
+  /** Optional only for compatibility with historical records. */
+  resultSurface?: 'results_list' | 'place_details' | 'no_results' | 'unknown';
+  geographicRelevance?: GeographicRelevance;
   verifiedPrefixLength: number;
   classificationComplete: boolean;
   screenshotCoverageComplete: boolean;

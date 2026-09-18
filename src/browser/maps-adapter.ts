@@ -26,12 +26,21 @@ export async function detectPageState(page: Page): Promise<PageState> {
   if (url.pathname.includes('/sorry/')) return { kind: 'captcha' };
   if (page.frames().some((f) => /recaptcha/i.test(f.url()))) return { kind: 'captcha' };
   if (url.hostname === 'consent.google.com') return { kind: 'consent' };
-  if (url.pathname.startsWith('/maps/place/')) return { kind: 'place_redirect' };
   const probe = await page.evaluate(() => ({
-    feed: document.querySelector('div[role="feed"]') !== null,
-    noResults: /can't find/i.test(document.body?.innerText ?? ''),
-  })).catch(() => ({ feed: false, noResults: false }));
+    feed: Array.from(document.querySelectorAll('div[role="feed"]')).some(e =>
+      e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden'),
+    detailHeading: Array.from(document.querySelectorAll('h1')).some(e =>
+      (e.textContent ?? '').trim().length > 0 && e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden'),
+    detailAction: Array.from(document.querySelectorAll('button[aria-label^="Directions"], [data-value="Directions"], button[data-item-id="address"]')).some(e =>
+      e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden'),
+    // The empty-search message has an explicit product prefix. Incidental review
+    // text such as "I can't find a better bakery" is not an empty result set.
+    noResults: (document.body?.innerText ?? '').split(/\r?\n/).some(line => /^Google Maps can['’]t find\s+\S/i.test(line.trim())),
+  })).catch(() => ({ feed: false, noResults: false, detailHeading: false, detailAction: false }));
+  // A place URL may still carry a ranked results feed. Prefer the visible surface, and do not
+  // classify an unloaded/failed page as a known detail result merely because its URL changed.
   if (probe.feed) return { kind: 'results' };
+  if (url.pathname.startsWith('/maps/place/') && probe.detailHeading && probe.detailAction) return { kind: 'place_redirect' };
   if (probe.noResults) return { kind: 'no_results' };
   return { kind: 'unknown', detail: `no feed at ${page.url()}` };
 }
@@ -117,7 +126,8 @@ export function nextScrollTop(snapshot: FeedSnapshot, layout: FeedLayout): numbe
 
 export async function scrollFeedTo(page: Page, scrollTop: number): Promise<number> {
   return page.evaluate((top) => {
-    const feed = document.querySelector('div[role="feed"]') as HTMLElement | null;
+    const feed = Array.from(document.querySelectorAll<HTMLElement>('div[role="feed"]')).find(e =>
+      e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden') ?? null;
     if (!feed) return -1;
     feed.scrollTop = top;
     return feed.scrollTop;
@@ -128,7 +138,8 @@ export async function waitForFeedChange(page: Page, previous: { childCount: numb
   const deadline = Date.now() + timeoutMs;
   for (;;) {
     const probe = await page.evaluate(() => {
-      const feed = document.querySelector('div[role="feed"]') as HTMLElement | null;
+      const feed = Array.from(document.querySelectorAll<HTMLElement>('div[role="feed"]')).find(e =>
+        e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden') ?? null;
       if (!feed) return null;
       return { childCount: feed.children.length, scrollHeight: feed.scrollHeight, end: /reached the end of the list/i.test(feed.innerText || '') };
     });

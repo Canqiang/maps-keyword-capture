@@ -1,6 +1,6 @@
 # Detailed Design
 
-Status: implemented for local collection, proposed for delivery. The local collector described in sections 3 to 10 exists and has been validated locally under fixture tests and in one end-to-end run of four keywords against the live site; see [validation status](validation-status.md) for what that run did and did not show. Azure Blob delivery, the container image, the Kubernetes Job, and target-Pod acceptance are not implemented or validated. The unreleased TypeScript contracts reflect the design and have compile-time regression checks; runtime schema validation of external JSON is still required.
+Status: the collector, Azure Blob delivery, dedicated Jobs, and daily monitoring are implemented. [Validation status](validation-status.md) separates historical Dev/UAT acceptance from the current local optimization, which has not yet been deployed or accepted in UAT. TypeScript contracts and fixture checks do not replace runtime validation of external JSON or live release acceptance.
 
 Decisions made on 2026-09-17 that refine this design (Chromium instead of Chrome, 15 listings, query-only location behavior, Azure Blob target, DOM-index reconciliation) are recorded with their rationale in [Decisions and Deviations, 2026-09-17](superpowers/specs/2026-09-17-keyword-capture-design.md). This document has been updated to match.
 
@@ -89,7 +89,11 @@ The first version uses query-only search: submit the original keyword without a 
 
 `mapView` is optional in the input contract and reserved for a later explicit area-search mode. Omit it from first-version inputs. Until that mode is implemented, supplying it must produce a clear unsupported-configuration error rather than silently applying or ignoring it. Results record `locationMode: "query_only"` and `configuredMapView: null`; record any observed map view separately from requested settings.
 
-Queries such as `bubble tea garden city` express an area name but do not guarantee an unambiguous city. The recovered [query-only screenshot](../evidence/2026-09-17/screenshots/q_bubble_tea_garden_city.png) shows a broad US map and geographically mixed card details; [the archive](../evidence/2026-09-17/README.md) explains the limits of that observation. Generic, ambiguous, and "near me" queries remain valid raw queries, but their results must be described as observations from the runner's environment. Do not automatically rewrite queries or infer a customer-local rank. A caller may explicitly submit a more specific keyword as a new input. Record any observed ambiguity in quality warnings with evidence references; automatic geographic detection is not implemented. The previously recorded Virginia egress is context to retain, not a reason to inject a map center. No explicit location input does not mean location-independent results.
+Queries such as `bubble tea garden city` express an area name but do not guarantee an unambiguous city. The recovered [query-only screenshot](../evidence/2026-09-17/screenshots/q_bubble_tea_garden_city.png) shows a broad US map and geographically mixed card details; [the archive](../evidence/2026-09-17/README.md) explains the limits of that observation. Generic, ambiguous, and "near me" queries remain valid raw queries, but their results must be described as observations from the runner's environment. Do not automatically rewrite queries or infer a customer-local rank. A caller may explicitly submit a more specific keyword as a new input. Preserve observed ambiguity in quality evidence. The passive geographic assessment below can identify coordinate-based mismatches; it does not determine Google's inferred search location. The previously recorded Virginia egress is context to retain, not a reason to inject a map center. No explicit location input does not mean location-independent results.
+
+A caller may provide `expectedArea: { label, latitude, longitude, radiusKm, source }` as a verified reference for **passive assessment only**. For daily monitoring it belongs to each enrolled store; a shared `capture.expectedArea` is rejected so one merchant's reference is not accidentally applied to every store. `source` must identify the provenance of the reference coordinates and intended radius. This input does not rewrite keywords, set `mapView`, grant geolocation, or change rankings or collection outcomes. The default seven-store registry leaves reference areas unset; those results remain geographically `unverified`.
+
+`quality.geographicRelevance` evaluates unambiguous embedded place coordinates from observed Maps place URLs, with scope `observed_listings` or `detail_place`. Camera `@latitude,longitude` coordinates are not business coordinates. Preserve checked, inside, outside, and unknown counts. With a configured reference, all observed coordinates inside yields `matched`, all outside yields `outside`, and known coordinates on both sides yields `mixed`. Missing reference, no observations, or otherwise incomplete coordinates yields `unverified`. Even `matched` only describes the observed places relative to the supplied radius; it is not proof of the customer's location or a universal local rank.
 
 Record requested and observed conditions separately: configured map view, final URL, visible location text if available, active filters, account state, browser version, and configured egress region/source. Do not guess actual Google-inferred location from these fields. Google can use multiple location signals, including network address and prior activity; fixed browser coordinates alone do not establish equivalence with a user's desktop search. [Google location guidance](https://support.google.com/websearch/answer/179386?hl=en)
 
@@ -128,7 +132,7 @@ stateDiagram-v2
     Terminal --> [*]
 ```
 
-An explicit no-results page is a valid captured observation with zero rows and screenshot evidence. An empty DOM query is not evidence of no results. A business detail page is not automatically a first-place search result; the adapter must recover a list or mark the query unsupported.
+An explicit no-results page is a valid captured observation with zero rows and screenshot evidence. An empty DOM query is not evidence of no results. A visible ranked feed takes precedence even on a place URL. A recognized place detail page without that feed yields `partial / non_ranking_result`, a diagnostic screenshot, and no ranked listing. Recognition requires a loaded heading and supported detail controls, not just a `/maps/place/` URL. The runner continues with the next keyword and store; this recognized surface does not count toward the unsupported-layout failure streak. Unloaded, blank, or otherwise unrecognized pages remain `unsupported_layout`. A detail page is never automatically a first-place result.
 
 ## 6. Readiness and evidence consistency
 
@@ -159,7 +163,9 @@ Store the observed Maps URL unchanged. A separate canonical association URL may 
 
 The absence of the word "Sponsored" alone is not a general organic classifier. Ad markers can belong to a group; the adapter must establish which cards the marker covers. Unrecognized language or ad structures fail closed to `unknown` or `unsupported_layout`.
 
-No live selector set is specified as verified in this design. The first implementation milestone must inspect current pages, establish label ownership, and create sanitized fixtures for supported layouts. Parser changes require a new adapter version.
+Supported selectors and their validation boundaries are recorded in [validation status](validation-status.md). Parser changes require fixture regression coverage and a versioned release record; unverified layouts must not inherit the acceptance of earlier layouts.
+
+A no-review card can be a business without having a `Category · address` row. The conservative fallback supports an exact `No reviews` row followed by `Bakery`, `Cafe`, `Coffee shop`, `Restaurant`, `Bubble tea store`, or `Tea house`; older collapsed observations support the same bounded labels after the no-review prefix. This corrects the observed Memo Fırın `No reviews / Bakery` card without turning arbitrary region text into a business. Unknown standalone categories remain unknown. Rating, review count, and address stay null when absent, and `No reviews` is never exported as a category. An owned Sponsored label remains an ad; unresolved standalone advertising markers do not fall through to organic classification.
 
 Recovered laptop evidence, 2026-09-17: the centered-map Chromium [first screenshot](../evidence/2026-09-17/screenshots/ad_shot_00.png) visibly shows a Sponsored Gong Cha card; a [later screenshot](../evidence/2026-09-17/screenshots/ad_shot_02.png) shows Gong Cha with the same address/phone and no visible Sponsored label. This supports keeping both occurrences, but does not validate a production organic classifier. Earlier notes reported browser version 153.0.8010.12, a later display position of 11, a leaf `span` six levels deep, and an enclosing `aria-label="Sponsored"`. The inspection script was recovered, but its DOM/stdout output was not; those details remain historical reports pending fixture validation. Do not mix rating examples from another card into the Gong Cha evidence. Thumbnail and Website/Directions layouts are visible in the archive; both, plus group-level labels and unsupported structures, require parser fixtures.
 
@@ -219,13 +225,13 @@ Initial defaults below are provisional hard budgets, not performance promises. E
 
 Retry a transient navigation error or browser crash. Do not automatically retry CAPTCHA, unhandled consent, unsupported layouts, ambiguous ordering, invalid input, or exhausted deadlines. Do not merge rows from different query attempts. Prefer the earliest complete query attempt; if none completes, retain the earliest attempt with usable evidence, while exposing all attempt outcomes.
 
-A confirmed CAPTCHA opens a batch-level circuit breaker: save its diagnostic evidence and mark unstarted queries `skipped` with `batch_blocked`. Do not repeatedly submit all remaining keywords through the same blocked session. A recognized no-results page does not trip this breaker. Browser launch failure, unavailable persistent storage, or a globally unsupported adapter layout should also stop the remaining batch with explicit reasons.
+A confirmed CAPTCHA opens a batch-level circuit breaker: save its diagnostic evidence and mark unstarted queries `skipped` with `batch_blocked`. Do not repeatedly submit all remaining keywords through the same blocked session. A recognized no-results page does not trip this breaker. Recognized detail pages also continue dispatch as `partial / non_ranking_result`; genuine consecutive `unsupported_layout` outcomes still open the layout breaker, including across daily-monitor batch boundaries. Browser launch failure, unavailable persistent storage, or a globally unsupported adapter layout should also stop the remaining batch with explicit reasons.
 
 ## 10. Data model and output
 
 ### Contracts and remaining runtime validation
 
-[src/contracts.ts](../src/contracts.ts) now defines the following design-aligned, unreleased v1 shapes. [Compile-time tests](../tests/contracts.type-test.ts) check critical type constraints. This is not an executable JSON schema: runtime input/output validation and behavioral fixtures remain implementation work.
+[src/contracts.ts](../src/contracts.ts) now defines the following design-aligned, unreleased v1 shapes. [Compile-time tests](../tests/contracts.type-test.ts) check critical type constraints. This is not an executable JSON schema: behavioral fixtures and runtime input validation exist, while comprehensive validation of externally supplied result JSON and cross-field invariants remains separate work.
 
 | Area | Current TypeScript contract |
 |---|---|
@@ -233,9 +239,9 @@ A confirmed CAPTCHA opens a batch-level circuit breaker: save its diagnostic evi
 | Query attempts | IDs, separate timestamps/outcomes, and the selected attempt; never merge observations across attempts |
 | Observations | `observationId`, visible occurrence fingerprints, scroll offset, bounding boxes, pre/post signatures |
 | Classification | Evidence source and label ownership, not just a nullable `adLabel` |
-| Query quality | `verifiedPrefixLength`, classification completeness, warnings, query correction text |
+| Query quality | `verifiedPrefixLength`, classification completeness, warnings, query correction text, and passive `geographicRelevance` |
 | Location context | `locationMode: "query_only"`, null `configuredMapView`, and separately recorded observed map/location context |
-| Terminal reasons | Complete, incomplete, blocked, and skipped reason unions, including `classification_unknown` for an otherwise complete list with unsupported classification |
+| Terminal reasons | Complete, incomplete, blocked, and skipped reason unions, including `classification_unknown` for unsupported card classification and `non_ranking_result` for a recognized detail surface without a ranked list |
 | Manifest rows | Discriminated skipped rows require a stop reason and cannot claim a selected attempt or result file |
 | Persistence | Artifact index covers request/result JSON, CSV, observations, and images; verified state requires a key and readback time. Final manifest readback uses a separate CLI receipt, avoiding a self-verification claim |
 | Local-only execution | Represent persistence as `not_requested`, not verified remote delivery |
@@ -272,8 +278,10 @@ CSV has one row per verified occurrence, with repeated query context so it remai
 ```text
 run_id,attempt_id,query_id,keyword,captured_at,profile_hash,
 display_position,result_type,organic_rank,name,address,rating,
-review_count,category,maps_url,place_id,ad_label,screenshot_files
+review_count,category,maps_url,place_id,ad_label,screenshot_files,geographic_status
 ```
+
+`geographic_status` is the query-level status repeated on every listing row, not that listing's geographic verdict. Use JSON for assessment scope, reference provenance, counts, and reasons. Older JSON without this field exports as `unverified`. Detail-only results have no listing rows and retain their geographic assessment in JSON.
 
 Use empty cells for nulls. Apply CSV escaping and spreadsheet-formula protection to external text; JSON retains original strings. Multiple screenshot references are joined consistently and documented. An empty result still writes a header-only CSV, a JSON reason, and an empty-state screenshot.
 

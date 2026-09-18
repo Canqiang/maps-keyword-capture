@@ -3,6 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { runDailyMonitor } from '../src/monitor/daily.js';
+import { openSearch } from '../src/browser/maps-adapter.js';
 import { createAtomicClaim, NamespacedBatchStore } from '../src/monitor/storage.js';
 import { parseMonitorConfig } from '../src/monitor/config.js';
 import { parseKeywordResponse } from '../src/monitor/source.js';
@@ -10,7 +11,7 @@ import { LocalArtifactStore } from '../src/storage/local.js';
 import { RemoteArtifactStore } from '../src/storage/remote.js';
 import { FakeGateway } from './helpers/fake-gateway.js';
 import { runBatch, type BatchDeps, type BatchOutput } from '../src/runner/batch-runner.js';
-import type { BatchManifest } from '../src/contracts.js';
+import type { BatchManifest, GeographicRelevance, KeywordResult } from '../src/contracts.js';
 import { namedCards, writeFixture } from './fixtures/feed-fixture.js';
 
 const first = { storeId: 'one', merchantId: 'm1', placeId: 'ChIJone', name: 'one' };
@@ -52,6 +53,33 @@ describe('daily monitor', () => {
     for (const call of deps.batchRunner.mock.results) await expect(access((await call.value).attemptRoot)).rejects.toThrow();
     const body = await deps.gateway.get(out.manifestReceipt!.objectKey!);
     expect(JSON.parse(body.toString()).status).toBe('completed');
+  });
+  it('passes each store reference area into its own batch and snapshot while preserving actual result geography', async () => {
+    const deps = await setup();
+    const expectedArea = { label: 'Mineola, NY', latitude: 40.75, longitude: -73.64, radiusKm: 10, source: 'Verified test registry' };
+    const geography: GeographicRelevance = { status: 'outside', expectedArea, scope: 'observed_listings', checkedCount: 1, insideCount: 0, outsideCount: 1, unknownCount: 0, reason: 'all_observed_places_outside' };
+    const impl = deps.batchRunner.getMockImplementation()!;
+    deps.batchRunner.mockImplementation(async batch => {
+      // The browser boundary must receive only this store's optional reference, never a shared city.
+      expect(batch.config.expectedArea).toEqual(batch.config.keywords[0] === 'one 0' ? expectedArea : undefined);
+      expect(batch.config.mapView).toBeUndefined();
+      const out = await impl(batch);
+      const query = out.manifest.queries[0]!;
+      const relativeRoot = `maps-keyword-capture/2026-09-18/${out.manifest.runId}/${out.manifest.attemptId}`;
+      const result: KeywordResult = { schemaVersion: '1', runId: out.manifest.runId, attemptId: out.manifest.attemptId, queryId: query.queryId, queryAttemptId: 'qa01', keyword: query.keyword, status: 'captured', stopReason: 'end_of_results', error: null, startedAt: '2026-09-17T16:00:00Z', finishedAt: '2026-09-17T16:01:00Z', requestedLimit: 15, observedCount: 1, sequenceVerified: true, finalUrl: null, metadata: { configHash: 'hash', profileHash: 'profile', adapterVersion: 'test', sourceCommit: null, browserVersion: null, imageDigest: null, egressProfileId: null }, context: { locale: 'en-US', browserTimezoneId: 'America/New_York', viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, locationMode: 'query_only', configuredMapView: null, observedMapView: null, loggedIn: false, geolocationPermission: 'not_granted', egressRegion: null, egressSource: null, observedLocationText: null, filters: [] }, quality: { verifiedPrefixLength: 1, classificationComplete: true, screenshotCoverageComplete: true, warnings: [], observedQueryText: query.keyword, queryCorrectionText: null, ...(batch.config.expectedArea ? { geographicRelevance: geography } : {}) }, listings: [{ occurrenceId: 'occ1', businessKey: 'outside', name: 'Outside business', displayPosition: 1, resultType: 'organic', organicRank: 1, adLabel: null, address: null, mapsUrl: 'https://www.google.com/maps/place/Outside/data=!3d32.66!4d-95.49', placeId: 'ChIJoutside', rating: 4.5, reviewCount: 5, category: 'Cafe', rawText: 'Outside business', classificationEvidence: { source: 'supported_layout', owner: 'occ1', labelText: null, layoutSignature: 'fixture', evaluatedLabelLocations: [], observationIds: [] }, observationIds: [], screenshotIds: [] }], screenshots: [], observationArtifactIds: [] };
+      await batch.store!.writeFile(`${relativeRoot}/query.json`, JSON.stringify(result));
+      query.resultFile = 'query.json';
+      return out;
+    });
+    const out = await runDailyMonitor({ ...deps, config: { ...deps.config, maxKeywordsPerStore: 1, stores: [{ ...first, expectedArea }, second] } });
+    expect(out.exitCode).toBe(0);
+    expect(out.manifest?.counts).toMatchObject({ captured: 2, skipped: 0 });
+    const one = out.manifest!.stores[0]!;
+    const two = out.manifest!.stores[1]!;
+    expect(JSON.parse((await deps.gateway.get(one.snapshotReceipt!.objectKey!)).toString()).store.expectedArea).toEqual(expectedArea);
+    expect(JSON.parse((await deps.gateway.get(two.snapshotReceipt!.objectKey!)).toString()).store.expectedArea).toBeNull();
+    expect(one.batches[0]!.ownStore[0]!.geographicRelevance).toEqual(geography);
+    expect(two.batches[0]!.ownStore[0]!.geographicRelevance).toMatchObject({ status: 'unverified', expectedArea: null });
   });
   it('atomic claim deduplicates scheduled/manual runs; unique manual recovery preserves the first attempt', async () => {
     const deps = await setup();
@@ -199,6 +227,42 @@ describe('daily monitor', () => {
     expect(queriesOpened).toBe(3); expect(out.manifest?.stopReason).toBe('unsupported_layout');
     expect(out.manifest?.counts).toMatchObject({ selected: 4, partial: 3, skipped: 1 });
     expect(out.exitCode).toBe(2);
+  }, 30000);
+  it('continues the daily run across three recognized details, later keywords, and later stores', async () => {
+    const deps = await setup();
+    const listingKeywords = ['one 3', 'two 0', 'two 1', 'two 2', 'two 3'];
+    const urls = new Map(await Promise.all(listingKeywords.map(async keyword => [keyword, await writeFixture({ query: keyword, cards: namedCards(2), endMarkerInitially: true })] as const)));
+    let queriesOpened = 0;
+    const out = await runDailyMonitor({
+      ...deps,
+      config: { ...deps.config, maxKeywordsPerStore: 4, batchSize: 2 },
+      batchRunner: batch => runBatch({
+        ...batch,
+        searchUrlFor: keyword => urls.get(keyword) ?? urls.get('one 3')!,
+        openSearchImpl: async (page, target, timeout) => {
+          if (++queriesOpened <= 3) {
+            await page.setContent('<main><h1>Business details</h1><button aria-label="Directions">Directions</button></main>');
+            return { state: { kind: 'place_redirect' as const }, finalUrl: 'https://www.google.com/maps/place/Business/data=!3d40.75!4d-73.64' };
+          }
+          return openSearch(page, target, timeout);
+        },
+      }),
+    });
+    expect(queriesOpened).toBe(8);
+    expect(out.manifest?.stopReason).toBeNull();
+    expect(out.manifest?.counts).toMatchObject({ selected: 8, captured: 5, partial: 3, skipped: 0 });
+    expect(out.manifest?.stores.map(store => store.status)).toEqual(['partial', 'completed']);
+    expect(out.exitCode).toBe(2);
+    expect(out.manifestReceipt?.storageStatus).toBe('verified');
+    const batches = out.manifest!.stores.flatMap(store => store.batches);
+    expect(batches).toHaveLength(4);
+    const manifests = await Promise.all(batches.map(async batch => {
+      expect(batch.manifestReceipt?.storageStatus).toBe('verified');
+      return JSON.parse((await deps.gateway.get(batch.manifestReceipt!.objectKey!)).toString()) as BatchManifest;
+    }));
+    const queries = manifests.flatMap(manifest => manifest.queries);
+    expect(queries.slice(0, 3).map(query => query.stopReason)).toEqual(['non_ranking_result', 'non_ranking_result', 'non_ranking_result']);
+    expect(queries.slice(3).every(query => query.status === 'captured' && query.persistenceStatus === 'verified')).toBe(true);
   }, 30000);
   it('namespacing preserves artifact key identity across write/persist/read paths', async () => {
     const deps = await setup(); const scoped = new NamespacedBatchStore(deps.store, '2026-09-18/one/daily/batches/b01');

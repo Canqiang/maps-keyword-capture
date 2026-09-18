@@ -51,12 +51,22 @@ describe('csv', () => {
     const lines = csv.slice(1).split('\r\n');
     expect(lines[0]).toBe(CSV_COLUMNS.join(','));
     expect(lines).toHaveLength(4); // header + 2 rows + trailing empty
-    expect(lines[1]).toBe(`run_1,att_1,q0001,"bubble tea, ""garden"" city",2026-09-17T14:30:25.123+08:00,p,1,ad,,'=Gong Cha,,3.9,217,,,,Sponsored,base__01.png`);
+    expect(lines[1]).toBe(`run_1,att_1,q0001,"bubble tea, ""garden"" city",2026-09-17T14:30:25.123+08:00,p,1,ad,,'=Gong Cha,,3.9,217,,,,Sponsored,base__01.png,unverified`);
     expect(lines[2]).toContain(',2,organic,1,"Boba ""Baar""","682 Stewart Ave, Garden City",');
   });
 
   it('writes only the header for an empty result', () => {
     const csv = resultToCsv({ ...result, listings: [], observedCount: 0 });
     expect(csv.slice(1)).toBe(`${CSV_COLUMNS.join(',')}\r\n`);
+  });
+});
+
+describe('CSV geographic relevance', () => {
+  it('includes passive geographic status without hiding or renumbering the captured listings', () => {
+    const csv = resultToCsv({ ...result, quality: { ...result.quality, geographicRelevance: { status: 'outside', expectedArea: { label: 'Mineola, NY', latitude: 40.75, longitude: -73.64, radiusKm: 10, source: 'Verified test registry' }, scope: 'observed_listings', checkedCount: 2, insideCount: 0, outsideCount: 2, unknownCount: 0, reason: 'all_observed_places_outside' } } });
+    expect(csv.split('\r\n')[0]).toContain('geographic_status');
+    expect(csv.split('\r\n')[1]).toContain(',1,ad,,');
+    expect(csv.split('\r\n')[2]).toContain(',2,organic,1,');
+    expect(csv.split('\r\n').slice(1, 3).every(row => row.endsWith(',outside'))).toBe(true);
   });
 });

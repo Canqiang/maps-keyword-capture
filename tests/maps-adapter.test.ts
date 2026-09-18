@@ -71,6 +71,67 @@ describe('openSearch budget', () => {
 });
 
 describe('page reading against the fixture', () => {
+  async function openWithHiddenFeedFirst() {
+    await openSearch(page, await writeFixture({ query: 'q', cards: namedCards(10) }), 5000);
+    await page.evaluate(() => {
+      const visible = document.querySelector('div[role="feed"]')!;
+      visible.setAttribute('data-visible-results', '');
+      const hidden = document.createElement('div');
+      hidden.id = 'hidden-results';
+      hidden.setAttribute('role', 'feed');
+      hidden.style.cssText = 'position:absolute;visibility:hidden;width:408px;height:200px;overflow:auto';
+      hidden.innerHTML = '<div style="height:1000px">Stale hidden content</div>';
+      visible.before(hidden);
+    });
+  }
+
+  it('reads the visible results when an earlier feed is hidden', async () => {
+    await openWithHiddenFeedFirst();
+    expect((await detectPageState(page)).kind).toBe('results');
+    const snapshot = (await readSnapshot(page))!;
+    expect(snapshot.children.filter(child => child.placeHref)).toHaveLength(10);
+    expect(snapshot.paneBounds.height).toBe(875);
+  });
+
+  it('scrolls the visible results instead of an earlier hidden feed', async () => {
+    await openWithHiddenFeedFirst();
+    expect(await scrollFeedTo(page, 300)).toBe(300);
+    const scrolls = await page.evaluate(() => ({
+      visible: document.querySelector('[data-visible-results]')!.scrollTop,
+      hidden: document.getElementById('hidden-results')!.scrollTop,
+    }));
+    expect(scrolls).toEqual({ visible: 300, hidden: 0 });
+  });
+
+  it('waits for the visible results rather than changes in an earlier hidden feed', async () => {
+    await openWithHiddenFeedFirst();
+    const previous = await page.evaluate(() => {
+      const visible = document.querySelector('[data-visible-results]')!;
+      const previous = { childCount: visible.children.length, scrollHeight: visible.scrollHeight };
+      visible.insertAdjacentHTML('beforeend', '<div>You\'ve reached the end of the list</div>');
+      return previous;
+    });
+    expect(await waitForFeedChange(page, previous, 300)).toBe('end');
+  });
+
+  it.each([
+    ['visible results at a place URL', '<main><h1>Selected business</h1><div role="feed">Other results</div></main>', 'results'],
+    ['loaded details without a result feed', '<main><h1>Only Bear</h1><button aria-label="Directions">Directions</button></main>', 'place_redirect'],
+    ['loaded details whose review mentions cannot find', '<main><h1>Only Bear</h1><button aria-label="Directions">Directions</button><p>I can\'t find a better bakery anywhere.</p></main>', 'place_redirect'],
+    ['loaded details containing a quoted empty-search message', '<main><h1>Only Bear</h1><button aria-label="Directions">Directions</button><p>Google Maps can\'t find this store, according to a reviewer.</p></main>', 'place_redirect'],
+    ['an unknown page with incidental cannot-find text', '<main><p>I can\'t find a better bakery anywhere.</p></main>', 'unknown'],
+    ['an unknown page quoting part of an empty-search message', '<main><p>Review: Google Maps can\'t find the old entrance.</p></main>', 'unknown'],
+    ['a place URL before its details have loaded', '<main><h1>Loading</h1></main>', 'unknown'],
+    ['hidden result and detail skeletons', '<main hidden><h1>Only Bear</h1><button aria-label="Directions">Directions</button><div role="feed">Loading</div></main>', 'unknown'],
+  ])('classifies %s from the rendered surface', async (_name, html, kind) => {
+    const url = 'https://www.google.com/maps/place/SurfaceFixture';
+    await page.route(url, route => route.fulfill({ contentType: 'text/html', body: html }));
+    try {
+      await page.goto(url);
+      expect((await detectPageState(page)).kind).toBe(kind);
+    } finally { await page.unroute(url); }
+  });
+
   it('detects the transient collapse-panel hint until the page removes it', async () => {
     await openSearch(page, await writeFixture({ query: 'q', cards: namedCards(3), transientHintMs: 600 }), 5000);
     expect(await transientHintVisible(page)).toBe(true);

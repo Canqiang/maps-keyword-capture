@@ -4,6 +4,7 @@ import type {
 } from '../contracts.js';
 import { classifyCard } from '../core/classify.js';
 import { classifyFeedChildren, isCard } from '../core/feed-model.js';
+import { assessGeographicRelevance } from '../core/geography.js';
 import { deriveOutcome, type StopCause } from '../core/outcome.js';
 import { assignRanks, toListing } from '../core/ranking.js';
 import { applyRound, createReconcileState, type ReconcileState } from '../core/reconcile.js';
@@ -13,7 +14,7 @@ import { observationIdFor } from '../ids.js';
 import { isoWithOffset, queryAttemptRelativeDir, resultBaseName, screenshotFileName } from '../naming.js';
 import { newSearchContext } from '../browser/launch.js';
 import {
-  buildSearchUrl, hasQuerySignal, nextScrollTop, openSearch, queryMatches, scrollFeedTo, waitForFeedChange, transientHintVisible,
+  buildSearchUrl, detectPageState, hasQuerySignal, nextScrollTop, openSearch, queryMatches, scrollFeedTo, waitForFeedChange, transientHintVisible,
 } from '../browser/maps-adapter.js';
 import { captureStableObservation } from '../browser/stability.js';
 import type { ArtifactStore } from '../storage/types.js';
@@ -99,6 +100,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
   let stop: StopCause | null = null;
   let finalUrl: string | null = null;
   let observedQueryText: string | null = null;
+  let resultSurface: NonNullable<QueryQuality['resultSurface']> = 'unknown';
 
   async function saveScreenshot(png: Buffer, kind: 'results' | 'diagnostic', observationId: string | null): Promise<ScreenshotArtifact> {
     const n = screenshots.filter((s) => s.kind === 'results').length + 1;
@@ -135,6 +137,9 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       opened = { state: { kind: 'unknown', detail: 'navigation failed' }, finalUrl: page.url() };
     }
     finalUrl = opened.finalUrl;
+    resultSurface = opened.state.kind === 'results' ? 'results_list'
+      : opened.state.kind === 'place_redirect' ? 'place_details'
+      : opened.state.kind === 'no_results' ? 'no_results' : 'unknown';
     stage('navigate', { state: opened.state.kind, finalUrl });
 
     if (!stop) {
@@ -143,8 +148,8 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
         case 'consent': stop = { kind: 'blocked', reason: 'consent_required', error: null }; break;
         case 'no_results': stop = { kind: 'complete', reason: 'end_of_results' }; break;
         case 'place_redirect':
-          stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null };
-          warnings.push({ code: 'place_redirect', message: 'Google opened a place page instead of a results list', observationIds: [] });
+          stop = { kind: 'incomplete', reason: 'non_ranking_result', error: null };
+          warnings.push({ code: 'place_redirect', message: 'Google opened a recognized place details page; no comparable ranked results list was observed', observationIds: [] });
           break;
         case 'unknown':
           stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null };
@@ -185,7 +190,31 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       // usually while the first screenshot is still waiting for the view to settle. The snapshot was
       // read before that wait, so take the URL the page has now, when the screenshot is final.
       if (obs) finalUrl = page.url();
-      if (!obs) { stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null }; warnings.push({ code: 'feed_vanished', message: 'results feed disappeared', observationIds: [] }); break; }
+      if (!obs) {
+        // Google may render a feed shell before redirecting to details. Classify the settled
+        // surface before treating that normal transition as an unsupported-layout failure.
+        finalUrl = page.url();
+        const current = await detectPageState(page);
+        resultSurface = current.kind === 'place_redirect' ? 'place_details'
+          : current.kind === 'no_results' ? 'no_results'
+          : current.kind === 'results' ? 'results_list' : 'unknown';
+        if (current.kind === 'captcha') stop = { kind: 'blocked', reason: 'captcha', error: null };
+        else if (current.kind === 'consent') stop = { kind: 'blocked', reason: 'consent_required', error: null };
+        else if (state.committed.length === 0 && current.kind === 'place_redirect') {
+          stop = { kind: 'incomplete', reason: 'non_ranking_result', error: null };
+          warnings.push({ code: 'place_redirect', message: 'Google replaced the initial feed with recognized place details; no comparable ranked list was observed', observationIds: [] });
+        } else if (state.committed.length === 0 && current.kind === 'no_results') stop = { kind: 'complete', reason: 'end_of_results' };
+        else {
+          stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null };
+          warnings.push({ code: 'feed_vanished', message: 'results feed disappeared without a supported terminal surface', observationIds: [] });
+        }
+        const png = await page.screenshot({ type: 'png' }).catch(() => null);
+        if (png) {
+          try { await saveScreenshot(png, 'diagnostic', null); }
+          catch (err) { warnings.push({ code: 'diagnostic_screenshot_failed', message: `diagnostic screenshot could not be saved: ${errorOf(err, 'diagnostic_screenshot_failed').message}`, observationIds: [] }); }
+        }
+        break;
+      }
       if (!obs.accepted) {
         // A rejected observation is still evidence of what the page showed: keep its cards and the
         // reason it was refused, with no screenshot to point at.
@@ -319,6 +348,21 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     warnings.push({ code: 'export_failed', message: `observations.jsonl could not be written: ${exportError.message}`, observationIds: [] });
   }
 
+  const detailOnly = resultSurface === 'place_details' && listings.length === 0;
+  const geographicRelevance = assessGeographicRelevance(
+    config.expectedArea,
+    detailOnly ? [finalUrl] : listings.map((listing) => listing.mapsUrl),
+    detailOnly ? 'detail_place' : 'observed_listings',
+  );
+  if (geographicRelevance.status !== 'matched') {
+    warnings.push({
+      code: `geography_${geographicRelevance.status}`,
+      message: geographicRelevance.status === 'unverified'
+        ? `Geographic relevance is unverified: ${geographicRelevance.reason}; capture completeness does not establish local relevance`
+        : `Observed places are ${geographicRelevance.status === 'outside' ? 'outside' : 'both inside and outside'} the configured reference area; query and browser location were unchanged`,
+      observationIds: [],
+    });
+  }
   const finishedAt = isoWithOffset(now(), tz);
   const body = {
     schemaVersion: '1' as const,
@@ -332,7 +376,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       locationMode: 'query_only' as const, configuredMapView: null, observedMapView: parseObservedMapView(finalUrl),
       loggedIn: false as const, geolocationPermission: 'not_granted' as const, egressRegion: null, egressSource: null, observedLocationText: null, filters: [],
     },
-    quality: { verifiedPrefixLength: state.committed.length, classificationComplete, screenshotCoverageComplete, warnings, observedQueryText, queryCorrectionText: null },
+    quality: { verifiedPrefixLength: state.committed.length, classificationComplete, screenshotCoverageComplete, warnings, observedQueryText, queryCorrectionText: null, resultSurface, geographicRelevance },
     listings, screenshots, observationArtifactIds,
   };
 

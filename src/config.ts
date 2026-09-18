@@ -26,8 +26,17 @@ function isValidTimeZone(tz: string): boolean {
 
 const timeZone = z.string().min(1).refine(isValidTimeZone, { message: 'must be a valid IANA time zone' });
 
+export const expectedAreaSchema = z.object({
+  label: z.string().trim().min(1),
+  latitude: z.number().finite().min(-90).max(90),
+  longitude: z.number().finite().min(-180).max(180),
+  radiusKm: z.number().finite().positive(),
+  source: z.string().trim().min(1),
+}).strict();
+
 const schema = z.object({
   schemaVersion: z.literal('1'),
+  expectedArea: expectedAreaSchema.optional(),
   keywords: z.array(z.string().refine((k) => k.trim().length > 0, { message: 'keyword must not be blank' })).min(1).max(20),
   maxResultsPerKeyword: z.number().int().min(1).max(60).default(15),
   maxScrollsPerKeyword: z.number().int().min(0).max(50).default(6),
@@ -55,6 +64,7 @@ export function parseConfig(raw: unknown): LoadedConfig {
   const d = parsed.data;
   const config: CaptureConfig = {
     schemaVersion: d.schemaVersion,
+    ...(d.expectedArea ? { expectedArea: d.expectedArea } : {}),
     keywords: d.keywords,
     maxResultsPerKeyword: d.maxResultsPerKeyword,
     maxScrollsPerKeyword: d.maxScrollsPerKeyword,

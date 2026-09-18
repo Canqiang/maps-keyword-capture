@@ -56,3 +56,20 @@ describe('config', () => {
     await expect(loadConfigFile('does-not-exist.json')).rejects.toThrow(ConfigError);
   });
 });
+
+const expectedArea = { label: 'Mineola, NY', latitude: 40.75, longitude: -73.64, radiusKm: 10, source: 'Verified store registry' };
+describe('passive geographic validation config', () => {
+  it('preserves the declared area without enabling a map view or changing keywords', () => {
+    const result = parseConfig({ ...valid, expectedArea }).config;
+    expect(result.expectedArea).toEqual(expectedArea);
+    expect(result.keywords).toEqual(valid.keywords);
+    expect(result.mapView).toBeUndefined();
+  });
+  it.each([
+    { latitude: 91 }, { latitude: -91 }, { latitude: NaN }, { longitude: 181 },
+    { longitude: -181 }, { longitude: Infinity }, { radiusKm: 0 }, { radiusKm: -1 },
+    { radiusKm: Infinity }, { label: '  ' }, { source: '' }, { source: '  ' }, { extra: true },
+  ])('rejects unusable or unproven area %j', patch => {
+    expect(() => parseConfig({ ...valid, expectedArea: { ...expectedArea, ...patch } })).toThrow(ConfigError);
+  });
+});

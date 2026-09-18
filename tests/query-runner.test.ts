@@ -9,7 +9,7 @@ import { LocalArtifactStore } from '../src/storage/local.js';
 import type { ArtifactStore, WrittenFile } from '../src/storage/types.js';
 import { parseConfig } from '../src/config.js';
 import { openSearch } from '../src/browser/maps-adapter.js';
-import { namedCards, writeFixture } from './fixtures/feed-fixture.js';
+import { buildFeedFixtureHtml, namedCards, writeFixture } from './fixtures/feed-fixture.js';
 
 /** Wraps the local store and refuses the paths a test wants to see fail. */
 class RefusingStore implements ArtifactStore {
@@ -50,6 +50,85 @@ const input = (over: Record<string, unknown> = {}) => ({
 });
 
 describe('runQueryAttempt', () => {
+  it('assesses retained listings rather than the final detail place after a late transition', async () => {
+    const url = 'https://www.google.com/maps/place/Fixture/data=!3d40.7!4d-73.6';
+    const html = buildFeedFixtureHtml({ query: 'q', cards: namedCards(8) }).replaceAll('!3d40.7!4d-73.6', '!3d39.8!4d-105');
+    const expectedArea = { label: 'Verified test area', latitude: 40.7, longitude: -73.6, radiusKm: 10, source: 'test fixture' };
+    const d = {
+      ...deps(url, { expectedArea }),
+      openSearchImpl: async (page: Parameters<typeof openSearch>[0], u: string, timeout: number) => {
+        await page.route(url, route => route.fulfill({ contentType: 'text/html', body: html }));
+        const opened = await openSearch(page, u, timeout);
+        await page.evaluate(() => document.querySelector('[role="feed"]')!.addEventListener('scroll', () => {
+          document.body.innerHTML = '<main><h1>Fixture shop</h1><button aria-label="Directions">Directions</button></main>';
+        }, { once: true }));
+        return opened;
+      },
+    };
+    const out = await runQueryAttempt(d, input({ queryId: 'late_detail', keyword: 'q' }));
+    expect(out.result).toMatchObject({ status: 'partial', stopReason: 'unsupported_layout', finalUrl: url });
+    expect(out.result.listings.length).toBeGreaterThan(0);
+    expect(out.result.quality).toMatchObject({ resultSurface: 'place_details', geographicRelevance: { status: 'outside', scope: 'observed_listings', insideCount: 0, outsideCount: out.result.listings.length } });
+  });
+
+  it.each([
+    { surface: 'details', markup: '<main><h1>Fixture shop</h1><button aria-label="Directions">Directions</button></main>', reason: 'non_ranking_result', resultSurface: 'place_details' },
+    { surface: 'unknown', markup: '<main>Loading</main>', reason: 'unsupported_layout', resultSurface: 'unknown' },
+  ])('retains diagnostics when an initial feed changes to $surface before collection', async ({ markup, reason, resultSurface }) => {
+    const url = 'https://www.google.com/maps/place/Fixture/data=!3d40.7!4d-73.6';
+    const d = {
+      ...deps(url),
+      openSearchImpl: async (page: Parameters<typeof openSearch>[0]) => {
+        await page.route(url, route => route.fulfill({ contentType: 'text/html', body: `<input id="searchboxinput" value="q"><div role="feed" style="width:400px;height:600px">Loading results</div><script>setTimeout(() => { document.body.innerHTML = ${JSON.stringify(markup)}; }, 100)</script>` }));
+        await page.goto(url);
+        return { state: { kind: 'results' as const }, finalUrl: url };
+      },
+    };
+    const out = await runQueryAttempt(d, input({ queryId: `transition_${resultSurface}`, keyword: 'q' }));
+    expect(out.result).toMatchObject({ status: 'partial', stopReason: reason, listings: [], observedCount: 0, finalUrl: url });
+    expect(out.result.quality.resultSurface).toBe(resultSurface);
+    expect(out.result.screenshots.map((s) => s.kind)).toEqual(['diagnostic']);
+  });
+
+  it('records passive geographic warnings without changing the query, rank or capture outcome', async () => {
+    const keyword = 'bubble tea garden city';
+    const url = await writeFixture({ query: keyword, cards: namedCards(2), endMarkerInitially: true });
+    const expectedArea = { label: 'Verified test area', latitude: 39.8, longitude: -105, radiusKm: 10, source: 'test fixture' };
+    const out = await runQueryAttempt(deps(url, { expectedArea }), input({ queryId: 'q0101' }));
+    expect(out.result).toMatchObject({ keyword, status: 'captured', stopReason: 'end_of_results', observedCount: 2 });
+    expect(out.result.context).toMatchObject({ locationMode: 'query_only', configuredMapView: null, geolocationPermission: 'not_granted' });
+    expect(out.result.listings.map((l) => l.organicRank)).toEqual([1, 2]);
+    expect(out.result.quality.geographicRelevance).toMatchObject({ status: 'outside', scope: 'observed_listings', expectedArea, checkedCount: 2, outsideCount: 2, unknownCount: 0 });
+    expect(out.result.quality.warnings.map((w) => w.code)).toContain('geography_outside');
+    const saved = JSON.parse(await readFile(join(root, 'maps-keyword-capture/2026-09-17/run_t/att_t', out.resultFile), 'utf8')) as KeywordResult;
+    expect(saved.quality.geographicRelevance).toEqual(out.result.quality.geographicRelevance);
+    const csv = await readFile(join(root, 'maps-keyword-capture/2026-09-17/run_t/att_t', out.resultFile.replace(/\.json$/, '.csv')), 'utf8');
+    expect(csv.trim().split('\r\n').slice(1).every((row) => row.endsWith(',outside'))).toBe(true);
+  });
+
+  it('keeps geographic relevance unverified without a configured expected area', async () => {
+    const url = await writeFixture({ query: 'q', cards: namedCards(2), endMarkerInitially: true });
+    const out = await runQueryAttempt(deps(url), input({ queryId: 'q0102', keyword: 'q' }));
+    expect(out.result.status).toBe('captured');
+    expect(out.result.quality.geographicRelevance).toMatchObject({ status: 'unverified', expectedArea: null, reason: 'expected_area_not_configured' });
+    expect(out.result.quality.warnings.map((w) => w.code)).toContain('geography_unverified');
+  });
+
+  it('checks a recognized detail place without manufacturing a ranked listing', async () => {
+    const expectedArea = { label: 'Verified test area', latitude: 40.7, longitude: -73.6, radiusKm: 10, source: 'test fixture' };
+    const d = {
+      ...deps('https://www.google.com/maps/search/?api=1&query=q', { expectedArea }),
+      openSearchImpl: async (page: Parameters<typeof openSearch>[0]) => {
+        await page.setContent('<main><h1>Fixture shop</h1><button aria-label="Directions">Directions</button></main>');
+        return { state: { kind: 'place_redirect' as const }, finalUrl: 'https://www.google.com/maps/place/Fixture/data=!3d40.7!4d-73.6' };
+      },
+    };
+    const out = await runQueryAttempt(d, input({ queryId: 'q0103', keyword: 'q' }));
+    expect(out.result).toMatchObject({ status: 'partial', stopReason: 'non_ranking_result', listings: [], observedCount: 0 });
+    expect(out.result.quality).toMatchObject({ resultSurface: 'place_details', geographicRelevance: { status: 'matched', scope: 'detail_place', checkedCount: 1, insideCount: 1 } });
+    expect(out.result.screenshots.map((s) => s.kind)).toEqual(['diagnostic']);
+  });
+
   it('warns when the map area never settles but still captures the list', async () => {
     const url = await writeFixture({ query: 'q', cards: namedCards(5), endOfList: true, mapAnimateMs: 100 });
     const out = await runQueryAttempt({ ...deps(url), viewSettle: { firstBudgetMs: 800, laterBudgetMs: 800, intervalMs: 150 } }, input({ queryId: 'q0090', keyword: 'q' }));

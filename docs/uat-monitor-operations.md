@@ -6,6 +6,18 @@ The source is `GET http://operation-assistant-api.uat.svc.cluster.local:80/seo/k
 
 Google Maps searches use only the query, with no coordinate or browser location override. The profile remains `en-US`, browser timezone `America/New_York`, viewport 1440×1000, and up to 15 displayed listings. Dates and filenames use Beijing time. Display position, organic rank and ads remain separate. Absence in the observed first 15 is not rank 16. Own-store summaries require matching canonical business IDs; name-only guesses remain `identity_unresolved`.
 
+## Outcome and geography changes awaiting release acceptance
+
+The current optimization is local code, not a deployed UAT fix. After building and pinning a new image, validate these behaviors before accepting it:
+
+- A recognized place detail page saves its diagnostic screenshot and returns `partial / non_ranking_result` with no invented first-place rank. It continues the keyword/store queue and does not increment the unsupported-layout breaker. A blank or unrecognized page is still unsupported; CAPTCHA/consent, storage failure, and genuine repeated parser failures retain their stop protections.
+- The observed `No reviews / Bakery` card is supported without fabricating a rating or address. The bounded category-only fallback also supports Cafe, Coffee shop, Restaurant, Bubble tea store, and Tea house. Other categories remain unknown until verified; ads and ambiguous label ownership retain their existing conservative treatment.
+- Optional `expectedArea` belongs to an enrolled store, with `label`, verified `latitude`/`longitude`, positive `radiusKm`, and a provenance `source`. A shared `capture.expectedArea` is rejected. Use verified store/reference data; do not guess coordinates from store names. The default seven stores have no reference areas configured, so their geographic relevance remains `unverified`.
+- Assessment is passive: original keywords, search URLs, map view, and browser geolocation behavior are unchanged. It compares observed place coordinates, never the map camera center. JSON records `quality.geographicRelevance` with `matched`, `outside`, `mixed`, or `unverified`, counts, scope, and provenance. Missing or incomplete evidence must not imply a local ranking.
+- CSV `geographic_status` repeats the **query-level** assessment on each listing row. It is not a per-listing label. Detail-only results have header-only CSVs; consult JSON and the diagnostic screenshot.
+
+Partial outcomes still count in coverage and can produce exit 2 even when every keyword was attempted and every artifact was delivered. Do not suppress the exit code or rewrite historical partial outcomes as successful captures. Report attempted coverage, ranked captures, non-ranking details, other partials, skipped work, geographic relevance, and persistence separately.
+
 ## Enrollment and capacity
 
 The registry comes from the read-only inventory captured at `2026-09-17T13:21:50.308Z`. Seven records have both merchant and Place IDs, covering six merchants and seven places. Names below preserve the stored labels and do not assert canonical business identity.
@@ -188,4 +200,4 @@ There is no UI in this rollout. Use stored manifests, preserved logs and indepen
 
 ## First UAT release acceptance boundary
 
-The 2026-09-17 release uses an explicit evidence-collection-only activation exception: 14 live queries produced 12 complete captures and 2 accurately preserved partial outcomes. All 116 referenced objects passed independent readback. The original 14/14 complete-capture gate did not pass; the exception and its limits are recorded in the [release evidence](../evidence/2026-09-17/uat-monitor/README.md). The application still returns exit 2 for partial coverage. This is not a blanket waiver for missing evidence, query mismatch, incorrect ranks, CAPTCHA, or storage failure in later releases. Full 260-query capacity remains untested.
+The 2026-09-17 release uses an explicit evidence-collection-only activation exception: 14 live queries produced 12 complete captures and 2 accurately preserved partial outcomes. All 116 referenced objects passed independent readback. The original 14/14 complete-capture gate did not pass; the exception and its limits are recorded in the [release evidence](../evidence/2026-09-17/uat-monitor/README.md). The application still returns exit 2 for partial coverage. This is not a blanket waiver for missing evidence, query mismatch, incorrect ranks, CAPTCHA, or storage failure in later releases. At that release, full 260-query capacity was untested. The first scheduled 2026-09-18 cycle later attempted 119 of 260 queries before the old detail-page handling opened the layout breaker; see [validation status](validation-status.md#first-scheduled-uat-cycle--2026-09-18). Complete 260-query coverage is still not established.

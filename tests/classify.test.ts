@@ -149,3 +149,73 @@ describe('live-page parsing', () => {
     expect(card.parsed).toMatchObject({ rating: null, reviewCount: null, category: 'Cafe', address: '1 Main St' });
   });
 });
+
+describe('no-review business cards', () => {
+  // Based on the captured Memo Fırın card: a named Maps place, an explicit
+  // no-review row, and the category Bakery, with no address or rating.
+  const memo = (over: Partial<RawFeedChild> = {}) => raw({
+    placeHref: 'https://www.google.com/maps/place/Memo+F%C4%B1r%C4%B1n/data=!1s0x87400100466fdd93:0x62977fc534b437d6',
+    placeAriaLabel: 'Memo Fırın', ratingAriaLabel: null,
+    text: 'Memo Fırın Memo Fırın No reviews Bakery',
+    lines: ['Memo Fırın', 'Memo Fırın', 'No reviews', 'Bakery'], ...over,
+  });
+
+  it.each(['Bakery', 'Cafe', 'Coffee shop', 'Restaurant', 'Bubble tea store', 'Tea house'])(
+    'recognizes a supported standalone %s category after No reviews', (category) => {
+      const card = classifyCard(memo({
+        text: `Memo Fırın Memo Fırın No reviews ${category}`,
+        lines: ['Memo Fırın', 'Memo Fırın', 'No reviews', category],
+      }), pane, 'o1');
+      expect(card.classification.resultType).toBe('organic');
+      expect(card.parsed).toMatchObject({ rating: null, reviewCount: null, category, address: null });
+    },
+  );
+
+  it('extracts the category from older collapsed observations without including No reviews', () => {
+    expect(parseCategoryAndAddress('Memo Fırın Memo Fırın No reviews Bakery', 'Memo Fırın'))
+      .toEqual({ category: 'Bakery', address: null });
+    expect(parseCategoryAndAddress('New Shop New Shop No reviews Cafe · 1 Main St Closed · Opens 9 AM', 'New Shop'))
+      .toEqual({ category: 'Cafe', address: '1 Main St' });
+  });
+
+  it.each([
+    ['Memo Fırın', 'Bakery'],
+    ['Memo Fırın', 'No reviews'],
+    ['Memo Fırın', 'No reviews', 'Texas 75773 mineola'],
+    ['Memo Fırın', 'No reviews', 'A wonderful bakery'],
+    ['Memo Fırın', 'No reviews', 'Unknown category'],
+    ['Memo Fırın', 'No reviews', 'Closed'],
+    ['Memo Fırın', 'No reviews', 'No reviews · Bakery'],
+  ].map((lines) => ({ lines })))('does not infer a business category from incomplete or arbitrary lines: $lines', ({ lines }) => {
+    const card = classifyCard(memo({ lines, text: lines.join(' ') }), pane, 'o1');
+    expect(card.classification.resultType).toBe('unknown');
+    expect(card.parsed.category).toBeNull();
+  });
+
+  it('keeps a recognized no-review card as an ad when its own Sponsored label is present', () => {
+    const card = classifyCard(memo({
+      text: 'Memo Fırın Sponsored Memo Fırın No reviews Bakery',
+      lines: ['Memo Fırın', 'Sponsored', 'Memo Fırın', 'No reviews', 'Bakery'],
+      sponsoredLabels: [{ text: 'Sponsored', ownerAriaLabel: 'Sponsored', depth: 4 }],
+    }), pane, 'o1');
+    expect(card.classification).toEqual({ resultType: 'ad', adLabel: 'Sponsored', organicRank: null });
+    expect(card.parsed.category).toBe('Bakery');
+  });
+
+  it.each(['Sponsored', 'Ad', 'Advertisement'])('does not promote a card with an unresolved standalone %s marker to organic', (marker) => {
+    const card = classifyCard(memo({
+      text: `Memo Fırın ${marker} Memo Fırın No reviews Bakery`,
+      lines: ['Memo Fırın', marker, 'Memo Fırın', 'No reviews', 'Bakery'],
+      sponsoredLabels: [],
+    }), pane, 'o1');
+    expect(card.classification.resultType).toBe('unknown');
+  });
+
+  it('does not treat Ad in a business name as an advertising marker', () => {
+    const card = classifyCard(memo({
+      placeAriaLabel: 'Ad Bakery', text: 'Ad Bakery No reviews Bakery',
+      lines: ['Ad Bakery', 'No reviews', 'Bakery'],
+    }), pane, 'o1');
+    expect(card.classification.resultType).toBe('organic');
+  });
+});

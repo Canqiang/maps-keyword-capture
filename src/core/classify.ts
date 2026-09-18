@@ -2,7 +2,7 @@ import type { BoundingBox, ClassificationEvidence, ListingClassification, Observ
 import { occurrenceIdFor, sha256Hex } from '../ids.js';
 import type { ClassifiedCard, ParsedCardFields, RawFeedChild } from './types.js';
 
-export const LAYOUT_SIGNATURE = 'maps-feed-card/v1';
+export const LAYOUT_SIGNATURE = 'maps-feed-card/v2';
 /** Frozen: every evidence record gets its own copy, so one card's array is never another's. */
 export const LABEL_LOCATIONS = Object.freeze(['card_text', 'aria_label'] as const);
 
@@ -36,6 +36,10 @@ export function parseReviewCount(text: string): number | null {
 const STATUS_WORDS = /\b(Closed|Open|Opens|Closes|Temporarily closed|Permanently closed)\b/;
 const PHONE_TAIL = /\s*\(?\d{3}\)?[\s-]\d{3}-\d{4}\b.*$/;
 const RATING_PREFIX = /^\d(?:\.\d)?(\s*\(\d[\d,]*\))?$/;
+// A category without an address is ambiguous with a locality description. Only
+// these explicit business labels are supported after an exact No reviews row;
+// unknown category-only layouts remain unknown until independently verified.
+const NO_REVIEW_BUSINESS_CATEGORIES = new Set(['Bakery', 'Cafe', 'Coffee shop', 'Restaurant', 'Bubble tea store', 'Tea house']);
 
 /** Remove icon-font glyphs (private-use characters) and collapse whitespace. */
 export function cleanCardText(s: string): string {
@@ -46,23 +50,27 @@ function splitCategoryLine(line: string): { category: string | null; address: st
   if (!line.includes('·')) return null;
   const parts = line.split('·').map((p) => cleanCardText(p)).filter((p) => p.length > 0);
   const first = parts[0];
-  if (!first || RATING_PREFIX.test(first) || STATUS_WORDS.test(first)) return null;
+  if (!first || first === 'No reviews' || RATING_PREFIX.test(first) || STATUS_WORDS.test(first)) return null;
   const last = parts.length >= 2 ? parts[parts.length - 1] ?? null : null;
   return { category: first, address: last ? cleanCardText(last.replace(PHONE_TAIL, '')) || null : null };
 }
 
 /**
- * Category and address come from the card line "Category · address". When the page script
+ * Category and address normally come from the card line "Category · address". A
+ * supported no-review card may show only its category. When the page script
  * supplies the rendered lines, that line is found directly; otherwise the collapsed text is
  * parsed after stripping the repeated name, the Sponsored label, and the rating prefix.
  */
 export function parseCategoryAndAddress(text: string, name: string, lines?: string[]): { category: string | null; address: string | null } {
   if (lines) {
-    for (const line of lines) {
-      const hit = splitCategoryLine(cleanCardText(line));
+    const cleaned = lines.map(cleanCardText);
+    for (const line of cleaned) {
+      const hit = splitCategoryLine(line);
       if (hit) return hit;
     }
-    return { category: null, address: null };
+    const noReviewsAt = cleaned.indexOf('No reviews');
+    const category = noReviewsAt >= 0 ? cleaned[noReviewsAt + 1] : undefined;
+    return { category: category && NO_REVIEW_BUSINESS_CATEGORIES.has(category) ? category : null, address: null };
   }
   let body = cleanCardText(text);
   const cleanName = cleanCardText(name);
@@ -71,9 +79,11 @@ export function parseCategoryAndAddress(text: string, name: string, lines?: stri
   body = body.replace(/^Sponsored\s*/, '');
   while (cleanName && body.startsWith(cleanName)) body = body.slice(cleanName.length).trim();
   body = body.replace(/^\d(?:\.\d)?\s*(\(\d[\d,]*\))?\s*/, '');
+  const noReviews = body.startsWith('No reviews ');
+  if (noReviews) body = body.slice('No reviews '.length);
   const statusAt = body.search(STATUS_WORDS);
   const head = (statusAt >= 0 ? body.slice(0, statusAt) : body).trim();
-  return splitCategoryLine(head) ?? { category: null, address: null };
+  return splitCategoryLine(head) ?? { category: noReviews && NO_REVIEW_BUSINESS_CATEGORIES.has(head) ? head : null, address: null };
 }
 
 function withinPane(b: BoundingBox, pane: BoundingBox): boolean {
@@ -91,9 +101,11 @@ export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observa
   const sponsored = raw.sponsoredLabels.find((l) => l.text.trim() === 'Sponsored') ?? null;
   const rating = parseRating(raw.ratingAriaLabel);
   const parsedFields = name ? parseCategoryAndAddress(raw.text, name, raw.lines) : { category: null, address: null };
-  // A recognized business card carries a rating or a "Category · address" line. A bare place card
-  // (a locality, a region) has neither and must not be ranked as an organic business result.
-  const layoutRecognized = raw.placeHref !== null && name !== null && (rating !== null || parsedFields.category !== null);
+  // A recognized business card carries a rating or a supported category format. A bare
+  // place card (a locality, a region) must not be ranked as an organic business result.
+  const unresolvedAdMarker = !sponsored && (raw.sponsoredLabels.length > 0 ||
+    (raw.lines ?? []).some((line) => /^(Sponsored|Ad|Advertisement)$/.test(cleanCardText(line)) && cleanCardText(line) !== name));
+  const layoutRecognized = !unresolvedAdMarker && raw.placeHref !== null && name !== null && (rating !== null || parsedFields.category !== null);
 
   let classification: ListingClassification;
   let evidence: ClassificationEvidence;

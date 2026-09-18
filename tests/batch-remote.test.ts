@@ -7,6 +7,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { parseConfig } from '../src/config.js';
 import type { BatchManifest } from '../src/contracts.js';
 import { launchBrowser } from '../src/browser/launch.js';
+import { openSearch } from '../src/browser/maps-adapter.js';
 import { closeWithin, runBatch } from '../src/runner/batch-runner.js';
 import { DEFAULT_CONTAINER } from '../src/storage/azure-gateway.js';
 import { createStore } from '../src/storage/factory.js';
@@ -149,13 +150,40 @@ describe('runBatch layout breaker', () => {
     let calls = 0;
     const out = await runBatch({
       config, searchUrlFor: () => url,
-      openSearchImpl: async () => { calls += 1; return { state: { kind: 'place_redirect' as const }, finalUrl: 'https://www.google.com/maps/place/X' }; },
+      openSearchImpl: async () => { calls += 1; return { state: { kind: 'unknown' as const, detail: 'unrecognized live surface' }, finalUrl: 'https://www.google.com/maps/search/?api=1&query=q' }; },
     });
     expect(calls).toBe(3);
     expect(out.manifest.queries.map((q) => [q.status, q.stopReason])).toEqual([
       ['partial', 'unsupported_layout'], ['partial', 'unsupported_layout'], ['partial', 'unsupported_layout'],
       ['skipped', 'unsupported_layout'], ['skipped', 'unsupported_layout'],
     ]);
+    expect(out.exitCode).toBe(2);
+  });
+
+  it('continues past three known detail pages and captures the next keyword', async () => {
+    const gateway = new FakeGateway();
+    const url = await writeFixture({ query: 'next', cards: namedCards(3), endMarkerInitially: true });
+    const { config } = parseConfig({ schemaVersion: '1', keywords: ['one', 'two', 'three', 'next'], outputDirectory: root });
+    let navigations = 0;
+    const out = await runBatch({
+      config, store: remoteStore(gateway), searchUrlFor: () => url,
+      openSearchImpl: async (page, target, timeout) => {
+        if (++navigations <= 3) {
+          await page.setContent('<main><h1>Business details</h1><button aria-label="Directions">Directions</button></main>');
+          return { state: { kind: 'place_redirect' as const }, finalUrl: 'https://www.google.com/maps/place/Business/data=!8m2!3d40.7!4d-73.6' };
+        }
+        return openSearch(page, target, timeout);
+      },
+    });
+    expect(out.manifest.queries.map(q => [q.status, q.stopReason])).toEqual([
+      ['partial', 'non_ranking_result'], ['partial', 'non_ranking_result'], ['partial', 'non_ranking_result'], ['captured', 'end_of_results'],
+    ]);
+    const detail = out.manifest.queries[0]!;
+    const artifact = out.manifest.artifacts.find(a => a.queryId === detail.queryId && a.kind === 'result_json')!;
+    const saved = JSON.parse(gateway.objects.get(artifact.objectKey!)!.toString());
+    expect(saved).toMatchObject({ observedCount: 0, listings: [], quality: { resultSurface: 'place_details' } });
+    expect(saved.screenshots).toHaveLength(1);
+    expect(out.manifest.queries.every(q => q.persistenceStatus === 'verified')).toBe(true);
     expect(out.exitCode).toBe(2);
   });
 });

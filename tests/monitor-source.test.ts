@@ -54,3 +54,19 @@ describe('keyword source and deterministic selection', () => {
     await expect(source.read(store)).rejects.toThrow('source_http_503');
   });
 });
+
+describe('per-store expected areas', () => {
+  const expectedArea = { label: 'Mineola, NY', latitude: 40.75, longitude: -73.64, radiusKm: 10, source: 'Verified store registry' };
+  it('retains a verified expected area on the enrolled store only', () => {
+    const config = parseMonitorConfig({ ...configInput, stores: [{ ...store, expectedArea }] });
+    expect(config.stores[0]?.expectedArea).toEqual(expectedArea);
+    expect(config.capture).not.toHaveProperty('expectedArea');
+  });
+  it('rejects a shared expected area that would silently apply one city to every store', () => {
+    expect(() => parseMonitorConfig({ ...configInput, capture: { ...configInput.capture, expectedArea } })).toThrow(/capture.expectedArea/);
+  });
+  it('rejects invalid per-store provenance or coordinates', () => {
+    expect(() => parseMonitorConfig({ ...configInput, stores: [{ ...store, expectedArea: { ...expectedArea, source: ' ' } }] })).toThrow();
+    expect(() => parseMonitorConfig({ ...configInput, stores: [{ ...store, expectedArea: { ...expectedArea, latitude: 91 } }] })).toThrow();
+  });
+});
