@@ -1,0 +1,15 @@
+{
+  "createTime": "2026-09-18T03:11:34.322110+00:00",
+  "finishTime": "2026-09-18T03:13:36.858796+00:00",
+  "outputImages": [
+    {
+      "digest": "sha256:59f7e7db45937ac6103972126e85fc827a06d73474f6144cb709bda194f38868",
+      "registry": "fbrdevacr.azurecr.io",
+      "repository": "ai/maps-keyword-capture",
+      "tag": "3daa349"
+    }
+  ],
+  "runId": "ch144n",
+  "startTime": "2026-09-18T03:11:34.582840+00:00",
+  "status": "Succeeded"
+}

@@ -1,0 +1,32 @@
+{
+  "archivedAt": "2026-09-18T02:59:40.785266+00:00",
+  "context": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "jobName": "maps-monitor-verify-20260918t003315z-544bac",
+  "jobUid": "785090b2-efff-475c-94f3-c16a4908ac38",
+  "podNames": [
+    "maps-monitor-verify-20260918t003315z-544bac-n26vk"
+  ],
+  "files": [
+    {
+      "path": "events.json",
+      "bytes": 105,
+      "sha256": "90fc342f098745bb50dfae4c6eda65e986fd5a807cf01abdf668d8dd03bca0d6"
+    },
+    {
+      "path": "job.json",
+      "bytes": 6155,
+      "sha256": "3e2589f0c3bf1ce40bb65501b0af23c4923661c3b00fc29462c50c4a81b59c96"
+    },
+    {
+      "path": "maps-monitor-verify-20260918t003315z-544bac-n26vk.log",
+      "bytes": 513408,
+      "sha256": "43ecacb23954d4a3afa604330a14ab098d17a5c6972133ee5a3d20f715fe570b"
+    },
+    {
+      "path": "pods.json",
+      "bytes": 9325,
+      "sha256": "02eb6c69283c9eef63784d066c6406bb7c4404dcda1fc256d03bbecced00021b"
+    }
+  ]
+}

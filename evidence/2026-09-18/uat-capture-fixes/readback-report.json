@@ -1,0 +1,522 @@
+{
+  "verificationIdentity": "azure_cli_login",
+  "evidenceIntegrityPassed": true,
+  "runId": "run_20260918T032308Z_a8fb06",
+  "attemptId": "att_bdae7439",
+  "status": "partial",
+  "executionStatus": "completed",
+  "recomputedExecutionStatus": "completed",
+  "counts": {
+    "captured": 3,
+    "partial": 2,
+    "nonRanking": 2
+  },
+  "expectedKeywords": [
+    "brunch near me",
+    "spa",
+    "only bear chicken & boba mineola",
+    "flushing",
+    "bubble tea delivery mineola"
+  ],
+  "imageDigest": "sha256:59f7e7db45937ac6103972126e85fc827a06d73474f6144cb709bda194f38868",
+  "sourceCommit": "3daa349a05b68d7bdbe5fe1dfe6e20a31c7bf942",
+  "adapterVersion": "maps-feed-card/v3",
+  "finalReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/manifest.json",
+    "verifiedAt": "2026-09-18T03:24:10.855Z",
+    "storageError": null,
+    "runId": "run_20260918T032308Z_a8fb06",
+    "attemptId": "att_bdae7439",
+    "filename": "manifest.json",
+    "bytes": 23305,
+    "sha256": "5da8699e232c2c79e92246958b6a1a8660106b6ab8e774e563212fdbe75515b8"
+  },
+  "verifiedObjects": 29,
+  "verifiedArtifacts": 28,
+  "verifiedBytes": 9374613,
+  "pngsStructurallyChecked": 12,
+  "csvRowsComparedAllAttempts": 43,
+  "observationRecordsChecked": 10,
+  "resultAttemptsCompared": 5,
+  "cacheReused": 0,
+  "smokeAccepted": true,
+  "verifierExitCode": 0,
+  "podExitCode": null,
+  "podExitCodeNote": "Not present in collector summary; compare separately with archived Kubernetes termination state.",
+  "issues": [],
+  "results": [
+    {
+      "queryId": "q0001",
+      "keyword": "brunch near me",
+      "status": "captured",
+      "stopReason": "end_of_results",
+      "resultKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001.json",
+      "listings": 13,
+      "surface": "results_list",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__01.png",
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__02.png",
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__03.png"
+      ],
+      "listingCoverage": [
+        {
+          "occurrenceId": "occ_f6993efcf7351c78",
+          "displayPosition": 1,
+          "name": "The Outpost Cafe",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_8173de5ea8e19634",
+          "displayPosition": 2,
+          "name": "Robbin’s Nest",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_558cf1bd5d6cd7e9",
+          "displayPosition": 3,
+          "name": "The Biker & The Baker",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_db6e92919cb177e1",
+          "displayPosition": 4,
+          "name": "Brunch Snob",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_daf7228b2d680705",
+          "displayPosition": 5,
+          "name": "George & Gather",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_a3a91fe99d29a98c",
+          "displayPosition": 6,
+          "name": "Kate's Place",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_805994909e4c379a",
+          "displayPosition": 7,
+          "name": "The Wooden Spoon Country",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_28c0111eaa9d2f91",
+          "displayPosition": 8,
+          "name": "Bites and Brews on the Taylor",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_fb0f629e07766cda",
+          "displayPosition": 9,
+          "name": "Mary Murphy Steakhouse",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_f23c0ae2391876f1",
+          "displayPosition": 10,
+          "name": "The Hidden House",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_66fabfe93ca11a52",
+          "displayPosition": 11,
+          "name": "Tully's Pizza & Smokehouse",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_26546e858e70c70a",
+          "displayPosition": 12,
+          "name": "The Twin Lakes Inn & Saloon",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_6eb0459666115713",
+          "displayPosition": 13,
+          "name": "Pine Creek Cookhouse",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        }
+      ],
+      "allListingsCovered": true,
+      "classificationCounts": {
+        "organic": 13
+      }
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "spa",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "resultKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002.json",
+      "listings": 15,
+      "surface": "results_list",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__01.png",
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__02.png",
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__03.png"
+      ],
+      "listingCoverage": [
+        {
+          "occurrenceId": "occ_d3ccce5ad53fb78d",
+          "displayPosition": 1,
+          "name": "Jane massage & spa",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_85584dad5e7a6b72",
+          "displayPosition": 2,
+          "name": "Blue Stone Chateau Yosemite Pool Spa Secluded - Deluxe Villa",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_9b478a854b1089eb",
+          "displayPosition": 3,
+          "name": "Royal Spa and Salon Suite",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_56c2ac80ed9319c6",
+          "displayPosition": 4,
+          "name": "The Spa at Tiny Timbers",
+          "verifiedScreenshotIds": [
+            "qa01_shot01",
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_f05897e6331c81fe",
+          "displayPosition": 5,
+          "name": "Layton spa one",
+          "verifiedScreenshotIds": [
+            "qa01_shot01",
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_ccc073c528ee39b6",
+          "displayPosition": 6,
+          "name": "The Spa at Four Seasons Resort and Residences Vail",
+          "verifiedScreenshotIds": [
+            "qa01_shot01",
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_531fb56cb67ebd59",
+          "displayPosition": 7,
+          "name": "Luna Grace Spa",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_6158cce4c75b62e7",
+          "displayPosition": 8,
+          "name": "Thermal Spa at The Springs Resort",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_aac954c94d29c8af",
+          "displayPosition": 9,
+          "name": "Halo's Spa & Boutique",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_b4c9dc7b602732b8",
+          "displayPosition": 10,
+          "name": "Rocky Mountain Day Spa & Luxe Boutique",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_eebc38f322464aa4",
+          "displayPosition": 11,
+          "name": "Jenna spa",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_0627e06a5f3546dc",
+          "displayPosition": 12,
+          "name": "Elevation Recovery Spa",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_c1bf0960f429847d",
+          "displayPosition": 13,
+          "name": "Infinity Spa",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_3daa240d0f4afff6",
+          "displayPosition": 14,
+          "name": "Intentions Spa",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_b8dae4533e889f86",
+          "displayPosition": 15,
+          "name": "Soak Wellness Spa",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        }
+      ],
+      "allListingsCovered": true,
+      "classificationCounts": {
+        "organic": 15
+      },
+      "lodgingCards": [
+        {
+          "occurrenceId": "occ_85584dad5e7a6b72",
+          "displayPosition": 2,
+          "organicRank": 2,
+          "name": "Blue Stone Chateau Yosemite Pool Spa Secluded - Deluxe Villa",
+          "category": "Lodging",
+          "resultType": "organic",
+          "adLabel": null,
+          "screenshotIds": [
+            "qa01_shot01"
+          ]
+        }
+      ],
+      "lodgingLiveCaseObserved": true
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "only bear chicken & boba mineola",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "resultKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/20260918T112341.046+0800__only-bear-chicken-boba-mineola__q0003.json",
+      "listings": 0,
+      "surface": "place_details",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/20260918T112341.046+0800__only-bear-chicken-boba-mineola__q0003__diag.png"
+      ],
+      "listingCoverage": [],
+      "allListingsCovered": true,
+      "classificationCounts": {}
+    },
+    {
+      "queryId": "q0004",
+      "keyword": "flushing",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "resultKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/20260918T112345.728+0800__flushing__q0004.json",
+      "listings": 0,
+      "surface": "place_details",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/20260918T112345.728+0800__flushing__q0004__diag.png"
+      ],
+      "listingCoverage": [],
+      "allListingsCovered": true,
+      "classificationCounts": {}
+    },
+    {
+      "queryId": "q0005",
+      "keyword": "bubble tea delivery mineola",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "resultKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005.json",
+      "listings": 15,
+      "surface": "results_list",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__01.png",
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__02.png",
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__03.png",
+        "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__04.png"
+      ],
+      "listingCoverage": [
+        {
+          "occurrenceId": "occ_ab6b1cb1567a6711",
+          "displayPosition": 1,
+          "name": "Only Bear Chicken & Boba",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_bb8f8e8306bbc85b",
+          "displayPosition": 2,
+          "name": "Smo Tea",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_24834f80aabd1df5",
+          "displayPosition": 3,
+          "name": "Tea Magic",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_e336e075250f460e",
+          "displayPosition": 4,
+          "name": "Kung Fu Tea Williston Park, New York",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_3889f36476eaaf0e",
+          "displayPosition": 5,
+          "name": "Ikedo Japanese Eatery (Mineola)",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_ad4f12642aa12b19",
+          "displayPosition": 6,
+          "name": "TIGER SUGAR",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_99e4b7db4b4e52db",
+          "displayPosition": 7,
+          "name": "Teamisu cafe",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_abb1f0fc7ba7b54f",
+          "displayPosition": 8,
+          "name": "Kyuramen x TBAAR - Garden City",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_6a2e6d46bc095a9d",
+          "displayPosition": 9,
+          "name": "Miso Ramen and Hibachi",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_fce68246650401f1",
+          "displayPosition": 10,
+          "name": "Chen's Poke",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_f5bef02fd2e0b1be",
+          "displayPosition": 11,
+          "name": "SoBol Mineola",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_3356a5254e987b98",
+          "displayPosition": 12,
+          "name": "Fresco Creperie & Cafe Williston Park",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_c39eabfc292dc16d",
+          "displayPosition": 13,
+          "name": "Yayoi Ramen",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_c19227f31296c4f4",
+          "displayPosition": 14,
+          "name": "Gelateria Dei Coltelli",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        },
+        {
+          "occurrenceId": "occ_ae071e07127647d9",
+          "displayPosition": 15,
+          "name": "Manny's Sweet Treats",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        }
+      ],
+      "allListingsCovered": true,
+      "classificationCounts": {
+        "organic": 15
+      }
+    }
+  ],
+  "scope": {
+    "allManifestArtifactsVerified": true,
+    "allAttemptJsonCsvCompared": true,
+    "allPngStructurallyChecked": true,
+    "visualReview": "pending; see visual-review-plan.json",
+    "visualSampleCount": 9
+  },
+  "limitations": [
+    "Small standalone collector smoke only; not a full daily-monitor or midnight-schedule acceptance.",
+    "Complete non-ranking observations keep status partial and have no merchant ranking.",
+    "No expectedArea is configured: all geographic statuses must remain unverified.",
+    "Lodging regression is reproduced live only if a relevant card appears; absence is not proof of that case.",
+    "PNG structural integrity and observation coverage do not replace visual interpretation."
+  ]
+}

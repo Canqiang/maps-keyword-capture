@@ -1,0 +1,444 @@
+[
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/manifest.json",
+    "category": "batch_manifest",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/manifest.json",
+    "expected": {
+      "bytes": 23305,
+      "sha256": "5da8699e232c2c79e92246958b6a1a8660106b6ab8e774e563212fdbe75515b8"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001.csv",
+    "expected": {
+      "bytes": 7832,
+      "sha256": "d42dd28c08303b801ead77a1723e148332574311f15d4d4c0ec680b998134606"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001.json",
+    "expected": {
+      "bytes": 22847,
+      "sha256": "ec45a558b56ffe0869772a591add195d947310b4cee1cc8385c5eccd9619a957"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__01.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__01.png",
+    "expected": {
+      "bytes": 761056,
+      "sha256": "c4c8abc493c0c14b178d93ff37bad6faa6a5bb0be5a6e0e89c82aa629916e179"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__02.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__02.png",
+    "expected": {
+      "bytes": 763485,
+      "sha256": "aa0fda0de9d154175ce350e51eb0499afa6b33a718648b8b40e5ddbd6037c9cd"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__03.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__03.png",
+    "expected": {
+      "bytes": 747772,
+      "sha256": "e83fa6bca785c066a6c65b697242cc90f33ec176e36cf37c6a2bbb51a46395d3"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 39233,
+      "sha256": "3bb319b2125ed110c991534ff76999fff54c6594da76d51f72c79410ed12f011"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002.csv",
+    "expected": {
+      "bytes": 8877,
+      "sha256": "0393a21294c39331ecffe1033d6cde378692731b273df6837f3be95786a1b8f5"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002.json",
+    "expected": {
+      "bytes": 25214,
+      "sha256": "6207b64306e60ad75b6ab226bba3514b63278e163b29ace25a897cab0e3769a4"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__01.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__01.png",
+    "expected": {
+      "bytes": 556454,
+      "sha256": "df363b657d8ef3b7759e0a865f2c3385776259c052a64bf275558a4c0b64e0b5"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__02.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__02.png",
+    "expected": {
+      "bytes": 584832,
+      "sha256": "c97a76a36216191008fe54d18576eac476f7064ec417da82a726c1eb72306bc7"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__03.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__03.png",
+    "expected": {
+      "bytes": 582106,
+      "sha256": "645af7771927dcf35316bcd11d6468e95ee574f331b8c9d176224c8e4a9be3cf"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 45526,
+      "sha256": "f4ada79537d2214561f374a80f7272c0bc55a91e1726bdf67e3edb835e5e9ffe"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/20260918T112341.046+0800__only-bear-chicken-boba-mineola__q0003.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/20260918T112341.046+0800__only-bear-chicken-boba-mineola__q0003.csv",
+    "expected": {
+      "bytes": 210,
+      "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/20260918T112341.046+0800__only-bear-chicken-boba-mineola__q0003.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/20260918T112341.046+0800__only-bear-chicken-boba-mineola__q0003.json",
+    "expected": {
+      "bytes": 3506,
+      "sha256": "fa522c9e47d936c88f508aedf00da90d3d9fb1609c0f7035bef98f0fe0a5ba22"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/20260918T112341.046+0800__only-bear-chicken-boba-mineola__q0003__diag.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/20260918T112341.046+0800__only-bear-chicken-boba-mineola__q0003__diag.png",
+    "expected": {
+      "bytes": 1028669,
+      "sha256": "6f22fb17665fa47a1144034d50299013ba4627c7b25e94a960fd78622d44eb41"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/20260918T112345.728+0800__flushing__q0004.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/20260918T112345.728+0800__flushing__q0004.csv",
+    "expected": {
+      "bytes": 210,
+      "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/20260918T112345.728+0800__flushing__q0004.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/20260918T112345.728+0800__flushing__q0004.json",
+    "expected": {
+      "bytes": 3429,
+      "sha256": "0d588ee8196fdc4b5284ede6be4cfa21873131c4508713fc3e8c459503796f7f"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/20260918T112345.728+0800__flushing__q0004__diag.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/20260918T112345.728+0800__flushing__q0004__diag.png",
+    "expected": {
+      "bytes": 924308,
+      "sha256": "44f5836fa63afe2ae9116ae85551068118143bfbf32540cae68ba88bb39f3179"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005.csv",
+    "expected": {
+      "bytes": 9424,
+      "sha256": "0f6665703b6346c0afcc7b53e33e2d4f88f6dc036d61ca0f55e9ef2535b378e6"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005.json",
+    "expected": {
+      "bytes": 27109,
+      "sha256": "68fc4341d0b635aa858e4e6bdfa0f9be37dda9f3ccfee018c2094f9056be3797"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__01.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__01.png",
+    "expected": {
+      "bytes": 783065,
+      "sha256": "fd104c9ab75ac2b37cf04914aed4532aa88b42395ee876c41cec5757d4f30756"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__02.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__02.png",
+    "expected": {
+      "bytes": 790417,
+      "sha256": "c58f189aaf2a0f98c1130d6c26800e3c6292a497b5247c53fd42dbb0c487bda9"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__03.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__03.png",
+    "expected": {
+      "bytes": 793855,
+      "sha256": "5e8d1f58fc94e2ad073ca01909ca58157fabb3b61e89fce78da0a515d47598a4"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__04.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__04.png",
+    "expected": {
+      "bytes": 772466,
+      "sha256": "aa88ca1f6e2856f4ed9e0317d8d6bd636ce143d9b959c4612bd365409a2bf441"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 68736,
+      "sha256": "23ff6ae6367c520c9651e362dc4724e3a6b99d7d38693cefd1e2b8ad933855ae"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/request.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback/2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/request.json",
+    "expected": {
+      "bytes": 670,
+      "sha256": "70ef29ddffb7729eb173f3a3eb033085d7554c4a64390de9cd10907ee22ca09b"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  }
+]

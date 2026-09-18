@@ -8,7 +8,7 @@ Google Maps searches use only the query, with no coordinate or browser location 
 
 ## Outcome and geography contract
 
-The original v2 detail-page, no-review Bakery and passive geography changes passed targeted six-query UAT acceptance; the [release record](../evidence/2026-09-18/uat-optimization/README.md) preserves that scope. The v3 scrolling, Lodging-only and execution-status corrections below require separate targeted UAT acceptance before the daily image is updated. Validate these behaviors for each release:
+The original v2 detail-page, no-review Bakery and passive geography changes passed targeted six-query UAT acceptance; the [release record](../evidence/2026-09-18/uat-optimization/README.md) preserves that scope. The v3 scrolling, Lodging-only and execution-status corrections passed a separate five-query UAT collector acceptance and were pinned in the daily image; the [repair release](../evidence/2026-09-18/uat-capture-fixes/README.md) records its scope and the unresolved 500m scheduling constraint. Validate these behaviors for each release:
 
 - A recognized place detail page saves its diagnostic screenshot and returns `partial / non_ranking_result` with no invented first-place rank. It continues the keyword/store queue and does not increment the unsupported-layout breaker. A blank or unrecognized page is still unsupported; CAPTCHA/consent, storage failure, and genuine repeated parser failures retain their stop protections.
 - The observed `No reviews / Bakery` card is supported without fabricating a rating or address. The bounded category-only fallback also supports Cafe, Coffee shop, Restaurant, Bubble tea store, and Tea house. The separately supported exact name + Lodging format requires a valid Google Maps place link and distinct business name; arbitrary standalone categories remain unknown. Ads and ambiguous label ownership retain their existing conservative treatment.
@@ -38,7 +38,7 @@ The 260 queries / 13 batches are an inventory estimate; the actual daily source 
 
 Run commands from the repository root, with the intended AKS context already selected. The snippets run in child Bash processes so failures stop that block without exiting the interactive shell. Build requires ACR permission. Container setup requires access to the `FBRDev` storage account keys and the appropriate Azure data-plane role; the Pod receives only a container-scoped SAS and no Kubernetes API token or new RBAC permissions.
 
-The manifest pins the monitor image built from runtime commit `ed2a128876dd378fc54d37476aa8652905b6071e` (ACR build `ch144e`). The [2026-09-18 release](../evidence/2026-09-18/uat-optimization/README.md) records targeted acceptance and the image-only update of the already-enabled daily workload. For later releases, build the monitor and update both `image` and `IMAGE_DIGEST` before applying or creating a manual Job. Keep `suspend: true` committed as the acceptance default.
+The manifest pins the monitor image built from runtime commit `3daa349a05b68d7bdbe5fe1dfe6e20a31c7bf942` (ACR build `ch144n`). The [2026-09-18 repair release](../evidence/2026-09-18/uat-capture-fixes/README.md) records targeted acceptance and the image-only update of the already-enabled daily workload. For later releases, build the monitor and update both `image` and `IMAGE_DIGEST` before applying or creating a manual Job. Keep `suspend: true` committed as the acceptance default.
 
 ```bash
 bash <<'SH'

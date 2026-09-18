@@ -1,0 +1,79 @@
+{
+  "reviewedAt": "2026-09-18T03:28:23.607301+00:00",
+  "method": "Manual visual inspection of all original downloaded PNGs with view_image",
+  "pngsReviewed": 12,
+  "pngsTotal": 12,
+  "queriesReviewed": 5,
+  "screenshotSequenceCoverageReviewed": 43,
+  "findings": {
+    "q0001": "All three PNGs reviewed: rows 1-13 in order. The Hidden House is cut at the second image bottom and fully legible at the third image top; final end marker visible. Broad Colorado/New Mexico map, not merchant-local proof.",
+    "q0002": "All three PNGs reviewed: exact Lodging-only Blue Stone Chateau card at position 2 has no visible Sponsored marker; complete 1-15 coverage. Partial next card beyond cap is not included. Continental map, not merchant-local proof.",
+    "q0003": "Loaded Only Bear business detail page with address/reviews/actions, no ranked list. Diagnostic preserves the actual response without rank.",
+    "q0004": "Loaded Flushing, Queens regional detail page and boundary. No business list; correctly preserved as non-ranking.",
+    "q0005": "All four PNGs reviewed: rows1-15 in order; cut cards have full coverage in later image. Additional Starbucks/Jericho cards beyond15 appear in final PNG but are correctly omitted from ranked JSON."
+  },
+  "items": [
+    {
+      "queryId": "q0001",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__01.png",
+      "sha256": "c4c8abc493c0c14b178d93ff37bad6faa6a5bb0be5a6e0e89c82aa629916e179"
+    },
+    {
+      "queryId": "q0001",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__02.png",
+      "sha256": "aa0fda0de9d154175ce350e51eb0499afa6b33a718648b8b40e5ddbd6037c9cd"
+    },
+    {
+      "queryId": "q0001",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0001/qa01/20260918T112308.798+0800__brunch-near-me__q0001__03.png",
+      "sha256": "e83fa6bca785c066a6c65b697242cc90f33ec176e36cf37c6a2bbb51a46395d3"
+    },
+    {
+      "queryId": "q0002",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__01.png",
+      "sha256": "df363b657d8ef3b7759e0a865f2c3385776259c052a64bf275558a4c0b64e0b5"
+    },
+    {
+      "queryId": "q0002",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__02.png",
+      "sha256": "c97a76a36216191008fe54d18576eac476f7064ec417da82a726c1eb72306bc7"
+    },
+    {
+      "queryId": "q0002",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0002/qa01/20260918T112323.785+0800__spa__q0002__03.png",
+      "sha256": "645af7771927dcf35316bcd11d6468e95ee574f331b8c9d176224c8e4a9be3cf"
+    },
+    {
+      "queryId": "q0003",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0003/qa01/20260918T112341.046+0800__only-bear-chicken-boba-mineola__q0003__diag.png",
+      "sha256": "6f22fb17665fa47a1144034d50299013ba4627c7b25e94a960fd78622d44eb41"
+    },
+    {
+      "queryId": "q0004",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0004/qa01/20260918T112345.728+0800__flushing__q0004__diag.png",
+      "sha256": "44f5836fa63afe2ae9116ae85551068118143bfbf32540cae68ba88bb39f3179"
+    },
+    {
+      "queryId": "q0005",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__01.png",
+      "sha256": "fd104c9ab75ac2b37cf04914aed4532aa88b42395ee876c41cec5757d4f30756"
+    },
+    {
+      "queryId": "q0005",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__02.png",
+      "sha256": "c58f189aaf2a0f98c1130d6c26800e3c6292a497b5247c53fd42dbb0c487bda9"
+    },
+    {
+      "queryId": "q0005",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__03.png",
+      "sha256": "5e8d1f58fc94e2ad073ca01909ca58157fabb3b61e89fce78da0a515d47598a4"
+    },
+    {
+      "queryId": "q0005",
+      "key": "2026-09-18/run_20260918T032308Z_a8fb06/att_bdae7439/q0005/qa01/20260918T112350.731+0800__bubble-tea-delivery-mineola__q0005__04.png",
+      "sha256": "aa88ca1f6e2856f4ed9e0317d8d6bd636ce143d9b959c4612bd365409a2bf441"
+    }
+  ],
+  "adPositiveLiveTest": false,
+  "geographicRelevanceVerified": false
+}

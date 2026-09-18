@@ -1,0 +1,73 @@
+{
+  "checkedAt": "2026-09-18T03:31:00.146694+00:00",
+  "context": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "deletedJob": "maps-monitor-verify-20260918t003315z-544bac",
+  "deletedJobUid": "785090b2-efff-475c-94f3-c16a4908ac38",
+  "deletedPods": [
+    "maps-monitor-verify-20260918t003315z-544bac-n26vk"
+  ],
+  "backupChecksumsReverified": true,
+  "jobAndPodAbsenceConfirmed": true,
+  "azureObjectsAndClaimsUntouched": true,
+  "remainingProjectJobs": [
+    {
+      "name": "maps-monitor-duplicate-20260917t135332-f717dd",
+      "status": {
+        "completionTime": "2026-09-17T13:58:34Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2026-09-17T13:58:34Z",
+            "lastTransitionTime": "2026-09-17T13:58:34Z",
+            "message": "Reached expected number of succeeded pods",
+            "reason": "CompletionsReached",
+            "status": "True",
+            "type": "SuccessCriteriaMet"
+          },
+          {
+            "lastProbeTime": "2026-09-17T13:58:35Z",
+            "lastTransitionTime": "2026-09-17T13:58:35Z",
+            "message": "Reached expected number of succeeded pods",
+            "reason": "CompletionsReached",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "ready": 0,
+        "startTime": "2026-09-17T13:57:25Z",
+        "succeeded": 1,
+        "terminating": 0,
+        "uncountedTerminatedPods": {}
+      }
+    },
+    {
+      "name": "maps-repair-smoke-20260918t032232z",
+      "status": {
+        "completionTime": "2026-09-18T03:24:13Z",
+        "conditions": [
+          {
+            "lastProbeTime": "2026-09-18T03:24:13Z",
+            "lastTransitionTime": "2026-09-18T03:24:13Z",
+            "message": "Reached expected number of succeeded pods",
+            "reason": "CompletionsReached",
+            "status": "True",
+            "type": "SuccessCriteriaMet"
+          },
+          {
+            "lastProbeTime": "2026-09-18T03:24:13Z",
+            "lastTransitionTime": "2026-09-18T03:24:13Z",
+            "message": "Reached expected number of succeeded pods",
+            "reason": "CompletionsReached",
+            "status": "True",
+            "type": "Complete"
+          }
+        ],
+        "ready": 0,
+        "startTime": "2026-09-18T03:22:37Z",
+        "succeeded": 1,
+        "terminating": 0,
+        "uncountedTerminatedPods": {}
+      }
+    }
+  ]
+}

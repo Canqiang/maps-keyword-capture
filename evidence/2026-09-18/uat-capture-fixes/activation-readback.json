@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-09-18T03:28:38.795020+00:00",
+  "context": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "cronJobName": "maps-keyword-monitor-daily",
+  "uid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:59f7e7db45937ac6103972126e85fc827a06d73474f6144cb709bda194f38868",
+  "sourceCommit": "3daa349a05b68d7bdbe5fe1dfe6e20a31c7bf942",
+  "schedule": "0 0 * * *",
+  "timeZone": "Asia/Shanghai",
+  "suspend": false,
+  "imageOnlySpecDiffVerified": true,
+  "configDataUnchanged": true,
+  "sourceConfigSha256": "bd234af3fe285627bd6735e0bad0ac127eeac3aa7f2e40c926e15e2d03213dbd",
+  "cpuRequest": "500m",
+  "acceptanceJob": "maps-repair-smoke-20260918t032232z",
+  "acceptanceScope": "Five-keyword targeted collector smoke, CPUrequest200m; daily monitor aggregation covered by local integration tests, full-volume v3 runtime not re-run."
+}
