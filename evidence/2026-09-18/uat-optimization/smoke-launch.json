@@ -35,5 +35,6 @@
   "dailyActiveReferences": [],
   "remoteWritesPerformed": false,
   "ownerReferences": [],
-  "deadlineSeconds": 1800
+  "deadlineSeconds": 1800,
+  "recordStage": "pre-launch preparation; execution and delivery are recorded in smoke-summary.json, pod-exit.json and readback-report.json"
 }

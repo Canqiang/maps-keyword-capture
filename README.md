@@ -13,7 +13,7 @@ Two daily workloads are deployed, with separate keyword sources and Azure contai
 | [Dev batch](deploy/cronjob/README.md) | 10:00 `America/New_York` | Fixed list, currently 20 keywords | `maps-keyword-capture` |
 | [UAT monitor](docs/uat-monitor-operations.md) | 00:00 `Asia/Shanghai` | Fresh source records, up to 40 keywords per store | `maps-keyword-capture-uat` |
 
-The UAT scoped live test produced 12 complete and 2 partial captures; all 116 evidence objects passed independent Azure readback. Full 260-query capacity remains untested. See the [UAT operations guide](docs/uat-monitor-operations.md) for enrollment, acceptance and activation. Workload identity, a results viewer, and report generation remain outside this rollout.
+The first UAT midnight cycle selected 260 queries but stopped after 119 attempts: 109 captured, 10 partial, and 141 skipped. The detail-page breaker fix is now deployed after a targeted six-query test: three ranked captures, three correctly preserved non-ranking details, and no skipped work; all 36 objects passed independent Azure readback. A complete daily cycle on the new image remains unverified. See the [release evidence](evidence/2026-09-18/uat-optimization/README.md) and [UAT operations guide](docs/uat-monitor-operations.md). Workload identity, a results viewer, and report generation remain outside this rollout.
 
 No target business is required. Each run collects the listings observed for a keyword; downstream consumers can filter by business, compare observations over time, or prepare reports.
 
