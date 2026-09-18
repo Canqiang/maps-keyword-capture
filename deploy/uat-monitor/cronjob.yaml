@@ -39,11 +39,11 @@ spec:
             fsGroup: 1001
           containers:
             - name: monitor
-              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:78669533e5e6c6218d0e415992b665b48b1de3e9ab541030101a6c63e2f5d360
+              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:969d8592e7d3369591195d5a102287d3fca39268e36417b49fbf8f4a394315e0
               args: ["node", "dist/monitor/cli.js", "--config", "/config/monitor.json", "--storage", "azure"]
               env:
                 - name: IMAGE_DIGEST
-                  value: sha256:78669533e5e6c6218d0e415992b665b48b1de3e9ab541030101a6c63e2f5d360
+                  value: sha256:969d8592e7d3369591195d5a102287d3fca39268e36417b49fbf8f4a394315e0
                 - name: EGRESS_PROFILE_ID
                   value: aks-fbrdev-eastus2-aiapp
                 - name: AZURE_STORAGE_CONTAINER

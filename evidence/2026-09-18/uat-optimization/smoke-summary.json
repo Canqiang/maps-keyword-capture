@@ -1,0 +1,24 @@
+{
+  "summary": true,
+  "runId": "run_20260918T000605Z_db673f",
+  "attemptId": "att_9c5e0927",
+  "status": "partial",
+  "counts": {
+    "captured": 3,
+    "partial": 3
+  },
+  "manifest": "/work/outputs/maps-keyword-capture/2026-09-18/run_20260918T000605Z_db673f/att_9c5e0927/manifest.json",
+  "remotePersistence": "verified",
+  "storage": "https://fbrdevstorage.blob.core.windows.net/maps-keyword-capture-uat",
+  "manifestReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-18/run_20260918T000605Z_db673f/att_9c5e0927/manifest.json",
+    "verifiedAt": "2026-09-18T00:07:28.455Z",
+    "storageError": null,
+    "runId": "run_20260918T000605Z_db673f",
+    "attemptId": "att_9c5e0927",
+    "filename": "manifest.json",
+    "bytes": 28885,
+    "sha256": "fb64c821f2c7c4cfe632650d49fd7889c35197ca13dafa7bec402cc8747adde2"
+  }
+}

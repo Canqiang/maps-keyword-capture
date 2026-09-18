@@ -1,0 +1,99 @@
+{
+  "verificationIdentity": "Azure CLI login independent of Pod SAS",
+  "verifiedObjects": 36,
+  "verifiedArtifacts": 35,
+  "verifiedBytes": 12904057,
+  "pngCount": 16,
+  "csvRowsCompared": 45,
+  "counts": {
+    "captured": 3,
+    "partial": 3
+  },
+  "finalReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-18/run_20260918T000605Z_db673f/att_9c5e0927/manifest.json",
+    "verifiedAt": "2026-09-18T00:07:28.455Z",
+    "storageError": null,
+    "runId": "run_20260918T000605Z_db673f",
+    "attemptId": "att_9c5e0927",
+    "filename": "manifest.json",
+    "bytes": 28885,
+    "sha256": "fb64c821f2c7c4cfe632650d49fd7889c35197ca13dafa7bec402cc8747adde2"
+  },
+  "imageDigest": "sha256:969d8592e7d3369591195d5a102287d3fca39268e36417b49fbf8f4a394315e0",
+  "results": [
+    {
+      "queryId": "q0001",
+      "keyword": "bakery",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listings": 15,
+      "geographicStatus": "unverified",
+      "pngs": 3
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "slush mineola",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "listings": 0,
+      "geographicStatus": "unverified",
+      "pngs": 1
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "only bear chicken & boba mineola",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "listings": 0,
+      "geographicStatus": "unverified",
+      "pngs": 1
+    },
+    {
+      "queryId": "q0004",
+      "keyword": "only bear mineola",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "listings": 0,
+      "geographicStatus": "unverified",
+      "pngs": 1
+    },
+    {
+      "queryId": "q0005",
+      "keyword": "bubble tea delivery mineola",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listings": 15,
+      "geographicStatus": "unverified",
+      "pngs": 5
+    },
+    {
+      "queryId": "q0006",
+      "keyword": "tea mineola",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "listings": 15,
+      "geographicStatus": "unverified",
+      "pngs": 5
+    }
+  ],
+  "memoFirınObserved": [
+    {
+      "queryId": "q0001",
+      "resultType": "organic",
+      "category": "Bakery",
+      "rating": null
+    }
+  ],
+  "nonRankingDetailCount": 3,
+  "threeConsecutiveDetailsObserved": true,
+  "laterQueriesAttempted": true,
+  "smokeAccepted": true,
+  "issues": [],
+  "limitations": [
+    "Six-keyword collector smoke only, not full daily monitor or 260-keyword capacity acceptance.",
+    "Screenshots structurally checked; visual review remains required.",
+    "No expectedArea configured: geographic suitability remains unverified.",
+    "If Memo Fırın or detail pages did not appear, corresponding live cases were not reproduced."
+  ]
+}

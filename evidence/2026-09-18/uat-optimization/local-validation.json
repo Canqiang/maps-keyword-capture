@@ -1,0 +1,22 @@
+{
+  "sourceCommit": "ed2a128876dd378fc54d37476aa8652905b6071e",
+  "adapterVersion": "maps-feed-card/v2",
+  "typecheck": "passed",
+  "contracts": "passed",
+  "build": "passed",
+  "fullSuite": {
+    "testFiles": 31,
+    "testsPassed": 320
+  },
+  "additionalRegression": {
+    "testsPassed": 1,
+    "case": "retained listing geography survives a later detail redirect"
+  },
+  "reviewFixes": [
+    "Visible-feed selection is consistent across detect/read/scroll/wait",
+    "Loaded details take precedence over incidental no-results text",
+    "Delayed detail transitions retain screenshots and continue dispatch",
+    "Retained listing geography cannot be replaced by final detail coordinates"
+  ],
+  "liveAcceptance": "See README.md and independent readback-report.json"
+}

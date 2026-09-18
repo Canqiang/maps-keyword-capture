@@ -1,6 +1,6 @@
 # Detailed Design
 
-Status: the collector, Azure Blob delivery, dedicated Jobs, and daily monitoring are implemented. [Validation status](validation-status.md) separates historical Dev/UAT acceptance from the current local optimization, which has not yet been deployed or accepted in UAT. TypeScript contracts and fixture checks do not replace runtime validation of external JSON or live release acceptance.
+Status: the collector, Azure Blob delivery, dedicated Jobs, and daily monitoring are implemented. [Validation status](validation-status.md) separates historical Dev/UAT acceptance from the current resilience release, which has targeted UAT acceptance but no completed daily cycle on its new image. TypeScript contracts and fixture checks do not replace runtime validation of external JSON or live release acceptance.
 
 Decisions made on 2026-09-17 that refine this design (Chromium instead of Chrome, 15 listings, query-only location behavior, Azure Blob target, DOM-index reconciliation) are recorded with their rationale in [Decisions and Deviations, 2026-09-17](superpowers/specs/2026-09-17-keyword-capture-design.md). This document has been updated to match.
 

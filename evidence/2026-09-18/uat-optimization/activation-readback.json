@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-09-18T00:10:43.758239+00:00",
+  "context": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "cronJob": "maps-keyword-monitor-daily",
+  "schedule": "0 0 * * *",
+  "timeZone": "Asia/Shanghai",
+  "suspend": false,
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:969d8592e7d3369591195d5a102287d3fca39268e36417b49fbf8f4a394315e0",
+  "imageOnlyChangeVerified": true,
+  "sourceConfigUnchanged": true,
+  "sourceConfigSha256": "bd234af3fe285627bd6735e0bad0ac127eeac3aa7f2e40c926e15e2d03213dbd",
+  "storeCount": 7,
+  "maxKeywordsPerStore": 40,
+  "expectedAreasConfigured": 0,
+  "active": [],
+  "lastScheduleTime": "2026-09-17T16:00:00Z",
+  "nextExpectedSchedule": "2026-09-18T16:00:00Z",
+  "fullDailyCycleOnNewImageVerified": false
+}

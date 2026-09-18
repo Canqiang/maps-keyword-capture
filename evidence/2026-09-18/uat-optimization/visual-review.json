@@ -1,0 +1,55 @@
+{
+  "pngsStructurallyVerified": 16,
+  "pngsVisuallyReviewed": 6,
+  "scope": "First results screenshot or sole diagnostic screenshot for each of six queries",
+  "adsObservedInAllRows": 0,
+  "reviewed": [
+    {
+      "queryId": "q0001",
+      "keyword": "bakery",
+      "png": "2026-09-18/run_20260918T000605Z_db673f/att_9c5e0927/q0001/qa01/20260918T080606.224+0800__bakery__q0001__01.png",
+      "resultSurface": "results_list",
+      "visualCheck": "ranked results feed visible"
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "slush mineola",
+      "png": "2026-09-18/run_20260918T000605Z_db673f/att_9c5e0927/q0002/qa01/20260918T080623.645+0800__slush-mineola__q0002__diag.png",
+      "resultSurface": "place_details",
+      "visualCheck": "loaded detail panel without ranked feed"
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "only bear chicken & boba mineola",
+      "png": "2026-09-18/run_20260918T000605Z_db673f/att_9c5e0927/q0003/qa01/20260918T080628.843+0800__only-bear-chicken-boba-mineola__q0003__diag.png",
+      "resultSurface": "place_details",
+      "visualCheck": "loaded detail panel without ranked feed"
+    },
+    {
+      "queryId": "q0004",
+      "keyword": "only bear mineola",
+      "png": "2026-09-18/run_20260918T000605Z_db673f/att_9c5e0927/q0004/qa01/20260918T080633.678+0800__only-bear-mineola__q0004__diag.png",
+      "resultSurface": "place_details",
+      "visualCheck": "loaded detail panel without ranked feed"
+    },
+    {
+      "queryId": "q0005",
+      "keyword": "bubble tea delivery mineola",
+      "png": "2026-09-18/run_20260918T000605Z_db673f/att_9c5e0927/q0005/qa01/20260918T080638.712+0800__bubble-tea-delivery-mineola__q0005__01.png",
+      "resultSurface": "results_list",
+      "visualCheck": "ranked results feed visible"
+    },
+    {
+      "queryId": "q0006",
+      "keyword": "tea mineola",
+      "png": "2026-09-18/run_20260918T000605Z_db673f/att_9c5e0927/q0006/qa01/20260918T080703.362+0800__tea-mineola__q0006__01.png",
+      "resultSurface": "results_list",
+      "visualCheck": "ranked results feed visible"
+    }
+  ],
+  "notes": [
+    "Memo F\u0131r\u0131n no-review Bakery card is readable and agrees with exported fields.",
+    "bakery map is broad, and all geographic relevance remains unverified.",
+    "Detail screenshots contain native Collapse side panel hint; no ranked list was inferred."
+  ]
+}

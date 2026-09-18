@@ -1,6 +1,6 @@
 # Collection Specification
 
-This is the concise specification. See [the detailed design](design.md) for the algorithm, attempt isolation, evidence protocol, and data contracts. The collector and Azure delivery are implemented; see [validation status](validation-status.md) for release evidence and the limits of local-only changes.
+This is the concise specification. See [the detailed design](design.md) for the algorithm, attempt isolation, evidence protocol, and data contracts. The collector and Azure delivery are implemented; see [validation status](validation-status.md) for release evidence and acceptance limits.
 
 ## Scope
 

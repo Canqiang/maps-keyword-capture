@@ -1,0 +1,14 @@
+{
+  "podName": "maps-optimize-smoke-20260918t000542z-d345e2-qn6k4",
+  "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:969d8592e7d3369591195d5a102287d3fca39268e36417b49fbf8f4a394315e0",
+  "restartCount": 0,
+  "state": {
+    "terminated": {
+      "containerID": "containerd://4358ba99f6f8c8f47850af94b24f389706c0e46bff399a65396b94538ad76cd6",
+      "exitCode": 2,
+      "finishedAt": "2026-09-18T00:07:28Z",
+      "reason": "Error",
+      "startedAt": "2026-09-18T00:06:04Z"
+    }
+  }
+}

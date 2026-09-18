@@ -1,0 +1,39 @@
+{
+  "context": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "jobName": "maps-optimize-smoke-20260918t000542z-d345e2",
+  "configMapName": "maps-optimize-config-20260918t000542z-d345e2",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:969d8592e7d3369591195d5a102287d3fca39268e36417b49fbf8f4a394315e0",
+  "keywords": [
+    "bakery",
+    "slush mineola",
+    "only bear chicken & boba mineola",
+    "only bear mineola",
+    "bubble tea delivery mineola",
+    "tea mineola"
+  ],
+  "capture": {
+    "maxResultsPerKeyword": 15,
+    "maxScrollsPerKeyword": 6,
+    "maxScreenshotsPerKeyword": 5,
+    "keywordTimeoutMs": 90000,
+    "locale": "en-US",
+    "browserTimezoneId": "America/New_York",
+    "filenameTimezone": "Asia/Shanghai",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  "sourceCronResourceVersion": "696280378",
+  "sourceConfigResourceVersion": "696107865",
+  "dailyScheduleReadback": {
+    "schedule": "0 0 * * *",
+    "timeZone": "Asia/Shanghai",
+    "suspend": false
+  },
+  "dailyActiveReferences": [],
+  "remoteWritesPerformed": false,
+  "ownerReferences": [],
+  "deadlineSeconds": 1800
+}
