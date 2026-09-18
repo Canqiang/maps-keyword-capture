@@ -51,7 +51,7 @@ JOB=$(kubectl create -f deploy/job/job.yaml -o name)
 kubectl -n dev-ai logs -f "$JOB"
 ```
 
-The last log line is a JSON summary with `remotePersistence` (`verified` or `failed`) and `manifestReceipt.objectKey`. Exit code 0 means every keyword was captured and every artifact verified; 2 means some keywords were partial, blocked, or skipped but everything collected was delivered; 1 means a delivery failure or a failed batch.
+The last log line is a JSON summary with `remotePersistence` (`verified` or `failed`) and `manifestReceipt.objectKey`. For newly built v3 images, exit code 0 means every keyword was captured or produced a fully evidenced recognized non-ranking page, with every artifact and final manifest verified. The committed Dev Job is still pinned to an older image and retains its original exit behavior (0 for all captured, 2 for any partial); this UAT repair does not upgrade Dev. `executionStatus` records completion separately from the original ranked-coverage `status`; `counts.nonRanking` is a subset of partial outcomes. Exit 2 means unresolved partial, blocked or skipped work remains; 1 means a delivery failure or failed batch. See [completion semantics](../../docs/design.md#collection-status-versus-delivery-status).
 
 ## Inspect results
 

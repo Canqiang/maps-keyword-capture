@@ -173,6 +173,9 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
 
     let scrolls = 0;
     let stalls = 0;
+    // A card may have been parsed off-screen and skipped by a later layout/scroll shift.
+    // Retry its current geometry once; every recovery still spends the normal scroll budget.
+    const coverageRecoveryAttempted = new Set<string>();
     let waitedForCards = false;
     let waitedForQuery = false;
     let warnedUnsettled = false;
@@ -284,7 +287,11 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
         preSignature: obs.preSignature, postSignature: obs.postSignature, accepted: true, rejectionReason: null,
         cards, screenshotIds,
       });
-      stage('round', { observationId, committed: state.committed.length, newlyCommitted: state.committed.length - before, saved: screenshotIds.length });
+      stage('round', {
+        observationId, committed: state.committed.length, newlyCommitted: state.committed.length - before, saved: screenshotIds.length,
+        endOfList: snapshot.endOfList, scrollOffset: snapshot.scrollTop, scrollHeight: snapshot.scrollHeight, clientHeight: snapshot.clientHeight,
+        uncoveredCommitted: state.committed.filter((entry) => !coverage.has(occKey(entry.card))).map((entry) => entry.card.feedChildIndex),
+      });
 
       if (state.failure) {
         stop = { kind: 'incomplete', reason: state.failure.reason, error: null };
@@ -306,12 +313,28 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       if (remaining() < 2000) { stop = { kind: 'incomplete', reason: 'timeout', error: null }; break; }
       if (bytesWritten > ARTIFACT_BUDGET_BYTES) { stop = { kind: 'incomplete', reason: 'artifact_limit', error: null }; break; }
 
-      const target = nextScrollTop(snapshot, layout);
+      // Use this round's geometry after reconciliation, never the committed card's older bounds.
+      // Recover an uncovered card already passed, or finish the remaining evidence at a known end.
+      // Oversized cards cannot fit a single screenshot and must retain incomplete coverage.
+      const recoveryCard = resultsSaved() < config.maxScreenshotsPerKeyword ? cards.find((card) =>
+        committedIds.has(card.occurrenceId) && !coverage.has(occKey(card)) && !card.fullyVisible
+        && card.bounds.height <= snapshot.paneBounds.height && !coverageRecoveryAttempted.has(occKey(card))
+        && (completeReason !== null || card.bounds.y < snapshot.paneBounds.y)) : undefined;
+      const target = recoveryCard
+        ? Math.max(0, snapshot.scrollTop + recoveryCard.bounds.y - snapshot.paneBounds.y)
+        : nextScrollTop(snapshot, layout);
       if (target === null) { stop = { kind: 'incomplete', reason: 'unsupported_layout', error: null }; break; }
+      if (recoveryCard) coverageRecoveryAttempted.add(occKey(recoveryCard));
       const applied = await scrollFeedTo(page, target);
       scrolls += 1;
-      stalls = applied <= snapshot.scrollTop ? stalls + 1 : 0;
+      // A deliberate backwards recovery is progress, not a stalled attempt to load more results.
+      stalls = Math.abs(applied - snapshot.scrollTop) < 0.5 ? stalls + 1 : 0;
       const change = await waitForFeedChange(page, { childCount: snapshot.children.length, scrollHeight: snapshot.scrollHeight }, Math.max(0, Math.min(3000, remaining())));
+      stage('scroll', {
+        observationId, mode: recoveryCard ? 'coverage_recovery' : 'forward_overlap',
+        recoveryFeedChildIndex: recoveryCard?.feedChildIndex ?? null,
+        from: snapshot.scrollTop, target, applied, change, scrolls, stalls,
+      });
       if (change === 'unchanged' && stalls >= 3) { stop = { kind: 'incomplete', reason: 'load_stalled', error: null }; break; }
     }
   } catch (err) {

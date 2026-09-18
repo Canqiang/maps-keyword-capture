@@ -6,6 +6,7 @@ import {
   END_OF_LIST_TEXT, buildSearchUrl, detectPageState, hasQuerySignal, nextScrollTop, openSearch, pageFunctionSource, queryMatches, readSnapshot, scrollFeedTo, waitForFeedChange, transientHintVisible,
 } from '../src/browser/maps-adapter.js';
 import { namedCards, writeFixture } from './fixtures/feed-fixture.js';
+import { writeScrollGapFixture } from './fixtures/scroll-gap-fixture.js';
 
 let browser: Browser;
 let page: Page;
@@ -194,6 +195,26 @@ describe('page reading against the fixture', () => {
     const layout2 = classifyFeedChildren(after.children);
     if (!layout2.ok) throw new Error(layout2.detail);
     expect(Math.round(layout2.layout.cards[3]!.bounds.y)).toBe(80);
+  });
+
+  it('keeps a visible overlap at a one-pixel boundary gap despite extra loaded cards', async () => {
+    await openSearch(page, await writeScrollGapFixture(), 5000);
+    expect(await scrollFeedTo(page, 658)).toBe(658);
+    const snapshot = (await readSnapshot(page))!;
+    const result = classifyFeedChildren(snapshot.children);
+    if (!result.ok) throw new Error(result.detail);
+    expect(snapshot.paneBounds).toMatchObject({ y: 80, height: 842 });
+    expect(snapshot.scrollHeight - snapshot.clientHeight).toBe(1545);
+    expect(result.layout.cards).toHaveLength(13);
+    expect(result.layout.cards[8]!.bounds).toMatchObject({ y: 746, height: 176 });
+    expect(result.layout.cards[9]!.bounds).toMatchObject({ y: 923, height: 210 });
+    expect(result.layout.cards[12]!.bounds.y).toBe(1446);
+    const target = nextScrollTop(snapshot, result.layout)!;
+    expect(target).toBe(1324);
+    await scrollFeedTo(page, target);
+    const after = (await readSnapshot(page))!;
+    const hidden = after.children.filter(child => child.placeHref)[9]!;
+    expect(classifyCard(hidden, after.paneBounds, 'gap_obs').fullyVisible).toBe(true);
   });
 
   it('loads more cards on scroll and then reports the end of the list', async () => {

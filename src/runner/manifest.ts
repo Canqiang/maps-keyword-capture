@@ -1,4 +1,4 @@
-import type { Artifact, BatchManifest, ManifestDeliveryReceipt, PersistenceStatus, QueryAttemptSummary, QueryManifestEntry, RunMetadata, SkipReason } from '../contracts.js';
+import type { Artifact, BatchManifest, ExecutionStatus, ManifestDeliveryReceipt, PersistenceStatus, QueryAttemptSummary, QueryManifestEntry, RunMetadata, SkipReason } from '../contracts.js';
 import { queryIdFor } from '../ids.js';
 
 export function createManifest(args: {
@@ -13,6 +13,7 @@ export function createManifest(args: {
     startedAt: args.startedAt,
     finishedAt: null,
     status: 'running',
+    executionStatus: 'running',
     metadata: args.metadata,
     persistenceMode: args.persistenceMode,
     queries: args.keywords.map((keyword, inputIndex) => ({
@@ -92,7 +93,27 @@ export function finalizeManifest(m: BatchManifest, finishedAt: string): BatchMan
   const allCaptured = statuses.every((s) => s === 'captured');
   const anyEvidence = statuses.some((s) => s === 'captured' || s === 'partial' || s === 'blocked');
   const status: BatchManifest['status'] = allCaptured ? 'completed' : anyEvidence ? 'partial' : 'failed';
-  return { ...m, finishedAt, status };
+  const final = { ...m, finishedAt, status };
+  return { ...final, executionStatus: executionStatusFor(final) };
+}
+
+/** A recognized details page is observed only when its selected attempt has full evidence. */
+export function isCompleteNonRankingObservation(m: BatchManifest, q: QueryManifestEntry): boolean {
+  if (q.status !== 'partial' || q.stopReason !== 'non_ranking_result' || q.error !== null) return false;
+  const selected = q.attempts.find(a => a.queryAttemptId === q.selectedQueryAttemptId);
+  if (!selected || selected.status !== 'partial' || selected.stopReason !== 'non_ranking_result' || selected.error !== null) return false;
+  return (['diagnostic', 'result_json', 'result_csv', 'observations_jsonl'] as const).every(kind =>
+    m.artifacts.some(a => a.kind === kind && a.queryId === q.queryId && a.queryAttemptId === q.selectedQueryAttemptId
+      && selected.artifactIds.includes(a.id) && (kind !== 'diagnostic' || a.bytes > 0)
+      && (a.storageStatus === 'local_only' || a.storageStatus === 'verified')));
+}
+
+/** Recompute from query evidence; do not trust a stale aggregate field to waive a partial. */
+export function executionStatusFor(m: BatchManifest): ExecutionStatus {
+  if (m.status === 'failed') return 'failed';
+  if (m.status === 'running') return 'running';
+  if (m.queries.length > 0 && m.queries.every(q => q.status === 'captured' || isCompleteNonRankingObservation(m, q))) return 'completed';
+  return 'incomplete';
 }
 
 function remoteDeliveryFailed(m: BatchManifest, receipt: ManifestDeliveryReceipt | null): boolean {
@@ -105,7 +126,7 @@ function remoteDeliveryFailed(m: BatchManifest, receipt: ManifestDeliveryReceipt
 
 export function exitCodeFor(m: BatchManifest, receipt: ManifestDeliveryReceipt | null = null): 0 | 1 | 2 {
   if (remoteDeliveryFailed(m, receipt)) return 1;
-  if (m.status === 'completed') return 0;
+  if (executionStatusFor(m) === 'completed') return 0;
   if (m.status === 'failed') return 1;
   return 2;
 }

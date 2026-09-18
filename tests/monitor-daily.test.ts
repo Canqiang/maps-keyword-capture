@@ -252,7 +252,9 @@ describe('daily monitor', () => {
     expect(out.manifest?.stopReason).toBeNull();
     expect(out.manifest?.counts).toMatchObject({ selected: 8, captured: 5, partial: 3, skipped: 0 });
     expect(out.manifest?.stores.map(store => store.status)).toEqual(['partial', 'completed']);
-    expect(out.exitCode).toBe(2);
+    expect(out.exitCode).toBe(0);
+    expect(out.manifest).toMatchObject({ status: 'partial', executionStatus: 'completed' });
+    expect(out.manifest?.counts).toMatchObject({ nonRanking: 3 });
     expect(out.manifestReceipt?.storageStatus).toBe('verified');
     const batches = out.manifest!.stores.flatMap(store => store.batches);
     expect(batches).toHaveLength(4);

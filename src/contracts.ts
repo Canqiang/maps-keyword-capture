@@ -264,6 +264,9 @@ export type QueryManifestEntry = QueryRowIdentity & (
     })
 );
 
+/** Observation execution is distinct from ranked-list completeness and remote delivery. */
+export type ExecutionStatus = "running" | "completed" | "incomplete" | "failed";
+
 export interface BatchManifest {
   schemaVersion: "1";
   runId: string;
@@ -271,6 +274,8 @@ export interface BatchManifest {
   startedAt: string;
   finishedAt: string | null;
   status: "running" | "completed" | "partial" | "failed";
+  /** Optional for historical manifests. Known non-ranking pages can complete execution. */
+  executionStatus?: ExecutionStatus;
   metadata: RunMetadata;
   persistenceMode: "local_only" | "azure_blob";
   queries: QueryManifestEntry[];

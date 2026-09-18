@@ -2,7 +2,7 @@ import type { BoundingBox, ClassificationEvidence, ListingClassification, Observ
 import { occurrenceIdFor, sha256Hex } from '../ids.js';
 import type { ClassifiedCard, ParsedCardFields, RawFeedChild } from './types.js';
 
-export const LAYOUT_SIGNATURE = 'maps-feed-card/v2';
+export const LAYOUT_SIGNATURE = 'maps-feed-card/v3';
 /** Frozen: every evidence record gets its own copy, so one card's array is never another's. */
 export const LABEL_LOCATIONS = Object.freeze(['card_text', 'aria_label'] as const);
 
@@ -86,6 +86,46 @@ export function parseCategoryAndAddress(text: string, name: string, lines?: stri
   return splitCategoryLine(head) ?? { category: noReviews && NO_REVIEW_BUSINESS_CATEGORIES.has(head) ? head : null, address: null };
 }
 
+/**
+ * The verified spa card shows only a business name and Lodging, without even a
+ * No reviews row. Keep this separate from general category parsing: a valid
+ * Google Maps place link and the exact two-field format are required. A named
+ * locality, arbitrary description or unowned ad marker is not this layout.
+ */
+function isLodgingOnlyBusinessCard(raw: RawFeedChild, name: string): boolean {
+  const cleanName = cleanCardText(name);
+  if (!cleanName || cleanName.toLowerCase() === 'lodging' || !raw.placeHref) return false;
+  try {
+    const url = new URL(raw.placeHref);
+    if (url.protocol !== 'https:' || !['google.com', 'www.google.com', 'maps.google.com'].includes(url.hostname) ||
+      !/^\/maps\/place\/[^/]+(?:\/|$)/.test(url.pathname) || url.username || url.password) return false;
+  } catch { return false; }
+
+  const ownsSponsored = raw.sponsoredLabels.some((label) => label.text.trim() === 'Sponsored');
+  let sawName = false;
+  if (raw.lines) {
+    const lines = raw.lines.map(cleanCardText).filter(Boolean);
+    let at = 0;
+    while (lines[at] === cleanName || (ownsSponsored && lines[at] === 'Sponsored')) {
+      if (lines[at] === cleanName) sawName = true;
+      at += 1;
+    }
+    return sawName && at === lines.length - 1 && lines[at] === 'Lodging';
+  }
+  // Older observations have collapsed text only. Strip full name tokens, never
+  // a category-shaped substring, and never strip an unowned Sponsored marker.
+  let body = cleanCardText(raw.text);
+  for (;;) {
+    if (body.startsWith(`${cleanName} `)) {
+      body = body.slice(cleanName.length).trim();
+      sawName = true;
+    } else if (ownsSponsored && body.startsWith('Sponsored ')) {
+      body = body.slice('Sponsored '.length);
+    } else break;
+  }
+  return sawName && body === 'Lodging';
+}
+
 function withinPane(b: BoundingBox, pane: BoundingBox): boolean {
   return b.y >= pane.y - 0.5 && b.y + b.height <= pane.y + pane.height + 0.5 && b.height > 0;
 }
@@ -101,6 +141,7 @@ export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observa
   const sponsored = raw.sponsoredLabels.find((l) => l.text.trim() === 'Sponsored') ?? null;
   const rating = parseRating(raw.ratingAriaLabel);
   const parsedFields = name ? parseCategoryAndAddress(raw.text, name, raw.lines) : { category: null, address: null };
+  if (name && parsedFields.category === null && isLodgingOnlyBusinessCard(raw, name)) parsedFields.category = 'Lodging';
   // A recognized business card carries a rating or a supported category format. A bare
   // place card (a locality, a region) must not be ranked as an organic business result.
   const unresolvedAdMarker = !sponsored && (raw.sponsoredLabels.length > 0 ||

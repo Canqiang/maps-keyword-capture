@@ -184,7 +184,8 @@ describe('runBatch layout breaker', () => {
     expect(saved).toMatchObject({ observedCount: 0, listings: [], quality: { resultSurface: 'place_details' } });
     expect(saved.screenshots).toHaveLength(1);
     expect(out.manifest.queries.every(q => q.persistenceStatus === 'verified')).toBe(true);
-    expect(out.exitCode).toBe(2);
+    expect(out.exitCode).toBe(0);
+    expect(out.manifest).toMatchObject({ status: 'partial', executionStatus: 'completed' });
   });
 });
 

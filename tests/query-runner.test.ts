@@ -10,6 +10,7 @@ import type { ArtifactStore, WrittenFile } from '../src/storage/types.js';
 import { parseConfig } from '../src/config.js';
 import { openSearch } from '../src/browser/maps-adapter.js';
 import { buildFeedFixtureHtml, namedCards, writeFixture } from './fixtures/feed-fixture.js';
+import { writeScrollGapFixture } from './fixtures/scroll-gap-fixture.js';
 
 /** Wraps the local store and refuses the paths a test wants to see fail. */
 class RefusingStore implements ArtifactStore {
@@ -195,6 +196,57 @@ describe('runQueryAttempt', () => {
     const jsonl = await readFile(join(root, 'maps-keyword-capture/2026-09-17/run_t/att_t/q0001/qa01/observations.jsonl'), 'utf8');
     expect(jsonl.trim().split('\n').length).toBeGreaterThanOrEqual(r.screenshots.length);
     expect(JSON.parse(jsonl.trim().split('\n')[0]!)).toMatchObject({ observationId: 'qa01_obs001', accepted: true, queryAttemptId: 'qa01' });
+  });
+
+  it.each([false, true])('fully screenshots every rank across a boundary gap (one-time jump: %s)', async (jumpToBottomOnce) => {
+    const queryId = jumpToBottomOnce ? 'gap_recovery' : 'gap_overlap';
+    const url = await writeScrollGapFixture({ jumpToBottomOnce });
+    const events: Record<string, unknown>[] = [];
+    const d = { ...deps(url), log: (event: Record<string, unknown>) => events.push(event) };
+    const out = await runQueryAttempt(d, input({ queryId, keyword: 'brunch near me' }));
+    expect(out.result).toMatchObject({ status: 'captured', stopReason: 'end_of_results', observedCount: 13, sequenceVerified: true });
+    expect(out.result.quality).toMatchObject({ screenshotCoverageComplete: true, classificationComplete: true });
+    expect(out.result.listings.map(listing => listing.name)).toEqual(namedCards(13).map(card => card.name));
+    expect(out.result.listings.every(listing => listing.screenshotIds.length > 0)).toBe(true);
+    expect(out.result.screenshots.length).toBeLessThanOrEqual(5);
+    const rows = (await readFile(join(root, d.attemptRelativeDir, queryId, 'qa01/observations.jsonl'), 'utf8'))
+      .trim().split('\n').map(line => JSON.parse(line) as Observation);
+    const rank10 = rows.flatMap(row => row.cards.filter(card => card.name === 'Shop 10' && card.fullyVisible)
+      .map(card => ({ card, row })));
+    expect(rank10.some(({ row }) => row.screenshotIds.length > 0)).toBe(true);
+    if (jumpToBottomOnce) {
+      expect(rows.some(row => row.scrollOffset === 1545 && row.cards.some(card => card.name === 'Shop 10' && !card.fullyVisible))).toBe(true);
+      expect(rank10.some(({ row }) => row.scrollOffset === 1501)).toBe(true);
+    }
+    expect(rows.length - 1).toBeLessThanOrEqual(6);
+    expect(events.some(event => event.stage === 'round' && event.endOfList === true && event.scrollHeight === 2387)).toBe(true);
+    if (jumpToBottomOnce) expect(events).toEqual(expect.arrayContaining([
+      expect.objectContaining({ stage: 'scroll', mode: 'coverage_recovery', from: 1545, target: 1501, applied: 1501, change: 'end', stalls: 0 }),
+    ]));
+  });
+
+  it('keeps scroll limits while recovering a missed card above the pane', async () => {
+    const url = await writeScrollGapFixture({ jumpToBottomOnce: true });
+    const out = await runQueryAttempt(deps(url, { maxScrollsPerKeyword: 2 }), input({ queryId: 'gap_budget', keyword: 'brunch near me' }));
+    expect(out.result).toMatchObject({ status: 'partial', stopReason: 'scroll_limit', observedCount: 13 });
+    expect(out.result.quality.screenshotCoverageComplete).toBe(false);
+    expect(out.result.listings[9]!.screenshotIds).toEqual([]);
+  });
+
+  it('does not claim coverage or bypass the screenshot limit during recovery', async () => {
+    const url = await writeScrollGapFixture({ jumpToBottomOnce: true });
+    const out = await runQueryAttempt(deps(url, { maxScreenshotsPerKeyword: 3 }), input({ queryId: 'gap_screenshot_budget', keyword: 'brunch near me' }));
+    expect(out.result).toMatchObject({ status: 'partial', stopReason: 'screenshot_limit', observedCount: 13 });
+    expect(out.result.quality.screenshotCoverageComplete).toBe(false);
+    expect(out.result.screenshots).toHaveLength(3);
+    expect(out.result.listings[9]!.screenshotIds).toEqual([]);
+  });
+
+  it('revalidates sequence identity during a backwards screenshot recovery', async () => {
+    const url = await writeScrollGapFixture({ jumpToBottomOnce: true, replaceOnRecovery: true });
+    const out = await runQueryAttempt(deps(url), input({ queryId: 'gap_reorder', keyword: 'brunch near me' }));
+    expect(out.result).toMatchObject({ status: 'partial', stopReason: 'sequence_ambiguous', sequenceVerified: false });
+    expect(out.result.listings).toHaveLength(9);
   });
 
   it('reports end_of_results as captured when fewer than the limit exist', async () => {

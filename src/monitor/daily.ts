@@ -1,11 +1,11 @@
 import { readFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { GeographicRelevance, KeywordResult, ManifestDeliveryReceipt, StorageState } from '../contracts.js';
+import type { ExecutionStatus, GeographicRelevance, KeywordResult, ManifestDeliveryReceipt, StorageState } from '../contracts.js';
 import { assessGeographicRelevance } from '../core/geography.js';
 import { hashJson, newRunId } from '../ids.js';
 import { dateFolder } from '../naming.js';
 import { BatchExecutionError, UNSUPPORTED_LAYOUT_STREAK, runBatch, type BatchDeps, type BatchOutput } from '../runner/batch-runner.js';
-import { deliveryStatus } from '../runner/manifest.js';
+import { deliveryStatus, executionStatusFor, isCompleteNonRankingObservation } from '../runner/manifest.js';
 import type { ArtifactStore } from '../storage/types.js';
 import { validateRunKey, type EnrolledStore, type MonitorConfig } from './config.js';
 import { summarizeOwnStore, type OwnStoreSummary } from './identity.js';
@@ -17,18 +17,22 @@ export const SHUTDOWN_GRACE_MS = 300_000;
 export type DailyStopReason = 'batch_blocked' | 'storage_unavailable' | 'cancelled' | 'daily_timeout' | 'unsupported_layout' | 'browser_startup_failed' | 'batch_timeout' | 'operational_failure';
 export type DailyReceipt = StorageState & { relativePath: string; bytes: number; sha256: string };
 interface DailyBatch {
+  executionStatus?: ExecutionStatus;
   batchId: string; keywords: string[]; prefix: string; status: 'pending' | 'completed' | 'partial' | 'failed' | 'skipped'; stopReason: DailyStopReason | null;
   runId: string | null; attemptId: string | null; manifestReceipt: ManifestDeliveryReceipt | null;
   counts: Record<string, number>; ownStore: { queryId: string; keyword: string; summary: OwnStoreSummary; geographicRelevance: GeographicRelevance }[];
 }
 interface DailyStore extends EnrolledStore {
+  executionStatus?: ExecutionStatus;
   status: 'pending' | 'selected' | 'source_failed' | 'empty' | 'completed' | 'partial' | 'failed' | 'skipped';
   sourceError: string | null; stopReason: DailyStopReason | null; selectionHash: string | null; snapshotReceipt: DailyReceipt | null; selectedCount: number; batches: DailyBatch[];
 }
 export interface DailyManifest {
+  /** Separate from the existing ranked-coverage status; optional on historical records. */
+  executionStatus?: ExecutionStatus;
   schemaVersion: '1'; dailyRunId: string; runKey: string; date: string; startedAt: string; finishedAt: string | null; configHash: string;
   status: 'running' | 'completed' | 'partial' | 'failed'; deliveryMode: ArtifactStore['mode']; stopReason: DailyStopReason | null;
-  stores: DailyStore[]; counts: { stores: number; batches: number; selected: number; captured: number; partial: number; blocked: number; failed: number; skipped: number; sourceFailed: number; empty: number };
+  stores: DailyStore[]; counts: { stores: number; batches: number; selected: number; captured: number; partial: number; blocked: number; failed: number; skipped: number; sourceFailed: number; empty: number; nonRanking?: number };
 }
 export interface DailyOutput { status: DailyManifest['status'] | 'duplicate_skipped'; manifest: DailyManifest | null; manifestPath: string | null; manifestReceipt: DailyReceipt | null; claim: ClaimResult | null; exitCode: 0 | 1 | 2 }
 export interface DailyDeps {
@@ -37,12 +41,12 @@ export interface DailyDeps {
   log?: (event: Record<string, unknown>) => void;
 }
 function count(manifest: DailyManifest) {
-  const c = { stores: manifest.stores.length, batches: 0, selected: 0, captured: 0, partial: 0, blocked: 0, failed: 0, skipped: 0, sourceFailed: 0, empty: 0 };
+  const c = { stores: manifest.stores.length, batches: 0, selected: 0, captured: 0, partial: 0, blocked: 0, failed: 0, skipped: 0, sourceFailed: 0, empty: 0, nonRanking: 0 };
   for (const store of manifest.stores) {
     c.selected += store.selectedCount; c.batches += store.batches.length;
     if (store.status === 'source_failed') c.sourceFailed++;
     if (store.status === 'empty') c.empty++;
-    for (const batch of store.batches) for (const key of ['captured', 'partial', 'blocked', 'failed', 'skipped'] as const) c[key] += batch.counts[key] ?? 0;
+    for (const batch of store.batches) for (const key of ['captured', 'partial', 'blocked', 'failed', 'skipped', 'nonRanking'] as const) c[key] += batch.counts[key] ?? 0;
   }
   manifest.counts = c;
 }
@@ -85,7 +89,7 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
   const dailyRunId = newRunId(started);
   const dailyPrefix = `${date}/daily/${dailyRunId}`;
   const log = deps.log ?? (() => undefined);
-  const manifest: DailyManifest = { schemaVersion: '1', dailyRunId, runKey, date, startedAt: started.toISOString(), finishedAt: null, configHash: hashJson(deps.config), status: 'running', deliveryMode: deps.store.mode, stopReason: null, stores: deps.config.stores.map(s => ({ ...s, status: 'pending', sourceError: null, stopReason: null, selectionHash: null, snapshotReceipt: null, selectedCount: 0, batches: [] })), counts: { stores: 0, batches: 0, selected: 0, captured: 0, partial: 0, blocked: 0, failed: 0, skipped: 0, sourceFailed: 0, empty: 0 } };
+  const manifest: DailyManifest = { schemaVersion: '1', dailyRunId, runKey, date, startedAt: started.toISOString(), finishedAt: null, configHash: hashJson(deps.config), status: 'running', executionStatus: 'running', deliveryMode: deps.store.mode, stopReason: null, stores: deps.config.stores.map(s => ({ ...s, status: 'pending', sourceError: null, stopReason: null, selectionHash: null, snapshotReceipt: null, selectedCount: 0, batches: [] })), counts: { stores: 0, batches: 0, selected: 0, captured: 0, partial: 0, blocked: 0, failed: 0, skipped: 0, sourceFailed: 0, empty: 0 } };
   let claim: ClaimResult;
   try { claim = await deps.claim({ schemaVersion: '1', dailyRunId, runKey, date, startedAt: manifest.startedAt, configHash: manifest.configHash }); }
   catch { log({ stage: 'daily_claim_failed', runKey }); return { status: 'failed', manifest: null, manifestPath: null, manifestReceipt: null, claim: null, exitCode: 1 }; }
@@ -171,8 +175,10 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
             }
           }
           batch.status = out.manifest.status === 'running' ? 'failed' : out.manifest.status;
+          batch.executionStatus = executionFailed ? 'failed' : executionStatusFor(out.manifest);
           batch.runId = out.manifest.runId; batch.attemptId = out.manifest.attemptId; batch.manifestReceipt = out.manifestReceipt;
           for (const query of out.manifest.queries) batch.counts[query.status] = (batch.counts[query.status] ?? 0) + 1;
+          batch.counts.nonRanking = out.manifest.queries.filter(q => isCompleteNonRankingObservation(out.manifest, q)).length;
           batch.ownStore = await ownSummaries(out, row);
           for (const query of out.manifest.queries) {
             if (query.status === 'skipped') continue;
@@ -206,11 +212,17 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
     }
     count(manifest); manifest.finishedAt = now().toISOString();
     manifest.status = operationalFailure ? 'failed' : manifest.stores.every(s => s.status === 'completed') ? 'completed' : 'partial';
+    for (const row of manifest.stores) {
+      row.executionStatus = row.status === 'failed' ? 'failed'
+        : row.batches.length > 0 && row.batches.every(b => b.executionStatus === 'completed') ? 'completed' : 'incomplete';
+    }
+    manifest.executionStatus = operationalFailure ? 'failed'
+      : !stop && manifest.counts.selected > 0 && manifest.stores.every(s => s.executionStatus === 'completed') ? 'completed' : 'incomplete';
     try { finalReceipt = await persistJson(`${dailyPrefix}/manifest.json`, manifest, true); }
     catch { operationalFailure = true; }
   }
   const finalDelivered = finalReceipt !== null && isDelivered(finalReceipt);
-  const exitCode = operationalFailure || !finalDelivered ? 1 : manifest.status === 'completed' && deps.store.mode === 'azure_blob' ? 0 : 2;
-  log({ stage: 'daily_done', dailyRunId, status: manifest.status, counts: manifest.counts, delivery: finalReceipt?.storageStatus ?? 'failed', exitCode });
+  const exitCode = operationalFailure || !finalDelivered ? 1 : manifest.executionStatus === 'completed' && deps.store.mode === 'azure_blob' ? 0 : 2;
+  log({ stage: 'daily_done', dailyRunId, status: manifest.status, executionStatus: manifest.executionStatus, counts: manifest.counts, delivery: finalReceipt?.storageStatus ?? 'failed', exitCode });
   return { status: exitCode === 1 ? 'failed' : manifest.status, manifest, manifestPath, manifestReceipt: finalReceipt, claim, exitCode };
 }

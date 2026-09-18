@@ -219,3 +219,71 @@ describe('no-review business cards', () => {
     expect(card.classification.resultType).toBe('organic');
   });
 });
+
+describe('Lodging-only business cards', () => {
+  // Constructed from the saved spa screenshot and normalized observation. Raw
+  // DOM was not retained, so these lines are not a captured DOM replay.
+  const name = 'Blue Stone Chateau Yosemite Pool Spa Secluded - Deluxe Villa';
+  const href = 'https://www.google.com/maps/place/Blue+Stone+Chateau/data=!1s0x8740000000003871:0x455c5fb70faed4eb';
+  const lodging = (over: Partial<RawFeedChild> = {}) => raw({
+    placeHref: href, placeAriaLabel: name, ratingAriaLabel: null,
+    text: `${name} ${name} Lodging`, lines: [name, name, 'Lodging'], ...over,
+  });
+
+  it('recognizes the exact named Lodging format without inventing rating, reviews or address', () => {
+    const card = classifyCard(lodging(), pane, 'o1');
+    expect(card.classification.resultType).toBe('organic');
+    expect(card.classificationEvidence.source).toBe('supported_layout');
+    expect(card.parsed).toEqual({ placeId: '0x8740000000003871:0x455c5fb70faed4eb', rating: null, reviewCount: null, category: 'Lodging', address: null });
+  });
+
+  it('handles the single rendered business name and collapsed observations', () => {
+    expect(classifyCard(lodging({ text: `${name} Lodging`, lines: [name, 'Lodging'] }), pane, 'o1').classification.resultType).toBe('organic');
+    expect(classifyCard(lodging({ lines: undefined }), pane, 'o1').classification.resultType).toBe('organic');
+  });
+
+  it('preserves card-owned Sponsored precedence and the Lodging category', () => {
+    const card = classifyCard(lodging({
+      text: `Sponsored ${name} Lodging`, lines: ['Sponsored', name, 'Lodging'],
+      sponsoredLabels: [{ text: 'Sponsored', ownerAriaLabel: 'Sponsored', depth: 3 }],
+    }), pane, 'o1');
+    expect(card.classification).toEqual({ resultType: 'ad', adLabel: 'Sponsored', organicRank: null });
+    expect(card.parsed.category).toBe('Lodging');
+  });
+
+  it.each([
+    null, '', 'not a URL', 'https://example.com/maps/place/Named+Place/',
+    'https://www.google.com.evil.test/maps/place/Named+Place/',
+    'javascript:https://www.google.com/maps/place/Named+Place/',
+    'https://www.google.com/maps/search/Lodging/', 'https://www.google.com/maps/place/',
+  ])('does not rank Lodging metadata without a valid Google Maps place link: %s', (placeHref) => {
+    expect(classifyCard(lodging({ placeHref }), pane, 'o1').classification.resultType).toBe('unknown');
+  });
+
+  it.each([
+    { placeAriaLabel: '', lines: ['Lodging'] },
+    { placeAriaLabel: 'Lodging', lines: ['Lodging', 'Lodging'] },
+    { placeAriaLabel: 'lodging', lines: ['lodging', 'Lodging'] },
+    { placeAriaLabel: name, lines: ['Lodging'] },
+    { placeAriaLabel: name, lines: [name, 'Cafe'] },
+    { placeAriaLabel: name, lines: [name, 'Lodging in California'] },
+    { placeAriaLabel: name, lines: [name, 'No reviews', 'Lodging'] },
+    { placeAriaLabel: name, lines: [name, 'Lodging', 'Unverified metadata'] },
+    { placeAriaLabel: 'Chesapeake', lines: ['Chesapeake', 'Virginia'] },
+  ])('rejects arbitrary category/locality descriptions or a non-distinct name: $lines', (over) => {
+    const card = classifyCard(lodging({ ...over, text: over.lines.join(' ') }), pane, 'o1');
+    expect(card.classification.resultType).toBe('unknown');
+  });
+
+  it.each(['Sponsored', 'Ad', 'Advertisement'])('preserves unknown for an unresolved %s marker', (marker) => {
+    const card = classifyCard(lodging({
+      text: `${name} ${marker} Lodging`, lines: [name, marker, 'Lodging'], sponsoredLabels: [],
+    }), pane, 'o1');
+    expect(card.classification.resultType).toBe('unknown');
+  });
+
+  it('preserves unknown for an unrecognized label observation despite supported text', () => {
+    const card = classifyCard(lodging({ sponsoredLabels: [{ text: 'Advertisement', ownerAriaLabel: null, depth: 1 }] }), pane, 'o1');
+    expect(card.classification.resultType).toBe('unknown');
+  });
+});

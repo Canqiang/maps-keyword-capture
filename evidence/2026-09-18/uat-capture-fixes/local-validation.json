@@ -1,0 +1,28 @@
+{
+  "baseline": {
+    "passed": 321,
+    "files": 31,
+    "log": "baseline-tests-authorized.log"
+  },
+  "integrated": {
+    "passed": 366,
+    "files": 33,
+    "log": "integrated-tests.log"
+  },
+  "regressionLogs": [
+    "scroll-red.log",
+    "scroll-anchor-only.log",
+    "scroll-green.log",
+    "lodging-red.log",
+    "lodging-green.log",
+    "execution-red.log",
+    "execution-integration-red.log",
+    "execution-green.log"
+  ],
+  "afterSuiteProvenanceOnlyChange": "maps-feed-card/v3 in adapter/layout/test metadata; typecheck, contracts and build rerun passed; built constants independently asserted equal v3",
+  "typecheck": "passed",
+  "contractChecks": "passed",
+  "build": "passed",
+  "review": "no blocking code findings",
+  "unrelatedDirtyFileSha256": "d65f354c4866a173626563f410539e12e0f6aff25a07ba64455d37be2c5e58e4"
+}

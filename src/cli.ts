@@ -1,6 +1,6 @@
 import { ConfigError, loadConfigFile } from './config.js';
 import { runBatch } from './runner/batch-runner.js';
-import { deliveryStatus } from './runner/manifest.js';
+import { deliveryStatus, isCompleteNonRankingObservation } from './runner/manifest.js';
 import { createSignalHandler } from './runner/signals.js';
 import { createStore, parseStorageArg } from './storage/factory.js';
 import { redactSecrets } from './storage/redact.js';
@@ -33,9 +33,10 @@ async function main(): Promise<{ line: string; code: number }> {
   });
   const counts: Record<string, number> = {};
   for (const q of out.manifest.queries) counts[q.status] = (counts[q.status] ?? 0) + 1;
+  counts.nonRanking = out.manifest.queries.filter(q => isCompleteNonRankingObservation(out.manifest, q)).length;
   const line = `${JSON.stringify({
     summary: true, runId: out.manifest.runId, attemptId: out.manifest.attemptId, status: out.manifest.status,
-    counts, manifest: out.manifestPath,
+    executionStatus: out.manifest.executionStatus, counts, manifest: out.manifestPath,
     remotePersistence: deliveryStatus(out.manifest, out.manifestReceipt),
     storage: description,
     manifestReceipt: out.manifestReceipt,

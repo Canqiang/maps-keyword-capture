@@ -112,8 +112,7 @@ export function nextScrollTop(snapshot: FeedSnapshot, layout: FeedLayout): numbe
   const pane = snapshot.paneBounds;
   const paneBottom = pane.y + pane.height;
   const cards = layout.cards;
-  const last = cards[cards.length - 1];
-  if (!last) return null;
+  if (cards.length === 0) return null;
   const partial = cards.find((c) => c.bounds.y < paneBottom && c.bounds.y + c.bounds.height > paneBottom);
   if (partial) {
     if (partial.bounds.height > pane.height && partial.bounds.y <= pane.y + 0.5) {
@@ -121,7 +120,11 @@ export function nextScrollTop(snapshot: FeedSnapshot, layout: FeedLayout): numbe
     }
     return snapshot.scrollTop + (partial.bounds.y - pane.y);
   }
-  return snapshot.scrollTop + (last.bounds.y - pane.y); // keep the last full card as overlap
+  // Loaded cards can extend several viewports below the pane. At a separator-sized
+  // gap no card crosses the lower edge: only an actually visible card is a safe overlap.
+  const lastVisible = cards.filter((c) => c.bounds.y < paneBottom && c.bounds.y + c.bounds.height > pane.y).at(-1);
+  if (!lastVisible) return null;
+  return Math.max(snapshot.scrollTop, snapshot.scrollTop + lastVisible.bounds.y - pane.y);
 }
 
 export async function scrollFeedTo(page: Page, scrollTop: number): Promise<number> {
