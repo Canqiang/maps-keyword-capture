@@ -33,7 +33,7 @@ describe('UAT daily monitor deployment', () => {
     expect(config).toEqual({
       schemaVersion: '1', sourceBaseUrl: 'http://operation-assistant-api.uat.svc.cluster.local:80', stores: linkedStores,
       maxKeywordsPerStore: 40, batchSize: 20, sourceTimeoutMs: 15000, outputDirectory: '/work/outputs',
-      capture: { maxResultsPerKeyword: 15, maxScrollsPerKeyword: 6, maxScreenshotsPerKeyword: 5, keywordTimeoutMs: 90000, locale: 'en-US', browserTimezoneId: 'America/New_York', filenameTimezone: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 } },
+      capture: { maxResultsPerKeyword: 15, maxScrollsPerKeyword: 10, maxScreenshotsPerKeyword: 8, keywordTimeoutMs: 90000, locale: 'en-US', browserTimezoneId: 'America/New_York', filenameTimezone: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 } },
     });
     expect(parseMonitorConfig(config)).toMatchObject(config);
     expect(new Set(config.stores.map((store: { merchantId: string }) => store.merchantId)).size).toBe(6);

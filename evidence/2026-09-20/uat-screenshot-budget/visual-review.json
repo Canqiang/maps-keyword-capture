@@ -1,0 +1,28 @@
+{
+  "reviewedAt": "2026-09-20T06:12:39.926338+00:00",
+  "samples": [
+    {
+      "objectKey": "2026-09-20/run_20260920T060907Z_12ca3e/att_71beffcf/q0001/qa01/20260920T140908.272+0800__sichuan-restaurant-near-columbia-university__q0001__04.png",
+      "sha256": "e367686290075cb1b33fee5b1527e8671ef6f70d5b0c5eb8f6e943cb8b30c4da",
+      "finding": "Famous Sichuan is now fully visible as position 12; list order differs from midnight."
+    },
+    {
+      "objectKey": "2026-09-20/run_20260920T060907Z_12ca3e/att_71beffcf/q0001/qa01/20260920T140908.272+0800__sichuan-restaurant-near-columbia-university__q0001__05.png",
+      "sha256": "fb07f2433ee013ff288835362325ecf2a90228bfe0b1caa4638d2d1d339f12cb",
+      "finding": "Positions 13 Peppercorn Station, 14 Atlas Kitchen and 15 Wa Jeal are fully visible. The clipped next card is beyond the selected first 15."
+    },
+    {
+      "objectKey": "2026-09-20/run_20260920T060907Z_12ca3e/att_71beffcf/q0002/qa01/20260920T140936.273+0800__brunch-near-me__q0002__03.png",
+      "sha256": "a758d5a4d6f60b99abaa733c4b4b096dea392a773dd6ed87d58da211efa2ce5a",
+      "finding": "Final selected brunch card and end-of-list marker are readable. Map shows Colorado; this is not proven merchant-local ranking."
+    },
+    {
+      "objectKey": "2026-09-20/run_20260920T060907Z_12ca3e/att_71beffcf/q0003/qa01/20260920T140950.725+0800__only-bear-chicken-boba-mineola__q0003__diag.png",
+      "sha256": "36eec9be01af75361e17a8f11b0bd5d16fc9f79634c998dc88d5f11bde960e9f",
+      "finding": "Only Bear detail page is legible; no ranked list is present. Diagnostic overlay remains visible without obscuring business identity."
+    }
+  ],
+  "scope": "4 actual PNGs of 9; all 3 query types. All20 objects hash-verified separately. No positive live ad-label case. Geography remains unverified.",
+  "liveReproducedNeedForSixthImage": false,
+  "explanation": "Live list changed and needed5screenshots; deterministic original-geometry regression demonstrates sixth-shot recovery."
+}

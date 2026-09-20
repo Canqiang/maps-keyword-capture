@@ -60,8 +60,8 @@ data:
       "outputDirectory": "/work/outputs",
       "capture": {
         "maxResultsPerKeyword": 15,
-        "maxScrollsPerKeyword": 6,
-        "maxScreenshotsPerKeyword": 5,
+        "maxScrollsPerKeyword": 10,
+        "maxScreenshotsPerKeyword": 8,
         "keywordTimeoutMs": 90000,
         "locale": "en-US",
         "browserTimezoneId": "America/New_York",

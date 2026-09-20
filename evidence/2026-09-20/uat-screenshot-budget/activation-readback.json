@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-09-20T06:12:46.792334+00:00",
+  "configMapUID": "4e50d830-dc77-4732-9d72-5d53eb8ec01b",
+  "resourceVersion": "700136190",
+  "changes": {
+    "maxScreenshotsPerKeyword": [
+      5,
+      8
+    ],
+    "maxScrollsPerKeyword": [
+      6,
+      10
+    ]
+  },
+  "otherConfigUnchanged": true,
+  "cronSpecUnchanged": true,
+  "schedule": "0 0 * * *",
+  "timeZone": "Asia/Shanghai",
+  "suspend": false
+}

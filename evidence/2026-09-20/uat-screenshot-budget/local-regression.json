@@ -1,0 +1,138 @@
+{
+  "recordedAt": "2026-09-20T06:09:39.266542+00:00",
+  "scope": "Local real Chromium regression only; fixture search, local artifact store, no live Google or Azure writes.",
+  "incident": "2026-09-20 Szechuan Gourmet q0004: 15 ranked listings, fifth screenshot did not fully include rank 15.",
+  "fixture": {
+    "keyword": "sichuan restaurant near Columbia University",
+    "initialCards": 11,
+    "lazyLoadedCards": 9,
+    "initialOffsets": [
+      0,
+      653,
+      1346,
+      1749,
+      2401
+    ],
+    "recoveryOffset": 3114,
+    "pane": {
+      "top": 80,
+      "height": 875
+    },
+    "syntheticBusinessNames": true,
+    "heights": [
+      190,
+      250,
+      210,
+      230,
+      210,
+      250,
+      190,
+      210,
+      190,
+      230,
+      230,
+      270,
+      210,
+      230,
+      210,
+      250,
+      230,
+      210,
+      250,
+      210
+    ]
+  },
+  "red": {
+    "command": "npm run test:unit -- tests/screenshot-budget.test.ts",
+    "startedAtBeijing": "2026-09-20T14:06:05+08:00",
+    "durationSeconds": 48.8,
+    "exitCode": 1,
+    "passed": 2,
+    "failed": 1,
+    "config": {
+      "maxScreenshotsPerKeyword": 5,
+      "maxScrollsPerKeyword": 6
+    },
+    "failure": {
+      "expectedStatus": "captured",
+      "expectedStopReason": "limit_reached",
+      "actualStatus": "partial",
+      "actualStopReason": "screenshot_limit",
+      "observedCount": 15,
+      "sequenceVerified": true
+    }
+  },
+  "green": {
+    "command": "npm run test:unit -- tests/screenshot-budget.test.ts tests/uat-monitor-deploy.test.ts",
+    "startedAtBeijing": "2026-09-20T14:08:14+08:00",
+    "durationSeconds": 52.53,
+    "exitCode": 0,
+    "passed": 7,
+    "failed": 0,
+    "config": {
+      "maxScreenshotsPerKeyword": 8,
+      "maxScrollsPerKeyword": 10
+    },
+    "regressions": [
+      {
+        "case": "committed UAT capture configuration",
+        "status": "captured",
+        "stopReason": "limit_reached",
+        "listingCount": 15,
+        "screenshotCount": 6,
+        "coverageComplete": true,
+        "checks": [
+          "15 screenshot-referenced rows",
+          "first five offsets match incident",
+          "rank15 fully visible at recovery offset3114",
+          "PNG signatures",
+          "all artifact byte lengths and SHA256",
+          "saved JSON listings",
+          "CSV 15 rows and PNG filenames"
+        ]
+      },
+      {
+        "case": "explicit screenshot cap5",
+        "status": "partial",
+        "stopReason": "screenshot_limit",
+        "listingCount": 15,
+        "screenshotCount": 5,
+        "missingScreenshotPositions": [
+          15
+        ]
+      },
+      {
+        "case": "explicit scroll cap4",
+        "status": "partial",
+        "stopReason": "scroll_limit",
+        "listingCount": 15,
+        "screenshotCount": 5,
+        "scrolls": 4,
+        "missingScreenshotPositions": [
+          15
+        ]
+      }
+    ]
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 0
+  },
+  "files": [
+    {
+      "path": "tests/screenshot-budget.test.ts",
+      "bytes": 7042,
+      "sha256": "4c1b13717c985f2559753bb752cc6aab3b227673c558ec4e91dea799a932093d"
+    },
+    {
+      "path": "tests/fixtures/screenshot-budget-fixture.ts",
+      "bytes": 1406,
+      "sha256": "5f35f15727217f43778b43da066b4b06feb5190960aeefc67e7123273fe3655c"
+    },
+    {
+      "path": "deploy/uat-monitor/configmap.yaml",
+      "bytes": 2511,
+      "sha256": "a85a3e04948676d3885b2c8ecd2f24bb6d3ee837e1c421dd10b12b3b4ae09dbc"
+    }
+  ]
+}

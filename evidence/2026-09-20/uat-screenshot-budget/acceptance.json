@@ -1,0 +1,43 @@
+{
+  "runId": "run_20260920T060907Z_12ca3e",
+  "attemptId": "att_71beffcf",
+  "status": "partial",
+  "executionStatus": "completed",
+  "counts": {
+    "captured": 2,
+    "partial": 1,
+    "nonRanking": 1
+  },
+  "imageDigest": "sha256:59f7e7db45937ac6103972126e85fc827a06d73474f6144cb709bda194f38868",
+  "sourceCommit": "3daa349a05b68d7bdbe5fe1dfe6e20a31c7bf942",
+  "adapterVersion": "maps-feed-card/v3",
+  "finalReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-20/run_20260920T060907Z_12ca3e/att_71beffcf/manifest.json",
+    "verifiedAt": "2026-09-20T06:09:56.297Z",
+    "storageError": null,
+    "runId": "run_20260920T060907Z_12ca3e",
+    "attemptId": "att_71beffcf",
+    "filename": "manifest.json",
+    "bytes": 16388,
+    "sha256": "1ba9488a72ed66b3bfd5058de827f1a30b0fb5705a0ecf9978539b830b9e6719"
+  },
+  "verifiedObjects": 20,
+  "verifiedArtifacts": 19,
+  "verifiedBytes": 8747740,
+  "pngsStructurallyChecked": 9,
+  "csvRowsComparedAllAttempts": 25,
+  "observationRecordsChecked": 8,
+  "smokeAccepted": true,
+  "verifierExitCode": 0,
+  "issues": [],
+  "job": "maps-budget-smoke-20260920t060538z",
+  "pod": "maps-budget-smoke-20260920t060538z-gzn2r",
+  "originalPodExitCode": 0,
+  "restarts": 0,
+  "startedAt": "2026-09-20T06:09:06Z",
+  "finishedAt": "2026-09-20T06:09:56Z",
+  "independentReadback": "Azure CLI login, all referenced smoke objects",
+  "visualSampleCount": 4,
+  "fullDailyRerun": false
+}
