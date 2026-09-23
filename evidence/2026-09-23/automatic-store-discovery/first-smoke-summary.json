@@ -1,0 +1,44 @@
+{
+  "summary": true,
+  "status": "partial",
+  "executionStatus": "incomplete",
+  "dailyRunId": "run_20260923T020452Z_a8cb02",
+  "runKey": "discovery-smoke-20260923t020338z-b96df7",
+  "counts": {
+    "stores": 8,
+    "batches": 8,
+    "selected": 16,
+    "captured": 14,
+    "partial": 2,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0,
+    "sourceFailed": 0,
+    "empty": 0,
+    "nonRanking": 1
+  },
+  "manifest": "/work/outputs/2026-09-23/daily/run_20260923T020452Z_a8cb02/manifest.json",
+  "manifestReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-23/daily/run_20260923T020452Z_a8cb02/manifest.json",
+    "verifiedAt": "2026-09-23T02:10:08.994Z",
+    "storageError": null,
+    "relativePath": "2026-09-23/daily/run_20260923T020452Z_a8cb02/manifest.json",
+    "bytes": 30076,
+    "sha256": "dc6e50ba2cafe187dc75b5a374f252f4dc10279e4a926d29a53799e051a5cfa1"
+  },
+  "claim": {
+    "status": "created",
+    "key": "claims/discovery-smoke-20260923t020338z-b96df7.json",
+    "claim": {
+      "schemaVersion": "1",
+      "dailyRunId": "run_20260923T020452Z_a8cb02",
+      "runKey": "discovery-smoke-20260923t020338z-b96df7",
+      "date": "2026-09-23",
+      "startedAt": "2026-09-23T02:04:52.695Z",
+      "configHash": "080f7261efc6f8e9c99ca60a2029996b88533200018c0ac16d74e161cc45c76b"
+    }
+  },
+  "deliveryMode": "azure_blob",
+  "exitCode": 2
+}
