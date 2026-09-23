@@ -1,0 +1,177 @@
+{
+  "runKey": "discovery-smoke-20260923t022732z-77cd31",
+  "dailyRunId": "run_20260923T022744Z_cca993",
+  "imageDigest": "sha256:0f430d59eeac7106679448f3dd6ce385aed3b43dc71420d0c73d31cb1b43f2c0",
+  "sourceCommit": "a530fdb6d5e65ffb25943cf97dcb959aecb486fc",
+  "completed": true,
+  "reviewedAt": "2026-09-23T02:39:16.314214+00:00",
+  "samples": [
+    {
+      "storeId": "choice-clinton-hill",
+      "keyword": "brunch",
+      "objectKey": "2026-09-23/choice-clinton-hill/run_20260923T022744Z_cca993/batches/b01-04d0bf4fc4ba/run_20260923T022745Z_ef03d6/att_aa2ae672/q0001/qa01/20260923T102745.648+0800__brunch__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/choice-clinton-hill/run_20260923T022744Z_cca993/batches/b01-04d0bf4fc4ba/run_20260923T022745Z_ef03d6/att_aa2ae672/q0001/qa01/20260923T102745.648+0800__brunch__q0001__01.png",
+      "queryJsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/choice-clinton-hill/run_20260923T022744Z_cca993/batches/b01-04d0bf4fc4ba/run_20260923T022745Z_ef03d6/att_aa2ae672/q0001/qa01/20260923T102745.648+0800__brunch__q0001.json",
+      "queryId": "q0001",
+      "queryAttemptId": "qa01",
+      "findings": [
+        "The first five visible names, ratings, categories and addresses match JSON display positions 1–5: The Outpost Cafe; The Biker & The Baker; The Henry; Farm and Craft Scottsdale; Brunch & Sip.",
+        "First listing is The Outpost Cafe, rating 4.9, Restaurant, 531 Front St. Review totals are not visible; JSON reviewCount is null.",
+        "Query and result text are legible. The map spans Colorado, New Mexico and Arizona; this is not evidence of customer-local Clinton Hill rankings."
+      ],
+      "comparedVisibleRows": 5,
+      "visibleFieldComparison": "matched",
+      "rowFieldsCompared": [
+        "displayPosition",
+        "name",
+        "rating",
+        "category",
+        "address",
+        "reviewCount"
+      ],
+      "advertisementObservation": "No Sponsored/ad labels were visible in the compared cards; this does not validate all cards or all ad classifications."
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "keyword": "bakery",
+      "objectKey": "2026-09-23/choice-upper-west-side/run_20260923T022744Z_cca993/batches/b01-43f9683cf236/run_20260923T022828Z_0e8ff1/att_aa17e1a0/q0001/qa01/20260923T102828.503+0800__bakery__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/choice-upper-west-side/run_20260923T022744Z_cca993/batches/b01-43f9683cf236/run_20260923T022828Z_0e8ff1/att_aa17e1a0/q0001/qa01/20260923T102828.503+0800__bakery__q0001__01.png",
+      "queryJsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/choice-upper-west-side/run_20260923T022744Z_cca993/batches/b01-43f9683cf236/run_20260923T022828Z_0e8ff1/att_aa17e1a0/q0001/qa01/20260923T102828.503+0800__bakery__q0001.json",
+      "queryId": "q0001",
+      "queryAttemptId": "qa01",
+      "findings": [
+        "The first six visible names and categories match JSON display positions 1–6: Memo Fırın; Restaurant asif; Siam; Polo Naharlagun; Bake Haus 232; Lotis Bakeshop.",
+        "First four cards show No reviews with no visible address or rating, matching null rating/reviewCount/address. Bake Haus 232 is 4.8 at 47 Cooper Creek Way Ste 126, and Lotis Bakeshop is 5.0 at 7028 S Western St, matching JSON.",
+        "The first four business images are Google placeholder icons, not screenshot corruption. Broad western/central US map; customer-local Upper West Side relevance is not established."
+      ],
+      "comparedVisibleRows": 6,
+      "visibleFieldComparison": "matched",
+      "rowFieldsCompared": [
+        "displayPosition",
+        "name",
+        "rating",
+        "category",
+        "address",
+        "reviewCount"
+      ],
+      "advertisementObservation": "No Sponsored/ad labels were visible in the compared cards; this does not validate all cards or all ad classifications."
+    },
+    {
+      "storeId": "george-merchant",
+      "keyword": "burger",
+      "objectKey": "2026-09-23/george-merchant/run_20260923T022744Z_cca993/batches/b01-d844bedc7cea/run_20260923T022903Z_fd4421/att_330f5695/q0001/qa01/20260923T102903.983+0800__burger__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/george-merchant/run_20260923T022744Z_cca993/batches/b01-d844bedc7cea/run_20260923T022903Z_fd4421/att_330f5695/q0001/qa01/20260923T102903.983+0800__burger__q0001__01.png",
+      "queryJsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/george-merchant/run_20260923T022744Z_cca993/batches/b01-d844bedc7cea/run_20260923T022903Z_fd4421/att_330f5695/q0001/qa01/20260923T102903.983+0800__burger__q0001.json",
+      "queryId": "q0001",
+      "queryAttemptId": "qa01",
+      "findings": [
+        "The first five visible names, ratings, categories and available addresses match JSON display positions 1–5: GAIA MASALA & BURGER; BurgerBarn; Empire Burger; Hampton's Burgers; Big Burger World.",
+        "First listing is GAIA MASALA & BURGER, rating 4.9, Restaurant, 609 N Grant St. Hampton's Burgers has no visible street address, matching null; review totals are not visible in these cards and remain null.",
+        "Map is centered on Colorado/Denver and Colorado Springs, so it does not establish locality for the monitored store. Google displays a checked Hamburger category chip; context.filters is empty and this sample alone does not establish how automatic Google category chips are represented."
+      ],
+      "comparedVisibleRows": 5,
+      "visibleFieldComparison": "matched",
+      "rowFieldsCompared": [
+        "displayPosition",
+        "name",
+        "rating",
+        "category",
+        "address",
+        "reviewCount"
+      ],
+      "advertisementObservation": "No Sponsored/ad labels were visible in the compared cards; this does not validate all cards or all ad classifications."
+    },
+    {
+      "storeId": "keke-flushing",
+      "keyword": "noodles",
+      "objectKey": "2026-09-23/keke-flushing/run_20260923T022744Z_cca993/batches/b01-b7389a29c2d5/run_20260923T022943Z_7c0788/att_538aa91b/q0002/qa01/20260923T102949.281+0800__noodles__q0002__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/keke-flushing/run_20260923T022744Z_cca993/batches/b01-b7389a29c2d5/run_20260923T022943Z_7c0788/att_538aa91b/q0002/qa01/20260923T102949.281+0800__noodles__q0002__01.png",
+      "queryJsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/keke-flushing/run_20260923T022744Z_cca993/batches/b01-b7389a29c2d5/run_20260923T022943Z_7c0788/att_538aa91b/q0002/qa01/20260923T102949.281+0800__noodles__q0002.json",
+      "queryId": "q0002",
+      "queryAttemptId": "qa01",
+      "findings": [
+        "The first five visible names, ratings, categories and addresses match JSON display positions 1–5: One More Noodle; Noodles by Nina; Shanxi Noodle Dumplings; Insee Noodle House; Siam Noodles Salida.",
+        "First listing is One More Noodle, rating 4.7, Asian restaurant, 2781 S Parker Rd. Review totals are not visible; JSON reviewCount is null.",
+        "The map and listings concern Colorado, not demonstrated customer-local Flushing rankings. The screenshot query and visible cards are legible."
+      ],
+      "comparedVisibleRows": 5,
+      "visibleFieldComparison": "matched",
+      "rowFieldsCompared": [
+        "displayPosition",
+        "name",
+        "rating",
+        "category",
+        "address",
+        "reviewCount"
+      ],
+      "advertisementObservation": "No Sponsored/ad labels were visible in the compared cards; this does not validate all cards or all ad classifications."
+    },
+    {
+      "storeId": "keke-flushing",
+      "keyword": "flushing",
+      "objectKey": "2026-09-23/keke-flushing/run_20260923T022744Z_cca993/batches/b01-b7389a29c2d5/run_20260923T022943Z_7c0788/att_538aa91b/q0001/qa01/20260923T102944.026+0800__flushing__q0001__diag.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/keke-flushing/run_20260923T022744Z_cca993/batches/b01-b7389a29c2d5/run_20260923T022943Z_7c0788/att_538aa91b/q0001/qa01/20260923T102944.026+0800__flushing__q0001__diag.png",
+      "queryJsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/keke-flushing/run_20260923T022744Z_cca993/batches/b01-b7389a29c2d5/run_20260923T022943Z_7c0788/att_538aa91b/q0001/qa01/20260923T102944.026+0800__flushing__q0001.json",
+      "queryId": "q0001",
+      "queryAttemptId": "qa01",
+      "findings": [
+        "The screenshot shows the Flushing, Queens, NY geographic detail page with a neighborhood boundary, Directions/Save/Nearby controls, quick facts and a limited-view notice. It contains no ordered merchant results feed.",
+        "JSON correctly reports status partial, stopReason non_ranking_result, quality.resultSurface place_details, observedCount 0 and an empty listings array. No merchant ranking is inferred from this geographic page.",
+        "The map text and detail heading are legible. Geographic relevance remains unverified under the configured data contract even though the visible place label is Flushing, Queens, NY."
+      ],
+      "comparedVisibleRows": 0,
+      "visibleFieldComparison": "recognized_non_ranking_geographic_detail",
+      "rowFieldsCompared": [],
+      "advertisementObservation": "Not a merchant results feed."
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "float",
+      "objectKey": "2026-09-23/massage-float/run_20260923T022744Z_cca993/batches/b01-a5d587eceb8c/run_20260923T023009Z_3642e9/att_a201b42d/q0002/qa01/20260923T103027.323+0800__float__q0002__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/massage-float/run_20260923T022744Z_cca993/batches/b01-a5d587eceb8c/run_20260923T023009Z_3642e9/att_a201b42d/q0002/qa01/20260923T103027.323+0800__float__q0002__01.png",
+      "findings": "Viewed readable float query, Samana/Isolate/Easy Float first ranks and 4.9/888, 4.7/192, 4.8/383 fields consistent with JSON. Colorado map; geography unverified. No Sponsored label visible in reviewed area."
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "float",
+      "objectKey": "2026-09-23/massage-float/run_20260923T022744Z_cca993/batches/b01-a5d587eceb8c/run_20260923T023009Z_3642e9/att_a201b42d/q0002/qa01/20260923T103027.323+0800__float__q0002__02.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/massage-float/run_20260923T022744Z_cca993/batches/b01-a5d587eceb8c/run_20260923T023009Z_3642e9/att_a201b42d/q0002/qa01/20260923T103027.323+0800__float__q0002__02.png",
+      "findings": "Viewed readable sequence positions 6-11 including Urban Float Apartment at position10, 5.0 and 2 reviews, occupancy and amenities. JSON organicRank10 with5.0/2 matches; category is nullable in result despite visible Apartment. This rated variant does not establish live execution of the new no-rating matcher; that original shape is covered by reconstructed regression fixtures. No Sponsored label visible."
+    },
+    {
+      "storeId": "only-bear",
+      "keyword": "bubble tea delivery mineola",
+      "objectKey": "2026-09-23/only-bear/run_20260923T022744Z_cca993/batches/b01-12fd0571da5b/run_20260923T023049Z_620681/att_8d23fa56/q0001/qa01/20260923T103050.233+0800__bubble-tea-delivery-mineola__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/only-bear/run_20260923T022744Z_cca993/batches/b01-12fd0571da5b/run_20260923T023049Z_620681/att_8d23fa56/q0001/qa01/20260923T103050.233+0800__bubble-tea-delivery-mineola__q0001__01.png",
+      "findings": "Viewed Only Bear first at4.8 and142b Jericho Tpke, followed by Smo Tea4.9 andTea Magic4.5. Review counts not displayed and JSON null. Map appears Mineola/Westbury, but geographic status remains unverified. Minor Google promotion overlay over lower-right map, no listing obstruction."
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "keyword": "individual hot pot near me",
+      "objectKey": "2026-09-23/place-48c801ebd7000c93e5ce5213a735b2c3/run_20260923T022744Z_cca993/batches/b01-604870c39d8c/run_20260923T023128Z_e4661a/att_0f73070e/q0001/qa01/20260923T103128.722+0800__individual-hot-pot-near-me__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/place-48c801ebd7000c93e5ce5213a735b2c3/run_20260923T022744Z_cca993/batches/b01-604870c39d8c/run_20260923T023128Z_e4661a/att_0f73070e/q0001/qa01/20260923T103128.722+0800__individual-hot-pot-near-me__q0001__01.png",
+      "findings": "Viewed Urban hotpot4.9/266, Bong Bong4.7/634, Old Town4.5/910 andBronze Empire4.5/1450 in matching order/addresses. Broad Colorado/Wyoming map, not verified customer-local search. No Sponsored label visible."
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "keyword": "sichuan restaurant Upper West Side",
+      "objectKey": "2026-09-23/szechuan-gourmet/run_20260923T022744Z_cca993/batches/b01-6910fd0189aa/run_20260923T023203Z_2cbfe3/att_e9b2ac34/q0001/qa01/20260923T103203.439+0800__sichuan-restaurant-upper-west-side__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-store-discovery-2026-09-23/retest-v4/readback/2026-09-23/szechuan-gourmet/run_20260923T022744Z_cca993/batches/b01-6910fd0189aa/run_20260923T023203Z_2cbfe3/att_e9b2ac34/q0001/qa01/20260923T103203.439+0800__sichuan-restaurant-upper-west-side__q0001__01.png",
+      "findings": "Viewed first four businesses in matching order, names, categories, ratings/review counts and addresses. Exact result JSON and CSV recheck confirmed The Best Sichuan category Sichuan restaurant, matching all5 accepted observations and first PNG; initial checklist concern was not substantiated. Query/map covers Manhattan. Geographic status unverified; lower-right Google promotion overlay does not obstruct listings."
+    }
+  ],
+  "scope": {
+    "allStores": true,
+    "storeCount": 8,
+    "pngs": 10,
+    "allImagesVisuallyReviewed": false,
+    "hashVerification": "All132 referenced objects independently verified; visual sample scope is separate.",
+    "geographicRelevance": "Unverified; generic words show distant/wide results.",
+    "ads": "All213 selected JSON rows are organic; no live ad variant exercised; visual sample is not all-ad-label proof.",
+    "limits": [
+      "Final Urban Float Apartment is a rated variant; original no-rating layout is regression-fixture validated, not live re-observed in retest.",
+      "Nullable Apartment category extraction does not expose the visible Apartment label in this rated variant.",
+      "Google automatic Hamburger category chip seen in burger sample while context.filters is empty; full UI filter-state capture is not claimed."
+    ]
+  }
+}

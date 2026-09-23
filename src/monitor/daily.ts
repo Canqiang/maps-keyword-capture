@@ -9,12 +9,13 @@ import { deliveryStatus, executionStatusFor, isCompleteNonRankingObservation } f
 import type { ArtifactStore } from '../storage/types.js';
 import { validateRunKey, type EnrolledStore, type MonitorConfig } from './config.js';
 import { summarizeOwnStore, type OwnStoreSummary } from './identity.js';
+import type { StoreRegistrySnapshot, StoreRegistrySource } from './registry.js';
 import { SELECTION_POLICY, selectKeywords, splitKeywords, type KeywordSource } from './source.js';
 import { batchIdFor, NamespacedBatchStore, type AtomicClaim, type ClaimResult } from './storage.js';
 
 export const DAILY_DEADLINE_MS = 14 * 60 * 60 * 1000;
 export const SHUTDOWN_GRACE_MS = 300_000;
-export type DailyStopReason = 'batch_blocked' | 'storage_unavailable' | 'cancelled' | 'daily_timeout' | 'unsupported_layout' | 'browser_startup_failed' | 'batch_timeout' | 'operational_failure';
+export type DailyStopReason = 'batch_blocked' | 'storage_unavailable' | 'cancelled' | 'daily_timeout' | 'unsupported_layout' | 'browser_startup_failed' | 'batch_timeout' | 'operational_failure' | 'registry_failed' | 'no_eligible_stores';
 export type DailyReceipt = StorageState & { relativePath: string; bytes: number; sha256: string };
 interface DailyBatch {
   executionStatus?: ExecutionStatus;
@@ -32,11 +33,14 @@ export interface DailyManifest {
   executionStatus?: ExecutionStatus;
   schemaVersion: '1'; dailyRunId: string; runKey: string; date: string; startedAt: string; finishedAt: string | null; configHash: string;
   status: 'running' | 'completed' | 'partial' | 'failed'; deliveryMode: ArtifactStore['mode']; stopReason: DailyStopReason | null;
+  /** Absent on historical/static runs; counts remain unknown until discovery succeeds. */
+  registry?: { mode: 'discovered'; status: 'pending' | 'ready' | 'failed' | 'empty' | 'skipped'; error: string | null; snapshotReceipt: DailyReceipt | null; counts: StoreRegistrySnapshot['counts'] | null };
   stores: DailyStore[]; counts: { stores: number; batches: number; selected: number; captured: number; partial: number; blocked: number; failed: number; skipped: number; sourceFailed: number; empty: number; nonRanking?: number };
 }
 export interface DailyOutput { status: DailyManifest['status'] | 'duplicate_skipped'; manifest: DailyManifest | null; manifestPath: string | null; manifestReceipt: DailyReceipt | null; claim: ClaimResult | null; exitCode: 0 | 1 | 2 }
 export interface DailyDeps {
   config: MonitorConfig; source: KeywordSource; store: ArtifactStore; claim: AtomicClaim;
+  registrySource?: StoreRegistrySource;
   batchRunner?: (deps: BatchDeps) => Promise<BatchOutput>; runKey?: string; now?: () => Date; signal?: AbortSignal;
   log?: (event: Record<string, unknown>) => void;
 }
@@ -62,6 +66,13 @@ function breakerFor(out: BatchOutput): DailyStopReason | null {
 function sourceError(err: unknown): string {
   const message = err instanceof Error ? err.message : '';
   return /^(source_[a-z_]+|source_http_\d{3}|cancelled)$/.test(message) ? message : 'source_request_failed';
+}
+function registryError(err: unknown): string {
+  const message = err instanceof Error ? err.message : '';
+  return /^registry_[a-z_]+$/.test(message) ? message : 'registry_request_failed';
+}
+function enrolledRow(store: EnrolledStore): DailyStore {
+  return { ...store, status: 'pending', sourceError: null, stopReason: null, selectionHash: null, snapshotReceipt: null, selectedCount: 0, batches: [] };
 }
 async function ownSummaries(out: BatchOutput, store: EnrolledStore): Promise<DailyBatch['ownStore']> {
   const summaries: DailyBatch['ownStore'] = [];
@@ -89,7 +100,7 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
   const dailyRunId = newRunId(started);
   const dailyPrefix = `${date}/daily/${dailyRunId}`;
   const log = deps.log ?? (() => undefined);
-  const manifest: DailyManifest = { schemaVersion: '1', dailyRunId, runKey, date, startedAt: started.toISOString(), finishedAt: null, configHash: hashJson(deps.config), status: 'running', executionStatus: 'running', deliveryMode: deps.store.mode, stopReason: null, stores: deps.config.stores.map(s => ({ ...s, status: 'pending', sourceError: null, stopReason: null, selectionHash: null, snapshotReceipt: null, selectedCount: 0, batches: [] })), counts: { stores: 0, batches: 0, selected: 0, captured: 0, partial: 0, blocked: 0, failed: 0, skipped: 0, sourceFailed: 0, empty: 0 } };
+  const manifest: DailyManifest = { schemaVersion: '1', dailyRunId, runKey, date, startedAt: started.toISOString(), finishedAt: null, configHash: hashJson(deps.config), status: 'running', executionStatus: 'running', deliveryMode: deps.store.mode, stopReason: null, stores: deps.config.storeDiscovery ? [] : deps.config.stores.map(enrolledRow), ...(deps.config.storeDiscovery ? { registry: { mode: 'discovered' as const, status: 'pending' as const, error: null, snapshotReceipt: null, counts: null } } : {}), counts: { stores: 0, batches: 0, selected: 0, captured: 0, partial: 0, blocked: 0, failed: 0, skipped: 0, sourceFailed: 0, empty: 0 } };
   let claim: ClaimResult;
   try { claim = await deps.claim({ schemaVersion: '1', dailyRunId, runKey, date, startedAt: manifest.startedAt, configHash: manifest.configHash }); }
   catch { log({ stage: 'daily_claim_failed', runKey }); return { status: 'failed', manifest: null, manifestPath: null, manifestReceipt: null, claim: null, exitCode: 1 }; }
@@ -117,11 +128,45 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
     if (!isDelivered(receipt)) throw new Error('storage_unavailable');
     return receipt;
   };
-  const failStorage = () => { operationalFailure = true; stop = 'storage_unavailable'; };
+  const failStorage = () => {
+    operationalFailure = true; stop = 'storage_unavailable';
+    if (manifest.registry?.status === 'pending') { manifest.registry.status = 'failed'; manifest.registry.error = 'storage_unavailable'; }
+  };
   let finalReceipt: DailyReceipt | null = null;
   const manifestPath = deps.store.absolutePath(`${dailyPrefix}/manifest.json`);
   try {
     await saveCheckpoint();
+    if (manifest.registry) {
+      const registry = manifest.registry;
+      stop = checkStop();
+      if (stop) { registry.status = 'skipped'; registry.error = stop; }
+      else {
+        let snapshot: StoreRegistrySnapshot | null = null;
+        try {
+          if (!deps.registrySource) throw new Error('registry_source_missing');
+          snapshot = await deps.registrySource.read(controller.signal);
+        } catch (err) {
+          stop = checkStop();
+          registry.status = stop ? 'skipped' : 'failed'; registry.error = stop ?? registryError(err);
+          if (!stop) { operationalFailure = true; stop = 'registry_failed'; }
+          log({ stage: 'registry_failed', code: registry.error });
+        }
+        if (snapshot) {
+          // Configured stores are historical identity overrides, never a fallback enrollment list.
+          manifest.stores = snapshot.stores.map(enrolledRow);
+          registry.counts = snapshot.counts;
+          registry.snapshotReceipt = await persistJson(`${dailyPrefix}/store-registry.json`, { ...snapshot, dailyRunId, runKey, date });
+          if (!isDelivered(registry.snapshotReceipt)) { registry.status = 'failed'; registry.error = 'storage_unavailable'; failStorage(); }
+          else {
+            registry.status = snapshot.stores.length ? 'ready' : 'empty';
+            if (!snapshot.stores.length) stop = checkStop() ?? 'no_eligible_stores';
+            // Fresh keyword reads start only after the delivered snapshot has a durable parent reference.
+            await saveCheckpoint();
+          }
+          log({ stage: 'registry_discovered', status: registry.status, counts: registry.counts, snapshotStatus: registry.snapshotReceipt.storageStatus });
+        }
+      }
+    }
     // Snapshot every enrolled store before opening the first browser. A source error is a store row,
     // not an empty successful selection. After global failure the remaining rows stay explicit skips.
     for (const row of manifest.stores) {
@@ -211,7 +256,7 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
       }
     }
     count(manifest); manifest.finishedAt = now().toISOString();
-    manifest.status = operationalFailure ? 'failed' : manifest.stores.every(s => s.status === 'completed') ? 'completed' : 'partial';
+    manifest.status = operationalFailure ? 'failed' : manifest.stores.length > 0 && manifest.stores.every(s => s.status === 'completed') ? 'completed' : 'partial';
     for (const row of manifest.stores) {
       row.executionStatus = row.status === 'failed' ? 'failed'
         : row.batches.length > 0 && row.batches.every(b => b.executionStatus === 'completed') ? 'completed' : 'incomplete';

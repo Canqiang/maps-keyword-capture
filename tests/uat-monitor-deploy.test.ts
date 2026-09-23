@@ -25,13 +25,14 @@ describe('UAT daily monitor deployment', () => {
     expect(cron.spec.jobTemplate.spec.template.spec).toMatchObject({ restartPolicy: 'Never', terminationGracePeriodSeconds: 300, automountServiceAccountToken: false, nodeSelector: { envpool: 'aiapp' } });
   });
 
-  it('enrolls exactly the linked inventory and fetches keywords through the UAT service', () => {
+  it('discovers live stores while preserving historical aliases and the per-place keyword API', () => {
     const cm = readYaml('configmap.yaml');
     expect(cm).toMatchObject({ kind: 'ConfigMap', metadata: { name: 'maps-keyword-monitor-config', namespace: 'uat' } });
     expect(Object.keys(cm.data)).toEqual(['monitor.json']);
     const config = JSON.parse(cm.data['monitor.json']);
     expect(config).toEqual({
       schemaVersion: '1', sourceBaseUrl: 'http://operation-assistant-api.uat.svc.cluster.local:80', stores: linkedStores,
+      storeDiscovery: { provider: 'mongo', database: 'seo-integration', collection: 'local_keywords', maxStores: 40, maxRecords: 10000, timeoutMs: 30000 },
       maxKeywordsPerStore: 40, batchSize: 20, sourceTimeoutMs: 15000, outputDirectory: '/work/outputs',
       capture: { maxResultsPerKeyword: 15, maxScrollsPerKeyword: 10, maxScreenshotsPerKeyword: 8, keywordTimeoutMs: 90000, locale: 'en-US', browserTimezoneId: 'America/New_York', filenameTimezone: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 } },
     });
@@ -48,6 +49,7 @@ describe('UAT daily monitor deployment', () => {
     expect(container.args).toEqual(['node', 'dist/monitor/cli.js', '--config', '/config/monitor.json', '--storage', 'azure']);
     expect(container.image).toMatch(/^fbrdevacr\.azurecr\.io\/ai\/maps-keyword-capture@sha256:[a-f0-9]{64}$/);
     expect(container.env).toContainEqual({ name: 'IMAGE_DIGEST', value: container.image.split('@')[1] });
+    expect(container.env).toContainEqual({ name: 'KEYWORD_MONGO_URI', valueFrom: { secretKeyRef: { name: 'maps-keyword-monitor-source', key: 'KEYWORD_MONGO_URI' } } });
     expect(container.env).toContainEqual({ name: 'AZURE_STORAGE_CONTAINER', value: 'maps-keyword-capture-uat' });
     expect(container.env).toContainEqual({ name: 'AZURE_STORAGE_CONTAINER_SAS_URL', valueFrom: { secretKeyRef: { name: 'maps-keyword-monitor-storage', key: 'AZURE_STORAGE_CONTAINER_SAS_URL' } } });
     expect(JSON.stringify(pod)).not.toMatch(/maps-keyword-capture-storage|MONGODB|AZURE_STORAGE_ACCOUNT_KEY|serviceAccountName/);

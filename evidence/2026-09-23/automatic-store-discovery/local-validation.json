@@ -1,0 +1,20 @@
+{
+  "typecheck": "passed",
+  "tests": 454,
+  "testFiles": 38,
+  "build": "passed",
+  "independentScopedTests": 122,
+  "review": "no blocking issues",
+  "tdd": [
+    "new discovery module initially missing",
+    "daily integration 13 failures before implementation",
+    "credential environment isolation failed before fix",
+    "cleanup stall/rejection failed before bounded cleanup",
+    "registry persistence throw failed before terminal-state fix",
+    "Apartment organic classifier and browser capture rejected the observed layout before the narrow fix"
+  ],
+  "runtimeCommit": "a530fdb6d5e65ffb25943cf97dcb959aecb486fc",
+  "apartmentClassifierAndRankingTests": 88,
+  "apartmentAndExistingBrowserTests": 7,
+  "deploymentChecksAfterFinalPin": 7
+}

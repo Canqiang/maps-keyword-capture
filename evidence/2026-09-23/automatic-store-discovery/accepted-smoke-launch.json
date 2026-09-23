@@ -1,0 +1,13 @@
+{
+  "job": "maps-discovery-smoke-20260923t022732z-77cd31",
+  "runKey": "discovery-smoke-20260923t022732z-77cd31",
+  "configMap": "maps-discovery-smoke-20260923t022732z-77cd31-config",
+  "manual": true,
+  "maxKeywordsPerStore": 2,
+  "expectedStores": 8,
+  "expectedSelected": 16,
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:0f430d59eeac7106679448f3dd6ce385aed3b43dc71420d0c73d31cb1b43f2c0",
+  "digest": "sha256:0f430d59eeac7106679448f3dd6ce385aed3b43dc71420d0c73d31cb1b43f2c0",
+  "runtimeCommit": "a530fdb6d5e65ffb25943cf97dcb959aecb486fc",
+  "buildRunId": "ch14at"
+}

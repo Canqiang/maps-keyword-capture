@@ -10,6 +10,7 @@ import { parseMonitorConfig } from './config.js';
 import { createMonitorShutdown, monitorBrowserEnv, parseMonitorArgs } from './cli-options.js';
 import { runDailyMonitor } from './daily.js';
 import { KeywordApiSource } from './source.js';
+import { MongoStoreRegistrySource } from './registry.js';
 import { createAtomicClaim, createLocalAtomicClaim } from './storage.js';
 
 const log = (event: Record<string, unknown>) => process.stdout.write(`${JSON.stringify({ ts: new Date().toISOString(), ...event })}\n`);
@@ -24,12 +25,13 @@ async function main() {
   const store = gateway ? new RemoteArtifactStore({ gateway, local }) : local;
   const token = process.env.KEYWORD_API_TOKEN;
   const source = new KeywordApiSource({ baseUrl: config.sourceBaseUrl, timeoutMs: config.sourceTimeoutMs, ...(token ? { token } : {}) });
+  const registrySource = config.storeDiscovery ? new MongoStoreRegistrySource({ uri: process.env.KEYWORD_MONGO_URI, config: config.storeDiscovery, aliases: config.stores }) : undefined;
   const controller = new AbortController();
   const shutdown = createMonitorShutdown(controller, () => {
     process.stdout.write(`${JSON.stringify({ summary: true, status: 'shutdown_grace_exceeded', counts: {}, manifestReceipt: null, exitCode: 1 })}\n`, () => process.exit(1));
   });
   for (const signal of ['SIGINT', 'SIGTERM', 'SIGHUP'] as const) process.on(signal, () => shutdown(signal));
-  const out = await runDailyMonitor({ config, source, store, claim: gateway ? createAtomicClaim(gateway) : createLocalAtomicClaim(local), signal: controller.signal, log, ...(args.runKey ? { runKey: args.runKey } : {}), batchRunner: deps => runBatch({ ...deps, launch: () => chromium.launch({ channel: 'chromium', headless: true, chromiumSandbox: true, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false, env: monitorBrowserEnv(process.env) }) }) });
+  const out = await runDailyMonitor({ config, source, store, ...(registrySource ? { registrySource } : {}), claim: gateway ? createAtomicClaim(gateway) : createLocalAtomicClaim(local), signal: controller.signal, log, ...(args.runKey ? { runKey: args.runKey } : {}), batchRunner: deps => runBatch({ ...deps, launch: () => chromium.launch({ channel: 'chromium', headless: true, chromiumSandbox: true, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false, env: monitorBrowserEnv(process.env) }) }) });
   return { code: out.exitCode, summary: { summary: true, status: out.status, executionStatus: out.manifest?.executionStatus ?? null, dailyRunId: out.manifest?.dailyRunId ?? out.claim?.claim.dailyRunId ?? null, runKey: out.manifest?.runKey ?? out.claim?.claim.runKey ?? args.runKey ?? null, counts: out.manifest?.counts ?? {}, manifest: out.manifestPath, manifestReceipt: out.manifestReceipt, claim: out.claim, deliveryMode: store.mode, exitCode: out.exitCode } };
 }
 main().then(({ code, summary }) => process.stdout.write(`${JSON.stringify(summary)}\n`, () => process.exit(code)), (err: unknown) => {

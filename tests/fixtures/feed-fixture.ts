@@ -67,7 +67,7 @@ export function cardHtml(c: FixtureCard, i: number, ratingLabelStyle: 'stars' | 
 export function buildFeedFixtureHtml(o: FixtureOptions): string {
   const title = o.title ?? `${o.query} - Google Maps`;
   if (o.noResults) {
-    return `<!doctype html><html><head><title>${esc(title)}</title></head><body>
+    return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title></head><body>
       <input id="searchboxinput" value="${esc(o.query)}">
       <div>Google Maps can't find ${esc(o.query)}</div></body></html>`;
   }
@@ -85,7 +85,7 @@ export function buildFeedFixtureHtml(o: FixtureOptions): string {
         href: `https://www.google.com/maps/place/${encodeURIComponent(o.replaceCardAtOnScroll.name)}/data=!4m7!3m6!1s0x89c2ffffffffffff:0xffff!8m2!3d40.7!4d-73.6`,
       })
     : 'null';
-  return `<!doctype html><html><head><title>${esc(defer ? 'Google Maps' : title)}</title>
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(defer ? 'Google Maps' : title)}</title>
 <style>
   body { margin: 0; width: 1440px; height: 1000px; font: 14px sans-serif; position: relative; }
   #searchboxinput, input[name="q"] { position: absolute; left: 88px; top: 16px; width: 360px; }

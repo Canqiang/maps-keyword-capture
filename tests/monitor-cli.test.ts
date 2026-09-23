@@ -6,7 +6,7 @@ import type { Listing } from '../src/contracts.js';
 describe('strict monitor CLI', () => {
   it('accepts the deployment invocation and manual recovery key', () => expect(parseMonitorArgs(['--config', '/config/monitor.json', '--storage', 'azure', '--run-key', 'acceptance-1'])).toEqual({ configPath: '/config/monitor.json', storage: 'azure', runKey: 'acceptance-1' }));
   it.each([[], ['--config'], ['--config', 'a', '--config', 'b'], ['--config=a'], ['--config', 'a', '--wat', 'x'], ['--config', 'a', '--storage', 'azure', '--storage', 'azure'], ['--config', 'a', '--run-key', '../bad'], ['--config', 'a', '--storage', '--run-key'], ['--config', 'a', '--storage', 'typo'], ['--config', 'a', 'stray']])('rejects malformed input %j', args => expect(() => parseMonitorArgs(args)).toThrow());
-  it('excludes source token and storage settings from Chromium environment', () => expect(monitorBrowserEnv({ PATH: '/usr/bin', KEYWORD_API_TOKEN: 'token', AZURE_STORAGE_CONTAINER_SAS_URL: 'sas' })).toEqual({ PATH: '/usr/bin' }));
+  it('excludes discovery credentials, source token and storage settings from Chromium environment', () => expect(monitorBrowserEnv({ PATH: '/usr/bin', KEYWORD_API_TOKEN: 'token', AZURE_STORAGE_CONTAINER_SAS_URL: 'sas', KEYWORD_MONGO_URI: 'mongodb://reader:secret@db/seo-integration' })).toEqual({ PATH: '/usr/bin' }));
   it('first signal aborts; subsequent signals do not cut short finalization or extend grace', () => {
     const controller = new AbortController(); const scheduled: Array<{ fn: () => void; ms: number }> = []; let forced = false;
     const handle = createMonitorShutdown(controller, () => { forced = true; }, (fn, ms) => { scheduled.push({ fn, ms }); return (() => {}) as any; });

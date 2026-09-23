@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1",
+  "fetchedAt": "2026-09-23T01:49:53.094Z",
+  "sourceResponseHash": "629084a79293dc632ae92015084608017469e487c2cbbbbddbcf12c52b8b081c",
+  "policy": "Canonical keyword-library identities with nonempty keyword arrays; opaque safe place IDs excluding UUID/hex legacy IDs; no Google identity or geographic verification; exact place+merchant aliases; live names; stable place-derived IDs; no enabled flag; duplicate/conflicting identities and capacity overflow fail closed. Source hash covers normalized identities and exclusions only.",
+  "stores": [
+    {
+      "storeId": "choice-clinton-hill",
+      "merchantId": "47c65660-ade7-4431-8d46-9ec9c58aef5b",
+      "placeId": "ChIJaYcllU0N7ocR4lWiLngfEYg",
+      "name": "Choice Market - Clinton Hill"
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "merchantId": "47c65660-ade7-4431-8d46-9ec9c58aef5b",
+      "placeId": "ChIJH8iZh-5ZwokRPLzzADeSnYE",
+      "name": "Choice Brooklyn - Upper West Side"
+    },
+    {
+      "storeId": "george-merchant",
+      "merchantId": "54b78da8-4d71-4576-8f59-915e7bd94561",
+      "placeId": "ChIJqVId_y1ZwokRjPCG1MQuKmg",
+      "name": "George Merchant"
+    },
+    {
+      "storeId": "keke-flushing",
+      "merchantId": "29742a52-d824-469b-a395-52084345b7ad",
+      "placeId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+      "name": "Keke Food 可可小卤 — Flushing"
+    },
+    {
+      "storeId": "massage-float",
+      "merchantId": "4ccdade0-dd69-4853-809f-2fd25ae65030",
+      "placeId": "ChIJzfqHtwq7uokRvkBKgpmXPiM",
+      "name": "Massage & float"
+    },
+    {
+      "storeId": "only-bear",
+      "merchantId": "04ef8b4c-4837-4cf2-a8f5-0c9228658376",
+      "placeId": "ChIJgR0AKI2HwokRcMm_K7J7Phw",
+      "name": "Only Bear Chicken & Boba"
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "merchantId": "f0750173-0113-464d-bb90-cbebb9c08ba7",
+      "placeId": "ChIJUYXjAsNZwokRk2AfiERJO2k",
+      "name": "SEE JOY 喜聚"
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "merchantId": "ec3a8e03-28c0-4291-9f94-14289e63cdc7",
+      "placeId": "ChIJZ4gQONX3wokRUd76p6byNOE",
+      "name": "Szechuan Gourmet 朵颐食府"
+    }
+  ],
+  "exclusions": [
+    {
+      "sourceId": "019f01fa-fb48-7d59-b9cf-b2eaf0bf2363",
+      "reason": "invalid_merchant_id"
+    },
+    {
+      "sourceId": "019f0280-228b-7296-82e7-7141b7d68ae6",
+      "reason": "invalid_merchant_id"
+    },
+    {
+      "sourceId": "019f0373-f80f-77a9-a6a6-b39aef4119a7",
+      "reason": "invalid_merchant_id"
+    },
+    {
+      "sourceId": "019f039b-879b-797e-aa92-de67ef2d0054",
+      "reason": "invalid_merchant_id"
+    },
+    {
+      "sourceId": "019f03c9-e920-779e-956c-06303369e1e3",
+      "reason": "invalid_merchant_id"
+    }
+  ],
+  "counts": {
+    "fetched": 13,
+    "eligible": 8,
+    "excluded": 5
+  }
+}

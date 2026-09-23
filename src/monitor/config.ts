@@ -3,13 +3,22 @@ import { ConfigError, expectedAreaSchema, parseConfig } from '../config.js';
 import type { CaptureConfig, ExpectedArea } from '../contracts.js';
 
 export const safeId = z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,119}$/, 'must be a safe path ID (letters, digits, underscore or hyphen)');
+const storeDiscoverySchema = z.object({
+  provider: z.literal('mongo'),
+  database: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,62}$/, 'must be a simple database name'),
+  collection: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,119}$/, 'must be a simple collection name'),
+  maxStores: z.number().int().min(1).max(10000),
+  maxRecords: z.number().int().min(1).max(100000),
+  timeoutMs: z.number().int().min(1).max(60000),
+}).strict().refine(value => value.maxStores <= value.maxRecords, 'maxRecords must be at least maxStores');
 const schema = z.object({
   schemaVersion: z.literal('1'),
   sourceBaseUrl: z.string().url().refine(value => {
     const u = new URL(value);
     return ['http:', 'https:'].includes(u.protocol) && !u.username && !u.password && !u.search && !u.hash && (u.pathname === '/' || u.pathname === '');
   }, 'must be an HTTP(S) origin without credentials, query or path'),
-  stores: z.array(z.object({ storeId: safeId, merchantId: safeId, placeId: safeId, name: z.string().trim().min(1), expectedArea: expectedAreaSchema.optional() }).strict()).min(1),
+  stores: z.array(z.object({ storeId: safeId, merchantId: safeId, placeId: safeId, name: z.string().trim().min(1), expectedArea: expectedAreaSchema.optional() }).strict()).default([]),
+  storeDiscovery: storeDiscoverySchema.optional(),
   maxKeywordsPerStore: z.number().int().min(1).max(40),
   batchSize: z.number().int().min(1).max(20),
   sourceTimeoutMs: z.number().int().min(1).max(60000),
@@ -19,6 +28,7 @@ const schema = z.object({
 export interface EnrolledStore { storeId: string; merchantId: string; placeId: string; name: string; expectedArea?: ExpectedArea }
 export interface MonitorConfig {
   schemaVersion: '1'; sourceBaseUrl: string; stores: EnrolledStore[];
+  storeDiscovery?: z.infer<typeof storeDiscoverySchema>;
   maxKeywordsPerStore: number; batchSize: number; sourceTimeoutMs: number; outputDirectory: string;
   capture: Omit<CaptureConfig, 'schemaVersion' | 'keywords' | 'outputDirectory' | 'mapView' | 'expectedArea'>;
 }
@@ -26,6 +36,7 @@ export function parseMonitorConfig(raw: unknown): MonitorConfig {
   const parsed = schema.safeParse(raw);
   if (!parsed.success) throw new ConfigError(`invalid monitor configuration: ${parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join('; ')}`);
   const d = parsed.data;
+  if (!d.storeDiscovery && d.stores.length === 0) throw new ConfigError('stores must be nonempty without storeDiscovery');
   for (const field of ['storeId', 'placeId'] as const) {
     if (new Set(d.stores.map(s => s[field])).size !== d.stores.length) throw new ConfigError(`duplicate stores.${field}`);
   }
@@ -34,7 +45,8 @@ export function parseMonitorConfig(raw: unknown): MonitorConfig {
   const { schemaVersion: _schema, keywords: _keywords, outputDirectory: _out, mapView: _map, expectedArea: _expectedArea, ...capture } = parseConfig({ ...d.capture, schemaVersion: '1', keywords: ['validation'], outputDirectory: d.outputDirectory }).config;
   if (capture.filenameTimezone !== 'Asia/Shanghai') throw new ConfigError('capture.filenameTimezone must be Asia/Shanghai');
   const stores: EnrolledStore[] = d.stores.map(({ expectedArea, ...store }) => ({ ...store, ...(expectedArea ? { expectedArea } : {}) }));
-  return { ...d, stores, capture };
+  const { storeDiscovery, ...base } = d;
+  return { ...base, stores, capture, ...(storeDiscovery ? { storeDiscovery } : {}) };
 }
 export function validateRunKey(value: string): string {
   if (!safeId.safeParse(value).success) throw new ConfigError('run-key must be a safe path ID');

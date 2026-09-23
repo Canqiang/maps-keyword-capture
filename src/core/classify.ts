@@ -2,7 +2,7 @@ import type { BoundingBox, ClassificationEvidence, ListingClassification, Observ
 import { occurrenceIdFor, sha256Hex } from '../ids.js';
 import type { ClassifiedCard, ParsedCardFields, RawFeedChild } from './types.js';
 
-export const LAYOUT_SIGNATURE = 'maps-feed-card/v3';
+export const LAYOUT_SIGNATURE = 'maps-feed-card/v4';
 /** Frozen: every evidence record gets its own copy, so one card's array is never another's. */
 export const LABEL_LOCATIONS = Object.freeze(['card_text', 'aria_label'] as const);
 
@@ -126,6 +126,39 @@ function isLodgingOnlyBusinessCard(raw: RawFeedChild, name: string): boolean {
   return sawName && body === 'Lodging';
 }
 
+/**
+ * Verified 2026-09-23 `float` screenshot and normalized text: a named Apartment
+ * rental with an occupancy row and amenity/action tokens, but no rating/address.
+ * This is deliberately separate from arbitrary category-only business cards.
+ * Stored evidence did not retain raw DOM; tests reconstruct the visible fields.
+ */
+function isApartmentRentalCard(raw: RawFeedChild, name: string): boolean {
+  const cleanName = cleanCardText(name);
+  if (!cleanName || cleanName.toLowerCase() === 'apartment' || !raw.placeHref) return false;
+  try {
+    const url = new URL(raw.placeHref);
+    if (url.protocol !== 'https:' || !['google.com', 'www.google.com', 'maps.google.com'].includes(url.hostname) ||
+      !/^\/maps\/place\/[^/]+(?:\/|$)/.test(url.pathname) || url.username || url.password || url.port) return false;
+  } catch { return false; }
+  const ownsSponsored = raw.sponsoredLabels.some(label => label.text.trim() === 'Sponsored');
+  const matches = (text: string): boolean => {
+    let body = cleanCardText(text);
+    let sawName = false;
+    for (;;) {
+      if (body.startsWith(`${cleanName} `)) {
+        body = body.slice(cleanName.length).trim();
+        sawName = true;
+      } else if (ownsSponsored && body.startsWith('Sponsored ')) {
+        body = body.slice('Sponsored '.length);
+      } else break;
+    }
+    // No broad Apartment allowlist: occupancy plus the observed action/amenity
+    // vocabulary is required, and any unknown or unowned ad text rejects it.
+    return sawName && /^Apartment Sleeps [1-9]\d* • [1-9]\d* bedrooms? • [1-9]\d* beds? Directions(?: (?:Pool|Hot tub|Free parking|Air-conditioned))+$/.test(body);
+  };
+  return matches(raw.text) && (!raw.lines || matches(raw.lines.join(' ')));
+}
+
 function withinPane(b: BoundingBox, pane: BoundingBox): boolean {
   return b.y >= pane.y - 0.5 && b.y + b.height <= pane.y + pane.height + 0.5 && b.height > 0;
 }
@@ -142,6 +175,7 @@ export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observa
   const rating = parseRating(raw.ratingAriaLabel);
   const parsedFields = name ? parseCategoryAndAddress(raw.text, name, raw.lines) : { category: null, address: null };
   if (name && parsedFields.category === null && isLodgingOnlyBusinessCard(raw, name)) parsedFields.category = 'Lodging';
+  if (name && parsedFields.category === null && isApartmentRentalCard(raw, name)) parsedFields.category = 'Apartment';
   // A recognized business card carries a rating or a supported category format. A bare
   // place card (a locality, a region) must not be ranked as an organic business result.
   const unresolvedAdMarker = !sponsored && (raw.sponsoredLabels.length > 0 ||
