@@ -21,7 +21,7 @@ export function parseMonitorArgs(args: string[]): MonitorArgs {
   return { configPath, storage, ...(runKey === undefined ? {} : { runKey: validateRunKey(runKey) }) };
 }
 export function monitorBrowserEnv(env: NodeJS.ProcessEnv): Record<string, string> {
-  const out = browserEnv(env); delete out.KEYWORD_API_TOKEN; return out;
+  const out = browserEnv(env); delete out.KEYWORD_API_TOKEN; delete out.KEYWORD_MONGO_URI; return out;
 }
 /** SIGTERM owns one fixed grace window; repeated signals cannot truncate artifact finalization. */
 export function createMonitorShutdown(controller: AbortController, forceExit: () => void, schedule: (fn: () => void, ms: number) => unknown = setTimeout): (signal: string) => void {

@@ -1,4 +1,4 @@
-# Enrollment from the linked UAT inventory read at 2026-09-17T13:21:50.308Z.
+# Discover current linked keyword records daily. This list preserves historical store IDs only.
 # Names are stored labels, not assertions of canonical business names. No static keyword pool.
 apiVersion: v1
 kind: ConfigMap
@@ -10,6 +10,14 @@ data:
     {
       "schemaVersion": "1",
       "sourceBaseUrl": "http://operation-assistant-api.uat.svc.cluster.local:80",
+      "storeDiscovery": {
+        "provider": "mongo",
+        "database": "seo-integration",
+        "collection": "local_keywords",
+        "maxStores": 40,
+        "maxRecords": 10000,
+        "timeoutMs": 30000
+      },
       "stores": [
         {
           "storeId": "choice-upper-west-side",

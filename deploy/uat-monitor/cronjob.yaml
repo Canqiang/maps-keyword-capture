@@ -44,6 +44,11 @@ spec:
               env:
                 - name: IMAGE_DIGEST
                   value: sha256:59f7e7db45937ac6103972126e85fc827a06d73474f6144cb709bda194f38868
+                - name: KEYWORD_MONGO_URI
+                  valueFrom:
+                    secretKeyRef:
+                      name: maps-keyword-monitor-source
+                      key: KEYWORD_MONGO_URI
                 - name: EGRESS_PROFILE_ID
                   value: aks-fbrdev-eastus2-aiapp
                 - name: AZURE_STORAGE_CONTAINER
