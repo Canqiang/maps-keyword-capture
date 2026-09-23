@@ -1,0 +1,12 @@
+{
+  "at": "2026-09-23T01:50:47.695729+00:00",
+  "stage": "ACR image build submission",
+  "errorCode": "AADSTS700082",
+  "cause": "Azure CLI refresh token expired; interactive az login required",
+  "imageBuildSubmitted": false,
+  "UATImageChanged": false,
+  "UATConfigChanged": false,
+  "GitHubMainChanged": false,
+  "localCodeCommit": "e613fbf",
+  "nextAction": "Reauthenticate Azure CLI, build the image, run 2-query-per-discovered-store UAT smoke, independently verify every Azure artifact, then pin and promote image/config."
+}
