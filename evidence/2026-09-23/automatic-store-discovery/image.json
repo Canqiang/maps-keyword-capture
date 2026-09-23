@@ -1,0 +1,6 @@
+{
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:0f430d59eeac7106679448f3dd6ce385aed3b43dc71420d0c73d31cb1b43f2c0",
+  "digest": "sha256:0f430d59eeac7106679448f3dd6ce385aed3b43dc71420d0c73d31cb1b43f2c0",
+  "runtimeCommit": "a530fdb6d5e65ffb25943cf97dcb959aecb486fc",
+  "buildRunId": "ch14at"
+}

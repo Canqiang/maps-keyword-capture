@@ -1,0 +1,14 @@
+{
+  "pod": "maps-discovery-smoke-20260923t022732z-77cd31-6kdrc",
+  "podUid": "705328c9-498c-40bb-82e5-8c575e5c5b41",
+  "phase": "Succeeded",
+  "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:0f430d59eeac7106679448f3dd6ce385aed3b43dc71420d0c73d31cb1b43f2c0",
+  "restartCount": 0,
+  "termination": {
+    "containerID": "containerd://a62128a1e7e3745fabb69358c5eaf4e9588090fbd799929a4bfea10660f67612",
+    "exitCode": 0,
+    "finishedAt": "2026-09-23T02:32:54Z",
+    "reason": "Completed",
+    "startedAt": "2026-09-23T02:27:43Z"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "cleanedAt": "2026-09-23T02:44:44.486173+00:00",
+  "job": "maps-discovery-smoke-20260923t020338z-b96df7",
+  "jobUid": "aef506a3-5fa6-410f-91cf-d4784b7e2baa",
+  "configMap": "maps-discovery-smoke-20260923t020338z-b96df7-config",
+  "scope": "Only the terminated failed first discovery smoke and its temporary config; evidence and Azure claims/artifacts preserved. Accepted smoke and daily CronJob untouched.",
+  "readbackAbsent": true
+}

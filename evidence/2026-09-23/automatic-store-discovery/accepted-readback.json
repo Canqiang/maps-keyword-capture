@@ -1,0 +1,307 @@
+{
+  "verificationIdentity": "azure_cli_login",
+  "evidenceIntegrityPassed": true,
+  "dailyRunId": "run_20260923T022744Z_cca993",
+  "runKey": "discovery-smoke-20260923t022732z-77cd31",
+  "date": "2026-09-23",
+  "startedAt": "2026-09-23T02:27:44.516Z",
+  "finishedAt": "2026-09-23T02:32:54.288Z",
+  "status": "partial",
+  "exitCode": 0,
+  "executionStatus": "completed",
+  "recomputedExecutionStatus": "completed",
+  "originalPodExitCode": null,
+  "originalPodExitCodeNote": "Summary exitCode is preserved; compare original Pod termination exit code separately.",
+  "stopReason": null,
+  "counts": {
+    "stores": 8,
+    "batches": 8,
+    "selected": 16,
+    "captured": 15,
+    "partial": 1,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0,
+    "sourceFailed": 0,
+    "empty": 0,
+    "nonRanking": 1
+  },
+  "imageDigest": "sha256:0f430d59eeac7106679448f3dd6ce385aed3b43dc71420d0c73d31cb1b43f2c0",
+  "sourceCommit": "a530fdb6d5e65ffb25943cf97dcb959aecb486fc",
+  "adapterVersion": "maps-feed-card/v4",
+  "finalReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-23/daily/run_20260923T022744Z_cca993/manifest.json",
+    "verifiedAt": "2026-09-23T02:32:54.319Z",
+    "storageError": null,
+    "relativePath": "2026-09-23/daily/run_20260923T022744Z_cca993/manifest.json",
+    "bytes": 30051,
+    "sha256": "4c95efda7ccf2a1440d1a80adf4a7349fd80832d4cf066def2378c0923f6e655"
+  },
+  "verifiedObjects": 132,
+  "verifiedArtifacts": 114,
+  "verifiedBytes": 49023740,
+  "cacheReused": 0,
+  "pngsStructurallyChecked": 58,
+  "csvRowsComparedAllAttempts": 213,
+  "resultAttemptsCompared": 16,
+  "observationRecordsChecked": 57,
+  "partialReasons": {
+    "non_ranking_result": 1
+  },
+  "geographicStatuses": {
+    "unverified": 16
+  },
+  "nonRankingDetailCount": 1,
+  "otherPartialCount": 0,
+  "coverage": {
+    "selected": 16,
+    "attemptedWithResultEvidence": 16,
+    "nonemptyRankedCaptures": 15,
+    "explicitNoResults": 0,
+    "nonRankingDetails": 1,
+    "otherPartial": 0,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0,
+    "sourceFailedStores": 0
+  },
+  "allSelectedKeywordsAttempted": true,
+  "allKeywordsRankingComplete": false,
+  "collectionAcceptancePassed": true,
+  "stores": [
+    {
+      "storeId": "choice-clinton-hill",
+      "name": "Choice Market - Clinton Hill",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "name": "Choice Brooklyn - Upper West Side",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "george-merchant",
+      "name": "George Merchant",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "keke-flushing",
+      "name": "Keke Food 可可小卤 — Flushing",
+      "status": "partial",
+      "selected": 2,
+      "counts": {
+        "partial": 1,
+        "captured": 1
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "massage-float",
+      "name": "Massage & float",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "only-bear",
+      "name": "Only Bear Chicken & Boba",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "name": "SEE JOY 喜聚",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "name": "Szechuan Gourmet 朵颐食府",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    }
+  ],
+  "registry": {
+    "mode": "discovered",
+    "status": "ready",
+    "counts": {
+      "fetched": 13,
+      "eligible": 8,
+      "excluded": 5
+    },
+    "fetchedAt": "2026-09-23T02:27:44.734Z",
+    "sourceResponseHash": "629084a79293dc632ae92015084608017469e487c2cbbbbddbcf12c52b8b081c",
+    "policy": "Canonical keyword-library identities with nonempty keyword arrays; opaque safe place IDs excluding UUID/hex legacy IDs; no Google identity or geographic verification; exact place+merchant aliases; live names; stable place-derived IDs; no enabled flag; duplicate/conflicting identities and capacity overflow fail closed. Source hash covers normalized identities and exclusions only.",
+    "snapshotReceipt": {
+      "storageStatus": "verified",
+      "objectKey": "2026-09-23/daily/run_20260923T022744Z_cca993/store-registry.json",
+      "verifiedAt": "2026-09-23T02:27:44.768Z",
+      "storageError": null,
+      "relativePath": "2026-09-23/daily/run_20260923T022744Z_cca993/store-registry.json",
+      "bytes": 2954,
+      "sha256": "74a838db5d2185e068b85249da50a19ef241ebf4c63228333d05778ccc60854e"
+    },
+    "stores": [
+      {
+        "storeId": "choice-clinton-hill",
+        "merchantId": "47c65660-ade7-4431-8d46-9ec9c58aef5b",
+        "placeId": "ChIJaYcllU0N7ocR4lWiLngfEYg",
+        "name": "Choice Market - Clinton Hill"
+      },
+      {
+        "storeId": "choice-upper-west-side",
+        "merchantId": "47c65660-ade7-4431-8d46-9ec9c58aef5b",
+        "placeId": "ChIJH8iZh-5ZwokRPLzzADeSnYE",
+        "name": "Choice Brooklyn - Upper West Side"
+      },
+      {
+        "storeId": "george-merchant",
+        "merchantId": "54b78da8-4d71-4576-8f59-915e7bd94561",
+        "placeId": "ChIJqVId_y1ZwokRjPCG1MQuKmg",
+        "name": "George Merchant"
+      },
+      {
+        "storeId": "keke-flushing",
+        "merchantId": "29742a52-d824-469b-a395-52084345b7ad",
+        "placeId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+        "name": "Keke Food 可可小卤 — Flushing"
+      },
+      {
+        "storeId": "massage-float",
+        "merchantId": "4ccdade0-dd69-4853-809f-2fd25ae65030",
+        "placeId": "ChIJzfqHtwq7uokRvkBKgpmXPiM",
+        "name": "Massage & float"
+      },
+      {
+        "storeId": "only-bear",
+        "merchantId": "04ef8b4c-4837-4cf2-a8f5-0c9228658376",
+        "placeId": "ChIJgR0AKI2HwokRcMm_K7J7Phw",
+        "name": "Only Bear Chicken & Boba"
+      },
+      {
+        "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+        "merchantId": "f0750173-0113-464d-bb90-cbebb9c08ba7",
+        "placeId": "ChIJUYXjAsNZwokRk2AfiERJO2k",
+        "name": "SEE JOY 喜聚"
+      },
+      {
+        "storeId": "szechuan-gourmet",
+        "merchantId": "ec3a8e03-28c0-4291-9f94-14289e63cdc7",
+        "placeId": "ChIJZ4gQONX3wokRUd76p6byNOE",
+        "name": "Szechuan Gourmet 朵颐食府"
+      }
+    ],
+    "exclusions": [
+      {
+        "sourceId": "019f01fa-fb48-7d59-b9cf-b2eaf0bf2363",
+        "reason": "invalid_merchant_id"
+      },
+      {
+        "sourceId": "019f0280-228b-7296-82e7-7141b7d68ae6",
+        "reason": "invalid_merchant_id"
+      },
+      {
+        "sourceId": "019f0373-f80f-77a9-a6a6-b39aef4119a7",
+        "reason": "invalid_merchant_id"
+      },
+      {
+        "sourceId": "019f039b-879b-797e-aa92-de67ef2d0054",
+        "reason": "invalid_merchant_id"
+      },
+      {
+        "sourceId": "019f03c9-e920-779e-956c-06303369e1e3",
+        "reason": "invalid_merchant_id"
+      }
+    ],
+    "sourceHashRecomputed": false,
+    "sourceHashNote": "The receipt verifies the persisted snapshot. Normalized source IDs are not retained for eligible rows, so the original database-response hash cannot be independently recomputed."
+  },
+  "issues": [],
+  "partialQueries": [
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b01-b7389a29c2d5",
+      "queryId": "q0001",
+      "keyword": "flushing",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "csvRows": 0,
+      "pngKeys": [
+        "2026-09-23/keke-flushing/run_20260923T022744Z_cca993/batches/b01-b7389a29c2d5/run_20260923T022943Z_7c0788/att_538aa91b/q0001/qa01/20260923T102944.026+0800__flushing__q0001__diag.png"
+      ],
+      "geographicStatus": "unverified",
+      "surface": "place_details",
+      "listingCoverage": [],
+      "allListingsCovered": true,
+      "resultKey": "2026-09-23/keke-flushing/run_20260923T022744Z_cca993/batches/b01-b7389a29c2d5/run_20260923T022943Z_7c0788/att_538aa91b/q0001/qa01/20260923T102944.026+0800__flushing__q0001.json",
+      "listingCount": 0,
+      "completeNonRanking": true
+    }
+  ],
+  "scope": {
+    "allReferencedSnapshotsAndManifests": true,
+    "allReferencedArtifactsAllAttempts": true,
+    "allPngStructuralChecks": true,
+    "allResultCsvSemanticChecks": true,
+    "allCapturedListingObservationCoverageChecks": true,
+    "storeRegistrySnapshotAndIdentityChecks": true,
+    "visualReview": "pending; see visual-samples.json",
+    "visualSampleCount": 9,
+    "visualSampleStores": [
+      "choice-clinton-hill",
+      "choice-upper-west-side",
+      "george-merchant",
+      "keke-flushing",
+      "massage-float",
+      "only-bear",
+      "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "szechuan-gourmet"
+    ]
+  },
+  "limitations": [
+    "Detail pages have no comparable ranked list and remain partial.",
+    "Geographic unverified is not proof that rankings apply to the enrolled store area.",
+    "PNG structure and hashes do not replace visual interpretation.",
+    "Source response hash cannot reconstruct raw API fields not retained in the snapshot.",
+    "Skipped batches have explicit counts but no per-query result evidence."
+  ]
+}

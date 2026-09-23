@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-09-23T02:42:08.905225+00:00",
+  "cronUid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69",
+  "schedule": "0 0 * * *",
+  "timeZone": "Asia/Shanghai",
+  "suspend": false,
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:0f430d59eeac7106679448f3dd6ce385aed3b43dc71420d0c73d31cb1b43f2c0",
+  "storeDiscovery": {
+    "provider": "mongo",
+    "database": "seo-integration",
+    "collection": "local_keywords",
+    "maxStores": 40,
+    "maxRecords": 10000,
+    "timeoutMs": 30000
+  },
+  "maxKeywordsPerStore": 40,
+  "exactPromotedReadbackMatched": true
+}

@@ -1,0 +1,32 @@
+{
+  "promotedAt": "2026-09-23T02:39:35.148508+00:00",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:0f430d59eeac7106679448f3dd6ce385aed3b43dc71420d0c73d31cb1b43f2c0",
+  "runtimeCommit": "a530fdb6d5e65ffb25943cf97dcb959aecb486fc",
+  "acceptedRunKey": "discovery-smoke-20260923t022732z-77cd31",
+  "acceptedDailyRunId": "run_20260923T022744Z_cca993",
+  "acceptedManifestReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-23/daily/run_20260923T022744Z_cca993/manifest.json",
+    "verifiedAt": "2026-09-23T02:32:54.319Z",
+    "storageError": null,
+    "relativePath": "2026-09-23/daily/run_20260923T022744Z_cca993/manifest.json",
+    "bytes": 30051,
+    "sha256": "4c95efda7ccf2a1440d1a80adf4a7349fd80832d4cf066def2378c0923f6e655"
+  },
+  "schedule": "0 0 * * *",
+  "timeZone": "Asia/Shanghai",
+  "suspend": false,
+  "discovery": {
+    "provider": "mongo",
+    "database": "seo-integration",
+    "collection": "local_keywords",
+    "maxStores": 40,
+    "maxRecords": 10000,
+    "timeoutMs": 30000
+  },
+  "maxKeywordsPerStore": 40,
+  "configReadbackMatched": true,
+  "cronSpecOnlyIntendedChanges": true,
+  "nextScheduledBeijing": "2026-09-24T00:00:00+08:00",
+  "smokeOnlyNotFullCapacity": true
+}

@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-09-23T02:28:28.405624+00:00",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_verify_daily.py test_registry_verify.py test_adapter_verify.py",
+  "testMethods": 42,
+  "historicalMethods": 24,
+  "newRegistryMethods": 13,
+  "newAdapterMethods": 5,
+  "exitCode": 0,
+  "result": "Ran 42 tests; OK",
+  "networkUsed": false,
+  "clusterWrites": false,
+  "adapterVersion": "maps-feed-card/v4",
+  "runtimeCommit": "a530fdb6d5e65ffb25943cf97dcb959aecb486fc",
+  "historicalHelperModified": false,
+  "originalFirstSmokeHelperSha256": "ad87eca2f66ee68018328f461749dc10a937cd303d70b1eb7e169e9520a83ce3",
+  "existingTestFilesByteIdentical": true,
+  "helperSha256": "54d44090f248501fedf948c1690bbcf612a6e1e00767ceed53986d1ef157c9a0",
+  "promotionVerifierHashMatched": true,
+  "redStageObserved": "The five new version test methods failed before the v4 constant and guard message change; the old helper rejected v4 before readback.",
+  "files": {
+    "test_verify_daily.py": "fc85f093151a5677819bc3530a05af025b83906168fecb509b0174da77877503",
+    "test_registry_verify.py": "7d35833c8852381d6025bd5b0b20aa567e83d6af7a452bf1c68be827d9e728cd",
+    "test_adapter_verify.py": "53cc6138bec4b406274b6f69dcd85140230f2cba99ef62f502ed2876ebc9cded",
+    "README.md": "126209bdb7dd2df01b979967125eda1276bed7d6cba81cf0b5dd4e55070e7287"
+  },
+  "scope": "Offline version and artifact-contract regression checks only; not a live acceptance result.",
+  "independentReview": {
+    "blockingFindings": 0,
+    "testsPassed": 42,
+    "existing37TestFilesUnchanged": true,
+    "helperDiff": "Only accepted adapter constant and version-gate message changed from v3 to v4."
+  },
+  "archivedReadmeAdaptation": "CLI examples refer to committed accepted smoke summary/config and an external output directory; verifier code and test hashes unchanged."
+}
