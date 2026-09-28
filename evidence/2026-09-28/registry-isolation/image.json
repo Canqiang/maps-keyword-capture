@@ -1,0 +1,6 @@
+{
+  "digest": "sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2",
+  "runtimeCommit": "385a14d2615da65859f90fd06b623b560e3edc9f",
+  "buildRunId": "ch14es"
+}

@@ -1,0 +1,399 @@
+{
+  "completed": true,
+  "reviewedAt": "2026-09-28T10:05:43.282479+00:00",
+  "runKey": "registry-smoke-20260928t095213z-f1b8c7",
+  "dailyRunId": "run_20260928T095251Z_8e7b98",
+  "imageDigest": "sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2",
+  "sourceCommit": "385a14d2615da65859f90fd06b623b560e3edc9f",
+  "adapterVersion": "maps-feed-card/v5",
+  "samples": [
+    {
+      "storeId": "choice-clinton-hill",
+      "keyword": "brunch",
+      "objectKey": "2026-09-28/choice-clinton-hill/run_20260928T095251Z_8e7b98/batches/b01-04d0bf4fc4ba/run_20260928T095252Z_624e0f/att_bbe0f91b/q0001/qa01/20260928T175252.607+0800__brunch__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/choice-clinton-hill/run_20260928T095251Z_8e7b98/batches/b01-04d0bf4fc4ba/run_20260928T095252Z_624e0f/att_bbe0f91b/q0001/qa01/20260928T175252.607+0800__brunch__q0001__01.png",
+      "sha256": "0fb545e0adb6d0847c56c427463c79f3a1fc3d164e20ec20d1e50d22fc439212",
+      "jsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/choice-clinton-hill/run_20260928T095251Z_8e7b98/batches/b01-04d0bf4fc4ba/run_20260928T095252Z_624e0f/att_bbe0f91b/q0001/qa01/20260928T175252.607+0800__brunch__q0001.json",
+      "csvPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/choice-clinton-hill/run_20260928T095251Z_8e7b98/batches/b01-04d0bf4fc4ba/run_20260928T095252Z_624e0f/att_bbe0f91b/q0001/qa01/20260928T175252.607+0800__brunch__q0001.csv",
+      "findings": [
+        "Readable list and map. First three names, categories, ratings and review counts match JSON and CSV.",
+        "Map spans Colorado/New Mexico and nearby regions; generic brunch is not a proven Brooklyn-local result."
+      ]
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "keyword": "bakery",
+      "objectKey": "2026-09-28/choice-upper-west-side/run_20260928T095251Z_8e7b98/batches/b01-43f9683cf236/run_20260928T095337Z_e21e70/att_21862876/q0001/qa01/20260928T175338.017+0800__bakery__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/choice-upper-west-side/run_20260928T095251Z_8e7b98/batches/b01-43f9683cf236/run_20260928T095337Z_e21e70/att_21862876/q0001/qa01/20260928T175338.017+0800__bakery__q0001__01.png",
+      "sha256": "8b0c8442a162638983a1ac6859cff040cabf3b0ae1124eb2864c6e353cfef4fa",
+      "jsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/choice-upper-west-side/run_20260928T095251Z_8e7b98/batches/b01-43f9683cf236/run_20260928T095337Z_e21e70/att_21862876/q0001/qa01/20260928T175338.017+0800__bakery__q0001.json",
+      "csvPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/choice-upper-west-side/run_20260928T095251Z_8e7b98/batches/b01-43f9683cf236/run_20260928T095337Z_e21e70/att_21862876/q0001/qa01/20260928T175338.017+0800__bakery__q0001.csv",
+      "findings": [
+        "Memo Fırın, Siam and Restaurant asif show No reviews and Bakery; JSON/CSV correctly leave rating and reviewCount null.",
+        "Very broad Americas map. The result is not proof of Upper West Side-local ranking."
+      ]
+    },
+    {
+      "storeId": "keke-flushing",
+      "keyword": "flushing",
+      "objectKey": "2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0001/qa01/20260928T175413.626+0800__flushing__q0001__diag.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0001/qa01/20260928T175413.626+0800__flushing__q0001__diag.png",
+      "sha256": "4a8a7bd5d5ea9f5850b83ee615271d77f4df44d0b7cd2a30cf9a725bc94637f0",
+      "jsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0001/qa01/20260928T175413.626+0800__flushing__q0001.json",
+      "csvPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0001/qa01/20260928T175413.626+0800__flushing__q0001.csv",
+      "findings": [
+        "Readable Flushing, Queens, NY geographic detail page with neighborhood boundary and Quick facts.",
+        "No merchant ranking list. JSON has partial / non_ranking_result and zero listings; CSV has a header only. A limited-view notice is visible."
+      ]
+    },
+    {
+      "storeId": "keke-flushing",
+      "keyword": "noodles",
+      "objectKey": "2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0002/qa01/20260928T175418.509+0800__noodles__q0002__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0002/qa01/20260928T175418.509+0800__noodles__q0002__01.png",
+      "sha256": "cf75d53185ced75455b873d3314d0b09378b9c0b2380e1d55fe9c270fa3c373a",
+      "jsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0002/qa01/20260928T175418.509+0800__noodles__q0002.json",
+      "csvPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0002/qa01/20260928T175418.509+0800__noodles__q0002.csv",
+      "findings": [
+        "One More Noodle 4.7, Noodles by Nina 4.8, Shanxi Noodle Dumplings 4.9 match JSON/CSV.",
+        "No review counts are displayed in these cards; null reviewCount is correct. Colorado map is not Flushing-local proof."
+      ]
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "float",
+      "objectKey": "2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002__02.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002__02.png",
+      "sha256": "e83f2c72b70875fdc9cd55def92a55d241772b0b1154ef91ebd23b8fc8b6a459",
+      "jsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002.json",
+      "csvPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002.csv",
+      "findings": [
+        "Position 8 House card Urban Float - Two-Bedroom Apartment with Private Pool is fully legible, including Sleeps 5, 2 bedrooms, 3 beds and Pool / Free parking / Air-conditioned / Kitchen.",
+        "No rating, review count or address displayed in this card; nulls are appropriate. ResultType organic and organicRank 8 match JSON/CSV. No visible Sponsored/Ad label."
+      ]
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "float",
+      "objectKey": "2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002__03.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002__03.png",
+      "sha256": "46344dde29759fa673e91d9079644f616d2ca0deb972af0c4d60a50cb3596f5e",
+      "jsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002.json",
+      "csvPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002.csv",
+      "findings": [
+        "Position 11 Lodging card Ritz-Carlton Club 2 Bd 04 Float | Ski-in/Ski-out in Aspen Highlands is fully legible with Directions and Free parking / Free Wi-Fi / Air-conditioned / Wi-Fi.",
+        "No rating, review count or address displayed; nulls are appropriate. ResultType organic and organicRank 11 match JSON/CSV. No visible Sponsored/Ad label. Colorado map remains geographically unverified."
+      ]
+    },
+    {
+      "storeId": "only-bear",
+      "keyword": "bubble tea mineola",
+      "objectKey": "2026-09-28/only-bear/run_20260928T095251Z_8e7b98/batches/b01-12fd0571da5b/run_20260928T095517Z_7e4731/att_911c8398/q0002/qa01/20260928T175542.509+0800__bubble-tea-mineola__q0002__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/only-bear/run_20260928T095251Z_8e7b98/batches/b01-12fd0571da5b/run_20260928T095517Z_7e4731/att_911c8398/q0002/qa01/20260928T175542.509+0800__bubble-tea-mineola__q0002__01.png",
+      "sha256": "bb34e8c7f55346450eedf20dc012e26e502bde08a7e6808d75232cb8a938292e",
+      "jsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/only-bear/run_20260928T095251Z_8e7b98/batches/b01-12fd0571da5b/run_20260928T095517Z_7e4731/att_911c8398/q0002/qa01/20260928T175542.509+0800__bubble-tea-mineola__q0002.json",
+      "csvPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/only-bear/run_20260928T095251Z_8e7b98/batches/b01-12fd0571da5b/run_20260928T095517Z_7e4731/att_911c8398/q0002/qa01/20260928T175542.509+0800__bubble-tea-mineola__q0002.csv",
+      "findings": [
+        "Only Bear Chicken & Boba 4.8 (99), Smo Tea 4.9 (487), Cafe Blessing - Mineola, NY 4.9 (305) match JSON/CSV, including categories.",
+        "Map visibly shows Mineola/Williston Park. This is evidence of this observation only; configured geography remains unverified."
+      ]
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "keyword": "hot pot NYC",
+      "objectKey": "2026-09-28/place-48c801ebd7000c93e5ce5213a735b2c3/run_20260928T095251Z_8e7b98/batches/b01-84125a36d827/run_20260928T095626Z_75b947/att_05e8e74f/q0002/qa01/20260928T175645.522+0800__hot-pot-nyc__q0002__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/place-48c801ebd7000c93e5ce5213a735b2c3/run_20260928T095251Z_8e7b98/batches/b01-84125a36d827/run_20260928T095626Z_75b947/att_05e8e74f/q0002/qa01/20260928T175645.522+0800__hot-pot-nyc__q0002__01.png",
+      "sha256": "e7ca9a957cd7bf6b8001e38cd063a979841a6748cad65f757cef8728412a9c61",
+      "jsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/place-48c801ebd7000c93e5ce5213a735b2c3/run_20260928T095251Z_8e7b98/batches/b01-84125a36d827/run_20260928T095626Z_75b947/att_05e8e74f/q0002/qa01/20260928T175645.522+0800__hot-pot-nyc__q0002.json",
+      "csvPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/place-48c801ebd7000c93e5ce5213a735b2c3/run_20260928T095251Z_8e7b98/batches/b01-84125a36d827/run_20260928T095626Z_75b947/att_05e8e74f/q0002/qa01/20260928T175645.522+0800__hot-pot-nyc__q0002.csv",
+      "findings": [
+        "ER HOT POT - 6TH AVE 贰火锅 4.8 (1786), Shoo Loong Kan Hot Pot Manhattan 小龙坎火锅 4.9 (1796), Mala Hot Pot 4.8 (548) match JSON/CSV. All three categories Hot pot restaurant.",
+        "NYC map and list are readable; geography remains unverified under the configured contract."
+      ]
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "keyword": "sichuan restaurant Upper West Side",
+      "objectKey": "2026-09-28/szechuan-gourmet/run_20260928T095251Z_8e7b98/batches/b01-6910fd0189aa/run_20260928T095822Z_719088/att_1b461f99/q0001/qa01/20260928T175822.462+0800__sichuan-restaurant-upper-west-side__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/szechuan-gourmet/run_20260928T095251Z_8e7b98/batches/b01-6910fd0189aa/run_20260928T095822Z_719088/att_1b461f99/q0001/qa01/20260928T175822.462+0800__sichuan-restaurant-upper-west-side__q0001__01.png",
+      "sha256": "c6fa7fb8a94abdaa3cf067064502ea780fc911adffa4c3c308107bffbe8004ec",
+      "jsonPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/szechuan-gourmet/run_20260928T095251Z_8e7b98/batches/b01-6910fd0189aa/run_20260928T095822Z_719088/att_1b461f99/q0001/qa01/20260928T175822.462+0800__sichuan-restaurant-upper-west-side__q0001.json",
+      "csvPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/szechuan-gourmet/run_20260928T095251Z_8e7b98/batches/b01-6910fd0189aa/run_20260928T095822Z_719088/att_1b461f99/q0001/qa01/20260928T175822.462+0800__sichuan-restaurant-upper-west-side__q0001.csv",
+      "findings": [
+        "Szechuan Gourmet 5.0 (12), Han Dynasty Upper West Side 4.3 (1136), Legend 72 4.2 (449) match JSON/CSV. Categories Chinese restaurant, Chinese restaurant and Sichuan restaurant match.",
+        "Map visibly covers Upper West Side/Manhattan. This observation does not establish universal customer-local ranking."
+      ]
+    }
+  ],
+  "rowComparisons": [
+    {
+      "storeId": "choice-clinton-hill",
+      "keyword": "brunch",
+      "displayPosition": 1,
+      "name": "The Outpost Cafe",
+      "rating": 4.6,
+      "reviewCount": 75,
+      "category": "Restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/choice-clinton-hill/run_20260928T095251Z_8e7b98/batches/b01-04d0bf4fc4ba/run_20260928T095252Z_624e0f/att_bbe0f91b/q0001/qa01/20260928T175252.607+0800__brunch__q0001__01.png"
+    },
+    {
+      "storeId": "choice-clinton-hill",
+      "keyword": "brunch",
+      "displayPosition": 2,
+      "name": "The Biker & The Baker",
+      "rating": 4.6,
+      "reviewCount": 458,
+      "category": "Brunch restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/choice-clinton-hill/run_20260928T095251Z_8e7b98/batches/b01-04d0bf4fc4ba/run_20260928T095252Z_624e0f/att_bbe0f91b/q0001/qa01/20260928T175252.607+0800__brunch__q0001__01.png"
+    },
+    {
+      "storeId": "choice-clinton-hill",
+      "keyword": "brunch",
+      "displayPosition": 3,
+      "name": "The Henry",
+      "rating": 4.6,
+      "reviewCount": 4992,
+      "category": "American restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/choice-clinton-hill/run_20260928T095251Z_8e7b98/batches/b01-04d0bf4fc4ba/run_20260928T095252Z_624e0f/att_bbe0f91b/q0001/qa01/20260928T175252.607+0800__brunch__q0001__01.png"
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "keyword": "bakery",
+      "displayPosition": 1,
+      "name": "Memo Fırın",
+      "rating": null,
+      "reviewCount": null,
+      "category": "Bakery",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/choice-upper-west-side/run_20260928T095251Z_8e7b98/batches/b01-43f9683cf236/run_20260928T095337Z_e21e70/att_21862876/q0001/qa01/20260928T175338.017+0800__bakery__q0001__01.png"
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "keyword": "bakery",
+      "displayPosition": 2,
+      "name": "Siam",
+      "rating": null,
+      "reviewCount": null,
+      "category": "Bakery",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/choice-upper-west-side/run_20260928T095251Z_8e7b98/batches/b01-43f9683cf236/run_20260928T095337Z_e21e70/att_21862876/q0001/qa01/20260928T175338.017+0800__bakery__q0001__01.png"
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "keyword": "bakery",
+      "displayPosition": 3,
+      "name": "Restaurant asif",
+      "rating": null,
+      "reviewCount": null,
+      "category": "Bakery",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/choice-upper-west-side/run_20260928T095251Z_8e7b98/batches/b01-43f9683cf236/run_20260928T095337Z_e21e70/att_21862876/q0001/qa01/20260928T175338.017+0800__bakery__q0001__01.png"
+    },
+    {
+      "storeId": "keke-flushing",
+      "keyword": "noodles",
+      "displayPosition": 1,
+      "name": "One More Noodle",
+      "rating": 4.7,
+      "reviewCount": null,
+      "category": "Asian restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0002/qa01/20260928T175418.509+0800__noodles__q0002__01.png"
+    },
+    {
+      "storeId": "keke-flushing",
+      "keyword": "noodles",
+      "displayPosition": 2,
+      "name": "Noodles by Nina",
+      "rating": 4.8,
+      "reviewCount": null,
+      "category": "Noodle shop",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0002/qa01/20260928T175418.509+0800__noodles__q0002__01.png"
+    },
+    {
+      "storeId": "keke-flushing",
+      "keyword": "noodles",
+      "displayPosition": 3,
+      "name": "Shanxi Noodle Dumplings",
+      "rating": 4.9,
+      "reviewCount": null,
+      "category": "Asian restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/keke-flushing/run_20260928T095251Z_8e7b98/batches/b01-b7389a29c2d5/run_20260928T095413Z_0956a5/att_ef83f6fb/q0002/qa01/20260928T175418.509+0800__noodles__q0002__01.png"
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "float",
+      "displayPosition": 8,
+      "name": "Urban Float - Two-Bedroom Apartment with Private Pool",
+      "rating": null,
+      "reviewCount": null,
+      "category": "House",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002__02.png"
+    },
+    {
+      "storeId": "massage-float",
+      "keyword": "float",
+      "displayPosition": 11,
+      "name": "Ritz-Carlton Club 2 Bd 04 Float | Ski-in/Ski-out in Aspen Highlands",
+      "rating": null,
+      "reviewCount": null,
+      "category": "Lodging",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/massage-float/run_20260928T095251Z_8e7b98/batches/b01-a5d587eceb8c/run_20260928T095438Z_54d8e1/att_896e7a7d/q0002/qa01/20260928T175455.705+0800__float__q0002__03.png"
+    },
+    {
+      "storeId": "only-bear",
+      "keyword": "bubble tea mineola",
+      "displayPosition": 1,
+      "name": "Only Bear Chicken & Boba",
+      "rating": 4.8,
+      "reviewCount": 99,
+      "category": "Bubble tea store",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/only-bear/run_20260928T095251Z_8e7b98/batches/b01-12fd0571da5b/run_20260928T095517Z_7e4731/att_911c8398/q0002/qa01/20260928T175542.509+0800__bubble-tea-mineola__q0002__01.png"
+    },
+    {
+      "storeId": "only-bear",
+      "keyword": "bubble tea mineola",
+      "displayPosition": 2,
+      "name": "Smo Tea",
+      "rating": 4.9,
+      "reviewCount": 487,
+      "category": "Bubble tea store",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/only-bear/run_20260928T095251Z_8e7b98/batches/b01-12fd0571da5b/run_20260928T095517Z_7e4731/att_911c8398/q0002/qa01/20260928T175542.509+0800__bubble-tea-mineola__q0002__01.png"
+    },
+    {
+      "storeId": "only-bear",
+      "keyword": "bubble tea mineola",
+      "displayPosition": 3,
+      "name": "Cafe Blessing - Mineola, NY",
+      "rating": 4.9,
+      "reviewCount": 305,
+      "category": "Cafe",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/only-bear/run_20260928T095251Z_8e7b98/batches/b01-12fd0571da5b/run_20260928T095517Z_7e4731/att_911c8398/q0002/qa01/20260928T175542.509+0800__bubble-tea-mineola__q0002__01.png"
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "keyword": "hot pot NYC",
+      "displayPosition": 1,
+      "name": "ER HOT POT - 6TH AVE 贰火锅",
+      "rating": 4.8,
+      "reviewCount": 1786,
+      "category": "Hot pot restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/place-48c801ebd7000c93e5ce5213a735b2c3/run_20260928T095251Z_8e7b98/batches/b01-84125a36d827/run_20260928T095626Z_75b947/att_05e8e74f/q0002/qa01/20260928T175645.522+0800__hot-pot-nyc__q0002__01.png"
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "keyword": "hot pot NYC",
+      "displayPosition": 2,
+      "name": "Shoo Loong Kan Hot Pot Manhattan 小龙坎火锅",
+      "rating": 4.9,
+      "reviewCount": 1796,
+      "category": "Hot pot restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/place-48c801ebd7000c93e5ce5213a735b2c3/run_20260928T095251Z_8e7b98/batches/b01-84125a36d827/run_20260928T095626Z_75b947/att_05e8e74f/q0002/qa01/20260928T175645.522+0800__hot-pot-nyc__q0002__01.png"
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "keyword": "hot pot NYC",
+      "displayPosition": 3,
+      "name": "Mala Hot Pot",
+      "rating": 4.8,
+      "reviewCount": 548,
+      "category": "Hot pot restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/place-48c801ebd7000c93e5ce5213a735b2c3/run_20260928T095251Z_8e7b98/batches/b01-84125a36d827/run_20260928T095626Z_75b947/att_05e8e74f/q0002/qa01/20260928T175645.522+0800__hot-pot-nyc__q0002__01.png"
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "keyword": "sichuan restaurant Upper West Side",
+      "displayPosition": 1,
+      "name": "Szechuan Gourmet",
+      "rating": 5,
+      "reviewCount": 12,
+      "category": "Chinese restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/szechuan-gourmet/run_20260928T095251Z_8e7b98/batches/b01-6910fd0189aa/run_20260928T095822Z_719088/att_1b461f99/q0001/qa01/20260928T175822.462+0800__sichuan-restaurant-upper-west-side__q0001__01.png"
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "keyword": "sichuan restaurant Upper West Side",
+      "displayPosition": 2,
+      "name": "Han Dynasty Upper West Side",
+      "rating": 4.3,
+      "reviewCount": 1136,
+      "category": "Chinese restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/szechuan-gourmet/run_20260928T095251Z_8e7b98/batches/b01-6910fd0189aa/run_20260928T095822Z_719088/att_1b461f99/q0001/qa01/20260928T175822.462+0800__sichuan-restaurant-upper-west-side__q0001__01.png"
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "keyword": "sichuan restaurant Upper West Side",
+      "displayPosition": 3,
+      "name": "Legend 72",
+      "rating": 4.2,
+      "reviewCount": 449,
+      "category": "Sichuan restaurant",
+      "jsonCsvMatch": true,
+      "visuallyCompared": true,
+      "pngObjectKey": "2026-09-28/szechuan-gourmet/run_20260928T095251Z_8e7b98/batches/b01-6910fd0189aa/run_20260928T095822Z_719088/att_1b461f99/q0001/qa01/20260928T175822.462+0800__sichuan-restaurant-upper-west-side__q0001__01.png"
+    }
+  ],
+  "scope": {
+    "assignedStores": [
+      "choice-clinton-hill",
+      "choice-upper-west-side",
+      "keke-flushing",
+      "massage-float",
+      "only-bear",
+      "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "szechuan-gourmet"
+    ],
+    "assignedStoresReviewed": 7,
+    "pngsActuallyViewed": 9,
+    "listingRowsVisuallyComparedToJsonCsv": 20,
+    "nonRankingGeographicPagesReviewed": 1,
+    "allStores": false,
+    "allAssignedStores": true,
+    "remainingThreeNewStoresReviewedBy": "root",
+    "geography": "unverified",
+    "visualSamplingDoesNotProveAllArtifactHashes": true
+  },
+  "allDownloadedResultClassificationDistribution": {
+    "queryResultsInspected": 20,
+    "counts": {
+      "organic": 251
+    },
+    "adOrUnknownSampleNeeded": false,
+    "note": "Distribution counts inspect downloaded query JSON files; zero ads/unknown does not independently prove all Google advertisement classifications."
+  },
+  "issues": []
+}

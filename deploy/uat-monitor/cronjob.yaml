@@ -39,11 +39,11 @@ spec:
             fsGroup: 1001
           containers:
             - name: monitor
-              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:155763fb2c6e271494056d17f1332a4acb083f3322b010a2a4239d7aa1ffc2e0
+              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2
               args: ["node", "dist/monitor/cli.js", "--config", "/config/monitor.json", "--storage", "azure"]
               env:
                 - name: IMAGE_DIGEST
-                  value: sha256:155763fb2c6e271494056d17f1332a4acb083f3322b010a2a4239d7aa1ffc2e0
+                  value: sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2
                 - name: KEYWORD_MONGO_URI
                   valueFrom:
                     secretKeyRef:

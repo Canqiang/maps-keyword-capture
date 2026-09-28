@@ -1,0 +1,50 @@
+{
+  "completed": true,
+  "runKey": "registry-smoke-20260928t095213z-f1b8c7",
+  "dailyRunId": "run_20260928T095251Z_8e7b98",
+  "imageDigest": "sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2",
+  "sourceCommit": "385a14d2615da65859f90fd06b623b560e3edc9f",
+  "samples": [
+    {
+      "storeId": "place-2bb885ba4a9411eed9118fa9abddea3a",
+      "keyword": "bathhouse Flushing",
+      "objectKey": "2026-09-28/place-2bb885ba4a9411eed9118fa9abddea3a/run_20260928T095251Z_8e7b98/batches/b01-ae3db5414aaf/run_20260928T095556Z_9c4542/att_e5b17eda/q0001/qa01/20260928T175556.527+0800__bathhouse-flushing__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/place-2bb885ba4a9411eed9118fa9abddea3a/run_20260928T095251Z_8e7b98/batches/b01-ae3db5414aaf/run_20260928T095556Z_9c4542/att_e5b17eda/q0001/qa01/20260928T175556.527+0800__bathhouse-flushing__q0001__01.png",
+      "findings": [
+        "Viewed PNG directly; 6 visible listing names, ratings and review counts agree with JSON and CSV. Search text and map are legible; no visible ad labels on these sampled cards.",
+        "Geography remains unverified: visible place names are not a configured customer-location test.",
+        "Visible CONNEXION SPA card included; absent review counts remain null rather than zero."
+      ],
+      "rowComparisons": 6
+    },
+    {
+      "storeId": "place-ac78f6908231da8da688f4a25e980087",
+      "keyword": "Chinese restaurant American Dream",
+      "objectKey": "2026-09-28/place-ac78f6908231da8da688f4a25e980087/run_20260928T095251Z_8e7b98/batches/b01-4085e991c777/run_20260928T095706Z_08abe5/att_73a56a49/q0001/qa01/20260928T175706.981+0800__chinese-restaurant-american-dream__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/place-ac78f6908231da8da688f4a25e980087/run_20260928T095251Z_8e7b98/batches/b01-4085e991c777/run_20260928T095706Z_08abe5/att_73a56a49/q0001/qa01/20260928T175706.981+0800__chinese-restaurant-american-dream__q0001__01.png",
+      "findings": [
+        "Viewed PNG directly; 2 visible listing names, ratings and review counts agree with JSON and CSV. Search text and map are legible; no visible ad labels on these sampled cards.",
+        "Geography remains unverified: visible place names are not a configured customer-location test.",
+        "Google displays a limited-view notice and end of list after two businesses. Null review counts correctly reflect absent screen values; this is not proof of an exhaustive market list."
+      ],
+      "rowComparisons": 2
+    },
+    {
+      "storeId": "place-d83da948f2e65da8928b14abe3d39d13",
+      "keyword": "dim sum Flushing",
+      "objectKey": "2026-09-28/place-d83da948f2e65da8928b14abe3d39d13/run_20260928T095251Z_8e7b98/batches/b01-38c3f383ac7d/run_20260928T095732Z_cfcf67/att_13d5fbe0/q0001/qa01/20260928T175732.916+0800__dim-sum-flushing__q0001__01.png",
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5/readback/2026-09-28/place-d83da948f2e65da8928b14abe3d39d13/run_20260928T095251Z_8e7b98/batches/b01-38c3f383ac7d/run_20260928T095732Z_cfcf67/att_13d5fbe0/q0001/qa01/20260928T175732.916+0800__dim-sum-flushing__q0001__01.png",
+      "findings": [
+        "Viewed PNG directly; 3 visible listing names, ratings and review counts agree with JSON and CSV. Search text and map are legible; no visible ad labels on these sampled cards.",
+        "Geography remains unverified: visible place names are not a configured customer-location test."
+      ],
+      "rowComparisons": 3
+    }
+  ],
+  "scope": {
+    "newStores": 3,
+    "visualPngs": 3,
+    "rowComparisons": 11,
+    "fullArtifactHashes": "separate independent verifier report"
+  }
+}

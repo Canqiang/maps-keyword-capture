@@ -1,0 +1,26 @@
+{
+  "validatedAt": "2026-09-28T09:42:39.937274+00:00",
+  "status": "passed",
+  "command": "python3 -m unittest -v test_verify_daily.py test_registry_verify.py test_adapter_verify.py test_quarantine_verify.py",
+  "tests": 65,
+  "scriptSha256": "6ec2e176c982b9645a9d95b9e7cdff027855682fe0406ea2c1042aab2df02758",
+  "testsByModule": {
+    "artifactTests": 24,
+    "registryTests": 13,
+    "adapterTests": 7,
+    "quarantineReleaseTests": 21
+  },
+  "acceptedAdapter": "maps-feed-card/v5",
+  "historicalV4HelperUnmodified": true,
+  "historicalV4HelperSha256": "e0d83c0dfa99c7994048ce655133ef53897c5a2abe44d335da16ef72f74ce928",
+  "byteIdenticalTestModules": [
+    "test_verify_daily.py",
+    "test_registry_verify.py",
+    "test_quarantine_verify.py"
+  ],
+  "exactProductionHelperChanges": [
+    "ADAPTER constant maps-feed-card/v4 to maps-feed-card/v5",
+    "Version-specific unsupported-adapter error message v4 to v5"
+  ],
+  "scope": "Offline fixture validation only; no runtime launch, browser query, cluster change or Azure write. Historical v4 evidence helper unchanged."
+}

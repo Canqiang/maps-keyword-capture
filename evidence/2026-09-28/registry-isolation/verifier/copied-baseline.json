@@ -1,0 +1,27 @@
+{
+  "directory": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/verifier",
+  "scriptSha256": "e0d83c0dfa99c7994048ce655133ef53897c5a2abe44d335da16ef72f74ce928",
+  "validation": {
+    "validatedAt": "2026-09-28T09:25:31.207179+00:00",
+    "status": "passed",
+    "command": "python3 -m unittest -v test_verify_daily.py test_registry_verify.py test_adapter_verify.py test_quarantine_verify.py",
+    "tests": 63,
+    "scriptSha256": "e0d83c0dfa99c7994048ce655133ef53897c5a2abe44d335da16ef72f74ce928",
+    "testsByModule": {
+      "originalArtifactTests": 24,
+      "registryTests": 13,
+      "adapterTests": 5,
+      "quarantineReleaseTests": 21
+    },
+    "historicalHelperUnmodified": true,
+    "historicalHelperSha256": "54d44090f248501fedf948c1690bbcf612a6e1e00767ceed53986d1ef157c9a0",
+    "originalArtifactTestsByteIdentical": true,
+    "adapterTestsByteIdentical": true,
+    "changedHelperFunctions": [
+      "validate_registry",
+      "verify"
+    ],
+    "scope": "Offline tests only. No cluster action, browser query or Azure write. Full live smoke verification is separate.",
+    "releaseGate": "Ready discovered registry with explicit empty quarantines and zero quarantined count; unresolved quarantine runs are intentionally not approved by this release gate."
+  }
+}

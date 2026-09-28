@@ -1,0 +1,73 @@
+{
+  "checkedAt": "2026-09-28T10:14:20.233553+00:00",
+  "status": "passed",
+  "identity": "independent_reviewer_kubectl_get",
+  "context": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "clusterActions": [
+    "get CronJob maps-keyword-monitor-daily",
+    "get ConfigMap maps-keyword-monitor-config"
+  ],
+  "readOnly": true,
+  "checks": {
+    "cronUidPreserved": true,
+    "configMapUidPreserved": true,
+    "exactExpectedCronSpec": true,
+    "exactExpectedConfigMapData": true,
+    "configMatchesWorktree": true,
+    "configOnlyAddedGeorgeExclusion": true,
+    "expectedImagePinned": true,
+    "exactResources": true,
+    "enabledBeijingMidnight": true,
+    "promotionScheduleMatchesLive": true,
+    "exactGeorgeExclusion": true,
+    "productionCap40": true,
+    "discoveryMatchesPromotion": true
+  },
+  "cronJob": {
+    "name": "maps-keyword-monitor-daily",
+    "uid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69",
+    "resourceVersion": "711202317",
+    "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2",
+    "schedule": "0 0 * * *",
+    "timeZone": "Asia/Shanghai",
+    "suspend": false,
+    "resources": {
+      "limits": {
+        "cpu": "2",
+        "ephemeral-storage": "3Gi",
+        "memory": "2Gi"
+      },
+      "requests": {
+        "cpu": "250m",
+        "ephemeral-storage": "1Gi",
+        "memory": "1Gi"
+      }
+    },
+    "specCanonicalSha256": "7082ca2eee2f3163586f2720dff93933f273bcba65be79b52d7849ec3e7255da"
+  },
+  "configMap": {
+    "name": "maps-keyword-monitor-config",
+    "uid": "4e50d830-dc77-4732-9d72-5d53eb8ec01b",
+    "resourceVersion": "711202335",
+    "dataCanonicalSha256": "b35a3f189ed912c92c24a1fa7f3e172df77f8a41a226106425e590dd095a3189",
+    "storeDiscovery": {
+      "provider": "mongo",
+      "database": "seo-integration",
+      "collection": "local_keywords",
+      "maxStores": 40,
+      "maxRecords": 10000,
+      "timeoutMs": 30000,
+      "excludedPlaces": [
+        {
+          "placeId": "ChIJqVId_y1ZwokRjPCG1MQuKmg",
+          "reason": "test_store"
+        }
+      ]
+    },
+    "maxKeywordsPerStore": 40
+  },
+  "promotionRuntimeCommit": "385a14d2615da65859f90fd06b623b560e3edc9f",
+  "acceptedSmokeRunKey": "registry-smoke-20260928t095213z-f1b8c7",
+  "scopeNote": "Fresh independent cluster configuration readback only; no Secret contents read, no cluster mutation and no proof of the next full nightly execution."
+}

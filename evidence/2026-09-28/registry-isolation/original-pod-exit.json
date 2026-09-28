@@ -1,0 +1,21 @@
+{
+  "job": "maps-registry-smoke-20260928t095213z-f1b8c7",
+  "pod": "maps-registry-smoke-20260928t095213z-f1b8c7-kzspw",
+  "phase": "Succeeded",
+  "containers": [
+    {
+      "restartCount": 0,
+      "state": {
+        "terminated": {
+          "containerID": "containerd://2e0125513aa31139cbbb9dd18dbd29ae33993fc9089ffda07627cbac876e343b",
+          "exitCode": 0,
+          "finishedAt": "2026-09-28T09:59:13Z",
+          "reason": "Completed",
+          "startedAt": "2026-09-28T09:52:50Z"
+        }
+      },
+      "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2"
+    }
+  ],
+  "claimIndependentlyMatched": true
+}

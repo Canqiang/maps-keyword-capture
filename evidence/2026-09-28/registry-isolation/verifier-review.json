@@ -1,0 +1,7 @@
+{
+  "reviewer": "independent code-reviewer",
+  "findings": [],
+  "helperSha256": "6ec2e176c982b9645a9d95b9e7cdff027855682fe0406ea2c1042aab2df02758",
+  "offlineTestsPassed": 65,
+  "scope": "Only exact adapter-version gate/error text changed; existing registry/receipt/artifact checks preserved"
+}
