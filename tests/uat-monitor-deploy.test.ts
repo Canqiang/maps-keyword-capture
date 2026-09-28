@@ -60,7 +60,7 @@ describe('UAT daily monitor deployment', () => {
     const pod = readYaml('cronjob.yaml').spec.jobTemplate.spec.template.spec;
     expect(pod.securityContext).toEqual({ runAsNonRoot: true, runAsUser: 1001, runAsGroup: 1001, fsGroup: 1001 });
     expect(pod.containers[0].securityContext).toEqual({ allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: { drop: ['ALL'] } });
-    expect(pod.containers[0].resources).toEqual({ requests: { cpu: '500m', memory: '1Gi', 'ephemeral-storage': '1Gi' }, limits: { cpu: '2', memory: '2Gi', 'ephemeral-storage': '3Gi' } });
+    expect(pod.containers[0].resources).toEqual({ requests: { cpu: '250m', memory: '1Gi', 'ephemeral-storage': '1Gi' }, limits: { cpu: '2', memory: '2Gi', 'ephemeral-storage': '3Gi' } });
     expect(pod.volumes).toEqual(expect.arrayContaining([
       { name: 'work', emptyDir: { sizeLimit: '2Gi' } }, { name: 'tmp', emptyDir: { sizeLimit: '1Gi' } }, { name: 'dshm', emptyDir: { medium: 'Memory', sizeLimit: '512Mi' } },
     ]));

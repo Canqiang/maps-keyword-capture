@@ -1,0 +1,14 @@
+{
+  "identity": "azure_cli_login",
+  "bytes": 253,
+  "sha256": "097fe950f8c9302d90958750eb887ae951750935b0323b4cbb1185459508841d",
+  "at": "2026-09-28T09:33:43.956067+00:00",
+  "claim": {
+    "schemaVersion": "1",
+    "dailyRunId": "run_20260928T093120Z_88fed0",
+    "runKey": "registry-smoke-20260928t093029z-5c5b85",
+    "date": "2026-09-28",
+    "startedAt": "2026-09-28T09:31:20.279Z",
+    "configHash": "6d303e41d9b075f9df507e6cebd09ebbfec2e105f0453585b71fba25b0638d30"
+  }
+}

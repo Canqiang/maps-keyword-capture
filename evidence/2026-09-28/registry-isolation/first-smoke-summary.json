@@ -1,0 +1,65 @@
+{
+  "summary": true,
+  "status": "partial",
+  "executionStatus": "incomplete",
+  "dailyRunId": "run_20260928T093120Z_88fed0",
+  "runKey": "registry-smoke-20260928t093029z-5c5b85",
+  "counts": {
+    "stores": 10,
+    "batches": 10,
+    "selected": 20,
+    "captured": 18,
+    "partial": 2,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0,
+    "sourceFailed": 0,
+    "empty": 0,
+    "nonRanking": 1
+  },
+  "registry": {
+    "mode": "discovered",
+    "status": "ready",
+    "error": null,
+    "snapshotReceipt": {
+      "storageStatus": "verified",
+      "objectKey": "2026-09-28/daily/run_20260928T093120Z_88fed0/store-registry.json",
+      "verifiedAt": "2026-09-28T09:31:20.505Z",
+      "storageError": null,
+      "relativePath": "2026-09-28/daily/run_20260928T093120Z_88fed0/store-registry.json",
+      "bytes": 3995,
+      "sha256": "46150c295635812ab277ec4adcd8cfa7a5b2f66a560ea876d17c3fdaed2af001"
+    },
+    "counts": {
+      "fetched": 18,
+      "eligible": 10,
+      "excluded": 8,
+      "quarantined": 0
+    },
+    "quarantines": []
+  },
+  "manifest": "/work/outputs/2026-09-28/daily/run_20260928T093120Z_88fed0/manifest.json",
+  "manifestReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-28/daily/run_20260928T093120Z_88fed0/manifest.json",
+    "verifiedAt": "2026-09-28T09:37:40.961Z",
+    "storageError": null,
+    "relativePath": "2026-09-28/daily/run_20260928T093120Z_88fed0/manifest.json",
+    "bytes": 37907,
+    "sha256": "1e91edf01cf99a96f508f4aa46ead386cc484c384df4242aa1f95c3c9f53ad74"
+  },
+  "claim": {
+    "status": "created",
+    "key": "claims/registry-smoke-20260928t093029z-5c5b85.json",
+    "claim": {
+      "schemaVersion": "1",
+      "dailyRunId": "run_20260928T093120Z_88fed0",
+      "runKey": "registry-smoke-20260928t093029z-5c5b85",
+      "date": "2026-09-28",
+      "startedAt": "2026-09-28T09:31:20.279Z",
+      "configHash": "6d303e41d9b075f9df507e6cebd09ebbfec2e105f0453585b71fba25b0638d30"
+    }
+  },
+  "deliveryMode": "azure_blob",
+  "exitCode": 2
+}

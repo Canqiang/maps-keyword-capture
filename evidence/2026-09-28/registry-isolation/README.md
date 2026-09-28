@@ -12,4 +12,6 @@ Typecheck, build and all 468 tests in 38 files passed under Node 24. Regressions
 
 ## Release status
 
-Runtime source is ready for image build and a fresh two-word-per-store UAT smoke. Cluster promotion, independent Azure artifact readback and visual checks are pending and will be recorded here after they complete. The full nightly run remains a separate verification boundary.
+The first v4 smoke selected and attempted all 20 queries across 10 stores, with zero source failures or quarantines. It ended with 18 ranked captures, one geographic detail and one classification-unknown query (`float`), so the original Pod exit is 2 and this run is not complete collection acceptance. All 164 referenced objects independently passed Azure-login size/SHA and structural/semantic verification. The two unknown rows are strict-format House/Lodging variants supported by screenshot evidence. A separate v5 repair and smoke are pending; the original evidence and result remain unchanged.
+
+The initial 500m manual smoke could not schedule because eligible aiapp nodes had 181–381m unreserved CPU. It was removed only after proving no application container started and retaining its evidence. The replacement smoke requests 250m CPU (unchanged 2 CPU limit and memory/storage settings), scheduled and executed normally. The same profile is proposed for daily deployment. Cluster promotion and final acceptance are still pending; full nightly throughput remains a separate boundary.

@@ -3,8 +3,8 @@
   "node": "24",
   "typecheck": "passed",
   "build": "passed",
-  "testFiles": 38,
-  "tests": 468,
+  "testFiles": 40,
+  "tests": 537,
   "fullSuite": "passed",
   "regressions": [
     "configured exact-place exclusion precedes identity conflicts",
@@ -15,5 +15,8 @@
     "explicit test-store exclusions allow complete execution"
   ],
   "sourcePreflightOnly": true,
-  "uatCaptureAcceptance": "pending"
+  "uatCaptureAcceptance": "pending separate v5 smoke",
+  "adapter": "maps-feed-card/v5",
+  "classifierIndependentReviewTests": 149,
+  "verifierOfflineTests": 65
 }

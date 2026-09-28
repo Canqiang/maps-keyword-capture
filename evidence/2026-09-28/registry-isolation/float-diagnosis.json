@@ -1,0 +1,25 @@
+{
+  "cause": "Strict v4 classifier rejects two evidence-backed lodging card variants on the float query. Captures, sequence and screenshots were complete; rank classification remained unknown.",
+  "affectedQuery": "float",
+  "unknownDisplayPositions": [
+    8,
+    11
+  ],
+  "unknownRows": [
+    {
+      "displayPosition": 8,
+      "name": "Urban Float - Two-Bedroom Apartment with Private Pool",
+      "observedCategory": "House",
+      "signals": "Sleeps 5 / 2 bedrooms / 3 beds; Website; Directions; Pool; Free parking; Air-conditioned; Kitchen"
+    },
+    {
+      "displayPosition": 11,
+      "name": "Ritz-Carlton Club 2 Bd 04 Float | Ski-in/Ski-out in Aspen Highlands",
+      "observedCategory": "Lodging",
+      "signals": "Directions; Free parking; Free Wi-Fi; Air-conditioned; Wi-Fi"
+    }
+  ],
+  "independentVisualReview": "Both complete cards checked in independently size/SHA-verified shot02 and shot03; no visible ad marker.",
+  "reconstructionLimit": "Normalized observations and PNGs are preserved, not original DOM or raw rendered-line records. Tests will reconstruct visible lines and explicitly label that provenance.",
+  "scope": "Support only the two demonstrated strict shapes. Unknown categories, unexpected tails or ambiguous ad ownership remain unresolved."
+}
