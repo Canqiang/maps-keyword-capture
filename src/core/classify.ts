@@ -2,7 +2,7 @@ import type { BoundingBox, ClassificationEvidence, ListingClassification, Observ
 import { occurrenceIdFor, sha256Hex } from '../ids.js';
 import type { ClassifiedCard, ParsedCardFields, RawFeedChild } from './types.js';
 
-export const LAYOUT_SIGNATURE = 'maps-feed-card/v4';
+export const LAYOUT_SIGNATURE = 'maps-feed-card/v5';
 /** Frozen: every evidence record gets its own copy, so one card's array is never another's. */
 export const LABEL_LOCATIONS = Object.freeze(['card_text', 'aria_label'] as const);
 
@@ -110,7 +110,10 @@ function isLodgingOnlyBusinessCard(raw: RawFeedChild, name: string): boolean {
       if (lines[at] === cleanName) sawName = true;
       at += 1;
     }
-    return sawName && at === lines.length - 1 && lines[at] === 'Lodging';
+    if (!sawName || at !== lines.length - 1 || lines[at] !== 'Lodging') return false;
+    // Both views must show the same minimal shape; otherwise this older branch
+    // could override conflicting amenity/advertisement text in a richer card.
+    sawName = false;
   }
   // Older observations have collapsed text only. Strip full name tokens, never
   // a category-shaped substring, and never strip an unowned Sponsored marker.
@@ -159,6 +162,41 @@ function isApartmentRentalCard(raw: RawFeedChild, name: string): boolean {
   return matches(raw.text) && (!raw.lines || matches(raw.lines.join(' ')));
 }
 
+/**
+ * Two further housing shapes verified against the 2026-09-28 `float` screenshot:
+ * House has positive occupancy counts; Lodging has a Directions action followed
+ * by amenities. These exact vocabularies do not admit arbitrary category text.
+ */
+function housingAmenityCategory(raw: RawFeedChild, name: string): 'House' | 'Lodging' | null {
+  const cleanName = cleanCardText(name);
+  if (!cleanName || ['house', 'lodging'].includes(cleanName.toLowerCase()) || !raw.placeHref) return null;
+  try {
+    const url = new URL(raw.placeHref);
+    if (url.protocol !== 'https:' || !['google.com', 'www.google.com', 'maps.google.com'].includes(url.hostname) ||
+      !/^\/maps\/place\/[^/]+(?:\/|$)/.test(url.pathname) || url.username || url.password || url.port) return null;
+  } catch { return null; }
+  const ownsSponsored = raw.sponsoredLabels.some(label => label.text.trim() === 'Sponsored');
+  const bodyWithoutName = (text: string): string | null => {
+    let body = cleanCardText(text);
+    let sawName = false;
+    for (;;) {
+      if (body.startsWith(`${cleanName} `)) {
+        body = body.slice(cleanName.length).trim();
+        sawName = true;
+      } else if (ownsSponsored && body.startsWith('Sponsored ')) body = body.slice('Sponsored '.length);
+      else break;
+    }
+    return sawName ? body : null;
+  };
+  const body = bodyWithoutName(raw.text);
+  // A separately supplied rendered view must agree, including occupancy and
+  // amenities; matching only the category could hide contradictory evidence.
+  if (!body || (raw.lines && bodyWithoutName(raw.lines.join(' ')) !== body)) return null;
+  if (/^House Sleeps [1-9]\d* • [1-9]\d* bedrooms? • [1-9]\d* beds? (?:Website )?Directions(?: (?:Pool|Free parking|Air-conditioned|Kitchen))+$/.test(body)) return 'House';
+  if (/^Lodging Directions(?: (?:Free parking|Free Wi-Fi|Air-conditioned|Wi-Fi))+$/.test(body)) return 'Lodging';
+  return null;
+}
+
 function withinPane(b: BoundingBox, pane: BoundingBox): boolean {
   return b.y >= pane.y - 0.5 && b.y + b.height <= pane.y + pane.height + 0.5 && b.height > 0;
 }
@@ -176,6 +214,7 @@ export function classifyCard(raw: RawFeedChild, paneBounds: BoundingBox, observa
   const parsedFields = name ? parseCategoryAndAddress(raw.text, name, raw.lines) : { category: null, address: null };
   if (name && parsedFields.category === null && isLodgingOnlyBusinessCard(raw, name)) parsedFields.category = 'Lodging';
   if (name && parsedFields.category === null && isApartmentRentalCard(raw, name)) parsedFields.category = 'Apartment';
+  if (name && parsedFields.category === null) parsedFields.category = housingAmenityCategory(raw, name);
   // A recognized business card carries a rating or a supported category format. A bare
   // place card (a locality, a region) must not be ranked as an organic business result.
   const unresolvedAdMarker = !sponsored && (raw.sponsoredLabels.length > 0 ||

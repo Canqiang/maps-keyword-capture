@@ -6,6 +6,7 @@ import type { BatchManifest } from '../src/contracts.js';
 import { hashJson } from '../src/ids.js';
 import { parseMonitorConfig, type EnrolledStore } from '../src/monitor/config.js';
 import { runDailyMonitor } from '../src/monitor/daily.js';
+import { parseStoreRegistry, type StoreRegistrySnapshot } from '../src/monitor/registry.js';
 import { parseKeywordResponse } from '../src/monitor/source.js';
 import { createAtomicClaim } from '../src/monitor/storage.js';
 import type { BatchDeps, BatchOutput } from '../src/runner/batch-runner.js';
@@ -27,7 +28,7 @@ async function setup() {
   const store = new RemoteArtifactStore({ gateway, local });
   // Add the future configuration after parsing to exercise the real monitor before the parser extension exists.
   const config = { ...parseMonitorConfig({ schemaVersion: '1', sourceBaseUrl: 'http://example.test', stores: [legacy], maxKeywordsPerStore: 2, batchSize: 2, sourceTimeoutMs: 100, outputDirectory: local.rootDirectory, capture: {} }), storeDiscovery: discovery };
-  const registrySource = { read: vi.fn(async () => roster()) };
+  const registrySource = { read: vi.fn(async (): Promise<StoreRegistrySnapshot> => roster()) };
   const source = { read: vi.fn(async (s: EnrolledStore) => parseKeywordResponse({ place_id: s.placeId, local_keywords: [{ local_keyword_id: `record-${s.storeId}`, merchant_id: s.merchantId, place_id: s.placeId, keywords: [{ keyword: `${s.storeId} query`, priority: 'P1' }] }] }, s)) };
   let index = 0;
   // Browser execution is external to this integration. Keep real artifact writes, claims, receipts and checkpoints.
@@ -43,6 +44,83 @@ async function setup() {
 }
 
 describe('daily discovered store registry', () => {
+  it('quarantines conflicting records while durably selecting and capturing every accepted store', async () => {
+    const deps = await setup(); const log = vi.fn();
+    const normal = { _id: 'normal-source', merchant_id: legacy.merchantId, place_id: legacy.placeId, name: 'Accepted store', keywords: [{}] };
+    const conflict = [
+      { _id: 'conflict-1', merchant_id: 'merchant-a', place_id: 'ChIJconflict', name: 'Duplicate owner A', keywords: [{}] },
+      { _id: 'conflict-2', merchant_id: 'merchant-b', place_id: 'ChIJconflict', name: 'Duplicate owner B', keywords: [{}] },
+    ];
+    deps.registrySource.read.mockImplementation(async () => parseStoreRegistry([conflict[0], normal, conflict[1]], { aliases: [legacy], maxStores: 20, maxRecords: 100 }));
+    const execute = deps.batchRunner.getMockImplementation()!;
+    deps.batchRunner.mockImplementation(async batch => {
+      const snapshots = [...deps.gateway.objects.entries()].filter(([key]) => key.endsWith('/store-registry.json'));
+      expect(snapshots).toHaveLength(1);
+      const snapshot = JSON.parse(snapshots[0]![1].toString());
+      expect(snapshot.counts).toEqual({ fetched: 3, eligible: 1, excluded: 2, quarantined: 2 });
+      expect(snapshot.quarantines).toEqual([{ placeId: 'ChIJconflict', reason: 'registry_ownership_conflict', sourceIds: ['conflict-1', 'conflict-2'], merchantIds: ['merchant-a', 'merchant-b'] }]);
+      const checkpoints = [...deps.gateway.objects.entries()].filter(([key]) => key.includes('/checkpoints/')).map(([, bytes]) => JSON.parse(bytes.toString()));
+      expect(checkpoints.some(checkpoint => checkpoint.registry?.status === 'quarantined' && checkpoint.registry.snapshotReceipt.objectKey === snapshots[0]![0])).toBe(true);
+      return execute(batch);
+    });
+    const out = await runDailyMonitor({ ...deps, log });
+    expect(out.exitCode).toBe(2);
+    expect(out.manifest).toMatchObject({ status: 'partial', executionStatus: 'incomplete', stopReason: null, counts: { stores: 1, selected: 1, captured: 1, failed: 0, skipped: 0 }, registry: { status: 'quarantined', error: null, counts: { fetched: 3, eligible: 1, excluded: 2, quarantined: 2 }, quarantines: [{ placeId: 'ChIJconflict', reason: 'registry_ownership_conflict', sourceIds: ['conflict-1', 'conflict-2'], merchantIds: ['merchant-a', 'merchant-b'] }] } });
+    expect(out.manifest?.stores).toHaveLength(1);
+    expect(out.manifest?.stores[0]).toMatchObject({ storeId: 'only-bear', status: 'completed', executionStatus: 'completed' });
+    expect(deps.source.read.mock.calls.map(([store]) => store.placeId)).toEqual([legacy.placeId]);
+    expect(deps.batchRunner).toHaveBeenCalledTimes(1);
+    expect(log).toHaveBeenCalledWith(expect.objectContaining({ stage: 'registry_quarantined', quarantinedRecords: 2, quarantinedGroups: 1 }));
+    expect(log).toHaveBeenCalledWith(expect.objectContaining({ stage: 'daily_done', registry: out.manifest?.registry, exitCode: 2 }));
+    const final = JSON.parse((await deps.gateway.get(out.manifestReceipt!.objectKey!)).toString());
+    expect(final.registry).toEqual(out.manifest?.registry);
+  });
+
+  it('keeps an all-quarantined registry incomplete with evidence and no source or browser work', async () => {
+    const deps = await setup();
+    const snapshot = { ...roster([]), exclusions: [{ sourceId: 'same-place-1', reason: 'registry_duplicate_place' }, { sourceId: 'same-place-2', reason: 'registry_duplicate_place' }], quarantines: [{ placeId: 'ChIJduplicate', reason: 'registry_duplicate_place', sourceIds: ['same-place-1', 'same-place-2'], merchantIds: ['merchant-a'] }], counts: { fetched: 2, eligible: 0, excluded: 2, quarantined: 2 } };
+    deps.registrySource.read.mockResolvedValue(snapshot);
+    const out = await runDailyMonitor(deps);
+    expect(out.exitCode).toBe(2);
+    expect(out.manifest).toMatchObject({ status: 'partial', executionStatus: 'incomplete', stopReason: null, stores: [], registry: { status: 'quarantined', counts: snapshot.counts, quarantines: snapshot.quarantines, snapshotReceipt: { storageStatus: 'verified' } } });
+    expect(deps.source.read).not.toHaveBeenCalled(); expect(deps.batchRunner).not.toHaveBeenCalled();
+  });
+
+  it('completes accepted stores when the conflicting test place was explicitly excluded', async () => {
+    const deps = await setup(); const log = vi.fn();
+    const excludedPlaces = [{ placeId: 'ChIJtest', reason: 'test_store' as const }];
+    deps.registrySource.read.mockImplementation(async () => parseStoreRegistry([
+      { _id: 'test-1', merchant_id: 'merchant-a', place_id: 'ChIJtest', name: 'Test record A', keywords: [{}] },
+      { _id: 'normal-source', merchant_id: legacy.merchantId, place_id: legacy.placeId, name: 'Accepted store', keywords: [{}] },
+      { _id: 'test-2', merchant_id: 'merchant-b', place_id: 'ChIJtest', name: 'Test record B', keywords: [{}] },
+    ], { aliases: [legacy], maxStores: 20, maxRecords: 100, excludedPlaces }));
+    const config = { ...deps.config, storeDiscovery: { ...deps.config.storeDiscovery, excludedPlaces } };
+    const out = await runDailyMonitor({ ...deps, config, log });
+    expect(out.exitCode).toBe(0);
+    expect(out.manifest).toMatchObject({ status: 'completed', executionStatus: 'completed', stopReason: null, counts: { stores: 1, selected: 1, captured: 1 }, registry: { status: 'ready', error: null, counts: { fetched: 3, eligible: 1, excluded: 2, quarantined: 0 }, quarantines: [] } });
+    const snapshot = JSON.parse((await deps.gateway.get(out.manifest!.registry!.snapshotReceipt!.objectKey!)).toString());
+    expect(snapshot.exclusions).toEqual([{ sourceId: 'test-1', reason: 'configured_test_store' }, { sourceId: 'test-2', reason: 'configured_test_store' }]);
+    expect(deps.source.read.mock.calls.map(([store]) => store.placeId)).toEqual([legacy.placeId]);
+    expect(deps.batchRunner).toHaveBeenCalledTimes(1);
+    expect(log.mock.calls.some(([event]) => event.stage === 'registry_quarantined')).toBe(false);
+  });
+
+  it('retains independent source failures and completed accepted stores alongside quarantines', async () => {
+    const deps = await setup();
+    deps.registrySource.read.mockResolvedValue({ ...roster(), quarantines: [{ placeId: 'ChIJconflict', reason: 'registry_ownership_conflict', sourceIds: ['conflict-1', 'conflict-2'], merchantIds: ['merchant-a', 'merchant-b'] }], counts: { fetched: 5, eligible: 2, excluded: 3, quarantined: 2 } });
+    const read = deps.source.read.getMockImplementation()!;
+    deps.source.read.mockImplementation(async store => {
+      if (store.storeId === added.storeId) throw new Error('source_http_503');
+      return read(store);
+    });
+    const out = await runDailyMonitor(deps);
+    expect(out.exitCode).toBe(2);
+    expect(out.manifest).toMatchObject({ status: 'partial', executionStatus: 'incomplete', stopReason: null, counts: { stores: 2, selected: 1, captured: 1, sourceFailed: 1 }, registry: { status: 'quarantined', counts: { quarantined: 2 } } });
+    expect(out.manifest?.stores[0]).toMatchObject({ storeId: legacy.storeId, status: 'completed', executionStatus: 'completed' });
+    expect(out.manifest?.stores[1]).toMatchObject({ storeId: added.storeId, status: 'source_failed', sourceError: 'source_http_503', executionStatus: 'incomplete' });
+    expect(deps.batchRunner).toHaveBeenCalledTimes(1);
+  });
+
   it('claims and durably checkpoints the live roster before fresh keyword reads and browser capture', async () => {
     const deps = await setup();
     deps.registrySource.read.mockImplementation(async () => {

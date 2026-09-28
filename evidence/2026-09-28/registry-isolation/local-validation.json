@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-09-28T10:14:46.090400+00:00",
+  "node": "24",
+  "typecheck": "passed",
+  "build": "passed",
+  "testFiles": 40,
+  "tests": 537,
+  "fullSuite": "passed",
+  "regressions": [
+    "configured exact-place exclusion precedes identity conflicts",
+    "all ambiguous records quarantine independently of input order",
+    "nil merchant UUID excluded",
+    "accepted stores continue with durable registry before dispatch",
+    "unresolved quarantine is partial/incomplete with exit 2",
+    "explicit test-store exclusions allow complete execution",
+    "strict witnessed House/Lodging cards preserve classification and missing fields",
+    "raw and rendered card text must agree; unknown/ad marker protections preserved"
+  ],
+  "sourcePreflightOnly": false,
+  "uatCaptureAcceptance": "passed 10-store/20-query manual smoke; full next nightly run not yet observed",
+  "adapter": "maps-feed-card/v5",
+  "classifierIndependentReviewTests": 149,
+  "verifierOfflineTests": 65,
+  "promotion": "applied and read back",
+  "promotionGuardTests": 3,
+  "deploymentTests": 4
+}

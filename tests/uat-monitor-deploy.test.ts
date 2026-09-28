@@ -32,7 +32,7 @@ describe('UAT daily monitor deployment', () => {
     const config = JSON.parse(cm.data['monitor.json']);
     expect(config).toEqual({
       schemaVersion: '1', sourceBaseUrl: 'http://operation-assistant-api.uat.svc.cluster.local:80', stores: linkedStores,
-      storeDiscovery: { provider: 'mongo', database: 'seo-integration', collection: 'local_keywords', maxStores: 40, maxRecords: 10000, timeoutMs: 30000 },
+      storeDiscovery: { provider: 'mongo', database: 'seo-integration', collection: 'local_keywords', maxStores: 40, maxRecords: 10000, timeoutMs: 30000, excludedPlaces: [{ placeId: 'ChIJqVId_y1ZwokRjPCG1MQuKmg', reason: 'test_store' }] },
       maxKeywordsPerStore: 40, batchSize: 20, sourceTimeoutMs: 15000, outputDirectory: '/work/outputs',
       capture: { maxResultsPerKeyword: 15, maxScrollsPerKeyword: 10, maxScreenshotsPerKeyword: 8, keywordTimeoutMs: 90000, locale: 'en-US', browserTimezoneId: 'America/New_York', filenameTimezone: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 } },
     });
@@ -60,7 +60,7 @@ describe('UAT daily monitor deployment', () => {
     const pod = readYaml('cronjob.yaml').spec.jobTemplate.spec.template.spec;
     expect(pod.securityContext).toEqual({ runAsNonRoot: true, runAsUser: 1001, runAsGroup: 1001, fsGroup: 1001 });
     expect(pod.containers[0].securityContext).toEqual({ allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: { drop: ['ALL'] } });
-    expect(pod.containers[0].resources).toEqual({ requests: { cpu: '500m', memory: '1Gi', 'ephemeral-storage': '1Gi' }, limits: { cpu: '2', memory: '2Gi', 'ephemeral-storage': '3Gi' } });
+    expect(pod.containers[0].resources).toEqual({ requests: { cpu: '250m', memory: '1Gi', 'ephemeral-storage': '1Gi' }, limits: { cpu: '2', memory: '2Gi', 'ephemeral-storage': '3Gi' } });
     expect(pod.volumes).toEqual(expect.arrayContaining([
       { name: 'work', emptyDir: { sizeLimit: '2Gi' } }, { name: 'tmp', emptyDir: { sizeLimit: '1Gi' } }, { name: 'dshm', emptyDir: { medium: 'Memory', sizeLimit: '512Mi' } },
     ]));

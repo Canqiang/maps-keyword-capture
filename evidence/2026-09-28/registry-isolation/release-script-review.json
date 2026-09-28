@@ -1,0 +1,7 @@
+{
+  "reviewer": "independent code-reviewer",
+  "resourceWarning": "Resolved: exact all-resource equality for accepted Job, actual Pod and proposed CronJob; tested six tamper variants",
+  "promotionTests": 3,
+  "deployTests": 4,
+  "scope": "image/env/CPU/config changes only; schedule and remaining spec preserved"
+}

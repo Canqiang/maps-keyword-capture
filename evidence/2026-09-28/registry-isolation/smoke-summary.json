@@ -1,0 +1,65 @@
+{
+  "summary": true,
+  "status": "partial",
+  "executionStatus": "completed",
+  "dailyRunId": "run_20260928T095251Z_8e7b98",
+  "runKey": "registry-smoke-20260928t095213z-f1b8c7",
+  "counts": {
+    "stores": 10,
+    "batches": 10,
+    "selected": 20,
+    "captured": 19,
+    "partial": 1,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0,
+    "sourceFailed": 0,
+    "empty": 0,
+    "nonRanking": 1
+  },
+  "registry": {
+    "mode": "discovered",
+    "status": "ready",
+    "error": null,
+    "snapshotReceipt": {
+      "storageStatus": "verified",
+      "objectKey": "2026-09-28/daily/run_20260928T095251Z_8e7b98/store-registry.json",
+      "verifiedAt": "2026-09-28T09:52:51.708Z",
+      "storageError": null,
+      "relativePath": "2026-09-28/daily/run_20260928T095251Z_8e7b98/store-registry.json",
+      "bytes": 3995,
+      "sha256": "37daf2b904ecf52092214e85c652a7f811373125ee17afba659488b3dafc7f57"
+    },
+    "counts": {
+      "fetched": 18,
+      "eligible": 10,
+      "excluded": 8,
+      "quarantined": 0
+    },
+    "quarantines": []
+  },
+  "manifest": "/work/outputs/2026-09-28/daily/run_20260928T095251Z_8e7b98/manifest.json",
+  "manifestReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-28/daily/run_20260928T095251Z_8e7b98/manifest.json",
+    "verifiedAt": "2026-09-28T09:59:13.226Z",
+    "storageError": null,
+    "relativePath": "2026-09-28/daily/run_20260928T095251Z_8e7b98/manifest.json",
+    "bytes": 37882,
+    "sha256": "4023dbec34e2ed64cb251043c70def02bc7e57600142f08f52e374398141b303"
+  },
+  "claim": {
+    "status": "created",
+    "key": "claims/registry-smoke-20260928t095213z-f1b8c7.json",
+    "claim": {
+      "schemaVersion": "1",
+      "dailyRunId": "run_20260928T095251Z_8e7b98",
+      "runKey": "registry-smoke-20260928t095213z-f1b8c7",
+      "date": "2026-09-28",
+      "startedAt": "2026-09-28T09:52:51.514Z",
+      "configHash": "6d303e41d9b075f9df507e6cebd09ebbfec2e105f0453585b71fba25b0638d30"
+    }
+  },
+  "deliveryMode": "azure_blob",
+  "exitCode": 0
+}

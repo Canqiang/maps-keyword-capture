@@ -1,0 +1,40 @@
+{
+  "promotedAt": "2026-09-28T10:12:59.188716+00:00",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2",
+  "runtimeCommit": "385a14d2615da65859f90fd06b623b560e3edc9f",
+  "acceptedRunKey": "registry-smoke-20260928t095213z-f1b8c7",
+  "acceptedDailyRunId": "run_20260928T095251Z_8e7b98",
+  "acceptedManifestReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-28/daily/run_20260928T095251Z_8e7b98/manifest.json",
+    "verifiedAt": "2026-09-28T09:59:13.226Z",
+    "storageError": null,
+    "relativePath": "2026-09-28/daily/run_20260928T095251Z_8e7b98/manifest.json",
+    "bytes": 37882,
+    "sha256": "4023dbec34e2ed64cb251043c70def02bc7e57600142f08f52e374398141b303"
+  },
+  "schedule": "0 0 * * *",
+  "timeZone": "Asia/Shanghai",
+  "suspend": false,
+  "discovery": {
+    "provider": "mongo",
+    "database": "seo-integration",
+    "collection": "local_keywords",
+    "maxStores": 40,
+    "maxRecords": 10000,
+    "timeoutMs": 30000,
+    "excludedPlaces": [
+      {
+        "placeId": "ChIJqVId_y1ZwokRjPCG1MQuKmg",
+        "reason": "test_store"
+      }
+    ]
+  },
+  "cpuRequest": "250m",
+  "cpuLimit": "2",
+  "maxKeywordsPerStore": 40,
+  "configReadbackMatched": true,
+  "cronSpecOnlyIntendedChanges": true,
+  "nextScheduledBeijing": "2026-09-29T00:00:00+08:00",
+  "smokeOnlyNotFullCapacity": true
+}

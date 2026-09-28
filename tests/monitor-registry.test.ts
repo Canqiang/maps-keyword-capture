@@ -31,6 +31,19 @@ describe('daily store discovery configuration', () => {
   it.each([{ provider: 'api' }, { maxStores: 0 }, { maxRecords: 0 }, { timeoutMs: 0 }, { timeoutMs: 60001 }, { database: 'db/escape' }, { collection: 'system.users' }, { uri: 'mongodb://secret' }, { maxStores: 3, maxRecords: 2 }])('rejects unsafe or invalid discovery settings %j', patch => {
     expect(() => parseMonitorConfig({ ...monitor, storeDiscovery: { ...discovery, ...patch } })).toThrow();
   });
+  it('accepts explicit exact-place exclusions with safe documented reasons', () => {
+    const excludedPlaces = [{ placeId: alias.placeId, reason: 'test_store' }];
+    expect(parseMonitorConfig({ ...monitor, storeDiscovery: { ...discovery, excludedPlaces } }).storeDiscovery?.excludedPlaces).toEqual(excludedPlaces);
+  });
+  it.each([
+    [{ placeId: alias.placeId, reason: 'test_store' }, { placeId: alias.placeId, reason: 'other' }],
+    [{ placeId: '../secret', reason: 'test_store' }],
+    [{ placeId: alias.placeId, reason: '' }],
+    [{ placeId: alias.placeId, reason: 'unsafe reason' }],
+    [{ placeId: alias.placeId, reason: 'test_store', merchantId: 'ignored' }],
+  ])('rejects duplicate or unsafe configured place exclusions %j', excludedPlaces => {
+    expect(() => parseMonitorConfig({ ...monitor, storeDiscovery: { ...discovery, excludedPlaces } })).toThrow();
+  });
 });
 
 describe('store registry normalization', () => {
@@ -38,7 +51,8 @@ describe('store registry normalization', () => {
     const expectedArea = { label: 'Mineola', latitude: 40.75, longitude: -73.64, radiusKm: 10, source: 'registry' };
     const snap = parseStoreRegistry([record()], { ...opts, aliases: [{ ...alias, expectedArea }] });
     expect(snap.stores).toEqual([{ ...alias, name: 'New name', expectedArea }]);
-    expect(snap.counts).toEqual({ fetched: 1, eligible: 1, excluded: 0 });
+    expect(snap.counts).toEqual({ fetched: 1, eligible: 1, excluded: 0, quarantined: 0 });
+    expect(snap.quarantines).toEqual([]);
     expect(snap).not.toHaveProperty('uri');
     expect(JSON.stringify(snap)).not.toContain('boba');
   });
@@ -61,6 +75,7 @@ describe('store registry normalization', () => {
   it.each([
     [{ _id: undefined }, 'missing_source_id'],
     [{ merchant_id: '' }, 'invalid_merchant_id'],
+    [{ merchant_id: '00000000-0000-0000-0000-000000000000' }, 'invalid_merchant_id'],
     [{ place_id: undefined }, 'invalid_place_id'],
     [{ place_id: '90e03766-c90f-4804-9889-df5795400038' }, 'invalid_place_id'],
     [{ place_id: '65d656c5989919a65bc4d1ae' }, 'invalid_place_id'],
@@ -72,7 +87,7 @@ describe('store registry normalization', () => {
     const snap = parseStoreRegistry([record(patch)], opts);
     expect(snap.stores).toEqual([]);
     expect(snap.exclusions).toEqual([{ sourceId: patch._id === undefined && '_id' in patch ? null : 'record-1', reason }]);
-    expect(snap.counts).toEqual({ fetched: 1, eligible: 0, excluded: 1 });
+    expect(snap.counts).toEqual({ fetched: 1, eligible: 0, excluded: 1, quarantined: 0 });
   });
   it('does not invent an enabled flag absent from the keyword-library contract', () => {
     expect(parseStoreRegistry([record({ enabled: false, status: 'RETIRED' })], opts).stores).toHaveLength(1);
@@ -81,7 +96,44 @@ describe('store registry normalization', () => {
     [[record(), record({ _id: 'other' })], 'registry_duplicate_place'],
     [[record(), record({ _id: 'other', merchant_id: 'other-merchant' })], 'registry_ownership_conflict'],
     [[record({ merchant_id: 'other-merchant' })], 'registry_alias_identity_mismatch'],
-  ])('fails closed for ambiguous identity %j', (records, error) => expect(() => parseStoreRegistry(records, opts)).toThrow(error));
+  ])('quarantines every ambiguous identity record while unrelated stores remain eligible %j', (records, reason) => {
+    const fresh = record({ _id: 'fresh', merchant_id: 'merchant-fresh', place_id: 'OpaqueNewPlace', name: 'Fresh store' });
+    const snap = parseStoreRegistry([...records, fresh], opts);
+    expect(snap.stores).toEqual([{ storeId: `place-${sha256Hex('OpaqueNewPlace').slice(0, 32)}`, merchantId: 'merchant-fresh', placeId: 'OpaqueNewPlace', name: 'Fresh store' }]);
+    expect(snap.exclusions).toEqual(records.map(row => ({ sourceId: row._id, reason })).sort((a, b) => a.sourceId.localeCompare(b.sourceId, 'en')));
+    expect(snap.quarantines).toEqual([{ placeId: alias.placeId, reason, sourceIds: records.map(row => row._id).sort(), merchantIds: [...new Set(records.map(row => row.merchant_id))].sort() }]);
+    expect(snap.counts).toEqual({ fetched: records.length + 1, eligible: 1, excluded: records.length, quarantined: records.length });
+    expect(parseStoreRegistry([fresh, ...records.toReversed()], opts)).toEqual(snap);
+  });
+  it('finds conflicts before filtering missing names or empty keyword arrays', () => {
+    const snap = parseStoreRegistry([record(), record({ _id: 'empty', merchant_id: 'other-merchant', name: '', keywords: [] })], opts);
+    expect(snap.stores).toEqual([]);
+    expect(snap.exclusions).toEqual([{ sourceId: 'empty', reason: 'registry_ownership_conflict' }, { sourceId: 'record-1', reason: 'registry_ownership_conflict' }]);
+    expect(snap.counts.quarantined).toBe(2);
+  });
+  it('configured test-place exclusions precede all identity conflicts and are not quarantines', () => {
+    const rows = [record(), record({ _id: 'other', merchant_id: 'other-merchant' }), record({ _id: 'fresh', place_id: 'AnotherPlace' })];
+    const options = { ...opts, excludedPlaces: [{ placeId: alias.placeId, reason: 'test_store' }] };
+    const snap = parseStoreRegistry(rows, options);
+    expect(snap.stores.map(store => store.placeId)).toEqual(['AnotherPlace']);
+    expect(snap.exclusions).toEqual([{ sourceId: 'other', reason: 'configured_test_store' }, { sourceId: 'record-1', reason: 'configured_test_store' }]);
+    expect(snap.quarantines).toEqual([]);
+    expect(snap.counts).toEqual({ fetched: 3, eligible: 1, excluded: 2, quarantined: 0 });
+    expect(parseStoreRegistry(rows.toReversed(), options)).toEqual(snap);
+  });
+  it('excludes configured places before invalid ownership fields and keeps ordinary aliases stable', () => {
+    const snap = parseStoreRegistry([record(), record({ _id: 'test', place_id: 'TestPlace', merchant_id: '00000000-0000-0000-0000-000000000000' })], { ...opts, excludedPlaces: [{ placeId: 'TestPlace', reason: 'test_store' }] });
+    expect(snap.stores).toEqual([{ ...alias, name: 'New name' }]);
+    expect(snap.exclusions).toEqual([{ sourceId: 'test', reason: 'configured_test_store' }]);
+    expect(snap.counts).toEqual({ fetched: 2, eligible: 1, excluded: 1, quarantined: 0 });
+  });
+  it('includes normalized conflicting identities in an order-stable hash without keyword contents', () => {
+    const rows = [record(), record({ _id: 'other', merchant_id: 'other-merchant' })];
+    const snap = parseStoreRegistry(rows, opts);
+    expect(parseStoreRegistry(rows.map(row => ({ ...row, keywords: [{ keyword: 'private' }] })).toReversed(), opts).sourceResponseHash).toBe(snap.sourceResponseHash);
+    expect(parseStoreRegistry([rows[0], { ...rows[1], merchant_id: 'changed-merchant' }], opts).sourceResponseHash).not.toBe(snap.sourceResponseHash);
+    expect(JSON.stringify(snap)).not.toContain('boba');
+  });
   it('rejects alias IDs or places that collide, including a generated ID collision', () => {
     expect(() => parseStoreRegistry([record()], { ...opts, aliases: [alias, { ...alias, placeId: 'Other' }] })).toThrow('registry_alias_collision');
     const generated = `place-${sha256Hex('NewPlace').slice(0, 32)}`;
@@ -103,6 +155,14 @@ describe('Mongo registry read boundary', () => {
     expect(p.collection.find).toHaveBeenCalledWith({}, expect.objectContaining({ limit: 10001, sort: { _id: 1 }, maxTimeMS: 100, signal: expect.any(AbortSignal), projection: { _id: 1, merchant_id: 1, place_id: 1, name: 1, keywords: { $slice: 1 } } }));
     expect(snap.fetchedAt).toBe(opts.fetchedAt);
     expect(p.cursor.close).toHaveBeenCalledTimes(1);
+    expect(p.client.close).toHaveBeenCalledTimes(1);
+  });
+  it('applies configured exclusions during each fresh Mongo registry read', async () => {
+    const p = provider(fakeClient([record(), record({ _id: 'other', merchant_id: 'other' })]), { config: { ...discovery, excludedPlaces: [{ placeId: alias.placeId, reason: 'test_store' }] } });
+    const snap = await p.source.read();
+    expect(snap.stores).toEqual([]);
+    expect(snap.exclusions).toEqual([{ sourceId: 'other', reason: 'configured_test_store' }, { sourceId: 'record-1', reason: 'configured_test_store' }]);
+    expect(snap.counts).toEqual({ fetched: 2, eligible: 0, excluded: 2, quarantined: 0 });
     expect(p.client.close).toHaveBeenCalledTimes(1);
   });
   it('rejects absent credentials before constructing or connecting a client', async () => {

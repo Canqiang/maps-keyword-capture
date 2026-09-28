@@ -1,0 +1,651 @@
+{
+  "verificationIdentity": "azure_cli_login",
+  "evidenceIntegrityPassed": true,
+  "dailyRunId": "run_20260928T093120Z_88fed0",
+  "runKey": "registry-smoke-20260928t093029z-5c5b85",
+  "date": "2026-09-28",
+  "startedAt": "2026-09-28T09:31:20.279Z",
+  "finishedAt": "2026-09-28T09:37:40.934Z",
+  "status": "partial",
+  "exitCode": 2,
+  "executionStatus": "incomplete",
+  "recomputedExecutionStatus": "incomplete",
+  "originalPodExitCode": null,
+  "originalPodExitCodeNote": "Summary exitCode is preserved; compare original Pod termination exit code separately.",
+  "stopReason": null,
+  "counts": {
+    "stores": 10,
+    "batches": 10,
+    "selected": 20,
+    "captured": 18,
+    "partial": 2,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0,
+    "sourceFailed": 0,
+    "empty": 0,
+    "nonRanking": 1
+  },
+  "imageDigest": "sha256:155763fb2c6e271494056d17f1332a4acb083f3322b010a2a4239d7aa1ffc2e0",
+  "sourceCommit": "4a270ed71b1e6bf6c1b181e2f172c83b83802f21",
+  "adapterVersion": "maps-feed-card/v4",
+  "finalReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-28/daily/run_20260928T093120Z_88fed0/manifest.json",
+    "verifiedAt": "2026-09-28T09:37:40.961Z",
+    "storageError": null,
+    "relativePath": "2026-09-28/daily/run_20260928T093120Z_88fed0/manifest.json",
+    "bytes": 37907,
+    "sha256": "1e91edf01cf99a96f508f4aa46ead386cc484c384df4242aa1f95c3c9f53ad74"
+  },
+  "verifiedObjects": 164,
+  "verifiedArtifacts": 142,
+  "verifiedBytes": 58846676,
+  "cacheReused": 0,
+  "pngsStructurallyChecked": 72,
+  "csvRowsComparedAllAttempts": 251,
+  "resultAttemptsCompared": 20,
+  "observationRecordsChecked": 71,
+  "partialReasons": {
+    "non_ranking_result": 1,
+    "classification_unknown": 1
+  },
+  "geographicStatuses": {
+    "unverified": 20
+  },
+  "nonRankingDetailCount": 1,
+  "otherPartialCount": 1,
+  "coverage": {
+    "selected": 20,
+    "attemptedWithResultEvidence": 20,
+    "nonemptyRankedCaptures": 18,
+    "explicitNoResults": 0,
+    "nonRankingDetails": 1,
+    "otherPartial": 1,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0,
+    "sourceFailedStores": 0
+  },
+  "allSelectedKeywordsAttempted": true,
+  "allKeywordsRankingComplete": false,
+  "collectionAcceptancePassed": false,
+  "stores": [
+    {
+      "storeId": "choice-clinton-hill",
+      "name": "Choice Market - Clinton Hill",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "name": "Choice Brooklyn - Upper West Side",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "keke-flushing",
+      "name": "Keke Food 可可小卤 — Flushing",
+      "status": "partial",
+      "selected": 2,
+      "counts": {
+        "partial": 1,
+        "captured": 1
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "massage-float",
+      "name": "Massage & float",
+      "status": "partial",
+      "selected": 2,
+      "counts": {
+        "captured": 1,
+        "partial": 1
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "only-bear",
+      "name": "Only Bear Chicken & Boba",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "place-2bb885ba4a9411eed9118fa9abddea3a",
+      "name": "CONNEXION SPA 凯盛水汇",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "name": "SEE JOY 喜聚",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "place-ac78f6908231da8da688f4a25e980087",
+      "name": "Szechuan Opera",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "place-d83da948f2e65da8928b14abe3d39d13",
+      "name": "Royal Queen",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "name": "Szechuan Gourmet 朵颐食府",
+      "status": "completed",
+      "selected": 2,
+      "counts": {
+        "captured": 2
+      },
+      "sourceError": null,
+      "stopReason": null
+    }
+  ],
+  "registry": {
+    "mode": "discovered",
+    "status": "ready",
+    "counts": {
+      "fetched": 18,
+      "eligible": 10,
+      "excluded": 8,
+      "quarantined": 0
+    },
+    "fetchedAt": "2026-09-28T09:31:20.476Z",
+    "sourceResponseHash": "814721990dc682c6369849505125189ac88f7b5980af1700292f8ad9a4314f8e",
+    "policy": "Canonical keyword-library identities with nonempty keyword arrays; opaque safe place IDs excluding UUID/hex legacy IDs; no Google identity or geographic verification; exact place+merchant aliases; live names; stable place-derived IDs; no enabled flag; configured exact-place exclusions precede identity checks; nil merchant UUIDs are excluded; all duplicate/conflicting or alias-mismatched place records are quarantined while other eligible stores continue; invalid configuration and capacity overflow fail closed. Source hash covers normalized identities, exclusions and quarantine groups only.",
+    "snapshotReceipt": {
+      "storageStatus": "verified",
+      "objectKey": "2026-09-28/daily/run_20260928T093120Z_88fed0/store-registry.json",
+      "verifiedAt": "2026-09-28T09:31:20.505Z",
+      "storageError": null,
+      "relativePath": "2026-09-28/daily/run_20260928T093120Z_88fed0/store-registry.json",
+      "bytes": 3995,
+      "sha256": "46150c295635812ab277ec4adcd8cfa7a5b2f66a560ea876d17c3fdaed2af001"
+    },
+    "stores": [
+      {
+        "storeId": "choice-clinton-hill",
+        "merchantId": "47c65660-ade7-4431-8d46-9ec9c58aef5b",
+        "placeId": "ChIJaYcllU0N7ocR4lWiLngfEYg",
+        "name": "Choice Market - Clinton Hill"
+      },
+      {
+        "storeId": "choice-upper-west-side",
+        "merchantId": "47c65660-ade7-4431-8d46-9ec9c58aef5b",
+        "placeId": "ChIJH8iZh-5ZwokRPLzzADeSnYE",
+        "name": "Choice Brooklyn - Upper West Side"
+      },
+      {
+        "storeId": "keke-flushing",
+        "merchantId": "29742a52-d824-469b-a395-52084345b7ad",
+        "placeId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+        "name": "Keke Food 可可小卤 — Flushing"
+      },
+      {
+        "storeId": "massage-float",
+        "merchantId": "4ccdade0-dd69-4853-809f-2fd25ae65030",
+        "placeId": "ChIJzfqHtwq7uokRvkBKgpmXPiM",
+        "name": "Massage & float"
+      },
+      {
+        "storeId": "only-bear",
+        "merchantId": "04ef8b4c-4837-4cf2-a8f5-0c9228658376",
+        "placeId": "ChIJgR0AKI2HwokRcMm_K7J7Phw",
+        "name": "Only Bear Chicken & Boba"
+      },
+      {
+        "storeId": "place-2bb885ba4a9411eed9118fa9abddea3a",
+        "merchantId": "9af6471e-0b33-4727-951e-1e391be56fb3",
+        "placeId": "ChIJLVdhR05hwokRdAVKzmXcx0k",
+        "name": "CONNEXION SPA 凯盛水汇"
+      },
+      {
+        "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+        "merchantId": "f0750173-0113-464d-bb90-cbebb9c08ba7",
+        "placeId": "ChIJUYXjAsNZwokRk2AfiERJO2k",
+        "name": "SEE JOY 喜聚"
+      },
+      {
+        "storeId": "place-ac78f6908231da8da688f4a25e980087",
+        "merchantId": "b483d4ac-e9e7-4b85-9a5d-7ea639672dcf",
+        "placeId": "ChIJSYTKAtH5wokR8Dd7FUcSPPM",
+        "name": "Szechuan Opera"
+      },
+      {
+        "storeId": "place-d83da948f2e65da8928b14abe3d39d13",
+        "merchantId": "72331742-93cd-45d4-bdf2-325289548251",
+        "placeId": "ChIJPwLjwxFgwokR--CbiBEvDws",
+        "name": "Royal Queen"
+      },
+      {
+        "storeId": "szechuan-gourmet",
+        "merchantId": "ec3a8e03-28c0-4291-9f94-14289e63cdc7",
+        "placeId": "ChIJZ4gQONX3wokRUd76p6byNOE",
+        "name": "Szechuan Gourmet 朵颐食府"
+      }
+    ],
+    "exclusions": [
+      {
+        "sourceId": "019f01fa-fb48-7d59-b9cf-b2eaf0bf2363",
+        "reason": "invalid_merchant_id"
+      },
+      {
+        "sourceId": "019f0280-228b-7296-82e7-7141b7d68ae6",
+        "reason": "invalid_merchant_id"
+      },
+      {
+        "sourceId": "019f0373-f80f-77a9-a6a6-b39aef4119a7",
+        "reason": "invalid_merchant_id"
+      },
+      {
+        "sourceId": "019f039b-879b-797e-aa92-de67ef2d0054",
+        "reason": "invalid_merchant_id"
+      },
+      {
+        "sourceId": "019f03c9-e920-779e-956c-06303369e1e3",
+        "reason": "invalid_merchant_id"
+      },
+      {
+        "sourceId": "01a013fb-8d5d-72f6-822a-9f60f0d2ce00",
+        "reason": "configured_test_store"
+      },
+      {
+        "sourceId": "01a0d3ff-0606-7ad9-9ee4-30478fb2a02e",
+        "reason": "configured_test_store"
+      },
+      {
+        "sourceId": "01a0e698-288f-79e5-8344-975b91c08ae9",
+        "reason": "invalid_merchant_id"
+      }
+    ],
+    "quarantines": [],
+    "sourceHashRecomputed": false,
+    "sourceHashNote": "The receipt verifies the persisted snapshot. Normalized source IDs are not retained for eligible rows, so the original database-response hash cannot be independently recomputed."
+  },
+  "issues": [
+    {
+      "storeId": "massage-float",
+      "batchId": "b01-a5d587eceb8c",
+      "queryId": "q0002",
+      "keyword": "float",
+      "status": "partial",
+      "stopReason": "classification_unknown",
+      "csvRows": 15,
+      "pngKeys": [
+        "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002__01.png",
+        "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002__02.png",
+        "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002__03.png",
+        "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002__04.png"
+      ],
+      "geographicStatus": "unverified",
+      "surface": "results_list",
+      "listingCoverage": [
+        {
+          "occurrenceId": "occ_2c187cd79ece3d45",
+          "displayPosition": 1,
+          "name": "Samana Float Center",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_5ebdd62c68d52efc",
+          "displayPosition": 2,
+          "name": "Isolate Float Center",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_884fe1349b56e6eb",
+          "displayPosition": 3,
+          "name": "Easy Float",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_565c67ac3ea8c4da",
+          "displayPosition": 4,
+          "name": "salt 360 float studio",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_ed5a78beb05baa4d",
+          "displayPosition": 5,
+          "name": "Bare Necessities Floating and Massage",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_fee0fe738520bd8e",
+          "displayPosition": 6,
+          "name": "Denver Flotation Center - Lucid Dreams",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_0fb4c4ab0c4c54ad",
+          "displayPosition": 7,
+          "name": "Rose Massage Therapy and Float Spa Downtown",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_ca91e92e7238c27e",
+          "displayPosition": 8,
+          "name": "Urban Float - Two-Bedroom Apartment with Private Pool",
+          "verifiedScreenshotIds": [
+            "qa01_shot02",
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_141140d31beb9b98",
+          "displayPosition": 9,
+          "name": "Float Shack Paddle Board Rentals",
+          "verifiedScreenshotIds": [
+            "qa01_shot02",
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_75eeb6151f3184d8",
+          "displayPosition": 10,
+          "name": "Float On",
+          "verifiedScreenshotIds": [
+            "qa01_shot02",
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_4608cfec8a70232e",
+          "displayPosition": 11,
+          "name": "Ritz-Carlton Club 2 Bd 04 Float | Ski-in/Ski-out in Aspen Highlands",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_2a7d2c98a00f637a",
+          "displayPosition": 12,
+          "name": "Floating Lotus Brewery",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_cf14981226665a94",
+          "displayPosition": 13,
+          "name": "Cottonwood Float Launch",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        },
+        {
+          "occurrenceId": "occ_4fd0f5dd2425adb2",
+          "displayPosition": 14,
+          "name": "Soak Wellness Spa",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        },
+        {
+          "occurrenceId": "occ_3aa43b8b337fe876",
+          "displayPosition": 15,
+          "name": "Anupa Wellness",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        }
+      ],
+      "allListingsCovered": true,
+      "resultKey": "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002.json",
+      "listingCount": 15,
+      "kind": "incomplete_query"
+    }
+  ],
+  "partialQueries": [
+    {
+      "storeId": "keke-flushing",
+      "batchId": "b01-b7389a29c2d5",
+      "queryId": "q0001",
+      "keyword": "flushing",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "csvRows": 0,
+      "pngKeys": [
+        "2026-09-28/keke-flushing/run_20260928T093120Z_88fed0/batches/b01-b7389a29c2d5/run_20260928T093239Z_d44048/att_10757299/q0001/qa01/20260928T173239.497+0800__flushing__q0001__diag.png"
+      ],
+      "geographicStatus": "unverified",
+      "surface": "place_details",
+      "listingCoverage": [],
+      "allListingsCovered": true,
+      "resultKey": "2026-09-28/keke-flushing/run_20260928T093120Z_88fed0/batches/b01-b7389a29c2d5/run_20260928T093239Z_d44048/att_10757299/q0001/qa01/20260928T173239.497+0800__flushing__q0001.json",
+      "listingCount": 0,
+      "completeNonRanking": true
+    },
+    {
+      "storeId": "massage-float",
+      "batchId": "b01-a5d587eceb8c",
+      "queryId": "q0002",
+      "keyword": "float",
+      "status": "partial",
+      "stopReason": "classification_unknown",
+      "csvRows": 15,
+      "pngKeys": [
+        "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002__01.png",
+        "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002__02.png",
+        "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002__03.png",
+        "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002__04.png"
+      ],
+      "geographicStatus": "unverified",
+      "surface": "results_list",
+      "listingCoverage": [
+        {
+          "occurrenceId": "occ_2c187cd79ece3d45",
+          "displayPosition": 1,
+          "name": "Samana Float Center",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_5ebdd62c68d52efc",
+          "displayPosition": 2,
+          "name": "Isolate Float Center",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_884fe1349b56e6eb",
+          "displayPosition": 3,
+          "name": "Easy Float",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_565c67ac3ea8c4da",
+          "displayPosition": 4,
+          "name": "salt 360 float studio",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_ed5a78beb05baa4d",
+          "displayPosition": 5,
+          "name": "Bare Necessities Floating and Massage",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_fee0fe738520bd8e",
+          "displayPosition": 6,
+          "name": "Denver Flotation Center - Lucid Dreams",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_0fb4c4ab0c4c54ad",
+          "displayPosition": 7,
+          "name": "Rose Massage Therapy and Float Spa Downtown",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_ca91e92e7238c27e",
+          "displayPosition": 8,
+          "name": "Urban Float - Two-Bedroom Apartment with Private Pool",
+          "verifiedScreenshotIds": [
+            "qa01_shot02",
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_141140d31beb9b98",
+          "displayPosition": 9,
+          "name": "Float Shack Paddle Board Rentals",
+          "verifiedScreenshotIds": [
+            "qa01_shot02",
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_75eeb6151f3184d8",
+          "displayPosition": 10,
+          "name": "Float On",
+          "verifiedScreenshotIds": [
+            "qa01_shot02",
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_4608cfec8a70232e",
+          "displayPosition": 11,
+          "name": "Ritz-Carlton Club 2 Bd 04 Float | Ski-in/Ski-out in Aspen Highlands",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_2a7d2c98a00f637a",
+          "displayPosition": 12,
+          "name": "Floating Lotus Brewery",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_cf14981226665a94",
+          "displayPosition": 13,
+          "name": "Cottonwood Float Launch",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        },
+        {
+          "occurrenceId": "occ_4fd0f5dd2425adb2",
+          "displayPosition": 14,
+          "name": "Soak Wellness Spa",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        },
+        {
+          "occurrenceId": "occ_3aa43b8b337fe876",
+          "displayPosition": 15,
+          "name": "Anupa Wellness",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        }
+      ],
+      "allListingsCovered": true,
+      "resultKey": "2026-09-28/massage-float/run_20260928T093120Z_88fed0/batches/b01-a5d587eceb8c/run_20260928T093303Z_af5793/att_fc6e8f0e/q0002/qa01/20260928T173321.280+0800__float__q0002.json",
+      "listingCount": 15
+    }
+  ],
+  "scope": {
+    "allReferencedSnapshotsAndManifests": true,
+    "allReferencedArtifactsAllAttempts": true,
+    "allPngStructuralChecks": true,
+    "allResultCsvSemanticChecks": true,
+    "allCapturedListingObservationCoverageChecks": true,
+    "storeRegistrySnapshotAndIdentityChecks": true,
+    "visualReview": "pending; see visual-samples.json",
+    "visualSampleCount": 12,
+    "visualSampleStores": [
+      "choice-clinton-hill",
+      "choice-upper-west-side",
+      "keke-flushing",
+      "massage-float",
+      "only-bear",
+      "place-2bb885ba4a9411eed9118fa9abddea3a",
+      "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "place-ac78f6908231da8da688f4a25e980087",
+      "place-d83da948f2e65da8928b14abe3d39d13",
+      "szechuan-gourmet"
+    ]
+  },
+  "limitations": [
+    "Detail pages have no comparable ranked list and remain partial.",
+    "Geographic unverified is not proof that rankings apply to the enrolled store area.",
+    "PNG structure and hashes do not replace visual interpretation.",
+    "Source response hash cannot reconstruct raw API fields not retained in the snapshot.",
+    "Skipped batches have explicit counts but no per-query result evidence."
+  ]
+}

@@ -8,7 +8,7 @@ import type { ArtifactStore } from '../storage/types.js';
 import { createManifest, exitCodeFor, finalizeManifest, markRunning, markSkipped, recordBatchArtifact, recordQueryAttempt } from './manifest.js';
 import { runQueryAttempt, TransientBrowserError, type QueryRunnerDeps } from './query-runner.js';
 
-export const ADAPTER_VERSION = 'maps-feed-card/v4';
+export const ADAPTER_VERSION = 'maps-feed-card/v5';
 /** A layout the adapter cannot read on this many keywords in a row is treated as global (design §9). */
 export const UNSUPPORTED_LAYOUT_STREAK = 3;
 /** A hung browser close must not keep the final manifest from being published. */
