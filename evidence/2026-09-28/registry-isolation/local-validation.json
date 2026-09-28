@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-09-28T09:21:35.750607+00:00",
+  "node": "24",
+  "typecheck": "passed",
+  "build": "passed",
+  "testFiles": 38,
+  "tests": 468,
+  "fullSuite": "passed",
+  "regressions": [
+    "configured exact-place exclusion precedes identity conflicts",
+    "all ambiguous records quarantine independently of input order",
+    "nil merchant UUID excluded",
+    "accepted stores continue with durable registry before dispatch",
+    "unresolved quarantine is partial/incomplete with exit 2",
+    "explicit test-store exclusions allow complete execution"
+  ],
+  "sourcePreflightOnly": true,
+  "uatCaptureAcceptance": "pending"
+}

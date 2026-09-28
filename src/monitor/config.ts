@@ -10,6 +10,7 @@ const storeDiscoverySchema = z.object({
   maxStores: z.number().int().min(1).max(10000),
   maxRecords: z.number().int().min(1).max(100000),
   timeoutMs: z.number().int().min(1).max(60000),
+  excludedPlaces: z.array(z.object({ placeId: safeId, reason: safeId }).strict()).refine(values => new Set(values.map(value => value.placeId)).size === values.length, 'excludedPlaces must have unique placeIds').optional(),
 }).strict().refine(value => value.maxStores <= value.maxRecords, 'maxRecords must be at least maxStores');
 const schema = z.object({
   schemaVersion: z.literal('1'),

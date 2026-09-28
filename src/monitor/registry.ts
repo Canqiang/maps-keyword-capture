@@ -10,12 +10,16 @@ export interface StoreRegistrySnapshot {
   policy: string;
   stores: EnrolledStore[];
   exclusions: { sourceId: string | null; reason: string }[];
-  counts: { fetched: number; eligible: number; excluded: number };
+  /** Ambiguous place groups, with every affected record also included in exclusions. */
+  quarantines?: { placeId: string; reason: string; sourceIds: string[]; merchantIds: string[] }[];
+  /** quarantined is a record count and a subset of excluded; fetched = eligible + excluded. */
+  counts: { fetched: number; eligible: number; excluded: number; quarantined?: number };
 }
 export interface StoreRegistrySource { read(signal?: AbortSignal): Promise<StoreRegistrySnapshot> }
-export const REGISTRY_POLICY = 'Canonical keyword-library identities with nonempty keyword arrays; opaque safe place IDs excluding UUID/hex legacy IDs; no Google identity or geographic verification; exact place+merchant aliases; live names; stable place-derived IDs; no enabled flag; duplicate/conflicting identities and capacity overflow fail closed. Source hash covers normalized identities and exclusions only.';
+export const REGISTRY_POLICY = 'Canonical keyword-library identities with nonempty keyword arrays; opaque safe place IDs excluding UUID/hex legacy IDs; no Google identity or geographic verification; exact place+merchant aliases; live names; stable place-derived IDs; no enabled flag; configured exact-place exclusions precede identity checks; nil merchant UUIDs are excluded; all duplicate/conflicting or alias-mismatched place records are quarantined while other eligible stores continue; invalid configuration and capacity overflow fail closed. Source hash covers normalized identities, exclusions and quarantine groups only.';
 const legacyId = /^(?:[a-f0-9]{24}|[a-f0-9]{32}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/i;
 const validId = (value: unknown): value is string => safeId.safeParse(value).success;
+const validMerchantId = (value: unknown): value is string => validId(value) && value !== '00000000-0000-0000-0000-000000000000';
 const validPlaceId = (value: unknown): value is string => validId(value) && !legacyId.test(value);
 class RegistryError extends Error {}
 function fail(code: string): never { throw new RegistryError(code); }
@@ -25,33 +29,55 @@ function sourceId(value: unknown): string | null {
   return null;
 }
 
-export function parseStoreRegistry(records: unknown[], options: { aliases: EnrolledStore[]; maxStores: number; maxRecords: number; fetchedAt?: string }): StoreRegistrySnapshot {
+export function parseStoreRegistry(records: unknown[], options: { aliases: EnrolledStore[]; maxStores: number; maxRecords: number; fetchedAt?: string; excludedPlaces?: { placeId: string; reason: string }[] }): StoreRegistrySnapshot {
   if (records.length > options.maxRecords) fail('registry_record_limit_exceeded');
+  const excludedPlaces = new Map<string, string>();
+  for (const exclusion of options.excludedPlaces ?? []) {
+    if (!validId(exclusion.placeId) || !validId(exclusion.reason)) fail('registry_exclusion_invalid');
+    if (excludedPlaces.has(exclusion.placeId)) fail('registry_exclusion_collision');
+    excludedPlaces.set(exclusion.placeId, `configured_${exclusion.reason}`);
+  }
   const aliases = new Map<string, EnrolledStore>();
   const aliasIds = new Set<string>();
   for (const alias of options.aliases) {
-    if (!validId(alias.storeId) || !validId(alias.merchantId) || !validPlaceId(alias.placeId)) fail('registry_alias_invalid');
+    if (!validId(alias.storeId) || !validMerchantId(alias.merchantId) || !validPlaceId(alias.placeId)) fail('registry_alias_invalid');
     if (aliases.has(alias.placeId) || aliasIds.has(alias.storeId)) fail('registry_alias_collision');
     aliases.set(alias.placeId, alias); aliasIds.add(alias.storeId);
   }
-  const identities = new Map<string, string>();
+  const identities = new Map<string, { sourceId: string; merchantId: string; record: Record<string, unknown> }[]>();
   const stores: EnrolledStore[] = [];
   const exclusions: StoreRegistrySnapshot['exclusions'] = [];
+  const quarantines: NonNullable<StoreRegistrySnapshot['quarantines']> = [];
+  let quarantined = 0;
   const normalized: { sourceId: string; merchantId: string; placeId: string; name: string }[] = [];
   const ids = new Set<string>();
   for (const raw of records) {
     const record = raw !== null && typeof raw === 'object' && !Array.isArray(raw) ? raw as Record<string, unknown> : {};
     const id = sourceId(record._id);
     const exclude = (reason: string) => { exclusions.push({ sourceId: id, reason }); };
+    const configuredExclusion = typeof record.place_id === 'string' ? excludedPlaces.get(record.place_id) : undefined;
+    if (configuredExclusion) { exclude(configuredExclusion); continue; }
     if (!id) { exclude('missing_source_id'); continue; }
-    if (!validId(record.merchant_id)) { exclude('invalid_merchant_id'); continue; }
+    if (!validMerchantId(record.merchant_id)) { exclude('invalid_merchant_id'); continue; }
     if (!validPlaceId(record.place_id)) { exclude('invalid_place_id'); continue; }
     const merchantId = record.merchant_id, placeId = record.place_id;
-    const owner = identities.get(placeId);
-    if (owner !== undefined) fail(owner === merchantId ? 'registry_duplicate_place' : 'registry_ownership_conflict');
-    identities.set(placeId, merchantId);
+    const group = identities.get(placeId) ?? [];
+    group.push({ sourceId: id, merchantId, record });
+    identities.set(placeId, group);
+  }
+  // Group before name/keyword eligibility so neither ordering nor incomplete records can choose an owner.
+  for (const [placeId, group] of identities) {
+    const merchantIds = [...new Set(group.map(item => item.merchantId))].sort();
     const alias = aliases.get(placeId);
-    if (alias && alias.merchantId !== merchantId) fail('registry_alias_identity_mismatch');
+    const reason = merchantIds.length > 1 ? 'registry_ownership_conflict' : group.length > 1 ? 'registry_duplicate_place' : alias && alias.merchantId !== merchantIds[0] ? 'registry_alias_identity_mismatch' : undefined;
+    if (reason) {
+      quarantines.push({ placeId, reason, sourceIds: group.map(item => item.sourceId).sort(), merchantIds });
+      for (const item of group) exclusions.push({ sourceId: item.sourceId, reason });
+      quarantined += group.length;
+      continue;
+    }
+    const { sourceId: id, merchantId, record } = group[0]!;
+    const exclude = (reason: string) => { exclusions.push({ sourceId: id, reason }); };
     if (typeof record.name !== 'string' || !record.name.trim()) { exclude('missing_name'); continue; }
     if (!Array.isArray(record.keywords)) { exclude('invalid_keywords'); continue; }
     if (record.keywords.length === 0) { exclude('empty_keywords'); continue; }
@@ -67,7 +93,8 @@ export function parseStoreRegistry(records: unknown[], options: { aliases: Enrol
   stores.sort((a, b) => a.storeId.localeCompare(b.storeId, 'en'));
   normalized.sort((a, b) => a.placeId.localeCompare(b.placeId, 'en') || a.sourceId.localeCompare(b.sourceId, 'en'));
   exclusions.sort((a, b) => (a.sourceId ?? '').localeCompare(b.sourceId ?? '', 'en') || a.reason.localeCompare(b.reason, 'en'));
-  return { schemaVersion: '1', fetchedAt: options.fetchedAt ?? new Date().toISOString(), sourceResponseHash: hashJson({ identities: normalized, exclusions }), policy: REGISTRY_POLICY, stores, exclusions, counts: { fetched: records.length, eligible: stores.length, excluded: exclusions.length } };
+  quarantines.sort((a, b) => a.placeId.localeCompare(b.placeId, 'en'));
+  return { schemaVersion: '1', fetchedAt: options.fetchedAt ?? new Date().toISOString(), sourceResponseHash: hashJson({ identities: normalized, exclusions, quarantines }), policy: REGISTRY_POLICY, stores, exclusions, quarantines, counts: { fetched: records.length, eligible: stores.length, excluded: exclusions.length, quarantined } };
 }
 
 export interface RegistryMongoCursor { toArray(): Promise<unknown[]>; close(): Promise<void> }
@@ -118,7 +145,7 @@ export class MongoStoreRegistrySource implements StoreRegistrySource {
         });
         const records = await cursor.toArray();
         if (controller.signal.aborted) fail(abortReason ?? 'registry_cancelled');
-        return parseStoreRegistry(records, { aliases: this.options.aliases, maxStores: config.maxStores, maxRecords: config.maxRecords, fetchedAt: (this.options.now?.() ?? new Date()).toISOString() });
+        return parseStoreRegistry(records, { aliases: this.options.aliases, maxStores: config.maxStores, maxRecords: config.maxRecords, fetchedAt: (this.options.now?.() ?? new Date()).toISOString(), ...(config.excludedPlaces ? { excludedPlaces: config.excludedPlaces } : {}) });
       };
       return await Promise.race([stop, request()]);
     } catch (error) {

@@ -32,7 +32,7 @@ describe('UAT daily monitor deployment', () => {
     const config = JSON.parse(cm.data['monitor.json']);
     expect(config).toEqual({
       schemaVersion: '1', sourceBaseUrl: 'http://operation-assistant-api.uat.svc.cluster.local:80', stores: linkedStores,
-      storeDiscovery: { provider: 'mongo', database: 'seo-integration', collection: 'local_keywords', maxStores: 40, maxRecords: 10000, timeoutMs: 30000 },
+      storeDiscovery: { provider: 'mongo', database: 'seo-integration', collection: 'local_keywords', maxStores: 40, maxRecords: 10000, timeoutMs: 30000, excludedPlaces: [{ placeId: 'ChIJqVId_y1ZwokRjPCG1MQuKmg', reason: 'test_store' }] },
       maxKeywordsPerStore: 40, batchSize: 20, sourceTimeoutMs: 15000, outputDirectory: '/work/outputs',
       capture: { maxResultsPerKeyword: 15, maxScrollsPerKeyword: 10, maxScreenshotsPerKeyword: 8, keywordTimeoutMs: 90000, locale: 'en-US', browserTimezoneId: 'America/New_York', filenameTimezone: 'Asia/Shanghai', viewport: { width: 1440, height: 1000 } },
     });

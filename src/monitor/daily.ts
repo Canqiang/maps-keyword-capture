@@ -34,7 +34,7 @@ export interface DailyManifest {
   schemaVersion: '1'; dailyRunId: string; runKey: string; date: string; startedAt: string; finishedAt: string | null; configHash: string;
   status: 'running' | 'completed' | 'partial' | 'failed'; deliveryMode: ArtifactStore['mode']; stopReason: DailyStopReason | null;
   /** Absent on historical/static runs; counts remain unknown until discovery succeeds. */
-  registry?: { mode: 'discovered'; status: 'pending' | 'ready' | 'failed' | 'empty' | 'skipped'; error: string | null; snapshotReceipt: DailyReceipt | null; counts: StoreRegistrySnapshot['counts'] | null };
+  registry?: { mode: 'discovered'; status: 'pending' | 'ready' | 'quarantined' | 'failed' | 'empty' | 'skipped'; error: string | null; snapshotReceipt: DailyReceipt | null; counts: StoreRegistrySnapshot['counts'] | null; quarantines?: StoreRegistrySnapshot['quarantines'] };
   stores: DailyStore[]; counts: { stores: number; batches: number; selected: number; captured: number; partial: number; blocked: number; failed: number; skipped: number; sourceFailed: number; empty: number; nonRanking?: number };
 }
 export interface DailyOutput { status: DailyManifest['status'] | 'duplicate_skipped'; manifest: DailyManifest | null; manifestPath: string | null; manifestReceipt: DailyReceipt | null; claim: ClaimResult | null; exitCode: 0 | 1 | 2 }
@@ -155,13 +155,15 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
           // Configured stores are historical identity overrides, never a fallback enrollment list.
           manifest.stores = snapshot.stores.map(enrolledRow);
           registry.counts = snapshot.counts;
+          if (snapshot.quarantines) registry.quarantines = snapshot.quarantines;
           registry.snapshotReceipt = await persistJson(`${dailyPrefix}/store-registry.json`, { ...snapshot, dailyRunId, runKey, date });
           if (!isDelivered(registry.snapshotReceipt)) { registry.status = 'failed'; registry.error = 'storage_unavailable'; failStorage(); }
           else {
-            registry.status = snapshot.stores.length ? 'ready' : 'empty';
-            if (!snapshot.stores.length) stop = checkStop() ?? 'no_eligible_stores';
+            registry.status = (snapshot.counts.quarantined ?? 0) > 0 ? 'quarantined' : snapshot.stores.length ? 'ready' : 'empty';
+            if (registry.status === 'empty') stop = checkStop() ?? 'no_eligible_stores';
             // Fresh keyword reads start only after the delivered snapshot has a durable parent reference.
             await saveCheckpoint();
+            if (registry.status === 'quarantined') log({ stage: 'registry_quarantined', quarantinedRecords: snapshot.counts.quarantined, quarantinedGroups: snapshot.quarantines?.length ?? 0, quarantines: snapshot.quarantines ?? [] });
           }
           log({ stage: 'registry_discovered', status: registry.status, counts: registry.counts, snapshotStatus: registry.snapshotReceipt.storageStatus });
         }
@@ -256,18 +258,19 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
       }
     }
     count(manifest); manifest.finishedAt = now().toISOString();
-    manifest.status = operationalFailure ? 'failed' : manifest.stores.length > 0 && manifest.stores.every(s => s.status === 'completed') ? 'completed' : 'partial';
+    const hasQuarantines = (manifest.registry?.counts?.quarantined ?? 0) > 0;
+    manifest.status = operationalFailure ? 'failed' : !hasQuarantines && manifest.stores.length > 0 && manifest.stores.every(s => s.status === 'completed') ? 'completed' : 'partial';
     for (const row of manifest.stores) {
       row.executionStatus = row.status === 'failed' ? 'failed'
         : row.batches.length > 0 && row.batches.every(b => b.executionStatus === 'completed') ? 'completed' : 'incomplete';
     }
     manifest.executionStatus = operationalFailure ? 'failed'
-      : !stop && manifest.counts.selected > 0 && manifest.stores.every(s => s.executionStatus === 'completed') ? 'completed' : 'incomplete';
+      : !stop && !hasQuarantines && manifest.counts.selected > 0 && manifest.stores.every(s => s.executionStatus === 'completed') ? 'completed' : 'incomplete';
     try { finalReceipt = await persistJson(`${dailyPrefix}/manifest.json`, manifest, true); }
     catch { operationalFailure = true; }
   }
   const finalDelivered = finalReceipt !== null && isDelivered(finalReceipt);
   const exitCode = operationalFailure || !finalDelivered ? 1 : manifest.executionStatus === 'completed' && deps.store.mode === 'azure_blob' ? 0 : 2;
-  log({ stage: 'daily_done', dailyRunId, status: manifest.status, executionStatus: manifest.executionStatus, counts: manifest.counts, delivery: finalReceipt?.storageStatus ?? 'failed', exitCode });
+  log({ stage: 'daily_done', dailyRunId, status: manifest.status, executionStatus: manifest.executionStatus, counts: manifest.counts, ...(manifest.registry ? { registry: manifest.registry } : {}), delivery: finalReceipt?.storageStatus ?? 'failed', exitCode });
   return { status: exitCode === 1 ? 'failed' : manifest.status, manifest, manifestPath, manifestReceipt: finalReceipt, claim, exitCode };
 }

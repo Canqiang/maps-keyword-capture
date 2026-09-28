@@ -16,7 +16,8 @@ data:
         "collection": "local_keywords",
         "maxStores": 40,
         "maxRecords": 10000,
-        "timeoutMs": 30000
+        "timeoutMs": 30000,
+        "excludedPlaces": [{ "placeId": "ChIJqVId_y1ZwokRjPCG1MQuKmg", "reason": "test_store" }]
       },
       "stores": [
         {
