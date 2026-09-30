@@ -1,0 +1,16 @@
+{
+  "promotedAt": "2026-09-30T01:54:12.918626+00:00",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+  "runtimeCommit": "f7ce5808418e77a1a94a5ca02bff4288012e3bbe",
+  "adapterVersion": "maps-feed-card/v6",
+  "changedFields": [
+    "image",
+    "IMAGE_DIGEST"
+  ],
+  "cronjobUid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69",
+  "resourceVersion": "713353912",
+  "scheduleUnchanged": true,
+  "configUnchanged": true,
+  "resourcesUnchanged": true,
+  "readback": "passed"
+}

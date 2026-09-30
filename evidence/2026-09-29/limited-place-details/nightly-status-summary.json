@@ -1,0 +1,547 @@
+[
+  {
+    "date": "2026-09-29",
+    "runtimeAudit": {
+      "observedAt": "2026-09-29T12:06:38.719502+00:00",
+      "context": "FBRDevAKSCluster",
+      "namespace": "uat",
+      "targetDateBeijing": "2026-09-29",
+      "expectedScheduledUtc": "2026-09-28T16:00:00Z",
+      "baseline": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-registry-quarantine-2026-09-28/retest-v5",
+      "baselineComparison": {
+        "cronUidMatches": true,
+        "cronSpecExactMatch": true,
+        "configMapUidMatches": true,
+        "configDataExactMatch": true,
+        "parsedMonitorConfigExactMatch": true,
+        "cronSpecHash": "7082ca2eee2f3163586f2720dff93933f273bcba65be79b52d7849ec3e7255da",
+        "monitorConfigRawHash": "41526613f0146a91cc5f805d4530acc91ec171c28d29fc63010f24e02b96d666"
+      },
+      "cron": {
+        "name": "maps-keyword-monitor-daily",
+        "uid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69",
+        "schedule": "0 0 * * *",
+        "timeZone": "Asia/Shanghai",
+        "suspend": false,
+        "concurrencyPolicy": "Forbid",
+        "startingDeadlineSeconds": 3600,
+        "activeDeadlineSeconds": 51000,
+        "lastScheduleTime": "2026-09-28T16:00:00Z",
+        "lastSuccessfulTime": "2026-09-22T17:23:57Z",
+        "active": []
+      },
+      "job": {
+        "name": "maps-keyword-monitor-daily-29843520",
+        "uid": "ed868c69-2ca7-4bc5-92c1-4aaef51687b4",
+        "creationTimestamp": "2026-09-28T16:00:00Z",
+        "plannedTimestamp": "2026-09-29T00:00:00+08:00",
+        "ownerReferences": [
+          {
+            "apiVersion": "batch/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "CronJob",
+            "name": "maps-keyword-monitor-daily",
+            "uid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69"
+          }
+        ],
+        "ownedByCurrentCronJob": true,
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": "2026-09-28T17:53:04Z",
+              "lastTransitionTime": "2026-09-28T17:53:04Z",
+              "message": "Job has reached the specified backoff limit",
+              "reason": "BackoffLimitExceeded",
+              "status": "True",
+              "type": "FailureTarget"
+            },
+            {
+              "lastProbeTime": "2026-09-28T17:53:04Z",
+              "lastTransitionTime": "2026-09-28T17:53:04Z",
+              "message": "Job has reached the specified backoff limit",
+              "reason": "BackoffLimitExceeded",
+              "status": "True",
+              "type": "Failed"
+            }
+          ],
+          "failed": 1,
+          "ready": 0,
+          "startTime": "2026-09-28T16:00:00Z",
+          "terminating": 0,
+          "uncountedTerminatedPods": {}
+        },
+        "backoffLimit": 0,
+        "activeDeadlineSeconds": 51000
+      },
+      "pod": {
+        "name": "maps-keyword-monitor-daily-29843520-tmwjc",
+        "uid": "ba390a7f-3534-43ca-8280-84076a872bf2",
+        "creationTimestamp": "2026-09-28T16:00:00Z",
+        "ownerReferences": [
+          {
+            "apiVersion": "batch/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Job",
+            "name": "maps-keyword-monitor-daily-29843520",
+            "uid": "ed868c69-2ca7-4bc5-92c1-4aaef51687b4"
+          }
+        ],
+        "phase": "Failed",
+        "startTime": "2026-09-28T16:00:00Z",
+        "nodeName": "aks-aiapp-34077033-vmss000004",
+        "nodeSelector": {
+          "envpool": "aiapp"
+        },
+        "conditions": [
+          {
+            "type": "PodReadyToStartContainers",
+            "status": "False",
+            "reason": null,
+            "lastTransitionTime": "2026-09-28T17:53:03Z"
+          },
+          {
+            "type": "Initialized",
+            "status": "True",
+            "reason": null,
+            "lastTransitionTime": "2026-09-28T16:00:00Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "reason": "PodFailed",
+            "lastTransitionTime": "2026-09-28T17:53:02Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "reason": "PodFailed",
+            "lastTransitionTime": "2026-09-28T17:53:02Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "reason": null,
+            "lastTransitionTime": "2026-09-28T16:00:00Z"
+          }
+        ],
+        "containers": [
+          {
+            "name": "monitor",
+            "image": "sha256:00619b1d84a9a8a4abeef8790fb48c8afd0492dd14619652c603e081d863569c",
+            "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2",
+            "ready": false,
+            "restartCount": 0,
+            "state": "terminated",
+            "terminated": {
+              "exitCode": 2,
+              "reason": "Error",
+              "signal": null,
+              "startedAt": "2026-09-28T16:00:04Z",
+              "finishedAt": "2026-09-28T17:53:01Z"
+            }
+          }
+        ],
+        "requestedContainers": [
+          {
+            "name": "monitor",
+            "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2",
+            "resources": {
+              "limits": {
+                "cpu": "2",
+                "ephemeral-storage": "3Gi",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "250m",
+                "ephemeral-storage": "1Gi",
+                "memory": "1Gi"
+              }
+            }
+          }
+        ]
+      },
+      "monitorConfig": {
+        "schemaVersion": "1",
+        "maxKeywordsPerStore": 40,
+        "batchSize": 20,
+        "sourceTimeoutMs": 15000,
+        "storeDiscovery": {
+          "provider": "mongo",
+          "database": "seo-integration",
+          "collection": "local_keywords",
+          "maxStores": 40,
+          "maxRecords": 10000,
+          "timeoutMs": 30000,
+          "excludedPlaces": [
+            {
+              "placeId": "ChIJqVId_y1ZwokRjPCG1MQuKmg",
+              "reason": "test_store"
+            }
+          ]
+        },
+        "aliasCount": 7,
+        "geographicReferencesConfigured": 0,
+        "capture": {
+          "maxResultsPerKeyword": 15,
+          "maxScrollsPerKeyword": 10,
+          "maxScreenshotsPerKeyword": 8,
+          "keywordTimeoutMs": 90000,
+          "filenameTimezone": "Asia/Shanghai",
+          "browserTimezoneId": "America/New_York"
+        }
+      },
+      "retainedEvents": {
+        "cron": [],
+        "job": [],
+        "pod": []
+      },
+      "scope": {
+        "readOnly": true,
+        "secretsRead": false,
+        "databaseReads": false,
+        "azureReads": false,
+        "logsRetrieved": false,
+        "note": "Events may have expired; absence of retained events is not historical proof. Daily partial reasons require the independently persisted manifest."
+      },
+      "interpretation": {
+        "automaticTriggerConfirmed": true,
+        "containerStartDelaySeconds": 4,
+        "containerRuntimeSeconds": 6777,
+        "imageMatchesPromotion": true,
+        "noUnexpectedRestarts": true,
+        "noOomTerminationReported": true,
+        "noDeadlineExceededConditionReported": true,
+        "jobFailedReason": "The original process exited 2; backoffLimit 0 permits no retry. BackoffLimitExceeded itself does not identify a scheduling, image or resource outage.",
+        "partialCause": "Requires Azure persisted daily and batch evidence; exit 2 alone cannot establish cause or full collection success."
+      }
+    },
+    "coverageAudit": {
+      "at": "2026-09-29T12:08:28.480900+00:00",
+      "dailyRunId": "run_20260928T160005Z_7f9326",
+      "counts": {
+        "stores": 10,
+        "batches": 18,
+        "selected": 350,
+        "captured": 321,
+        "partial": 29,
+        "blocked": 0,
+        "failed": 0,
+        "skipped": 0,
+        "sourceFailed": 0,
+        "empty": 0,
+        "nonRanking": 27
+      },
+      "perStore": [
+        {
+          "name": "Choice Market - Clinton Hill",
+          "selected": 40,
+          "captured": 39,
+          "nonRanking": 1,
+          "otherPartial": 0
+        },
+        {
+          "name": "Choice Brooklyn - Upper West Side",
+          "selected": 40,
+          "captured": 40,
+          "nonRanking": 0,
+          "otherPartial": 0
+        },
+        {
+          "name": "Keke Food 可可小卤 — Flushing",
+          "selected": 40,
+          "captured": 36,
+          "nonRanking": 4,
+          "otherPartial": 0
+        },
+        {
+          "name": "Massage & float",
+          "selected": 40,
+          "captured": 30,
+          "nonRanking": 9,
+          "otherPartial": 1
+        },
+        {
+          "name": "Only Bear Chicken & Boba",
+          "selected": 40,
+          "captured": 32,
+          "nonRanking": 8,
+          "otherPartial": 0
+        },
+        {
+          "name": "CONNEXION SPA 凯盛水汇",
+          "selected": 32,
+          "captured": 31,
+          "nonRanking": 1,
+          "otherPartial": 0
+        },
+        {
+          "name": "SEE JOY 喜聚",
+          "selected": 40,
+          "captured": 37,
+          "nonRanking": 2,
+          "otherPartial": 1
+        },
+        {
+          "name": "Szechuan Opera",
+          "selected": 18,
+          "captured": 16,
+          "nonRanking": 2,
+          "otherPartial": 0
+        },
+        {
+          "name": "Royal Queen",
+          "selected": 40,
+          "captured": 40,
+          "nonRanking": 0,
+          "otherPartial": 0
+        },
+        {
+          "name": "Szechuan Gourmet 朵颐食府",
+          "selected": 20,
+          "captured": 20,
+          "nonRanking": 0,
+          "otherPartial": 0
+        }
+      ],
+      "zeroListingCapturedQueries": [
+        {
+          "store": "Keke Food 可可小卤 — Flushing",
+          "keyword": "luwei"
+        },
+        {
+          "store": "Keke Food 可可小卤 — Flushing",
+          "keyword": "cold dishes"
+        }
+      ],
+      "allSelected350ReconciledWith18BatchManifests": true,
+      "allBatchRuntimeMetadataMatched": true,
+      "georgeExcludedInActualRegistry": true,
+      "scope": {
+        "azureLoginManifestSnapshotSizeShaVerified": 29,
+        "azureLoginPartialArtifactSizeShaVerified": 10,
+        "totalBatchArtifactsReferenced": 2326,
+        "allArtifactsDownloaded": false,
+        "dailyManifestOriginalReceiptUnavailable": true,
+        "visualSamples": 2,
+        "azureLoginNoResultsJsonVerified": 2
+      },
+      "geography": "unverified",
+      "observedOutcomes": {
+        "nonemptyRankedCaptures": 319,
+        "explicitNoResults": 2,
+        "recognizedNonRanking": 27,
+        "otherPartial": 2
+      }
+    }
+  },
+  {
+    "date": "2026-09-30",
+    "runtimeAudit": {
+      "checkedAt": "2026-09-30T01:51:38.908912+00:00",
+      "context": "FBRDevAKSCluster",
+      "namespace": "uat",
+      "job": "maps-keyword-monitor-daily-29844960",
+      "jobUid": "a45801cc-1bf6-42bb-a7ee-7d3f9ad0539e",
+      "pod": "maps-keyword-monitor-daily-29844960-6qh2d",
+      "podUid": "540123c7-6e4b-4ae9-bad3-f52703d9bab3",
+      "scheduledAt": "2026-09-30T00:00:00+08:00",
+      "jobCreatedAt": "2026-09-29T16:00:00Z",
+      "containerStartedAt": "2026-09-29T16:00:47Z",
+      "containerFinishedAt": "2026-09-29T17:53:21Z",
+      "jobFailedAt": "2026-09-29T17:53:24Z",
+      "originalPodExitCode": 2,
+      "restartCount": 0,
+      "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:092537407e84318119932b9710809102b141cb37a05f8b10ad9d0c69def10da2",
+      "adapter": "maps-feed-card/v5",
+      "runtimeCommit": "385a14d2615da65859f90fd06b623b560e3edc9f",
+      "automaticOwnerAndScheduleMatched": true,
+      "runtimeVerdict": "Automatic trigger and all keyword dispatch completed; ranking execution incomplete due to one unsupported-layout partial. Exit 2 is expected for this incomplete result, not an OOM or restart.",
+      "eventsScope": "No retained Pod events returned at audit time; no event-history inference."
+    },
+    "coverageAudit": {
+      "checkedAt": "2026-09-30T01:51:38.908912+00:00",
+      "runKey": "2026-09-30",
+      "dailyRunId": "run_20260929T160048Z_a11b45",
+      "azureAccount": "fbrdevstorage",
+      "azureContainer": "maps-keyword-capture-uat",
+      "dailyManifest": "2026-09-30/daily/run_20260929T160048Z_a11b45/manifest.json",
+      "counts": {
+        "stores": 10,
+        "batches": 18,
+        "selected": 350,
+        "attempted": 350,
+        "captured": 320,
+        "nonemptyRanked": 318,
+        "explicitNoResults": 2,
+        "partial": 30,
+        "nonRankingSubsetOfPartial": 29,
+        "otherPartial": 1,
+        "blocked": 0,
+        "failedQueries": 0,
+        "skipped": 0,
+        "sourceFailed": 0
+      },
+      "perStore": [
+        {
+          "storeId": "choice-clinton-hill",
+          "name": "Choice Market - Clinton Hill",
+          "selected": 40,
+          "attempted": 40,
+          "nonemptyRanked": 40,
+          "explicitNoResults": 0,
+          "nonRanking": 0,
+          "otherPartial": 0,
+          "selectionMatchesOrderedDispatch": true
+        },
+        {
+          "storeId": "choice-upper-west-side",
+          "name": "Choice Brooklyn - Upper West Side",
+          "selected": 40,
+          "attempted": 40,
+          "nonemptyRanked": 40,
+          "explicitNoResults": 0,
+          "nonRanking": 0,
+          "otherPartial": 0,
+          "selectionMatchesOrderedDispatch": true
+        },
+        {
+          "storeId": "keke-flushing",
+          "name": "Keke Food 可可小卤 — Flushing",
+          "selected": 40,
+          "attempted": 40,
+          "nonemptyRanked": 34,
+          "explicitNoResults": 2,
+          "nonRanking": 4,
+          "otherPartial": 0,
+          "selectionMatchesOrderedDispatch": true
+        },
+        {
+          "storeId": "massage-float",
+          "name": "Massage & float",
+          "selected": 40,
+          "attempted": 40,
+          "nonemptyRanked": 30,
+          "explicitNoResults": 0,
+          "nonRanking": 10,
+          "otherPartial": 0,
+          "selectionMatchesOrderedDispatch": true
+        },
+        {
+          "storeId": "only-bear",
+          "name": "Only Bear Chicken & Boba",
+          "selected": 40,
+          "attempted": 40,
+          "nonemptyRanked": 32,
+          "explicitNoResults": 0,
+          "nonRanking": 8,
+          "otherPartial": 0,
+          "selectionMatchesOrderedDispatch": true
+        },
+        {
+          "storeId": "place-2bb885ba4a9411eed9118fa9abddea3a",
+          "name": "CONNEXION SPA 凯盛水汇",
+          "selected": 32,
+          "attempted": 32,
+          "nonemptyRanked": 31,
+          "explicitNoResults": 0,
+          "nonRanking": 1,
+          "otherPartial": 0,
+          "selectionMatchesOrderedDispatch": true
+        },
+        {
+          "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+          "name": "SEE JOY 喜聚",
+          "selected": 40,
+          "attempted": 40,
+          "nonemptyRanked": 35,
+          "explicitNoResults": 0,
+          "nonRanking": 4,
+          "otherPartial": 1,
+          "selectionMatchesOrderedDispatch": true
+        },
+        {
+          "storeId": "place-ac78f6908231da8da688f4a25e980087",
+          "name": "Szechuan Opera",
+          "selected": 18,
+          "attempted": 18,
+          "nonemptyRanked": 16,
+          "explicitNoResults": 0,
+          "nonRanking": 2,
+          "otherPartial": 0,
+          "selectionMatchesOrderedDispatch": true
+        },
+        {
+          "storeId": "place-d83da948f2e65da8928b14abe3d39d13",
+          "name": "Royal Queen",
+          "selected": 40,
+          "attempted": 40,
+          "nonemptyRanked": 40,
+          "explicitNoResults": 0,
+          "nonRanking": 0,
+          "otherPartial": 0,
+          "selectionMatchesOrderedDispatch": true
+        },
+        {
+          "storeId": "szechuan-gourmet",
+          "name": "Szechuan Gourmet 朵颐食府",
+          "selected": 20,
+          "attempted": 20,
+          "nonemptyRanked": 20,
+          "explicitNoResults": 0,
+          "nonRanking": 0,
+          "otherPartial": 0,
+          "selectionMatchesOrderedDispatch": true
+        }
+      ],
+      "otherPartial": [
+        {
+          "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+          "keyword": "see joy",
+          "stopReason": "unsupported_layout",
+          "actualPageName": "She-Joy's Sweet Treats",
+          "finalUrl": "https://www.google.com/maps/place/She-Joy's+Sweet+Treats/@46.423669,-129.9427085,3z/data=!3m1!4b1!4m6!3m5!1s0x88f82b84813fdda5:0x381d0c30125edffd!8m2!3d46.423669!4d-129.9427086!16s%2Fg%2F11jq0nb3jd?hl=en&entry=ttu&g_ep=EgoyMDI2MDkyNy4wIKXMDSoASAFQAw%3D%3D",
+          "listings": 0,
+          "identityInterpretation": "Different merchant from SEE JOY; no own-store match or rank may be inferred."
+        }
+      ],
+      "knownNoResults": [
+        {
+          "storeId": "keke-flushing",
+          "keyword": "luwei"
+        },
+        {
+          "storeId": "keke-flushing",
+          "keyword": "cold dishes"
+        }
+      ],
+      "floatStatus": {
+        "status": "captured",
+        "stopReason": "limit_reached"
+      },
+      "registryCounts": {
+        "fetched": 18,
+        "eligible": 10,
+        "excluded": 8,
+        "quarantined": 0
+      },
+      "georgeExcluded": true,
+      "readbackScope": {
+        "identity": "azure_cli_login",
+        "dailyManifestReceiptSizeSha256Matched": true,
+        "referencedManifestsAndSnapshotsVerified": 29,
+        "batchArtifactReferencesTotal": 2322,
+        "batchArtifactsIndependentlyHashVerified": 6,
+        "batchArtifactsScope": "Four selected see joy artifacts plus the result JSON for both zero-scope captured queries. Other batch artifacts not independently downloaded.",
+        "originalClaimReadback": true,
+        "selectedQueryManifestEntriesAudited": 350,
+        "dispatchMatchesSelectionAllStores": true,
+        "visualPngCount": 1,
+        "visualScope": "Only see joy diagnostic PNG; exact merchant heading, search text, limited controls, website and phone are legible. No evidence of rank; no Directions/address.",
+        "fullAllArtifactVerification": false
+      },
+      "geographicScope": "All customer-local geographic relevance remains unverified; expectedArea is not configured."
+    }
+  }
+]

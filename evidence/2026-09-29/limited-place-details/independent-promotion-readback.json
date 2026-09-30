@@ -1,0 +1,91 @@
+{
+  "reviewer": "independent code-reviewer",
+  "checkedAt": "2026-09-30T01:57:13.814594+00:00",
+  "passed": true,
+  "context": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "freshClusterReads": [
+    "CronJob",
+    "ConfigMap",
+    "Jobs",
+    "smoke Pod"
+  ],
+  "cronjobUid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69",
+  "resourceVersion": "713353912",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+  "runtimeCommit": "f7ce5808418e77a1a94a5ca02bff4288012e3bbe",
+  "onlyChangedSpecFields": [
+    "jobTemplate.spec.template.spec.containers[0].image",
+    "jobTemplate.spec.template.spec.containers[0].env[3].value (IMAGE_DIGEST)"
+  ],
+  "schedule": {
+    "suspend": false,
+    "schedule": "0 0 * * *",
+    "timeZone": "Asia/Shanghai",
+    "unchanged": true
+  },
+  "config": {
+    "uid": "4e50d830-dc77-4732-9d72-5d53eb8ec01b",
+    "resourceVersion": "711202335",
+    "dataExactBaselineMatch": true,
+    "georgeTestStoreExclusionUnchanged": true
+  },
+  "resourcesUnchanged": true,
+  "resources": {
+    "limits": {
+      "cpu": "2",
+      "ephemeral-storage": "3Gi",
+      "memory": "2Gi"
+    },
+    "requests": {
+      "cpu": "250m",
+      "ephemeral-storage": "1Gi",
+      "memory": "1Gi"
+    }
+  },
+  "activeJobs": [],
+  "smoke": {
+    "runId": "run_20260930T015105Z_52b953",
+    "attemptId": "att_215e9734",
+    "actualPodExitCode": 0,
+    "actualPodImageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+    "actualPodRestarts": 0,
+    "counts": {
+      "partial": 3,
+      "captured": 1,
+      "nonRanking": 3
+    },
+    "rankedRows": 6,
+    "status": "partial",
+    "executionStatus": "completed",
+    "limitedActionsDetailsObserved": 1,
+    "verifiedObjects": 19,
+    "verifiedArtifacts": 18,
+    "all19DownloadedObjectBytesAndSha256IndependentlyRechecked": true,
+    "originalReadbackIdentity": "azure_cli_login",
+    "freshAzureDownloadsByThisReviewer": false,
+    "pngsStructurallyChecked": 5,
+    "visualReview": {
+      "separateArtifact": "visual-review.json",
+      "reviewer": "root visual inspection via view_image",
+      "imagesReviewed": 5,
+      "allPngKeysAndHashesMatch": true,
+      "imagesReopenedByThisReviewer": false
+    }
+  },
+  "limitations": [
+    "Four-query standalone smoke only; no full nightly acceptance from this result.",
+    "She-Joy's Sweet Treats is preserved as the observed name and is not a SEE JOY match or ranking claim.",
+    "Visual review was performed separately by the root reviewer; this review cross-checked its complete five-PNG inventory and hashes."
+  ],
+  "evidenceSha256": {
+    "independent-live-cronjob.json": "46aea175a29a31f2096bd57bb969b0f3032a459928276174f1ded4c25d7042b8",
+    "independent-live-configmap.json": "7bcd8277c9df3f9e0e2d58db40c71c50c8287b69980bec7a509220469fcf57bd",
+    "independent-live-jobs-summary.json": "65dc6ef0e664556a780bff2b79e9be939158bf9b32c121d3c48b15da77e35132",
+    "independent-smoke-pod.json": "25fbd820f0995237ae66845f69ff5add2b97ba7bb17a1e6fabd9fab01397a41c",
+    "smoke-acceptance.json": "36d8426221d19052b278037274e2f26830bb23d791ef17bab06caffd006bf56e",
+    "readback-v6/readback-report.json": "9674192b7424aa0785b3071b61af563c391012832bfeb77bfe37655543b3f90f",
+    "readback-v6/object-inventory.json": "1122e053230e12513a7b72c18846822b52214b4da12da262569edfeca8ec19af",
+    "visual-review.json": "ec58f614ee2f9012758384154198b120eb82da8f3de188ffeca51d570675e650"
+  }
+}

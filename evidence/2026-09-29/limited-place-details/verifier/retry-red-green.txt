@@ -1,0 +1,38 @@
+Synthetic regression witness only; no runtime or historical helper edits.
+Mutation restores the old selected-only query artifactIds check.
+
+RED (old rule):
+test_retry_union_and_all_attempt_evidence_are_accepted (test_v6_smoke_regressions.V6SmokeRegressionTests.test_retry_union_and_all_attempt_evidence_are_accepted) ... ERROR
+
+======================================================================
+ERROR: test_retry_union_and_all_attempt_evidence_are_accepted (test_v6_smoke_regressions.V6SmokeRegressionTests.test_retry_union_and_all_attempt_evidence_are_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-limited-details-2026-09-29/verifier/.retry-regression-5jlc7zi9/test_v6_smoke_regressions.py", line 147, in test_retry_union_and_all_attempt_evidence_are_accepted
+    report = self.verify()
+  File "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-limited-details-2026-09-29/verifier/.retry-regression-5jlc7zi9/test_verify_smoke.py", line 96, in verify
+    return smoke.verify(self.summary, h.Reader(self.root / 'out', self.source), f.DIGEST, f.SOURCE,
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        keywords or EXPECTED_KEYWORDS, expected_config=copy.deepcopy(EXPECTED_CONFIG))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-limited-details-2026-09-29/verifier/.retry-regression-5jlc7zi9/verify_smoke.py", line 225, in verify
+    h.require(len(selected) == 1 and all(row[k] == selected[0][k] for k in ('status', 'stopReason', 'resultFile', 'error', 'artifactIds')),
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              'Selected attempt differs from query row')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-limited-details-2026-09-29/verifier/.retry-regression-5jlc7zi9/verification_helpers.py", line 40, in require
+    raise ValueError(message)
+ValueError: Selected attempt differs from query row
+
+----------------------------------------------------------------------
+Ran 1 test in 0.045s
+
+FAILED (errors=1)
+
+GREEN (all-attempt union rule):
+test_retry_union_and_all_attempt_evidence_are_accepted (test_v6_smoke_regressions.V6SmokeRegressionTests.test_retry_union_and_all_attempt_evidence_are_accepted) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.038s
+
+OK

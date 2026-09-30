@@ -1,0 +1,27 @@
+{
+  "accepted": true,
+  "acceptedAt": "2026-09-30T01:54:04.547264+00:00",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+  "runtimeCommit": "f7ce5808418e77a1a94a5ca02bff4288012e3bbe",
+  "adapterVersion": "maps-feed-card/v6",
+  "runId": "run_20260930T015105Z_52b953",
+  "attemptId": "att_215e9734",
+  "originalPodExitCode": 0,
+  "verificationIdentity": "azure_cli_login",
+  "verifiedObjects": 19,
+  "verifiedArtifacts": 18,
+  "pngsStructurallyChecked": 5,
+  "pngsVisuallyReviewed": 5,
+  "queryCount": 4,
+  "rankedQueries": 1,
+  "rankedRows": 6,
+  "nonRankingQueries": 3,
+  "limitedActionsQueries": 1,
+  "manifestObjectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/manifest.json",
+  "limits": [
+    "Four-query standalone smoke, not a full daily rerun.",
+    "No merchant identity or customer-local rank claim.",
+    "No ad/unknown rows in sample.",
+    "The separately observed float housing variant remains unresolved."
+  ]
+}

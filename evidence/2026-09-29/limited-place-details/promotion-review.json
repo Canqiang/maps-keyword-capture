@@ -1,0 +1,30 @@
+{
+  "reviewer": "independent code-reviewer",
+  "reviewedAt": "2026-09-30T01:52:00.847320+00:00",
+  "findings": [],
+  "scope": "Promotion helper changes only CronJob monitor container image and IMAGE_DIGEST; accepted smoke/image/source binding, unchanged CronJob and ConfigMap baselines, active workload check, JSON Patch concurrency guards and full post-write readback",
+  "resolvedWarning": "Image digest is now validated as exact SHA-256 and bound to the accepted registry/repository image; adapter v6 and full runtime source commit are validated before any mutation.",
+  "runtimeCommit": "f7ce5808418e77a1a94a5ca02bff4288012e3bbe",
+  "testsPassed": 6,
+  "mockedCases": 24,
+  "command": "python3 -m unittest test_promote_guard -v",
+  "sha256": {
+    "promote-cronjob.py": "2b3af299b8778e3400c86f58d8186f71b9fdb60a93b5080d3c003c0e18ca2113",
+    "test_promote_guard.py": "036faa43e7a83d0f439692b2021c213a317cad24afd580c793bded2a8ac695b3",
+    "promotion-tests.log": "d44e7bc30d202a19a314d6759114afa265db4532713b418fd1fc08828682cd7b",
+    "before-cronjob.json": "092ffedec94186b3dec5df1316fee4147f6c94717e0a4203cabc33298a9f3ce3",
+    "before-configmap.json": "b37413e2023933fa27a94a31a7fb9ff5afb9184e19cfa61003842d3d9d5d982c"
+  },
+  "checks": [
+    "Mocked success changes exactly image and IMAGE_DIGEST and preserves all other spec fields",
+    "Existing plan/promotion markers stop before cluster calls",
+    "Rejected acceptance false/image/source/adapter mismatch, CronJob UID/spec drift, ConfigMap UID/data drift and active maps workload before planning/patching",
+    "Rejected mismatched/invalid digest, wrong image repository, malformed source commit and wrong image adapter before planning/patching",
+    "JSON Patch test guards on UID, resourceVersion and full spec reject all three simulated concurrent changes",
+    "Post-patch CronJob UID/spec and ConfigMap UID/data mismatches retain readback evidence but do not write promotion.json"
+  ],
+  "limitations": [
+    "Every Kubernetes operation in this review was mocked; no live promotion or remote mutation was executed",
+    "The real accepted smoke artifacts, created workload and promoted CronJob require independent live readback after execution"
+  ]
+}

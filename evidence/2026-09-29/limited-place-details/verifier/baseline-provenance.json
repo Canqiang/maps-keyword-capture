@@ -1,0 +1,13 @@
+{
+  "sources": [
+    {
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-fix-2026-09-18/verifier/verify_smoke.py",
+      "sha256": "483866124d2d643a7e53fd874ca9896c39b11c07b578e6b0d6df2e0b39e21d5e"
+    },
+    {
+      "path": "/Users/xander/git_repo/maps-keyword-capture/evidence/2026-09-28/registry-isolation/verifier/verify_daily.py",
+      "sha256": "6ec2e176c982b9645a9d95b9e7cdff027855682fe0406ea2c1042aab2df02758"
+    }
+  ],
+  "historicalSourcesModified": false
+}

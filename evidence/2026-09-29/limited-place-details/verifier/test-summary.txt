@@ -1,0 +1,7 @@
+Command: python3 -m unittest discover -v
+Started UTC: 2026-09-30T01:48:19.822343+00:00
+Finished UTC: 2026-09-30T01:48:23.279164+00:00
+Tests: 110; failures: 0; errors: 0; skipped: 0; exit: 0; duration: 3.355s
+Compilation: python3 -m py_compile verify_smoke.py verification_helpers.py; exit: 0
+Retry red-green: old rule fails (exit 1); corrected rule passes (exit 0).
+Scope: offline synthetic artifacts and mocked Azure transport only.

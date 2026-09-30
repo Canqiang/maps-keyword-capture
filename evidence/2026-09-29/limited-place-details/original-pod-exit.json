@@ -1,0 +1,8 @@
+{
+  "podName": "maps-detail-smoke-20260930t01501790704257z-6579-g69s4",
+  "exitCode": 0,
+  "startedAt": "2026-09-30T01:51:04Z",
+  "finishedAt": "2026-09-30T01:51:34Z",
+  "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+  "restarts": 0
+}

@@ -1,0 +1,236 @@
+{
+  "verificationIdentity": "azure_cli_login",
+  "evidenceIntegrityPassed": true,
+  "runId": "run_20260930T015105Z_52b953",
+  "attemptId": "att_215e9734",
+  "status": "partial",
+  "executionStatus": "completed",
+  "recomputedExecutionStatus": "completed",
+  "counts": {
+    "partial": 3,
+    "captured": 1,
+    "nonRanking": 3
+  },
+  "expectedKeywords": [
+    "see joy",
+    "SEE JOY 喜聚",
+    "bubble tea mineola",
+    "Flushing"
+  ],
+  "limitedActionsDetailsObserved": 1,
+  "expectedConfig": {
+    "maxResultsPerKeyword": 15,
+    "maxScrollsPerKeyword": 10,
+    "maxScreenshotsPerKeyword": 8,
+    "keywordTimeoutMs": 90000,
+    "locale": "en-US",
+    "browserTimezoneId": "America/New_York",
+    "filenameTimezone": "Asia/Shanghai",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "outputDirectory": "/work/outputs",
+    "schemaVersion": "1",
+    "keywords": [
+      "see joy",
+      "SEE JOY 喜聚",
+      "bubble tea mineola",
+      "Flushing"
+    ]
+  },
+  "expectedProfileHash": "019ea7beb42be190c209429fdb0767e22abf4ee5521634c398ef669c5a0252d7",
+  "imageDigest": "sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+  "sourceCommit": "f7ce5808418e77a1a94a5ca02bff4288012e3bbe",
+  "adapterVersion": "maps-feed-card/v6",
+  "finalReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/manifest.json",
+    "verifiedAt": "2026-09-30T01:51:34.802Z",
+    "storageError": null,
+    "runId": "run_20260930T015105Z_52b953",
+    "attemptId": "att_215e9734",
+    "filename": "manifest.json",
+    "bytes": 15233,
+    "sha256": "ce349bdff42a2abdf0ceada5d5a985b2777b7644484821ed11e149db6c9fd5d2"
+  },
+  "verifiedObjects": 19,
+  "verifiedArtifacts": 18,
+  "verifiedBytes": 4201189,
+  "pngsStructurallyChecked": 5,
+  "csvRowsComparedAllAttempts": 6,
+  "observationRecordsChecked": 2,
+  "resultAttemptsCompared": 4,
+  "cacheReused": 0,
+  "smokeAccepted": true,
+  "verifierExitCode": 0,
+  "podExitCode": null,
+  "podExitCodeNote": "Not present in collector summary; compare separately with archived Kubernetes termination state.",
+  "issues": [],
+  "results": [
+    {
+      "queryId": "q0001",
+      "keyword": "see joy",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "placeDetails": {
+        "name": "She-Joy's Sweet Treats",
+        "recognition": "limited_actions",
+        "signals": [
+          "visible_heading",
+          "named_pane",
+          "named_actions",
+          "save",
+          "send_to_phone",
+          "share",
+          "website"
+        ],
+        "mapsUrl": "https://www.google.com/maps/place/She-Joy's+Sweet+Treats/@46.423669,-129.9427085,3z/data=!3m1!4b1!4m6!3m5!1s0x88f82b84813fdda5:0x381d0c30125edffd!8m2!3d46.423669!4d-129.9427086!16s%2Fg%2F11jq0nb3jd?hl=en&entry=ttu&g_ep=EgoyMDI2MDkyOC4wIKXMDSoASAFQAw%3D%3D"
+      },
+      "resultKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001.json",
+      "listings": 0,
+      "surface": "place_details",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001__diag.png"
+      ],
+      "listingCoverage": [],
+      "allListingsCovered": true,
+      "classificationCounts": {}
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "SEE JOY 喜聚",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "placeDetails": {
+        "name": "SEE JOY 喜聚",
+        "recognition": "standard_actions",
+        "signals": [
+          "visible_heading",
+          "directions",
+          "address"
+        ],
+        "mapsUrl": "https://www.google.com/maps/place/SEE+JOY+%E5%96%9C%E8%81%9A/@40.7484778,-73.9900448,17z/data=!3m1!4b1!4m6!3m5!1s0x89c259c302e38551:0x693b4944881f6093!8m2!3d40.7484778!4d-73.9900448!16s%2Fg%2F11zxn2xvdg?hl=en&entry=ttu&g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D"
+      },
+      "resultKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002.json",
+      "listings": 0,
+      "surface": "place_details",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002__diag.png"
+      ],
+      "listingCoverage": [],
+      "allListingsCovered": true,
+      "classificationCounts": {}
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "bubble tea mineola",
+      "status": "captured",
+      "stopReason": "end_of_results",
+      "placeDetails": null,
+      "resultKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003.json",
+      "listings": 6,
+      "surface": "results_list",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__01.png",
+        "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__02.png"
+      ],
+      "listingCoverage": [
+        {
+          "occurrenceId": "occ_81dd793837323ac8",
+          "displayPosition": 1,
+          "name": "Only Bear Chicken & Boba",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_39aaa230625088a0",
+          "displayPosition": 2,
+          "name": "Smo Tea",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_2c510edd841230f2",
+          "displayPosition": 3,
+          "name": "Cafe Blessing - Mineola, NY",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_24834f80aabd1df5",
+          "displayPosition": 4,
+          "name": "Tea Magic",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_a62a725976486a64",
+          "displayPosition": 5,
+          "name": "Ikedo Japanese Eatery (Mineola)",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_535cab377249b9d4",
+          "displayPosition": 6,
+          "name": "Kung Fu Tea Williston Park, New York",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        }
+      ],
+      "allListingsCovered": true,
+      "classificationCounts": {
+        "organic": 6
+      }
+    },
+    {
+      "queryId": "q0004",
+      "keyword": "Flushing",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "placeDetails": {
+        "name": "Flushing",
+        "recognition": "standard_actions",
+        "signals": [
+          "visible_heading",
+          "directions"
+        ],
+        "mapsUrl": "https://www.google.com/maps/place/Flushing,+Queens,+NY/@40.7598591,-73.8264094,14z/data=!3m1!4b1!4m6!3m5!1s0x89c260054dc0633f:0xfaec24d1b474281e!8m2!3d40.7647238!4d-73.8306716!16zL20vMDFubDc5?hl=en&entry=ttu&g_ep=EgoyMDI2MDkyOC4wIKXMDSoASAFQAw%3D%3D"
+      },
+      "resultKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004.json",
+      "listings": 0,
+      "surface": "place_details",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004__diag.png"
+      ],
+      "listingCoverage": [],
+      "allListingsCovered": true,
+      "classificationCounts": {}
+    }
+  ],
+  "scope": {
+    "allManifestArtifactsVerified": true,
+    "allAttemptJsonCsvCompared": true,
+    "allPngStructurallyChecked": true,
+    "visualReview": "pending; see visual-review-plan.json",
+    "visualSampleCount": 5
+  },
+  "limitations": [
+    "Small standalone collector smoke only; not a full daily-monitor or midnight-schedule acceptance.",
+    "Complete non-ranking observations keep status partial and have no merchant ranking.",
+    "No expectedArea is configured: all geographic statuses must remain unverified.",
+    "The limited-actions regression is accepted only when at least one selected detail has its required recognition signals; visual review remains separate.",
+    "PNG structural integrity and observation coverage do not replace visual interpretation."
+  ]
+}

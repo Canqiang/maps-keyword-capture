@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1",
+  "validatedAt": "2026-09-30T01:48:23.279164+00:00",
+  "scope": "standalone v6 verifier local validation only",
+  "adapterVersion": "maps-feed-card/v6",
+  "localTestsPassed": true,
+  "testCommand": "python3 -m unittest discover -v",
+  "pythonVersion": "3.13.0",
+  "tests": 110,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "testExitCode": 0,
+  "testDurationSeconds": 3.355,
+  "testLog": "test-output.txt",
+  "testLogSha256": "0b7886de64ff65d2b94b41983cbc4df20a8badf9e2fc9ec5d18e3fdd07c5e717",
+  "compactTestLog": "test-summary.txt",
+  "compilationExitCode": 0,
+  "retryRegression": {
+    "redExitCode": 1,
+    "greenExitCode": 0,
+    "log": "retry-red-green.txt",
+    "logSha256": "6c0992acf9073395f79d6d6853b8e3888bf48c7cf6e81ae0685068d4b5540435"
+  },
+  "expectedKeywords": [
+    "see joy",
+    "SEE JOY 喜聚",
+    "bubble tea mineola",
+    "Flushing"
+  ],
+  "expectedConfigPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-limited-details-2026-09-29/smoke-config.json",
+  "expectedConfigFileSha256": "4cbfc68645c25d26afa5dace3124af8310e6b143814a19e68f318c9014cdc5f9",
+  "normalizedConfigPath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-limited-details-2026-09-29/normalized-smoke-config.json",
+  "normalizedConfigFileSha256": "4cbfc68645c25d26afa5dace3124af8310e6b143814a19e68f318c9014cdc5f9",
+  "expectedConfigHash": "374c730ca7e3f49336c823a70ac2e21f89260bb3d4461cb7b55e26de76a4d36d",
+  "expectedProfileHash": "019ea7beb42be190c209429fdb0767e22abf4ee5521634c398ef669c5a0252d7",
+  "helperHashFile": "helper-sha256.json",
+  "helperHashFileSha256": "2adc4bebcf0979eee0ea82a93b43f8ce355bd08bb4350cf1acbfca922aa505c6",
+  "historicalSourceHashesUnchanged": true,
+  "sharedHelperChangesFromSep28": [
+    "ADAPTER constant v5 to v6",
+    "exact adapter rejection message v5 to v6"
+  ],
+  "liveAzureReadbackExecuted": false,
+  "liveSmokeAccepted": null,
+  "visualReview": "not performed by verifier implementation task",
+  "clusterOrRepositoryModified": false,
+  "independentReview": {
+    "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/uat-limited-details-2026-09-29/verifier-review.json",
+    "sha256": "fac7f74d7556559f5bee43b09c32453bfc304455f5a1721d044ef58f658ca026",
+    "findings": [],
+    "offlineTestsPassed": 110,
+    "sourceHashesMatch": true
+  },
+  "limitations": [
+    "Synthetic and mocked checks do not prove current cloud artifacts or visual recognition.",
+    "Exact runtime commit and image digest are required by CLI; deployment and Pod termination evidence are separate.",
+    "At least one selected complete limited-actions detail is required for live smoke acceptance."
+  ]
+}
