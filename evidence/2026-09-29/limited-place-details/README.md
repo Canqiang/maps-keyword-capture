@@ -39,6 +39,8 @@ The batch ranking status remains `partial` with three non-ranking results, while
 Azure account/container: `fbrdevstorage / maps-keyword-capture-uat`.
 Manifest: `2026-09-30/run_20260930T015105Z_52b953/att_215e9734/manifest.json`.
 
+The original collector output is retained in `collector-log.txt`; `smoke-config.json` and `normalized-smoke-config.json` provide the exact verifier inputs. Use the command in `verifier/README.md` with `--log ../collector-log.txt` from that directory.
+
 ## Deployment and scope
 
 At **2026-09-30 09:54:12 Asia/Shanghai**, the existing `uat/maps-keyword-monitor-daily` CronJob was promoted to the verified v6 image by a UID/resourceVersion/spec-guarded patch. Only `image` and `IMAGE_DIGEST` changed. The enabled `0 0 * * *` / Asia/Shanghai schedule, ConfigMap, source discovery, George exclusion, resources and capture settings were preserved. An independent reviewer freshly read the live CronJob/ConfigMap/Jobs and smoke Pod, confirmed the exact two-field change and exit 0, and independently rehashed all 19 locally downloaded Azure objects. This four-query smoke is not a full 350-query nightly rerun; historical results and original exit codes are unchanged.

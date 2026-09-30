@@ -87,5 +87,16 @@
     "readback-v6/readback-report.json": "9674192b7424aa0785b3071b61af563c391012832bfeb77bfe37655543b3f90f",
     "readback-v6/object-inventory.json": "1122e053230e12513a7b72c18846822b52214b4da12da262569edfeca8ec19af",
     "visual-review.json": "ec58f614ee2f9012758384154198b120eb82da8f3de188ffeca51d570675e650"
+  },
+  "releaseDocumentationReview": {
+    "passed": true,
+    "readmeSha256": "441ddbb9e38e4d4042034a4963dc5129ddacf0ec6c1a0988a5c89453fd67f4e6",
+    "nightlySummarySha256": "beb6e88bc59e26e8c59bd247ea8af82ade9900b90940c03356d5be49d78eabfa",
+    "checks": [
+      "README smoke counts, runtime identity, actual exit and promotion claims match reviewed evidence",
+      "September 29/30 rows match nightly summary: 319/318 nonempty ranked, 2/2 no-results, 27/29 non-ranking, 2/1 other partial, original Pod exit 2 for both",
+      "README explicitly limits nightly independent hash checks to 29 manifests/snapshots and targeted samples; no all-nightly-artifact acceptance claim",
+      "Deployment manifest diff contains only the two pinned image/digest replacements; git diff --check passed"
+    ]
   }
 }

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1",
+  "keywords": [
+    "see joy",
+    "SEE JOY 喜聚",
+    "bubble tea mineola",
+    "Flushing"
+  ],
+  "maxResultsPerKeyword": 15,
+  "maxScrollsPerKeyword": 10,
+  "maxScreenshotsPerKeyword": 8,
+  "keywordTimeoutMs": 90000,
+  "locale": "en-US",
+  "browserTimezoneId": "America/New_York",
+  "filenameTimezone": "Asia/Shanghai",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "outputDirectory": "/work/outputs"
+}
