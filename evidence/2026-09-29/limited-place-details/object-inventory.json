@@ -1,0 +1,283 @@
+[
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/manifest.json",
+    "category": "batch_manifest",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/manifest.json",
+    "expected": {
+      "bytes": 15233,
+      "sha256": "ce349bdff42a2abdf0ceada5d5a985b2777b7644484821ed11e149db6c9fd5d2"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001.csv",
+    "expected": {
+      "bytes": 210,
+      "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001.json",
+    "expected": {
+      "bytes": 4013,
+      "sha256": "6384117d31cb798a11913708adbd11f7163206adc4bb63fc9c56faa26263f916"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001__diag.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001__diag.png",
+    "expected": {
+      "bytes": 550266,
+      "sha256": "68a78741d4a26175d33ece4b23d80a5d2bfafe3d4d1173f9d6a92f2abad75eb3"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002.csv",
+    "expected": {
+      "bytes": 210,
+      "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002.json",
+    "expected": {
+      "bytes": 3934,
+      "sha256": "537da0ae814c765b8cbf654e5dcf769d1b6c0b3980b99f203785f592dcb544ab"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002__diag.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002__diag.png",
+    "expected": {
+      "bytes": 1223068,
+      "sha256": "71137699222b262479a5589193cbcfa5b8168ef31ff8c6b520b07179f5dbf0e9"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003.csv",
+    "expected": {
+      "bytes": 3800,
+      "sha256": "87c63fa446341721c6be0c22b8311d2c65edfada267068c226efbb790160767d"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003.json",
+    "expected": {
+      "bytes": 12407,
+      "sha256": "ebfef27111e3874c39e18a1d1c45e0594d566e7dc3110fb1386478f9a2301f23"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__01.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__01.png",
+    "expected": {
+      "bytes": 728916,
+      "sha256": "e9d2e5503e72f4203d0437cac10493ba721e943067cc9829e8ce6776a1a8b16d"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__02.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__02.png",
+    "expected": {
+      "bytes": 720250,
+      "sha256": "03316d95cdcd705701cf318a2d8dc3ace6f701da38079bff4c4ab6e5a076281c"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 14868,
+      "sha256": "26b24e0e2280fde99f69cffb4a1480a53da5d60c32be29a681dcfb10350852fc"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004.csv",
+    "expected": {
+      "bytes": 210,
+      "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004.json",
+    "expected": {
+      "bytes": 3876,
+      "sha256": "04990cc86839692dfa78b6f6f8b5cf467864898970d8913f9c51fb1d5a900242"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004__diag.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004__diag.png",
+    "expected": {
+      "bytes": 919304,
+      "sha256": "b00347928e4a0d14d9ed1252f5615c43964500fe313b42de5eb098ee1f96672e"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/request.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/request.json",
+    "expected": {
+      "bytes": 624,
+      "sha256": "d8d64eaf990602bc6ab231e31fc52f220b3d64f064c4e431b6563e4927800417"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "reviewer": "independent code-reviewer",
+  "reviewedAt": "2026-09-30T01:47:15.352794+00:00",
+  "findings": [],
+  "resolvedWarning": "Live ConfigMap UID/data and exact smoke capture profile are now checked against saved daily baseline before planning or creating resources.",
+  "scope": "Bounded four-keyword manual collector smoke from unchanged CronJob and ConfigMap baselines; repeat/partial launch guard",
+  "sha256": {
+    "launch-smoke.py": "b382e7f0bb987aec4e7b35b7e1f10872089a5956ef56561778f8edd348ad2ccc",
+    "test_launch_guard.py": "1c32f9a1536f77e9dfd1dc59d7ed509c9f21f97a62293c421485f44f1d129f91",
+    "before-cronjob.json": "092ffedec94186b3dec5df1316fee4147f6c94717e0a4203cabc33298a9f3ce3",
+    "before-configmap.json": "b37413e2023933fa27a94a31a7fb9ff5afb9184e19cfa61003842d3d9d5d982c",
+    "smoke-config.json": "4cbfc68645c25d26afa5dace3124af8310e6b143814a19e68f318c9014cdc5f9"
+  },
+  "checks": [
+    "python3 -m unittest test_launch_guard -v: 2 tests passed, covering both existing markers and four config drift cases",
+    "Independent fully mocked successful launch: exactly one new smoke ConfigMap and Job; production baseline remained unmodified; four keywords; collector command excludes Mongo discovery; deadline 1800 seconds and backoffLimit 0"
+  ],
+  "limitations": [
+    "All launch checks ran with mocked cluster calls. No cluster or Azure mutation was performed by this review.",
+    "Actual created Job, Pod, ConfigMap and result persistence require subsequent independent readback."
+  ]
+}

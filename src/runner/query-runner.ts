@@ -101,6 +101,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
   let finalUrl: string | null = null;
   let observedQueryText: string | null = null;
   let resultSurface: NonNullable<QueryQuality['resultSurface']> = 'unknown';
+  let placeDetails: QueryQuality['placeDetails'];
 
   async function saveScreenshot(png: Buffer, kind: 'results' | 'diagnostic', observationId: string | null): Promise<ScreenshotArtifact> {
     const n = screenshots.filter((s) => s.kind === 'results').length + 1;
@@ -148,6 +149,8 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
         case 'consent': stop = { kind: 'blocked', reason: 'consent_required', error: null }; break;
         case 'no_results': stop = { kind: 'complete', reason: 'end_of_results' }; break;
         case 'place_redirect':
+          placeDetails = opened.state.placeDetails;
+          observedQueryText = opened.state.observedQueryText ?? null;
           stop = { kind: 'incomplete', reason: 'non_ranking_result', error: null };
           warnings.push({ code: 'place_redirect', message: 'Google opened a recognized place details page; no comparable ranked results list was observed', observationIds: [] });
           break;
@@ -198,6 +201,10 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
         // surface before treating that normal transition as an unsupported-layout failure.
         finalUrl = page.url();
         const current = await detectPageState(page);
+        if (current.kind === 'place_redirect') {
+          placeDetails = current.placeDetails;
+          observedQueryText = current.observedQueryText ?? observedQueryText;
+        }
         resultSurface = current.kind === 'place_redirect' ? 'place_details'
           : current.kind === 'no_results' ? 'no_results'
           : current.kind === 'results' ? 'results_list' : 'unknown';
@@ -399,7 +406,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       locationMode: 'query_only' as const, configuredMapView: null, observedMapView: parseObservedMapView(finalUrl),
       loggedIn: false as const, geolocationPermission: 'not_granted' as const, egressRegion: null, egressSource: null, observedLocationText: null, filters: [],
     },
-    quality: { verifiedPrefixLength: state.committed.length, classificationComplete, screenshotCoverageComplete, warnings, observedQueryText, queryCorrectionText: null, resultSurface, geographicRelevance },
+    quality: { verifiedPrefixLength: state.committed.length, classificationComplete, screenshotCoverageComplete, warnings, observedQueryText, queryCorrectionText: null, resultSurface, geographicRelevance, ...(placeDetails ? { placeDetails } : {}) },
     listings, screenshots, observationArtifactIds,
   };
 

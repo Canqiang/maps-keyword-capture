@@ -1,0 +1,75 @@
+{
+  "reviewedAt": "2026-09-30T01:54:04.546363+00:00",
+  "reviewer": "root visual inspection via view_image",
+  "imagesViewed": 5,
+  "queriesViewed": 4,
+  "passed": true,
+  "geographicStatus": "unverified",
+  "items": [
+    {
+      "queryId": "q0001",
+      "keyword": "see joy",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "key": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001__diag.png",
+      "jsonKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001.json",
+      "bytes": 550266,
+      "sha256": "68a78741d4a26175d33ece4b23d80a5d2bfafe3d4d1173f9d6a92f2abad75eb3",
+      "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0001/qa01/20260930T095105.514+0800__see-joy__q0001__diag.png",
+      "visualReview": "passed",
+      "note": "Viewed limited She-Joy's Sweet Treats pane with Save/Send to phone/Share, website and phone, no Directions/address; actual name agrees with structured limited_actions metadata. This is a different merchant, not SEE JOY; broad map is not local ranking evidence."
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "SEE JOY 喜聚",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "key": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002__diag.png",
+      "jsonKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002.json",
+      "bytes": 1223068,
+      "sha256": "71137699222b262479a5589193cbcfa5b8168ef31ff8c6b520b07179f5dbf0e9",
+      "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0002/qa01/20260930T095110.507+0800__see-joy__q0002__diag.png",
+      "visualReview": "passed",
+      "note": "Viewed SEE JOY 喜聚 at 119 W 31st St with Directions/address and no ranked list; matches standard_actions evidence."
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "bubble tea mineola",
+      "status": "captured",
+      "stopReason": "end_of_results",
+      "key": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__01.png",
+      "jsonKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003.json",
+      "bytes": 728916,
+      "sha256": "e9d2e5503e72f4203d0437cac10493ba721e943067cc9829e8ce6776a1a8b16d",
+      "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__01.png",
+      "visualReview": "passed",
+      "note": "Viewed both captures: six listings in recorded order, first four fully covered in first PNG and last two fully covered in second PNG; end-of-list visible. No ad labels visible in this sample; six organic classifications only, not proof of ad-classifier coverage."
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "bubble tea mineola",
+      "status": "captured",
+      "stopReason": "end_of_results",
+      "key": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__02.png",
+      "jsonKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003.json",
+      "bytes": 720250,
+      "sha256": "03316d95cdcd705701cf318a2d8dc3ace6f701da38079bff4c4ab6e5a076281c",
+      "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0003/qa01/20260930T095115.872+0800__bubble-tea-mineola__q0003__02.png",
+      "visualReview": "passed",
+      "note": "Viewed both captures: six listings in recorded order, first four fully covered in first PNG and last two fully covered in second PNG; end-of-list visible. No ad labels visible in this sample; six organic classifications only, not proof of ad-classifier coverage."
+    },
+    {
+      "queryId": "q0004",
+      "keyword": "Flushing",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "key": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004__diag.png",
+      "jsonKey": "2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004.json",
+      "bytes": 919304,
+      "sha256": "b00347928e4a0d14d9ed1252f5615c43964500fe313b42de5eb098ee1f96672e",
+      "path": "readback-v6/2026-09-30/run_20260930T015105Z_52b953/att_215e9734/q0004/qa01/20260930T095129.627+0800__flushing__q0004__diag.png",
+      "visualReview": "passed",
+      "note": "Viewed Flushing, Queens geographic detail with Directions and no business ranked list; matches non-ranking standard detail evidence."
+    }
+  ]
+}

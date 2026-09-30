@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-09-30T01:46:51.146880+00:00",
+  "nodeVersion": "v24.14.0",
+  "typecheck": "passed",
+  "build": "passed",
+  "fullSuite": {
+    "files": 42,
+    "passed": 566,
+    "failed": 0,
+    "logSha256": "210769684f3aa0c0de2d9d27575a4296f1fcb53bf0917d2a08851b063fc3a8b6"
+  },
+  "focusedRegression": {
+    "passed": 54,
+    "redGreenEvidence": "limited-details-*-red*.log and limited-details-final-green.log"
+  },
+  "diffCheck": "passed"
+}

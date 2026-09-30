@@ -1,0 +1,7 @@
+{
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+  "digest": "sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+  "runtimeCommit": "f7ce5808418e77a1a94a5ca02bff4288012e3bbe",
+  "adapterVersion": "maps-feed-card/v6",
+  "buildRunId": "ch14jd"
+}

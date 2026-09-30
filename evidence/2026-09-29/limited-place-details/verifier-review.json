@@ -1,0 +1,36 @@
+{
+  "reviewer": "independent code-reviewer",
+  "reviewedAt": "2026-09-30T01:48:18.033728+00:00",
+  "findings": [],
+  "scope": "Final v6 standalone smoke verifier and tests; additive place-detail metadata, retained real feed prefix, exact config/profile/provenance, selected and historical attempts, complete non-ranking execution, all artifact receipt/PNG/CSV/observation checks",
+  "resolvedWarning": "Detail metadata validator now accepts legitimate late feed-to-detail partial/unsupported_layout with retained listings; it preserves evidence but returns smoke exit 2. Zero listings is enforced for non_ranking_result.",
+  "offlineTestsPassed": 110,
+  "command": "python3 -m unittest discover -q",
+  "sourceSha256": {
+    "verify_smoke.py": "74b3a8c6cabfe8a37b512d1ebefcf76c6202dd505436a70cd2a0957c327c2fda",
+    "verification_helpers.py": "05f34c5a31cc810444aa774429d5e4eb8c78be468bdfb706f882f6f09dfaa8b3",
+    "verify_daily.py": "c0fbb326483bd7633d64bb6c77c491883b4e0e1d96b19be783e929cb7da7672b",
+    "test_verify_smoke.py": "ef73a220fc947db0a3f811a7961eb6f6b56f7df13d4ad289afd25cc7048061c9",
+    "test_v6_smoke_regressions.py": "a763309eaf5d745f16e650a35aeada4087f87d1384e4428f2867a2e71bf85219",
+    "test_reader_contract.py": "496bcf2ea69685b6a3739825e09254b234abceb31e25143e88c5b64a40736ec0",
+    "test_adapter_verify.py": "007823aac60c2154c7fd5af5fe288b173cddd870d69620e85f9c8e0fe4cb982d",
+    "test_verify_daily.py": "fc85f093151a5677819bc3530a05af025b83906168fecb509b0174da77877503",
+    "test_registry_verify.py": "00853238bd499e3fbeed3757f9e90777e03e0aa86686e274565910189d0d7ccb",
+    "test_quarantine_verify.py": "ec2c4b669d709c93cee73cf4e5d48bd488ad65562ba11b27fa8f9d8b564e7996",
+    "synthetic_fixture.py": "47965d61166d4700bd7f3ba9f018a03b90ba5e28304acaca74d8854cda85d1ee"
+  },
+  "checks": [
+    "Independently reran all 110 tests: passed",
+    "Compared shared helper with historical baseline: only ADAPTER and exact-version rejection message changed from v5 to v6",
+    "Historical source files independently match baseline-provenance.json hashes",
+    "Limited recognition requires the full named-action triad plus real contact signal; standard and absent historical detail metadata do not satisfy target limited-case acceptance",
+    "Exact original keyword order and result ownership preserved; details never become ranked listing rows",
+    "At least one selected limited-detail case required for smoke acceptance; unselected retries do not satisfy this gate",
+    "Mock-only Reader tests verify Azure-login GET and separate offline cache identity without contacting Azure"
+  ],
+  "limitations": [
+    "Offline/mocked tests do not establish live UAT success",
+    "Verifier smokeAccepted requires a subsequent live selected limited-detail case and complete evidence; screenshot visual inspection and Pod termination readback remain separate",
+    "Returned She-Joy's Sweet Treats name does not establish SEE JOY identity or a ranking position"
+  ]
+}
