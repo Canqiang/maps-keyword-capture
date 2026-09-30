@@ -1,4 +1,5 @@
 import type { Page } from 'playwright';
+import type { PlaceDetailsEvidence } from '../contracts.js';
 import type { FeedLayout, FeedSnapshot } from '../core/types.js';
 import { readFeedSnapshotInPage } from './page-script.js';
 
@@ -6,7 +7,9 @@ export const END_OF_LIST_TEXT = "You've reached the end of the list";
 
 export type PageState =
   | { kind: 'results' } | { kind: 'captcha' } | { kind: 'consent' }
-  | { kind: 'no_results' } | { kind: 'place_redirect' } | { kind: 'unknown'; detail: string };
+  | { kind: 'no_results' }
+  | { kind: 'place_redirect'; placeDetails?: PlaceDetailsEvidence; observedQueryText?: string | null }
+  | { kind: 'unknown'; detail: string };
 
 export function buildSearchUrl(keyword: string, locale: string): string {
   const url = new URL('https://www.google.com/maps/search/');
@@ -26,21 +29,81 @@ export async function detectPageState(page: Page): Promise<PageState> {
   if (url.pathname.includes('/sorry/')) return { kind: 'captcha' };
   if (page.frames().some((f) => /recaptcha/i.test(f.url()))) return { kind: 'captcha' };
   if (url.hostname === 'consent.google.com') return { kind: 'consent' };
-  const probe = await page.evaluate(() => ({
-    feed: Array.from(document.querySelectorAll('div[role="feed"]')).some(e =>
-      e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden'),
-    detailHeading: Array.from(document.querySelectorAll('h1')).some(e =>
-      (e.textContent ?? '').trim().length > 0 && e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden'),
-    detailAction: Array.from(document.querySelectorAll('button[aria-label^="Directions"], [data-value="Directions"], button[data-item-id="address"]')).some(e =>
-      e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().height > 0 && getComputedStyle(e).visibility !== 'hidden'),
-    // The empty-search message has an explicit product prefix. Incidental review
-    // text such as "I can't find a better bakery" is not an empty result set.
-    noResults: (document.body?.innerText ?? '').split(/\r?\n/).some(line => /^Google Maps can['’]t find\s+\S/i.test(line.trim())),
-  })).catch(() => ({ feed: false, noResults: false, detailHeading: false, detailAction: false }));
+  type Probe = { feed: boolean; noResults: boolean; detail: Omit<PlaceDetailsEvidence, 'mapsUrl'> | null; observedQueryText: string | null };
+  // Serialize through the helper because this probe has local functions (tsx keepNames).
+  const probe = await page.evaluate<Probe>(pageFunctionSource(() => {
+    const visible = (e: Element): boolean => {
+      const box = e.getBoundingClientRect();
+      if (box.width <= 0 || box.height <= 0 || box.bottom <= 0 || box.right <= 0 || box.top >= innerHeight || box.left >= innerWidth) return false;
+      for (let ancestor: Element | null = e; ancestor; ancestor = ancestor.parentElement) {
+        const style = getComputedStyle(ancestor);
+        if (ancestor.hasAttribute('hidden') || ancestor.getAttribute('aria-hidden') === 'true' || ancestor.hasAttribute('inert') || style.display === 'none' || style.visibility !== 'visible' || Number(style.opacity) === 0) return false;
+      }
+      return true;
+    };
+    const clean = (value: string | null) => (value ?? '').replace(/\s+/g, ' ').trim();
+    const paneSelector = 'main, [role="main"]';
+    const candidates: Array<Omit<PlaceDetailsEvidence, 'mapsUrl'>> = [];
+    for (const pane of Array.from(document.querySelectorAll(paneSelector)).filter(visible)) {
+      if (pane.closest('[aria-busy="true"]') || Array.from(pane.querySelectorAll('[aria-busy="true"], [role="progressbar"]')).some(visible)) continue;
+      const owned = (selector: string) => Array.from(pane.querySelectorAll(selector)).filter(e => e.closest(paneSelector) === pane && visible(e));
+      const headings = owned('h1').filter(e => clean((e as HTMLElement).innerText));
+      if (headings.length !== 1) continue;
+      const name = clean((headings[0] as HTMLElement).innerText);
+      if (/^loading(?:[.\s…]|$)/i.test(name)) continue;
+      const signals: PlaceDetailsEvidence['signals'] = ['visible_heading'];
+      const directions = owned('button[aria-label^="Directions"], [data-value="Directions"]').length > 0;
+      const address = owned('button[data-item-id="address"]').length > 0;
+      if (directions) signals.push('directions');
+      if (address) signals.push('address');
+      if (directions || address) {
+        candidates.push({ name, recognition: 'standard_actions', signals });
+        continue;
+      }
+      // A sparse merchant detail can legitimately omit Directions/address. Require the
+      // actual named Google actions region and contact controls, all in this same pane.
+      // Generic toolbar labels, heading+URL and a limited-view footer alone are insufficient.
+      if (clean(pane.getAttribute('aria-label')) !== name) continue;
+      const actionRegions = owned('[role="region"]').filter(e => clean(e.getAttribute('aria-label')) === `Actions for ${name}`);
+      if (actionRegions.length !== 1) continue;
+      const actions = actionRegions[0]!;
+      const action = (label: string) => owned('button').some(e => actions.contains(e) && clean(e.getAttribute('aria-label')) === label && e.getAttribute('data-value') === label && !(e as HTMLButtonElement).disabled && e.getAttribute('aria-disabled') !== 'true');
+      if (!action('Save') || !action('Send to phone') || !action('Share')) continue;
+      const website = owned('a[data-item-id="authority"]').some(e => {
+        try {
+          const href = new URL(e.getAttribute('href') ?? '');
+          return /^Website:\s*\S/.test(e.getAttribute('aria-label') ?? '') && ['http:', 'https:'].includes(href.protocol) && !href.username && !href.password;
+        } catch { return false; }
+      });
+      const phone = owned('button[data-item-id^="phone:tel:"]').some(e => {
+        const itemId = e.getAttribute('data-item-id') ?? '';
+        const label = e.getAttribute('aria-label') ?? '';
+        const digits = itemId.replace(/\D/g, '');
+        return /^phone:tel:\+?[\d ()-]+$/.test(itemId) && /^Phone:\s*\+?[\d ()-]+\s*$/.test(label) &&
+          /^\d{7,15}$/.test(digits) && digits === label.replace(/\D/g, '') &&
+          !(e as HTMLButtonElement).disabled && e.getAttribute('aria-disabled') !== 'true';
+      });
+      if (!website && !phone) continue;
+      signals.push('named_pane', 'named_actions', 'save', 'send_to_phone', 'share');
+      if (website) signals.push('website');
+      if (phone) signals.push('phone');
+      candidates.push({ name, recognition: 'limited_actions', signals });
+    }
+    const input = Array.from(document.querySelectorAll<HTMLInputElement>('input#searchboxinput, input[name="q"], input[aria-label*="Search" i]')).find(visible);
+    return {
+      feed: Array.from(document.querySelectorAll('div[role="feed"]')).some(visible),
+      detail: candidates.length === 1 ? candidates[0]! : null,
+      observedQueryText: input?.value ?? null,
+      // Incidental review text such as "I can't find a better bakery" is not no-results.
+      noResults: (document.body?.innerText ?? '').split(/\r?\n/).some(line => /^Google Maps can['’]t find\s+\S/i.test(line.trim())),
+    };
+  })).catch((): Probe => ({ feed: false, noResults: false, detail: null, observedQueryText: null }));
   // A place URL may still carry a ranked results feed. Prefer the visible surface, and do not
   // classify an unloaded/failed page as a known detail result merely because its URL changed.
   if (probe.feed) return { kind: 'results' };
-  if (url.pathname.startsWith('/maps/place/') && probe.detailHeading && probe.detailAction) return { kind: 'place_redirect' };
+  const supportedPlaceUrl = url.protocol === 'https:' && !url.username && !url.password && !url.port &&
+    ['google.com', 'www.google.com', 'maps.google.com'].includes(url.hostname) && /^\/maps\/place\/[^/]+/.test(url.pathname);
+  if (supportedPlaceUrl && probe.detail) return { kind: 'place_redirect', placeDetails: { ...probe.detail, mapsUrl: page.url() }, observedQueryText: probe.observedQueryText };
   if (probe.noResults) return { kind: 'no_results' };
   return { kind: 'unknown', detail: `no feed at ${page.url()}` };
 }

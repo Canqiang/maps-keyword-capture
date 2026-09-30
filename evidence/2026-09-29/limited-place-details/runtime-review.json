@@ -1,0 +1,36 @@
+{
+  "reviewer": "independent code-reviewer",
+  "reviewedAt": "2026-09-30T01:42:10.800470+00:00",
+  "findings": [],
+  "scope": "v6 limited-details runtime, additive evidence contract, initial and late-feed transition handling, historical optional-field compatibility, fixture provenance, and serialization guard",
+  "sourceSha256": {
+    "src/browser/maps-adapter.ts": "97af25786e6968f961891b55c7c06ab6d1c170a660cde24b8bf7fd867a62fd6d",
+    "src/contracts.ts": "b7c60d4aaed2eed4c67eefccb2ecda935f78e90381cf6b30c8c17a5fe9cc9834",
+    "src/runner/query-runner.ts": "49b28f6c8fdccc2013ed85171a3d5700ae663dbcbf2fa07daf022c1d75c4d42e",
+    "src/runner/batch-runner.ts": "97e53e4b4a943b0381ceb5d0e1ba1bf3057fc8b8fe9ac7e8af2ee9608be8f001",
+    "tests/limited-details.test.ts": "1832d3a07a075106b71ea9e02a41b83ef656e96e7837b2fcaec9d395b8e8d58c",
+    "tests/limited-details-query.test.ts": "e15b34ee15ce4a7c37926a8297dd47cca3a6f5fe0a529d26247ecbbd885e5b89",
+    "tests/fixtures/limited-details-fixture.ts": "f56c566674da685aecaeba2cffa3a463c79c5f693ebc6532ab5f7246974a0f85",
+    "docs/uat-monitor-operations.md": "e70149edc94e94088b710f21fd6f62b4f32c23048bca574035baf48a4a1c8f35"
+  },
+  "checks": [
+    "git diff --check passed",
+    "Direct source execution through node --import tsx and Playwright recognized the limited-detail fixture with expected identity evidence",
+    "Original keyword is retained; place name and observed query are separately observed; detail-only outputs remain partial/non_ranking_result with no listing/CSV rows",
+    "Existing retained feed listings remain evidence from the feed after a late detail transition; detail identity does not become a new rank",
+    "Historical records and injected states may omit placeDetails",
+    "Observed real DOM supplies named main, named actions region, Save/Send to phone/Share and actual website/phone controls",
+    "Read parent full-tests.log: 42 test files and 566 tests passed; contract compilation ran before Vitest"
+  ],
+  "limitations": [
+    "The saved live DOM and direct v6 result are direct known-detail URL probes, not fresh keyword searches",
+    "Recognizing She-Joy's Sweet Treats does not establish identity with SEE JOY or any ranking position",
+    "Launch helper and verifier receive separate review"
+  ],
+  "testEvidence": {
+    "path": "full-tests.log",
+    "sha256": "210769684f3aa0c0de2d9d27575a4296f1fcb53bf0917d2a08851b063fc3a8b6",
+    "filesPassed": 42,
+    "testsPassed": 566
+  }
+}

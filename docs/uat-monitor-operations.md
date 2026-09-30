@@ -231,3 +231,10 @@ Unconfigured duplicate place records, conflicting owners, or an alias-owner mism
 A reduced-cap release smoke validates enrollment, source/API identity, browser capture and evidence delivery only for its selected queries. The next full nightly run remains a separate verification boundary.
 
 On September 28 the aiapp nodes had only 181–381m unreserved CPU each, despite measured CPU utilization of 15–28%. The 500m smoke was unschedulable before application startup. The revised smoke and daily template request 250m CPU while retaining the 2-CPU limit, 1Gi memory request, memory/storage limits, selectors and deadlines. This reduces reserved CPU, not the maximum CPU the collector may use. Full nightly throughput still requires its own run evidence.
+
+
+## Limited place-details evidence
+
+The v6 detector recognizes the observed limited Google Maps place-details surface as a non-ranking observation even when Directions and address controls are absent. It requires a valid Google Maps place URL and visible, associated detail heading, Save/Send to phone/Share controls and an actual website or phone control. Loading pages, hidden controls and incidental text do not establish a detail view. A visible ranked feed takes precedence.
+
+`quality.placeDetails` is additive evidence: actual visible place `name`, `mapsUrl`, `recognition` method and the `signals` used. The original `keyword` remains unchanged; `observedQueryText` is read from the actual search input when available. Do not infer the returned place is the enrolled merchant from the query or name alone. A detail-only result has no display/organic rank and no listing CSV rows. Standard and limited details retain `partial / non_ranking_result`; only complete persisted evidence allows completed execution. Older records can omit this new field.

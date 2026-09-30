@@ -1,0 +1,22 @@
+{
+  "capturedAt": "2026-09-29T12:18:24.291Z",
+  "entry": "direct known detail URL (not a fresh keyword-search result)",
+  "url": "https://www.google.com/maps/place/She-Joy's+Sweet+Treats/@46.423669,-129.9427085,3z/data=!3m1!4b1!4m6!3m5!1s0x88f82b84813fdda5:0x381d0c30125edffd!8m2!3d46.423669!4d-129.9427086!16s%2Fg%2F11jq0nb3jd?hl=en&entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D",
+  "title": "She-Joy's Sweet Treats - Google Maps",
+  "headings": [
+    "She-Joy's Sweet Treats"
+  ],
+  "signals": "Visible named main pane, heading, Save / Send to phone / Share actions, website and phone; no Directions/address control. Direct URL reproduction does not prove keyword search outcome.",
+  "files": [
+    {
+      "name": "live-dom-probe.json",
+      "bytes": 22715,
+      "sha256": "9b362627a866596e152c1c514ab1be45cae0b4a77927783c6c234718dd3b5d10"
+    },
+    {
+      "name": "live-dom-probe.png",
+      "bytes": 540346,
+      "sha256": "8c4aa3290f8a052c8c211c7c68230ec625539402f84facc205512aa361d6dd7e"
+    }
+  ]
+}

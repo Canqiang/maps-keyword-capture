@@ -194,9 +194,20 @@ export interface SearchContext {
   filters: string[];
 }
 
+/** Observed detail-page identity evidence, never a ranked listing or an own-store match. */
+export interface PlaceDetailsEvidence {
+  name: string;
+  mapsUrl: string;
+  recognition: 'standard_actions' | 'limited_actions';
+  signals: Array<'visible_heading' | 'directions' | 'address' | 'named_pane' | 'named_actions'
+    | 'save' | 'send_to_phone' | 'share' | 'website' | 'phone'>;
+}
+
 export interface QueryQuality {
   /** Optional only for compatibility with historical records. */
   resultSurface?: 'results_list' | 'place_details' | 'no_results' | 'unknown';
+  /** Optional for historical records and injected page-state implementations. */
+  placeDetails?: PlaceDetailsEvidence;
   geographicRelevance?: GeographicRelevance;
   verifiedPrefixLength: number;
   classificationComplete: boolean;
