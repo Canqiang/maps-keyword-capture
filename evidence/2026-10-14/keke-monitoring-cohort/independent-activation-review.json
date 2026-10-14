@@ -1,0 +1,242 @@
+{
+  "reviewer": "independent delegated code reviewer",
+  "reviewedAt": "2026-10-14T02:13:28.113756+00:00",
+  "clusterContext": "FBRDevAKSCluster",
+  "namespace": "uat",
+  "reviewMode": "read_only_live_kubernetes_and_cached_evidence",
+  "findings": [],
+  "passed": true,
+  "checks": [
+    {
+      "name": "only_three_cronjob_spec_fields_changed",
+      "passed": true,
+      "details": [
+        "/spec/jobTemplate/spec/template/spec/containers/0/env/3/value",
+        "/spec/jobTemplate/spec/template/spec/containers/0/image",
+        "/spec/jobTemplate/spec/template/spec/volumes/0/configMap/name"
+      ]
+    },
+    {
+      "name": "cronjob_uid_preserved",
+      "passed": true
+    },
+    {
+      "name": "cronjob_equals_independent_expected_spec",
+      "passed": true
+    },
+    {
+      "name": "schedule_enabled_unchanged",
+      "passed": true,
+      "details": {
+        "schedule": "0 0 * * *",
+        "timeZone": "Asia/Shanghai",
+        "suspend": false
+      }
+    },
+    {
+      "name": "cronjob_no_active_reference",
+      "passed": true
+    },
+    {
+      "name": "old_configmap_uid_and_data_preserved",
+      "passed": true
+    },
+    {
+      "name": "candidate_immutable_and_expected",
+      "passed": true
+    },
+    {
+      "name": "candidate_uid_matches_acceptance",
+      "passed": true
+    },
+    {
+      "name": "shared_config_unchanged",
+      "passed": true
+    },
+    {
+      "name": "only_one_keke_cohort",
+      "passed": true
+    },
+    {
+      "name": "cohort40_groups32_6_2",
+      "passed": true,
+      "details": {
+        "core": 32,
+        "exploration": 6,
+        "brand": 2
+      }
+    },
+    {
+      "name": "cohort_hash_matches_acceptance",
+      "passed": true
+    },
+    {
+      "name": "job_complete",
+      "passed": true
+    },
+    {
+      "name": "job_uid_matches_acceptance",
+      "passed": true
+    },
+    {
+      "name": "pod_uid_matches_acceptance",
+      "passed": true
+    },
+    {
+      "name": "pod_owned_by_probe_job",
+      "passed": true
+    },
+    {
+      "name": "pod_succeeded_without_restart",
+      "passed": true
+    },
+    {
+      "name": "pod_actual_image_digest",
+      "passed": true,
+      "details": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721"
+    },
+    {
+      "name": "live_images_match_plan",
+      "passed": true
+    },
+    {
+      "name": "live_digest_env_matches_plan",
+      "passed": true
+    },
+    {
+      "name": "probe_configmap_immutable_exact_script",
+      "passed": true
+    },
+    {
+      "name": "probe_signal_fix_in_live_script",
+      "passed": true
+    },
+    {
+      "name": "live_probe_selection_log_matches_archived",
+      "passed": true
+    },
+    {
+      "name": "live_probe_final_summary_unique",
+      "passed": true
+    },
+    {
+      "name": "live_summary_accepted",
+      "passed": true
+    },
+    {
+      "name": "runtime_commit_and_digest_consistent",
+      "passed": true
+    },
+    {
+      "name": "all10_enrolled_store_selection_checks_logged",
+      "passed": true
+    },
+    {
+      "name": "keke_exact_selected_order_and_labels",
+      "passed": true
+    },
+    {
+      "name": "nine_other_stores_have_no_override",
+      "passed": true
+    },
+    {
+      "name": "known_test_store_excluded",
+      "passed": true
+    },
+    {
+      "name": "readback_report_accepts_only3_smoke_queries",
+      "passed": true
+    },
+    {
+      "name": "historical_limited_actions_requirement_explicitly_disabled",
+      "passed": true
+    },
+    {
+      "name": "independent_cached_object_rehash_all18",
+      "passed": true,
+      "details": {
+        "objects": 18,
+        "bytes": 4929573,
+        "mismatches": []
+      }
+    },
+    {
+      "name": "cached_byte_png_totals_match",
+      "passed": true
+    },
+    {
+      "name": "archived_shared_source_response_unchanged",
+      "passed": true
+    },
+    {
+      "name": "shared_source_hash_and91_count",
+      "passed": true
+    },
+    {
+      "name": "visual_review3_references_verified_inventory",
+      "passed": true
+    }
+  ],
+  "cronjob": {
+    "name": "maps-keyword-monitor-daily",
+    "uid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69",
+    "resourceVersion": "731510835",
+    "changedPaths": [
+      "/spec/jobTemplate/spec/template/spec/containers/0/env/3/value",
+      "/spec/jobTemplate/spec/template/spec/containers/0/image",
+      "/spec/jobTemplate/spec/template/spec/volumes/0/configMap/name"
+    ],
+    "schedule": "0 0 * * *",
+    "timeZone": "Asia/Shanghai",
+    "suspend": false
+  },
+  "liveImage": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+  "cohort": {
+    "id": "keke-acquisition-20261014-v1",
+    "sha256": "163d85b90182f5a14aa07c8cde6360f6e81805f839c13a3646b69f25bd5ca3e4",
+    "groups": {
+      "core": 32,
+      "exploration": 6,
+      "brand": 2
+    }
+  },
+  "probe": {
+    "job": "maps-keke-cohort-verify-20261014t020453z",
+    "pod": "maps-keke-cohort-verify-20261014t020453z-7pd7l",
+    "exitCode": 0,
+    "restartCount": 0,
+    "counts": {
+      "captured": 2,
+      "partial": 1,
+      "nonRanking": 1
+    }
+  },
+  "cachedEvidenceRehashed": {
+    "objects": 18,
+    "bytes": 4929573,
+    "pngObjects": 7
+  },
+  "independentVisualReview": {
+    "reopenedCount": 3,
+    "sampleKeys": [
+      "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__01.png",
+      "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002__01.png",
+      "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003__diag.png"
+    ],
+    "observations": [
+      "English query and first visible list cards are legible; only the first of five English PNGs was reopened.",
+      "Chinese query shows four visible merchants and end-of-list plus limited-view notice; Keke is absent from these observed four rows.",
+      "Brand sample shows Keke detail page and 34-20 Linden Pl address; this is non-ranking entity detail, not organic rank."
+    ]
+  },
+  "limits": [
+    "No deployments, secret reads, source writes, GitHub operations or messages were performed. Only this review JSON was written.",
+    "All-store selection isolation is supported by reviewed deployed probe assertions and independently retrieved live logs; source API was not reread by this reviewer.",
+    "Source before/after equality was independently checked from cached responses; source-after-probe was fetched before activation, so this is not a fresh post-activation source read.",
+    "Azure remote objects were not downloaded again by this reviewer; all 18 cached objects were independently rehashed against the recorded receipts.",
+    "Existing structural PNG and full JSON/CSV semantic verifier results were reviewed; those semantic checks were not rerun.",
+    "Three PNGs were reopened independently; remaining four PNGs and all 19 listing rows were not individually visually reviewed.",
+    "Only three browser queries were accepted; the full 40-query cohort and first future scheduled daily cycle remain unobserved.",
+    "Geography remains unverified; Chinese results carry a limited-view notice. Brand detail has no organic rank."
+  ]
+}
