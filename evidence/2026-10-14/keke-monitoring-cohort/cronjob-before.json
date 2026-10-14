@@ -1,0 +1,180 @@
+{
+  "apiVersion": "batch/v1",
+  "kind": "CronJob",
+  "metadata": {
+    "annotations": {
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"CronJob\",\"metadata\":{\"annotations\":{},\"labels\":{\"app.kubernetes.io/component\":\"daily\",\"app.kubernetes.io/name\":\"maps-keyword-monitor\"},\"name\":\"maps-keyword-monitor-daily\",\"namespace\":\"uat\"},\"spec\":{\"concurrencyPolicy\":\"Forbid\",\"failedJobsHistoryLimit\":7,\"jobTemplate\":{\"spec\":{\"activeDeadlineSeconds\":51000,\"backoffLimit\":0,\"template\":{\"metadata\":{\"labels\":{\"app.kubernetes.io/component\":\"daily\",\"app.kubernetes.io/name\":\"maps-keyword-monitor\"}},\"spec\":{\"automountServiceAccountToken\":false,\"containers\":[{\"args\":[\"node\",\"dist/monitor/cli.js\",\"--config\",\"/config/monitor.json\",\"--storage\",\"azure\"],\"env\":[{\"name\":\"IMAGE_DIGEST\",\"value\":\"sha256:78669533e5e6c6218d0e415992b665b48b1de3e9ab541030101a6c63e2f5d360\"},{\"name\":\"EGRESS_PROFILE_ID\",\"value\":\"aks-fbrdev-eastus2-aiapp\"},{\"name\":\"AZURE_STORAGE_CONTAINER\",\"value\":\"maps-keyword-capture-uat\"},{\"name\":\"AZURE_STORAGE_CONTAINER_SAS_URL\",\"valueFrom\":{\"secretKeyRef\":{\"key\":\"AZURE_STORAGE_CONTAINER_SAS_URL\",\"name\":\"maps-keyword-monitor-storage\"}}}],\"image\":\"fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:78669533e5e6c6218d0e415992b665b48b1de3e9ab541030101a6c63e2f5d360\",\"name\":\"monitor\",\"resources\":{\"limits\":{\"cpu\":\"2\",\"ephemeral-storage\":\"3Gi\",\"memory\":\"2Gi\"},\"requests\":{\"cpu\":\"500m\",\"ephemeral-storage\":\"1Gi\",\"memory\":\"1Gi\"}},\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"readOnlyRootFilesystem\":true},\"volumeMounts\":[{\"mountPath\":\"/config\",\"name\":\"config\",\"readOnly\":true},{\"mountPath\":\"/work\",\"name\":\"work\"},{\"mountPath\":\"/tmp\",\"name\":\"tmp\"},{\"mountPath\":\"/dev/shm\",\"name\":\"dshm\"}]}],\"nodeSelector\":{\"envpool\":\"aiapp\"},\"restartPolicy\":\"Never\",\"securityContext\":{\"fsGroup\":1001,\"runAsGroup\":1001,\"runAsNonRoot\":true,\"runAsUser\":1001},\"terminationGracePeriodSeconds\":300,\"volumes\":[{\"configMap\":{\"name\":\"maps-keyword-monitor-config\"},\"name\":\"config\"},{\"emptyDir\":{\"sizeLimit\":\"2Gi\"},\"name\":\"work\"},{\"emptyDir\":{\"sizeLimit\":\"1Gi\"},\"name\":\"tmp\"},{\"emptyDir\":{\"medium\":\"Memory\",\"sizeLimit\":\"512Mi\"},\"name\":\"dshm\"}]}}}},\"schedule\":\"0 0 * * *\",\"startingDeadlineSeconds\":3600,\"successfulJobsHistoryLimit\":7,\"suspend\":true,\"timeZone\":\"Asia/Shanghai\"}}\n"
+    },
+    "creationTimestamp": "2026-09-17T13:53:19Z",
+    "generation": 7,
+    "labels": {
+      "app.kubernetes.io/component": "daily",
+      "app.kubernetes.io/name": "maps-keyword-monitor"
+    },
+    "name": "maps-keyword-monitor-daily",
+    "namespace": "uat",
+    "resourceVersion": "731059991",
+    "uid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69"
+  },
+  "spec": {
+    "concurrencyPolicy": "Forbid",
+    "failedJobsHistoryLimit": 7,
+    "jobTemplate": {
+      "metadata": {},
+      "spec": {
+        "activeDeadlineSeconds": 51000,
+        "backoffLimit": 0,
+        "template": {
+          "metadata": {
+            "labels": {
+              "app.kubernetes.io/component": "daily",
+              "app.kubernetes.io/name": "maps-keyword-monitor"
+            }
+          },
+          "spec": {
+            "automountServiceAccountToken": false,
+            "containers": [
+              {
+                "args": [
+                  "node",
+                  "dist/monitor/cli.js",
+                  "--config",
+                  "/config/monitor.json",
+                  "--storage",
+                  "azure"
+                ],
+                "env": [
+                  {
+                    "name": "EGRESS_PROFILE_ID",
+                    "value": "aks-fbrdev-eastus2-aiapp"
+                  },
+                  {
+                    "name": "AZURE_STORAGE_CONTAINER",
+                    "value": "maps-keyword-capture-uat"
+                  },
+                  {
+                    "name": "AZURE_STORAGE_CONTAINER_SAS_URL",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "AZURE_STORAGE_CONTAINER_SAS_URL",
+                        "name": "maps-keyword-monitor-storage"
+                      }
+                    }
+                  },
+                  {
+                    "name": "IMAGE_DIGEST",
+                    "value": "sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652"
+                  },
+                  {
+                    "name": "KEYWORD_MONGO_URI",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "KEYWORD_MONGO_URI",
+                        "name": "maps-keyword-monitor-source"
+                      }
+                    }
+                  }
+                ],
+                "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+                "imagePullPolicy": "IfNotPresent",
+                "name": "monitor",
+                "resources": {
+                  "limits": {
+                    "cpu": "2",
+                    "ephemeral-storage": "3Gi",
+                    "memory": "2Gi"
+                  },
+                  "requests": {
+                    "cpu": "250m",
+                    "ephemeral-storage": "1Gi",
+                    "memory": "1Gi"
+                  }
+                },
+                "securityContext": {
+                  "allowPrivilegeEscalation": false,
+                  "capabilities": {
+                    "drop": [
+                      "ALL"
+                    ]
+                  },
+                  "readOnlyRootFilesystem": true
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/config",
+                    "name": "config",
+                    "readOnly": true
+                  },
+                  {
+                    "mountPath": "/work",
+                    "name": "work"
+                  },
+                  {
+                    "mountPath": "/tmp",
+                    "name": "tmp"
+                  },
+                  {
+                    "mountPath": "/dev/shm",
+                    "name": "dshm"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "nodeSelector": {
+              "envpool": "aiapp"
+            },
+            "restartPolicy": "Never",
+            "schedulerName": "default-scheduler",
+            "securityContext": {
+              "fsGroup": 1001,
+              "runAsGroup": 1001,
+              "runAsNonRoot": true,
+              "runAsUser": 1001
+            },
+            "terminationGracePeriodSeconds": 300,
+            "volumes": [
+              {
+                "configMap": {
+                  "defaultMode": 420,
+                  "name": "maps-keyword-monitor-config"
+                },
+                "name": "config"
+              },
+              {
+                "emptyDir": {
+                  "sizeLimit": "2Gi"
+                },
+                "name": "work"
+              },
+              {
+                "emptyDir": {
+                  "sizeLimit": "1Gi"
+                },
+                "name": "tmp"
+              },
+              {
+                "emptyDir": {
+                  "medium": "Memory",
+                  "sizeLimit": "512Mi"
+                },
+                "name": "dshm"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "schedule": "0 0 * * *",
+    "startingDeadlineSeconds": 3600,
+    "successfulJobsHistoryLimit": 7,
+    "suspend": false,
+    "timeZone": "Asia/Shanghai"
+  },
+  "status": {
+    "lastScheduleTime": "2026-10-13T16:00:00Z",
+    "lastSuccessfulTime": "2026-10-08T17:50:03Z"
+  }
+}

@@ -1,0 +1,310 @@
+{
+  "verificationIdentity": "azure_cli_login",
+  "evidenceIntegrityPassed": true,
+  "runId": "run_20261014T020608Z_0584be",
+  "attemptId": "att_f93e09ba",
+  "status": "partial",
+  "executionStatus": "completed",
+  "recomputedExecutionStatus": "completed",
+  "counts": {
+    "captured": 2,
+    "partial": 1,
+    "nonRanking": 1
+  },
+  "expectedKeywords": [
+    "chinese deli flushing",
+    "法拉盛 卤味",
+    "可可小卤 法拉盛"
+  ],
+  "limitedActionsDetailsObserved": 0,
+  "limitedCaseRequired": false,
+  "expectedConfig": {
+    "maxResultsPerKeyword": 15,
+    "maxScrollsPerKeyword": 10,
+    "maxScreenshotsPerKeyword": 8,
+    "keywordTimeoutMs": 90000,
+    "locale": "en-US",
+    "browserTimezoneId": "America/New_York",
+    "filenameTimezone": "Asia/Shanghai",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "outputDirectory": "/work/outputs",
+    "schemaVersion": "1",
+    "keywords": [
+      "chinese deli flushing",
+      "法拉盛 卤味",
+      "可可小卤 法拉盛"
+    ]
+  },
+  "expectedProfileHash": "019ea7beb42be190c209429fdb0767e22abf4ee5521634c398ef669c5a0252d7",
+  "imageDigest": "sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+  "sourceCommit": "9c36da7a0f3220e760d49721f5c0127308e75c51",
+  "adapterVersion": "maps-feed-card/v6",
+  "finalReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/manifest.json",
+    "verifiedAt": "2026-10-14T02:06:48.008Z",
+    "storageError": null,
+    "runId": "run_20261014T020608Z_0584be",
+    "attemptId": "att_f93e09ba",
+    "filename": "manifest.json",
+    "bytes": 14274,
+    "sha256": "4253eddfccb4809736f4b5e69caa7db8a265bd5600425c0c738b8d99fad9ac4a"
+  },
+  "verifiedObjects": 18,
+  "verifiedArtifacts": 17,
+  "verifiedBytes": 4929573,
+  "pngsStructurallyChecked": 7,
+  "csvRowsComparedAllAttempts": 19,
+  "observationRecordsChecked": 6,
+  "resultAttemptsCompared": 3,
+  "cacheReused": 0,
+  "smokeAccepted": true,
+  "verifierExitCode": 0,
+  "podExitCode": null,
+  "podExitCodeNote": "Not present in collector summary; compare separately with archived Kubernetes termination state.",
+  "issues": [],
+  "results": [
+    {
+      "queryId": "q0001",
+      "keyword": "chinese deli flushing",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "placeDetails": null,
+      "resultKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001.json",
+      "listings": 15,
+      "surface": "results_list",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__01.png",
+        "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__02.png",
+        "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__03.png",
+        "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__04.png",
+        "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__05.png"
+      ],
+      "listingCoverage": [
+        {
+          "occurrenceId": "occ_ac690bf2ea31812e",
+          "displayPosition": 1,
+          "name": "Nan Xiang Soup Dumplings - Flushing",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_496209723f2bf9a3",
+          "displayPosition": 2,
+          "name": "Jiang Nan Flushing",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_35a7020384f484d6",
+          "displayPosition": 3,
+          "name": "Old Luo Yang",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_3efbe2e2ea8c7d4a",
+          "displayPosition": 4,
+          "name": "CHELI FLUSHING",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_b6303cd9900ae5fe",
+          "displayPosition": 5,
+          "name": "JiBeiChuan Noodles(Flushing)",
+          "verifiedScreenshotIds": [
+            "qa01_shot02"
+          ]
+        },
+        {
+          "occurrenceId": "occ_1d6ca266bf1dda88",
+          "displayPosition": 6,
+          "name": "DunHuang Lanzhou Beef Noodle",
+          "verifiedScreenshotIds": [
+            "qa01_shot02",
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_8af2c7958ae594a9",
+          "displayPosition": 7,
+          "name": "Mountain House Flushing 川山甲",
+          "verifiedScreenshotIds": [
+            "qa01_shot02",
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_2acaafc07dfe2c86",
+          "displayPosition": 8,
+          "name": "GAN-HOO BBQ",
+          "verifiedScreenshotIds": [
+            "qa01_shot02",
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_bba6e6b451439d3f",
+          "displayPosition": 9,
+          "name": "Gao Qunsheng's",
+          "verifiedScreenshotIds": [
+            "qa01_shot03"
+          ]
+        },
+        {
+          "occurrenceId": "occ_9498e945b0999cb0",
+          "displayPosition": 10,
+          "name": "Chuan Bistro",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        },
+        {
+          "occurrenceId": "occ_26337a2779a1cd11",
+          "displayPosition": 11,
+          "name": "湘当有料Young and Rich NY",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        },
+        {
+          "occurrenceId": "occ_7953a547d8de97b8",
+          "displayPosition": 12,
+          "name": "Shanghai You Garden",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        },
+        {
+          "occurrenceId": "occ_31c888f025b6cb9b",
+          "displayPosition": 13,
+          "name": "鱼你在一起 （法拉盛） Fish With You | Sauerkraut Fish 酸菜鱼",
+          "verifiedScreenshotIds": [
+            "qa01_shot04"
+          ]
+        },
+        {
+          "occurrenceId": "occ_6bd0beaa47797618",
+          "displayPosition": 14,
+          "name": "Chongqing Lao Zao",
+          "verifiedScreenshotIds": [
+            "qa01_shot05"
+          ]
+        },
+        {
+          "occurrenceId": "occ_16734d46abc00b0f",
+          "displayPosition": 15,
+          "name": "Asian Jewels",
+          "verifiedScreenshotIds": [
+            "qa01_shot05"
+          ]
+        }
+      ],
+      "allListingsCovered": true,
+      "classificationCounts": {
+        "organic": 15
+      }
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "法拉盛 卤味",
+      "status": "captured",
+      "stopReason": "end_of_results",
+      "placeDetails": null,
+      "resultKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002.json",
+      "listings": 4,
+      "surface": "results_list",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002__01.png"
+      ],
+      "listingCoverage": [
+        {
+          "occurrenceId": "occ_32757d646283d6c6",
+          "displayPosition": 1,
+          "name": "Yazhayifuren",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_b9123b777a187684",
+          "displayPosition": 2,
+          "name": "一间小店",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_ef188c6ddf6f8895",
+          "displayPosition": 3,
+          "name": "淳香居传统酱货chun xiang ju",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "occurrenceId": "occ_6eedaaf1e542b5f2",
+          "displayPosition": 4,
+          "name": "Master Huang Inc",
+          "verifiedScreenshotIds": [
+            "qa01_shot01"
+          ]
+        }
+      ],
+      "allListingsCovered": true,
+      "classificationCounts": {
+        "organic": 4
+      }
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "可可小卤 法拉盛",
+      "status": "partial",
+      "stopReason": "non_ranking_result",
+      "placeDetails": {
+        "name": "可可小卤 KEKE BRAISED DELI",
+        "recognition": "standard_actions",
+        "signals": [
+          "visible_heading",
+          "directions",
+          "address"
+        ],
+        "mapsUrl": "https://www.google.com/maps/place/%E5%8F%AF%E5%8F%AF%E5%B0%8F%E5%8D%A4+KEKE+BRAISED+DELI/@40.7658211,-73.8315243,17z/data=!3m1!4b1!4m6!3m5!1s0x89c261ce5af73045:0x6dcd3b5520fc2e11!8m2!3d40.7658211!4d-73.8315243!16s%2Fg%2F11nhm11wd4?hl=en&entry=ttu&g_ep=EgoyMDI2MTAxMi4wIKXMDSoASAFQAw%3D%3D"
+      },
+      "resultKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003.json",
+      "listings": 0,
+      "surface": "place_details",
+      "geographicStatus": "unverified",
+      "pngKeys": [
+        "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003__diag.png"
+      ],
+      "listingCoverage": [],
+      "allListingsCovered": true,
+      "classificationCounts": {}
+    }
+  ],
+  "scope": {
+    "allManifestArtifactsVerified": true,
+    "allAttemptJsonCsvCompared": true,
+    "allPngStructurallyChecked": true,
+    "visualReview": "pending; see visual-review-plan.json",
+    "visualSampleCount": 7
+  },
+  "limitations": [
+    "Small standalone collector smoke only; not a full daily-monitor or midnight-schedule acceptance.",
+    "Complete non-ranking observations keep status partial and have no merchant ranking.",
+    "No expectedArea is configured: all geographic statuses must remain unverified.",
+    "The limited-actions regression is accepted only when at least one selected detail has its required recognition signals; visual review remains separate.",
+    "PNG structural integrity and observation coverage do not replace visual interpretation."
+  ]
+}

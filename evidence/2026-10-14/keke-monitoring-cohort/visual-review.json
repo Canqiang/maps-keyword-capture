@@ -1,0 +1,27 @@
+{
+  "reviewedAt": "2026-10-14T02:09:25.286785+00:00",
+  "reviewer": "root via view_image",
+  "visualSampleCount": 3,
+  "structuralPngCount": 7,
+  "samples": [
+    {
+      "keyword": "chinese deli flushing",
+      "key": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__01.png",
+      "inspected": true,
+      "note": "Visible English query and leading listings agree with JSON. First of five PNGs visually sampled; all five structurally verified. No claim to visually review all 15 rows."
+    },
+    {
+      "keyword": "法拉盛 卤味",
+      "key": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002__01.png",
+      "inspected": true,
+      "note": "Chinese query and all four listed merchants legible; end-of-list and limited-view-of-Google-Maps notice are visible. Keke is not among these four observed rows. This is observed coverage, not an exhaustive local market result."
+    },
+    {
+      "keyword": "可可小卤 法拉盛",
+      "key": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003__diag.png",
+      "inspected": true,
+      "note": "Readable Keke detail page, matching Linden Place address. Final Maps business key matches 0x89c261ce5af73045:0x6dcd3b5520fc2e11. Brand/entity hit, no organic rank."
+    }
+  ],
+  "limits": "One actual PNG per query; all 18 referenced objects hash-verified separately, all 19 CSV listing rows compared. Geography unverified."
+}

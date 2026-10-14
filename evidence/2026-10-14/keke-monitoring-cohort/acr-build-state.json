@@ -1,0 +1,14 @@
+{
+  "finishTime": "2026-10-14T02:03:56.364192+00:00",
+  "outputImages": [
+    {
+      "digest": "sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+      "registry": "fbrdevacr.azurecr.io",
+      "repository": "ai/maps-keyword-capture",
+      "tag": "keke-cohort-9c36da7a0f32"
+    }
+  ],
+  "runId": "ch14xp",
+  "startTime": "2026-10-14T02:01:51.470908+00:00",
+  "status": "Succeeded"
+}

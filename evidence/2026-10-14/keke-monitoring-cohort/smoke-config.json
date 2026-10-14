@@ -1,0 +1,20 @@
+{
+  "maxResultsPerKeyword": 15,
+  "maxScrollsPerKeyword": 10,
+  "maxScreenshotsPerKeyword": 8,
+  "keywordTimeoutMs": 90000,
+  "locale": "en-US",
+  "browserTimezoneId": "America/New_York",
+  "filenameTimezone": "Asia/Shanghai",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "schemaVersion": "1",
+  "keywords": [
+    "chinese deli flushing",
+    "法拉盛 卤味",
+    "可可小卤 法拉盛"
+  ],
+  "outputDirectory": "/work/outputs"
+}

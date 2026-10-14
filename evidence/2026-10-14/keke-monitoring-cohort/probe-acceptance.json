@@ -1,0 +1,51 @@
+{
+  "accepted": true,
+  "checkedAt": "2026-10-14T02:09:25.287209+00:00",
+  "job": "maps-keke-cohort-verify-20261014t020453z",
+  "jobUid": "6504703f-0648-48a2-9309-78bb103ae244",
+  "pod": "maps-keke-cohort-verify-20261014t020453z-7pd7l",
+  "podUid": "709a9390-30b6-422a-bfb2-b6da90366b8d",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+  "runtimeCommit": "9c36da7a0f3220e760d49721f5c0127308e75c51",
+  "configMap": "maps-keyword-monitor-keke-20261014-v1",
+  "configMapUid": "2abe7ddd-b21e-40d6-b527-a96e3daec153",
+  "cohort": {
+    "id": "keke-acquisition-20261014-v1",
+    "sha256": "163d85b90182f5a14aa07c8cde6360f6e81805f839c13a3646b69f25bd5ca3e4",
+    "groups": {
+      "core": 32,
+      "exploration": 6,
+      "brand": 2
+    }
+  },
+  "podExitCode": 0,
+  "restarts": 0,
+  "startedAt": "2026-10-14T02:06:07Z",
+  "finishedAt": "2026-10-14T02:06:48Z",
+  "selectionCheckedStores": 10,
+  "unchangedOtherStores": 9,
+  "selectedKeke": 40,
+  "capturedSmokeQueries": 3,
+  "counts": {
+    "captured": 2,
+    "partial": 1,
+    "nonRanking": 1
+  },
+  "verifiedObjects": 18,
+  "verifiedBytes": 4929573,
+  "csvRowsCompared": 19,
+  "visualSampleCount": 3,
+  "manifestReceipt": {
+    "storageStatus": "verified",
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/manifest.json",
+    "verifiedAt": "2026-10-14T02:06:48.008Z",
+    "storageError": null,
+    "runId": "run_20261014T020608Z_0584be",
+    "attemptId": "att_f93e09ba",
+    "filename": "manifest.json",
+    "bytes": 14274,
+    "sha256": "4253eddfccb4809736f4b5e69caa7db8a265bd5600425c0c738b8d99fad9ac4a"
+  },
+  "sharedSourceResponseUnchanged": true,
+  "scope": "All 10 stores selection; only 3 actual browser queries, 18/18 object hashes and 7 PNG structures, 3 PNGs visually sampled. Not full 40-query or scheduled-run acceptance."
+}

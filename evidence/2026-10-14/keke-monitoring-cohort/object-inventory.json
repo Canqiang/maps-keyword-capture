@@ -1,0 +1,275 @@
+[
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/manifest.json",
+    "category": "batch_manifest",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/manifest.json",
+    "expected": {
+      "bytes": 14274,
+      "sha256": "4253eddfccb4809736f4b5e69caa7db8a265bd5600425c0c738b8d99fad9ac4a"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001.csv",
+    "expected": {
+      "bytes": 9701,
+      "sha256": "a85e003142b6ca33d201284b40708edb4e4616362edd5433cac25dc4b60b3ce2"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001.json",
+    "expected": {
+      "bytes": 28989,
+      "sha256": "4ff23347afbcdc2269d4d289a57f881f407481f75f9f12c04431d7bb4ffc01c9"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__01.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__01.png",
+    "expected": {
+      "bytes": 642978,
+      "sha256": "29c34888741758fd2291be0b7b837fdde0f024a229dc6f1bdcdd215be0008775"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__02.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__02.png",
+    "expected": {
+      "bytes": 624796,
+      "sha256": "0c192e1ecb314fc26618419bceb284dfb917875284ecc74e1af2e6d75ddd7bc3"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__03.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__03.png",
+    "expected": {
+      "bytes": 630543,
+      "sha256": "75df9e95cb081273df73a19f036e84b02dbbf8ae79253524bf66b62e23726884"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__04.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__04.png",
+    "expected": {
+      "bytes": 648942,
+      "sha256": "7f6b4aa8cfb377deca2e9be70b09f83c6b05f45ed18b6f6cc376902ddc6f3862"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__05.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/20261014T100608.617+0800__chinese-deli-flushing__q0001__05.png",
+    "expected": {
+      "bytes": 625023,
+      "sha256": "f384c79ff7158b6769ed00cc4e01a17976dbc2eaffaf46fb14822f4f58a4e56e"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0001/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 81135,
+      "sha256": "9472e9456371305723525cdd866853d1781b50f3c0998d749617bc3a8c2fc40e"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002.csv",
+    "expected": {
+      "bytes": 2574,
+      "sha256": "1d2d56f32d18b200f75ce1a848f3683ee01801a921c42725d2cd3a46e2ffa2d3"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002.json",
+    "expected": {
+      "bytes": 8618,
+      "sha256": "959cc6658cb892281f2d919e337895058cb4eba7ed854eea43fc54402095db98"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002__01.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/20261014T100632.434+0800__keyword__q0002__01.png",
+    "expected": {
+      "bytes": 531533,
+      "sha256": "537eaebfbac5fb0cc3a390d33f95204d9fd8ed9678f12e8e94ce63d749a17c29"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0002/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 5058,
+      "sha256": "768bba9eb10f4c299be8e888d2375bb2ffe7c5dd6927f1199d9fdd330121b2ce"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003.csv",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003.csv",
+    "expected": {
+      "bytes": 210,
+      "sha256": "f61ce481e615b8e29327b774bff40fc93ef8db9357de6ad12083ac88b1b1880e"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003.json",
+    "expected": {
+      "bytes": 4030,
+      "sha256": "c2f6dbb922ef1ec8e795f1fa8176bbdd0c068b9842a45c4caa82c534acd54660"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003__diag.png",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/20261014T100642.895+0800__keyword__q0003__diag.png",
+    "expected": {
+      "bytes": 1070543,
+      "sha256": "09820f26b21c10da9ac0a6de75a529fc560ec545f8ddad5c869498478c948b69"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/observations.jsonl",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/q0003/qa01/observations.jsonl",
+    "expected": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  },
+  {
+    "objectKey": "2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/request.json",
+    "category": "artifact",
+    "storeId": null,
+    "path": "../readback/2026-10-14/run_20261014T020608Z_0584be/att_f93e09ba/request.json",
+    "expected": {
+      "bytes": 626,
+      "sha256": "9a3af0dcbf245cc4a96d0affa524a588c4d4d7372fa6ec572a97b0c8efa120a7"
+    },
+    "verified": true,
+    "identity": "azure_cli_login",
+    "cacheReused": false,
+    "png": null
+  }
+]

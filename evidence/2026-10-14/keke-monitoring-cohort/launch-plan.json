@@ -1,0 +1,14 @@
+{
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+  "digest": "sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+  "runtimeCommit": "9c36da7a0f3220e760d49721f5c0127308e75c51",
+  "job": "maps-keke-cohort-verify-20261014t020453z",
+  "configMap": "maps-keyword-monitor-keke-20261014-v1",
+  "probeConfigMap": "maps-keke-probe-20261014t020453z",
+  "probeKeywords": [
+    "chinese deli flushing",
+    "\u6cd5\u62c9\u76db \u5364\u5473",
+    "\u53ef\u53ef\u5c0f\u5364 \u6cd5\u62c9\u76db"
+  ],
+  "scope": "all discovered store selection only, then three standalone queries; no daily claim"
+}

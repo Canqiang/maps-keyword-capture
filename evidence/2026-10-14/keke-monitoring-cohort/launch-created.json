@@ -1,0 +1,23 @@
+[
+  {
+    "file": "candidate-configmap.json",
+    "kind": "ConfigMap",
+    "name": "maps-keyword-monitor-keke-20261014-v1",
+    "uid": "2abe7ddd-b21e-40d6-b527-a96e3daec153",
+    "createdAt": "2026-10-14T02:06:00Z"
+  },
+  {
+    "file": "probe-configmap.json",
+    "kind": "ConfigMap",
+    "name": "maps-keke-probe-20261014t020453z",
+    "uid": "b74b6449-2074-41bb-8546-e2dc5a6127e5",
+    "createdAt": "2026-10-14T02:06:01Z"
+  },
+  {
+    "file": "probe-job.json",
+    "kind": "Job",
+    "name": "maps-keke-cohort-verify-20261014t020453z",
+    "uid": "6504703f-0648-48a2-9309-78bb103ae244",
+    "createdAt": "2026-10-14T02:06:03Z"
+  }
+]

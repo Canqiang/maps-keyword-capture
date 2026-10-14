@@ -1,5 +1,5 @@
 {
-  "status": "prepared_not_deployed",
+  "status": "configured_for_next_scheduled_run",
   "retained": [
     "chinese braised food flushing",
     "chinese braised snacks flushing",
@@ -117,5 +117,6 @@
     "chinese braised snacks near leavitts park",
     "luwei near leavitts park",
     "noodles flushing"
-  ]
+  ],
+  "activatedAt": "2026-10-14T02:09:56.726234+00:00"
 }

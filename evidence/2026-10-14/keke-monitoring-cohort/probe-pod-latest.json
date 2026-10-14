@@ -1,0 +1,319 @@
+{
+  "apiVersion": "v1",
+  "kind": "Pod",
+  "metadata": {
+    "creationTimestamp": "2026-10-14T02:06:03Z",
+    "generateName": "maps-keke-cohort-verify-20261014t020453z-",
+    "generation": 1,
+    "labels": {
+      "app.kubernetes.io/component": "cohort-validation",
+      "app.kubernetes.io/name": "maps-keyword-monitor",
+      "batch.kubernetes.io/controller-uid": "6504703f-0648-48a2-9309-78bb103ae244",
+      "batch.kubernetes.io/job-name": "maps-keke-cohort-verify-20261014t020453z",
+      "controller-uid": "6504703f-0648-48a2-9309-78bb103ae244",
+      "job-name": "maps-keke-cohort-verify-20261014t020453z"
+    },
+    "name": "maps-keke-cohort-verify-20261014t020453z-7pd7l",
+    "namespace": "uat",
+    "ownerReferences": [
+      {
+        "apiVersion": "batch/v1",
+        "blockOwnerDeletion": true,
+        "controller": true,
+        "kind": "Job",
+        "name": "maps-keke-cohort-verify-20261014t020453z",
+        "uid": "6504703f-0648-48a2-9309-78bb103ae244"
+      }
+    ],
+    "resourceVersion": "731507826",
+    "uid": "709a9390-30b6-422a-bfb2-b6da90366b8d"
+  },
+  "spec": {
+    "automountServiceAccountToken": false,
+    "containers": [
+      {
+        "args": [
+          "node",
+          "/probe/verify-runtime.mjs"
+        ],
+        "env": [
+          {
+            "name": "EGRESS_PROFILE_ID",
+            "value": "aks-fbrdev-eastus2-aiapp"
+          },
+          {
+            "name": "AZURE_STORAGE_CONTAINER",
+            "value": "maps-keyword-capture-uat"
+          },
+          {
+            "name": "AZURE_STORAGE_CONTAINER_SAS_URL",
+            "valueFrom": {
+              "secretKeyRef": {
+                "key": "AZURE_STORAGE_CONTAINER_SAS_URL",
+                "name": "maps-keyword-monitor-storage"
+              }
+            }
+          },
+          {
+            "name": "IMAGE_DIGEST",
+            "value": "sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721"
+          },
+          {
+            "name": "KEYWORD_MONGO_URI",
+            "valueFrom": {
+              "secretKeyRef": {
+                "key": "KEYWORD_MONGO_URI",
+                "name": "maps-keyword-monitor-source"
+              }
+            }
+          }
+        ],
+        "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "monitor",
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "ephemeral-storage": "3Gi",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "250m",
+            "ephemeral-storage": "1Gi",
+            "memory": "1Gi"
+          }
+        },
+        "securityContext": {
+          "allowPrivilegeEscalation": false,
+          "capabilities": {
+            "drop": [
+              "ALL"
+            ]
+          },
+          "readOnlyRootFilesystem": true
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/config",
+            "name": "config",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/work",
+            "name": "work"
+          },
+          {
+            "mountPath": "/tmp",
+            "name": "tmp"
+          },
+          {
+            "mountPath": "/dev/shm",
+            "name": "dshm"
+          },
+          {
+            "mountPath": "/probe",
+            "name": "probe",
+            "readOnly": true
+          }
+        ]
+      }
+    ],
+    "dnsPolicy": "ClusterFirst",
+    "enableServiceLinks": true,
+    "nodeName": "aks-aiapp-34077033-vmss000001",
+    "nodeSelector": {
+      "envpool": "aiapp"
+    },
+    "preemptionPolicy": "PreemptLowerPriority",
+    "priority": 0,
+    "restartPolicy": "Never",
+    "schedulerName": "default-scheduler",
+    "securityContext": {
+      "fsGroup": 1001,
+      "runAsGroup": 1001,
+      "runAsNonRoot": true,
+      "runAsUser": 1001
+    },
+    "serviceAccount": "default",
+    "serviceAccountName": "default",
+    "terminationGracePeriodSeconds": 300,
+    "tolerations": [
+      {
+        "effect": "NoExecute",
+        "key": "node.kubernetes.io/not-ready",
+        "operator": "Exists",
+        "tolerationSeconds": 300
+      },
+      {
+        "effect": "NoExecute",
+        "key": "node.kubernetes.io/unreachable",
+        "operator": "Exists",
+        "tolerationSeconds": 300
+      },
+      {
+        "effect": "NoSchedule",
+        "key": "node.kubernetes.io/memory-pressure",
+        "operator": "Exists"
+      }
+    ],
+    "volumes": [
+      {
+        "configMap": {
+          "defaultMode": 420,
+          "name": "maps-keyword-monitor-keke-20261014-v1"
+        },
+        "name": "config"
+      },
+      {
+        "emptyDir": {
+          "sizeLimit": "2Gi"
+        },
+        "name": "work"
+      },
+      {
+        "emptyDir": {
+          "sizeLimit": "1Gi"
+        },
+        "name": "tmp"
+      },
+      {
+        "emptyDir": {
+          "medium": "Memory",
+          "sizeLimit": "512Mi"
+        },
+        "name": "dshm"
+      },
+      {
+        "configMap": {
+          "defaultMode": 420,
+          "name": "maps-keke-probe-20261014t020453z"
+        },
+        "name": "probe"
+      }
+    ]
+  },
+  "status": {
+    "conditions": [
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-14T02:06:49Z",
+        "observedGeneration": 1,
+        "status": "False",
+        "type": "PodReadyToStartContainers"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-14T02:06:03Z",
+        "observedGeneration": 1,
+        "reason": "PodCompleted",
+        "status": "True",
+        "type": "Initialized"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-14T02:06:48Z",
+        "observedGeneration": 1,
+        "reason": "PodCompleted",
+        "status": "False",
+        "type": "Ready"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-14T02:06:48Z",
+        "observedGeneration": 1,
+        "reason": "PodCompleted",
+        "status": "False",
+        "type": "ContainersReady"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-14T02:06:03Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "PodScheduled"
+      }
+    ],
+    "containerStatuses": [
+      {
+        "allocatedResources": {
+          "cpu": "250m",
+          "ephemeral-storage": "1Gi",
+          "memory": "1Gi"
+        },
+        "containerID": "containerd://99110b3f526614899ef5951bcd57c5ed73935642651767dd7dc2d8abcafd6407",
+        "image": "sha256:ec37e65c9caebea0c74ca39dd6f7cdd4721ea7cc20444ed22b8d5e013ea9ca0d",
+        "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+        "lastState": {},
+        "name": "monitor",
+        "ready": false,
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "ephemeral-storage": "3Gi",
+            "memory": "2Gi"
+          },
+          "requests": {
+            "cpu": "250m",
+            "ephemeral-storage": "1Gi",
+            "memory": "1Gi"
+          }
+        },
+        "restartCount": 0,
+        "started": false,
+        "state": {
+          "terminated": {
+            "containerID": "containerd://99110b3f526614899ef5951bcd57c5ed73935642651767dd7dc2d8abcafd6407",
+            "exitCode": 0,
+            "finishedAt": "2026-10-14T02:06:48Z",
+            "reason": "Completed",
+            "startedAt": "2026-10-14T02:06:07Z"
+          }
+        },
+        "volumeMounts": [
+          {
+            "mountPath": "/config",
+            "name": "config",
+            "readOnly": true,
+            "recursiveReadOnly": "Disabled"
+          },
+          {
+            "mountPath": "/work",
+            "name": "work"
+          },
+          {
+            "mountPath": "/tmp",
+            "name": "tmp"
+          },
+          {
+            "mountPath": "/dev/shm",
+            "name": "dshm"
+          },
+          {
+            "mountPath": "/probe",
+            "name": "probe",
+            "readOnly": true,
+            "recursiveReadOnly": "Disabled"
+          }
+        ]
+      }
+    ],
+    "hostIP": "10.0.64.92",
+    "hostIPs": [
+      {
+        "ip": "10.0.64.92"
+      }
+    ],
+    "observedGeneration": 1,
+    "phase": "Succeeded",
+    "podIP": "10.0.65.111",
+    "podIPs": [
+      {
+        "ip": "10.0.65.111"
+      }
+    ],
+    "qosClass": "Burstable",
+    "startTime": "2026-10-14T02:06:03Z"
+  }
+}

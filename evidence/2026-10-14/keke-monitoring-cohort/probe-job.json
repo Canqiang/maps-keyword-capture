@@ -1,0 +1,164 @@
+{
+  "apiVersion": "batch/v1",
+  "kind": "Job",
+  "metadata": {
+    "name": "maps-keke-cohort-verify-20261014t020453z",
+    "namespace": "uat",
+    "labels": {
+      "app.kubernetes.io/name": "maps-keyword-monitor",
+      "app.kubernetes.io/component": "cohort-validation"
+    }
+  },
+  "spec": {
+    "activeDeadlineSeconds": 900,
+    "backoffLimit": 0,
+    "template": {
+      "metadata": {
+        "labels": {
+          "app.kubernetes.io/name": "maps-keyword-monitor",
+          "app.kubernetes.io/component": "cohort-validation"
+        }
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "args": [
+              "node",
+              "/probe/verify-runtime.mjs"
+            ],
+            "env": [
+              {
+                "name": "EGRESS_PROFILE_ID",
+                "value": "aks-fbrdev-eastus2-aiapp"
+              },
+              {
+                "name": "AZURE_STORAGE_CONTAINER",
+                "value": "maps-keyword-capture-uat"
+              },
+              {
+                "name": "AZURE_STORAGE_CONTAINER_SAS_URL",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "key": "AZURE_STORAGE_CONTAINER_SAS_URL",
+                    "name": "maps-keyword-monitor-storage"
+                  }
+                }
+              },
+              {
+                "name": "IMAGE_DIGEST",
+                "value": "sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721"
+              },
+              {
+                "name": "KEYWORD_MONGO_URI",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "key": "KEYWORD_MONGO_URI",
+                    "name": "maps-keyword-monitor-source"
+                  }
+                }
+              }
+            ],
+            "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "monitor",
+            "resources": {
+              "limits": {
+                "cpu": "2",
+                "ephemeral-storage": "3Gi",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "250m",
+                "ephemeral-storage": "1Gi",
+                "memory": "1Gi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/config",
+                "name": "config",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/work",
+                "name": "work"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              },
+              {
+                "mountPath": "/dev/shm",
+                "name": "dshm"
+              },
+              {
+                "name": "probe",
+                "mountPath": "/probe",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "nodeSelector": {
+          "envpool": "aiapp"
+        },
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 1001,
+          "runAsGroup": 1001,
+          "runAsNonRoot": true,
+          "runAsUser": 1001
+        },
+        "terminationGracePeriodSeconds": 300,
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "maps-keyword-monitor-keke-20261014-v1"
+            },
+            "name": "config"
+          },
+          {
+            "emptyDir": {
+              "sizeLimit": "2Gi"
+            },
+            "name": "work"
+          },
+          {
+            "emptyDir": {
+              "sizeLimit": "1Gi"
+            },
+            "name": "tmp"
+          },
+          {
+            "emptyDir": {
+              "medium": "Memory",
+              "sizeLimit": "512Mi"
+            },
+            "name": "dshm"
+          },
+          {
+            "name": "probe",
+            "configMap": {
+              "name": "maps-keke-probe-20261014t020453z"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

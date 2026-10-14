@@ -1,0 +1,1943 @@
+{
+  "selectionValidation": true,
+  "passed": true,
+  "at": "2026-10-14T02:06:08.109Z",
+  "runtimeCommit": "9c36da7a0f3220e760d49721f5c0127308e75c51",
+  "imageDigest": "sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+  "registryCounts": {
+    "fetched": 18,
+    "eligible": 10,
+    "excluded": 8,
+    "quarantined": 0
+  },
+  "selections": [
+    {
+      "storeId": "choice-clinton-hill",
+      "placeId": "ChIJaYcllU0N7ocR4lWiLngfEYg",
+      "sourceCount": 101,
+      "sourceResponseHash": "84c546bfd27b61d6223762c620e9065a55821ccb0860328f0eaa60dce1ac469d",
+      "selected": [
+        {
+          "keyword": "brunch",
+          "priority": "P0",
+          "sourceIndex": 0
+        },
+        {
+          "keyword": "breakfast near me",
+          "priority": "P0",
+          "sourceIndex": 8
+        },
+        {
+          "keyword": "best breakfast NYC",
+          "priority": "P0",
+          "sourceIndex": 12
+        },
+        {
+          "keyword": "best coffee shop brooklyn",
+          "priority": "P0",
+          "sourceIndex": 25
+        },
+        {
+          "keyword": "best coffee NYC",
+          "priority": "P0",
+          "sourceIndex": 35
+        },
+        {
+          "keyword": "Brooklyn bakery",
+          "priority": "P0",
+          "sourceIndex": 55
+        },
+        {
+          "keyword": "pastries near me",
+          "priority": "P0",
+          "sourceIndex": 57
+        },
+        {
+          "keyword": "french bakery NYC",
+          "priority": "P0",
+          "sourceIndex": 67
+        },
+        {
+          "keyword": "sandwich shop near me",
+          "priority": "P0",
+          "sourceIndex": 72
+        },
+        {
+          "keyword": "panini NYC",
+          "priority": "P0",
+          "sourceIndex": 76
+        },
+        {
+          "keyword": "breakfast catering NYC",
+          "priority": "P0",
+          "sourceIndex": 95
+        },
+        {
+          "keyword": "brunch near me",
+          "priority": "P1",
+          "sourceIndex": 2
+        },
+        {
+          "keyword": "breakfast",
+          "priority": "P1",
+          "sourceIndex": 7
+        },
+        {
+          "keyword": "healthy breakfast NYC",
+          "priority": "P1",
+          "sourceIndex": 14
+        },
+        {
+          "keyword": "cafe",
+          "priority": "P1",
+          "sourceIndex": 15
+        },
+        {
+          "keyword": "coffee",
+          "priority": "P1",
+          "sourceIndex": 16
+        },
+        {
+          "keyword": "cafe near me",
+          "priority": "P1",
+          "sourceIndex": 17
+        },
+        {
+          "keyword": "coffee near me",
+          "priority": "P1",
+          "sourceIndex": 18
+        },
+        {
+          "keyword": "Brooklyn cafe",
+          "priority": "P1",
+          "sourceIndex": 24
+        },
+        {
+          "keyword": "handcrafted coffee",
+          "priority": "P1",
+          "sourceIndex": 27
+        },
+        {
+          "keyword": "artisan coffee",
+          "priority": "P1",
+          "sourceIndex": 28
+        },
+        {
+          "keyword": "brooklyn coffee shop",
+          "priority": "P1",
+          "sourceIndex": 32
+        },
+        {
+          "keyword": "matcha latte NYC",
+          "priority": "P1",
+          "sourceIndex": 42
+        },
+        {
+          "keyword": "scones NYC",
+          "priority": "P1",
+          "sourceIndex": 53
+        },
+        {
+          "keyword": "bakery",
+          "priority": "P1",
+          "sourceIndex": 54
+        },
+        {
+          "keyword": "bakery cafe NYC",
+          "priority": "P1",
+          "sourceIndex": 58
+        },
+        {
+          "keyword": "breakfast pastries",
+          "priority": "P1",
+          "sourceIndex": 60
+        },
+        {
+          "keyword": "sandwich shop Brooklyn",
+          "priority": "P1",
+          "sourceIndex": 73
+        },
+        {
+          "keyword": "breakfast sandwiches NYC",
+          "priority": "P1",
+          "sourceIndex": 74
+        },
+        {
+          "keyword": "best sandwiches Brooklyn",
+          "priority": "P1",
+          "sourceIndex": 80
+        },
+        {
+          "keyword": "smoothies near me",
+          "priority": "P1",
+          "sourceIndex": 83
+        },
+        {
+          "keyword": "healthy brunch NYC",
+          "priority": "P1",
+          "sourceIndex": 86
+        },
+        {
+          "keyword": "vegan cafe NYC",
+          "priority": "P1",
+          "sourceIndex": 89
+        },
+        {
+          "keyword": "vegetarian brunch NYC",
+          "priority": "P1",
+          "sourceIndex": 93
+        },
+        {
+          "keyword": "brunch catering Brooklyn",
+          "priority": "P1",
+          "sourceIndex": 96
+        },
+        {
+          "keyword": "brunch clinton hill",
+          "priority": "P2",
+          "sourceIndex": 1
+        },
+        {
+          "keyword": "brunch brooklyn",
+          "priority": "P2",
+          "sourceIndex": 3
+        },
+        {
+          "keyword": "family brunch NYC",
+          "priority": "P2",
+          "sourceIndex": 5
+        },
+        {
+          "keyword": "breakfast brooklyn",
+          "priority": "P2",
+          "sourceIndex": 10
+        },
+        {
+          "keyword": "breakfast cafe NYC",
+          "priority": "P2",
+          "sourceIndex": 11
+        }
+      ],
+      "monitoringCohort": null
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "placeId": "ChIJH8iZh-5ZwokRPLzzADeSnYE",
+      "sourceCount": 101,
+      "sourceResponseHash": "51b1cacdd4961a4c9428aa3a99274906b8d0e6c020cca7161bd43e7107421326",
+      "selected": [
+        {
+          "keyword": "bakery",
+          "priority": "P0",
+          "sourceIndex": 1
+        },
+        {
+          "keyword": "breakfast",
+          "priority": "P0",
+          "sourceIndex": 4
+        },
+        {
+          "keyword": "brunch",
+          "priority": "P0",
+          "sourceIndex": 9
+        },
+        {
+          "keyword": "brunch UWS",
+          "priority": "P0",
+          "sourceIndex": 13
+        },
+        {
+          "keyword": "cafe",
+          "priority": "P0",
+          "sourceIndex": 14
+        },
+        {
+          "keyword": "coffee",
+          "priority": "P0",
+          "sourceIndex": 22
+        },
+        {
+          "keyword": "sandwiches",
+          "priority": "P0",
+          "sourceIndex": 34
+        },
+        {
+          "keyword": "avocado toast upper west side",
+          "priority": "P1",
+          "sourceIndex": 0
+        },
+        {
+          "keyword": "bakery near me",
+          "priority": "P1",
+          "sourceIndex": 2
+        },
+        {
+          "keyword": "bakery Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 3
+        },
+        {
+          "keyword": "breakfast near me",
+          "priority": "P1",
+          "sourceIndex": 5
+        },
+        {
+          "keyword": "breakfast Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 6
+        },
+        {
+          "keyword": "Broadway brunch",
+          "priority": "P1",
+          "sourceIndex": 7
+        },
+        {
+          "keyword": "Broadway coffee",
+          "priority": "P1",
+          "sourceIndex": 8
+        },
+        {
+          "keyword": "brunch near Central Park",
+          "priority": "P1",
+          "sourceIndex": 10
+        },
+        {
+          "keyword": "brunch near Lincoln Center",
+          "priority": "P1",
+          "sourceIndex": 11
+        },
+        {
+          "keyword": "brunch near me",
+          "priority": "P1",
+          "sourceIndex": 12
+        },
+        {
+          "keyword": "cafe Broadway NYC",
+          "priority": "P1",
+          "sourceIndex": 15
+        },
+        {
+          "keyword": "cafe near Lincoln Center",
+          "priority": "P1",
+          "sourceIndex": 16
+        },
+        {
+          "keyword": "cafe near me",
+          "priority": "P1",
+          "sourceIndex": 17
+        },
+        {
+          "keyword": "catering Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 18
+        },
+        {
+          "keyword": "Central Park breakfast",
+          "priority": "P1",
+          "sourceIndex": 19
+        },
+        {
+          "keyword": "chicken salad sandwich UWS",
+          "priority": "P1",
+          "sourceIndex": 20
+        },
+        {
+          "keyword": "chocolate croissant NYC",
+          "priority": "P1",
+          "sourceIndex": 21
+        },
+        {
+          "keyword": "coffee near me",
+          "priority": "P1",
+          "sourceIndex": 23
+        },
+        {
+          "keyword": "cold brew upper west side",
+          "priority": "P1",
+          "sourceIndex": 24
+        },
+        {
+          "keyword": "Columbus Circle breakfast",
+          "priority": "P1",
+          "sourceIndex": 25
+        },
+        {
+          "keyword": "croissant upper west side",
+          "priority": "P1",
+          "sourceIndex": 26
+        },
+        {
+          "keyword": "latte Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 27
+        },
+        {
+          "keyword": "Lincoln Center brunch spots",
+          "priority": "P1",
+          "sourceIndex": 28
+        },
+        {
+          "keyword": "Lincoln Center coffee shop",
+          "priority": "P1",
+          "sourceIndex": 29
+        },
+        {
+          "keyword": "pancakes upper west side",
+          "priority": "P1",
+          "sourceIndex": 30
+        },
+        {
+          "keyword": "panini Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 31
+        },
+        {
+          "keyword": "pastries",
+          "priority": "P1",
+          "sourceIndex": 32
+        },
+        {
+          "keyword": "pastries near me",
+          "priority": "P1",
+          "sourceIndex": 33
+        },
+        {
+          "keyword": "scones NYC",
+          "priority": "P1",
+          "sourceIndex": 35
+        },
+        {
+          "keyword": "smoothies",
+          "priority": "P1",
+          "sourceIndex": 36
+        },
+        {
+          "keyword": "smoothies near me",
+          "priority": "P1",
+          "sourceIndex": 37
+        },
+        {
+          "keyword": "smoothies Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 38
+        },
+        {
+          "keyword": "upper west side brunch cafe",
+          "priority": "P1",
+          "sourceIndex": 39
+        }
+      ],
+      "monitoringCohort": null
+    },
+    {
+      "storeId": "keke-flushing",
+      "placeId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+      "sourceCount": 91,
+      "sourceResponseHash": "c0f674b9674bd4238334174c9f1fab4a3f6d34ddadac57aa2f36f73e69ba0fad",
+      "selected": [
+        {
+          "keyword": "chinese food flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 0,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "chinese restaurant flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 1,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "chinese takeout flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 2,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "chinese food delivery flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 3,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "chinese deli flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 4,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "chinese braised food flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 5,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "chinese braised snacks flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 6,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "braised food flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 7,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "luwei flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 8,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "chinese snacks flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 9,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "duck neck flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 10,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "spicy duck neck flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 11,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "braised chicken flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 12,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "five spice chicken flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 13,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "braised beef flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 14,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "pork trotters flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 15,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "braised pork feet flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 16,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "chicken feet flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 17,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "braised tofu flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 18,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "hot dry noodles flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 19,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 中餐",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 20,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 中餐外卖",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 21,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 卤味",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 22,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 卤肉",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 23,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 鸭脖",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 24,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 卤鸡",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 25,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 卤牛肉",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 26,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 卤猪蹄",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 27,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 猪脚饭",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 28,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 鸡爪",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 29,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 卤豆腐",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 30,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "法拉盛 热干面",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 31,
+          "monitoringGroup": "core"
+        },
+        {
+          "keyword": "chinese braised snacks near flushing high school",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 32,
+          "monitoringGroup": "exploration"
+        },
+        {
+          "keyword": "chinese deli near flushing high school",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 33,
+          "monitoringGroup": "exploration"
+        },
+        {
+          "keyword": "pork feet rice flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 34,
+          "monitoringGroup": "exploration"
+        },
+        {
+          "keyword": "chinese cold dishes flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 35,
+          "monitoringGroup": "exploration"
+        },
+        {
+          "keyword": "法拉盛 夫妻肺片",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 36,
+          "monitoringGroup": "exploration"
+        },
+        {
+          "keyword": "法拉盛 卤味外卖",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 37,
+          "monitoringGroup": "exploration"
+        },
+        {
+          "keyword": "keke braised deli flushing",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 38,
+          "monitoringGroup": "brand"
+        },
+        {
+          "keyword": "可可小卤 法拉盛",
+          "priority": null,
+          "sourceIndex": null,
+          "cohortIndex": 39,
+          "monitoringGroup": "brand"
+        }
+      ],
+      "monitoringCohort": {
+        "id": "keke-acquisition-20261014-v1",
+        "sha256": "163d85b90182f5a14aa07c8cde6360f6e81805f839c13a3646b69f25bd5ca3e4",
+        "groups": {
+          "core": 32,
+          "exploration": 6,
+          "brand": 2
+        }
+      }
+    },
+    {
+      "storeId": "massage-float",
+      "placeId": "ChIJzfqHtwq7uokRvkBKgpmXPiM",
+      "sourceCount": 51,
+      "sourceResponseHash": "8a7f5855cf02b286686e3403c0c3d6f8a8ac4b55420e1933cf6a6ec547f93298",
+      "selected": [
+        {
+          "keyword": "massage",
+          "priority": "P0",
+          "sourceIndex": 0
+        },
+        {
+          "keyword": "float",
+          "priority": "P0",
+          "sourceIndex": 1
+        },
+        {
+          "keyword": "massage therapy",
+          "priority": "P0",
+          "sourceIndex": 2
+        },
+        {
+          "keyword": "spa",
+          "priority": "P0",
+          "sourceIndex": 3
+        },
+        {
+          "keyword": "deep tissue massage",
+          "priority": "P0",
+          "sourceIndex": 4
+        },
+        {
+          "keyword": "float therapy",
+          "priority": "P0",
+          "sourceIndex": 5
+        },
+        {
+          "keyword": "massage spa",
+          "priority": "P0",
+          "sourceIndex": 6
+        },
+        {
+          "keyword": "foot massage",
+          "priority": "P0",
+          "sourceIndex": 7
+        },
+        {
+          "keyword": "swedish massage",
+          "priority": "P0",
+          "sourceIndex": 8
+        },
+        {
+          "keyword": "day spa",
+          "priority": "P0",
+          "sourceIndex": 9
+        },
+        {
+          "keyword": "chesapeake",
+          "priority": "P0",
+          "sourceIndex": 10
+        },
+        {
+          "keyword": "massage kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 11
+        },
+        {
+          "keyword": "float kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 12
+        },
+        {
+          "keyword": "massage chesapeake",
+          "priority": "P1",
+          "sourceIndex": 13
+        },
+        {
+          "keyword": "float chesapeake",
+          "priority": "P1",
+          "sourceIndex": 14
+        },
+        {
+          "keyword": "massage therapy kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 15
+        },
+        {
+          "keyword": "spa kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 16
+        },
+        {
+          "keyword": "deep tissue massage kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 17
+        },
+        {
+          "keyword": "float therapy kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 18
+        },
+        {
+          "keyword": "massage spa kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 19
+        },
+        {
+          "keyword": "massage therapy chesapeake",
+          "priority": "P1",
+          "sourceIndex": 20
+        },
+        {
+          "keyword": "foot massage kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 21
+        },
+        {
+          "keyword": "swedish massage kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 22
+        },
+        {
+          "keyword": "day spa kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 23
+        },
+        {
+          "keyword": "float spa kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 24
+        },
+        {
+          "keyword": "float tank kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 25
+        },
+        {
+          "keyword": "sensory deprivation tank kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 26
+        },
+        {
+          "keyword": "sports massage kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 27
+        },
+        {
+          "keyword": "spa chesapeake",
+          "priority": "P1",
+          "sourceIndex": 28
+        },
+        {
+          "keyword": "deep tissue massage chesapeake",
+          "priority": "P1",
+          "sourceIndex": 29
+        },
+        {
+          "keyword": "float therapy chesapeake",
+          "priority": "P1",
+          "sourceIndex": 30
+        },
+        {
+          "keyword": "massage spa chesapeake",
+          "priority": "P1",
+          "sourceIndex": 31
+        },
+        {
+          "keyword": "foot massage chesapeake",
+          "priority": "P1",
+          "sourceIndex": 32
+        },
+        {
+          "keyword": "swedish massage chesapeake",
+          "priority": "P1",
+          "sourceIndex": 33
+        },
+        {
+          "keyword": "reservation kempsville rd",
+          "priority": "P1",
+          "sourceIndex": 34
+        },
+        {
+          "keyword": "day spa chesapeake",
+          "priority": "P1",
+          "sourceIndex": 35
+        },
+        {
+          "keyword": "float spa chesapeake",
+          "priority": "P1",
+          "sourceIndex": 36
+        },
+        {
+          "keyword": "float tank chesapeake",
+          "priority": "P1",
+          "sourceIndex": 37
+        },
+        {
+          "keyword": "sensory deprivation tank chesapeake",
+          "priority": "P1",
+          "sourceIndex": 38
+        },
+        {
+          "keyword": "sports massage chesapeake",
+          "priority": "P1",
+          "sourceIndex": 39
+        }
+      ],
+      "monitoringCohort": null
+    },
+    {
+      "storeId": "only-bear",
+      "placeId": "ChIJgR0AKI2HwokRcMm_K7J7Phw",
+      "sourceCount": 65,
+      "sourceResponseHash": "129cc9df334f84c112f2f041c2ca5431457ddbbc2c60f903eb5ae8d1643cec02",
+      "selected": [
+        {
+          "keyword": "bubble tea delivery mineola",
+          "priority": "P0",
+          "sourceIndex": 0
+        },
+        {
+          "keyword": "bubble tea mineola",
+          "priority": "P0",
+          "sourceIndex": 1
+        },
+        {
+          "keyword": "best bubble tea mineola",
+          "priority": "P0",
+          "sourceIndex": 2
+        },
+        {
+          "keyword": "boba delivery mineola",
+          "priority": "P0",
+          "sourceIndex": 22
+        },
+        {
+          "keyword": "fried chicken delivery mineola",
+          "priority": "P0",
+          "sourceIndex": 31
+        },
+        {
+          "keyword": "fried chicken mineola",
+          "priority": "P0",
+          "sourceIndex": 32
+        },
+        {
+          "keyword": "matcha mineola",
+          "priority": "P0",
+          "sourceIndex": 43
+        },
+        {
+          "keyword": "cha dao bubble tea mineola",
+          "priority": "P0",
+          "sourceIndex": 50
+        },
+        {
+          "keyword": "taiwanese restaurant mineola",
+          "priority": "P0",
+          "sourceIndex": 54
+        },
+        {
+          "keyword": "cafe mineola",
+          "priority": "P0",
+          "sourceIndex": 63
+        },
+        {
+          "keyword": "bubble tea near mineola train station",
+          "priority": "P1",
+          "sourceIndex": 3
+        },
+        {
+          "keyword": "bubble tea garden city",
+          "priority": "P1",
+          "sourceIndex": 4
+        },
+        {
+          "keyword": "boba mineola",
+          "priority": "P1",
+          "sourceIndex": 23
+        },
+        {
+          "keyword": "best fried chicken mineola",
+          "priority": "P1",
+          "sourceIndex": 33
+        },
+        {
+          "keyword": "matcha latte mineola",
+          "priority": "P1",
+          "sourceIndex": 44
+        },
+        {
+          "keyword": "korean restaurant mineola",
+          "priority": "P1",
+          "sourceIndex": 55
+        },
+        {
+          "keyword": "bubble tea williston park",
+          "priority": "P2",
+          "sourceIndex": 5
+        },
+        {
+          "keyword": "bubble tea carle place",
+          "priority": "P2",
+          "sourceIndex": 6
+        },
+        {
+          "keyword": "bubble tea albertson",
+          "priority": "P2",
+          "sourceIndex": 7
+        },
+        {
+          "keyword": "bubble tea new hyde park",
+          "priority": "P2",
+          "sourceIndex": 8
+        },
+        {
+          "keyword": "bubble tea roslyn heights",
+          "priority": "P2",
+          "sourceIndex": 9
+        },
+        {
+          "keyword": "bubble tea near nassau county",
+          "priority": "P2",
+          "sourceIndex": 10
+        },
+        {
+          "keyword": "bubble tea near winthrop hospital",
+          "priority": "P2",
+          "sourceIndex": 11
+        },
+        {
+          "keyword": "bubble tea near lirr mineola",
+          "priority": "P2",
+          "sourceIndex": 12
+        },
+        {
+          "keyword": "bubble tea shop mineola",
+          "priority": "P2",
+          "sourceIndex": 13
+        },
+        {
+          "keyword": "best boba mineola",
+          "priority": "P2",
+          "sourceIndex": 24
+        },
+        {
+          "keyword": "boba near mineola",
+          "priority": "P2",
+          "sourceIndex": 25
+        },
+        {
+          "keyword": "boba tea mineola",
+          "priority": "P2",
+          "sourceIndex": 26
+        },
+        {
+          "keyword": "boba garden city",
+          "priority": "P2",
+          "sourceIndex": 27
+        },
+        {
+          "keyword": "korean fried chicken mineola",
+          "priority": "P2",
+          "sourceIndex": 34
+        },
+        {
+          "keyword": "best korean fried chicken mineola",
+          "priority": "P2",
+          "sourceIndex": 35
+        },
+        {
+          "keyword": "korean fried chicken near me mineola",
+          "priority": "P2",
+          "sourceIndex": 36
+        },
+        {
+          "keyword": "korean fried chicken garden city",
+          "priority": "P2",
+          "sourceIndex": 37
+        },
+        {
+          "keyword": "korean fried chicken new hyde park",
+          "priority": "P2",
+          "sourceIndex": 38
+        },
+        {
+          "keyword": "smoothie mineola",
+          "priority": "P2",
+          "sourceIndex": 45
+        },
+        {
+          "keyword": "best smoothie mineola",
+          "priority": "P2",
+          "sourceIndex": 46
+        },
+        {
+          "keyword": "slush mineola",
+          "priority": "P2",
+          "sourceIndex": 47
+        },
+        {
+          "keyword": "only bear chicken & boba mineola",
+          "priority": "P2",
+          "sourceIndex": 51
+        },
+        {
+          "keyword": "only bear mineola",
+          "priority": "P2",
+          "sourceIndex": 52
+        },
+        {
+          "keyword": "food near me mineola",
+          "priority": "P2",
+          "sourceIndex": 56
+        }
+      ],
+      "monitoringCohort": null
+    },
+    {
+      "storeId": "place-2bb885ba4a9411eed9118fa9abddea3a",
+      "placeId": "ChIJLVdhR05hwokRdAVKzmXcx0k",
+      "sourceCount": 32,
+      "sourceResponseHash": "e5c97e9d67278b4ed2a77846c419b69a977f26135129879b15686fdf9436dcaa",
+      "selected": [
+        {
+          "keyword": "bathhouse Flushing",
+          "priority": "P0",
+          "sourceIndex": 0
+        },
+        {
+          "keyword": "bathhouse near me",
+          "priority": "P0",
+          "sourceIndex": 1
+        },
+        {
+          "keyword": "spa Flushing",
+          "priority": "P0",
+          "sourceIndex": 2
+        },
+        {
+          "keyword": "day spa Flushing",
+          "priority": "P0",
+          "sourceIndex": 3
+        },
+        {
+          "keyword": "sauna Flushing",
+          "priority": "P0",
+          "sourceIndex": 4
+        },
+        {
+          "keyword": "spa near me",
+          "priority": "P0",
+          "sourceIndex": 5
+        },
+        {
+          "keyword": "sauna near me",
+          "priority": "P0",
+          "sourceIndex": 6
+        },
+        {
+          "keyword": "spa day pass Flushing",
+          "priority": "P0",
+          "sourceIndex": 7
+        },
+        {
+          "keyword": "bathhouse Queens",
+          "priority": "P0",
+          "sourceIndex": 8
+        },
+        {
+          "keyword": "spa day pass Queens",
+          "priority": "P0",
+          "sourceIndex": 9
+        },
+        {
+          "keyword": "spa with pool Flushing",
+          "priority": "P1",
+          "sourceIndex": 10
+        },
+        {
+          "keyword": "spa with pool Queens",
+          "priority": "P1",
+          "sourceIndex": 11
+        },
+        {
+          "keyword": "spa with sauna Queens",
+          "priority": "P1",
+          "sourceIndex": 12
+        },
+        {
+          "keyword": "bathhouse NYC",
+          "priority": "P1",
+          "sourceIndex": 13
+        },
+        {
+          "keyword": "spa day pass NYC",
+          "priority": "P1",
+          "sourceIndex": 14
+        },
+        {
+          "keyword": "spa with pool NYC",
+          "priority": "P1",
+          "sourceIndex": 15
+        },
+        {
+          "keyword": "spa near Flushing Main Street station",
+          "priority": "P1",
+          "sourceIndex": 16
+        },
+        {
+          "keyword": "24 hour spa Flushing",
+          "priority": "P1",
+          "sourceIndex": 17
+        },
+        {
+          "keyword": "body scrub Flushing",
+          "priority": "P1",
+          "sourceIndex": 18
+        },
+        {
+          "keyword": "deep tissue massage Flushing",
+          "priority": "P1",
+          "sourceIndex": 19
+        },
+        {
+          "keyword": "Swedish massage Flushing",
+          "priority": "P1",
+          "sourceIndex": 20
+        },
+        {
+          "keyword": "hot stone massage Flushing",
+          "priority": "P1",
+          "sourceIndex": 21
+        },
+        {
+          "keyword": "foot reflexology Flushing",
+          "priority": "P1",
+          "sourceIndex": 22
+        },
+        {
+          "keyword": "massage Flushing",
+          "priority": "P1",
+          "sourceIndex": 23
+        },
+        {
+          "keyword": "spa day Queens",
+          "priority": "P1",
+          "sourceIndex": 24
+        },
+        {
+          "keyword": "indoor pool spa Queens",
+          "priority": "P2",
+          "sourceIndex": 25
+        },
+        {
+          "keyword": "head therapy Flushing",
+          "priority": "P2",
+          "sourceIndex": 26
+        },
+        {
+          "keyword": "spa open late Queens",
+          "priority": "P2",
+          "sourceIndex": 27
+        },
+        {
+          "keyword": "法拉盛水疗",
+          "priority": "P2",
+          "sourceIndex": 28
+        },
+        {
+          "keyword": "法拉盛桑拿",
+          "priority": "P2",
+          "sourceIndex": 29
+        },
+        {
+          "keyword": "法拉盛水疗门票",
+          "priority": "P2",
+          "sourceIndex": 30
+        },
+        {
+          "keyword": "纽约浴场",
+          "priority": "P2",
+          "sourceIndex": 31
+        }
+      ],
+      "monitoringCohort": null
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "placeId": "ChIJUYXjAsNZwokRk2AfiERJO2k",
+      "sourceCount": 75,
+      "sourceResponseHash": "7a44be3d6d960e86572a6719adfe10fab13ea75db4e8146e7cf89383ba4be8d4",
+      "selected": [
+        {
+          "keyword": "hot pot near me",
+          "priority": "P0",
+          "sourceIndex": 0
+        },
+        {
+          "keyword": "hot pot NYC",
+          "priority": "P0",
+          "sourceIndex": 1
+        },
+        {
+          "keyword": "hot pot Manhattan",
+          "priority": "P0",
+          "sourceIndex": 2
+        },
+        {
+          "keyword": "hot pot Midtown Manhattan",
+          "priority": "P0",
+          "sourceIndex": 3
+        },
+        {
+          "keyword": "hot pot Koreatown NYC",
+          "priority": "P0",
+          "sourceIndex": 4
+        },
+        {
+          "keyword": "Koreatown hot pot",
+          "priority": "P0",
+          "sourceIndex": 5
+        },
+        {
+          "keyword": "hot pot restaurant near me",
+          "priority": "P0",
+          "sourceIndex": 6
+        },
+        {
+          "keyword": "hot pot near Penn Station",
+          "priority": "P0",
+          "sourceIndex": 7
+        },
+        {
+          "keyword": "hot pot near Madison Square Garden",
+          "priority": "P0",
+          "sourceIndex": 8
+        },
+        {
+          "keyword": "all you can eat hot pot near me",
+          "priority": "P0",
+          "sourceIndex": 9
+        },
+        {
+          "keyword": "all you can eat hot pot NYC",
+          "priority": "P0",
+          "sourceIndex": 10
+        },
+        {
+          "keyword": "all you can eat hot pot Manhattan",
+          "priority": "P0",
+          "sourceIndex": 11
+        },
+        {
+          "keyword": "all you can eat hot pot Midtown Manhattan",
+          "priority": "P0",
+          "sourceIndex": 12
+        },
+        {
+          "keyword": "all you can eat hot pot near Penn Station",
+          "priority": "P0",
+          "sourceIndex": 13
+        },
+        {
+          "keyword": "all you can eat hot pot near Madison Square Garden",
+          "priority": "P0",
+          "sourceIndex": 14
+        },
+        {
+          "keyword": "ayce hot pot near me",
+          "priority": "P0",
+          "sourceIndex": 15
+        },
+        {
+          "keyword": "ayce hot pot NYC",
+          "priority": "P0",
+          "sourceIndex": 16
+        },
+        {
+          "keyword": "ayce hot pot Manhattan",
+          "priority": "P0",
+          "sourceIndex": 17
+        },
+        {
+          "keyword": "individual hot pot near me",
+          "priority": "P0",
+          "sourceIndex": 18
+        },
+        {
+          "keyword": "individual hot pot NYC",
+          "priority": "P0",
+          "sourceIndex": 19
+        },
+        {
+          "keyword": "individual hot pot Manhattan",
+          "priority": "P0",
+          "sourceIndex": 20
+        },
+        {
+          "keyword": "hot pot for groups NYC",
+          "priority": "P0",
+          "sourceIndex": 21
+        },
+        {
+          "keyword": "all you can eat hot pot for groups NYC",
+          "priority": "P0",
+          "sourceIndex": 22
+        },
+        {
+          "keyword": "hot pot and sushi NYC",
+          "priority": "P0",
+          "sourceIndex": 23
+        },
+        {
+          "keyword": "see joy",
+          "priority": "P0",
+          "sourceIndex": 64
+        },
+        {
+          "keyword": "seejoy",
+          "priority": "P0",
+          "sourceIndex": 65
+        },
+        {
+          "keyword": "see joy hot pot",
+          "priority": "P0",
+          "sourceIndex": 66
+        },
+        {
+          "keyword": "seejoy hot pot",
+          "priority": "P0",
+          "sourceIndex": 67
+        },
+        {
+          "keyword": "see joy near me",
+          "priority": "P0",
+          "sourceIndex": 68
+        },
+        {
+          "keyword": "seejoy near me",
+          "priority": "P0",
+          "sourceIndex": 69
+        },
+        {
+          "keyword": "see joy nyc",
+          "priority": "P0",
+          "sourceIndex": 70
+        },
+        {
+          "keyword": "seejoy nyc",
+          "priority": "P0",
+          "sourceIndex": 71
+        },
+        {
+          "keyword": "see joy Manhattan",
+          "priority": "P0",
+          "sourceIndex": 72
+        },
+        {
+          "keyword": "seejoy Manhattan",
+          "priority": "P0",
+          "sourceIndex": 73
+        },
+        {
+          "keyword": "喜聚 火锅",
+          "priority": "P0",
+          "sourceIndex": 74
+        },
+        {
+          "keyword": "hot pot Midtown West",
+          "priority": "P1",
+          "sourceIndex": 24
+        },
+        {
+          "keyword": "hot pot near Herald Square",
+          "priority": "P1",
+          "sourceIndex": 25
+        },
+        {
+          "keyword": "hot pot near Empire State Building",
+          "priority": "P1",
+          "sourceIndex": 26
+        },
+        {
+          "keyword": "all you can eat hot pot Koreatown NYC",
+          "priority": "P1",
+          "sourceIndex": 27
+        },
+        {
+          "keyword": "all you can eat hot pot Midtown West",
+          "priority": "P1",
+          "sourceIndex": 28
+        }
+      ],
+      "monitoringCohort": null
+    },
+    {
+      "storeId": "place-ac78f6908231da8da688f4a25e980087",
+      "placeId": "ChIJSYTKAtH5wokR8Dd7FUcSPPM",
+      "sourceCount": 18,
+      "sourceResponseHash": "1992c06ac279d6bbe01e836b28cf7c1f3bbb7756a7fd21cf8c95fb2eb54b48f2",
+      "selected": [
+        {
+          "keyword": "Chinese restaurant American Dream",
+          "priority": "P0",
+          "sourceIndex": 0
+        },
+        {
+          "keyword": "Chinese food American Dream Mall",
+          "priority": "P0",
+          "sourceIndex": 1
+        },
+        {
+          "keyword": "Sichuan restaurant American Dream",
+          "priority": "P0",
+          "sourceIndex": 2
+        },
+        {
+          "keyword": "Szechuan restaurant East Rutherford",
+          "priority": "P0",
+          "sourceIndex": 3
+        },
+        {
+          "keyword": "Chinese restaurant East Rutherford NJ",
+          "priority": "P0",
+          "sourceIndex": 4
+        },
+        {
+          "keyword": "Sichuan food near me",
+          "priority": "P0",
+          "sourceIndex": 5
+        },
+        {
+          "keyword": "Chinese takeout East Rutherford",
+          "priority": "P1",
+          "sourceIndex": 6
+        },
+        {
+          "keyword": "Chinese food delivery East Rutherford",
+          "priority": "P1",
+          "sourceIndex": 7
+        },
+        {
+          "keyword": "Chinese lunch American Dream Mall",
+          "priority": "P1",
+          "sourceIndex": 8
+        },
+        {
+          "keyword": "Sichuan restaurant Bergen County",
+          "priority": "P1",
+          "sourceIndex": 9
+        },
+        {
+          "keyword": "dan dan noodles American Dream",
+          "priority": "P1",
+          "sourceIndex": 10
+        },
+        {
+          "keyword": "mapo tofu American Dream",
+          "priority": "P1",
+          "sourceIndex": 11
+        },
+        {
+          "keyword": "Sichuan boiled fish East Rutherford",
+          "priority": "P1",
+          "sourceIndex": 12
+        },
+        {
+          "keyword": "Chinese restaurant near American Dream",
+          "priority": "P1",
+          "sourceIndex": 13
+        },
+        {
+          "keyword": "Szechuan restaurant North Jersey",
+          "priority": "P2",
+          "sourceIndex": 14
+        },
+        {
+          "keyword": "chili oil wontons American Dream",
+          "priority": "P2",
+          "sourceIndex": 15
+        },
+        {
+          "keyword": "spicy food American Dream",
+          "priority": "P2",
+          "sourceIndex": 16
+        },
+        {
+          "keyword": "美国梦商场川菜",
+          "priority": "P2",
+          "sourceIndex": 17
+        }
+      ],
+      "monitoringCohort": null
+    },
+    {
+      "storeId": "place-d83da948f2e65da8928b14abe3d39d13",
+      "placeId": "ChIJPwLjwxFgwokR--CbiBEvDws",
+      "sourceCount": 59,
+      "sourceResponseHash": "5cff4ed179bb58227f797e630475e11f29b21b72a9101d04c48a1f888f8202f7",
+      "selected": [
+        {
+          "keyword": "dim sum Flushing",
+          "priority": "P0",
+          "sourceIndex": 0
+        },
+        {
+          "keyword": "dim sum near me",
+          "priority": "P0",
+          "sourceIndex": 1
+        },
+        {
+          "keyword": "Cantonese restaurant Flushing",
+          "priority": "P0",
+          "sourceIndex": 2
+        },
+        {
+          "keyword": "Chinese restaurant Flushing",
+          "priority": "P0",
+          "sourceIndex": 3
+        },
+        {
+          "keyword": "Cantonese restaurant near me",
+          "priority": "P0",
+          "sourceIndex": 4
+        },
+        {
+          "keyword": "banquet hall Flushing",
+          "priority": "P0",
+          "sourceIndex": 5
+        },
+        {
+          "keyword": "Chinese wedding banquet Flushing",
+          "priority": "P0",
+          "sourceIndex": 6
+        },
+        {
+          "keyword": "best dim sum Flushing",
+          "priority": "P0",
+          "sourceIndex": 7
+        },
+        {
+          "keyword": "Chinese banquet hall Flushing",
+          "priority": "P0",
+          "sourceIndex": 8
+        },
+        {
+          "keyword": "wedding banquet hall Flushing",
+          "priority": "P0",
+          "sourceIndex": 9
+        },
+        {
+          "keyword": "Chinese restaurant near me",
+          "priority": "P1",
+          "sourceIndex": 10
+        },
+        {
+          "keyword": "wedding venue Flushing",
+          "priority": "P1",
+          "sourceIndex": 11
+        },
+        {
+          "keyword": "dim sum Queens",
+          "priority": "P1",
+          "sourceIndex": 12
+        },
+        {
+          "keyword": "dim sum restaurant Flushing",
+          "priority": "P1",
+          "sourceIndex": 13
+        },
+        {
+          "keyword": "Hong Kong dim sum Flushing",
+          "priority": "P1",
+          "sourceIndex": 14
+        },
+        {
+          "keyword": "traditional dim sum Flushing",
+          "priority": "P1",
+          "sourceIndex": 15
+        },
+        {
+          "keyword": "Cantonese dim sum Flushing",
+          "priority": "P1",
+          "sourceIndex": 16
+        },
+        {
+          "keyword": "Cantonese restaurant Queens",
+          "priority": "P1",
+          "sourceIndex": 17
+        },
+        {
+          "keyword": "Chinese restaurant Queens",
+          "priority": "P1",
+          "sourceIndex": 18
+        },
+        {
+          "keyword": "banquet hall Queens",
+          "priority": "P1",
+          "sourceIndex": 19
+        },
+        {
+          "keyword": "wedding venue Queens",
+          "priority": "P1",
+          "sourceIndex": 20
+        },
+        {
+          "keyword": "Chinese wedding venue Queens",
+          "priority": "P1",
+          "sourceIndex": 21
+        },
+        {
+          "keyword": "private event venue Flushing",
+          "priority": "P1",
+          "sourceIndex": 22
+        },
+        {
+          "keyword": "private dining Flushing",
+          "priority": "P1",
+          "sourceIndex": 23
+        },
+        {
+          "keyword": "restaurant for large groups Flushing",
+          "priority": "P1",
+          "sourceIndex": 24
+        },
+        {
+          "keyword": "dim sum near Flushing Main Street station",
+          "priority": "P1",
+          "sourceIndex": 25
+        },
+        {
+          "keyword": "Chinese restaurant near Flushing Main Street station",
+          "priority": "P1",
+          "sourceIndex": 26
+        },
+        {
+          "keyword": "dim sum New World Mall",
+          "priority": "P1",
+          "sourceIndex": 27
+        },
+        {
+          "keyword": "Chinese restaurant New World Mall",
+          "priority": "P1",
+          "sourceIndex": 28
+        },
+        {
+          "keyword": "seafood restaurant Flushing",
+          "priority": "P1",
+          "sourceIndex": 29
+        },
+        {
+          "keyword": "Cantonese seafood restaurant Flushing",
+          "priority": "P1",
+          "sourceIndex": 30
+        },
+        {
+          "keyword": "dim sum NYC",
+          "priority": "P1",
+          "sourceIndex": 31
+        },
+        {
+          "keyword": "Cantonese restaurant NYC",
+          "priority": "P1",
+          "sourceIndex": 32
+        },
+        {
+          "keyword": "Chinese restaurant NYC",
+          "priority": "P1",
+          "sourceIndex": 33
+        },
+        {
+          "keyword": "Chinese banquet NYC",
+          "priority": "P1",
+          "sourceIndex": 34
+        },
+        {
+          "keyword": "banquet hall NYC",
+          "priority": "P1",
+          "sourceIndex": 35
+        },
+        {
+          "keyword": "Chinese wedding venue NYC",
+          "priority": "P1",
+          "sourceIndex": 36
+        },
+        {
+          "keyword": "wedding banquet NYC",
+          "priority": "P1",
+          "sourceIndex": 37
+        },
+        {
+          "keyword": "Cantonese banquet Flushing",
+          "priority": "P1",
+          "sourceIndex": 38
+        },
+        {
+          "keyword": "Cantonese dinner Flushing",
+          "priority": "P1",
+          "sourceIndex": 39
+        }
+      ],
+      "monitoringCohort": null
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "placeId": "ChIJZ4gQONX3wokRUd76p6byNOE",
+      "sourceCount": 20,
+      "sourceResponseHash": "78401ca9d28c25e5c2169d4bf325bf4446245c57f151c8efc7437100c3e2cd08",
+      "selected": [
+        {
+          "keyword": "sichuan restaurant Upper West Side",
+          "priority": "P0",
+          "sourceIndex": 0
+        },
+        {
+          "keyword": "szechuan restaurant Upper West Side",
+          "priority": "P0",
+          "sourceIndex": 1
+        },
+        {
+          "keyword": "chinese restaurant Upper West Side",
+          "priority": "P0",
+          "sourceIndex": 2
+        },
+        {
+          "keyword": "sichuan restaurant near Columbia University",
+          "priority": "P0",
+          "sourceIndex": 3
+        },
+        {
+          "keyword": "szechuan restaurant near Columbia University",
+          "priority": "P0",
+          "sourceIndex": 4
+        },
+        {
+          "keyword": "chinese restaurant near Columbia University",
+          "priority": "P0",
+          "sourceIndex": 5
+        },
+        {
+          "keyword": "sichuan food Upper West Side",
+          "priority": "P0",
+          "sourceIndex": 6
+        },
+        {
+          "keyword": "chinese food Upper West Side",
+          "priority": "P0",
+          "sourceIndex": 7
+        },
+        {
+          "keyword": "sichuan food near Columbia University",
+          "priority": "P0",
+          "sourceIndex": 8
+        },
+        {
+          "keyword": "sichuan restaurant near me",
+          "priority": "P0",
+          "sourceIndex": 9
+        },
+        {
+          "keyword": "szechuan restaurant near me",
+          "priority": "P0",
+          "sourceIndex": 10
+        },
+        {
+          "keyword": "chinese restaurant near me",
+          "priority": "P0",
+          "sourceIndex": 11
+        },
+        {
+          "keyword": "chinese delivery Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 12
+        },
+        {
+          "keyword": "chinese takeout Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 13
+        },
+        {
+          "keyword": "sichuan takeout Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 14
+        },
+        {
+          "keyword": "chinese delivery near Columbia University",
+          "priority": "P1",
+          "sourceIndex": 15
+        },
+        {
+          "keyword": "chinese takeout near Columbia University",
+          "priority": "P1",
+          "sourceIndex": 16
+        },
+        {
+          "keyword": "sichuan takeout near Columbia University",
+          "priority": "P1",
+          "sourceIndex": 17
+        },
+        {
+          "keyword": "chinese lunch Upper West Side",
+          "priority": "P1",
+          "sourceIndex": 18
+        },
+        {
+          "keyword": "chinese lunch near Columbia University",
+          "priority": "P1",
+          "sourceIndex": 19
+        }
+      ],
+      "monitoringCohort": null
+    }
+  ]
+}

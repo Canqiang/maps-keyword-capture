@@ -1,0 +1,21 @@
+{
+  "activated": true,
+  "checkedAt": "2026-10-14T02:09:56.726234+00:00",
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:e7e62ea649eec553e80d376e24d072da7057f8516830d526adfa217072015721",
+  "runtimeCommit": "9c36da7a0f3220e760d49721f5c0127308e75c51",
+  "configMap": "maps-keyword-monitor-keke-20261014-v1",
+  "cohortId": "keke-acquisition-20261014-v1",
+  "cronjobUid": "d6d61a81-5796-4e5b-8d90-30294d3c7a69",
+  "schedule": "0 0 * * *",
+  "timeZone": "Asia/Shanghai",
+  "suspend": false,
+  "changedPaths": [
+    "/spec/jobTemplate/spec/template/spec/containers/0/image",
+    "/spec/jobTemplate/spec/template/spec/containers/0/env/3/value",
+    "/spec/jobTemplate/spec/template/spec/volumes/0/configMap/name"
+  ],
+  "oldImage": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:4af2e7cca2eae8d0a03fa598cb3b28cb6ffb3cd37d8f48011beb7553e2ce1652",
+  "oldConfigMap": "maps-keyword-monitor-config",
+  "sharedKeywordSourceWritePerformed": false,
+  "scope": "Configuration active for future Jobs; all-store selection and 3-query smoke verified; first full scheduled cohort cycle not yet observed"
+}
