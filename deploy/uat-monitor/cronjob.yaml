@@ -80,7 +80,7 @@ spec:
           volumes:
             - name: config
               configMap:
-                name: maps-keyword-monitor-config
+                name: maps-keyword-monitor-keke-20261014-v1
             - name: work
               emptyDir: { sizeLimit: 2Gi }
             - name: tmp

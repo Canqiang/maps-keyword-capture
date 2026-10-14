@@ -3,6 +3,12 @@ import { ConfigError, expectedAreaSchema, parseConfig } from '../config.js';
 import type { CaptureConfig, ExpectedArea } from '../contracts.js';
 
 export const safeId = z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,119}$/, 'must be a safe path ID (letters, digits, underscore or hyphen)');
+const monitoringKeywordSetSchema = z.object({
+  id: safeId, merchantId: safeId, placeId: safeId,
+  keywords: z.array(z.object({ keyword: z.string().trim().min(1).max(300), group: z.enum(['core', 'exploration', 'brand']) }).strict()).min(1).max(40)
+    .refine(words => new Set(words.map(k => k.keyword.toLowerCase())).size === words.length, 'monitoring keywords must be unique'),
+}).strict();
+export type MonitoringKeywordSet = z.infer<typeof monitoringKeywordSetSchema>;
 const storeDiscoverySchema = z.object({
   provider: z.literal('mongo'),
   database: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,62}$/, 'must be a simple database name'),
@@ -20,6 +26,7 @@ const schema = z.object({
   }, 'must be an HTTP(S) origin without credentials, query or path'),
   stores: z.array(z.object({ storeId: safeId, merchantId: safeId, placeId: safeId, name: z.string().trim().min(1), expectedArea: expectedAreaSchema.optional() }).strict()).default([]),
   storeDiscovery: storeDiscoverySchema.optional(),
+  monitoringKeywordSets: z.array(monitoringKeywordSetSchema).max(10000).optional(),
   maxKeywordsPerStore: z.number().int().min(1).max(40),
   batchSize: z.number().int().min(1).max(20),
   sourceTimeoutMs: z.number().int().min(1).max(60000),
@@ -30,6 +37,7 @@ export interface EnrolledStore { storeId: string; merchantId: string; placeId: s
 export interface MonitorConfig {
   schemaVersion: '1'; sourceBaseUrl: string; stores: EnrolledStore[];
   storeDiscovery?: z.infer<typeof storeDiscoverySchema>;
+  monitoringKeywordSets?: MonitoringKeywordSet[];
   maxKeywordsPerStore: number; batchSize: number; sourceTimeoutMs: number; outputDirectory: string;
   capture: Omit<CaptureConfig, 'schemaVersion' | 'keywords' | 'outputDirectory' | 'mapView' | 'expectedArea'>;
 }
@@ -37,6 +45,12 @@ export function parseMonitorConfig(raw: unknown): MonitorConfig {
   const parsed = schema.safeParse(raw);
   if (!parsed.success) throw new ConfigError(`invalid monitor configuration: ${parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join('; ')}`);
   const d = parsed.data;
+  if (d.monitoringKeywordSets) {
+    for (const field of ['id', 'placeId'] as const) {
+      if (new Set(d.monitoringKeywordSets.map(s => s[field])).size !== d.monitoringKeywordSets.length) throw new ConfigError(`duplicate monitoringKeywordSets.${field}`);
+    }
+    if (d.monitoringKeywordSets.some(s => s.keywords.length > d.maxKeywordsPerStore)) throw new ConfigError('monitoringKeywordSets must fit maxKeywordsPerStore without truncation');
+  }
   if (!d.storeDiscovery && d.stores.length === 0) throw new ConfigError('stores must be nonempty without storeDiscovery');
   for (const field of ['storeId', 'placeId'] as const) {
     if (new Set(d.stores.map(s => s[field])).size !== d.stores.length) throw new ConfigError(`duplicate stores.${field}`);
@@ -46,8 +60,8 @@ export function parseMonitorConfig(raw: unknown): MonitorConfig {
   const { schemaVersion: _schema, keywords: _keywords, outputDirectory: _out, mapView: _map, expectedArea: _expectedArea, ...capture } = parseConfig({ ...d.capture, schemaVersion: '1', keywords: ['validation'], outputDirectory: d.outputDirectory }).config;
   if (capture.filenameTimezone !== 'Asia/Shanghai') throw new ConfigError('capture.filenameTimezone must be Asia/Shanghai');
   const stores: EnrolledStore[] = d.stores.map(({ expectedArea, ...store }) => ({ ...store, ...(expectedArea ? { expectedArea } : {}) }));
-  const { storeDiscovery, ...base } = d;
-  return { ...base, stores, capture, ...(storeDiscovery ? { storeDiscovery } : {}) };
+  const { storeDiscovery, monitoringKeywordSets, ...base } = d;
+  return { ...base, stores, capture, ...(storeDiscovery ? { storeDiscovery } : {}), ...(monitoringKeywordSets ? { monitoringKeywordSets } : {}) };
 }
 export function validateRunKey(value: string): string {
   if (!safeId.safeParse(value).success) throw new ConfigError('run-key must be a safe path ID');

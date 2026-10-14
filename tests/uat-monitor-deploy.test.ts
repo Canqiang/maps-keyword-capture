@@ -27,10 +27,11 @@ describe('UAT daily monitor deployment', () => {
 
   it('discovers live stores while preserving historical aliases and the per-place keyword API', () => {
     const cm = readYaml('configmap.yaml');
-    expect(cm).toMatchObject({ kind: 'ConfigMap', metadata: { name: 'maps-keyword-monitor-config', namespace: 'uat' } });
+    expect(cm).toMatchObject({ kind: 'ConfigMap', metadata: { name: 'maps-keyword-monitor-keke-20261014-v1', namespace: 'uat' } });
     expect(Object.keys(cm.data)).toEqual(['monitor.json']);
     const config = JSON.parse(cm.data['monitor.json']);
-    expect(config).toEqual({
+    const { monitoringKeywordSets, ...sharedConfig } = config;
+    expect(sharedConfig).toEqual({
       schemaVersion: '1', sourceBaseUrl: 'http://operation-assistant-api.uat.svc.cluster.local:80', stores: linkedStores,
       storeDiscovery: { provider: 'mongo', database: 'seo-integration', collection: 'local_keywords', maxStores: 40, maxRecords: 10000, timeoutMs: 30000, excludedPlaces: [{ placeId: 'ChIJqVId_y1ZwokRjPCG1MQuKmg', reason: 'test_store' }] },
       maxKeywordsPerStore: 40, batchSize: 20, sourceTimeoutMs: 15000, outputDirectory: '/work/outputs',
@@ -39,7 +40,11 @@ describe('UAT daily monitor deployment', () => {
     expect(parseMonitorConfig(config)).toMatchObject(config);
     expect(new Set(config.stores.map((store: { merchantId: string }) => store.merchantId)).size).toBe(6);
     expect(new Set(config.stores.map((store: { placeId: string }) => store.placeId)).size).toBe(7);
-    expect(cm.data['monitor.json']).not.toMatch(/"(?:keywords|geolocation|latitude|longitude)"/);
+    expect(JSON.stringify(sharedConfig)).not.toMatch(/"(?:keywords|geolocation|latitude|longitude)"/);
+    expect(monitoringKeywordSets).toHaveLength(1);
+    expect(monitoringKeywordSets[0]).toMatchObject({ merchantId: '29742a52-d824-469b-a395-52084345b7ad', placeId: 'ChIJRTD3Ws5hwokRES78IFU7zW0' });
+    expect(monitoringKeywordSets[0].keywords).toHaveLength(40);
+    for (const [group, count] of [['core', 32], ['exploration', 6], ['brand', 2]] as const) expect(monitoringKeywordSets[0].keywords.filter((k: { group: string }) => k.group === group)).toHaveLength(count);
   });
 
   it('uses the monitor CLI and an isolated UAT Secret and container', () => {
@@ -53,7 +58,7 @@ describe('UAT daily monitor deployment', () => {
     expect(container.env).toContainEqual({ name: 'AZURE_STORAGE_CONTAINER', value: 'maps-keyword-capture-uat' });
     expect(container.env).toContainEqual({ name: 'AZURE_STORAGE_CONTAINER_SAS_URL', valueFrom: { secretKeyRef: { name: 'maps-keyword-monitor-storage', key: 'AZURE_STORAGE_CONTAINER_SAS_URL' } } });
     expect(JSON.stringify(pod)).not.toMatch(/maps-keyword-capture-storage|MONGODB|AZURE_STORAGE_ACCOUNT_KEY|serviceAccountName/);
-    expect(pod.volumes).toContainEqual({ name: 'config', configMap: { name: 'maps-keyword-monitor-config' } });
+    expect(pod.volumes).toContainEqual({ name: 'config', configMap: { name: 'maps-keyword-monitor-keke-20261014-v1' } });
   });
 
   it('preserves hardened Pod isolation and bounded staging resources', () => {

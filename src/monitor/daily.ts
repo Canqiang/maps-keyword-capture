@@ -10,7 +10,8 @@ import type { ArtifactStore } from '../storage/types.js';
 import { validateRunKey, type EnrolledStore, type MonitorConfig } from './config.js';
 import { summarizeOwnStore, type OwnStoreSummary } from './identity.js';
 import type { StoreRegistrySnapshot, StoreRegistrySource } from './registry.js';
-import { SELECTION_POLICY, selectKeywords, splitKeywords, type KeywordSource } from './source.js';
+import { splitKeywords, type KeywordSource } from './source.js';
+import { selectStoreKeywords, type MonitoringCohort } from './selection.js';
 import { batchIdFor, NamespacedBatchStore, type AtomicClaim, type ClaimResult } from './storage.js';
 
 export const DAILY_DEADLINE_MS = 14 * 60 * 60 * 1000;
@@ -24,6 +25,7 @@ interface DailyBatch {
   counts: Record<string, number>; ownStore: { queryId: string; keyword: string; summary: OwnStoreSummary; geographicRelevance: GeographicRelevance }[];
 }
 interface DailyStore extends EnrolledStore {
+  monitoringCohort?: MonitoringCohort;
   executionStatus?: ExecutionStatus;
   status: 'pending' | 'selected' | 'source_failed' | 'empty' | 'completed' | 'partial' | 'failed' | 'skipped';
   sourceError: string | null; stopReason: DailyStopReason | null; selectionHash: string | null; snapshotReceipt: DailyReceipt | null; selectedCount: number; batches: DailyBatch[];
@@ -174,25 +176,29 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
     for (const row of manifest.stores) {
       stop = checkStop();
       if (stop) { row.status = 'skipped'; row.stopReason = stop; continue; }
-      let record;
-      try { record = await deps.source.read(row, controller.signal); }
+      let record, selection;
+      try {
+        record = await deps.source.read(row, controller.signal);
+        selection = selectStoreKeywords(record, row, deps.config);
+      }
       catch (err) {
         stop = checkStop();
         row.status = stop ? 'skipped' : 'source_failed'; row.stopReason = stop; row.sourceError = sourceError(err);
         log({ stage: 'source_failed', storeId: row.storeId, code: row.sourceError }); continue;
       }
-      const selection = selectKeywords(record.keywords, deps.config.maxKeywordsPerStore);
+      const { selectionPolicy, monitoringCohort } = selection;
+      if (monitoringCohort) row.monitoringCohort = monitoringCohort;
       row.selectedCount = selection.keywords.length;
-      row.selectionHash = hashJson({ sourceResponseHash: record.sourceResponseHash, policy: SELECTION_POLICY, keywords: selection.keywords });
+      row.selectionHash = hashJson({ sourceResponseHash: record.sourceResponseHash, policy: selectionPolicy, keywords: selection.keywords, ...(monitoringCohort ? { monitoringCohort } : {}) });
       const prefix = `${date}/${row.storeId}/${dailyRunId}`;
       row.batches = splitKeywords(selection.keywords, deps.config.batchSize).map((batch, index) => {
         const keywords = batch.map(k => k.keyword); const batchId = batchIdFor(index, keywords);
         return { batchId, keywords, prefix: `${prefix}/batches/${batchId}`, status: 'pending', stopReason: null, runId: null, attemptId: null, manifestReceipt: null, counts: {}, ownStore: [] };
       });
-      row.snapshotReceipt = await persistJson(`${prefix}/keyword-selection.json`, { schemaVersion: '1', dailyRunId, runKey, date, store: { storeId: row.storeId, merchantId: row.merchantId, placeId: row.placeId, name: row.name, expectedArea: row.expectedArea ?? null }, source: record, selectionPolicy: SELECTION_POLICY, ...selection, selectionHash: row.selectionHash });
+      row.snapshotReceipt = await persistJson(`${prefix}/keyword-selection.json`, { schemaVersion: '1', dailyRunId, runKey, date, store: { storeId: row.storeId, merchantId: row.merchantId, placeId: row.placeId, name: row.name, expectedArea: row.expectedArea ?? null }, source: record, ...selection, selectionHash: row.selectionHash });
       if (!isDelivered(row.snapshotReceipt)) { row.status = 'failed'; failStorage(); }
       else row.status = selection.keywords.length ? 'selected' : 'empty';
-      log({ stage: 'source_selected', storeId: row.storeId, selected: row.selectedCount, available: selection.availableCount, snapshotStatus: row.snapshotReceipt.storageStatus });
+      log({ stage: 'source_selected', storeId: row.storeId, selected: row.selectedCount, available: selection.availableCount, snapshotStatus: row.snapshotReceipt.storageStatus, ...(monitoringCohort ? { monitoringCohort } : {}) });
     }
     for (const row of manifest.stores) {
       if (row.status !== 'selected') continue;

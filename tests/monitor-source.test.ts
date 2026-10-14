@@ -8,6 +8,23 @@ const kw = (keyword: string, priority = 'P1') => ({ keyword, priority, target_su
 const response = (keywords = [kw('chicken')]) => ({ place_id: store.placeId, local_keywords: [{ local_keyword_id: 'record-1', merchant_id: store.merchantId, place_id: store.placeId, keywords }] });
 
 describe('monitor config', () => {
+  const cohort = { id: 'cohort-v1', merchantId: store.merchantId, placeId: store.placeId, keywords: [{ keyword: '法拉盛 卤味', group: 'core' }] };
+  it('accepts an explicit monitoring-only cohort with independently categorized brand queries', () => {
+    expect(parseMonitorConfig({ ...configInput, monitoringKeywordSets: [cohort] }).monitoringKeywordSets).toEqual([cohort]);
+  });
+  it.each([
+    [cohort, cohort],
+    [{ ...cohort, keywords: [] }],
+    [{ ...cohort, keywords: [{ keyword: ' ', group: 'core' }] }],
+    [{ ...cohort, keywords: [{ keyword: 'same', group: 'core' }, { keyword: ' SAME ', group: 'brand' }] }],
+    [{ ...cohort, keywords: [{ keyword: 'query', group: 'other' }] }],
+    [{ ...cohort, keywords: Array.from({ length: 41 }, (_, i) => ({ keyword: `word ${i}`, group: 'core' })) }],
+  ].map(monitoringKeywordSets => ({ monitoringKeywordSets })))('rejects ambiguous or invalid monitoring lists %#', ({ monitoringKeywordSets }) => {
+    expect(() => parseMonitorConfig({ ...configInput, monitoringKeywordSets })).toThrow();
+  });
+  it('rejects a cap that would silently drop the last cohort queries, including brands', () => {
+    expect(() => parseMonitorConfig({ ...configInput, maxKeywordsPerStore: 1, monitoringKeywordSets: [{ ...cohort, keywords: [...cohort.keywords, { keyword: 'brand', group: 'brand' }] }] })).toThrow();
+  });
   it('accepts the exact registry/profile interface', () => expect(parseMonitorConfig(configInput).stores).toEqual([store]));
   it.each([{ extra: true }, { stores: [{ ...store, storeId: '../escape' }] }, { stores: [store, store] }, { batchSize: 21 }, { maxKeywordsPerStore: 41 }, { capture: { ...configInput.capture, mapView: {} } }, { capture: { ...configInput.capture, filenameTimezone: 'UTC' } }, { sourceBaseUrl: 'https://user:secret@example.com' }])('rejects unsafe or unknown configuration %j', (patch) => expect(() => parseMonitorConfig({ ...configInput, ...patch })).toThrow());
 });

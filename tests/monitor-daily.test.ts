@@ -34,6 +34,43 @@ async function setup() {
   return { config, local, gateway, store, source, batchRunner: runner, claim: createAtomicClaim(gateway), now: () => new Date('2026-09-17T16:00:00Z') };
 }
 describe('daily monitor', () => {
+  it('uses an identity-bound monitoring cohort without changing the fresh shared source or other stores', async () => {
+    const deps = await setup();
+    const input = { id: 'keke-20261014-v1', merchantId: first.merchantId, placeId: first.placeId, keywords: [
+      { keyword: '法拉盛 卤味', group: 'core' as const },
+      { keyword: 'chinese cold dishes flushing', group: 'exploration' as const },
+      { keyword: '可可小卤', group: 'brand' as const },
+    ] };
+    const out = await runDailyMonitor({ ...deps, config: parseMonitorConfig({ ...deps.config, monitoringKeywordSets: [input] }) });
+    expect(out.manifest?.counts).toMatchObject({ stores: 2, selected: 43, batches: 3, captured: 43 });
+    const one = out.manifest!.stores[0]!;
+    const two = out.manifest!.stores[1]!;
+    expect(one.batches.flatMap(b => b.keywords)).toEqual(input.keywords.map(k => k.keyword));
+    expect(two.batches.flatMap(b => b.keywords)).toEqual(Array.from({ length: 40 }, (_, i) => `two ${i}`));
+    const snapshot = JSON.parse((await deps.gateway.get(one.snapshotReceipt!.objectKey!)).toString());
+    expect(snapshot.source.keywords).toHaveLength(40);
+    expect(snapshot.source.keywords[0].keyword).toBe('one 0');
+    expect(snapshot.monitoringCohort).toMatchObject({ id: input.id, groups: { core: 1, exploration: 1, brand: 1 } });
+    expect(snapshot.keywords[0]).toEqual({ keyword: '法拉盛 卤味', priority: null, sourceIndex: null, cohortIndex: 0, monitoringGroup: 'core' });
+    expect(one.monitoringCohort).toEqual(snapshot.monitoringCohort);
+    const regularSnapshot = JSON.parse((await deps.gateway.get(two.snapshotReceipt!.objectKey!)).toString());
+    expect(regularSnapshot.monitoringCohort).toBeUndefined();
+    expect(regularSnapshot.keywords[0]).toEqual({ keyword: 'two 0', priority: 'P1', sourceIndex: 0 });
+  });
+  it('does not apply a monitoring cohort to a different merchant with the same Place ID', async () => {
+    const deps = await setup();
+    const out = await runDailyMonitor({ ...deps, config: parseMonitorConfig({ ...deps.config, monitoringKeywordSets: [{ id: 'wrong-owner', merchantId: 'different', placeId: first.placeId, keywords: [{ keyword: 'wrong query', group: 'core' }] }] }) });
+    expect(out.manifest?.stores[0]).toMatchObject({ status: 'source_failed', sourceError: 'source_monitoring_cohort_identity_mismatch', selectedCount: 0, batches: [] });
+    expect(out.manifest?.stores[1]?.selectedCount).toBe(40);
+    expect(out.exitCode).toBe(2);
+  });
+  it('still requires a fresh valid source read for an overridden store', async () => {
+    const deps = await setup();
+    deps.source.read.mockRejectedValueOnce(new Error('source_http_503'));
+    const out = await runDailyMonitor({ ...deps, config: parseMonitorConfig({ ...deps.config, monitoringKeywordSets: [{ id: 'fixed-v1', merchantId: first.merchantId, placeId: first.placeId, keywords: [{ keyword: 'new query', group: 'core' }] }] }) });
+    expect(out.manifest?.stores[0]).toMatchObject({ status: 'source_failed', sourceError: 'source_http_503', selectedCount: 0, batches: [] });
+    expect(out.manifest?.counts).toMatchObject({ selected: 40, sourceFailed: 1 });
+  });
   it('snapshots all stores before browser work, caps and splits, persists checkpoints and verifies final manifest', async () => {
     const deps = await setup();
     const impl = deps.batchRunner.getMockImplementation()!;
