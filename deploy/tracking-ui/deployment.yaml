@@ -29,7 +29,7 @@ spec:
         runAsGroup: 1001
       containers:
         - name: ui
-          image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:5eb33f8017cef5d223b78d18bc3860801f5f8046ec25f83e2a619dc1fa6dc064
+          image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:ec39a2bdad8ce3d386f5be3d7d1f34142c0279474d39086a8b6f2e4130621daf
           args: ["node", "dist/web/server.js"]
           ports:
             - { name: http, containerPort: 8080 }
