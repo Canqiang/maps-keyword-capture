@@ -20,7 +20,10 @@ Put the digest into `image` and `IMAGE_DIGEST` in `cronjob.yaml`, run `npx vites
 
 ## Deploy, run once, verify
 
+Applying `cronjob.yaml` sets `suspend: false`. If a two-hour slot passed less than 30 minutes ago (`startingDeadlineSeconds`), the controller starts that missed run immediately; on 2026-10-20 this produced a second scan 30 s before a manual one. Suspend first when you want only a manual run:
+
 ```bash
+kubectl -n uat patch cronjob maps-tracking-web-2h --type=merge -p '{"spec":{"suspend":true}}' 2>/dev/null || true
 kubectl apply -f deploy/tracking-web/configmap.yaml -f deploy/tracking-web/cronjob.yaml
 JOB=$(kubectl -n uat create job --from=cronjob/maps-tracking-web-2h "maps-tracking-web-manual-$(date -u +%Y%m%d%H%M)" -o name)
 kubectl -n uat logs -f "$JOB"
