@@ -12,7 +12,7 @@ import type { BatchManifest, KeywordResult, ManifestDeliveryReceipt } from '../c
 import { ingestAndroidManifest, ingestWebBatch, type AndroidManifestLike } from './ingest.js';
 import type { RankObservation } from './model.js';
 import { MemoryObservationStore, MongoObservationStore, type ObservationStore } from './observation-store.js';
-import { loadTrackingConfig, planScan, shardStores, trackingIngestContext, toAndroidRuns, toWebBatches, withStores, type TrackingConfig } from './tracking-config.js';
+import { loadTrackingConfig, parseStore, planScan, shardStores, trackingIngestContext, toAndroidRuns, toWebBatches, withStores, type TrackingConfig } from './tracking-config.js';
 import { MongoTrackingRepository } from './repository.js';
 
 const USAGE = [
@@ -67,7 +67,7 @@ async function resolveStores(config: TrackingConfig, options: Map<string, string
     const repo = new MongoTrackingRepository({ uri, database: config.database.database, storesCollection: config.storeSource.collection, observationsCollection: config.database.collection });
     try {
       const stores = await repo.listStores({ includeInactive });
-      resolved = withStores(config, stores.map(({ createdAt: _created, updatedAt: _updated, ...store }) => store));
+      resolved = withStores(config, stores.map(({ createdAt: _created, updatedAt: _updated, ...store }) => parseStore(store)));
     } finally { await repo.close(); }
   }
   return resolved;

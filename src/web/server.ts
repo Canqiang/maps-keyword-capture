@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import { pathToFileURL } from 'node:url';
-import { generateGrid } from '../grid/grid.js';
-import { computeGridMetrics, heatMapRows, matchesGridPoint, type GridObservation } from '../grid/metrics.js';
-import { keywordKey, observationCohortKey, organicRankForMetrics, type RankObservation, type Surface } from '../domain/model.js';
+import { keywordKey, type Surface } from '../domain/model.js';
+import { decodeHistoryCursor, historyObservation, type TimelineOptions } from '../domain/history.js';
+import { discoverGridRuns, gridHistory } from './grid-history.js';
 import { MongoTrackingRepository, type TrackingRepository } from '../domain/repository.js';
-import { loadTrackingConfig, storeGridSpec, type TrackingConfig } from '../domain/tracking-config.js';
+import { loadTrackingConfig, type TrackingConfig } from '../domain/tracking-config.js';
 import { AzureBlobGateway, containerClientFromEnv } from '../storage/azure-gateway.js';
 import { UI_HTML } from './ui.js';
 
@@ -14,7 +14,7 @@ import { UI_HTML } from './ui.js';
  * single-page UI, and a read-only proxy for screenshots in the private evidence container.
  */
 export interface EvidenceReader { get(key: string): Promise<Buffer> }
-export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; now?: () => Date; log?: (event: Record<string, unknown>) => void }
+export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
 
 const EVIDENCE_KEY = /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u;
 const MAX_BODY = 256 * 1024;
@@ -52,6 +52,30 @@ function surfaceOf(value: string | null): Surface {
   throw new HttpError(400, 'surface must be web or android');
 }
 
+function explicitSurface(value: string | null): Surface {
+  if (value === null) throw new HttpError(400, 'surface is required');
+  return surfaceOf(value);
+}
+function validDate(value: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/u.test(value) && Number.isFinite(Date.parse(value + 'T00:00:00Z')) && new Date(value + 'T00:00:00Z').toISOString().slice(0, 10) === value;
+}
+function dateInZone(now: Date, timezone: string): string {
+  const values = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now).map(part => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+}
+function timelineOptions(url: URL, now: Date, timezone: string): TimelineOptions {
+  const surface = explicitSurface(url.searchParams.get('surface'));
+  const to = url.searchParams.get('to') ?? dateInZone(now, timezone);
+  if (!validDate(to)) throw new HttpError(400, 'to must be a real YYYY-MM-DD date');
+  const from = url.searchParams.get('from') ?? new Date(Date.parse(to + 'T00:00:00Z') - 13 * 86_400_000).toISOString().slice(0, 10);
+  if (!validDate(from) || from > to || Date.parse(to) - Date.parse(from) > 89 * 86_400_000) throw new HttpError(400, 'from/to must span 1 to 90 calendar days');
+  const limit = Number(url.searchParams.get('limit') ?? 2000);
+  if (!Number.isSafeInteger(limit) || limit < 1 || limit > 2000) throw new HttpError(400, 'limit must be an integer from 1 to 2000');
+  const pointId = url.searchParams.get('point') ?? 'r0c0', keyword = url.searchParams.get('keyword'), cursor = url.searchParams.get('cursor');
+  if (!pointId || pointId.length > 500) throw new HttpError(400, 'point is invalid');
+  return { surface, pointId, from, to, limit, ...(keyword ? { keywordKey: keywordKey(keyword) } : {}), ...(cursor ? { cursor } : {}) };
+}
+
 export function createHandler(deps: ServerDeps) {
   const now = deps.now ?? (() => new Date());
   return async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
@@ -66,15 +90,18 @@ export function createHandler(deps: ServerDeps) {
       if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) return send(res, 200, UI_HTML, 'text/html; charset=utf-8');
       if (req.method === 'GET' && url.pathname === '/healthz') return send(res, 200, { ok: true });
       if (parts[0] !== 'api') throw new HttpError(404, 'not found');
+      if (deps.readOnly && !['GET', 'HEAD', 'OPTIONS'].includes(req.method ?? '')) throw new HttpError(403, 'this preview is read-only');
       if (req.method === 'GET' && parts[1] === 'settings' && parts.length === 2) {
         const { stores: _stores, ...settings } = deps.config;
-        return send(res, 200, settings);
+        return send(res, 200, { ...settings, readOnly: deps.readOnly ?? false, ...(deps.previewInfo ? { previewInfo: deps.previewInfo } : {}) });
       }
       if (parts[1] === 'stores' && parts.length === 2) {
         if (req.method === 'GET') {
           const [stores, summaries] = await Promise.all([deps.repo.listStores({ includeInactive: true }), deps.repo.summaries({ surface: surfaceOf(url.searchParams.get('surface')) })]);
           const byId = new Map(summaries.map(s => [s.storeId, s]));
-          return send(res, 200, stores.map(store => ({ ...store, summary: byId.get(store.storeId) ?? null })));
+          const surface = surfaceOf(url.searchParams.get('surface'));
+          const rosters = await Promise.all(stores.map(store => deps.repo.rosterLatest(store.storeId, surface)));
+          return send(res, 200, stores.map((store, index) => ({ ...store, summary: byId.get(store.storeId) ?? null, rosterLatest: rosters[index] ?? null })));
         }
         if (req.method === 'POST') {
           try { return send(res, 201, await deps.repo.saveStore(await readJson(req), now())); }
@@ -97,6 +124,28 @@ export function createHandler(deps: ServerDeps) {
           if (typeof body.active !== 'boolean') throw new HttpError(400, 'active must be boolean');
           return send(res, 200, await deps.repo.setActive(storeId, body.active, now()));
         }
+        if (parts.length === 4 && parts[3] === 'timeline' && req.method === 'GET') {
+          const options = timelineOptions(url, now(), deps.config.timezone);
+          try { decodeHistoryCursor(storeId, options); } catch { throw new HttpError(400, 'invalid timeline cursor for this selection'); }
+          const page = await deps.repo.timeline(storeId, options);
+          return send(res, 200, { storeId, surface: options.surface, pointId: options.pointId, from: options.from, to: options.to, timezone: deps.config.timezone,
+            ...(options.keywordKey ? { keywordKey: options.keywordKey } : {}), ...page, items: page.items.map(historyObservation) });
+        }
+        if (parts.length === 5 && parts[3] === 'observations' && req.method === 'GET') {
+          const row = await deps.repo.observation(storeId, parts[4]!, explicitSurface(url.searchParams.get('surface')));
+          if (!row) throw new HttpError(404, 'observation not found for this store and surface');
+          return send(res, 200, historyObservation(row));
+        }
+        if (parts.length === 4 && parts[3] === 'points' && req.method === 'GET') {
+          const surface = explicitSurface(url.searchParams.get('surface'));
+          return send(res, 200, { storeId, surface, ...await deps.repo.points(storeId, surface) });
+        }
+        if (parts.length === 4 && parts[3] === 'grid-runs' && req.method === 'GET') {
+          const surface = explicitSurface(url.searchParams.get('surface')), keyword = url.searchParams.get('keyword'), localDate = url.searchParams.get('date');
+          if (!keyword || !localDate || !validDate(localDate)) throw new HttpError(400, 'keyword and a real date=YYYY-MM-DD are required');
+          const all = await deps.repo.day(storeId, keywordKey(keyword), { surface, localDate }), rows = all.slice(0, 5000);
+          return send(res, 200, { storeId, surface, keywordKey: keywordKey(keyword), localDate, runs: discoverGridRuns(rows, deps.config, store), legacyObservations: rows.filter(row => !row.gridRunId && (row.gridSpec || row.pointId !== 'r0c0')).length, truncated: all.length > 5000 });
+        }
         if (parts.length === 4 && parts[3] === 'latest' && req.method === 'GET') {
           const surface = url.searchParams.get('surface');
           return send(res, 200, await deps.repo.latest(storeId, { ...(surface ? { surface: surfaceOf(surface) } : {}), pointId: url.searchParams.get('point') ?? 'r0c0' }));
@@ -109,35 +158,11 @@ export function createHandler(deps: ServerDeps) {
           return send(res, 200, await deps.repo.trend(storeId, keywordKey(keyword), { surface: surfaceOf(url.searchParams.get('surface')), pointId: url.searchParams.get('point') ?? 'r0c0', since }));
         }
         if (parts.length === 4 && parts[3] === 'grid' && req.method === 'GET') {
-          const keyword = url.searchParams.get('keyword'), localDate = url.searchParams.get('date');
-          if (!keyword || !localDate || !/^\d{4}-\d{2}-\d{2}$/u.test(localDate)) throw new HttpError(400, 'keyword and date=YYYY-MM-DD are required');
-          const rows = await deps.repo.day(storeId, keywordKey(keyword), { surface: surfaceOf(url.searchParams.get('surface')), localDate });
-          const captured = rows.filter(row => row.gridSpec);
-          const candidates = captured.length ? captured : rows.filter(row => row.pointId !== 'r0c0');
-          const newest = candidates.slice().sort((a, b) => b.observedAt.localeCompare(a.observedAt))[0];
-          const spec = newest?.gridSpec ?? storeGridSpec(deps.config, store);
-          const grid = generateGrid(spec);
-          const point = new Map(grid.map(p => [p.id, p]));
-          // Compare settings/profile snapshots across points, while checking each captured coordinate.
-          const snapshotKey = (row: RankObservation): string | null => observationCohortKey(row) === null ? null
-            : JSON.stringify([row.surface, row.storeId, row.placeId, row.keywordKey, row.locationMode, row.point.zoom ?? null, row.source.profileHash, row.source.adapterVersion, row.gridSpec ?? null, row.gridRunId ?? null]);
-          const runRows = newest?.gridRunId ? rows.filter(row => row.gridRunId === newest.gridRunId) : rows;
-          // A missing result still identifies the newest run. Recover comparison metadata from
-          // a qualified point inside that run only; an entirely failed run stays unavailable.
-          const anchor = newest?.gridRunId ? runRows.slice().sort((a, b) => b.observedAt.localeCompare(a.observedAt))
-            .find(row => snapshotKey(row) !== null && organicRankForMetrics(row) !== undefined) : newest;
-          const snapshot = anchor ? snapshotKey(anchor) : null;
-          const latest = new Map<string, RankObservation>();
-          for (const row of runRows) if ((newest?.gridRunId || (snapshot !== null && snapshotKey(row) === snapshot)) && point.has(row.pointId)
-            && (!latest.has(row.pointId) || row.observedAt > latest.get(row.pointId)!.observedAt)) latest.set(row.pointId, row);
-          const usable: GridObservation[] = [];
-          for (const row of latest.values()) {
-            const p = point.get(row.pointId)!;
-            const rank = organicRankForMetrics(row);
-            if (snapshot !== null && snapshotKey(row) === snapshot && rank !== undefined && matchesGridPoint(p, row.point)) usable.push({ pointId: p.id, distanceKm: p.distanceKm, ring: p.ring, rank });
-          }
-          return send(res, 200, { grid, gridSpec: spec, geometrySource: newest?.gridSpec ? 'captured' : 'current_verified_coordinates',
-            metrics: computeGridMetrics(grid, usable), heatMap: heatMapRows(grid, usable), cells: grid.map(p => ({ id: p.id, row: p.row, col: p.col, distanceKm: p.distanceKm, rank: usable.find(o => o.pointId === p.id)?.rank ?? null, observed: usable.some(o => o.pointId === p.id) })) });
+          const keyword = url.searchParams.get('keyword'), localDate = url.searchParams.get('date'), gridRunId = url.searchParams.get('gridRunId');
+          if (!keyword || !localDate || !validDate(localDate)) throw new HttpError(400, 'keyword and date=YYYY-MM-DD are required');
+          const all = await deps.repo.day(storeId, keywordKey(keyword), { surface: surfaceOf(url.searchParams.get('surface')), localDate }), rows = all.slice(0, 5000);
+          if (gridRunId && !rows.some(row => row.gridRunId === gridRunId)) throw new HttpError(404, 'grid run not found in this selection');
+          return send(res, 200, { ...gridHistory(rows, deps.config, store, gridRunId ?? undefined), truncated: all.length > 5000 });
         }
       }
       if (req.method === 'GET' && parts[1] === 'evidence' && parts.length === 2) {

@@ -127,72 +127,117 @@ describe('HTTP malformed requests', () => {
 
 /** Runs the shipped inline script; only the browser DOM/fetch boundary is simulated. */
 function uiContext(fetcher: (url: string, options?: RequestInit) => Promise<unknown>) {
-  const elements = new Map<string, { innerHTML: string; textContent: string; value: string; onclick?: () => Promise<void>; className: string }>();
+  type Element = { innerHTML: string; textContent: string; value: string; onclick?: () => Promise<void>; onsubmit?: (e: {preventDefault(): void}) => void; className: string; querySelectorAll(): never[] };
+  const elements = new Map<string, Element>();
   const element = (id: string) => {
-    if (!elements.has(id)) elements.set(id, { innerHTML: '', textContent: '', value: '', className: '' });
+    if (!elements.has(id)) elements.set(id, { innerHTML: '', textContent: '', value: '', className: '', querySelectorAll: () => [] });
     return elements.get(id)!;
   };
   const context = createContext({
     document: { getElementById: element, querySelectorAll: () => [] },
-    location: { hash: '#/new' }, window: { addEventListener: () => {} }, URLSearchParams, Date,
-    setTimeout: () => 0,
+    location: { hash: '#new' }, window: { addEventListener: () => {} }, URLSearchParams, Date, AbortController,
+    history: { replaceState: () => {} }, setTimeout: () => 0,
     fetch: async (url: string, options?: RequestInit) => ({ ok: true, json: async () => fetcher(url, options) }),
   });
   const script = UI_HTML.match(/<script>([\s\S]*)<\/script>/)![1]!;
-  runInContext(script.replace(/\nroute\(\);\s*$/, '\n'), context);
-  runInContext('settings = { defaults: { grid: { radiusKm: 5, size: 5 } }, timezone: "UTC" };', context);
+  runInContext(script.replace(/;route\(\);\s*$/, ';'), context);
+  runInContext('settings = { defaults: { grid: { radiusKm: 5, size: 5 } }, timezone: "UTC" }; controller = new AbortController();', context);
   return { context, element, run: (source: string) => runInContext(source, context) };
 }
-
+const uiHistory = (id: string, date: string, rank: number | null, eligible = true) => ({
+  observationId: id, observedAt: date + 'T12:00:00Z', localDate: date, keyword: 'braised food', keywordKey: 'braised food',
+  eligible, metricOrganicRank: rank, cohortKey: 'same', rank: { status: eligible ? 'ranked' : 'failed', organicRank: rank },
+  point: { latitude: 40, longitude: -73 }, pointId: 'r0c0', surface: 'web', locationMode: 'map_view', source: {}, evidence: { screenshotKeys: [] }, topListings: [],
+});
 describe('shipped UI behavior', () => {
-  it('preserves expectedArea when editing ordinary fields', async () => {
+  it('preserves expectedArea when editing ordinary fields through the reviewed save flow', async () => {
     let submitted: Record<string, unknown> | undefined;
-    const ui = uiContext(async (_url, options) => { submitted = JSON.parse(options!.body as string); return submitted; });
     const source = { ...store, expectedArea: { label: 'Flushing', ...store.center, radiusKm: 8, source: 'merchant' } };
-    ui.context.storeFixture = source;
-    ui.run('storeForm(storeFixture)');
-    for (const [id, value] of Object.entries({ storeId: store.storeId, name: 'New display name', placeId: store.placeId, lat: String(store.center.latitude), lng: String(store.center.longitude), core: 'braised food', aliases: 'Keke' })) ui.element(id).value = value;
-    await ui.element('save').onclick!();
+    const ui = uiContext(async (_url, options) => { if (options?.method) { submitted = JSON.parse(options.body as string); return submitted; } return source; });
+    await ui.run('settingsView({id:"keke",surface:"web",view:"settings"}, revision)');
+    for (const [id, value] of Object.entries({ storeId: store.storeId, name: 'New display name', placeId: store.placeId, lat: String(store.center.latitude), lng: String(store.center.longitude), core: 'braised food', aliases: 'Keke', active: 'true' })) ui.element(id).value = value;
+    ui.element('store-form').onsubmit!({ preventDefault() {} });
+    expect(submitted).toBeUndefined();
+    await ui.element('confirm-save').onclick!();
     expect(submitted?.expectedArea).toEqual(source.expectedArea);
   });
-  it('renders unavailable trend observations as gaps, never rank 21', async () => {
-    const points = [
-      { observedAt: '2026-10-20T10:00:00Z', organicRank: 2, status: 'ranked' },
-      { observedAt: '2026-10-20T11:00:00Z', organicRank: null, status: 'failed' },
-      { observedAt: '2026-10-20T12:00:00Z', organicRank: 3, status: 'ranked' },
-    ];
-    const ui = uiContext(async () => points);
-    await ui.run('trendPanel("keke", {keyword:"braised food"}, "web")');
-    const html = ui.element('detail').innerHTML;
+  it('renders unavailable latest daily trend observations as gaps, never rank 21', () => {
+    const ui = uiContext(async () => []);
+    ui.context.points = [uiHistory('a','2026-10-18',2),uiHistory('b','2026-10-19',null,false),uiHistory('c','2026-10-20',3)];
+    ui.run('drawTrend({r:{id:"keke",surface:"web",point:"r0c0",keyword:"braised food",from:"2026-10-18",to:"2026-10-20"}}, points)');
+    const html = ui.element('trend').innerHTML;
     expect(html.match(/<circle/g)).toHaveLength(2);
-    expect(html).not.toContain('未上榜');
-    expect(html.match(/<path[^>]+d="([^"]*)"/)?.[1]?.match(/M/g)).toHaveLength(2);
+    expect(html).toContain('采集失败');
+    expect(html).not.toContain('排名 21');
+    expect(html.match(/<path class="chart-line"/g)).toHaveLength(2);
+    expect(html).not.toMatch(/<path class="chart-line" d="[^"]*L/);
   });
-  it('keeps a newer detail request when an older request resolves last', async () => {
+  it('keeps a newer exact evidence selection when an older detail resolves last', async () => {
     let resolveOld!: (value: unknown) => void;
-    const ui = uiContext(async url => url.includes('old') ? new Promise(resolve => { resolveOld = resolve; }) : []);
-    const old = ui.run('trendPanel("keke", {keyword:"old"}, "web")');
-    await ui.run('trendPanel("keke", {keyword:"new"}, "web")');
-    resolveOld([]);
-    await old;
-    expect(ui.element('detail').innerHTML).toContain('new');
-    expect(ui.element('detail').innerHTML).not.toContain('old');
+    const oldData = uiHistory('old','2026-10-19',2), newData = { ...uiHistory('new','2026-10-20',3), keyword:'new selected keyword' };
+    const ui = uiContext(async url => {
+      if(url.includes('/points?')) return {points:[]};
+      if(url.includes('/observations/old?')) return new Promise(resolve => { resolveOld = resolve; });
+      if(url.includes('/observations/new?')) return newData;
+      if(url.includes('/timeline?')) return {items:[newData],complete:true};
+      return store;
+    });
+    const old = ui.run('evidenceView({id:"keke",surface:"web",point:"r0c0",view:"evidence",observation:"old",from:"2026-10-18",to:"2026-10-20"},revision)');
+    for(let i=0;i<20&&!resolveOld;i++) await Promise.resolve();
+    expect(resolveOld).toBeTypeOf('function');
+    ui.run('revision++;');
+    await ui.run('evidenceView({id:"keke",surface:"web",point:"r0c0",view:"evidence",observation:"new",from:"2026-10-18",to:"2026-10-20"},revision)');
+    resolveOld(oldData); await old;
+    expect(ui.element('app').innerHTML).toContain('new selected keyword');
+    expect(ui.element('app').innerHTML).not.toContain('2026/10/19');
   });
   it('does not let an old route replace the current page', async () => {
     let resolveOld!: (value: unknown) => void;
     const ui = uiContext(async url => url.startsWith('/api/stores?') ? new Promise(resolve => { resolveOld = resolve; }) : {});
-    ui.run('location.hash="#/"');
-    const old = ui.run('route()');
-    ui.run('location.hash="#/new"');
-    await ui.run('route()');
-    resolveOld([]);
-    await old;
+    ui.run('location.hash="#portfolio"'); const old = ui.run('route()');
+    ui.run('location.hash="#new"'); await ui.run('route()');
+    resolveOld([]); await old;
     expect(ui.element('app').innerHTML).toContain('新增门店');
   });
-  it('renders missing grid metric denominators as unavailable', async () => {
-    const ui = uiContext(async () => ({ grid: [], cells: [], metrics: { points: 0, found: 0, arp: null, atrp: null, solv: null, rings: { inner: { arp: null }, middle: { arp: null }, outer: { arp: null } } } }));
-    await ui.run('gridPanel("keke", {keyword:"food"}, "web", "2026-10-20")');
-    expect(ui.element('detail').innerHTML).not.toContain('>null<');
-    expect(ui.element('detail').innerHTML).not.toContain('>0%<');
+  it('keeps withdrawn-keyword history enabled through evidence, return, date, point and surface routes', () => {
+    const ui=uiContext(async()=>[]);
+    ui.context.selected={id:'keke',view:'store',surface:'web',point:'r0c0',keyword:'withdrawn keyword',historical:true,from:'2026-10-01',to:'2026-10-20'};
+    const evidence=ui.run('href("evidence",selected.id,params(selected,{observation:"exact-past-id"}))');
+    expect(evidence).toContain('historical=1');
+    ui.context.evidenceHash=evidence;
+    ui.run('location.hash=evidenceHash; evidenceRoute=parseRoute();');
+    const back=ui.run('href("store",evidenceRoute.id,params(evidenceRoute))');
+    expect(back).toContain('historical=1'); expect(back).toContain('keyword=withdrawn+keyword');
+    for(const update of [{from:'2026-09-20'},{point:'r1c1'},{surface:'android',point:''}]) {
+      ui.context.update=update;
+      expect(ui.run('href(selected.view,selected.id,params(selected,update))')).toContain('historical=1');
+    }
+    expect(ui.run('href(selected.view,selected.id,params(selected,{historical:""}))')).not.toContain('historical=');
+  });
+  it('keeps an explicitly selected uncollected point empty instead of substituting another point', async () => {
+    const points = [{pointId:'r0c0',point:{latitude:40,longitude:-73},observedTo:'2026-10-20T12:00:00Z'}];
+    const ui=uiContext(async url=>url.includes('/points?')?{points}:store);
+    ui.context.selected={id:'keke',surface:'web',point:'r2c2',pointExplicit:true,from:'2026-10-18',to:'2026-10-20'};
+    await ui.run('loadStore(selected,revision)');
+    expect(ui.run('selected.point')).toBe('r2c2');
+    ui.context.inventory=points;
+    expect(ui.run('pointSelect(inventory,selected.point)')).toContain('r2c2 · 尚无记录');
+    ui.context.implicit={id:'keke',surface:'android',point:'r0c0',pointExplicit:false,from:'2026-10-18',to:'2026-10-20'};
+    const other=uiContext(async url=>url.includes('/points?')?{points:[{...points[0],pointId:'pilot'}]}:store);
+    other.context.selected=ui.context.implicit;
+    await other.run('loadStore(selected,revision)');
+    expect(other.run('selected.point')).toBe('pilot');
+  });
+  it('renders missing grid metric denominators as unavailable while retaining run identity', async () => {
+    const ui = uiContext(async url => {
+      if(url.includes('/points?')) return {points:[]};
+      if(url.includes('/grid-runs?')) return {runs:[{gridRunId:'failed-run',observedTo:'2026-10-20T12:00:00Z',attemptedPoints:1}]};
+      if(url.includes('/grid?')) return {grid:[],cells:[],gridRunId:'failed-run',qualifiedPoints:0,plannedPoints:9,attemptedPoints:1,metrics:{points:0,found:0,arp:null,atrp:null,solv:null}};
+      return store;
+    });
+    await ui.run('gridView({id:"keke",surface:"web",point:"r0c0",view:"grid",keyword:"food",date:"2026-10-20",from:"2026-10-18",to:"2026-10-20"},revision)');
+    const html=ui.element('app').innerHTML;
+    expect(html).toContain('failed-run'); expect(html).toContain('暂无合格点');
+    expect(html).not.toContain('>null<'); expect(html).not.toContain('>0%<');
   });
 });

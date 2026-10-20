@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-20",
+  "status": "local_implementation_verified_not_deployed",
+  "baseCommit": "fd6f5d5",
+  "checks": {
+    "typecheck": "passed",
+    "build": "passed",
+    "contract_type_tests": "passed",
+    "unit_tests": {
+      "command": "npx vitest run --maxWorkers 2",
+      "filesPassed": 59,
+      "testsPassed": 1236,
+      "testsFailed": 0
+    },
+    "initial_unbounded_run": {
+      "passed": 1235,
+      "failed": 1,
+      "failure": "Unmodified Android home preparation timing assertion; subsequent isolated Android suite 128/128 and bounded full suite passed."
+    },
+    "api_readback": {
+      "observationsMatched": 7263,
+      "pages": 79,
+      "storeSurfacePointGroups": 12,
+      "everyObservationIdentityAndScreenshotReferenceMatched": true
+    },
+    "snapshot_structure": "passed",
+    "image_receipt_validation": {
+      "local_archive_samples": 32,
+      "live_selected_sequence_pngs": 29,
+      "http_samples": 12,
+      "all_archive_png_hashes_verified": false,
+      "note": "Scopes may overlap. Every image opened through the preview reader is checked against its exact archived bytes and SHA-256."
+    },
+    "browser": {
+      "real_portfolio_ten_stores": true,
+      "web_exact_daily_evidence": true,
+      "web_before_after_originals": true,
+      "incompatible_location_comparison_suppressed": true,
+      "android_keke_complete_54_image_sequence_retained": true,
+      "android_seejoy_40_image_sequence_retained": true,
+      "android_native_maps_images_loaded": true,
+      "recorded_points_and_gps_receipts": true,
+      "unknown_grid_round_not_fabricated": true,
+      "explicit_uncollected_point_preserved_empty": true,
+      "mobile_390px_history_no_document_overflow": true,
+      "mobile_390px_points_no_document_overflow": true
+    },
+    "independent_code_review": "passed_after_two_P2_navigation_fixes",
+    "protected_collector_deploy_dependency_paths": "unchanged",
+    "canonicalCheckout": {
+      "clean": true,
+      "head": "cac847388f47015a6c1555c7d9e38a76b57ddbe1"
+    }
+  },
+  "data": {
+    "stores": 10,
+    "observations": 7263,
+    "historicalWeb": 7029,
+    "oct20LiveWeb": 186,
+    "androidPilot": 48,
+    "screenshotReceiptMappings": 26232,
+    "snapshotSha256": "a04c383391466ec26de4f6594c8027edda1077e7c7107db268d86d456157a329",
+    "timezone": "America/New_York",
+    "realRegularGridAvailable": false
+  },
+  "boundaries": [
+    "Local read-only snapshot preview, not a deployed service or a live scheduler status page.",
+    "Most rosters and Web history end at the archived Oct15 Beijing collection; Keke additionally includes Oct20 center-point data.",
+    "Android pilot evidence does not meet current qualification rules; raw images are available without promoting them to qualified ranks.",
+    "Surrounding grid rendering is contract-tested; retained real evidence includes center/pilot points, not a proven regular grid.",
+    "No remote deployment, GitHub push, schedule mutation, collector invocation or cloud write."
+  ]
+}

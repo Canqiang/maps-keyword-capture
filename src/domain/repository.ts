@@ -1,12 +1,13 @@
 import { MongoClient, type MongoClientOptions } from 'mongodb';
 import { observationCohortKey, organicRankForMetrics, type RankObservation, type Surface } from './model.js';
 import { parseStore, type TrackingStore } from './tracking-config.js';
+import { compareObservations, decodeHistoryCursor, historyPage, observedPoints, summarizeRoster, validCoordinates, type TimelineOptions, type TimelinePage, type PointInventory, type ObservedPoint, type RosterLatest } from './history.js';
 
 /**
  * Read and manage tracking data: the stores collection (managed through the UI) and the
  * observations collection (written by scans). One interface, a MongoDB and an in-memory version.
  */
-export interface StoredStore extends TrackingStore { createdAt: string; updatedAt: string }
+export interface StoredStore extends Omit<TrackingStore, 'center'> { center: TrackingStore['center'] | null; createdAt: string; updatedAt: string }
 export interface LatestRank {
   keyword: string; keywordKey: string; keywordTier: RankObservation['keywordTier']; surface: Surface; pointId: string;
   observedAt: string; status: RankObservation['rank']['status']; displayPosition: number | null; organicRank: number | null;
@@ -29,6 +30,11 @@ export interface TrackingRepository {
   /** Observations of one store, keyword and surface on one local date (grid heat maps). */
   day(storeId: string, keywordKey: string, options: { surface: Surface; localDate: string }): Promise<RankObservation[]>;
   summaries(options?: { surface?: Surface }): Promise<StoreSummary[]>;
+  /** Raw historical identity records; unlike latest(), no current-coordinate/cohort filtering. */
+  timeline(storeId: string, options: TimelineOptions): Promise<TimelinePage>;
+  observation(storeId: string, observationId: string, surface: Surface): Promise<RankObservation | null>;
+  points(storeId: string, surface: Surface): Promise<PointInventory>;
+  rosterLatest(storeId: string, surface: Surface): Promise<RosterLatest | null>;
   close(): Promise<void>;
 }
 
@@ -40,7 +46,7 @@ function toLatest(rows: RankObservation[]): LatestRank[] {
   }
   const out: LatestRank[] = [];
   for (const group of groups.values()) {
-    group.sort((a, b) => b.observedAt.localeCompare(a.observedAt));
+    group.sort((a, b) => compareObservations(b, a));
     const [current, previous] = group as [RankObservation, RankObservation | undefined];
     const rank = organicRankForMetrics(current);
     const cohort = observationCohortKey(current);
@@ -61,13 +67,14 @@ function summarize(storeId: string, surface: Surface, latest: LatestRank[]): Sto
 }
 
 function ensureSameIdentity(existing: StoredStore | null | undefined, next: TrackingStore): void {
-  if (existing && (existing.placeId !== next.placeId || existing.center.latitude !== next.center.latitude || existing.center.longitude !== next.center.longitude)) {
+  if (existing && (existing.placeId !== next.placeId || !existing.center || existing.center.latitude !== next.center.latitude || existing.center.longitude !== next.center.longitude)) {
     throw new Error('store identity cannot change in the UI; use a new storeId for a different place, or a reviewed migration to move the same place');
   }
 }
 function belongsToStore(row: RankObservation, store: StoredStore | null): boolean {
   if (!store || row.placeId !== store.placeId) return false;
   if (row.pointId !== 'r0c0') return true;
+  if (!store.center) return false;
   return typeof row.point.latitude === 'number' && typeof row.point.longitude === 'number'
     && Math.abs(row.point.latitude - store.center.latitude) <= 0.000001
     && Math.abs(row.point.longitude - store.center.longitude) <= 0.000001;
@@ -130,12 +137,31 @@ export class MemoryTrackingRepository implements TrackingRepository {
   }
   async day(storeId: string, keywordKey: string, options: { surface: Surface; localDate: string }) {
     const store = await this.getStore(storeId);
-    return this.observations.filter(o => o.storeId === storeId && belongsToStore(o, store) && o.keywordKey === keywordKey && o.surface === options.surface && o.localDate === options.localDate);
+    return this.observations.filter(o => o.storeId === storeId && o.placeId === store?.placeId && o.keywordKey === keywordKey && o.surface === options.surface && o.localDate === options.localDate);
   }
   async summaries(options: { surface?: Surface } = {}) {
     const surface = options.surface ?? 'web';
     const stores = await this.listStores({ includeInactive: true });
     return Promise.all(stores.map(async s => summarize(s.storeId, surface, await this.latest(s.storeId, { surface }))));
+  }
+  async timeline(storeId: string, options: TimelineOptions): Promise<TimelinePage> {
+    const cursor = decodeHistoryCursor(storeId, options), store = await this.getStore(storeId);
+    const rows = this.observations.filter(row => row.storeId === storeId && row.placeId === store?.placeId && row.surface === options.surface && row.pointId === options.pointId
+      && row.localDate >= options.from && row.localDate <= options.to && (!options.keywordKey || row.keywordKey === options.keywordKey)
+      && (!cursor || row.observedAt > cursor.observedAt || (row.observedAt === cursor.observedAt && row.observationId > cursor.observationId))).sort(compareObservations);
+    return historyPage(storeId, rows, options);
+  }
+  async observation(storeId: string, observationId: string, surface: Surface) {
+    const store = await this.getStore(storeId);
+    return this.observations.find(row => row.storeId === storeId && row.placeId === store?.placeId && row.surface === surface && row.observationId === observationId) ?? null;
+  }
+  async points(storeId: string, surface: Surface) {
+    const store = await this.getStore(storeId);
+    return observedPoints(this.observations.filter(row => row.storeId === storeId && row.placeId === store?.placeId && row.surface === surface));
+  }
+  async rosterLatest(storeId: string, surface: Surface) {
+    const store = await this.getStore(storeId);
+    return store ? summarizeRoster(store, surface, this.observations.filter(row => row.storeId === storeId && row.placeId === store.placeId && row.surface === surface && row.pointId === 'r0c0')) : null;
   }
   async close() { /* nothing to release */ }
 }
@@ -192,14 +218,14 @@ export class MongoTrackingRepository implements TrackingRepository {
   }
   async latest(storeId: string, options: { surface?: Surface; pointId?: string } = {}) {
     const store = await this.getStore(storeId);
-    if (!store) return [];
+    if (!store || ((options.pointId ?? 'r0c0') === 'r0c0' && !store.center)) return [];
     const col = await this.obsCol();
     const pointId = options.pointId ?? 'r0c0';
     const match: Record<string, unknown> = { storeId, placeId: store.placeId, pointId, ...(options.surface ? { surface: options.surface } : {}),
-      ...(pointId === 'r0c0' ? { 'point.latitude': { $gte: store.center.latitude - 0.000001, $lte: store.center.latitude + 0.000001 }, 'point.longitude': { $gte: store.center.longitude - 0.000001, $lte: store.center.longitude + 0.000001 } } : {}) };
+      ...(pointId === 'r0c0' ? { 'point.latitude': { $gte: store.center!.latitude - 0.000001, $lte: store.center!.latitude + 0.000001 }, 'point.longitude': { $gte: store.center!.longitude - 0.000001, $lte: store.center!.longitude + 0.000001 } } : {}) };
     // Two newest per keyword, surface and point.
     const rows = await col.aggregate<RankObservation>([
-      { $match: match }, { $sort: { observedAt: -1 } },
+      { $match: match }, { $sort: { observedAt: -1, observationId: -1 } },
       { $group: { _id: { s: '$surface', k: '$keywordKey', p: '$pointId' }, docs: { $push: '$$ROOT' } } },
       { $project: { docs: { $slice: ['$docs', 2] } } }, { $unwind: '$docs' }, { $replaceRoot: { newRoot: '$docs' } }, { $project: { _id: 0 } },
     ], { allowDiskUse: true }).toArray();
@@ -207,11 +233,11 @@ export class MongoTrackingRepository implements TrackingRepository {
   }
   async trend(storeId: string, keywordKey: string, options: { surface: Surface; pointId?: string; since: string }) {
     const store = await this.getStore(storeId);
-    if (!store) return [];
+    if (!store || ((options.pointId ?? 'r0c0') === 'r0c0' && !store.center)) return [];
     const pointId = options.pointId ?? 'r0c0';
     const col = await this.obsCol();
     const match = { storeId, placeId: store.placeId, keywordKey, surface: options.surface, pointId, observedAt: { $gte: options.since },
-      ...(pointId === 'r0c0' ? { 'point.latitude': { $gte: store.center.latitude - 0.000001, $lte: store.center.latitude + 0.000001 }, 'point.longitude': { $gte: store.center.longitude - 0.000001, $lte: store.center.longitude + 0.000001 } } : {}) };
+      ...(pointId === 'r0c0' ? { 'point.latitude': { $gte: store.center!.latitude - 0.000001, $lte: store.center!.latitude + 0.000001 }, 'point.longitude': { $gte: store.center!.longitude - 0.000001, $lte: store.center!.longitude + 0.000001 } } : {}) };
     // Fetch a bounded timeline, including missing-result gaps and profile transitions. Filtering
     // metadata in Mongo would remove the very records that must break the rendered curve.
     const docs = await col.find(match, { sort: { observedAt: -1 }, limit: 2000, projection: { _id: 0 } }).toArray();
@@ -220,13 +246,50 @@ export class MongoTrackingRepository implements TrackingRepository {
   async day(storeId: string, keywordKey: string, options: { surface: Surface; localDate: string }) {
     const store = await this.getStore(storeId);
     if (!store) return [];
-    const docs = await (await this.obsCol()).find({ storeId, placeId: store.placeId, keywordKey, surface: options.surface, localDate: options.localDate }, { sort: { observedAt: -1 }, projection: { _id: 0 }, limit: 5000 }).toArray();
+    const docs = await (await this.obsCol()).find({ storeId, placeId: store.placeId, keywordKey, surface: options.surface, localDate: options.localDate }, { sort: { observedAt: -1, observationId: -1 }, projection: { _id: 0 }, limit: 5001 }).toArray();
     return docs as unknown as RankObservation[];
   }
   async summaries(options: { surface?: Surface } = {}) {
     const surface = options.surface ?? 'web';
     const stores = await this.listStores({ includeInactive: true });
     return Promise.all(stores.map(async s => summarize(s.storeId, surface, await this.latest(s.storeId, { surface }))));
+  }
+  async timeline(storeId: string, options: TimelineOptions): Promise<TimelinePage> {
+    const cursor = decodeHistoryCursor(storeId, options), store = await this.getStore(storeId);
+    if (!store) return { items: [], nextCursor: null, complete: true };
+    const match = { storeId, placeId: store.placeId, surface: options.surface, pointId: options.pointId, localDate: { $gte: options.from, $lte: options.to },
+      ...(options.keywordKey ? { keywordKey: options.keywordKey } : {}),
+      ...(cursor ? { $or: [{ observedAt: { $gt: cursor.observedAt } }, { observedAt: cursor.observedAt, observationId: { $gt: cursor.observationId } }] } : {}) };
+    const rows = await (await this.obsCol()).find(match, { sort: { observedAt: 1, observationId: 1 }, limit: options.limit + 1, projection: { _id: 0 } }).toArray();
+    return historyPage(storeId, rows, options);
+  }
+  async observation(storeId: string, observationId: string, surface: Surface) {
+    const store = await this.getStore(storeId);
+    if (!store) return null;
+    return (await this.obsCol()).findOne({ storeId, placeId: store.placeId, surface, observationId }, { projection: { _id: 0 } });
+  }
+  async points(storeId: string, surface: Surface): Promise<PointInventory> {
+    const store = await this.getStore(storeId);
+    if (!store) return { points: [], truncated: false };
+    const groups = await (await this.obsCol()).aggregate<{ _id: string; latest: RankObservation; observedFrom: string; observedTo: string; observations: number; coordinateVariants: number }>([
+      { $match: { storeId, placeId: store.placeId, surface } }, { $sort: { observedAt: -1, observationId: -1 } },
+      { $group: { _id: '$pointId', latest: { $first: '$$ROOT' }, observedFrom: { $min: '$observedAt' }, observedTo: { $max: '$observedAt' }, observations: { $sum: 1 }, coordinates: { $addToSet: { latitude: '$point.latitude', longitude: '$point.longitude' } } } },
+      { $project: { latest: 1, observedFrom: 1, observedTo: 1, observations: 1, coordinateVariants: { $size: '$coordinates' } } }, { $sort: { _id: 1 } }, { $limit: 501 },
+    ], { allowDiskUse: true }).toArray();
+    const points = groups.slice(0, 500).map((g): ObservedPoint => ({ pointId: g._id, point: g.latest.point, locationMode: g.latest.locationMode,
+      coordinateStatus: validCoordinates(g.latest.point) ? 'recorded' : 'unavailable', coordinateVariants: g.coordinateVariants,
+      observedFrom: g.observedFrom, observedTo: g.observedTo, observations: g.observations, latestObservationId: g.latest.observationId,
+      latestStatus: g.latest.rank.status, locationEvidence: g.latest.quality?.locationEvidence ?? null }));
+    return { points, truncated: groups.length > 500 };
+  }
+  async rosterLatest(storeId: string, surface: Surface): Promise<RosterLatest | null> {
+    const store = await this.getStore(storeId);
+    if (!store) return null;
+    const rows = await (await this.obsCol()).aggregate<RankObservation>([
+      { $match: { storeId, placeId: store.placeId, surface, pointId: 'r0c0' } }, { $sort: { observedAt: -1, observationId: -1 } },
+      { $group: { _id: '$keywordKey', row: { $first: '$$ROOT' } } }, { $replaceRoot: { newRoot: '$row' } }, { $project: { _id: 0 } },
+    ], { allowDiskUse: true }).toArray();
+    return summarizeRoster(store, surface, rows);
   }
   async close() { try { await this.client.close(); } finally { this.connected = null; } }
 }

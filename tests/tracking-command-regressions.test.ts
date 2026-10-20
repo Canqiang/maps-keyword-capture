@@ -30,6 +30,12 @@ describe('database-backed tracking commands', () => {
     expect(s.listed).toHaveBeenCalledOnce();
     expect(JSON.parse(s.output.mock.calls.at(-1)![0]).count).toBe(3);
   });
+  it('fails closed when an archive-only store with unknown center reaches live planning', async () => {
+    const s = await setup();
+    s.listed.mockResolvedValue([{ ...parseTrackingConfig(raw).stores[0]!, center: null, createdAt: '2026-10-01T00:00:00Z', updatedAt: '2026-10-20T00:00:00Z' }]);
+    expect(await main(['plan', ...s.args, '--surface', 'android', '--tier', 'point'], s.env)).toBe(64);
+    expect(s.output).not.toHaveBeenCalled();
+  });
   it('accepts the documented valueless --list flag', async () => {
     const s = await setup();
     expect(await main(['stores', ...s.args, '--list'], s.env)).toBe(0);
