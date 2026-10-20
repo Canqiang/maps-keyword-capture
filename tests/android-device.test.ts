@@ -70,12 +70,15 @@ function adbFixture(overrides: Record<string, string> = {}) {
   return { adb, calls };
 }
 
-async function appiumFixture(options: { foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string } = {}) {
+async function appiumFixture(options: { foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string; editorActionTypesLiteral?: boolean; inputAfterTyping?: { text?: string; focused?: boolean; enabled?: boolean; displayed?: boolean; packageName?: string; foreground?: string }; submitOutcome?: 'timeout' | 'http-error'; queryAfterSubmit?: string } = {}) {
   const calls: { method: string; path: string; body: any }[] = [];
   let typed = options.initialQuery ?? '';
   let following = options.initiallyFollowing ?? false;
   let sourceReads = 0;
   let submitted = false;
+  let hasTyped = false;
+  const submittedQueries: string[] = [];
+  const inputState = () => hasTyped && !submitted ? options.inputAfterTyping : undefined;
   const server = createServer(async (req, res) => {
     const chunks: Buffer[] = [];
     for await (const chunk of req) chunks.push(Buffer.from(chunk));
@@ -99,10 +102,27 @@ async function appiumFixture(options: { foreground?: string; missingField?: bool
     }
     if (path === '/session' && req.method === 'POST') value = { sessionId: 'native-session', capabilities: { platformName: 'Android' } };
     else if (path.endsWith('/execute/sync')) {
-      if (body.script === 'mobile: getCurrentPackage') value = options.foreground ?? maps;
+      if (body.script === 'mobile: getCurrentPackage') value = inputState()?.foreground ?? options.foreground ?? maps;
       else if (body.script === 'mobile: scrollGesture') value = options.onScroll?.() ?? false;
       else if (body.script === 'mobile: dragGesture') options.onDrag?.();
-      else if (body.script === 'mobile: performEditorAction') submitted = true;
+      else if (body.script === 'mobile: performEditorAction' || body.script === 'mobile: pressKey') {
+        if (body.script === 'mobile: pressKey' && body.args?.[0]?.keycode !== 66) {
+          res.writeHead(400, { 'content-type': 'application/json' }).end(JSON.stringify({ value: { error: 'invalid argument', message: 'Fixture accepts only ENTER for search submission' } }));
+          return;
+        }
+        // Real Android 15 / Maps 26.41 evidence: Appium's editor-action IME
+        // injected "/search" into the field instead of submitting its contents.
+        if (body.script === 'mobile: performEditorAction' && options.editorActionTypesLiteral) typed += '/search';
+        submittedQueries.push(typed);
+        submitted = true;
+        if (options.queryAfterSubmit !== undefined) typed = options.queryAfterSubmit;
+        // The input may already have been submitted when the HTTP outcome is unknown.
+        if (options.submitOutcome === 'timeout') return;
+        if (options.submitOutcome === 'http-error') {
+          res.writeHead(500, { 'content-type': 'application/json' }).end(JSON.stringify({ value: { error: 'unknown error', message: 'Submission outcome is unknown' } }));
+          return;
+        }
+      }
     } else if (path.endsWith('/actions')) { options.onScroll?.(); value = options.actionOutcome === 'non-null' ? true : null;
     } else if (path.endsWith('/elements')) {
       if (body.value === `${maps}:id/search_list_layout`) value = [{ 'element-6066-11e4-a52e-4f735466cecf': 'vertical-list' }];
@@ -119,22 +139,24 @@ async function appiumFixture(options: { foreground?: string; missingField?: bool
     } else if (path.endsWith('/click') && path.includes('/close-results/')) { typed = ''; submitted = false; following = false; }
     else if (path.endsWith('/click') && path.includes('/recenter-parent/')) { if (!options.stuckRecenter) following = true; }
     else if (path.endsWith('/attribute/clickable')) value = 'true';
-    else if (path.endsWith('/displayed')) value = true;
+    else if (path.endsWith('/displayed')) value = inputState()?.displayed ?? true;
     else if (path.endsWith('/attribute/className')) value = path.includes('/vertical-list/') ? 'android.support.v7.widget.RecyclerView' : 'android.widget.EditText';
     else if (path.endsWith('/attribute/scrollable')) value = 'true';
     else if (path.endsWith('/rect') && path.includes('/element/')) value = options.listRect?.() ?? { x: 0, y: 272, width: 720, height: 960 };
-    else if (path.endsWith('/attribute/package')) value = maps;
+    else if (path.endsWith('/attribute/package')) value = inputState()?.packageName ?? maps;
     else if (path.endsWith('/attribute/resource-id')) value = path.includes('/vertical-list/') ? options.listResourceId ?? `${maps}:id/search_list_layout` : path.includes('/actual-input/') ? inputId : options.wrapperResourceId ?? fieldId;
     else if (path.endsWith('/attribute/content-desc')) value = options.queryInDescription ? typed : '';
-    else if (path.endsWith('/attribute/enabled')) value = 'true';
-    else if (path.endsWith('/attribute/focused')) value = String(path.includes('/actual-input/') ? typeof options.inputFocused === 'function' ? options.inputFocused() : options.inputFocused ?? true : options.wrapperFocused ?? !options.nestedInput);
+    else if (path.endsWith('/attribute/enabled')) value = String(inputState()?.enabled ?? true);
+    else if (path.endsWith('/attribute/focused')) value = String(inputState()?.focused ?? (path.includes('/actual-input/') ? typeof options.inputFocused === 'function' ? options.inputFocused() : options.inputFocused ?? true : options.wrapperFocused ?? !options.nestedInput));
     else if (path.endsWith('/text')) value = options.staleQuery ? 'old query' : options.nestedInput && path.includes('/search-field/') ? '' : typed;
     else if (path.endsWith('/value')) {
       if (options.nestedInput && !path.includes('/actual-input/')) {
         res.writeHead(400, { 'content-type': 'application/json' }).end(JSON.stringify({ value: { error: 'invalid element state', message: 'Wrapper is not editable', stacktrace: '' } }));
         return;
       }
-      typed = body.text;
+      hasTyped = true;
+      submitted = false;
+      typed = options.inputAfterTyping?.text ?? body.text;
     }
     else if (path.endsWith('/source')) value = options.source?.(++sourceReads, typed, following) ?? (typed ? resultsXml(typed, 'Current result', false, options.nestedInput, options.queryInDescription).replace('</hierarchy>', `<node package="${maps}" resource-id="${maps}:id/terra_navigation_header_close_button" clickable="true" content-desc="Close"/></hierarchy>`) : homeXml(following));
     else if (path.endsWith('/screenshot')) { options.onScreenshot?.(); value = options.screenshot ?? png.toString('base64'); }
@@ -144,8 +166,83 @@ async function appiumFixture(options: { foreground?: string; missingField?: bool
   });
   servers.push(server);
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
-  return { url: `http://127.0.0.1:${(server.address() as AddressInfo).port}`, calls };
+  return { url: `http://127.0.0.1:${(server.address() as AddressInfo).port}`, calls, submittedQueries };
 }
+
+describe('NativeMapsDevice exact native search submission', () => {
+  // Catches the observed editor-action text injection without bypassing the
+  // production query guard. Typed text drives HTTP element reads and native XML.
+  it.each(['braised food', '法拉盛 卤味'])('submits exactly %s despite the broken Appium editor-action IME', async (keyword) => {
+    const appium = await appiumFixture({ nestedInput: true, queryInDescription: true, editorActionTypesLiteral: true });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start();
+    await expect(device.search(keyword)).resolves.toBeUndefined();
+    const frame = await device.snapshot();
+    expect(appium.submittedQueries).toEqual([keyword]);
+    expect(frame.xml).toContain(keyword);
+    expect(frame.xml).not.toContain(`${keyword}/search`);
+    expect(frame.png.equals(png)).toBe(true);
+    await device.close();
+  });
+  // A pre-submit text check must stop wrong queries before the external action,
+  // even when the post-submit guard would eventually reject them too.
+  it('does not submit when native typing returned different text', async () => {
+    const appium = await appiumFixture({ nestedInput: true, inputAfterTyping: { text: 'braised food/search' } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start();
+    await expect(device.search('braised food')).rejects.toMatchObject({ code: 'QUERY_NOT_VISIBLE' });
+    expect(appium.submittedQueries).toEqual([]);
+    await device.close();
+  });
+  // Focus/ownership can change after value succeeds. Reusing the earlier focus
+  // proof would send ENTER to a stale or non-Maps control.
+  it.each([
+    ['focus lost', { focused: false }],
+    ['input hidden', { displayed: false }],
+    ['input disabled', { enabled: false }],
+    ['ownership changed', { packageName: 'com.android.chrome' }],
+  ] as const)('does not submit after typing when %s', async (_reason, inputAfterTyping) => {
+    const appium = await appiumFixture({ nestedInput: true, inputAfterTyping });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start();
+    await expect(device.search('braised food')).rejects.toMatchObject({ code: 'UNKNOWN_SEARCH_LAYOUT' });
+    expect(appium.submittedQueries).toEqual([]);
+    await device.close();
+  });
+  it('does not submit ENTER after typing if Maps has left the foreground', async () => {
+    const appium = await appiumFixture({ nestedInput: true, inputAfterTyping: { foreground: 'com.android.chrome' } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start();
+    await expect(device.search('braised food')).rejects.toMatchObject({ code: 'WRONG_FOREGROUND' });
+    expect(appium.submittedQueries).toEqual([]);
+    await device.close();
+  });
+  it('still rejects changed post-submit text and preserves only one diagnostic screenshot', async () => {
+    const appium = await appiumFixture({ nestedInput: true, queryInDescription: true, queryAfterSubmit: 'other query' });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start();
+    await expect(device.search('braised food')).rejects.toMatchObject({ code: 'QUERY_NOT_VISIBLE' });
+    expect(appium.submittedQueries).toEqual(['braised food']);
+    expect((await device.snapshot()).xml).toContain('other query');
+    await expect(device.snapshot()).rejects.toMatchObject({ code: 'DIAGNOSTIC_CAPTURE_EXHAUSTED' });
+    await device.close();
+  });
+  it.each([
+    ['timeout', 'COMMAND_TIMEOUT'],
+    ['http-error', 'APPIUM_PROTOCOL_ERROR'],
+  ] as const)('never repeats an uncertain native submission after %s', async (submitOutcome, code) => {
+    const appium = await appiumFixture({ nestedInput: true, submitOutcome });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb, commandTimeoutMs: 100 });
+    await device.start();
+    await expect(device.search('braised food')).rejects.toMatchObject({ code });
+    const frame = await device.snapshot();
+    expect(frame.xml).toContain('braised food');
+    expect(appium.submittedQueries).toEqual(['braised food']);
+    expect(appium.calls.filter(call => call.path.endsWith('/value'))).toHaveLength(1);
+    await expect(device.snapshot()).rejects.toMatchObject({ code: 'DIAGNOSTIC_CAPTURE_EXHAUSTED' });
+    await device.close();
+  });
+});
 
 describe('NativeMapsDevice safety and preflight', () => {
   it.each(['usb-personal-device', '127.0.0.1:5555', 'emulator-5554;touch /tmp/bad'])('rejects unsafe serial %s before issuing commands', (serial) => {
@@ -187,7 +284,7 @@ describe('NativeMapsDevice native W3C session', () => {
     expect(screen.packageName).toBe(maps);
     expect(appium.calls.find((call) => call.path === '/session')?.body.capabilities.alwaysMatch).toMatchObject({ 'appium:udid': 'emulator-5554', 'appium:appPackage': maps, 'appium:automationName': 'UiAutomator2', 'appium:noReset': true, 'appium:remoteAdbHost': '127.0.0.1', 'appium:adbPort': 5037 });
     expect(appium.calls.find((call) => call.path.endsWith('/value'))?.body.text).toBe(keyword);
-    expect(appium.calls.some((call) => call.body?.script === 'mobile: performEditorAction' && call.body.args[0].action === 'search')).toBe(true);
+    expect(appium.submittedQueries).toEqual([keyword]);
     expect(adb.calls.some((args) => args.some((value) => value.includes('寿司')))).toBe(false);
     await expect(device.scroll()).rejects.toMatchObject({ code: 'UNKNOWN_SCROLL_LAYOUT' });
     await device.close();
@@ -512,7 +609,6 @@ describe('NativeMapsDevice observed Maps editable input', () => {
     const appium = await appiumFixture({ nestedInput: true, inputFocused: () => ++focusReads >= 3 });
     const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
     await device.start(); await device.search('hot pot near me');
-    expect(focusReads).toBe(3);
     expect(appium.calls.filter(call => call.path.endsWith('/click'))).toHaveLength(1);
     const typing = appium.calls.findIndex(call => call.path.endsWith('/value'));
     expect(appium.calls.slice(0, typing).filter(call => call.path.endsWith('/actual-input/attribute/focused'))).toHaveLength(3);

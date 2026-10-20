@@ -46,3 +46,19 @@ describe('served frontend runtime', () => {
   expect(runInNewContext(setup+'M.present({eligible:false,rank:{status:"failed",organicRank:null}}).label')).toBe('采集失败');
  });
 });
+
+
+describe('grid geometry labels', () => {
+ it('describes square edge distance and planned corner distance without claiming circular coverage', () => {
+  const script = UI_HTML.match(/<script>([\s\S]*)<\/script>/)?.[1];
+  const geometry = script!.match(/function gridGeometryText\(data\)\{[^\n]*\}/)?.[0];
+  expect(geometry).toBeTruthy();
+  const text = runInNewContext(geometry! + ';gridGeometryText({gridSpec:{size:5,radiusKm:5}})');
+  expect(text).toBe('方形 5 × 5 采样；按网格规划估算，角点距中心约 7.1 km。');
+  expect(runInNewContext(geometry! + ';gridGeometryText({})')).toBe('网格形状信息不可用。');
+  expect(UI_HTML).toContain('中心至边缘：');
+  expect(UI_HTML).toContain('网格中心至边缘 km（留空使用默认）');
+  expect(UI_HTML).not.toContain('采集半径：');
+  expect(UI_HTML).not.toContain('整个半径内的覆盖率');
+ });
+});

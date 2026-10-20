@@ -545,7 +545,12 @@ export class NativeMapsDevice implements AndroidDevice {
       const path = `/element/${encodeURIComponent(field)}`;
       await this.command('POST', `${path}/clear`, {});
       await this.command('POST', `${path}/value`, { text: keyword });
-      await this.mobile('performEditorAction', { action: 'search' });
+      await this.foreground();
+      if (!await this.usableSearchInput(field, true)) fail('UNKNOWN_SEARCH_LAYOUT', 'Maps search input lost visibility, ownership or focus before submission');
+      if (await this.command('GET', `${path}/text`) !== keyword) fail('QUERY_NOT_VISIBLE', 'The exact keyword is not present in the native input before submission');
+      // Appium's editor-action IME injected "/search" into this Maps build.
+      // Native ENTER submits the verified focused input; never retry an uncertain submission.
+      await this.mobile('pressKey', { keycode: 66 });
       await this.foreground();
       field = await this.searchField();
       if (!await this.searchQueryMatches(field, keyword)) fail('QUERY_NOT_VISIBLE', 'The exact submitted keyword is not visible in the native Maps search field');
