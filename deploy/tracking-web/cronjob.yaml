@@ -1,0 +1,96 @@
+# Web rank tracking every two hours at each store's own location (tracking-config/v1 point tier).
+# Runs the desktop collector with a map view per batch, delivers evidence to the UAT container and
+# upserts RankObservations into MongoDB maps-rank-tracking.observations. See docs/domain.md.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: maps-tracking-web-2h
+  namespace: uat
+  labels:
+    app.kubernetes.io/name: maps-keyword-capture
+    app.kubernetes.io/component: tracking-web
+spec:
+  schedule: "0 */2 * * *"
+  timeZone: America/New_York
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 1800
+  successfulJobsHistoryLimit: 12
+  failedJobsHistoryLimit: 12
+  suspend: false
+  jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: maps-keyword-capture
+        app.kubernetes.io/component: tracking-web
+    spec:
+      backoffLimit: 0
+      # 40 keywords at about 20 s each plus delivery; well inside the two-hour window.
+      activeDeadlineSeconds: 5400
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: maps-keyword-capture
+            app.kubernetes.io/component: tracking-web
+        spec:
+          restartPolicy: Never
+          terminationGracePeriodSeconds: 300
+          automountServiceAccountToken: false
+          nodeSelector:
+            envpool: uatops
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+          containers:
+            - name: tracking
+              image: IMAGE_PLACEHOLDER
+              args: ["node", "dist/domain/cli.js", "scan", "--config", "/config/tracking.json", "--surface", "web", "--tier", "point", "--storage", "azure", "--output-dir", "/work/outputs", "--mongo-uri-env", "MAPS_TRACKING_MONGO_URI"]
+              env:
+                - name: IMAGE_DIGEST
+                  value: DIGEST_PLACEHOLDER
+                - name: EGRESS_PROFILE_ID
+                  value: aks-fbrdev-eastus2-aiapp
+                - name: AZURE_STORAGE_CONTAINER
+                  value: maps-keyword-capture-uat
+                - name: AZURE_STORAGE_CONTAINER_SAS_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: maps-keyword-monitor-storage
+                      key: AZURE_STORAGE_CONTAINER_SAS_URL
+                - name: MAPS_TRACKING_MONGO_URI
+                  valueFrom:
+                    secretKeyRef:
+                      name: maps-keyword-monitor-source
+                      key: KEYWORD_MONGO_URI
+                - name: HOME
+                  value: /tmp
+              resources:
+                requests:
+                  cpu: 250m
+                  memory: 1Gi
+                  ephemeral-storage: 512Mi
+                limits:
+                  cpu: "2"
+                  memory: 2Gi
+                  ephemeral-storage: 2Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              volumeMounts:
+                - { name: config, mountPath: /config, readOnly: true }
+                - { name: work, mountPath: /work }
+                - { name: tmp, mountPath: /tmp }
+                - { name: dshm, mountPath: /dev/shm }
+          volumes:
+            - name: config
+              configMap:
+                name: maps-tracking-config
+            - name: work
+              emptyDir: { sizeLimit: 2Gi }
+            - name: tmp
+              emptyDir: { sizeLimit: 1Gi }
+            - name: dshm
+              emptyDir: { medium: Memory, sizeLimit: 512Mi }

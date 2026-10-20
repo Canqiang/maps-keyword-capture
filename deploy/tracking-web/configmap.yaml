@@ -1,0 +1,112 @@
+# Two-hourly web rank tracking at the store point. One store for the first 48 h trial; add stores here.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: maps-tracking-config
+  namespace: uat
+data:
+  tracking.json: |
+    {
+      "schemaVersion": "tracking-config/v1",
+      "timezone": "America/New_York",
+      "defaults": {
+        "grid": {
+          "radiusKm": 5,
+          "size": 5
+        },
+        "zoom": 15
+      },
+      "stores": [
+        {
+          "storeId": "keke-flushing",
+          "name": "Keke Food 可可小卤 — Flushing",
+          "placeId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+          "merchantId": "29742a52-d824-469b-a395-52084345b7ad",
+          "aliases": [
+            "可可小卤",
+            "KEKE BRAISED DELI"
+          ],
+          "center": {
+            "latitude": 40.7658211,
+            "longitude": -73.8315243
+          },
+          "keywords": {
+            "core": [
+              "braised food",
+              "卤味",
+              "chinese food flushing",
+              "chinese braised food flushing",
+              "法拉盛 卤味"
+            ],
+            "longTail": [
+              "chinese restaurant flushing",
+              "chinese takeout flushing",
+              "chinese food delivery flushing",
+              "chinese deli flushing",
+              "chinese braised snacks flushing",
+              "braised food flushing",
+              "luwei flushing",
+              "chinese snacks flushing",
+              "duck neck flushing",
+              "spicy duck neck flushing",
+              "braised chicken flushing",
+              "five spice chicken flushing",
+              "braised beef flushing",
+              "pork trotters flushing",
+              "braised pork feet flushing",
+              "chicken feet flushing",
+              "braised tofu flushing",
+              "hot dry noodles flushing",
+              "法拉盛 中餐",
+              "法拉盛 中餐外卖",
+              "法拉盛 卤肉",
+              "法拉盛 鸭脖",
+              "法拉盛 卤鸡",
+              "法拉盛 卤牛肉",
+              "法拉盛 卤猪蹄",
+              "法拉盛 猪脚饭",
+              "法拉盛 鸡爪",
+              "法拉盛 卤豆腐",
+              "法拉盛 热干面",
+              "chinese braised snacks near flushing high school",
+              "chinese deli near flushing high school",
+              "pork feet rice flushing",
+              "chinese cold dishes flushing",
+              "法拉盛 夫妻肺片",
+              "法拉盛 卤味外卖",
+              "keke braised deli flushing",
+              "可可小卤 法拉盛"
+            ]
+          }
+        }
+      ],
+      "surfaces": {
+        "web": {
+          "point": {
+            "everyHours": 2,
+            "keywords": "all"
+          },
+          "grid": {
+            "enabled": false,
+            "atHour": 2,
+            "keywords": "core"
+          }
+        },
+        "android": {
+          "point": {
+            "everyHours": 2,
+            "keywords": "core"
+          },
+          "grid": {
+            "enabled": false,
+            "atHour": 3,
+            "keywords": "core"
+          }
+        }
+      },
+      "database": {
+        "provider": "mongo",
+        "database": "maps-rank-tracking",
+        "collection": "observations"
+      }
+    }

@@ -2,7 +2,11 @@
 import { readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { chromium } from 'playwright';
 import { generateGrid, type GridPoint } from '../grid/grid.js';
+import { monitorBrowserEnv } from '../monitor/cli-options.js';
+import { createStore } from '../storage/factory.js';
+import { runWebScan } from './scan.js';
 import type { BatchManifest, KeywordResult } from '../contracts.js';
 import { ingestAndroidManifest, ingestWebBatch, type AndroidManifestLike } from './ingest.js';
 import { keywordKey, type RankObservation } from './model.js';
@@ -14,6 +18,8 @@ const USAGE = [
   '  tracking plan   --config tracking.json --surface web|android --tier point|grid [--store-id <id>] [--format queries|web-batches|android-runs]',
   '  tracking ingest --config tracking.json --surface web --store-id <id> --batch-dir <dir> [--point-id r0c0] [--manifest-key <key>] [--out file.json | --mongo-uri-env MAPS_TRACKING_MONGO_URI]',
   '  tracking ingest --config tracking.json --surface android --manifest manifest.json [--manifest-key <key>] [--out file.json | --mongo-uri-env MAPS_TRACKING_MONGO_URI]',
+  '  tracking scan   --config tracking.json --surface web --tier point|grid [--store-id <id>] [--storage local|azure] [--output-dir ./outputs] [--mongo-uri-env MAPS_TRACKING_MONGO_URI]',
+  '  tracking recent --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI [--store-id <id>] [--limit 20]',
 ].join('\n');
 
 function parse(args: string[]): { command: string; options: Map<string, string> } {
@@ -97,6 +103,36 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
         if (store instanceof MemoryObservationStore && options.get('--out')) await (await import('node:fs/promises')).writeFile(options.get('--out')!, JSON.stringify(observations, null, 2));
         else if (store instanceof MemoryObservationStore) console.log(JSON.stringify(observations, null, 2));
         console.error(JSON.stringify({ event: 'tracking_ingested', surface, sink, observations: observations.length, ...result }));
+      } finally { await store.close(); }
+      return 0;
+    }
+    if (command === 'scan') {
+      const surface = need(options, '--surface'), tier = need(options, '--tier');
+      if (surface !== 'web') throw new Error('scan supports --surface web only; Android scans run through the Android collector');
+      if (tier !== 'point' && tier !== 'grid') throw new Error('--tier must be point or grid');
+      const storage = options.get('--storage') ?? 'local';
+      if (storage !== 'local' && storage !== 'azure') throw new Error('--storage must be local or azure');
+      const { store } = createStore(storage, options.get('--output-dir') ?? './outputs', env);
+      const { store: observations, sink } = await openStore(config, options, env);
+      const controller = new AbortController();
+      const stop = () => controller.abort();
+      process.once('SIGINT', stop); process.once('SIGTERM', stop);
+      const log = (event: Record<string, unknown>) => process.stdout.write(`${JSON.stringify({ ts: new Date().toISOString(), ...event })}\n`);
+      try {
+        const storeId = options.get('--store-id');
+        const summary = await runWebScan({ config, tier, store, observations, log, signal: controller.signal, ...(storeId ? { storeIds: [storeId] } : {}),
+          launch: () => chromium.launch({ channel: 'chromium', headless: true, chromiumSandbox: true, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false, env: monitorBrowserEnv(env) }) });
+        console.log(JSON.stringify({ event: 'tracking_scan_finished', sink, ...summary }));
+        return summary.exitCode;
+      } finally { process.off('SIGINT', stop); process.off('SIGTERM', stop); await observations.close(); }
+    }
+    if (command === 'recent') {
+      const { store, sink } = await openStore(config, options, env);
+      if (!(store instanceof MongoObservationStore)) throw new Error('recent needs --mongo-uri-env');
+      try {
+        const limit = Number(options.get('--limit') ?? '20');
+        const rows = await store.recent({ ...(options.get('--store-id') ? { storeId: options.get('--store-id')! } : {}), limit: Number.isInteger(limit) && limit > 0 ? Math.min(limit, 500) : 20 });
+        console.log(JSON.stringify({ sink, count: rows.length, rows: rows.map(r => ({ observedAt: r.observedAt, surface: r.surface, storeId: r.storeId, keyword: r.keyword, pointId: r.pointId, status: r.rank.status, displayPosition: r.rank.displayPosition, organicRank: r.rank.organicRank, listings: r.rank.listingsObserved, scanId: r.scanId })) }, null, 2));
       } finally { await store.close(); }
       return 0;
     }

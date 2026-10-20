@@ -65,6 +65,12 @@ export class MongoObservationStore implements ObservationStore {
     })), { ordered: false });
     return { inserted: result.upsertedCount, updated: result.modifiedCount + (result.matchedCount - result.modifiedCount) };
   }
+  /** Latest observations, newest first, for operational checks. */
+  async recent(query: { storeId?: string; limit: number }): Promise<RankObservation[]> {
+    const collection = await this.coll();
+    const docs = await collection.find(query.storeId ? { storeId: query.storeId } : {}, { sort: { observedAt: -1 }, limit: query.limit, projection: { _id: 0 } }).toArray();
+    return docs as unknown as RankObservation[];
+  }
   async close(): Promise<void> {
     if (this.connected) { await this.client.close(); this.connected = false; }
   }
