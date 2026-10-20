@@ -59,11 +59,19 @@ export class MongoObservationStore implements ObservationStore {
   }
   async upsert(observations: RankObservation[]): Promise<UpsertResult> {
     if (!observations.length) return { inserted: 0, updated: 0 };
-    const collection = await this.coll();
-    const result = await collection.bulkWrite(observations.map(observation => ({
-      replaceOne: { filter: { _id: observation.observationId }, replacement: { _id: observation.observationId, ...observation }, upsert: true },
-    })), { ordered: false });
-    return { inserted: result.upsertedCount, updated: result.modifiedCount + (result.matchedCount - result.modifiedCount) };
+    try {
+      const collection = await this.coll();
+      const result = await collection.bulkWrite(observations.map(observation => ({
+        replaceOne: { filter: { _id: observation.observationId }, replacement: { _id: observation.observationId, ...observation }, upsert: true },
+      })), { ordered: false });
+      return { inserted: result.upsertedCount, updated: result.modifiedCount + (result.matchedCount - result.modifiedCount) };
+    } catch (error) {
+      // A replica-set restart can leave the pooled client pointing at vanished members. Drop it so
+      // the next call connects afresh; the caller decides whether to retry.
+      await this.client.close(true).catch(() => undefined);
+      this.connected = false;
+      throw error;
+    }
   }
   /** Latest observations, newest first, for operational checks. */
   async recent(query: { storeId?: string; limit: number }): Promise<RankObservation[]> {

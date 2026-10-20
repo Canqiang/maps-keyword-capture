@@ -31,13 +31,16 @@ export interface WebScanDeps {
   log?: (event: Record<string, unknown>) => void;
   signal?: AbortSignal;
   now?: () => Date;
+  /** Pause before the single retry of a failed upsert. */
+  ingestRetryDelayMs?: number;
 }
 export interface WebScanSummary {
   scanId: string; tier: ScanTier; prefix: string; startedAt: string; finishedAt: string;
   status: 'completed' | 'partial' | 'blocked' | 'failed' | 'cancelled';
   batches: { planned: number; run: number; blocked: number; failed: number };
   queries: { planned: number; observed: number; ranked: number; notFound: number; blocked: number; failed: number };
-  observations: { inserted: number; updated: number };
+  /** notIngested counts batches whose observations could not be stored; their evidence is still in the artifact store. */
+  observations: { inserted: number; updated: number; notIngested: number };
   exitCode: 0 | 1 | 2;
 }
 
@@ -78,7 +81,7 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
   const batches = toWebBatches(plan);
   const context = { timezone: deps.config.timezone, points: pointsFor(deps.config), keywordTiers: keywordTiers(deps.config), now };
   const summary: WebScanSummary = { scanId, tier: deps.tier, prefix, startedAt: started.toISOString(), finishedAt: started.toISOString(), status: 'completed',
-    batches: { planned: batches.length, run: 0, blocked: 0, failed: 0 }, queries: { planned: plan.queries.length, observed: 0, ranked: 0, notFound: 0, blocked: 0, failed: 0 }, observations: { inserted: 0, updated: 0 }, exitCode: 0 };
+    batches: { planned: batches.length, run: 0, blocked: 0, failed: 0 }, queries: { planned: plan.queries.length, observed: 0, ranked: 0, notFound: 0, blocked: 0, failed: 0 }, observations: { inserted: 0, updated: 0, notIngested: 0 }, exitCode: 0 };
   log({ stage: 'scan_start', scanId, tier: deps.tier, batches: batches.length, queries: plan.queries.length, prefix });
   const runner = deps.batchRunner ?? runBatch;
   for (const [index, batch] of batches.entries()) {
@@ -98,8 +101,16 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
     summary.batches.run++;
     const store = deps.config.stores.find(s => s.storeId === batch.storeId)!;
     const observations: RankObservation[] = ingestWebBatch({ manifest: out.manifest as BatchManifest, results: await readResults(out), store: { storeId: store.storeId, placeId: store.placeId }, pointId: batch.pointId, manifestKey: out.manifestReceipt?.objectKey ?? null }, context);
-    const upsert = await deps.observations.upsert(observations);
-    summary.observations.inserted += upsert.inserted; summary.observations.updated += upsert.updated;
+    let upsert: Awaited<ReturnType<ObservationStore['upsert']>> | null = null;
+    for (let attempt = 1; attempt <= 2 && upsert === null; attempt++) {
+      try { upsert = await deps.observations.upsert(observations); }
+      catch (error) {
+        log({ stage: 'ingest_retry', scanId, storeId: batch.storeId, pointId: batch.pointId, attempt, error: error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 200) : 'unknown' });
+        if (attempt === 1) await new Promise(resolve => setTimeout(resolve, deps.ingestRetryDelayMs ?? 15_000));
+      }
+    }
+    if (upsert) { summary.observations.inserted += upsert.inserted; summary.observations.updated += upsert.updated; }
+    else { summary.observations.notIngested++; log({ stage: 'ingest_failed', scanId, storeId: batch.storeId, pointId: batch.pointId, manifestKey: out.manifestReceipt?.objectKey ?? null }); }
     for (const o of observations) {
       summary.queries.observed++;
       if (o.rank.status === 'ranked') summary.queries.ranked++;
@@ -112,7 +123,7 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
     if (observations.some(o => o.rank.status === 'blocked')) { summary.batches.blocked++; summary.status = 'blocked'; break; }
   }
   if (summary.status === 'completed') {
-    if (summary.batches.failed || summary.queries.failed) summary.status = 'partial';
+    if (summary.batches.failed || summary.queries.failed || summary.observations.notIngested) summary.status = 'partial';
   }
   summary.exitCode = summary.status === 'completed' ? 0 : summary.status === 'partial' ? 2 : 1;
   summary.finishedAt = now().toISOString();

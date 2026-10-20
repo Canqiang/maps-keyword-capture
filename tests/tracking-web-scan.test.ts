@@ -61,7 +61,7 @@ describe('runWebScan', () => {
     expect(calls[0]!.config).toMatchObject({ keywords: ['braised food', '卤味', 'duck neck'], mapView: { latitude: 40.7658211, longitude: -73.8315243, zoom: 15 }, maxResultsPerKeyword: 10 });
     expect(calls[0]!.store!.rootDirectory).toContain('tracking/web/2026-10-20/point/scan_');
     expect(calls[0]!.store!.rootDirectory).toContain('/keke/r0c0/001');
-    expect(summary).toMatchObject({ tier: 'point', status: 'completed', exitCode: 0, batches: { planned: 2, run: 2, blocked: 0, failed: 0 }, queries: { planned: 4, observed: 4, ranked: 1, notFound: 3, blocked: 0, failed: 0 }, observations: { inserted: 4, updated: 0 } });
+    expect(summary).toMatchObject({ tier: 'point', status: 'completed', exitCode: 0, batches: { planned: 2, run: 2, blocked: 0, failed: 0 }, queries: { planned: 4, observed: 4, ranked: 1, notFound: 3, blocked: 0, failed: 0 }, observations: { inserted: 4, updated: 0, notIngested: 0 } });
     expect(summary.scanId).toMatch(/^scan_\d{8}T\d{6}Z_[a-f0-9]{6}$/);
     const docs = [...observations.documents.values()];
     expect(docs.map(d => [d.storeId, d.keyword, d.keywordTier, d.pointId, d.rank.status, d.rank.organicRank, d.locationMode])).toEqual([
@@ -71,6 +71,20 @@ describe('runWebScan', () => {
     const persisted = JSON.parse(await readFile(join(root, summary.prefix, 'scan.json'), 'utf8'));
     expect(persisted.scanId).toBe(summary.scanId);
     expect(logs.map(l => l.stage)).toEqual(['scan_start', 'batch_ingested', 'batch_ingested', 'scan_finished']);
+  });
+  it('retries a failed upsert once and keeps scanning when the database stays down', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'tracking-scan-'));
+    let calls = 0;
+    const memory = new MemoryObservationStore();
+    const flaky = { upsert: async (o: Parameters<MemoryObservationStore['upsert']>[0]) => { calls++; if (calls === 1 || calls >= 3) throw new Error('getaddrinfo ENOTFOUND mongodb://user:secret@host'); return memory.upsert(o); }, close: async () => {} };
+    const logs: Record<string, unknown>[] = [];
+    const { runner } = fakeRunner();
+    const summary = await runWebScan({ config, tier: 'point', store: new LocalArtifactStore(root), observations: flaky, batchRunner: runner, ingestRetryDelayMs: 1, log: e => logs.push(e) });
+    expect(calls).toBe(4);
+    expect(summary).toMatchObject({ status: 'partial', exitCode: 2, batches: { run: 2 }, observations: { inserted: 3, notIngested: 1 } });
+    expect(logs.filter(l => l.stage === 'ingest_retry')).toHaveLength(3);
+    expect(logs.some(l => l.stage === 'ingest_failed')).toBe(true);
+    expect(JSON.stringify(logs)).not.toContain('secret');
   });
   it('stops at the first blocked batch and reports it', async () => {
     const root = await mkdtemp(join(tmpdir(), 'tracking-scan-'));

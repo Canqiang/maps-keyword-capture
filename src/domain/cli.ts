@@ -124,6 +124,10 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
           launch: () => chromium.launch({ channel: 'chromium', headless: true, chromiumSandbox: true, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false, env: monitorBrowserEnv(env) }) });
         console.log(JSON.stringify({ event: 'tracking_scan_finished', sink, ...summary }));
         return summary.exitCode;
+      } catch (error) {
+        // Operational failures are exit 1; 64 stays reserved for invalid input.
+        console.error(error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 300) : 'tracking scan failed');
+        return 1;
       } finally { process.off('SIGINT', stop); process.off('SIGTERM', stop); await observations.close(); }
     }
     if (command === 'recent') {
