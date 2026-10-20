@@ -1,4 +1,4 @@
-import type { GridPoint, GridRing } from './grid.js';
+import { haversineKm, type GridPoint, type GridRing } from './grid.js';
 
 /**
  * Grid rank metrics, after Local Falcon:
@@ -13,7 +13,7 @@ export interface GridObservation {
   rank: number | null;
 }
 export interface RankBuckets { top3: number; top10: number; top20: number; notFound: number }
-export interface RingMetrics { points: number; found: number; arp: number | null; atrp: number; solv: number }
+export interface RingMetrics { points: number; found: number; arp: number | null; atrp: number | null; solv: number | null }
 export interface GridMetrics extends RingMetrics {
   notFoundRank: number;
   buckets: RankBuckets;
@@ -36,8 +36,8 @@ function ringMetrics(observations: GridObservation[], notFoundRank: number): Rin
   return {
     points: observations.length, found: found.length,
     arp: found.length ? mean(found) : null,
-    atrp: observations.length ? mean(ranks.map(r => r ?? notFoundRank)) : 0,
-    solv: observations.length ? Math.round((found.filter(r => r <= 3).length / observations.length) * 1000) / 1000 : 0,
+    atrp: observations.length ? mean(ranks.map(r => r ?? notFoundRank)) : null,
+    solv: observations.length ? Math.round((found.filter(r => r <= 3).length / observations.length) * 1000) / 1000 : null,
   };
 }
 
@@ -57,13 +57,39 @@ export function computeGridMetrics(grid: GridPoint[], observations: GridObservat
   return { ...ringMetrics(observed, notFoundRank), notFoundRank, buckets, rings, missingPoints };
 }
 
-/** Minimal shape of an Android v4 manifest needed to read one store's grid observations. */
+/** Coordinates belong to the observation, never to an interchangeable row/column label. */
+export function matchesGridPoint(point: Pick<GridPoint, 'latitude' | 'longitude'>, observed: { latitude?: number | null; longitude?: number | null }): boolean {
+  return Number.isFinite(observed.latitude) && Number.isFinite(observed.longitude)
+    && haversineKm(point, observed as { latitude: number; longitude: number }) <= 0.001;
+}
+
+export interface GridRankEvidence {
+  rank: number | null; rankingStatus: string; listingStatus: string;
+  rankingReliable?: boolean; observedRanks?: Array<number | null>; stopReason?: string | null;
+  endOfResults?: boolean;
+}
+/** A null rank is a proven absence, not the absence of an assessment. */
+export function eligibleGridRank(input: GridRankEvidence): boolean {
+  if (input.rankingReliable !== true || !['complete', 'partial'].includes(input.listingStatus)) return false;
+  if (input.rank !== null) return input.rankingStatus === 'ranked' && Number.isInteger(input.rank) && input.rank > 0;
+  if (input.rankingStatus !== 'not_found' || input.listingStatus !== 'complete') return false;
+  const ranks = new Set(input.observedRanks ?? []);
+  return input.endOfResults === true || Array.from({ length: 20 }, (_, i) => i + 1).every(rank => ranks.has(rank));
+}
+
+/** Historical manifests lacking geometry or reliability remain raw evidence only. */
 export interface AndroidManifestLike {
-  queries: Array<{ storeId: string; keyword: string; location: { id: string }; organicRank: number | null; displayPosition: number | null; listingStatus: string; evidenceStatus: string }>;
+  queries: Array<{
+    storeId: string; keyword: string; location: { id: string; latitude?: number; longitude?: number };
+    organicRank: number | null; displayPosition: number | null; listingStatus: string; evidenceStatus: string;
+    rankingStatus?: string; stopReason?: string | null;
+    listingQuality?: { rankingReliable: boolean; endOfResults?: boolean } | null;
+    listings?: Array<{ organicRank: number | null; displayPosition: number }>;
+  }>;
 }
 export interface ManifestSelection { storeId: string; keyword: string; rankField?: 'organicRank' | 'displayPosition' }
 
-/** One observation per grid point from an Android manifest; failed or skipped queries become missing points. */
+/** One eligible observation per immutable grid point; unsupported captures stay missing. */
 export function observationsFromAndroidManifest(manifest: AndroidManifestLike, grid: GridPoint[], selection: ManifestSelection): GridObservation[] {
   const field = selection.rankField ?? 'organicRank';
   const points = new Map(grid.map(p => [p.id, p]));
@@ -71,8 +97,11 @@ export function observationsFromAndroidManifest(manifest: AndroidManifestLike, g
   for (const query of manifest.queries) {
     if (query.storeId !== selection.storeId || query.keyword !== selection.keyword) continue;
     const point = points.get(query.location.id);
-    if (!point) continue;
-    if (query.evidenceStatus === 'failed' || query.evidenceStatus === 'skipped' || query.listingStatus === 'not_evaluated') continue;
+    if (!point || !matchesGridPoint(point, query.location)) continue;
+    if (!['captured', 'needs_review'].includes(query.evidenceStatus)) continue;
+    if (!eligibleGridRank({ rank: query[field], rankingStatus: query.rankingStatus ?? 'not_evaluated', listingStatus: query.listingStatus,
+      rankingReliable: query.listingQuality?.rankingReliable ?? false, observedRanks: query.listings?.map(row => row[field]) ?? [],
+      endOfResults: query.listingQuality?.endOfResults ?? false })) continue;
     if (observations.some(o => o.pointId === point.id)) throw new Error(`manifest has two queries for grid point ${point.id}`);
     observations.push({ pointId: point.id, distanceKm: point.distanceKm, ring: point.ring, rank: query[field] });
   }

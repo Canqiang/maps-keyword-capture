@@ -1,17 +1,17 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parseConfig } from '../config.js';
-import type { BatchManifest, CaptureConfig, KeywordResult } from '../contracts.js';
+import type { BatchManifest, CaptureConfig, KeywordResult, StorageState } from '../contracts.js';
 import { newRunId } from '../ids.js';
 import { dateFolder } from '../naming.js';
 import { NamespacedBatchStore } from '../monitor/storage.js';
+import { deliveryStatus, executionStatusFor, isCompleteNonRankingObservation } from '../runner/manifest.js';
 import { runBatch, type BatchDeps, type BatchOutput } from '../runner/batch-runner.js';
 import type { ArtifactStore } from '../storage/types.js';
 import { ingestWebBatch } from './ingest.js';
-import { keywordKey, type RankObservation } from './model.js';
+import { organicRankForMetrics, type RankObservation } from './model.js';
 import type { ObservationStore } from './observation-store.js';
-import { centerPoint, planScan, storeGridSpec, toWebBatches, type ScanTier, type TrackingConfig } from './tracking-config.js';
-import { generateGrid, type GridPoint } from '../grid/grid.js';
+import { planScan, trackingIngestContext, toWebBatches, type ScanTier, type TrackingConfig } from './tracking-config.js';
 
 /**
  * One web scan: plan from the tracking config, run each batch with the desktop collector
@@ -37,28 +37,13 @@ export interface WebScanDeps {
 export interface WebScanSummary {
   scanId: string; tier: ScanTier; prefix: string; startedAt: string; finishedAt: string;
   status: 'completed' | 'partial' | 'blocked' | 'failed' | 'cancelled';
-  batches: { planned: number; run: number; blocked: number; failed: number };
-  queries: { planned: number; observed: number; ranked: number; notFound: number; blocked: number; failed: number };
-  /** notIngested counts batches whose observations could not be stored; their evidence is still in the artifact store. */
+  batches: { planned: number; run: number; blocked: number; failed: number; partial: number; deliveryFailed: number };
+  queries: { planned: number; dispatched: number; observed: number; ranked: number; notFound: number; blocked: number; failed: number; captured: number; nonRanking: number; partial: number; skipped: number; unresolved: number };
+  /** Receipt for the immutable scan summary, returned/logged separately from that file. */
+  summaryReceipt: StorageState | null;
+  /** notIngested counts batches held back by unverified delivery or a failed database upsert. */
   observations: { inserted: number; updated: number; notIngested: number };
   exitCode: 0 | 1 | 2;
-}
-
-function pointsFor(config: TrackingConfig): Map<string, GridPoint> {
-  const points = new Map<string, GridPoint>();
-  for (const store of config.stores) {
-    points.set('r0c0', centerPoint(store));
-    for (const point of generateGrid(storeGridSpec(config, store))) points.set(point.id, point);
-  }
-  return points;
-}
-function keywordTiers(config: TrackingConfig): Map<string, 'core' | 'longTail'> {
-  const tiers = new Map<string, 'core' | 'longTail'>();
-  for (const store of config.stores) {
-    for (const k of store.keywords.core) tiers.set(keywordKey(k), 'core');
-    for (const k of store.keywords.longTail) tiers.set(keywordKey(k), 'longTail');
-  }
-  return tiers;
 }
 
 async function readResults(out: BatchOutput): Promise<Map<string, KeywordResult>> {
@@ -79,9 +64,9 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
   const prefix = `tracking/web/${dateFolder(started, deps.config.timezone)}/${deps.tier}/${scanId}`;
   const plan = planScan(deps.config, { surface: 'web', tier: deps.tier, ...(deps.storeIds ? { storeIds: deps.storeIds } : {}) });
   const batches = toWebBatches(plan);
-  const context = { timezone: deps.config.timezone, points: pointsFor(deps.config), keywordTiers: keywordTiers(deps.config), now };
+  const context = { ...trackingIngestContext(deps.config, { includeGridSpec: deps.tier === 'grid' }), ...(deps.tier === 'grid' ? { gridRunId: scanId } : {}), now };
   const summary: WebScanSummary = { scanId, tier: deps.tier, prefix, startedAt: started.toISOString(), finishedAt: started.toISOString(), status: 'completed',
-    batches: { planned: batches.length, run: 0, blocked: 0, failed: 0 }, queries: { planned: plan.queries.length, observed: 0, ranked: 0, notFound: 0, blocked: 0, failed: 0 }, observations: { inserted: 0, updated: 0, notIngested: 0 }, exitCode: 0 };
+    batches: { planned: batches.length, run: 0, blocked: 0, failed: 0, partial: 0, deliveryFailed: 0 }, queries: { planned: plan.queries.length, dispatched: 0, observed: 0, ranked: 0, notFound: 0, blocked: 0, failed: 0, captured: 0, nonRanking: 0, partial: 0, skipped: 0, unresolved: 0 }, summaryReceipt: null, observations: { inserted: 0, updated: 0, notIngested: 0 }, exitCode: 0 };
   log({ stage: 'scan_start', scanId, tier: deps.tier, batches: batches.length, queries: plan.queries.length, prefix });
   const runner = deps.batchRunner ?? runBatch;
   for (const [index, batch] of batches.entries()) {
@@ -90,19 +75,25 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
     const pointPath = batch.pointId.replaceAll('+', 'p').replaceAll('-', 'm');
     const scoped = new NamespacedBatchStore(deps.store, `${prefix}/${batch.storeId}/${pointPath}/${String(index + 1).padStart(3, '0')}`);
     const { config } = parseConfig({ schemaVersion: '1', ...deps.capture, keywords: batch.config.keywords, mapView: batch.config.mapView, ...(batch.config.expectedArea ? { expectedArea: batch.config.expectedArea } : {}), outputDirectory: scoped.rootDirectory });
+    summary.queries.dispatched += batch.config.keywords.length;
     let out: BatchOutput;
     try {
       out = await runner({ config, store: scoped, log, ...(deps.launch ? { launch: deps.launch } : {}), ...(deps.signal ? { signal: deps.signal } : {}) });
     } catch (error) {
       summary.batches.failed++;
-      log({ stage: 'batch_failed', scanId, storeId: batch.storeId, pointId: batch.pointId, error: error instanceof Error ? error.message.slice(0, 200) : 'unknown' });
+      summary.queries.failed += batch.config.keywords.length;
+      log({ stage: 'batch_failed', scanId, storeId: batch.storeId, pointId: batch.pointId, error: error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 200) : 'unknown' });
       continue;
     }
     summary.batches.run++;
+    const deliveryFailed = deliveryStatus(out.manifest, out.manifestReceipt) === 'failed';
+    if (out.exitCode === 1 || executionStatusFor(out.manifest) === 'failed') summary.batches.failed++;
+    else if (out.exitCode === 2 || executionStatusFor(out.manifest) !== 'completed') summary.batches.partial++;
+    if (deliveryFailed) summary.batches.deliveryFailed++;
     const store = deps.config.stores.find(s => s.storeId === batch.storeId)!;
-    const observations: RankObservation[] = ingestWebBatch({ manifest: out.manifest as BatchManifest, results: await readResults(out), store: { storeId: store.storeId, placeId: store.placeId }, pointId: batch.pointId, manifestKey: out.manifestReceipt?.objectKey ?? null }, context);
+    const observations: RankObservation[] = ingestWebBatch({ manifest: out.manifest as BatchManifest, results: await readResults(out), attemptRoot: out.attemptRoot, store: { storeId: store.storeId, placeId: store.placeId }, pointId: batch.pointId, manifestKey: out.manifestReceipt?.objectKey ?? null }, context);
     let upsert: Awaited<ReturnType<ObservationStore['upsert']>> | null = null;
-    for (let attempt = 1; attempt <= 2 && upsert === null; attempt++) {
+    for (let attempt = 1; !deliveryFailed && attempt <= 2 && upsert === null; attempt++) {
       try { upsert = await deps.observations.upsert(observations); }
       catch (error) {
         log({ stage: 'ingest_retry', scanId, storeId: batch.storeId, pointId: batch.pointId, attempt, error: error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 200) : 'unknown' });
@@ -111,24 +102,41 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
     }
     if (upsert) { summary.observations.inserted += upsert.inserted; summary.observations.updated += upsert.updated; }
     else { summary.observations.notIngested++; log({ stage: 'ingest_failed', scanId, storeId: batch.storeId, pointId: batch.pointId, manifestKey: out.manifestReceipt?.objectKey ?? null }); }
-    for (const o of observations) {
+    for (const [index, o] of observations.entries()) {
+      const entry = out.manifest.queries[index]!;
       summary.queries.observed++;
-      if (o.rank.status === 'ranked') summary.queries.ranked++;
-      else if (o.rank.status === 'not_found' || o.rank.status === 'not_found_in_prefix') summary.queries.notFound++;
+      if (entry.status === 'captured') summary.queries.captured++;
+      else if (isCompleteNonRankingObservation(out.manifest, entry)) summary.queries.nonRanking++;
+      else if (entry.status === 'partial') summary.queries.partial++;
+      else if (entry.status === 'skipped') summary.queries.skipped++;
+      const metric = organicRankForMetrics(o);
+      if (typeof metric === 'number') summary.queries.ranked++;
+      else if (metric === null) summary.queries.notFound++;
       else if (o.rank.status === 'blocked') summary.queries.blocked++;
-      else summary.queries.failed++;
+      else if (o.rank.status === 'failed' && entry.status !== 'skipped') summary.queries.failed++;
+      else if (!isCompleteNonRankingObservation(out.manifest, entry) && entry.status !== 'skipped') summary.queries.unresolved++;
     }
-    log({ stage: 'batch_ingested', scanId, storeId: batch.storeId, pointId: batch.pointId, queries: observations.length, ranked: observations.filter(o => o.rank.status === 'ranked').length, manifestKey: out.manifestReceipt?.objectKey ?? null, batchExit: out.exitCode });
+    log({ stage: upsert ? 'batch_ingested' : 'batch_not_ingested', scanId, storeId: batch.storeId, pointId: batch.pointId, queries: observations.length, ranked: observations.filter(o => o.rank.status === 'ranked').length, manifestKey: out.manifestReceipt?.objectKey ?? null, batchExit: out.exitCode });
+    if (deliveryFailed) { summary.status = 'failed'; break; }
     // A CAPTCHA or consent page means the egress is being challenged; stop the scan rather than feed it.
     if (observations.some(o => o.rank.status === 'blocked')) { summary.batches.blocked++; summary.status = 'blocked'; break; }
   }
+  summary.queries.skipped += summary.queries.planned - summary.queries.dispatched;
   if (summary.status === 'completed') {
-    if (summary.batches.failed || summary.queries.failed || summary.observations.notIngested) summary.status = 'partial';
+    if (summary.batches.failed || summary.batches.partial || summary.queries.failed || summary.observations.notIngested) summary.status = 'partial';
   }
   summary.exitCode = summary.status === 'completed' ? 0 : summary.status === 'partial' ? 2 : 1;
   summary.finishedAt = now().toISOString();
-  try { await deps.store.persist(await deps.store.writeFile(`${prefix}/scan.json`, JSON.stringify(summary, null, 2))); }
-  catch { log({ stage: 'scan_summary_not_persisted', scanId }); }
+  try {
+    summary.summaryReceipt = await deps.store.persist(await deps.store.writeFile(`${prefix}/scan.json`, JSON.stringify(summary, null, 2)));
+    const delivered = deps.store.mode === 'azure_blob' ? summary.summaryReceipt.storageStatus === 'verified' : summary.summaryReceipt.storageStatus === 'local_only';
+    if (!delivered) throw new Error('scan summary delivery unverified');
+  } catch {
+    summary.status = 'failed'; summary.exitCode = 1;
+    log({ stage: 'scan_summary_not_persisted', scanId });
+    // Retain the failure locally; do not claim the remote immutable summary was replaced.
+    try { await deps.store.writeFile(`${prefix}/scan.json`, JSON.stringify(summary, null, 2)); } catch { /* surfaced in terminal summary */ }
+  }
   log({ stage: 'scan_finished', ...summary });
   return summary;
 }

@@ -1,17 +1,18 @@
 #!/usr/bin/env node
-import { readFile, readdir } from 'node:fs/promises';
-import { join } from 'node:path';
+import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
+import { basename, join, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
-import { generateGrid, type GridPoint } from '../grid/grid.js';
 import { monitorBrowserEnv } from '../monitor/cli-options.js';
 import { createStore } from '../storage/factory.js';
+import { deliveryStatus } from '../runner/manifest.js';
 import { runWebScan } from './scan.js';
-import type { BatchManifest, KeywordResult } from '../contracts.js';
+import type { BatchManifest, KeywordResult, ManifestDeliveryReceipt } from '../contracts.js';
 import { ingestAndroidManifest, ingestWebBatch, type AndroidManifestLike } from './ingest.js';
-import { keywordKey, type RankObservation } from './model.js';
+import type { RankObservation } from './model.js';
 import { MemoryObservationStore, MongoObservationStore, type ObservationStore } from './observation-store.js';
-import { centerPoint, loadTrackingConfig, planScan, shardStores, storeGridSpec, toAndroidRuns, toWebBatches, withStores, type TrackingConfig } from './tracking-config.js';
+import { loadTrackingConfig, planScan, shardStores, trackingIngestContext, toAndroidRuns, toWebBatches, withStores, type TrackingConfig } from './tracking-config.js';
 import { MongoTrackingRepository } from './repository.js';
 
 const USAGE = [
@@ -22,38 +23,24 @@ const USAGE = [
   '  tracking scan   --config tracking.json --surface web --tier point|grid [--store-id <id>] [--storage local|azure] [--output-dir ./outputs] [--mongo-uri-env MAPS_TRACKING_MONGO_URI]',
   '  tracking recent --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI [--store-id <id>] [--limit 20]',
   '  tracking stores --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI (--list | --import stores.json)',
+  '  Azure ingest additionally requires --manifest-receipt <final-receipt.json>; --manifest-key must match it when supplied.',
   '  scan shards: --shard-index <i> --shard-count <n>, or JOB_COMPLETION_INDEX with --shard-count <n> (Indexed Jobs)',
 ].join('\n');
 
 function parse(args: string[]): { command: string; options: Map<string, string> } {
   const options = new Map<string, string>();
-  for (let i = 1; i < args.length; i += 2) {
-    const flag = args[i]!, value = args[i + 1];
-    if (!flag.startsWith('--') || value === undefined || value.startsWith('--')) throw new Error(`invalid option near ${flag}`);
+  for (let i = 1; i < args.length; i++) {
+    const flag = args[i]!;
     if (options.has(flag)) throw new Error(`${flag} given more than once`);
+    if (flag === '--list') { options.set(flag, 'true'); continue; }
+    const value = args[++i];
+    if (!flag.startsWith('--') || value === undefined || value.startsWith('--')) throw new Error(`invalid option near ${flag}`);
     options.set(flag, value);
   }
   return { command: args[0] ?? '', options };
 }
 const need = (options: Map<string, string>, flag: string): string => { const v = options.get(flag); if (v === undefined) throw new Error(`${flag} is required`); return v; };
 
-/** Every planned point of every store, so ingestion can attach distance and ring to an observation. */
-function allPoints(config: TrackingConfig): Map<string, GridPoint> {
-  const points = new Map<string, GridPoint>();
-  for (const store of config.stores) {
-    points.set('r0c0', centerPoint(store));
-    for (const point of generateGrid(storeGridSpec(config, store))) points.set(point.id, point);
-  }
-  return points;
-}
-function keywordTiers(config: TrackingConfig): Map<string, 'core' | 'longTail'> {
-  const tiers = new Map<string, 'core' | 'longTail'>();
-  for (const store of config.stores) {
-    for (const k of store.keywords.core) tiers.set(keywordKey(k), 'core');
-    for (const k of store.keywords.longTail) tiers.set(keywordKey(k), 'longTail');
-  }
-  return tiers;
-}
 async function openStore(config: TrackingConfig, options: Map<string, string>, env: NodeJS.ProcessEnv): Promise<{ store: ObservationStore; sink: string }> {
   const envName = options.get('--mongo-uri-env');
   if (envName) {
@@ -70,19 +57,39 @@ function shardIndex(options: Map<string, string>, env: NodeJS.ProcessEnv): numbe
   if (raw === undefined || !Number.isInteger(value)) throw new Error('--shard-count needs --shard-index or JOB_COMPLETION_INDEX');
   return value;
 }
-/** Stores for this scan: inline or from the database, then this pod's shard. */
-async function resolveStores(config: TrackingConfig, options: Map<string, string>, env: NodeJS.ProcessEnv): Promise<TrackingConfig> {
+/** Resolve the catalog independently of scan sharding; history ingestion includes inactive stores. */
+async function resolveStores(config: TrackingConfig, options: Map<string, string>, env: NodeJS.ProcessEnv, includeInactive = false): Promise<TrackingConfig> {
   let resolved = config;
   if (config.storeSource.provider === 'mongo') {
     const envName = options.get('--mongo-uri-env');
     const uri = envName ? env[envName] : undefined;
     if (!uri) throw new Error('storeSource mongo needs --mongo-uri-env with a set variable');
     const repo = new MongoTrackingRepository({ uri, database: config.database.database, storesCollection: config.storeSource.collection, observationsCollection: config.database.collection });
-    try { resolved = withStores(config, await repo.listStores()); } finally { await repo.close(); }
+    try {
+      const stores = await repo.listStores({ includeInactive });
+      resolved = withStores(config, stores.map(({ createdAt: _created, updatedAt: _updated, ...store }) => store));
+    } finally { await repo.close(); }
   }
-  const count = options.get('--shard-count');
-  if (count !== undefined) resolved = withStores(resolved, shardStores(resolved.stores, shardIndex(options, env), Number(count)));
   return resolved;
+}
+function applyShard(config: TrackingConfig, options: Map<string, string>, env: NodeJS.ProcessEnv): TrackingConfig {
+  const count = options.get('--shard-count');
+  return count === undefined ? config : withStores(config, shardStores(config.stores, shardIndex(options, env), Number(count)));
+}
+
+/** Manual imports use the same durable-delivery boundary as automatic scans. */
+async function ingestReceipt(manifest: { persistenceMode?: unknown; runId: string; attemptId?: string }, bytes: Buffer, options: Map<string, string>): Promise<ManifestDeliveryReceipt | null> {
+  if (manifest.persistenceMode === 'local_only') return null;
+  if (manifest.persistenceMode !== 'azure_blob') throw new Error('manifest must declare local_only or azure_blob persistenceMode');
+  const receipt = JSON.parse(await readFile(need(options, '--manifest-receipt'), 'utf8')) as ManifestDeliveryReceipt;
+  if (receipt.storageStatus !== 'verified' || typeof receipt.objectKey !== 'string' || !receipt.objectKey
+    || !receipt.verifiedAt || receipt.storageError !== null || receipt.bytes !== bytes.length
+    || receipt.sha256 !== createHash('sha256').update(bytes).digest('hex')
+    || (manifest.attemptId !== undefined && (receipt.runId !== manifest.runId || receipt.attemptId !== manifest.attemptId))
+    || (options.has('--manifest-key') && options.get('--manifest-key') !== receipt.objectKey)) {
+    throw new Error('Azure manifest receipt is unverified or does not match this manifest');
+  }
+  return receipt;
 }
 
 export async function main(args = process.argv.slice(2), env = process.env): Promise<number> {
@@ -94,32 +101,54 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
       if (surface !== 'web' && surface !== 'android') throw new Error('--surface must be web or android');
       if (tier !== 'point' && tier !== 'grid') throw new Error('--tier must be point or grid');
       const storeId = options.get('--store-id');
-      const plan = planScan(config, { surface, tier, ...(storeId ? { storeIds: [storeId] } : {}) });
+      const resolved = applyShard(await resolveStores(config, options, env), options, env);
+      const plan = planScan(resolved, { surface, tier, ...(storeId ? { storeIds: [storeId] } : {}) });
       const format = options.get('--format') ?? 'queries';
-      const output = format === 'web-batches' ? toWebBatches(plan) : format === 'android-runs' ? toAndroidRuns(plan, config) : plan;
+      const output = format === 'web-batches' ? toWebBatches(plan) : format === 'android-runs' ? toAndroidRuns(plan, resolved) : plan;
       console.log(JSON.stringify({ surface, tier, count: plan.queries.length, [format]: output }, null, 2));
       return 0;
     }
     if (command === 'ingest') {
       const surface = need(options, '--surface');
-      const context = { timezone: config.timezone, points: allPoints(config), keywordTiers: keywordTiers(config) };
+      const resolved = await resolveStores(config, options, env, true);
+      const context = trackingIngestContext(resolved);
       let observations: RankObservation[];
       if (surface === 'web') {
         const storeId = need(options, '--store-id');
-        const store = config.stores.find(s => s.storeId === storeId);
+        const store = resolved.stores.find(s => s.storeId === storeId);
         if (!store) throw new Error(`unknown store ${storeId}`);
         const dir = need(options, '--batch-dir');
-        const manifest = JSON.parse(await readFile(join(dir, 'manifest.json'), 'utf8')) as BatchManifest;
+        const manifestBytes = await readFile(join(dir, 'manifest.json'));
+        const manifest = JSON.parse(manifestBytes.toString('utf8')) as BatchManifest;
+        const receipt = await ingestReceipt(manifest, manifestBytes, options);
+        if (deliveryStatus(manifest, receipt) === 'failed') throw new Error('Azure batch evidence delivery is incomplete; ingestion withheld');
         const results = new Map<string, KeywordResult>();
         for (const entry of manifest.queries) {
           if (!entry.resultFile) continue;
-          const candidates = (await readdir(dir, { recursive: true })).filter(name => name.endsWith(entry.resultFile!) || entry.resultFile!.endsWith(name));
-          if (candidates[0]) results.set(entry.resultFile, JSON.parse(await readFile(join(dir, candidates[0]), 'utf8')) as KeywordResult);
+          const filename = resolve(dir, entry.resultFile);
+          if (!filename.startsWith(resolve(dir) + sep)) throw new Error('resultFile escapes batch directory');
+          let resultBytes: Buffer;
+          try { resultBytes = await readFile(filename); }
+          catch { continue; /* Missing evidence stays unavailable, never a rank. */ }
+          if (manifest.persistenceMode === 'azure_blob') {
+            const artifact = manifest.artifacts.find(a => a.kind === 'result_json' && a.queryId === entry.queryId
+              && a.queryAttemptId === entry.selectedQueryAttemptId && a.filename === basename(entry.resultFile)
+              && entry.artifactIds.includes(a.id));
+            if (!artifact || artifact.storageStatus !== 'verified' || artifact.bytes !== resultBytes.length
+              || artifact.sha256 !== createHash('sha256').update(resultBytes).digest('hex')) {
+              throw new Error(`selected result ${entry.queryId} does not match its verified artifact receipt; ingestion withheld`);
+            }
+          }
+          try { results.set(entry.resultFile, JSON.parse(resultBytes.toString('utf8')) as KeywordResult); }
+          catch { /* Invalid JSON stays unavailable. */ }
         }
-        observations = ingestWebBatch({ manifest, results, store: { storeId: store.storeId, placeId: store.placeId }, ...(options.get('--point-id') ? { pointId: options.get('--point-id')! } : {}), manifestKey: options.get('--manifest-key') ?? null }, context);
+        observations = ingestWebBatch({ manifest, results, attemptRoot: resolve(dir), store: { storeId: store.storeId, placeId: store.placeId }, ...(options.get('--point-id') ? { pointId: options.get('--point-id')! } : {}), manifestKey: receipt?.objectKey ?? options.get('--manifest-key') ?? null }, context);
       } else if (surface === 'android') {
-        const manifest = JSON.parse(await readFile(need(options, '--manifest'), 'utf8')) as AndroidManifestLike;
-        observations = ingestAndroidManifest({ manifest, placeIds: new Map(config.stores.map(s => [s.storeId, s.placeId])), manifestKey: options.get('--manifest-key') ?? null }, context);
+        const manifestBytes = await readFile(need(options, '--manifest'));
+        const manifest = JSON.parse(manifestBytes.toString('utf8')) as AndroidManifestLike & { persistenceMode?: string; artifacts?: Array<{ storageStatus: string }> };
+        const receipt = await ingestReceipt(manifest, manifestBytes, options);
+        if (manifest.persistenceMode === 'azure_blob' && (!manifest.artifacts || manifest.artifacts.some(a => a.storageStatus !== 'verified'))) throw new Error('Android Azure evidence delivery is incomplete; ingestion withheld');
+        observations = ingestAndroidManifest({ manifest, placeIds: new Map(resolved.stores.map(s => [s.storeId, s.placeId])), manifestKey: receipt?.objectKey ?? options.get('--manifest-key') ?? null }, context);
       } else throw new Error('--surface must be web or android');
       const { store, sink } = await openStore(config, options, env);
       try {
@@ -137,7 +166,7 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
       const storage = options.get('--storage') ?? 'local';
       if (storage !== 'local' && storage !== 'azure') throw new Error('--storage must be local or azure');
       const { store } = createStore(storage, options.get('--output-dir') ?? './outputs', env);
-      const scanConfig = await resolveStores(config, options, env);
+      const scanConfig = applyShard(await resolveStores(config, options, env), options, env);
       const { store: observations, sink } = await openStore(config, options, env);
       const controller = new AbortController();
       const stop = () => controller.abort();
@@ -157,6 +186,7 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
       } finally { process.off('SIGINT', stop); process.off('SIGTERM', stop); await observations.close(); }
     }
     if (command === 'stores') {
+      if (options.has('--list') && options.has('--import')) throw new Error('--list and --import are mutually exclusive');
       const envName = need(options, '--mongo-uri-env');
       const uri = env[envName];
       if (!uri) throw new Error(`${envName} is not set`);
@@ -187,7 +217,7 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
     }
     throw new Error(USAGE);
   } catch (error) {
-    console.error(error instanceof Error ? error.message : String(error));
+    console.error((error instanceof Error ? error.message : String(error)).replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***'));
     return 64;
   }
 }

@@ -1,4 +1,6 @@
 import { readFile } from 'node:fs/promises';
+import { keywordKey } from './model.js';
+import type { IngestContext } from './ingest.js';
 import { z } from 'zod';
 import { ConfigError, expectedAreaSchema } from '../config.js';
 import { generateGrid, type GridPoint, type GridSpec } from '../grid/grid.js';
@@ -8,8 +10,8 @@ import { generateGrid, type GridPoint, type GridSpec } from '../grid/grid.js';
  * them, which keywords matter, the observation grid, and how often each surface samples.
  * Collectors receive plans derived from it; they never read it directly.
  */
-const safeId = z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,119}$/u, 'must be a safe path ID');
-const keyword = z.string().trim().min(1).max(200);
+const safeId = z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,100}$/u, 'must be a safe path ID');
+const keyword = z.string().trim().min(1).max(200).refine(s => !/[\x00-\x1f\x7f]/u.test(s), 'keyword must not contain control characters');
 const timezone = z.string().refine(value => { try { new Intl.DateTimeFormat('en', { timeZone: value }); return true; } catch { return false; } }, 'invalid IANA timezone');
 const gridSchema = z.object({ radiusKm: z.number().finite().min(0.1).max(50), size: z.number().int().min(3).max(15).refine(n => n % 2 === 1, 'grid size must be odd') }).strict();
 const tierSchema = z.object({
@@ -25,7 +27,7 @@ const gridTierSchema = z.object({
 const surfaceSchema = z.object({ point: tierSchema, grid: gridTierSchema }).strict();
 const storeSchema = z.object({
   storeId: safeId,
-  name: z.string().trim().min(1),
+  name: z.string().trim().min(1).max(500),
   placeId: z.string().regex(/^ChIJ[\w-]+$/u, 'must be a Google place ID'),
   merchantId: safeId.optional(),
   /** Names that identify the store in OCR'd Android cards; the web matches by place ID. */
@@ -76,8 +78,9 @@ export function parseStore(raw: unknown): TrackingStore {
 
 /** Replace the configured stores, e.g. with the ones loaded from the database. */
 export function withStores(config: TrackingConfig, stores: TrackingStore[]): TrackingConfig {
-  validateStores(stores);
-  return { ...config, stores };
+  const normalized = stores.map(parseStore);
+  validateStores(normalized);
+  return { ...config, stores: normalized };
 }
 
 /** Stable assignment of stores to `count` shards, so a store always runs on the same indexed pod. */
@@ -93,7 +96,7 @@ function validateStores(stores: TrackingStore[]): void {
     if (new Set(config.stores.map(s => s[field])).size !== config.stores.length) throw new ConfigError(`duplicate stores.${field}`);
   }
   for (const store of config.stores) {
-    const all = [...store.keywords.core, ...store.keywords.longTail].map(k => k.toLowerCase());
+    const all = [...store.keywords.core, ...store.keywords.longTail].map(keywordKey);
     if (new Set(all).size !== all.length) throw new ConfigError(`store ${store.storeId} repeats a keyword across core and long tail`);
   }
 }
@@ -143,6 +146,7 @@ export interface WebBatch {
 }
 /** The desktop collector takes one map view per run, so a scan becomes one batch per store and point (≤ 20 keywords each). */
 export function toWebBatches(plan: ScanPlan, maxKeywordsPerBatch = 20): WebBatch[] {
+  if (!Number.isInteger(maxKeywordsPerBatch) || maxKeywordsPerBatch < 1 || maxKeywordsPerBatch > 20) throw new ConfigError('batch size must be within 1..20');
   const groups = new Map<string, { query: PlannedQuery; keywords: string[] }>();
   for (const query of plan.queries) {
     const key = `${query.storeId}/${query.point.id}`;
@@ -167,6 +171,7 @@ export interface AndroidTaskLike {
 }
 /** The Android collector takes at most 20 tasks per run; a scan becomes several runs. */
 export function toAndroidRuns(plan: ScanPlan, config: TrackingConfig, maxTasksPerRun = 20): AndroidTaskLike[][] {
+  if (!Number.isInteger(maxTasksPerRun) || maxTasksPerRun < 1 || maxTasksPerRun > 20) throw new ConfigError('run size must be within 1..20');
   const names = new Map(config.stores.map(s => [s.storeId, s.name]));
   const tasks = plan.queries.map((q): AndroidTaskLike => ({
     storeId: q.storeId, storeName: names.get(q.storeId) ?? q.storeId, keyword: q.keyword, aliases: q.aliases,
@@ -176,4 +181,16 @@ export function toAndroidRuns(plan: ScanPlan, config: TrackingConfig, maxTasksPe
   const runs: AndroidTaskLike[][] = [];
   for (let i = 0; i < tasks.length; i += maxTasksPerRun) runs.push(tasks.slice(i, i + maxTasksPerRun));
   return runs;
+}
+
+/** Point IDs and keyword tiers are store-local, never global metadata keys. */
+export function trackingIngestContext(config: TrackingConfig, options: { includeGridSpec?: boolean } = {}): IngestContext {
+  return { timezone: config.timezone, storeContexts: new Map(config.stores.map(store => {
+    const points = new Map(generateGrid(storeGridSpec(config, store)).map(point => [point.id, point]));
+    points.set('r0c0', centerPoint(store));
+    const keywordTiers = new Map<string, KeywordTier>();
+    for (const keyword of store.keywords.core) keywordTiers.set(keywordKey(keyword), 'core');
+    for (const keyword of store.keywords.longTail) keywordTiers.set(keywordKey(keyword), 'longTail');
+    return [store.storeId, { points, keywordTiers, ...(options.includeGridSpec ? { gridSpec: storeGridSpec(config, store) } : {}) }];
+  })) };
 }

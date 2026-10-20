@@ -7,6 +7,8 @@ import zlib from 'node:zlib';
 import { parseAndroidConfig } from '../src/android/config.js';
 import { runAndroidCapture, acquireDeviceLease } from '../src/android/runner.js';
 import { LocalArtifactStore } from '../src/storage/local.js';
+import { ingestAndroidManifest } from '../src/domain/ingest.js';
+import { organicRankForMetrics } from '../src/domain/model.js';
 import type { AndroidDevice } from '../src/android/contracts.js';
 import type { ArtifactStore } from '../src/storage/types.js';
 const roots: string[]=[];
@@ -45,7 +47,7 @@ const pngWith=(seed:number)=>{const chunk=(type:string,data:Buffer)=>{const body
 const shaOf=(buffer:Buffer)=>createHash('sha256').update(buffer).digest('hex');
 const ocrLine=(text:string,top:number)=>({text,confidence:90,bounds:{left:40,top,right:600,bottom:top+30}});
 const cardScreen=(...names:string[])=>(png:Buffer)=>({schemaVersion:'android-screen-ocr/v1' as const,imageSha256:shaOf(png),imageWidth:1,imageHeight:1,engine:'test',engineVersion:'synthetic',languages:'eng',scale:1,
- lines:[ocrLine('noodles x',200),...names.flatMap((name,i)=>[ocrLine(name.replace(/^AD:/,''),300+i*300),ocrLine(name.startsWith('AD:')?'4.5% (12) - Chinese':`4.6% (${20+[...name].reduce((sum,c)=>sum+c.charCodeAt(0),0)%997}) - $10-20 - Chinese`,340+i*300),ocrLine('Closed . Opens 9:30 AM - 0.2 mi',380+i*300)].concat(name.startsWith('AD:')?[ocrLine('Sponsored',270+i*300)]:[]))]});
+ lines:[ocrLine('noodles x',200),ocrLine('Relevance Open now Price',240),...names.flatMap((name,i)=>[ocrLine(name.replace(/^AD:/,''),300+i*300),ocrLine(name.startsWith('AD:')?'4.5% (12) - Chinese':`4.6% (${20+[...name].reduce((sum,c)=>sum+c.charCodeAt(0),0)%997}) - $10-20 - Chinese`,340+i*300),ocrLine('Closed . Opens 9:30 AM - 0.2 mi',380+i*300)].concat(name.startsWith('AD:')?[ocrLine('Sponsored',270+i*300)]:[]))]});
 const emptyScreen=()=>(png:Buffer)=>({schemaVersion:'android-screen-ocr/v1' as const,imageSha256:shaOf(png),imageWidth:1,imageHeight:1,engine:'test',engineVersion:'synthetic',languages:'eng',scale:1,lines:[ocrLine('noodles x',200),ocrLine('Discover through photos',400)]});
 /** Returns the screens in order; the last screen repeats for any further shot. */
 const recognizerFor=(screens:Array<(png:Buffer)=>any>)=>{let i=0;return async(request:{png:Buffer})=>screens[Math.min(i++,screens.length-1)]!(request.png);};
@@ -76,7 +78,7 @@ describe('native screenshot evidence runner',()=>{
   const s=await setup({swipeResults:async()=>{throw Object.assign(new Error('private native diagnostic'),{code});}});
   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('One'),cardScreen('Two')])});
   expect(r.manifest.queries[0]?.stopReason).toBe(code.toLowerCase());expect(r.exitCode).toBe(2);expect(JSON.stringify(r)).not.toContain('private native diagnostic');
-  expect(r.manifest.queries[0]?.listings).toHaveLength(1);expect(r.manifest.queries[0]?.rankingStatus).toBe('not_found_in_prefix');
+  expect(r.manifest.queries[0]?.listings).toHaveLength(1);expect(r.manifest.queries[0]?.rankingStatus).toBe('not_evaluated');
  });
  it('retains diagnostics for search failure but never calls it ranked capture',async()=>{
   const s=await setup({search:async()=>{throw new Error('search_field_not_found');}});const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root));expect(r.manifest.queries[0]?.evidenceStatus).toBe('failed');expect(r.manifest.queries[0]?.screens[0]?.role).toBe('diagnostic');expect(r.exitCode).toBe(2);
@@ -144,9 +146,9 @@ describe('v4 full-screen OCR listing evidence',()=>{
  it('merges swiped frames into ranked listings, finds the target by alias and completes at list end',async()=>{
   let swipes=0;const s=await setup({...await resultsSnapshot(),swipeResults:async()=>{swipes++;}});
   s.config.tasks[0]!.aliases=['Keke Braised Deli'];
-  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('Crown One'),cardScreen('Crown One','KEKE BRAISED DELI'),cardScreen('KEKE BRAISED DELI','Er Hou Roast Chicken'),cardScreen('Er Hou Roast Chicken'),cardScreen('Er Hou Roast Chicken')])});
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('Crown One'),cardScreen('Crown One','KEKE BRAISED DELI'),cardScreen('KEKE BRAISED DELI','Er Hou Roast Chicken'),cardScreen('Er Hou Roast Chicken'),(image:Buffer)=>({...cardScreen('Er Hou Roast Chicken')(image),lines:[...cardScreen('Er Hou Roast Chicken')(image).lines,ocrLine("You've reached the end of the list",500)]})])});
   const q=r.manifest.queries[0]!;
-  expect(r.exitCode).toBe(0);expect(swipes).toBe(5);expect(q.screens).toHaveLength(6);
+  expect(r.exitCode).toBe(0);expect(swipes).toBe(4);expect(q.screens).toHaveLength(5);
   expect(q.listings.map(x=>[x.displayPosition,x.organicRank,x.name])).toEqual([[1,1,'Crown One'],[2,2,'KEKE BRAISED DELI'],[3,3,'Er Hou Roast Chicken']]);
   expect(q).toMatchObject({listingStatus:'complete',stopReason:'list_end',rankingStatus:'ranked',displayPosition:2,organicRank:2,evidenceStatus:'captured'});
   expect(q.targetMatch).toEqual({displayPosition:2,organicRank:2,name:'KEKE BRAISED DELI',alias:'Keke Braised Deli'});
@@ -156,6 +158,45 @@ describe('v4 full-screen OCR listing evidence',()=>{
   expect(csv).toContain('isTarget');expect(csv).toContain('"KEKE BRAISED DELI"');expect(csv).toContain('"0.2 mi"');
   const queries=await readFile(join(s.root,r.manifest.artifacts.find(x=>x.relativePath.endsWith('/queries.csv'))!.relativePath),'utf8');expect(queries).toContain('ranked');
   for(const a of r.manifest.artifacts){const b=await readFile(join(s.root,a.relativePath));expect(b.length).toBe(a.bytes);expect(createHash('sha256').update(b).digest('hex')).toBe(a.sha256);}
+  const observations = ingestAndroidManifest({manifest:r.manifest,placeIds:new Map([['keke','ChIJFixture']])},{timezone:'America/New_York'});
+  expect(observations[0]?.quality).toMatchObject({rankingReliable:true,sequenceVerified:true,classificationComplete:true,screenshotCoverageComplete:true,organicCoverage:3,endOfResults:true});
+  expect(observations[0]?.rank).toMatchObject({status:'ranked',organicRank:2});
+  expect(organicRankForMetrics(observations[0]!)).toBe(2);
+ });
+ it('carries independent ad and organic target occurrences from OCR through ingest',async()=>{
+  const s=await setup(await resultsSnapshot());s.config.tasks[0]!.aliases=['Keke'];s.config.maxDisplayedResults=2;
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('AD:Keke','Keke')])});
+  expect(r.manifest.queries[0]).toMatchObject({organicRank:1,displayPosition:2,rankingStatus:'ranked'});
+  expect(r.manifest.queries[0]?.targetMatches).toHaveLength(2);
+  const observations=ingestAndroidManifest({manifest:r.manifest,placeIds:new Map([['keke','ChIJFixture']])},{timezone:'America/New_York'});
+  expect(observations[0]?.rank).toMatchObject({status:'ranked',organicRank:1,adDisplayPositions:[1]});
+  expect(observations[0]?.rank.targetOccurrences).toEqual([{displayPosition:1,organicRank:null,resultType:'ad'},{displayPosition:2,organicRank:1,resultType:'organic'}]);
+  expect(organicRankForMetrics(observations[0]!)).toBe(1);
+ });
+ it.each(['single_frame','overlap_frame','ad_prefix'])('does not claim list end when %s crosses the retained display cap',async(mode)=>{
+  const s=await setup(await resultsSnapshot());s.config.maxDisplayedResults=2;
+  const names=mode==='ad_prefix'?['AD:Other one','Other two','Keke']:['Other one','Other two','Keke'];
+  const terminal=(image:Buffer)=>({...cardScreen(...names)(image),lines:[...cardScreen(...names)(image).lines,ocrLine("You've reached the end of the list",1200)]});
+  const frames=mode==='overlap_frame'?[cardScreen('Other one'),terminal]:[terminal];
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor(frames)});
+  const q=r.manifest.queries[0]!;
+  expect(q.listings).toHaveLength(2);
+  expect(q.listingQuality).toMatchObject({endOfResults:false,truncatedCount:1});
+  expect(q.stopReason).toBe('target_reached');
+  expect(q.screens.at(-1)?.cardsRecognized).toBe(3);
+  const savedFrame=JSON.parse(await readFile(join(s.root,q.screens.at(-1)!.screenFrame!.relativePath),'utf8'));
+  expect(savedFrame.cards.map((row:{name:string})=>row.name)).toContain('Keke');
+  const observation=ingestAndroidManifest({manifest:r.manifest,placeIds:new Map([['keke','ChIJFixture']])},{timezone:'America/New_York'})[0]!;
+  expect(observation.quality?.organicCoverage).toBe(mode==='ad_prefix'?1:2);
+  expect(organicRankForMetrics(observation)).toBeUndefined();
+ });
+ it.each([2,3])('preserves true terminal absence when %i display slots retain every occurrence',async(cap)=>{
+  const s=await setup(await resultsSnapshot());s.config.maxDisplayedResults=cap;
+  const terminal=(image:Buffer)=>({...cardScreen('Other one','Other two')(image),lines:[...cardScreen('Other one','Other two')(image).lines,ocrLine("You've reached the end of the list",900)]});
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([terminal])});
+  expect(r.manifest.queries[0]).toMatchObject({stopReason:'list_end',rankingStatus:'not_found',listingQuality:{endOfResults:true,truncatedCount:0}});
+  const observation=ingestAndroidManifest({manifest:r.manifest,placeIds:new Map([['keke','ChIJFixture']])},{timezone:'America/New_York'})[0]!;
+  expect(organicRankForMetrics(observation)).toBeNull();
  });
  it('stops at the display target and reports not_found when the alias never appears',async()=>{
   const s=await setup(await resultsSnapshot());s.config.maxDisplayedResults=2;
@@ -167,14 +208,14 @@ describe('v4 full-screen OCR listing evidence',()=>{
   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('AD:Xiao Mao Market','Er Hou'),cardScreen('AD:Xiao Mao Market','Er Hou')])});
   const q=r.manifest.queries[0]!;expect(q.listings.map(x=>[x.displayPosition,x.organicRank,x.resultType])).toEqual([[1,null,'ad'],[2,1,'organic']]);expect(q).toMatchObject({displayPosition:2,organicRank:1,rankingStatus:'ranked'});expect(r.manifest.counts.ads).toBe(1);
  });
- it('treats an identical screenshot as list end',async()=>{
+ it('keeps an identical screenshot as a stalled partial prefix',async()=>{
   const source=await fixtureXml('results-en');let swipes=0;const s=await setup({snapshot:async()=>({png,xml:source,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()}),swipeResults:async()=>{swipes++;}});
   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('Crown One')])});
-  expect(swipes).toBe(1);expect(r.manifest.queries[0]?.screens).toHaveLength(2);expect(r.manifest.queries[0]?.stopReason).toBe('list_end');expect(r.manifest.queries[0]?.listingStatus).toBe('complete');
+  expect(swipes).toBe(1);expect(r.manifest.queries[0]?.screens).toHaveLength(2);expect(r.manifest.queries[0]?.stopReason).toBe('stalled_same_frame');expect(r.manifest.queries[0]?.listingStatus).toBe('partial');expect(r.exitCode).toBe(2);
  });
  it.each([['screenshot_budget',{maxScreenshotsPerQuery:2}],['scroll_budget',{maxScrolls:1}]])('retains a partial prefix at %s',async(stop,patch)=>{
   const s=await setup(await resultsSnapshot());Object.assign(s.config,patch);s.config.maxScreenshotsPerQuery=Math.min(s.config.maxScreenshotsPerQuery,3);
-  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('A'),cardScreen('B'),cardScreen('C'),cardScreen('D')])});
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('Alpha'),cardScreen('Alpha','Bravo'),cardScreen('Bravo','Charlie'),cardScreen('Charlie','Delta')])});
   const q=r.manifest.queries[0]!;expect(q.stopReason).toBe(stop);expect(q.listingStatus).toBe('partial');expect(q.evidenceStatus).toBe('needs_review');expect(q.rankingStatus).toBe('not_found_in_prefix');expect(q.listings.length).toBeGreaterThanOrEqual(2);expect(r.exitCode).toBe(2);
  });
  it('does not publish ranked rows when OCR provenance has the wrong screenshot hash',async()=>{
@@ -196,7 +237,7 @@ describe('v4 full-screen OCR listing evidence',()=>{
  it('accepts the query from the OCR sheet header when native XML cannot see it, and reviews when neither can',async()=>{
   const source=await fixtureXml('results-en','sushi');const s=await setup({snapshot:async()=>({png,xml:source,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()})});
   const ok=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('Crown One')])});
-  expect(ok.manifest.queries[0]?.stopReason).toBe('list_end');expect(ok.manifest.queries[0]?.listings).toHaveLength(1);
+  expect(ok.manifest.queries[0]?.stopReason).toBe('stalled_same_frame');expect(ok.manifest.queries[0]?.listings).toHaveLength(1);
   const blind=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:async(request:{png:Buffer})=>({...cardScreen('Crown One')(request.png),lines:[ocrLine('Crown One',300),ocrLine('4.6% (9) - Chinese',340)]})});
   expect(blind.manifest.queries[0]?.stopReason).toBe('query_not_visible');expect(blind.manifest.queries[0]?.evidenceStatus).toBe('needs_review');expect(blind.exitCode).toBe(2);
  });
@@ -270,4 +311,34 @@ describe('native terminal boundaries and profile identity',()=>{
   const malformed='<hierarchy><node>';const s=await setup({snapshot:async()=>({png,xml:malformed,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()})});const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root));
   expect(r.exitCode).toBe(2);expect(r.manifest.queries[0]?.error?.code).toBe('invalid_ui_xml');const shot=r.manifest.queries[0]?.screens[0];expect(shot?.role).toBe('diagnostic');expect(shot?.analysis.kind).toBe('unknown');expect((await readFile(join(s.root,shot!.png.relativePath))).equals(png)).toBe(true);
  });
+});
+
+
+describe('review regressions: runner ranking and stop boundaries', () => {
+  it('honors the reviewed native backward-scroll evidence over apparent OCR top controls', async () => {
+    const source = await readFile(new URL('./fixtures/android/ranking/trial-overlap-controls-before.xml', import.meta.url), 'utf8');
+    const s = await setup({ snapshot: async () => ({ png, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }) });
+    s.config.tasks[0]!.keyword = 'hot pot near me'; s.config.maxDisplayedResults = 1;
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: async ({png}) => {
+      const result = cardScreen('Keke')(png); result.lines[0]!.text = 'hot pot near me x'; return result;
+    } });
+    expect(r.manifest.queries[0]).toMatchObject({ rankingStatus: 'not_evaluated', organicRank: null, listingStatus: 'partial' });
+    expect(r.manifest.queries[0]?.listingQuality?.sequenceVerified).toBe(false);
+    expect(r.exitCode).toBe(2);
+  });
+
+  it.each(['same_png', 'no_new_cards'])('does not claim list end from %s', async mode => {
+    let shot = 0; const source = await fixtureXml('results-en');
+    const s = await setup({ snapshot: async () => ({ png: mode === 'same_png' ? png : pngWith(shot++), xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }) });
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('Crown One')]) });
+    expect(r.manifest.queries[0]).toMatchObject({ listingStatus: 'partial', evidenceStatus: 'needs_review', rankingStatus: 'not_found_in_prefix' });
+    expect(r.manifest.queries[0]?.stopReason).not.toBe('list_end');
+    expect(r.exitCode).toBe(2);
+  });
+  it('does not publish a target rank from unreliable card order', async () => {
+    const s = await setup(); s.config.maxDisplayedResults = 2; s.config.tasks[0]!.aliases = ['Keke'];
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: async ({ png }) => ({ ...cardScreen('Keke')(png), lines: [ocrLine('noodles x',200), ocrLine('Relevance Open now Price',240), ocrLine('4.8 (33)',280), ocrLine('Keke',400),ocrLine('4.6 (9)',440)] }) });
+    expect(r.manifest.queries[0]).toMatchObject({ organicRank: null, displayPosition: null, rankingStatus: 'not_evaluated', evidenceStatus: 'needs_review' });
+    expect(r.exitCode).toBe(2);
+  });
 });

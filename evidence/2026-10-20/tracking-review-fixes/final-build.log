@@ -1,0 +1,3 @@
+
+> maps-keyword-capture@0.1.0 build
+> tsc -p tsconfig.build.json

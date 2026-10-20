@@ -1,7 +1,7 @@
 import { createServer, type Server } from 'node:http';
 import { readFileSync } from 'node:fs';
 import type { AddressInfo } from 'node:net';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { AndroidCaptureConfig } from '../src/android/contracts.js';
 import { NativeMapsDevice, type AdbExecutor } from '../src/android/device.js';
 
@@ -24,7 +24,17 @@ function resultsXml(keyword: string, card = 'Current result', loading = false, n
     : `<node resource-id="${fieldId}" class="android.widget.EditText" text="${escape(keyword)}" enabled="true"/>`;
   return `<hierarchy><node package="${maps}" class="android.widget.FrameLayout">${field}<node text="Filters" clickable="true"/><node resource-id="${maps}:id/search_results_list" class="androidx.recyclerview.widget.RecyclerView"><node resource-id="${maps}:id/result_card" clickable="true" text="${escape(card)}"/></node>${loading ? '<node class="android.widget.ProgressBar" resource-id="com.google.android.apps.maps:id/search_loading"/>' : ''}</node></hierarchy>`;
 }
+// Move only the query clock after the intended native state is observed. Real HTTP and
+// real command timers remain active; scheduler contention cannot consume setup's budget.
+// Invalid states get at least three reads before expiry: a broken readiness gate would
+// otherwise return a screenshot and fail the test, rather than being hidden by timeout.
+function queryClock() {
+  let now = Date.now(), expired = false;
+  vi.spyOn(Date, 'now').mockImplementation(() => now);
+  return { expire: () => { if (!expired) { now += 10_000; expired = true; } } };
+}
 afterEach(async () => {
+  vi.restoreAllMocks();
   for (const server of servers.splice(0)) {
     server.closeAllConnections();
     await new Promise<void>((resolve) => server.close(() => resolve()));
@@ -264,11 +274,15 @@ describe('NativeMapsDevice native W3C session', () => {
     expect(appium.calls).toHaveLength(0);
   });
   it('keeps a shared query deadline across search and subsequent snapshots', async () => {
+    const clock = queryClock();
     const appium = await appiumFixture();
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 100 }, { adb: adbFixture().adb });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb });
     await device.start();
     await device.search('sushi');
-    await new Promise((resolve) => setTimeout(resolve, 130));
+    expect((await device.snapshot()).png.equals(png)).toBe(true);
+    // Cross the deadline established by search, after proving snapshot readiness.
+    // Resetting that deadline in snapshot() would now incorrectly return another image.
+    clock.expire();
     await expect(device.snapshot()).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });
     await device.close();
   });
@@ -359,7 +373,7 @@ describe('NativeMapsDevice native readiness and screenshot pairing', () => {
     const appium = await appiumFixture({ source: (_read, keyword) => unsupported
       ? resultsXml(keyword).replaceAll('search_results_list', 'unsupported_results').replaceAll('result_card', 'unsupported_card')
       : resultsXml(keyword) });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 300 }, { adb: adbFixture().adb });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb });
     await device.start(); await device.search('sushi'); unsupported = true;
     const before = appium.calls.length;
     const screen = await device.snapshot();
@@ -369,30 +383,30 @@ describe('NativeMapsDevice native readiness and screenshot pairing', () => {
     await device.close();
   });
   it('does not accept persistent loading as an unsupported post-search diagnostic', async () => {
-    let loading = false;
-    const appium = await appiumFixture({ source: (_read, keyword) => resultsXml(keyword, 'Current result', loading) });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 250 }, { adb: adbFixture().adb });
+    let loading = false, loadingReads = 0; const clock = queryClock();
+    const appium = await appiumFixture({ source: (_read, keyword) => { if (loading && ++loadingReads >= 4) clock.expire(); return resultsXml(keyword, 'Current result', loading); } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb });
     await device.start(); await device.search('sushi'); loading = true;
     await expect(device.snapshot()).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });
     expect(appium.calls.filter(call => call.path.endsWith('/screenshot'))).toHaveLength(0);
     await device.close();
   });
   it.each(['Loading  results', 'Loading\u00a0results', 'Ｌｏａｄｉｎｇ results'])('keeps normalized loading label %s out of post-search diagnostics', async (label) => {
-    let loading = false;
-    const appium = await appiumFixture({ source: (_read, keyword) => loading
+    let loading = false, loadingReads = 0; const clock = queryClock();
+    const appium = await appiumFixture({ source: (_read, keyword) => { if (loading && ++loadingReads >= 4) clock.expire(); return loading
       ? resultsXml(keyword).replace('</hierarchy>', `<node package="${maps}" class="android.widget.TextView" resource-id="${maps}:id/loading_text" text="${label}"/></hierarchy>`)
-      : resultsXml(keyword) });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 250 }, { adb: adbFixture().adb });
+      : resultsXml(keyword); } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb });
     await device.start(); await device.search('sushi'); loading = true;
     await expect(device.snapshot()).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });
     expect(appium.calls.filter(call => call.path.endsWith('/screenshot'))).toHaveLength(0);
     await device.close();
   });
   it('does not accept an unsupported screen whose query changed after search', async () => {
-    let wrong = false;
-    const appium = await appiumFixture({ source: (_read, keyword) => resultsXml(wrong ? 'other query' : keyword)
-      .replaceAll(wrong ? 'search_results_list' : 'absent token', 'unsupported_results') });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 250 }, { adb: adbFixture().adb });
+    let wrong = false, wrongReads = 0; const clock = queryClock();
+    const appium = await appiumFixture({ source: (_read, keyword) => { if (wrong && ++wrongReads >= 4) clock.expire(); return resultsXml(wrong ? 'other query' : keyword)
+      .replaceAll(wrong ? 'search_results_list' : 'absent token', 'unsupported_results'); } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb });
     await device.start(); await device.search('sushi'); wrong = true;
     await expect(device.snapshot()).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });
     expect(appium.calls.filter(call => call.path.endsWith('/screenshot'))).toHaveLength(0);
@@ -427,8 +441,9 @@ describe('NativeMapsDevice native readiness and screenshot pairing', () => {
     await device.close();
   });
   it('times out persistent loading and still captures a bounded diagnostic screenshot', async () => {
-    const appium = await appiumFixture({ source: (_read, keyword) => resultsXml(keyword, 'Stale result', true) });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 200 }, { adb: adbFixture().adb });
+    const clock = queryClock();
+    const appium = await appiumFixture({ source: (read, keyword) => { if (read >= 3) clock.expire(); return resultsXml(keyword, 'Stale result', true); } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb });
     await device.start();
     await expect(device.search('new query')).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });
     const diagnostic = await device.snapshot();
@@ -455,9 +470,9 @@ describe('NativeMapsDevice native readiness and screenshot pairing', () => {
     await device.close();
   });
   it('does not return an XML/PNG pair when every capture races a state change', async () => {
-    let version = 0;
-    const appium = await appiumFixture({ source: (_read, keyword) => resultsXml(keyword, `Version ${version}`), onScreenshot: () => { version += 1; } });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 220 }, { adb: adbFixture().adb });
+    let version = 0; const clock = queryClock();
+    const appium = await appiumFixture({ source: (_read, keyword) => resultsXml(keyword, `Version ${version}`), onScreenshot: () => { version += 1; if (version >= 2) clock.expire(); } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb });
     await device.start();
     await device.search('sushi');
     await expect(device.snapshot()).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });

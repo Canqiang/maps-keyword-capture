@@ -7,7 +7,7 @@ import { dateFolder, keywordSlug } from '../naming.js';
 import type { CaptureError, StorageState } from '../contracts.js';
 import type { ArtifactStore, WrittenFile } from '../storage/types.js';
 import type { AndroidArtifact, AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, AndroidTask, LocationEvidence, NativeScreen, ScreenAnalysis } from './contracts.js';
-import { analyzeScreen, hasBlankNativeSearchWrapper, parseUiNodes } from './ui.js';
+import { analyzeScreen, hasBlankNativeSearchWrapper, inspectNativeResultList, parseUiNodes } from './ui.js';
 import { matchTarget, parseScreenFrame, reconcileScreenFrames, recognizeScreen, targetAliases, validateScreenOcr, type RankedListing, type ScreenFrame, type ScreenRecognizer, type TargetMatch } from './screen-reader.js';
 
 export type AndroidManifestReceipt = StorageState & WrittenFile;
@@ -18,6 +18,7 @@ export interface AndroidScreenEvidence {
 }
 export interface AndroidListingQuality {
   adCount: number; organicCount: number; unknownCount: number; rankingReliable: boolean; frames: number; warnings: string[];
+  sequenceVerified?: boolean; classificationComplete?: boolean; screenshotCoverageComplete?: boolean; organicCoverage?: number; endOfResults?: boolean; truncatedCount?: number;
 }
 export interface AndroidQueryEvidence extends AndroidTask {
   queryId: string;
@@ -247,6 +248,9 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
   const evaluateTarget = (query: AndroidQueryEvidence): void => {
     const { match, matches } = matchTarget(query.listings, query.targetAliases);
     query.targetMatch = match; query.targetMatches = matches;
+    if (query.listingQuality?.rankingReliable !== true || query.evidenceStatus === 'failed') {
+      query.displayPosition = null; query.organicRank = null; query.rankingStatus = 'not_evaluated'; return;
+    }
     query.displayPosition = match?.displayPosition ?? null; query.organicRank = match?.organicRank ?? null;
     query.rankingStatus = match ? 'ranked' : query.listingStatus === 'complete' ? 'not_found' : query.listingStatus === 'partial' ? 'not_found_in_prefix' : 'not_evaluated';
   };
@@ -263,7 +267,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       androidVersion: info.androidVersion, appVersion: info.appVersion, appPackage: info.appPackage, emulator: info.emulator,
       locale: info.locale, timezone: info.timezone,
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_fixed_swipe/v4', ocrLanguages: config.ocrLanguages,
+      listingMethod: 'full_screen_ocr_ordered_overlap/v5', ocrLanguages: config.ocrLanguages,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -316,13 +320,20 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           evidence.frameId = frameId;
           evidence.ocr = await saveArtifact('ocr_json', `${base}.ocr.json`, JSON.stringify(ocr, null, 2));
           const frame = parseScreenFrame(ocr, query.keyword, frameId, source.capturedAt);
+          // A known native list already scrolled backwards contradicts an OCR top marker.
+          if (frames.length === 0 && inspectNativeResultList(source.xml, query.keyword)?.canScrollBackward === true) {
+            frame.topStateVerified = false; frame.warnings.push('native_list_top_contradicted');
+          }
           evidence.screenFrame = await saveArtifact('screen_frame', `${base}.frame.json`, JSON.stringify(frame, null, 2));
           evidence.cardsRecognized = frame.cards.length;
           const before = reconcileScreenFrames(frames, config.maxDisplayedResults).listings.length;
           frames.push(frame);
           const reconciled = reconcileScreenFrames(frames, config.maxDisplayedResults);
           query.listings = reconciled.listings;
-          query.listingQuality = { adCount: reconciled.adCount, organicCount: reconciled.organicCount, unknownCount: reconciled.unknownCount, rankingReliable: reconciled.rankingReliable, frames: frames.length, warnings: reconciled.warnings };
+          query.listingQuality = { adCount: reconciled.adCount, organicCount: reconciled.organicCount, unknownCount: reconciled.unknownCount, rankingReliable: reconciled.rankingReliable, frames: frames.length, warnings: reconciled.warnings,
+            sequenceVerified: reconciled.sequenceVerified, classificationComplete: reconciled.unknownCount === 0, screenshotCoverageComplete: true,
+            organicCoverage: reconciled.listings.filter(row => row.organicRank !== null).length, truncatedCount: reconciled.truncatedCount,
+            endOfResults: frame.endOfResults && reconciled.rankingReliable && reconciled.truncatedCount === 0 };
           // The query must be visible either in native XML or in the OCR'd sheet header.
           if (!analysis.queryVisible && !frame.queryVisible) { query.evidenceStatus = 'needs_review'; query.stopReason = 'query_not_visible'; break; }
           if (!frame.cards.length && frames.length === 1) {
@@ -334,10 +345,11 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           const hash = sha256Hex(source.png);
           const repeated = seenHashes.has(hash); seenHashes.add(hash);
           unchangedFrames = query.listings.length === before ? unchangedFrames + 1 : 0;
+          if (!reconciled.rankingReliable) { query.stopReason = 'ranking_unreliable'; break; }
+          if (query.listingQuality.endOfResults) { query.listingStatus = 'complete'; query.stopReason = 'list_end'; break; }
           if (query.listings.length >= config.maxDisplayedResults) { query.listingStatus = 'complete'; query.stopReason = 'target_reached'; break; }
-          // A repeated screenshot means the sheet no longer moves. Three frames without a new card is the
-          // fallback: one tall photo module can span two short swipes without exposing a new card.
-          if (repeated || unchangedFrames >= 3) { query.listingStatus = 'complete'; query.stopReason = 'list_end'; break; }
+          // A stalled viewport can be a failed swipe or a tall photo module; neither proves absence.
+          if (repeated || unchangedFrames >= 3) { query.stopReason = repeated ? 'stalled_same_frame' : 'stalled_no_new_cards'; break; }
           if (shot + 1 >= config.maxScreenshotsPerQuery) { query.stopReason = 'screenshot_budget'; break; }
           if (swipes >= config.maxScrolls) { query.stopReason = 'scroll_budget'; break; }
           checkQuery(); stage = 'swipe';

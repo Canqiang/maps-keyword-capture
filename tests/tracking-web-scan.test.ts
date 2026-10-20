@@ -25,7 +25,8 @@ function fakeRunner(options: { rankFor?: (keyword: string) => number | null; blo
   const runner = async (deps: BatchDeps): Promise<BatchOutput> => {
     calls.push(deps);
     if (options.throwFor && deps.config.keywords.includes(options.throwFor)) throw new Error('browser crashed');
-    const attemptRel = 'maps-keyword-capture/2026-10-20/run_x/att_y';
+    const runId = `run_${calls.length}`;
+    const attemptRel = `maps-keyword-capture/2026-10-20/${runId}/att_y`;
     const attemptRoot = deps.store!.absolutePath(attemptRel);
     const queries: BatchManifest['queries'] = [];
     for (const [i, keyword] of deps.config.keywords.entries()) {
@@ -33,16 +34,16 @@ function fakeRunner(options: { rankFor?: (keyword: string) => number | null; blo
       const blocked = keyword === options.blockKeyword;
       const rank = options.rankFor?.(keyword) ?? null;
       const listings = blocked ? [] : [{ displayPosition: 1, organicRank: 1, resultType: 'organic', adLabel: null, name: 'Other', mapsUrl: null, placeId: 'ChIJother', rating: 4, reviewCount: 1 }, ...(rank ? [{ displayPosition: rank, organicRank: rank, resultType: 'organic', adLabel: null, name: 'Keke', mapsUrl: null, placeId: 'ChIJkeke', rating: 4.6, reviewCount: 9 }] : [])];
-      const result = { schemaVersion: '1', runId: 'run_x', attemptId: 'att_y', queryId, queryAttemptId: 'qa01', keyword, startedAt: '2026-10-20T16:00:00-04:00', finishedAt: '2026-10-20T16:00:20-04:00', requestedLimit: 15, observedCount: listings.length, sequenceVerified: true, finalUrl: null,
+      const result = { schemaVersion: '1', runId, attemptId: 'att_y', queryId, queryAttemptId: 'qa01', keyword, startedAt: '2026-10-20T16:00:00-04:00', finishedAt: '2026-10-20T16:00:20-04:00', requestedLimit: 15, observedCount: listings.length, sequenceVerified: true, finalUrl: null,
         status: blocked ? 'blocked' : 'captured', stopReason: blocked ? 'captcha' : 'end_of_results', error: null, metadata: { configHash: 'c', profileHash: 'p', adapterVersion: 'maps-feed-card/v6' },
         context: { locale: 'en-US', browserTimezoneId: 'America/New_York', viewport: deps.config.viewport, deviceScaleFactor: 1, locationMode: 'map_view', configuredMapView: deps.config.mapView, observedMapView: null, loggedIn: false, geolocationPermission: 'not_granted', egressRegion: null, egressSource: null, observedLocationText: null, filters: [] },
-        quality: {}, listings, screenshots: [{ objectKey: `${attemptRel}/${queryId}/shot.png` }], observationArtifactIds: [] } as unknown as KeywordResult;
+        quality: { verifiedPrefixLength: listings.length, classificationComplete: true, screenshotCoverageComplete: true, resultSurface: 'results_list', warnings: [] }, listings, screenshots: [{ objectKey: `${attemptRel}/${queryId}/shot.png` }], observationArtifactIds: [] } as unknown as KeywordResult;
       const resultFile = `${queryId}/qa01/${queryId}.json`;
       await mkdir(join(attemptRoot, queryId, 'qa01'), { recursive: true });
       await writeFile(join(attemptRoot, resultFile), JSON.stringify(result));
       queries.push({ queryId, inputIndex: i, keyword, status: blocked ? 'blocked' : 'captured', stopReason: blocked ? 'captcha' : 'end_of_results', error: null, selectedQueryAttemptId: 'qa01', attempts: [{} as never], resultFile, artifactIds: [], persistenceStatus: 'verified' } as BatchManifest['queries'][number]);
     }
-    const manifest = { schemaVersion: '1', runId: 'run_x', attemptId: 'att_y', startedAt: '2026-10-20T20:00:00Z', finishedAt: null, status: 'completed', metadata: { configHash: 'c', profileHash: 'p', adapterVersion: 'maps-feed-card/v6' }, persistenceMode: 'local_only', queries, artifacts: [] } as unknown as BatchManifest;
+    const manifest = { schemaVersion: '1', runId, attemptId: 'att_y', startedAt: '2026-10-20T20:00:00Z', finishedAt: null, status: 'completed', metadata: { configHash: 'c', profileHash: 'p', adapterVersion: 'maps-feed-card/v6' }, persistenceMode: 'local_only', queries, artifacts: [] } as unknown as BatchManifest;
     await writeFile(join(attemptRoot, 'manifest.json'), JSON.stringify(manifest));
     return { manifest, attemptRoot, manifestPath: join(attemptRoot, 'manifest.json'), manifestReceipt: null, exitCode: 0 };
   };
@@ -66,8 +67,8 @@ describe('runWebScan', () => {
     const docs = [...observations.documents.values()];
     expect(docs.map(d => [d.storeId, d.keyword, d.keywordTier, d.pointId, d.rank.status, d.rank.organicRank, d.locationMode])).toEqual([
       ['keke', 'braised food', 'core', 'r0c0', 'ranked', 2, 'map_view'], ['keke', '卤味', 'core', 'r0c0', 'not_found', null, 'map_view'], ['keke', 'duck neck', 'longTail', 'r0c0', 'not_found', null, 'map_view'], ['bear', 'boba', 'core', 'r0c0', 'not_found', null, 'map_view']]);
-    expect(docs[0]!.evidence.screenshotKeys).toEqual(['maps-keyword-capture/2026-10-20/run_x/att_y/q0001/shot.png']);
-    expect(docs[0]!.scanId).toBe('run_x');
+    expect(docs[0]!.evidence.screenshotKeys).toEqual(['maps-keyword-capture/2026-10-20/run_1/att_y/q0001/shot.png']);
+    expect(docs[0]!.scanId).toBe('run_1');
     const persisted = JSON.parse(await readFile(join(root, summary.prefix, 'scan.json'), 'utf8'));
     expect(persisted.scanId).toBe(summary.scanId);
     expect(logs.map(l => l.stage)).toEqual(['scan_start', 'batch_ingested', 'batch_ingested', 'scan_finished']);
@@ -121,4 +122,79 @@ describe('runWebScan', () => {
     expect(summary.status).toBe('cancelled');
     expect(summary.exitCode).toBe(1);
   });
+  it('keeps metadata scoped to each store even when point IDs and keywords overlap', async () => {
+    const shared = parseTrackingConfig({ ...config, stores: [config.stores[0], { ...config.stores[1], keywords: { core: ['boba'], longTail: ['braised food'] } }] });
+    const root = await mkdtemp(join(tmpdir(), 'tracking-scan-'));
+    const observations = new MemoryObservationStore();
+    await runWebScan({ config: shared, tier: 'point', store: new LocalArtifactStore(root), observations, batchRunner: fakeRunner().runner });
+    const first = [...observations.documents.values()].find(o => o.storeId === 'keke' && o.keyword === 'braised food')!;
+    expect(first.keywordTier).toBe('core');
+    expect(first.point.latitude).toBe(config.stores[0]!.center.latitude);
+  });
+  it('preserves a partial collector outcome even when a target rank was found', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'tracking-scan-'));
+    const run = fakeRunner({ rankFor: () => 2 }).runner;
+    const summary = await runWebScan({ config, tier: 'point', store: new LocalArtifactStore(root), observations: new MemoryObservationStore(), batchRunner: async deps => {
+      const out = await run(deps);
+      out.exitCode = 2; out.manifest.status = 'partial';
+      for (const entry of out.manifest.queries) { Object.assign(entry, { status: 'partial', stopReason: 'scroll_limit' }); }
+      return out;
+    } });
+    expect(summary).toMatchObject({ status: 'partial', exitCode: 2 });
+  });
+  it('does not publish analysis observations before Azure batch evidence is verified', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'tracking-scan-'));
+    const observations = new MemoryObservationStore();
+    const run = fakeRunner().runner;
+    const summary = await runWebScan({ config, tier: 'point', store: new LocalArtifactStore(root), observations, batchRunner: async deps => {
+      const out = await run(deps);
+      out.exitCode = 1; out.manifest.persistenceMode = 'azure_blob';
+      out.manifestReceipt = { runId: out.manifest.runId, attemptId: 'att_y', filename: 'manifest.json', bytes: 1, sha256: 'abc', storageStatus: 'failed', objectKey: 'manifest.json', verifiedAt: null, storageError: { code: 'upload_failed', message: 'unavailable' } };
+      return out;
+    } });
+    expect(summary.status).not.toBe('completed');
+    expect(summary.exitCode).not.toBe(0);
+    expect(observations.documents.size).toBe(0);
+  });
+  it('reports a nonthrowing final summary persistence failure', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'tracking-scan-'));
+    const local = new LocalArtifactStore(root);
+    const store = Object.assign(local, { persist: async () => ({ storageStatus: 'failed' as const, objectKey: null, verifiedAt: null, storageError: { code: 'upload_failed', message: 'unavailable' } }) });
+    const summary = await runWebScan({ config, tier: 'point', store, observations: new MemoryObservationStore(), batchRunner: fakeRunner().runner });
+    expect(summary.exitCode).toBe(1);
+    expect(summary.status).toBe('failed');
+  });
+
+  it('accepts complete non-ranking evidence without reporting a ranked capture or absence', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'tracking-scan-'));
+    const runner = fakeRunner().runner;
+    const summary = await runWebScan({ config, tier: 'point', store: new LocalArtifactStore(root), observations: new MemoryObservationStore(), batchRunner: async deps => {
+      const out = await runner(deps);
+      out.manifest.status = 'partial'; out.manifest.executionStatus = 'completed';
+      for (const entry of out.manifest.queries) {
+        const artifactIds = ['diagnostic', 'result_json', 'result_csv', 'observations_jsonl'].map(kind => `${entry.queryId}-${kind}`);
+        Object.assign(entry, { status: 'partial', stopReason: 'non_ranking_result', error: null, artifactIds, attempts: [{ queryAttemptId: 'qa01', status: 'partial', stopReason: 'non_ranking_result', error: null, artifactIds }] });
+        for (const kind of ['diagnostic', 'result_json', 'result_csv', 'observations_jsonl'] as const) out.manifest.artifacts.push({ id: `${entry.queryId}-${kind}`, kind, filename: `${entry.queryId}/${kind}`, bytes: 1, sha256: 'a'.repeat(64), queryId: entry.queryId, queryAttemptId: 'qa01', storageStatus: 'local_only', objectKey: null, verifiedAt: null, storageError: null });
+        const result = JSON.parse(await readFile(join(out.attemptRoot, entry.resultFile!), 'utf8'));
+        result.status = 'partial'; result.stopReason = 'non_ranking_result'; result.listings = []; result.quality.resultSurface = 'place_details';
+        await writeFile(join(out.attemptRoot, entry.resultFile!), JSON.stringify(result));
+      }
+      return out;
+    } });
+    expect(summary).toMatchObject({ status: 'completed', exitCode: 0, queries: { captured: 0, ranked: 0, notFound: 0, nonRanking: 4, partial: 0 } });
+  });
+
+  it('retains the selected store grid geometry and parent scan snapshot', async () => {
+    const scoped = parseTrackingConfig({ ...config, stores: [{ ...config.stores[0], grid: { radiusKm: 1, size: 3 } }, config.stores[1]] });
+    const root = await mkdtemp(join(tmpdir(), 'tracking-scan-'));
+    const observations = new MemoryObservationStore();
+    const summary = await runWebScan({ config: scoped, tier: 'grid', storeIds: ['keke'], store: new LocalArtifactStore(root), observations, batchRunner: fakeRunner().runner });
+    const first = [...observations.documents.values()][0]!;
+    expect(observations.documents.size).toBe(18);
+    expect(new Set([...observations.documents.values()].map(o => o.pointId)).size).toBe(9);
+    expect(first.point.distanceKm).toBeCloseTo(1.414, 1);
+    expect(first.gridSpec).toEqual({ center: config.stores[0]!.center, radiusKm: 1, size: 3 });
+    expect(first.gridRunId).toBe(summary.scanId);
+  });
+
 });

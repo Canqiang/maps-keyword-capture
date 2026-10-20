@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { generateGrid, haversineKm, pointId, pointSpacingKm, ringFor } from '../src/grid/grid.js';
 import { computeGridMetrics, heatMapRows, observationsFromAndroidManifest, rankBucket, type GridObservation } from '../src/grid/metrics.js';
+import { parseAndroidConfig } from '../src/android/config.js';
 import { main, parseArgs } from '../src/grid/cli.js';
 
 const keke = { latitude: 40.7658211, longitude: -73.8315243 };
@@ -82,6 +83,7 @@ describe('grid metrics', () => {
       { storeId: 'keke', keyword: '卤味', location: { id: 'r0c0' }, organicRank: 9, displayPosition: 9, listingStatus: 'partial', evidenceStatus: 'needs_review' },
       { storeId: 'other', keyword: 'braised food', location: { id: 'r0c+1' }, organicRank: 1, displayPosition: 1, listingStatus: 'complete', evidenceStatus: 'captured' },
     ] };
+    manifest.queries = manifest.queries.map(q => ({ ...q, location: { ...q.location, ...grid.find(p => p.id === q.location.id)! }, rankingStatus: q.organicRank !== null ? 'ranked' : 'not_found', listingQuality: { rankingReliable: true, endOfResults: q.listingStatus === 'complete' } }));
     const observations = observationsFromAndroidManifest(manifest, grid, { storeId: 'keke', keyword: 'braised food' });
     expect(observations.map(o => [o.pointId, o.rank])).toEqual([['r0c0', 2], ['r+1c0', null]]);
     expect(observationsFromAndroidManifest(manifest, grid, { storeId: 'keke', keyword: 'braised food', rankField: 'displayPosition' })[0]!.rank).toBe(3);
@@ -109,5 +111,38 @@ describe('grid cli', () => {
       expect(tasks[4]).toMatchObject({ storeId: 'keke', keyword: 'braised food', aliases: ['可可小卤', 'KEKE BRAISED DELI'], location: { id: 'r0c0', latitude: 40.7658211 } });
       expect(await main(['points', '--lat', 'x'])).toBe(64);
     } finally { console.log = original; }
+  });
+});
+
+
+describe('review regressions: grid evidence boundaries', () => {
+  const grid = generateGrid({ center: keke, radiusKm: 5, size: 3 });
+  const query = (patch: Record<string, unknown> = {}) => ({ storeId: 'keke', keyword: 'braised food', location: { id: 'r0c0', ...keke }, organicRank: null, displayPosition: null,
+    listingStatus: 'complete', evidenceStatus: 'captured', rankingStatus: 'not_found', listingQuality: { rankingReliable: true }, listings: [], stopReason: 'target_reached', ...patch });
+  it('accepts every generated point through the real Android configuration parser', () => {
+    expect(() => parseAndroidConfig({ schemaVersion: 'android-maps-input/v1', serial: 'emulator-5554', tasks: grid.map(point => ({ storeId: 'keke', storeName: 'Keke', keyword: 'noodles', sourceReference: 'grid fixture', location: { id: point.id, label: point.id, latitude: point.latitude, longitude: point.longitude, source: 'grid fixture' } })) })).not.toThrow();
+  });
+  it.each([
+    { listingStatus: 'non_ranking', rankingStatus: 'not_evaluated' },
+    { listingStatus: 'partial', rankingStatus: 'not_found_in_prefix', evidenceStatus: 'needs_review' },
+    { rankingStatus: 'ranked', displayPosition: 1, listingQuality: { rankingReliable: false } },
+    { listings: Array.from({ length: 15 }, (_, i) => ({ organicRank: i + 1, displayPosition: i + 1 })) },
+  ])('excludes unproven absence %# from the denominator', patch => {
+    expect(observationsFromAndroidManifest({ queries: [query(patch)] }, grid, { storeId: 'keke', keyword: 'braised food' })).toEqual([]);
+  });
+  it('accepts a reliable numeric rank from a partial prefix and a proven 20-result absence', () => {
+    const ranked = query({ rankingStatus: 'ranked', organicRank: 3, displayPosition: 4, listingStatus: 'partial' });
+    expect(observationsFromAndroidManifest({ queries: [ranked] }, grid, { storeId: 'keke', keyword: 'braised food' })[0]?.rank).toBe(3);
+    const missing = query({ listings: Array.from({ length: 20 }, (_, i) => ({ organicRank: i + 1, displayPosition: i + 1 })) });
+    expect(observationsFromAndroidManifest({ queries: [missing] }, grid, { storeId: 'keke', keyword: 'braised food' })[0]?.rank).toBeNull();
+  });
+  it('does not relocate a rank when the same row/column ID belongs to different geometry', () => {
+    const old = generateGrid({ center: keke, radiusKm: 1, size: 3 }).find(p => p.id === 'r-1c0')!;
+    expect(observationsFromAndroidManifest({ queries: [query({ location: { id: old.id, latitude: old.latitude, longitude: old.longitude }, rankingStatus: 'ranked', organicRank: 1 })] }, grid, { storeId: 'keke', keyword: 'braised food' })).toEqual([]);
+  });
+  it('represents empty aggregate and ring denominators as unavailable', () => {
+    const result = computeGridMetrics(grid, []);
+    expect(result).toMatchObject({ points: 0, arp: null, atrp: null, solv: null });
+    expect(result.rings.inner).toMatchObject({ points: 0, atrp: null, solv: null });
   });
 });

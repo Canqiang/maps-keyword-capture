@@ -24,25 +24,47 @@ Put the digest into `image` and `IMAGE_DIGEST` in `cronjob.yaml`, run `npx vites
 
 ## Deploy, run once, verify
 
-Applying `cronjob.yaml` sets `suspend: false`. If a two-hour slot passed less than 30 minutes ago (`startingDeadlineSeconds`), the controller starts that missed run immediately; on 2026-10-20 this produced a second scan 30 s before a manual one. Suspend first when you want only a manual run:
+These are operator-run deployment instructions, not validation commands. Local regression tests do not deploy anything. Applying the checked-in `cronjob.yaml` directly enables its schedule (`suspend: false`), so **prepare a suspended manifest before applying it** when validating manually. Suspending an existing CronJob does not stop a running Job: wait for its active Jobs to finish before creating a manual scan.
 
 ```bash
-kubectl -n uat patch cronjob maps-tracking-web-2h --type=merge -p '{"spec":{"suspend":true}}' 2>/dev/null || true
-kubectl apply -f deploy/tracking-web/configmap.yaml -f deploy/tracking-web/cronjob.yaml
-JOB=$(kubectl -n uat create job --from=cronjob/maps-tracking-web-2h "maps-tracking-web-manual-$(date -u +%Y%m%d%H%M)" -o name)
-kubectl -n uat logs -f "$JOB"
+kubectl --context FBRDevAKSCluster -n uat create --dry-run=client -f deploy/tracking-web/cronjob.yaml -o json > /tmp/maps-tracking-web-suspended.json
+python3 - <<'PY_SUSPEND'
+import json
+p = '/tmp/maps-tracking-web-suspended.json'
+d = json.load(open(p))
+d['spec']['suspend'] = True
+with open(p, 'w') as f:
+    json.dump(d, f)
+PY_SUSPEND
+kubectl --context FBRDevAKSCluster -n uat apply -f deploy/tracking-web/configmap.yaml -f /tmp/maps-tracking-web-suspended.json
+kubectl --context FBRDevAKSCluster -n uat get cronjob maps-tracking-web-2h -o jsonpath='{.spec.suspend}{"\n"}{.status.active}{"\n"}'
+# Continue only after suspend is true and no active scheduled scan remains.
+JOB=$(kubectl --context FBRDevAKSCluster -n uat create job --from=cronjob/maps-tracking-web-2h "maps-tracking-web-manual-$(date -u +%Y%m%d%H%M)" -o name)
+kubectl --context FBRDevAKSCluster -n uat get "$JOB"
 ```
 
-The last log line is `tracking_scan_finished` with `status`, per-batch and per-query counts and the observation upsert counts. Exit 0 is a completed scan, 2 partial (a batch or query failed), 1 blocked (CAPTCHA or consent page; the scan stops at the first blocked batch) or cancelled.
+For an Indexed Job, inspect both pod logs and exit codes; one pod does not represent the whole Job. Each final log event is `tracking_scan_finished` with per-batch, query and upsert counts, plus a separate final-summary receipt. Exit 0 means execution and required delivery completed; recognized non-ranking pages are counted as `nonRanking`, not as ranks or confirmed absence. Exit 2 means incomplete execution/ingestion; exit 1 covers blocked/cancelled runs and delivery failure. A batch that cannot verify Azure delivery is not ingested, and stops further dispatch. `queries.captured/nonRanking/partial/blocked/failed/skipped` describe collection outcomes; `ranked/notFound/unresolved` describe ranking usability and are not an additional denominator. The immutable scan JSON cannot contain its own final receipt; use the terminal log receipt to verify that file.
 
-Read the newest observations back from MongoDB with the same image:
+Read observations back without starting a collector. Construct the read-only Job **before creating it**, replacing the scan arguments and removing Indexed Job parallelism:
 
 ```bash
-kubectl -n uat create job --from=cronjob/maps-tracking-web-2h maps-tracking-recent -o name
-kubectl -n uat patch job maps-tracking-recent --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args","value":["node","dist/domain/cli.js","recent","--config","/config/tracking.json","--mongo-uri-env","MAPS_TRACKING_MONGO_URI","--limit","50"]}]'
+kubectl --context FBRDevAKSCluster -n uat create job --from=cronjob/maps-tracking-web-2h "maps-tracking-recent-$(date -u +%Y%m%d%H%M)" --dry-run=client -o json > /tmp/maps-tracking-recent.json
+python3 - <<'PY_RECENT'
+import json
+p = '/tmp/maps-tracking-recent.json'
+d = json.load(open(p))
+d['spec'].update(completions=1, parallelism=1, completionMode='NonIndexed')
+d['spec']['template']['spec']['containers'][0]['args'] = [
+    'node', 'dist/domain/cli.js', 'recent', '--config', '/config/tracking.json',
+    '--mongo-uri-env', 'MAPS_TRACKING_MONGO_URI', '--limit', '50'
+]
+with open(p, 'w') as f:
+    json.dump(d, f)
+PY_RECENT
+kubectl --context FBRDevAKSCluster -n uat create -f /tmp/maps-tracking-recent.json
 ```
 
-(Creating from the CronJob and patching the args is not possible after the Pod starts; instead copy the Job manifest from `kubectl get job … -o yaml`, change `args`, and apply it under a new name.)
+After reviewing the manual run and evidence, enabling the schedule is a separate operator action. Do not use `kubectl apply -f cronjob.yaml` as a read-only verification step.
 
 ## Change keywords or stores
 

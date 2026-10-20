@@ -74,7 +74,7 @@ const webResult = (keyword: string, listings: KeywordResult['listings'], mapView
   requestedLimit: 15, observedCount: listings.length, sequenceVerified: true, finalUrl: null, status: 'captured', stopReason: 'end_of_results', error: null,
   metadata: { configHash: 'c', profileHash: 'p', adapterVersion: 'maps-feed-card/v6', sourceCommit: null, browserVersion: null, imageDigest: null, egressProfileId: null } as KeywordResult['metadata'],
   context: { locale: 'en-US', browserTimezoneId: 'America/New_York', viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, locationMode: mapView ? 'map_view' : 'query_only', configuredMapView: mapView, observedMapView: null, loggedIn: false, geolocationPermission: 'not_granted', egressRegion: null, egressSource: null, observedLocationText: null, filters: [] },
-  quality: {} as KeywordResult['quality'], listings, screenshots: [{ objectKey: '2026-10-20/x/shot1.png' }, { objectKey: null, relativePath: 'local/shot2.png' }] as unknown as KeywordResult['screenshots'], observationArtifactIds: [],
+  quality: { verifiedPrefixLength: listings.length, classificationComplete: true, screenshotCoverageComplete: true, warnings: [], observedQueryText: keyword, queryCorrectionText: null, resultSurface: 'results_list' }, listings, screenshots: [{ objectKey: '2026-10-20/x/shot1.png', filename: 'shot1.png' }, { objectKey: null, filename: 'shot2.png' }] as unknown as KeywordResult['screenshots'], observationArtifactIds: [],
 });
 const webManifest = (queries: BatchManifest['queries']): BatchManifest => ({ schemaVersion: '1', runId: 'run_1', attemptId: 'att_1', startedAt: '2026-10-20T20:00:00Z', finishedAt: null, status: 'completed', metadata: { configHash: 'c', profileHash: 'p', adapterVersion: 'maps-feed-card/v6' } as BatchManifest['metadata'], persistenceMode: 'local_only', queries, artifacts: [] });
 
@@ -86,14 +86,14 @@ describe('ingestion', () => {
     const manifest = webManifest([{ queryId: 'q0001', inputIndex: 0, keyword: 'braised food', status: 'captured', stopReason: 'end_of_results', error: null, selectedQueryAttemptId: 'qa01', attempts: [{} as never], resultFile: 'q0001.json', artifactIds: [], persistenceStatus: 'verified' }]);
     const [observation] = ingestWebBatch({ manifest, results: new Map([['q0001.json', result]]), store: { storeId: 'keke-flushing', placeId: 'ChIJRTD3Ws5hwokRES78IFU7zW0' }, pointId: 'r+1c0', manifestKey: 'm.json' }, context);
     expect(observation).toMatchObject({ surface: 'web', storeId: 'keke-flushing', keyword: 'braised food', keywordKey: 'braised food', keywordTier: 'core', pointId: 'r+1c0', locationMode: 'map_view',
-      point: { latitude: 40.7883, longitude: -73.8315, distanceKm: 2.497, ring: 'middle' }, observedAt: '2026-10-20T20:00:27.898Z', localDate: '2026-10-20', scanId: 'run_1', queryId: 'q0001',
+      point: { latitude: 40.7883, longitude: -73.8315, distanceKm: null, ring: null }, observedAt: '2026-10-20T20:00:27.898Z', localDate: '2026-10-20', scanId: 'run_1', queryId: 'q0001',
       rank: { status: 'ranked', displayPosition: 3, organicRank: 2, listingsObserved: 3, listingStatus: 'captured', stopReason: 'end_of_results' },
-      evidence: { manifestKey: 'm.json', resultKey: 'q0001.json', screenshotKeys: ['2026-10-20/x/shot1.png', 'local/shot2.png'] }, source: { adapterVersion: 'maps-feed-card/v6', profileHash: 'p' }, ingestedAt: '2026-10-21T00:00:00.000Z' });
-    expect(observation!.observationId).toBe('web|keke-flushing|braised food|r+1c0|2026-10-20T20:00:27.898Z');
+      evidence: { manifestKey: 'm.json', resultKey: 'q0001.json', screenshotKeys: ['2026-10-20/x/shot1.png', 'shot2.png'] }, source: { adapterVersion: 'maps-feed-card/v6', profileHash: 'p' }, ingestedAt: '2026-10-21T00:00:00.000Z' });
+    expect(observation!.observationId).toBe('v2|web|keke-flushing|run_1|att_1|q0001|qa01');
     expect(observation!.topListings.map(l => [l.displayPosition, l.resultType, l.placeId])).toEqual([[1, 'ad', 'ChIJad'], [2, 'organic', 'ChIJother'], [3, 'organic', 'ChIJRTD3Ws5hwokRES78IFU7zW0']]);
   });
   it('classifies not found, partial, blocked and failed web queries and defaults to the store point', () => {
-    const results = new Map([['a.json', webResult('卤味', [listing(1, 1, 'ChIJother')], null)], ['b.json', { ...webResult('x', [listing(1, 1, 'ChIJother')], null), status: 'partial' } as KeywordResult]]);
+    const results = new Map([['a.json', webResult('卤味', [listing(1, 1, 'ChIJother')], null)], ['b.json', { ...webResult('x', [listing(1, 1, 'ChIJother')], null), queryId: 'q0002', status: 'partial' } as KeywordResult]]);
     const manifest = webManifest([
       { queryId: 'q0001', inputIndex: 0, keyword: '卤味', status: 'captured', stopReason: 'end_of_results', error: null, selectedQueryAttemptId: 'qa01', attempts: [{} as never], resultFile: 'a.json', artifactIds: [], persistenceStatus: 'verified' },
       { queryId: 'q0002', inputIndex: 1, keyword: 'x', status: 'partial', stopReason: 'scroll_limit', error: null, selectedQueryAttemptId: 'qa01', attempts: [{} as never], resultFile: 'b.json', artifactIds: [], persistenceStatus: 'verified' },
@@ -102,10 +102,10 @@ describe('ingestion', () => {
     ] as BatchManifest['queries']);
     const observations = ingestWebBatch({ manifest, results, store: { storeId: 'keke-flushing', placeId: 'ChIJRTD3Ws5hwokRES78IFU7zW0' } }, context);
     expect(observations.map(o => [o.pointId, o.rank.status, o.locationMode])).toEqual([['r0c0', 'not_found', 'query_only'], ['r0c0', 'not_found_in_prefix', 'query_only'], ['r0c0', 'blocked', 'query_only'], ['r0c0', 'failed', 'query_only']]);
-    expect(observations[0]!.point).toEqual({ latitude: 40.7658211, longitude: -73.8315243, distanceKm: 0, ring: 'inner' });
+    expect(observations[0]!.point).toEqual({ latitude: 40.7658211, longitude: -73.8315243, distanceKm: 0, ring: 'inner', zoom: null });
     expect(observations[3]!.observedAt).toBe('2026-10-20T20:00:00.000Z');
   });
-  it('derives Android observations from a v4 manifest and skips stores without a place ID', () => {
+  it('retains legacy Android evidence as unqualified and skips stores without a place ID', () => {
     const manifest = { runId: 'run_20261020T074518Z_f92602', startedAt: '2026-10-20T07:45:18.950Z', adapterVersion: 'android-screen-ocr/v4', profileHash: 'ph', queries: [
       { queryId: 'q0001', storeId: 'keke-flushing', keyword: 'braised food', location: { id: 'r0c0', latitude: 40.7658211, longitude: -73.8315243 }, rankingStatus: 'ranked', organicRank: 2, displayPosition: 2, listingStatus: 'partial', evidenceStatus: 'needs_review', stopReason: 'scroll_budget',
         listings: [{ displayPosition: 1, organicRank: 1, resultType: 'organic' as const, name: 'Crown One', rating: 4, reviewCount: 428, distanceText: '0 mi' }, { displayPosition: 2, organicRank: 2, resultType: 'organic' as const, name: 'KEKE BRAISED DELI', rating: 4.6, reviewCount: 9, distanceText: null }],
@@ -116,9 +116,9 @@ describe('ingestion', () => {
     const observations = ingestAndroidManifest({ manifest, placeIds: new Map([['keke-flushing', 'ChIJRTD3Ws5hwokRES78IFU7zW0']]), manifestKey: 'android/m.json' }, context);
     expect(observations).toHaveLength(2);
     expect(observations[0]).toMatchObject({ surface: 'android', locationMode: 'device_gps', pointId: 'r0c0', point: { distanceKm: 0, ring: 'inner' }, observedAt: '2026-10-20T07:45:52.392Z', localDate: '2026-10-20', keywordTier: 'core',
-      rank: { status: 'ranked', displayPosition: 2, organicRank: 2, listingsObserved: 2, listingStatus: 'partial', stopReason: 'scroll_budget' }, evidence: { manifestKey: 'android/m.json', resultKey: null, screenshotKeys: ['android-maps/2026-10-20/run/q0001/01.png'] }, source: { adapterVersion: 'android-screen-ocr/v4', profileHash: 'ph' } });
+      rank: { status: 'unreliable', displayPosition: null, organicRank: null, listingsObserved: 2, listingStatus: 'partial', stopReason: 'scroll_budget' }, evidence: { manifestKey: 'android/m.json', resultKey: null, screenshotKeys: ['android-maps/2026-10-20/run/q0001/01.png'] }, source: { adapterVersion: 'android-screen-ocr/v4', profileHash: 'ph' } });
     expect(observations[0]!.topListings[1]).toEqual({ displayPosition: 2, organicRank: 2, resultType: 'organic', name: 'KEKE BRAISED DELI', placeId: null, rating: 4.6, reviewCount: 9, distanceText: null });
-    expect(observations[1]).toMatchObject({ pointId: 'r-1c0', rank: { status: 'failed' }, point: { distanceKm: 2.497, ring: 'middle' }, observedAt: '2026-10-20T07:52:38.343Z', keywordTier: null });
+    expect(observations[1]).toMatchObject({ pointId: 'r-1c0', rank: { status: 'failed' }, point: { distanceKm: null, ring: null }, observedAt: '2026-10-20T07:52:38.343Z', keywordTier: null });
   });
   it('upserts idempotently in the memory store', async () => {
     const store = new MemoryObservationStore();
@@ -127,7 +127,7 @@ describe('ingestion', () => {
     expect(await store.upsert(observations)).toEqual({ inserted: 1, updated: 0 });
     expect(await store.upsert(observations)).toEqual({ inserted: 0, updated: 1 });
     expect(store.documents.size).toBe(1);
-    expect(observationId(observations[0]!)).toBe('android|s|k|r0c0|2026-10-20T07:45:18.950Z');
+    expect(observationId(observations[0]!)).toBe('v2|android|s|r||q0001|');
   });
 });
 

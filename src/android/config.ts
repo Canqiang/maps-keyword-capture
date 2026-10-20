@@ -11,7 +11,7 @@ const localUrl = z.string().url().refine(value => {
   return u.protocol === 'http:' && ['127.0.0.1', 'localhost', '[::1]'].includes(u.hostname) && !u.username && !u.password && !u.search && !u.hash && ['/', '/wd/hub', '/wd/hub/'].includes(u.pathname);
 }, 'Appium must be a credential-free loopback HTTP URL');
 const location = z.object({
-  id, label: nonempty, latitude: z.number().finite().min(-90).max(90), longitude: z.number().finite().min(-180).max(180),
+  id: z.union([id, z.string().regex(/^r(?:0|[+-][1-7])c(?:0|[+-][1-7])$/)]), label: nonempty, latitude: z.number().finite().min(-90).max(90), longitude: z.number().finite().min(-180).max(180),
   accuracyMeters: z.number().finite().min(1).max(1000).default(20),
   toleranceMeters: z.number().finite().min(10).max(1000).default(100), source: nonempty,
 }).strict();

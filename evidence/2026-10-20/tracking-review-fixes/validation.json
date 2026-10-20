@@ -1,0 +1,142 @@
+{
+  "validatedAt": "2026-10-20T11:43:27.850669+00:00",
+  "baseCommit": "cac847388f47015a6c1555c7d9e38a76b57ddbe1",
+  "branch": "codex/fix-tracking-review-20261020",
+  "scope": "Combined v5/v6 review fixes and inherited Android/grid defects; local-only validation.",
+  "checks": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAt": "2026-10-20T11:37:56.191134+00:00",
+      "finishedAt": "2026-10-20T11:37:56.615460+00:00",
+      "exitCode": 0,
+      "log": "final-typecheck.log",
+      "logSha256": "3fc5aedb48cddd77d68a5262cf567dc24aefff1ec26433633da1c15017c5a84e",
+      "rawLogSha256": "2fb8a356cc8f2b96ed4995e0e0becaedd52e4906c93577eb0d36d89dd8591895"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAt": "2026-10-20T11:37:56.615937+00:00",
+      "finishedAt": "2026-10-20T11:39:50.095004+00:00",
+      "exitCode": 0,
+      "log": "final-test.log",
+      "logSha256": "b05b444eab762c33d3b7c642bffae3f2081b9ef8c2e39a22ccf9602c1a61e1ca",
+      "rawLogSha256": "5a87a705643a7f1da349aacdf1bd2b51f04f8a74fa88cf125215bd0d58b38076"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-20T11:39:50.096041+00:00",
+      "finishedAt": "2026-10-20T11:39:50.564637+00:00",
+      "exitCode": 0,
+      "log": "final-build.log",
+      "logSha256": "155dd6e13725f1714fae5b9eec2633716fe01e6e6a90394314d4ae550499f402",
+      "rawLogSha256": "65002ab640b0283ca90925a2e0ad8e9f0436c9d052d8e0c826fcf5d0c24f9e07"
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "startedAt": "2026-10-20T11:39:50.565012+00:00",
+      "finishedAt": "2026-10-20T11:39:50.603290+00:00",
+      "exitCode": 0,
+      "log": "final-diff-check.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "testSummary": {
+    "filesPassed": 56,
+    "testsPassed": 1212,
+    "testsFailed": 0,
+    "testsSkipped": 0,
+    "contractTypeChecks": "passed"
+  },
+  "sourceStability": {
+    "changedDuringChecks": [],
+    "changedSinceFinalChecks": [],
+    "filesHashed": 189
+  },
+  "testedChangedFileSha256": {
+    "src/android/config.ts": "3179537fc5c73789d2600a517e37a15dcbb8be95f79c063e383fef3d87d89a40",
+    "src/android/runner.ts": "c412bcf1b198d3cc25bb4c3424ceec8af3f69a85bae9da53aac218f9329e1ecb",
+    "src/android/screen-reader.ts": "a14caa88aa0436aac5108e0ee164ce10a1b86f00513ae3d20008b5dce7186a3b",
+    "src/domain/cli.ts": "704707ea4003206c3efdb8acb76376bcda434a4f262c46c96b37b0e82073c3c9",
+    "src/domain/ingest.ts": "aa98021f581efc158aad39ff218f6b1ba53dc658a2f05534772d4406ac32d81d",
+    "src/domain/model.ts": "c38022f4c43bf16674938e0be9e39d00297d46436cd1ca231b5fc911be1164f9",
+    "src/domain/repository.ts": "18afc3190bf3e13dabdeb345f1aaa96e5dbfb351c3febf18920337c716e26133",
+    "src/domain/scan.ts": "174cb193f83187d6062a0fb2d9f06b6355a0a7a230fb3779ef68903b7ac4ccf6",
+    "src/domain/tracking-config.ts": "567c9ee96933f606ebd612da41536056bad01af27719cb2bd8dba7eaf669bfeb",
+    "src/grid/metrics.ts": "eed6daa5d3406121f36c02ab9d79b74470095a3871d08e5b0b9f655977ba4dd0",
+    "src/web/server.ts": "be961af5ed9248a58c73c174e2060af256706695b5537ff499319c073f31d15e",
+    "src/web/ui.ts": "901d307efeceeaf346c198b6788c300aa44ec60bb96fd1a5ebc22efa60eb373c",
+    "tests/android-device.test.ts": "334f4b97157ce7ef7aea0132d1862b5edf2b97bdd1be802a2563d3d8948714e1",
+    "tests/android-runner.test.ts": "68faa9b593555d1c0b5e88d27a3c1022b60b81831aa1e1745468126d5b317e35",
+    "tests/android-screen-reader.test.ts": "c1c071cae8c1321b0f985252df2c8ac1440b6172b03443df11edc9f0c6e3fafe",
+    "tests/domain-ingest.test.ts": "a0314fc6a3ed5d823d2ec054b001bab2039a2a50d50c0ad1d4a19f7c9ec3df9d",
+    "tests/domain.test.ts": "9afca94e41a7af21e58a9be1d56ac07a581eb8a00f4375b9adb5c311d3903c6b",
+    "tests/grid.test.ts": "3baac981258b2757d86510f2312fd3af908b07dee93009e5e894dafcace5334a",
+    "tests/tracking-command-regressions.test.ts": "d7c707cae1ba5badf76edd71bd9ef71470ef9e61487917871b714ed842a7f344",
+    "tests/tracking-reliability.test.ts": "ed6f06d69a31eaa2d125bcc73e3b7ea2c42457d4a1b46b01562d29ea7cfdc447",
+    "tests/tracking-ui.test.ts": "88a76b3df0c5f0b71ee3d7ca456504b4c8e0dcd5a48c5efaa244fe03e15b40d4",
+    "tests/tracking-web-scan.test.ts": "71597d321f4064be709160dd6d79e2e3cba92b6b22206bb3244ea3b768576a21"
+  },
+  "independentReviews": [
+    {
+      "file": "independent-review.md",
+      "sha256": "0ceb1659345b99b9c4e70b8fd8d72ab65fe9cc6c12593ebc8474003da940dbf7",
+      "conclusion": "No remaining concrete P1/P2 findings in the final inspected scope; additional reproduced findings repaired and rechecked."
+    },
+    {
+      "file": "root-owned-review.md",
+      "sha256": "3b5c735e19494a817511602001509aa962848fac6fa03ddd45c2efb10e63ac2a",
+      "conclusion": "No remaining concrete P1/P2 findings in the final inspected scope; additional reproduced findings repaired and rechecked."
+    }
+  ],
+  "rawEvidenceDirectory": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-maps-2026-10-16/fixes-20261020",
+  "isolation": {
+    "canonicalCheckout": "/Users/xander/git_repo/maps-keyword-capture",
+    "canonicalHead": "cac847388f47015a6c1555c7d9e38a76b57ddbe1",
+    "canonicalClean": true,
+    "unchangedPaths": [
+      "src/monitor",
+      "src/runner",
+      "src/browser",
+      "src/storage",
+      "src/config.ts",
+      "src/contracts.ts",
+      "src/android/device.ts",
+      "package.json",
+      "package-lock.json",
+      "deploy/**/*.yaml",
+      "deploy/**/*.yml"
+    ],
+    "liveServiceMutations": false,
+    "deployed": false,
+    "pushed": false,
+    "merged": false
+  },
+  "limitations": [
+    "No fresh live Android Maps or Google Web acceptance run.",
+    "No cluster, Azure or MongoDB operations, database migration, deployment or scheduled run was used for this validation.",
+    "Legacy observations remain stored; records missing quality/provenance are not silently trusted. Versioned observation ID migration is not performed.",
+    "Android automatic scheduling and shared SEO keyword-library synchronization are outside these fixes.",
+    "Tests and reproductions use local fixtures, mock devices and mock sinks; they do not prove live ranking behavior or remote delivery."
+  ],
+  "repositoryLogNormalization": "Trailing blank lines removed for Git whitespace checks; raw logs remain unchanged in rawEvidenceDirectory."
+}

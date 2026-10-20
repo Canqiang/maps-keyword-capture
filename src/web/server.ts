@@ -2,8 +2,8 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import { pathToFileURL } from 'node:url';
 import { generateGrid } from '../grid/grid.js';
-import { computeGridMetrics, heatMapRows, type GridObservation } from '../grid/metrics.js';
-import { keywordKey, type Surface } from '../domain/model.js';
+import { computeGridMetrics, heatMapRows, matchesGridPoint, type GridObservation } from '../grid/metrics.js';
+import { keywordKey, observationCohortKey, organicRankForMetrics, type RankObservation, type Surface } from '../domain/model.js';
 import { MongoTrackingRepository, type TrackingRepository } from '../domain/repository.js';
 import { loadTrackingConfig, storeGridSpec, type TrackingConfig } from '../domain/tracking-config.js';
 import { AzureBlobGateway, containerClientFromEnv } from '../storage/azure-gateway.js';
@@ -27,6 +27,12 @@ function send(res: ServerResponse, status: number, body: unknown, type = 'applic
   res.end(payload);
 }
 async function readJson(req: IncomingMessage): Promise<unknown> {
+  if (req.headers['content-type']?.split(';')[0]?.trim().toLowerCase() !== 'application/json') throw new HttpError(415, 'content-type must be application/json');
+  if (req.headers.origin) {
+    let origin: URL;
+    try { origin = new URL(req.headers.origin); } catch { throw new HttpError(403, 'invalid origin'); }
+    if (!['http:', 'https:'].includes(origin.protocol) || origin.host !== req.headers.host) throw new HttpError(403, 'cross-origin mutation is not allowed');
+  }
   const chunks: Buffer[] = [];
   let size = 0;
   for await (const chunk of req) {
@@ -34,7 +40,11 @@ async function readJson(req: IncomingMessage): Promise<unknown> {
     if (size > MAX_BODY) throw new HttpError(413, 'request body too large');
     chunks.push(chunk as Buffer);
   }
-  try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { throw new HttpError(400, 'body must be JSON'); }
+  try {
+    const value: unknown = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('not an object');
+    return value;
+  } catch { throw new HttpError(400, 'body must be a JSON object'); }
 }
 function surfaceOf(value: string | null): Surface {
   if (value === null || value === 'web') return 'web';
@@ -45,9 +55,14 @@ function surfaceOf(value: string | null): Surface {
 export function createHandler(deps: ServerDeps) {
   const now = deps.now ?? (() => new Date());
   return async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
-    const url = new URL(req.url ?? '/', 'http://localhost');
-    const parts = url.pathname.split('/').filter(Boolean).map(decodeURIComponent);
+    let pathname = '/';
     try {
+      let url: URL, parts: string[];
+      try {
+        url = new URL(req.url ?? '/', 'http://localhost');
+        pathname = url.pathname;
+        parts = url.pathname.split('/').filter(Boolean).map(decodeURIComponent);
+      } catch { throw new HttpError(400, 'malformed URL path'); }
       if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) return send(res, 200, UI_HTML, 'text/html; charset=utf-8');
       if (req.method === 'GET' && url.pathname === '/healthz') return send(res, 200, { ok: true });
       if (parts[0] !== 'api') throw new HttpError(404, 'not found');
@@ -57,7 +72,7 @@ export function createHandler(deps: ServerDeps) {
       }
       if (parts[1] === 'stores' && parts.length === 2) {
         if (req.method === 'GET') {
-          const [stores, summaries] = await Promise.all([deps.repo.listStores({ includeInactive: true }), deps.repo.summaries()]);
+          const [stores, summaries] = await Promise.all([deps.repo.listStores({ includeInactive: true }), deps.repo.summaries({ surface: surfaceOf(url.searchParams.get('surface')) })]);
           const byId = new Map(summaries.map(s => [s.storeId, s]));
           return send(res, 200, stores.map(store => ({ ...store, summary: byId.get(store.storeId) ?? null })));
         }
@@ -74,7 +89,7 @@ export function createHandler(deps: ServerDeps) {
         if (parts.length === 3 && req.method === 'PUT') {
           const body = await readJson(req) as Record<string, unknown>;
           if (body.storeId !== undefined && body.storeId !== storeId) throw new HttpError(400, 'storeId cannot change');
-          try { return send(res, 200, await deps.repo.saveStore({ ...body, storeId }, now())); }
+          try { return send(res, 200, await deps.repo.saveStore({ ...(store.expectedArea ? { expectedArea: store.expectedArea } : {}), ...body, storeId }, now())); }
           catch (error) { throw new HttpError(400, error instanceof Error ? error.message : 'invalid store'); }
         }
         if (parts.length === 4 && parts[3] === 'active' && req.method === 'PUT') {
@@ -96,16 +111,33 @@ export function createHandler(deps: ServerDeps) {
         if (parts.length === 4 && parts[3] === 'grid' && req.method === 'GET') {
           const keyword = url.searchParams.get('keyword'), localDate = url.searchParams.get('date');
           if (!keyword || !localDate || !/^\d{4}-\d{2}-\d{2}$/u.test(localDate)) throw new HttpError(400, 'keyword and date=YYYY-MM-DD are required');
-          const grid = generateGrid(storeGridSpec(deps.config, store));
-          const ids = new Set(grid.map(p => p.id));
           const rows = await deps.repo.day(storeId, keywordKey(keyword), { surface: surfaceOf(url.searchParams.get('surface')), localDate });
-          // One observation per point: the latest of the day.
-          const latest = new Map<string, (typeof rows)[number]>();
-          for (const row of rows) if (ids.has(row.pointId) && (!latest.has(row.pointId) || row.observedAt > latest.get(row.pointId)!.observedAt)) latest.set(row.pointId, row);
+          const captured = rows.filter(row => row.gridSpec);
+          const candidates = captured.length ? captured : rows.filter(row => row.pointId !== 'r0c0');
+          const newest = candidates.slice().sort((a, b) => b.observedAt.localeCompare(a.observedAt))[0];
+          const spec = newest?.gridSpec ?? storeGridSpec(deps.config, store);
+          const grid = generateGrid(spec);
           const point = new Map(grid.map(p => [p.id, p]));
-          const observations: GridObservation[] = [...latest.values()].map(o => ({ pointId: o.pointId, distanceKm: point.get(o.pointId)!.distanceKm, ring: point.get(o.pointId)!.ring, rank: o.rank.status === 'failed' || o.rank.status === 'blocked' ? null : o.rank.organicRank }));
-          const usable = observations.filter(o => latest.get(o.pointId)!.rank.status !== 'failed' && latest.get(o.pointId)!.rank.status !== 'blocked');
-          return send(res, 200, { grid, metrics: computeGridMetrics(grid, usable), heatMap: heatMapRows(grid, usable), cells: grid.map(p => ({ id: p.id, row: p.row, col: p.col, distanceKm: p.distanceKm, rank: usable.find(o => o.pointId === p.id)?.rank ?? null, observed: usable.some(o => o.pointId === p.id) })) });
+          // Compare settings/profile snapshots across points, while checking each captured coordinate.
+          const snapshotKey = (row: RankObservation): string | null => observationCohortKey(row) === null ? null
+            : JSON.stringify([row.surface, row.storeId, row.placeId, row.keywordKey, row.locationMode, row.point.zoom ?? null, row.source.profileHash, row.source.adapterVersion, row.gridSpec ?? null, row.gridRunId ?? null]);
+          const runRows = newest?.gridRunId ? rows.filter(row => row.gridRunId === newest.gridRunId) : rows;
+          // A missing result still identifies the newest run. Recover comparison metadata from
+          // a qualified point inside that run only; an entirely failed run stays unavailable.
+          const anchor = newest?.gridRunId ? runRows.slice().sort((a, b) => b.observedAt.localeCompare(a.observedAt))
+            .find(row => snapshotKey(row) !== null && organicRankForMetrics(row) !== undefined) : newest;
+          const snapshot = anchor ? snapshotKey(anchor) : null;
+          const latest = new Map<string, RankObservation>();
+          for (const row of runRows) if ((newest?.gridRunId || (snapshot !== null && snapshotKey(row) === snapshot)) && point.has(row.pointId)
+            && (!latest.has(row.pointId) || row.observedAt > latest.get(row.pointId)!.observedAt)) latest.set(row.pointId, row);
+          const usable: GridObservation[] = [];
+          for (const row of latest.values()) {
+            const p = point.get(row.pointId)!;
+            const rank = organicRankForMetrics(row);
+            if (snapshot !== null && snapshotKey(row) === snapshot && rank !== undefined && matchesGridPoint(p, row.point)) usable.push({ pointId: p.id, distanceKm: p.distanceKm, ring: p.ring, rank });
+          }
+          return send(res, 200, { grid, gridSpec: spec, geometrySource: newest?.gridSpec ? 'captured' : 'current_verified_coordinates',
+            metrics: computeGridMetrics(grid, usable), heatMap: heatMapRows(grid, usable), cells: grid.map(p => ({ id: p.id, row: p.row, col: p.col, distanceKm: p.distanceKm, rank: usable.find(o => o.pointId === p.id)?.rank ?? null, observed: usable.some(o => o.pointId === p.id) })) });
         }
       }
       if (req.method === 'GET' && parts[1] === 'evidence' && parts.length === 2) {
@@ -118,7 +150,7 @@ export function createHandler(deps: ServerDeps) {
       throw new HttpError(404, 'not found');
     } catch (error) {
       const status = error instanceof HttpError ? error.status : 500;
-      if (status === 500) deps.log?.({ stage: 'http_error', path: url.pathname, error: error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 200) : 'unknown' });
+      if (status === 500) deps.log?.({ stage: 'http_error', path: pathname, error: error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 200) : 'unknown' });
       send(res, status, { error: status === 500 ? 'internal error' : (error as Error).message });
     }
   };
@@ -126,7 +158,10 @@ export function createHandler(deps: ServerDeps) {
 
 export function startServer(deps: ServerDeps, port: number): Server {
   const handler = createHandler(deps);
-  const server = createServer((req, res) => { void handler(req, res); });
+  const server = createServer((req, res) => { void handler(req, res).catch(() => {
+    if (!res.headersSent) send(res, 500, { error: 'internal error' });
+    else res.destroy();
+  }); });
   server.listen(port);
   return server;
 }
