@@ -62,3 +62,84 @@ describe('grid geometry labels', () => {
   expect(UI_HTML).not.toContain('整个半径内的覆盖率');
  });
 });
+
+function renderEvidenceCard(row: Record<string, unknown>): string {
+ const script = UI_HTML.match(/<script>([\s\S]*)<\/script>/)![1]!;
+ const setup = script.slice(0, script.indexOf('const E=M.escape'));
+ const declarations = ['const channel=', 'const when=', 'const badge=', 'function conditionRows(', 'function observationCard(']
+  .map(prefix => script.split('\n').find(line => line.startsWith(prefix))!).join('\n');
+ return runInNewContext(setup + '\nconst E=M.escape, settings={timezone:"America/New_York"};\n' + declarations + '\nobservationCard(row,"Selected evidence")', { row });
+}
+
+// Reduced from the real 2026-10-20 ENTER probe: the second item is the clipped
+// Wonder card, not a proved second business. No screenshot bytes are embedded.
+function unreliableAndroidCard() {
+ return {
+  observationId:'probe-order', keyword:'braised food', observedAt:'2026-10-20T14:16:49Z',
+  surface:'android', pointId:'r+2c-2', locationMode:'device_gps', eligible:false, metricOrganicRank:null,
+  rank:{status:'unreliable',organicRank:null,displayPosition:null,targetOccurrences:[],adDisplayPositions:[]},
+  quality:{rankingReliable:false,sequenceVerified:false,classificationComplete:false,screenshotCoverageComplete:true,identityResolved:false,
+   geographicRelevance:null,locationEvidence:{injectionStatus:'sent',deviceLocationStatus:'matched',mapsLocationStatus:'unverified'},
+   warnings:['ordered_overlap_missing','unknown_cards_precede_organic_ranks']},
+  topListings:[
+   {displayPosition:1,organicRank:null,resultType:'ad',name:'Wonder Parkchester',rating:4.7,reviewCount:49},
+   {displayPosition:2,organicRank:null,resultType:'unknown',name:null,rating:4.7,reviewCount:49},
+   {displayPosition:3,organicRank:null,resultType:'ad',name:'Sugar Restaurant',rating:4.7,reviewCount:1696},
+  ],
+  evidence:{screenshotKeys:['android-maps/2026-10-20/probe/frame-001.png','android-maps/2026-10-20/probe/frame-002.png']},
+ };
+}
+
+describe('evidence card ordering and location semantics', () => {
+ it.each([
+  {sequenceVerified:false,screenshotCoverageComplete:true},
+  {sequenceVerified:true,screenshotCoverageComplete:false},
+  {sequenceVerified:undefined,screenshotCoverageComplete:true},
+  {sequenceVerified:true,screenshotCoverageComplete:undefined},
+ ])('labels unverified ordering as raw record numbers while retaining all rows and exact screenshot references: %j', quality => {
+  const row=unreliableAndroidCard();
+  const html=renderEvidenceCard({...row,quality:{...row.quality,...quality}});
+  expect(html).toContain('<th>原始记录序号（待核）</th>');
+  expect(html).not.toContain('<th>含广告顺序</th>');
+  expect(html).toContain('序号不是已验证的显示顺序或排名');
+  expect(html).toContain('<td>1</td><td>—</td>');
+  expect(html).toContain('<td>2</td><td>—</td>');
+  expect(html).toContain('<td>3</td><td>—</td>');
+  expect(html).toContain('Wonder Parkchester');
+  expect(html).toContain('名称不可用');
+  expect(html).toContain('Sugar Restaurant');
+  for(const key of row.evidence.screenshotKeys) expect(html).toContain(m.evidenceUrl(key)!);
+ });
+ it('does not turn unverified target appearances or ad positions into confirmed display positions', () => {
+  const row=unreliableAndroidCard();
+  const html=renderEvidenceCard({...row,rank:{...row.rank,displayPosition:3,adDisplayPositions:[3]}});
+  expect(html).toContain('<span>本店原始记录序号（待核）</span><b>3</b>');
+  expect(html).toContain('<span>本店广告记录序号（待核）</span><b>3</b>');
+  expect(html).not.toContain('<span>首次显示顺序（含广告）</span>');
+ });
+ it('keeps verified display order even when ad classification prevents a natural rank', () => {
+  const row=unreliableAndroidCard();
+  const html=renderEvidenceCard({...row,quality:{...row.quality,sequenceVerified:true},
+   rank:{...row.rank,displayPosition:3,adDisplayPositions:[3]},
+   topListings:[...row.topListings,{displayPosition:4,organicRank:1,resultType:'organic',name:'Unqualified organic observation',rating:4,reviewCount:20}]});
+  expect(html).toContain('<th>含广告顺序</th>');
+  expect(html).toContain('<span>首次显示顺序（含广告）</span><b>3</b>');
+  expect(html).toContain('<span>本店广告位置</span><b>3</b>');
+  expect(html).not.toContain('序号不是已验证的显示顺序或排名');
+  expect(html).toContain('<td>4</td><td>—</td>');
+  expect(html).not.toContain('<td>4</td><td>1</td>');
+ });
+ it.each(['matched','mismatch','unverified',undefined])('shows actual GPS %s and unverified Maps backend separately before the screenshots', deviceLocationStatus => {
+  const row=unreliableAndroidCard();
+  const html=renderEvidenceCard({...row,quality:{...row.quality,locationEvidence:{...row.quality.locationEvidence,deviceLocationStatus}}});
+  const beforeScreenshots=html.slice(0,html.indexOf('<div class="shots'));
+  expect(beforeScreenshots).toContain('设备 GPS：'+(deviceLocationStatus??'未记录'));
+  expect(beforeScreenshots).toContain('Maps 搜索后端定位：unverified');
+  expect(beforeScreenshots).toContain('设备定位匹配不代表搜索后端位置已经核实');
+ });
+ it('does not attach Android GPS wording to Web evidence', () => {
+  const row=unreliableAndroidCard();
+  const html=renderEvidenceCard({...row,surface:'web',locationMode:'map_view'});
+  expect(html.slice(0,html.indexOf('<div class="shots'))).not.toContain('Maps 搜索后端定位：');
+ });
+});
