@@ -1,0 +1,157 @@
+{
+  "frameId": "q0001:frame-008",
+  "capturedAt": "2026-10-18T05:04:09.090Z",
+  "listBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "atTop": false,
+  "canScrollForward": true,
+  "canScrollBackward": true,
+  "layoutValid": true,
+  "cards": [
+    {
+      "observationId": "q0001:frame-008:card-0",
+      "frameId": "q0001:frame-008",
+      "cardIndex": 0,
+      "kind": "photo_module",
+      "bounds": {
+        "left": 0,
+        "top": 274,
+        "right": 720,
+        "bottom": 1132
+      },
+      "headerBounds": {
+        "left": 0,
+        "top": 274,
+        "right": 720,
+        "bottom": 314
+      },
+      "headerComplete": true,
+      "name": null,
+      "rating": null,
+      "reviewCount": null,
+      "resultType": "unknown",
+      "adLabel": null,
+      "fieldEvidence": {},
+      "anchors": [
+        {
+          "text": "Image result for hot pot near me posted by Omer Efrat",
+          "bounds": {
+            "left": 40,
+            "top": 314,
+            "right": 486,
+            "bottom": 872
+          }
+        },
+        {
+          "text": "Image result for hot pot near me posted by Mila",
+          "bounds": {
+            "left": 502,
+            "top": 314,
+            "right": 720,
+            "bottom": 872
+          }
+        },
+        {
+          "text": "View photo map",
+          "bounds": {
+            "left": 40,
+            "top": 1012,
+            "right": 680,
+            "bottom": 1092
+          }
+        }
+      ],
+      "warnings": [
+        "Native result-photo module; excluded from merchant identity and ranks"
+      ]
+    },
+    {
+      "observationId": "q0001:frame-008:card-1",
+      "frameId": "q0001:frame-008",
+      "cardIndex": 1,
+      "kind": "merchant",
+      "bounds": {
+        "left": 0,
+        "top": 1148,
+        "right": 720,
+        "bottom": 1232
+      },
+      "headerBounds": {
+        "left": 0,
+        "top": 1148,
+        "right": 720,
+        "bottom": 1232
+      },
+      "headerComplete": false,
+      "name": null,
+      "rating": null,
+      "reviewCount": null,
+      "resultType": "unknown",
+      "adLabel": null,
+      "fieldEvidence": {},
+      "anchors": [
+        {
+          "text": "Wheelchair accessible",
+          "bounds": {
+            "left": 326,
+            "top": 1224,
+            "right": 358,
+            "bottom": 1232
+          }
+        }
+      ],
+      "warnings": [
+        "Clipped or incomplete header; merchant identity and organic classification unavailable"
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "text": "Image result for hot pot near me posted by Omer Efrat",
+      "bounds": {
+        "left": 40,
+        "top": 314,
+        "right": 486,
+        "bottom": 872
+      }
+    },
+    {
+      "text": "Image result for hot pot near me posted by Mila",
+      "bounds": {
+        "left": 502,
+        "top": 314,
+        "right": 720,
+        "bottom": 872
+      }
+    },
+    {
+      "text": "View photo map",
+      "bounds": {
+        "left": 40,
+        "top": 1012,
+        "right": 680,
+        "bottom": 1092
+      }
+    },
+    {
+      "text": "Wheelchair accessible",
+      "bounds": {
+        "left": 326,
+        "top": 1224,
+        "right": 358,
+        "bottom": 1232
+      }
+    }
+  ],
+  "warnings": [],
+  "ocr": {
+    "imageSha256": "254ddda48f6716a7c9503eeb6b7fa13716d57ea43051bfa9e7545499ffcf0e89",
+    "engine": "tesseract",
+    "engineVersion": "tesseract 5.3.0",
+    "languages": "eng+chi_sim+chi_tra"
+  }
+}

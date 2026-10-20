@@ -1,0 +1,157 @@
+{
+  "frameId": "q0002:frame-010",
+  "capturedAt": "2026-10-18T05:05:01.091Z",
+  "listBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "atTop": false,
+  "canScrollForward": true,
+  "canScrollBackward": true,
+  "layoutValid": true,
+  "cards": [
+    {
+      "observationId": "q0002:frame-010:card-0",
+      "frameId": "q0002:frame-010",
+      "cardIndex": 0,
+      "kind": "photo_module",
+      "bounds": {
+        "left": 0,
+        "top": 274,
+        "right": 720,
+        "bottom": 1133
+      },
+      "headerBounds": {
+        "left": 0,
+        "top": 274,
+        "right": 720,
+        "bottom": 315
+      },
+      "headerComplete": true,
+      "name": null,
+      "rating": null,
+      "reviewCount": null,
+      "resultType": "unknown",
+      "adLabel": null,
+      "fieldEvidence": {},
+      "anchors": [
+        {
+          "text": "Image result for hot pot near me posted by Angel Chan",
+          "bounds": {
+            "left": 40,
+            "top": 315,
+            "right": 486,
+            "bottom": 873
+          }
+        },
+        {
+          "text": "Image result for hot pot near me posted by James Eng",
+          "bounds": {
+            "left": 502,
+            "top": 315,
+            "right": 720,
+            "bottom": 873
+          }
+        },
+        {
+          "text": "View photo map",
+          "bounds": {
+            "left": 40,
+            "top": 1013,
+            "right": 680,
+            "bottom": 1093
+          }
+        }
+      ],
+      "warnings": [
+        "Native result-photo module; excluded from merchant identity and ranks"
+      ]
+    },
+    {
+      "observationId": "q0002:frame-010:card-1",
+      "frameId": "q0002:frame-010",
+      "cardIndex": 1,
+      "kind": "merchant",
+      "bounds": {
+        "left": 0,
+        "top": 1149,
+        "right": 720,
+        "bottom": 1232
+      },
+      "headerBounds": {
+        "left": 0,
+        "top": 1149,
+        "right": 720,
+        "bottom": 1232
+      },
+      "headerComplete": false,
+      "name": null,
+      "rating": null,
+      "reviewCount": null,
+      "resultType": "unknown",
+      "adLabel": null,
+      "fieldEvidence": {},
+      "anchors": [
+        {
+          "text": "Wheelchair accessible",
+          "bounds": {
+            "left": 331,
+            "top": 1225,
+            "right": 363,
+            "bottom": 1232
+          }
+        }
+      ],
+      "warnings": [
+        "Clipped or incomplete header; merchant identity and organic classification unavailable"
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "text": "Image result for hot pot near me posted by Angel Chan",
+      "bounds": {
+        "left": 40,
+        "top": 315,
+        "right": 486,
+        "bottom": 873
+      }
+    },
+    {
+      "text": "Image result for hot pot near me posted by James Eng",
+      "bounds": {
+        "left": 502,
+        "top": 315,
+        "right": 720,
+        "bottom": 873
+      }
+    },
+    {
+      "text": "View photo map",
+      "bounds": {
+        "left": 40,
+        "top": 1013,
+        "right": 680,
+        "bottom": 1093
+      }
+    },
+    {
+      "text": "Wheelchair accessible",
+      "bounds": {
+        "left": 331,
+        "top": 1225,
+        "right": 363,
+        "bottom": 1232
+      }
+    }
+  ],
+  "warnings": [],
+  "ocr": {
+    "imageSha256": "fd1f933957dff08274bf114c648eaf1ce7ba519004548025100175838935fed9",
+    "engine": "tesseract",
+    "engineVersion": "tesseract 5.3.0",
+    "languages": "eng+chi_sim+chi_tra"
+  }
+}

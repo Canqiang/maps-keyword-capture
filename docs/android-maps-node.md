@@ -1,0 +1,161 @@
+# Native Android Google Maps capture
+
+This adds a standalone native Android listing and screenshot worker. The official Google Maps app runs on a dedicated emulator; it is not a mobile viewport in Chrome. The web daily monitor, keyword source and schedule remain unchanged.
+
+## Screen reader v4 — 2026-10-20
+
+The v3 reader (native card crops, overlap proofs and OCR of 260 px headers) stopped at the "Discover through photos" module on every real list and rarely read past the first card. The 2026-10-20 location probe on the crawler node showed that a plain adb loop (geo fix, search, fixed swipe, screenshot) plus full-screen Tesseract gives usable ranked lists, so v4 replaces the reading layer:
+
+- **Primary evidence is the screenshot.** `screen_ocr.py` OCRs the whole PNG (scale 2, psm 4) and returns text lines with screen-pixel bounds. `src/android/screen-reader.ts` turns lines into cards: a rating line such as `4.6 ★ (9) · $10–20 · Chinese` (OCR often renders ★ as `%`, `&` or `*`), the closest text line above it as the name (one wrapped line is joined), a `Sponsored` line up to 160 px above the name as the ad label, and the status line below (`Closed · Opens 9:30 AM · 0.9 mi`) for open status and distance. Lines above the sheet's own copy of the query (the map, its labels and the search box) are ignored.
+- **Fixed swipes, append-only merge.** `swipeResults()` swipes slowly from 85% to 45% of the screen height with `adb shell input swipe` (700 ms, no fling), so every card is fully visible in at least one of two consecutive screenshots. Frames merge in capture order; a card seen again in the overlap is matched by name key, or by rating plus review count when OCR mangled the name differently. The list ends when the screenshot repeats or two consecutive frames add nothing.
+- **Ranks.** `displayPosition` counts every card including ads; `organicRank` skips ads. Unknown cards (a rating line whose name was clipped and never seen whole) keep a display position, have no organic rank and set `rankingReliable=false`. `maxDisplayedResults` truncates the list; `maxScreenshotsPerQuery` and `maxScrolls` remain the budgets.
+- **Target matching.** Each task may list `aliases`; the first listing whose OCR name contains an alias (letters, digits and CJK only, case-insensitive) sets the query's `displayPosition` and `organicRank` with `rankingStatus=ranked`. A complete list without a match is `not_found`; a partial list is `not_found_in_prefix`. Keke needs `["可可小卤", "KEKE BRAISED DELI"]`; `Mr KEKE` is a separate Google listing and is not matched unless listed.
+- **Native XML is auxiliary.** It still detects blocked/consent/detail/no-results screens and verifies the query field; it no longer gates card reading. OCR JSON and the parsed frame are persisted next to each PNG (`.ocr.json`, `.frame.json`), and `listings.csv` carries name, rating, reviews, price, category, distance, open status and an `isTarget` flag.
+- **Limits.** OCR confidence is recorded but not thresholded; CJK names are frequently garbled, which is why aliases should include an ASCII form. Distances on cards are Google's measurement from the injected location and corroborate but do not formally verify the backend location, so `mapsLocationStatus` stays `unverified`. The reader is tuned to Maps 26.41 at 720×1280; another layout needs new fixtures.
+
+## What is implemented
+
+- Strict, bounded task input with store, exact keyword, source reference and a named observation point.
+- Device preflight, native Appium session, GPS injection, exact query-field verification, fixed-distance swipes over the result sheet, original PNG and contemporaneous accessibility XML.
+- Full-screen local OCR of every result screenshot (`deploy/android/linux/screen_ocr.py`, Tesseract, pinned language packs). A card is a rating line, the name line above it and the status line below it; the sheet header line bounds the search. No screenshot is sent to an external OCR service.
+- Frame merging in swipe order with overlap de-duplication, explicit ad/organic/unknown classification, displayed positions including ads and organic positions excluding ads, distance and open-status fields, and target-store matching by configured aliases.
+- Independent Android profile/run namespace and immutable input, device, query JSON, CSV, screenshot receipts and final manifest.
+- Existing local/Azure persistence and byte/SHA-256 readback. A final manifest has a separate delivery receipt; it does not prove its own upload.
+- Terminal errors stop remaining tasks; no automated rerun, browser fallback or manipulation of the desktop schedule.
+
+## Important interpretation
+
+Adapter `android-ui-evidence/v3` exports result rows under `queries[].listings` and `listings.csv`. `displayPosition` includes ads; `organicRank` excludes ads. An unknown classification blocks its own and later organic ranks. Repeated names are separate occurrences when they occupy different cards (including one ad and one organic appearance). Native child indices never become ranks. A verified top and unambiguous overlapping native card geometry establish the prefix; missing overlap retains the earlier prefix and marks the query partial.
+
+Each retained merchant occurrence contains:
+
+| Field | Meaning |
+| --- | --- |
+| `name` | Merchant title read from the visible native card; null if cropped or unreliable. |
+| `rating` / `reviewCount` | Visible rating and exact review count; missing/compact/unreadable values remain null. |
+| `resultType` | `ad`, `organic`, or `unknown`, with the observed ad label retained separately. |
+| `displayPosition` | One-based merchant-card order, including advertisements and excluding photo-discovery modules. |
+| `organicRank` | One-based organic position; ads have no organic rank and an unknown classification blocks later organic ranks. |
+| `frameIds` / `observationIds` | Links to all saved frames supporting this occurrence and its overlap history. |
+| `fieldEvidence` / `warnings` | Native/OCR text, coordinates, confidence and unresolved interpretation. |
+
+For example, two Sponsored cards followed by the first organic business have displayed positions 1,2,3 and organic ranks null,null,1. This is a position in the captured list at the recorded point and time, not a general ranking claim. A clipped edge placeholder never supplies a new rank until its header is observed; photo modules remain in the geometric overlap history but never consume a merchant position.
+
+`listingQuality.rankingReliable=true` applies only to the retained, top-established continuous prefix and its supported classification. It does not mean target 15 was reached, every OCR character is correct, or the ranking is proven customer-local. `listingStatus` (coverage) and `evidenceStatus` (execution/evidence) describe the same tasks on separate axes: a failed query may still preserve a partial prefix. Do not add those counts together.
+
+Query-level `rankingStatus=not_evaluated`, `organicRank=null`, and `displayPosition=null` remain intentional: these are the monitored store summary, and automated target-store identity matching is not implemented. Use individual listing rows for observed positions. `listingStatus` distinguishes `complete`, `partial`, `non_ranking`, and `not_evaluated`; `listingQuality` exposes prefix, fields, classification and pending-card coverage. Complete means the requested prefix or proven list end was captured with resolved fields/classification. A detail or photo-discovery page has no numeric list rank. Layout transitions after a list starts remain partial.
+
+Low-confidence names/counts remain null, with the OCR candidate retained in warnings and raw evidence. A partially unreadable name can coexist with a known organic classification only when the full supported header/ad region is visible, meaningful name text and valid rating/no-review metadata were read, and neither native nor OCR evidence contains an ambiguous advertisement label. Field completeness remains false.
+
+Native readiness supports the observed dynamic home search hint and the initial organic-card-plus-photo-module layout. Search entry waits for a bounded, explicitly focused native input after one click. Mixed list recognition shares the strict parent/button filter predicate, supports a closed quote/avatar footer subtree, and preserves top-clipped photo-module tails as non-merchant overlap evidence. A closed empty bottom action strip after a supported quote/photo footer remains non-ranking layout evidence. A multiline sponsored header can be complete beyond the old fixed height only when explicit native Sponsored/About-this-ad metadata and a closed genuine photo-carousel boundary prove it; OCR remains bounded to the first 260px, so unreadable fields still remain null. Suspected narrow right-edge scrollbar glyphs withhold the entire frame name rather than removing characters; raw OCR and independent rating/review fields are retained. Earlier clean names can survive only through the unchanged occurrence reconciliation. Native ancestry, exact query, clipping and immediately adjacent merchant controls remain required; missing cross-frame anchors still stop the prefix. Populated, clipped merchant headers following a proven photo module can be captured without assigning them a rank solely from their structure. After initial supported search readiness, a stable exact-query unknown screen is saved for review instead of consuming the entire query timeout; visible loading, foreground, exact-query and paired PNG/XML checks remain enforced.
+
+The trial 23 continuation correction rejects translation candidates supported only by repeated generic Sponsored/About labels unless independent native evidence or sufficient exact card-edge proof supports that mapping. It does not rank candidates by score or choose a command-sized displacement. A blank1–3 px leading merchant remnant can retain its previous occurrence only under exact projected bounds and multiple full-anchor translation proof, with no surviving native control or invented fields. A closed native clipped-filter strip can remain a recognized list while BACKWARD stays true; neither layout recognition nor planned gesture makes it the top. These changes passed focused and full local checks; Trial 24 still ended with three partial lists below the target.
+
+The observed top-clipped photo-map tail may lose its icon while the labeled button remains. The supported iconless branch requires the exact closed FrameLayout/body/control ancestry, sole body child, no control descendants, exactly three descendants and a control top matching the clipped card top. Original icon and metadata branches remain separate. The fragment is never a merchant or an OCR region; independent rawXML verification and the normal adjacent-merchant/cross-frame proof still apply.
+
+Scrolling uses one W3C touch action inside the freshly validated native list: an immediate pointer down/move, a 650 ms movement, a 300 ms destination pause and release. The current pilot experiment (trials 22–24) caps the request at 10% of list height, rounded up to an integral pixel; the prior trial 21 used 10–35%. Touch timing is unchanged. This smaller planned movement still requires measured native overlap in the next saved frame. Native element identity/bounds, foreground, exact query and source XML are rechecked before dispatch. Requested distance and successful action completion do not prove actual scroll distance, continuity or list end; the next persisted frame must pass ordinary reconciliation. A dispatched action that fails or times out has no automatic fallback/retry.
+
+A source change detected **before any gesture** returns `SOURCE_CHANGED`. The runner permits at most two fresh captures per query through the normal PNG/XML persistence, OCR and reconciliation path; those captures consume the existing screenshot/time budgets and do not count as sent gestures. After two such recaptures, a third pre-dispatch `SOURCE_CHANGED` now stops only that query as `needs_review`/`partial`; cancellation and deadline are checked first. The next task repeats normal fresh location/search preparation. Wrong foreground, unsupported scroll layout, uncertain action/session outcome and failed persistence retain their fatal behavior. This is bounded observation refresh, not permission to scroll from stale coordinates or join changed states. The next native forward-scroll state alone determines list end.
+
+Rating parsing now requires an explicit star/review metadata structure after a title line. Digit-leading names such as `2哥 … Bob’s Noodle` or `2 Brothers` cannot become a rating from digit-plus-whitespace alone. Supported compact review tokens may locate the metadata line, but exact review counts remain null when compact or unreadable. Rating range, field confidence and whole-name withholding are unchanged. Real saved frames recovered rating 4.6 / 134 reviews while retaining the low-confidence bilingual name as null; that offline replay does not rewrite historical output. Subsequent observed OCR star sequences `%&`, `¥%&` and `&` are recognized only beside a complete parenthesized review token; the star-only branch is unchanged. An ASCII period is accepted as a separator only with whitespace on both sides after that token. Eight actual fixture triples and a 94-frame saved-evidence replay retain raw OCR and uncertain names, including known Chinese-character errors; no automatic character substitution is performed.
+
+Adapter v3 retains the v2 requirement for a fresh matching device GPS fix and a native following-map state before any search. Each task clears the previous search, waits for the current Maps GPS request, injects its coordinate, waits up to 15 seconds for a fresh matching fix within the bounded preparation deadline, and re-centers through the observed native control when needed. It records GPS elapsed timestamps and accuracy, native action/timestamps, and a separate pre-search `locationScreen` PNG/XML. Unknown GPS, viewport, or undelivered location evidence stops the run. The location screenshot count is separate from search screenshots.
+
+After GPS readback, a successful empty recenter lookup is treated as a possible native state transition. The worker re-observes the blank home map within the same preparation deadline; an already-following map proceeds without a click. A present recenter parent is re-resolved by its exact label, its identity is compared, and the full native home state is checked immediately before a single click. Duplicate, malformed, disabled or replacement controls and unknown home states remain failures. A dispatched click is never retried, and stable following proof is still required. Native observation and click are separate requests, so this reduces the observed race rather than claiming an atomic state transition.
+
+`mapsLocationStatus=unverified` remains explicit: neither injection, a device fix nor the visible follow-location control proves what Google's ranking service used. Device language, timezone, Maps version and source point are retained. Android and web observations must not be spliced into one historical trend. Comparisons must also retain the exact keyword and observation-point coordinates; the shared capture-profile hash alone does not identify a location.
+
+## AKS pilot readback — 2026-10-16
+
+KVM and Android boot were established on one `crawler` node (`Standard_F4as_v7`), isolated with `maps-capture=android:NoSchedule`. The private pilot uses namespace `android-maps-pilot`, a 64 GiB PVC, and a bounded Pod with no mounted service-account token or service credentials. This pilot uses a privileged container for KVM access; it is not a minimum-permission production deployment. ADB, emulator control and Appium listeners are loopback-only, with no Service or Ingress. See the [Linux runtime guide](../deploy/android/linux/README.md).
+
+The verified Google Play API 35 x86_64 revision 9 image boots with emulator 37.2.12. Its preinstalled Maps 11.129.0103 launched but crashed during search with `libelements.so` missing. Updating only Maps through the Play Store's account-free Options/More → Updates flow produced Maps `26.41.03.993332563`; Android reported installer `com.android.vending`. The image lock and the separately read-back app version are distinct evidence.
+
+The initial v1 pilot used manual native searches and separate point preparation. GPS readback and inspected Maps blue-dot screens were obtained at Flushing (`40.7596, -73.8304`) and Koreatown (`40.7479, -73.9867`). Changing the injected GPS coordinate alone could leave the prior viewport in use; v2 adds the automatic preparation sequence above. A blue dot confirms visible app behavior, not the coordinate consumed by Google's search/ranking backend.
+
+Real Maps 26.41 XML/PNG fixtures cover the observed search-panel layouts, including Sponsored labels and the filter-parent variation. The results classifier requires the exact query, the known panel/list ancestry and supported native action/card controls. Filterless scrolled viewports have a separately validated native-list path. A separately identified `photo_discovery` page supports an unranked screenshot; it is not a result-list position. Drawn merchant names and stars are absent from some XML samples, so neither merchant identity, complete ad coverage nor numerical rank follows from layout recognition.
+
+The final v2 run completed four tasks in the sequence **Flushing → Koreatown → Flushing → Koreatown**, with all four fresh GPS fixes matched, reported horizontal accuracy 5 m, and three automatic native recenter clicks. It saved four location PNG/XML pairs and four search PNG/XML pairs, exited 0, and had no failed or skipped task. All eight PNGs were visually reviewed. Independent local readback verified the final run's 23 artifacts plus its terminal manifest receipt, while preserving the first v2 search-timeout trial as failed. This accepts the tested bounded point-switching and screenshot workflow; it does not establish full-list coverage, numerical rank, Google's backend location or Azure Blob delivery. Independent cleanup readback confirmed the temporary Pod absent and the dedicated node/PVC retained; see the [compact v2 record](../evidence/2026-10-16/android-maps/gps-switch-validation.json) and [evidence history](../evidence/2026-10-16/android-maps/README.md).
+
+## Run
+
+Follow [host preparation](../deploy/android/README.md), or the [Linux guide](../deploy/android/linux/README.md) for the AKS pilot. `pilot.example.json` contains ten exact keywords from the archived 2026-10-15 source results: five for Keke and five for SEE JOY. Its coordinates are manually chosen sample points, not verified merchant coordinates or universal customer positions. This example is not a record of the smaller live AKS pilot. Adapt the ADB path to the dedicated installed SDK. Do not use a personal device.
+
+```bash
+npm ci
+npm run android -- validate --config deploy/android/pilot.example.json
+npm run android -- doctor --config /absolute/path/pilot.json
+npm run android -- capture --config /absolute/path/pilot.json --storage local
+```
+
+Use an Appium UiAutomator2 server on `127.0.0.1:4723`, with the isolated SDK environment configured as described in the host guide. No relaxed-security/insecure-shell capability is needed. The first session may need more setup time; inspect startup diagnostics before increasing bounded command timeouts. A timed-out POST /session has an unknown server-side outcome: inspect the local Appium server and stop the orphaned session before retrying. Do not blindly create overlapping sessions.
+
+For Azure, use the same private container through the existing store:
+
+```bash
+AZURE_STORAGE_ACCOUNT_URL=https://fbrdevstorage.blob.core.windows.net \
+AZURE_STORAGE_CONTAINER=maps-keyword-capture-uat \
+npm run android -- capture --config /absolute/path/pilot.json --storage azure
+```
+
+This uses the configured Azure identity (e.g. `az login`) when no SAS/connection string is set. Do not print or embed SAS URLs in task files or evidence. Ensure unexpected inherited storage credentials are absent before choosing an identity. This command writes only the new Android namespace and is a separate invocation from the web monitor.
+
+Object layout:
+
+```
+android-maps/<Asia-Shanghai-date>/<unique-run-id>/
+  input.json
+  device.json
+  ... per-query original PNG, XML, raw OCR JSON, listing-frame JSON, query JSON ...
+  queries.csv
+  listings.csv
+  manifest.json
+```
+
+The CLI prints the final manifest receipt, counts and exit code. Exit 0 means the requested bounded evidence workflow completed (including correctly identified non-ranking pages); inspect listingStatus and counts before asserting ranked coverage. It does not verify Google backend geography. Exit 2 means review/failure/incomplete delivery; exit 64 means input error; interrupted CLI returns 130. Keep the final receipt alongside the manifest.
+
+## Bounded extraction configuration
+
+Defaults: `maxDisplayedResults=15` (including ads), `maxScreenshotsPerQuery=60`, `maxScrolls=59`, `keywordTimeoutMs=600000`, `ocrTimeoutMs=15000`, `ocrLanguages=eng+chi_sim+chi_tra`. The separate location screen does not consume the result-screen budget. A target reached with unresolved fields/classification is partial; it does not trigger unbounded scrolling. Missing overlap, unknown list top, screenshot/scroll/time budgets and failed persistence cannot imply a complete list. Existing explicit screenshot budgets remain respected, so older one-frame pilot inputs need updating for full-list work.
+
+Linux prerequisites include Pillow and local Tesseract English/Simplified/Traditional Chinese language packs. Local macOS callers also need a compatible Python/Pillow/Tesseract runtime; this isolated pilot uses Linux. Native XML determines crop bounds; full-screen OCR is deliberately excluded.
+
+## Current v3 validation boundary — 2026-10-18
+
+The frozen Trial 24 source passed **1,245 tests across 49 files**, typecheck, contracts and build at 11:30:40 UTC. All 49 deployed source records matched the frozen bundle. The latest changes contain exhausted pre-dispatch source changes to the current query and recognize only the closed observed iconless photo-map tail. Prior count-qualified OCR metadata, bounded location recovery, digit-title protection and 10% pilot touch cap remain. Local tests and deployment receipts do not establish successful live full-list acceptance.
+
+Trial 24 (`run_20261018T113009Z_dff9e5`) ran from 11:30:09 to 11:38:53 UTC (19:30:09–19:38:53 Beijing), with original exit 2 / `needs_review`. All three queries ran and retained partial lists; none failed or was skipped. The terminal manifest records **17 rows (3 ads / 14 organic), 162 search PNGs and 3 location PNGs**. Q1 retained 4 rows, then `conflicting-occurrence-fields`, with `rankingReliable=false`. Q2/Q3 retained 7/6 rows and stopped `ambiguous-overlap`; their true reliability flags apply only to the saved prefixes. No query reached the target of 15 displayed positions. Four names remain null. Independent v7 verified all645 artifacts + one manifest,165 decoded PNGs and17 JSON/CSV rows. Its occurrence replay shares the frozen collector algorithm; full hashes do not prove all visual/OCR content. The combined visual record covers23/162 search PNGs, all17 exported rows and3/3 location PNGs; sampled rating/review values match, four names remain null and one Chinese name has cosmetic inserted spaces. Q1 numeric positions remain raw/unverified, while Q2/Q3 proof covers only their saved7/6-row prefixes. Guarded cleanup completed at11:48:04 UTC: exact owned processes stopped, Pod deleted, namespace Pod count0, quota8Gi, and the same64Gi PVC/single crawler node retained. The11:48:19–11:48:24 UTC metadata snapshot found262/262 Deployments and43/43 StatefulSets ready, no restart increases among709 same-UID Pods, and matching existing capture-template/config fingerprints. Unrelated baseline controller/Pod changes are disclosed separately; these snapshots do not prove application continuity or existing capture outcomes.
+
+The pilot uses the same three tasks/points and exact input bytes, with 100 search screenshots / 99 scrolls / 600 seconds per query. These are isolated validation settings. The original Trial 19 failed/partial result and known OCR mistakes are preserved; later parser changes do not rewrite them. Trial 20 failed before search, Trial 21 retained 36 partial rows, Trial 22 retained 5 partial rows, and Trial 23 failed after two partial lists (10 rows) and skipped its third task. Their independent artifact reports remain historical evidence, not proof of complete Top 15 capture.
+
+After this final live run, a local-only reader correction conservatively withholds the entire name when an isolated literal `L` has the exact observed ambiguous top/right-edge geometry and a separate title below-left. Raw OCR and numeric fields remain; no character stripping or confidence reduction is used.187 focused tests/typecheck and the40-frame offline replay passed, but target15 remained unmet. This post-run source was not deployed or live-tested and does not change the preserved Trial24 output. Its independent review/full-suite result is recorded separately.
+
+No result recorded here accepts complete ranked-list capture, universal ad/OCR accuracy, target-store identity matching, Google backend geography, Azure delivery or recurring Android rollout. Exact source versions, receipt hashes and visual scope are in the [v3 evidence record](../evidence/2026-10-18/android-ranking-validation/README.md).
+
+## Validation and rollout
+
+Synthetic fixture tests verify command boundaries, parser conservatism, delivery and error handling. Real Maps 26.41 fixtures add screenshot-layout compatibility for their inspected screens only. The historical serialized trial18 source passed 1,094 JavaScript tests across 49 files, typecheck, contracts and build on 2026-10-18. The 161 focused device/runner tests include the 10% gesture floor and advisory Appium return handling. These tests predate the later clipped photo-module footer patch; its exact validation is recorded separately. Earlier 19 Python runtime/OCR tests passed; the historical v3 independent evidence verifier passed 33 offline tests including actual long-header OCR and adversarial native-structure cases. Earlier parallel test runs collided on the shared test emulator lease; the final complete suite was run serially. Package-origin receipts, the eight inspected final PNGs and independent v2 artifact readback are separate live evidence. Before enabling recurring Android collection:
+
+1. Verify SDK/image receipts and the effective Maps package origin/version, including any official Play Store update.
+2. Capture a real query and inspect the raw PNG/XML, query field, requested/observed location and Maps blue dot.
+3. Compare exact visible cards, OCR fields, ad labels and both position definitions across all accepted pilot rows. Retain unreadable fields and incomplete coverage explicitly.
+4. Independently read Azure files back and compare sizes/hashes, then inspect real samples from both pilot stores.
+5. Establish sustained resource, isolation and networking behavior. KVM and Android boot passed on the dedicated AKS pilot node; this does not establish production capacity or a safe recurring deployment design.
+
+One emulator is serialized with a host-local exclusive lease. A failed session creation or cleanup with uncertain server state quarantines this lease. Inspect its recorded process and the local Appium session before recovering it; remove it only after confirming that no owned session or worker remains. An abnormal process kill also requires this inspection; never remove an active lease. Physical Android/iOS devices, automatic store discovery for Android, a production Android CronJob and an HTML comparison UI are not enabled by this release.
+
+## Initial v1 bounded AKS screenshot acceptance (2026-10-16)
+
+The final isolated pilot captured four first-screen query PNG/XML pairs across Flushing and Manhattan in two exit-0 runs. Every referenced artifact and terminal manifest receipt was independently checked after copying from the PVC; all four final PNGs were viewed. No Azure Blob upload or recurring Android schedule was enabled. See [evidence](../evidence/2026-10-16/android-maps/README.md).
+
+Fresh GPS matched 2/4 automated query records; each run's first query remains unverified despite the separately inspected GPS/blue-dot setup. Automatic point switching, full-list scrolling, semantic rank extraction and Google's backend location were not accepted by this v1 result. These historical statuses are preserved; the later v2 acceptance below does not rewrite them.
+
+## Final v2 bounded point-switching acceptance (2026-10-16)
+
+Run `run_20261016T112717Z_a29785` completed all four tasks with one location screen and one search screen per task. The first task's `photo_discovery` screenshot showed Xiaowei Duck Neck; the second and fourth showed a visible Sponsored Mala Hot Pot result in Koreatown, and the third showed Sponsored Spring Shabu-Shabu in Flushing. These are observations from visual review, not automatically reconciled merchant identities, complete ad extraction or ranks. The location home labels and blue dots alternated consistently with the requested points.
+
+The cold first-fix probe took 3.507 seconds, exceeding the old 3-second readback window. V2 retains freshness checks with a 15-second bound; it does not accept stale GPS to obtain success. Persisting the dedicated ADB identity also allowed a verified 16.2-second cold boot. The initial v2 run `run_20261016T112146Z_496b6e` had already passed GPS/following/location-screen preparation but timed out on the then-unrecognized photo-discovery page; its failed first task and three skipped tasks remain recorded.
+
+Across both v2 trials, independent readback and review verified 34 artifact receipts and two terminal manifest receipts, including PNG pixel decoding. The owned Appium and runtime processes exited gracefully with code 0; only the temporary `maps-android-gps-validation` Pod was deleted, and the pilot namespace's memory quota was restored to 8 GiB.
+
+Independent post-cleanup readback at **19:36:29–19:36:34 Asia/Shanghai** confirmed no Pods in the pilot namespace, zero quota usage, the 64 GiB PVC still Bound and one Ready crawler node with its isolation taint intact. The crawler held only 10 infrastructure Pods, had 14.35 GiB available memory and reported no memory/disk/PID pressure. All 262 Deployments and 43 StatefulSets met desired readiness; 716 same-UID Pods had no restart increases. Both web capture CronJobs' schedule/image/template/config fingerprints matched the baseline. The concurrent `core-ai-server` generation change from 589 to 590 is recorded separately without causal attribution. This is controller/pod/config evidence, not an application endpoint or database test, and does not exclude transient events or infer restart histories for deleted/replaced Pods. No recurring Android schedule or production rollout is accepted here.

@@ -1,0 +1,48 @@
+{
+  "runId": "run_20261018T103536Z_6efe88",
+  "frameId": "q0003:frame-028",
+  "keyword": "spicy duck neck flushing",
+  "receipts": {
+    "png": {
+      "kind": "png",
+      "relativePath": "android-maps/2026-10-18/run_20261018T103536Z_6efe88/q0003/20261018T104151.234Z__spicy-duck-neck-flushing__28.png",
+      "bytes": 655200,
+      "sha256": "ff0148b2511201549af536ff16a7ae929394b7b6c06a5b075b7e668a11173a9a",
+      "storageStatus": "local_only",
+      "objectKey": null,
+      "verifiedAt": null,
+      "storageError": null
+    },
+    "xml": {
+      "kind": "ui_xml",
+      "relativePath": "android-maps/2026-10-18/run_20261018T103536Z_6efe88/q0003/20261018T104151.234Z__spicy-duck-neck-flushing__28.xml",
+      "bytes": 84388,
+      "sha256": "b2e78e7fe485bb844be1eee27cbe539b8e417050d7446836bd853e77c4ac3e02",
+      "storageStatus": "local_only",
+      "objectKey": null,
+      "verifiedAt": null,
+      "storageError": null
+    },
+    "ocr": {
+      "kind": "ocr_json",
+      "relativePath": "android-maps/2026-10-18/run_20261018T103536Z_6efe88/q0003/20261018T104151.234Z__spicy-duck-neck-flushing__28.ocr.json",
+      "bytes": 7316,
+      "sha256": "1454eb4d51be482d5aeafc9e9eaff00a38a2fc9468635f650a1f9775108dd0fd",
+      "storageStatus": "local_only",
+      "objectKey": null,
+      "verifiedAt": null,
+      "storageError": null
+    },
+    "listingFrame": {
+      "kind": "listing_frame",
+      "relativePath": "android-maps/2026-10-18/run_20261018T103536Z_6efe88/q0003/20261018T104151.234Z__spicy-duck-neck-flushing__28.listings.json",
+      "bytes": 5312,
+      "sha256": "418932a8c8951c51c24232d0f87745399c31d0aa05efdb01040be71ec94b3638",
+      "storageStatus": "local_only",
+      "objectKey": null,
+      "verifiedAt": null,
+      "storageError": null
+    }
+  },
+  "context": "224px W3C requested movement preceded unproven898px apparent native action-row translation; fixture tests planned command only."
+}

@@ -21,6 +21,16 @@ No target business is required. Each run collects the listings observed for a ke
 
 English is the primary language for project documentation and code comments. Preserve original search terms and page text in collected data.
 
+## Native Android pilot
+
+A separate [Android Maps worker](docs/android-maps-node.md) searches the official native app on a dedicated emulator and records original PNG/XML evidence at explicit observation points. It has its own capture profile and storage namespace. The v3 adapter adds native-card OCR, overlap-verified scrolling, ad classification and separate displayed/organic positions in listing rows. Unreadable fields and incomplete coverage remain explicit. It does **not** enable an Android daily schedule, automatically match the monitored store, or establish customer-local geography. See [development validation](evidence/2026-10-16/android-maps/README.md) for software checks and outstanding real-device gates, and [host setup](deploy/android/README.md) for installation.
+
+```bash
+npm run android -- validate --config deploy/android/pilot.example.json
+```
+
+The following collection behavior describes the existing desktop web collector.
+
 ## Agreed behavior
 
 - Collect the first 15 displayed listings per keyword by default, including ads. The limit is configurable.

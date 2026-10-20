@@ -1,0 +1,9 @@
+<!-- SYNTHETIC: handcrafted English place details, not captured from a device. -->
+<hierarchy><node class="android.widget.FrameLayout" package="com.google.android.apps.maps" displayed="true">
+  <node class="android.widget.TextView" resource-id="com.google.android.apps.maps:id/title" text="SEE JOY Seafood" displayed="true"/>
+  <node class="android.widget.Button" text="Directions" clickable="true" displayed="true"/>
+  <node class="android.widget.Button" text="Call" clickable="true" displayed="true"/>
+  <node class="android.widget.TextView" text="Overview" clickable="true" displayed="true"/>
+  <node class="android.widget.TextView" text="Reviews" clickable="true" displayed="true"/>
+  <node class="android.widget.TextView" text="Photos" clickable="true" displayed="true"/>
+</node></hierarchy>

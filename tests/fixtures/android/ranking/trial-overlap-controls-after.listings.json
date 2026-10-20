@@ -1,0 +1,332 @@
+{
+  "frameId": "q0002:frame-016",
+  "capturedAt": "2026-10-18T04:49:13.654Z",
+  "listBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "atTop": false,
+  "canScrollForward": true,
+  "canScrollBackward": true,
+  "layoutValid": true,
+  "cards": [
+    {
+      "observationId": "q0002:frame-016:card-0",
+      "frameId": "q0002:frame-016",
+      "cardIndex": 0,
+      "kind": "merchant",
+      "bounds": {
+        "left": 0,
+        "top": 274,
+        "right": 720,
+        "bottom": 307
+      },
+      "headerBounds": {
+        "left": 0,
+        "top": 274,
+        "right": 720,
+        "bottom": 275
+      },
+      "headerComplete": false,
+      "name": null,
+      "rating": null,
+      "reviewCount": null,
+      "resultType": "unknown",
+      "adLabel": null,
+      "fieldEvidence": {},
+      "anchors": [
+        {
+          "text": "Directions",
+          "bounds": {
+            "left": 40,
+            "top": 274,
+            "right": 276,
+            "bottom": 275
+          }
+        },
+        {
+          "text": "Reserve",
+          "bounds": {
+            "left": 292,
+            "top": 274,
+            "right": 503,
+            "bottom": 275
+          }
+        },
+        {
+          "text": "Menu",
+          "bounds": {
+            "left": 519,
+            "top": 274,
+            "right": 699,
+            "bottom": 275
+          }
+        },
+        {
+          "text": "Call",
+          "bounds": {
+            "left": 715,
+            "top": 274,
+            "right": 720,
+            "bottom": 275
+          }
+        }
+      ],
+      "warnings": [
+        "Clipped or incomplete header; merchant identity and organic classification unavailable"
+      ]
+    },
+    {
+      "observationId": "q0002:frame-016:card-1",
+      "frameId": "q0002:frame-016",
+      "cardIndex": 1,
+      "kind": "merchant",
+      "bounds": {
+        "left": 0,
+        "top": 323,
+        "right": 720,
+        "bottom": 1044
+      },
+      "headerBounds": {
+        "left": 0,
+        "top": 323,
+        "right": 720,
+        "bottom": 539
+      },
+      "headerComplete": true,
+      "name": null,
+      "rating": 4.9,
+      "reviewCount": 3018,
+      "resultType": "organic",
+      "adLabel": null,
+      "fieldEvidence": {
+        "rating": {
+          "source": "ocr",
+          "text": "4.9",
+          "bounds": {
+            "left": 41.5,
+            "top": 452.5,
+            "right": 76.5,
+            "bottom": 473
+          },
+          "confidence": 82.895645
+        },
+        "reviewCount": {
+          "source": "ocr",
+          "text": "(3018)",
+          "bounds": {
+            "left": 112.5,
+            "top": 451,
+            "right": 188.5,
+            "bottom": 477
+          },
+          "confidence": 92.027794
+        }
+      },
+      "anchors": [
+        {
+          "text": "Directions",
+          "bounds": {
+            "left": 40,
+            "top": 932,
+            "right": 276,
+            "bottom": 1012
+          }
+        },
+        {
+          "text": "Reserve",
+          "bounds": {
+            "left": 292,
+            "top": 932,
+            "right": 503,
+            "bottom": 1012
+          }
+        },
+        {
+          "text": "Menu",
+          "bounds": {
+            "left": 519,
+            "top": 932,
+            "right": 699,
+            "bottom": 1012
+          }
+        },
+        {
+          "text": "Call",
+          "bounds": {
+            "left": 715,
+            "top": 932,
+            "right": 720,
+            "bottom": 1012
+          }
+        }
+      ],
+      "warnings": [
+        "Merchant name unreadable or low confidence; OCR candidate: Nanshan Hot Pot - Flushing | 南山 .熊猫 湯 火 鍋 - APIS"
+      ]
+    },
+    {
+      "observationId": "q0002:frame-016:card-2",
+      "frameId": "q0002:frame-016",
+      "cardIndex": 2,
+      "kind": "merchant",
+      "bounds": {
+        "left": 0,
+        "top": 1060,
+        "right": 720,
+        "bottom": 1232
+      },
+      "headerBounds": {
+        "left": 0,
+        "top": 1060,
+        "right": 720,
+        "bottom": 1228
+      },
+      "headerComplete": true,
+      "name": "Haidilao Hotpot",
+      "rating": 4.8,
+      "reviewCount": 8730,
+      "resultType": "organic",
+      "adLabel": null,
+      "fieldEvidence": {
+        "name": {
+          "source": "ocr",
+          "text": "Haidilao Hotpot",
+          "bounds": {
+            "left": 43,
+            "top": 1094,
+            "right": 291,
+            "bottom": 1128
+          },
+          "confidence": 91.34581
+        },
+        "rating": {
+          "source": "ocr",
+          "text": "4.8",
+          "bounds": {
+            "left": 41,
+            "top": 1140,
+            "right": 189.5,
+            "bottom": 1166
+          },
+          "confidence": 87.659935
+        },
+        "reviewCount": {
+          "source": "ocr",
+          "text": "(8730)",
+          "bounds": {
+            "left": 111.5,
+            "top": 1140,
+            "right": 189.5,
+            "bottom": 1166
+          },
+          "confidence": 93.25486
+        }
+      },
+      "anchors": [
+        {
+          "text": "Wheelchair accessible",
+          "bounds": {
+            "left": 341,
+            "top": 1136,
+            "right": 373,
+            "bottom": 1168
+          }
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "anchors": [
+    {
+      "text": "Directions",
+      "bounds": {
+        "left": 40,
+        "top": 274,
+        "right": 276,
+        "bottom": 275
+      }
+    },
+    {
+      "text": "Reserve",
+      "bounds": {
+        "left": 292,
+        "top": 274,
+        "right": 503,
+        "bottom": 275
+      }
+    },
+    {
+      "text": "Menu",
+      "bounds": {
+        "left": 519,
+        "top": 274,
+        "right": 699,
+        "bottom": 275
+      }
+    },
+    {
+      "text": "Call",
+      "bounds": {
+        "left": 715,
+        "top": 274,
+        "right": 720,
+        "bottom": 275
+      }
+    },
+    {
+      "text": "Directions",
+      "bounds": {
+        "left": 40,
+        "top": 932,
+        "right": 276,
+        "bottom": 1012
+      }
+    },
+    {
+      "text": "Reserve",
+      "bounds": {
+        "left": 292,
+        "top": 932,
+        "right": 503,
+        "bottom": 1012
+      }
+    },
+    {
+      "text": "Menu",
+      "bounds": {
+        "left": 519,
+        "top": 932,
+        "right": 699,
+        "bottom": 1012
+      }
+    },
+    {
+      "text": "Call",
+      "bounds": {
+        "left": 715,
+        "top": 932,
+        "right": 720,
+        "bottom": 1012
+      }
+    },
+    {
+      "text": "Wheelchair accessible",
+      "bounds": {
+        "left": 341,
+        "top": 1136,
+        "right": 373,
+        "bottom": 1168
+      }
+    }
+  ],
+  "warnings": [],
+  "ocr": {
+    "imageSha256": "40ee632cdc97a6ae1777cc1f5cf413b4aff4dcf5ef2058c01318e7ae76b5ff41",
+    "engine": "tesseract",
+    "engineVersion": "tesseract 5.3.0",
+    "languages": "eng+chi_sim+chi_tra"
+  }
+}

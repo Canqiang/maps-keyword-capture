@@ -1,0 +1,7 @@
+<!-- SYNTHETIC: illustrative Google consent dialog, not captured from a device. -->
+<hierarchy><node class="android.app.Dialog" package="com.google.android.apps.maps" displayed="true">
+  <node class="android.widget.TextView" text="Before you continue to Google" displayed="true"/>
+  <node class="android.widget.Button" text="Privacy" clickable="true" displayed="true"/>
+  <node class="android.widget.Button" text="Accept all" clickable="true" displayed="true"/>
+  <node class="android.widget.Button" text="Reject all" clickable="true" displayed="true"/>
+</node></hierarchy>

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "retrievedAt": "2026-10-16T09:06:55.733956+00:00",
+  "platform": "linux-x86_64",
+  "sources": [
+    {
+      "url": "https://dl.google.com/android/repository/repository2-3.xml",
+      "sha256": "237eefe28e55619d3e63d730f8994cc1ae6d9c171096f07a6c147297145787e6"
+    },
+    {
+      "url": "https://dl.google.com/android/repository/sys-img/google_apis_playstore/sys-img2-3.xml",
+      "sha256": "ba610c313634a5952ccdc6cf1bc3377259d967145f5b55f6accfb2101d2d0465"
+    }
+  ],
+  "packages": [
+    {
+      "path": "cmdline-tools;22.0",
+      "revision": "22.0",
+      "channel": "stable",
+      "licenseId": "android-sdk-license",
+      "source": "https://dl.google.com/android/repository/repository2-3.xml",
+      "archive": {
+        "url": "https://dl.google.com/android/repository/commandlinetools-linux-15859902_latest.zip",
+        "sizeBytes": 181833628,
+        "checksumAlgorithm": "sha1",
+        "checksum": "040d3996a65543d22ec4bf73e4c37aa37a8d4af4",
+        "sha256": "4e4c464f145a7512b57d088ac6c278c03c9eea610886b35a5e0804e74eedf583",
+        "sha256Source": "https://developer.android.com/studio"
+      },
+      "archiveRoot": "cmdline-tools"
+    },
+    {
+      "path": "platform-tools",
+      "revision": "37.0.1",
+      "channel": "stable",
+      "licenseId": "android-sdk-license",
+      "source": "https://dl.google.com/android/repository/repository2-3.xml",
+      "archive": {
+        "url": "https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip",
+        "sizeBytes": 9054187,
+        "checksumAlgorithm": "sha1",
+        "checksum": "477254aa5f903c15cf51001717bdf347fb6b53e0"
+      },
+      "archiveRoot": "platform-tools"
+    },
+    {
+      "path": "emulator",
+      "revision": "37.2.12",
+      "channel": "stable",
+      "licenseId": "android-sdk-license",
+      "source": "https://dl.google.com/android/repository/repository2-3.xml",
+      "archive": {
+        "url": "https://dl.google.com/android/repository/emulator-linux_x64-16428233.zip",
+        "sizeBytes": 349654171,
+        "checksumAlgorithm": "sha1",
+        "checksum": "cd7362ea55dfb86a418958138dc396e74165dd01"
+      },
+      "archiveRoot": "emulator"
+    },
+    {
+      "path": "system-images;android-35;google_apis_playstore;x86_64",
+      "revision": "9",
+      "channel": "stable",
+      "licenseId": "android-sdk-license",
+      "source": "https://dl.google.com/android/repository/sys-img/google_apis_playstore/sys-img2-3.xml",
+      "archive": {
+        "url": "https://dl.google.com/android/repository/sys-img/google_apis_playstore/x86_64-35_r09.zip",
+        "sizeBytes": 1762061559,
+        "checksumAlgorithm": "sha1",
+        "checksum": "2f0054868e6aab3c098acd3decba17a82aed4176"
+      },
+      "archiveRoot": "x86_64"
+    }
+  ],
+  "licenses": [
+    {
+      "id": "android-sdk-license",
+      "source": "https://dl.google.com/android/repository/repository2-3.xml",
+      "textSha256": "1f8729233617b193fd619213792ae16a41b95d2bbbf525dfe66998252ba68b16"
+    },
+    {
+      "id": "android-sdk-license",
+      "source": "https://dl.google.com/android/repository/sys-img/google_apis_playstore/sys-img2-3.xml",
+      "textSha256": "1f8729233617b193fd619213792ae16a41b95d2bbbf525dfe66998252ba68b16"
+    }
+  ]
+}

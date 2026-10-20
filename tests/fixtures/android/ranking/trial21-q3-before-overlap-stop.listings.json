@@ -1,0 +1,261 @@
+{
+  "frameId": "q0003:frame-028",
+  "capturedAt": "2026-10-18T10:41:51.234Z",
+  "listBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "atTop": false,
+  "canScrollForward": true,
+  "canScrollBackward": true,
+  "layoutValid": true,
+  "cards": [
+    {
+      "observationId": "q0003:frame-028:card-0",
+      "frameId": "q0003:frame-028",
+      "cardIndex": 0,
+      "kind": "merchant",
+      "bounds": {
+        "left": 0,
+        "top": 274,
+        "right": 720,
+        "bottom": 630
+      },
+      "headerBounds": {
+        "left": 0,
+        "top": 274,
+        "right": 720,
+        "bottom": 275
+      },
+      "headerComplete": false,
+      "name": null,
+      "rating": null,
+      "reviewCount": null,
+      "resultType": "unknown",
+      "adLabel": null,
+      "fieldEvidence": {},
+      "anchors": [
+        {
+          "text": "Directions",
+          "bounds": {
+            "left": 40,
+            "top": 518,
+            "right": 276,
+            "bottom": 598
+          }
+        },
+        {
+          "text": "Menu",
+          "bounds": {
+            "left": 292,
+            "top": 518,
+            "right": 472,
+            "bottom": 598
+          }
+        },
+        {
+          "text": "Call",
+          "bounds": {
+            "left": 488,
+            "top": 518,
+            "right": 643,
+            "bottom": 598
+          }
+        },
+        {
+          "text": "Share",
+          "bounds": {
+            "left": 659,
+            "top": 518,
+            "right": 720,
+            "bottom": 598
+          }
+        }
+      ],
+      "warnings": [
+        "Clipped or incomplete header; merchant identity and organic classification unavailable"
+      ]
+    },
+    {
+      "observationId": "q0003:frame-028:card-1",
+      "frameId": "q0003:frame-028",
+      "cardIndex": 1,
+      "kind": "merchant",
+      "bounds": {
+        "left": 0,
+        "top": 646,
+        "right": 720,
+        "bottom": 1232
+      },
+      "headerBounds": {
+        "left": 0,
+        "top": 646,
+        "right": 720,
+        "bottom": 814
+      },
+      "headerComplete": true,
+      "name": "Chongqing Lao Zao",
+      "rating": 4.6,
+      "reviewCount": 2057,
+      "resultType": "organic",
+      "adLabel": null,
+      "fieldEvidence": {
+        "name": {
+          "source": "ocr",
+          "text": "Chongqing Lao Zao",
+          "bounds": {
+            "left": 41.5,
+            "top": 679.5,
+            "right": 354,
+            "bottom": 714.5
+          },
+          "confidence": 85.352081
+        },
+        "rating": {
+          "source": "ocr",
+          "text": "4.6",
+          "bounds": {
+            "left": 41,
+            "top": 728,
+            "right": 77,
+            "bottom": 748.5
+          },
+          "confidence": 89.878471
+        },
+        "reviewCount": {
+          "source": "ocr",
+          "text": "(2057)",
+          "bounds": {
+            "left": 113.5,
+            "top": 726,
+            "right": 192.5,
+            "bottom": 752
+          },
+          "confidence": 93.265854
+        }
+      },
+      "anchors": [
+        {
+          "text": "Directions",
+          "bounds": {
+            "left": 40,
+            "top": 1207,
+            "right": 276,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Reserve",
+          "bounds": {
+            "left": 292,
+            "top": 1207,
+            "right": 503,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Menu",
+          "bounds": {
+            "left": 519,
+            "top": 1207,
+            "right": 699,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Call",
+          "bounds": {
+            "left": 715,
+            "top": 1207,
+            "right": 720,
+            "bottom": 1232
+          }
+        }
+      ],
+      "warnings": []
+    }
+  ],
+  "anchors": [
+    {
+      "text": "Directions",
+      "bounds": {
+        "left": 40,
+        "top": 518,
+        "right": 276,
+        "bottom": 598
+      }
+    },
+    {
+      "text": "Menu",
+      "bounds": {
+        "left": 292,
+        "top": 518,
+        "right": 472,
+        "bottom": 598
+      }
+    },
+    {
+      "text": "Call",
+      "bounds": {
+        "left": 488,
+        "top": 518,
+        "right": 643,
+        "bottom": 598
+      }
+    },
+    {
+      "text": "Share",
+      "bounds": {
+        "left": 659,
+        "top": 518,
+        "right": 720,
+        "bottom": 598
+      }
+    },
+    {
+      "text": "Directions",
+      "bounds": {
+        "left": 40,
+        "top": 1207,
+        "right": 276,
+        "bottom": 1232
+      }
+    },
+    {
+      "text": "Reserve",
+      "bounds": {
+        "left": 292,
+        "top": 1207,
+        "right": 503,
+        "bottom": 1232
+      }
+    },
+    {
+      "text": "Menu",
+      "bounds": {
+        "left": 519,
+        "top": 1207,
+        "right": 699,
+        "bottom": 1232
+      }
+    },
+    {
+      "text": "Call",
+      "bounds": {
+        "left": 715,
+        "top": 1207,
+        "right": 720,
+        "bottom": 1232
+      }
+    }
+  ],
+  "warnings": [],
+  "ocr": {
+    "imageSha256": "ff0148b2511201549af536ff16a7ae929394b7b6c06a5b075b7e668a11173a9a",
+    "engine": "tesseract",
+    "engineVersion": "tesseract 5.3.0",
+    "languages": "eng+chi_sim+chi_tra"
+  }
+}

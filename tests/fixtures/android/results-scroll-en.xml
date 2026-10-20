@@ -1,0 +1,9 @@
+<!-- SYNTHETIC: a second illustrative viewport, not a captured scroll or reconciled list. -->
+<hierarchy rotation="0"><node class="android.widget.FrameLayout" package="com.google.android.apps.maps" displayed="true">
+  <node class="android.widget.EditText" resource-id="com.google.android.apps.maps:id/search_omnibox_edit_text" text="seafood buffet" content-desc="Search here" enabled="true" displayed="true"/>
+  <node class="android.widget.Button" text="Filters" clickable="true" displayed="true"/>
+  <node class="androidx.recyclerview.widget.RecyclerView" resource-id="com.google.android.apps.maps:id/search_results_list" content-desc="Search results" scrollable="true" displayed="true">
+    <node class="android.view.ViewGroup" resource-id="com.google.android.apps.maps:id/result_card" clickable="true" displayed="true"><node class="android.widget.TextView" text="SEE JOY &amp; Seafood" displayed="true"/></node>
+    <node class="android.view.ViewGroup" resource-id="com.google.android.apps.maps:id/result_card" clickable="true" displayed="true"><node class="android.widget.TextView" text="SEE JOY &amp; Seafood" displayed="true"/><node class="android.widget.TextView" content-desc="Ad" displayed="true"/></node>
+  </node>
+</node></hierarchy>

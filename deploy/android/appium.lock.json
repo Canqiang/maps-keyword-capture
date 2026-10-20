@@ -1,0 +1,27 @@
+{
+  "registry": "https://registry.npmjs.org",
+  "packages": [
+    {
+      "name": "appium",
+      "version": "3.8.0",
+      "engines": {
+        "npm": ">=10",
+        "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+      },
+      "url": "https://registry.npmjs.org/appium/-/appium-3.8.0.tgz",
+      "integrity": "sha512-hqY6TQnBfl3x3tiv6u8kW33DI4gacKEyreoWODr02ayuFUd2P390hKxPrCikeW7K3L4SVABR4rZ6+PfECbNwGw==",
+      "sha1": "aae2f8d056f1488d8b2f8db780a29636fbfced3e"
+    },
+    {
+      "name": "appium-uiautomator2-driver",
+      "version": "8.7.0",
+      "engines": {
+        "npm": ">=10",
+        "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+      },
+      "url": "https://registry.npmjs.org/appium-uiautomator2-driver/-/appium-uiautomator2-driver-8.7.0.tgz",
+      "integrity": "sha512-5ABLmKeAkE13QkNB2Qd9hTOYl2nfia6ZQ5QNCXefMzlr2HOdsq7T79FZ8Ad2kOydjdI9c1hb6LZ3ctanbUUbOA==",
+      "sha1": "a8a792041b03b1eefcb7dbfb900b6083b2634557"
+    }
+  ]
+}

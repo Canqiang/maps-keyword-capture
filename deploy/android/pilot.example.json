@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "android-maps-input/v1",
+  "serial": "emulator-5554",
+  "adbPath": "adb",
+  "timezone": "America/New_York",
+  "maxScreenshotsPerQuery": 4,
+  "keywordTimeoutMs": 90000,
+  "outputDirectory": "./outputs",
+  "tasks": [
+    {
+      "storeId": "keke-flushing",
+      "storeName": "Keke Food 可可小卤 — Flushing",
+      "keyword": "spicy duck neck flushing",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/keke-flushing/run_20261014T160006Z_1bb117/batches/b01-c605ff7fd40f/run_20261014T162856Z_0241e5/att_58e1b004/q0012/qa01/20261015T003256.328+0800__spicy-duck-neck-flushing__q0012.json",
+      "location": {
+        "id": "flushing-pilot-1",
+        "label": "Flushing pilot observation point",
+        "latitude": 40.7596,
+        "longitude": -73.8304,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    },
+    {
+      "storeId": "keke-flushing",
+      "storeName": "Keke Food 可可小卤 — Flushing",
+      "keyword": "duck neck flushing",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/keke-flushing/run_20261014T160006Z_1bb117/batches/b01-c605ff7fd40f/run_20261014T162856Z_0241e5/att_58e1b004/q0011/qa01/20261015T003250.887+0800__duck-neck-flushing__q0011.json",
+      "location": {
+        "id": "flushing-pilot-1",
+        "label": "Flushing pilot observation point",
+        "latitude": 40.7596,
+        "longitude": -73.8304,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    },
+    {
+      "storeId": "keke-flushing",
+      "storeName": "Keke Food 可可小卤 — Flushing",
+      "keyword": "braised food flushing",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/keke-flushing/run_20261014T160006Z_1bb117/batches/b01-c605ff7fd40f/run_20261014T162856Z_0241e5/att_58e1b004/q0008/qa01/20261015T003155.222+0800__braised-food-flushing__q0008.json",
+      "location": {
+        "id": "flushing-pilot-1",
+        "label": "Flushing pilot observation point",
+        "latitude": 40.7596,
+        "longitude": -73.8304,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    },
+    {
+      "storeId": "keke-flushing",
+      "storeName": "Keke Food 可可小卤 — Flushing",
+      "keyword": "chinese braised food flushing",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/keke-flushing/run_20261014T160006Z_1bb117/batches/b01-c605ff7fd40f/run_20261014T162856Z_0241e5/att_58e1b004/q0006/qa01/20261015T003104.489+0800__chinese-braised-food-flushing__q0006.json",
+      "location": {
+        "id": "flushing-pilot-1",
+        "label": "Flushing pilot observation point",
+        "latitude": 40.7596,
+        "longitude": -73.8304,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    },
+    {
+      "storeId": "keke-flushing",
+      "storeName": "Keke Food 可可小卤 — Flushing",
+      "keyword": "chicken feet flushing",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/keke-flushing/run_20261014T160006Z_1bb117/batches/b01-c605ff7fd40f/run_20261014T162856Z_0241e5/att_58e1b004/q0018/qa01/20261015T003515.379+0800__chicken-feet-flushing__q0018.json",
+      "location": {
+        "id": "flushing-pilot-1",
+        "label": "Flushing pilot observation point",
+        "latitude": 40.7596,
+        "longitude": -73.8304,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "storeName": "SEE JOY 喜聚",
+      "keyword": "Koreatown hot pot",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/place-48c801ebd7000c93e5ce5213a735b2c3/run_20261014T160006Z_1bb117/batches/b01-15edd7b3e86f/run_20261014T171314Z_3a5b5d/att_74794c02/q0006/qa01/20261015T011448.078+0800__koreatown-hot-pot__q0006.json",
+      "location": {
+        "id": "koreatown-pilot-1",
+        "label": "Koreatown Manhattan pilot observation point",
+        "latitude": 40.7479,
+        "longitude": -73.9867,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "storeName": "SEE JOY 喜聚",
+      "keyword": "all you can eat hot pot Koreatown NYC",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/place-48c801ebd7000c93e5ce5213a735b2c3/run_20261014T160006Z_1bb117/batches/b02-1715c7dc95c1/run_20261014T171958Z_30143d/att_d5c6af4f/q0019/qa01/20261015T012348.629+0800__all-you-can-eat-hot-pot-koreatown-nyc__q0019.json",
+      "location": {
+        "id": "koreatown-pilot-1",
+        "label": "Koreatown Manhattan pilot observation point",
+        "latitude": 40.7479,
+        "longitude": -73.9867,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "storeName": "SEE JOY 喜聚",
+      "keyword": "all you can eat hot pot Manhattan",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/place-48c801ebd7000c93e5ce5213a735b2c3/run_20261014T160006Z_1bb117/batches/b01-15edd7b3e86f/run_20261014T171314Z_3a5b5d/att_74794c02/q0012/qa01/20261015T011639.759+0800__all-you-can-eat-hot-pot-manhattan__q0012.json",
+      "location": {
+        "id": "koreatown-pilot-1",
+        "label": "Koreatown Manhattan pilot observation point",
+        "latitude": 40.7479,
+        "longitude": -73.9867,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "storeName": "SEE JOY 喜聚",
+      "keyword": "hot pot near me",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/place-48c801ebd7000c93e5ce5213a735b2c3/run_20261014T160006Z_1bb117/batches/b01-15edd7b3e86f/run_20261014T171314Z_3a5b5d/att_74794c02/q0001/qa01/20261015T011314.276+0800__hot-pot-near-me__q0001.json",
+      "location": {
+        "id": "koreatown-pilot-1",
+        "label": "Koreatown Manhattan pilot observation point",
+        "latitude": 40.7479,
+        "longitude": -73.9867,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "storeName": "SEE JOY 喜聚",
+      "keyword": "hot pot Midtown Manhattan",
+      "sourceReference": "azure://fbrdevstorage/maps-keyword-capture-uat/2026-10-15/place-48c801ebd7000c93e5ce5213a735b2c3/run_20261014T160006Z_1bb117/batches/b01-15edd7b3e86f/run_20261014T171314Z_3a5b5d/att_74794c02/q0004/qa01/20261015T011424.025+0800__hot-pot-midtown-manhattan__q0004.json",
+      "location": {
+        "id": "koreatown-pilot-1",
+        "label": "Koreatown Manhattan pilot observation point",
+        "latitude": 40.7479,
+        "longitude": -73.9867,
+        "source": "Manually selected pilot coordinate; not merchant GPS and not verified customer location."
+      }
+    }
+  ]
+}

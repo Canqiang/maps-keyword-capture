@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SYNTHETIC: handcrafted Appium-shaped English results; not captured from a device. -->
+<hierarchy rotation="0">
+  <android.widget.FrameLayout class="android.widget.FrameLayout" package="com.google.android.apps.maps" displayed="true" bounds="[0,0][1080,2400]">
+    <android.widget.EditText class="android.widget.EditText" package="com.google.android.apps.maps" resource-id="com.google.android.apps.maps:id/search_omnibox_edit_text" text="seafood buffet" content-desc="Search here" displayed="true" enabled="true" clickable="true" bounds="[20,50][980,160]"/>
+    <node class="android.widget.Button" package="com.google.android.apps.maps" text="Filters" clickable="true" displayed="true"/>
+    <node class="androidx.recyclerview.widget.RecyclerView" package="com.google.android.apps.maps" resource-id="com.google.android.apps.maps:id/search_results_list" content-desc="Search results" scrollable="true" displayed="true">
+      <node class="android.view.ViewGroup" package="com.google.android.apps.maps" resource-id="com.google.android.apps.maps:id/result_card" clickable="true" displayed="true">
+        <node class="android.widget.TextView" package="com.google.android.apps.maps" text="Sponsored" displayed="true"/>
+        <node class="android.widget.TextView" package="com.google.android.apps.maps" text="SEE JOY &amp; Seafood" resource-id="com.google.android.apps.maps:id/title" displayed="true"/>
+        <node class="android.widget.TextView" package="com.google.android.apps.maps" text="4.5" content-desc="4.5 stars" displayed="true"/>
+      </node>
+      <node class="android.view.ViewGroup" package="com.google.android.apps.maps" resource-id="com.google.android.apps.maps:id/result_card" clickable="true" displayed="true">
+        <node class="android.widget.TextView" package="com.google.android.apps.maps" text="No results" resource-id="com.google.android.apps.maps:id/title" displayed="true"/>
+      </node>
+      <node class="android.widget.TextView" package="com.google.android.apps.maps" text="Ad" displayed="false"/>
+    </node>
+  </android.widget.FrameLayout>
+</hierarchy>

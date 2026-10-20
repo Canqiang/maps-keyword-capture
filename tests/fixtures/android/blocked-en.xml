@@ -1,0 +1,5 @@
+<!-- SYNTHETIC: explicit challenge in a Maps-owned dialog, not a captured CAPTCHA. -->
+<hierarchy><node class="android.app.Dialog" package="com.google.android.apps.maps" resource-id="com.google.android.apps.maps:id/captcha_dialog" displayed="true">
+  <node class="android.widget.TextView" text="Verify you are human" displayed="true"/>
+  <node class="android.widget.CheckBox" text="I'm not a robot" clickable="true" displayed="true"/>
+</node></hierarchy>
