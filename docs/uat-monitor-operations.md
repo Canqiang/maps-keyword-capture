@@ -234,6 +234,8 @@ A reduced-cap release smoke validates enrollment, source/API identity, browser c
 
 On September 28 the aiapp nodes had only 181–381m unreserved CPU each, despite measured CPU utilization of 15–28%. The 500m smoke was unschedulable before application startup. The revised smoke and daily template request 250m CPU while retaining the 2-CPU limit, 1Gi memory request, memory/storage limits, selectors and deadlines. This reduces reserved CPU, not the maximum CPU the collector may use. Full nightly throughput still requires its own run evidence.
 
+On October 16 the scheduled Pod on `aks-aiapp-34077033-vmss000001` was evicted before claiming its date (`The node was low on resource: ephemeral-storage`, exit 137), so the 2026-10-17 Beijing date has no claim, manifest or artifacts. The `aiapp` pool has 30 GiB OS disks, 25 GiB of which were container images and sandbox volumes at readback, and 82–92% of its CPU requested. Since 2026-10-20 the daily template therefore selects `envpool: uatops` (60 GiB OS disks, about 60% CPU requested). The outbound IP observed from a probe Pod on each pool was identical, so `EGRESS_PROFILE_ID` keeps its historical `aks-fbrdev-eastus2-aiapp` value: it names the egress profile, not the node pool. The missing date is recoverable only by the manual recovery procedure above with a new run-key and an explicit record of the intended date.
+
 
 ## Limited place-details evidence
 

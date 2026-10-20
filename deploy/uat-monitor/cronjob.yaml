@@ -28,8 +28,11 @@ spec:
             app.kubernetes.io/component: daily
         spec:
           restartPolicy: Never
+          # uatops since 2026-10-20: the aiapp pool (30 GiB OS disks, 82-92% CPU requested) evicted the
+          # 2026-10-17 run for ephemeral storage. Egress is cluster-wide and unchanged (same outbound IP
+          # observed from both pools on 2026-10-20), so EGRESS_PROFILE_ID keeps its historical value.
           nodeSelector:
-            envpool: aiapp
+            envpool: uatops
           automountServiceAccountToken: false
           terminationGracePeriodSeconds: 300
           securityContext:

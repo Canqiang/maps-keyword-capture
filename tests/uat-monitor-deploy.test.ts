@@ -22,7 +22,7 @@ describe('UAT daily monitor deployment', () => {
     expect(cron).toMatchObject({ apiVersion: 'batch/v1', kind: 'CronJob', metadata: { name: 'maps-keyword-monitor-daily', namespace: 'uat' } });
     expect(cron.spec).toMatchObject({ schedule: '0 0 * * *', timeZone: 'Asia/Shanghai', suspend: true, concurrencyPolicy: 'Forbid', startingDeadlineSeconds: 3600, successfulJobsHistoryLimit: 7, failedJobsHistoryLimit: 7 });
     expect(cron.spec.jobTemplate.spec).toMatchObject({ backoffLimit: 0, activeDeadlineSeconds: 14 * 3600 + 600 });
-    expect(cron.spec.jobTemplate.spec.template.spec).toMatchObject({ restartPolicy: 'Never', terminationGracePeriodSeconds: 300, automountServiceAccountToken: false, nodeSelector: { envpool: 'aiapp' } });
+    expect(cron.spec.jobTemplate.spec.template.spec).toMatchObject({ restartPolicy: 'Never', terminationGracePeriodSeconds: 300, automountServiceAccountToken: false, nodeSelector: { envpool: 'uatops' } });
   });
 
   it('discovers live stores while preserving historical aliases and the per-place keyword API', () => {
