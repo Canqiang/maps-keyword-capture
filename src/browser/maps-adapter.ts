@@ -11,11 +11,23 @@ export type PageState =
   | { kind: 'place_redirect'; placeDetails?: PlaceDetailsEvidence; observedQueryText?: string | null }
   | { kind: 'unknown'; detail: string };
 
-export function buildSearchUrl(keyword: string, locale: string): string {
+export interface MapView { latitude: number; longitude: number; zoom: number }
+
+/**
+ * Query-only search uses the `?api=1&query=` entry URL. With a map view the search is anchored to a
+ * viewport instead: `/maps/search/<keyword>/@lat,lng,<zoom>z`, which is what moves the organic
+ * results to that area (browser geolocation only moves ads; measured 2026-10-20).
+ */
+export function buildSearchUrl(keyword: string, locale: string, mapView?: MapView): string {
+  const hl = locale.split('-')[0] ?? 'en';
+  if (mapView) {
+    const coordinate = (value: number): string => value.toFixed(7).replace(/0+$/u, '').replace(/\.$/u, '');
+    return `https://www.google.com/maps/search/${encodeURIComponent(keyword)}/@${coordinate(mapView.latitude)},${coordinate(mapView.longitude)},${mapView.zoom}z?hl=${encodeURIComponent(hl)}`;
+  }
   const url = new URL('https://www.google.com/maps/search/');
   url.searchParams.set('api', '1');
   url.searchParams.set('query', keyword);
-  url.searchParams.set('hl', locale.split('-')[0] ?? 'en');
+  url.searchParams.set('hl', hl);
   return url.toString();
 }
 

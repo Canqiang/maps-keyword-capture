@@ -86,7 +86,9 @@ type BatchAttempt = Assert<Has<BatchManifest, 'attemptId'>>;
 type IndexInManifest = Assert<Has<BatchManifest, 'artifacts'>>;
 type EvidenceBinding = Assert<Has<Observation, 'preSignature' | 'postSignature' | 'screenshotIds'>>;
 type ProfileMetadata = Assert<Has<BatchManifest, 'metadata'>>;
-type ConfiguredLocationIsNull = Assert<Extends<KeywordResult['context']['configuredMapView'], null>>;
+// Query-only search records null; an area search records the configured map view.
+type ConfiguredLocationNullable = Assert<Extends<null, KeywordResult['context']['configuredMapView']>>;
+type ConfiguredLocationMapView = Assert<Extends<{ latitude: number; longitude: number; zoom: number }, KeywordResult['context']['configuredMapView']>>;
 type ObservedLocationSeparate = Assert<Has<KeywordResult['context'], 'observedMapView'>>;
 type QueryOnlyConfig = Assert<Extends<Omit<CaptureConfig, 'mapView'>, CaptureConfig>>;
 

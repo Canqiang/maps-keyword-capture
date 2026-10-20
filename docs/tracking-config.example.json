@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "tracking-config/v1",
+  "timezone": "America/New_York",
+  "defaults": { "grid": { "radiusKm": 5, "size": 5 }, "zoom": 15 },
+  "stores": [
+    {
+      "storeId": "keke-flushing",
+      "name": "Keke Food 可可小卤 — Flushing",
+      "placeId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+      "merchantId": "29742a52-d824-469b-a395-52084345b7ad",
+      "aliases": ["可可小卤", "KEKE BRAISED DELI"],
+      "center": { "latitude": 40.7658211, "longitude": -73.8315243 },
+      "keywords": {
+        "core": ["braised food", "卤味", "chinese food flushing"],
+        "longTail": ["duck neck flushing", "braised chicken flushing", "法拉盛 卤味"]
+      }
+    }
+  ],
+  "surfaces": {
+    "web": { "point": { "everyHours": 2, "keywords": "all" }, "grid": { "enabled": true, "atHour": 2, "keywords": "core" } },
+    "android": { "point": { "everyHours": 2, "keywords": "core" }, "grid": { "enabled": true, "atHour": 3, "keywords": "core" } }
+  },
+  "database": { "provider": "mongo", "database": "maps-rank-tracking", "collection": "observations" }
+}

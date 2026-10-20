@@ -91,6 +91,16 @@ describe('runQueryAttempt', () => {
     expect(out.result.screenshots.map((s) => s.kind)).toEqual(['diagnostic']);
   });
 
+  it('records the configured map view as the location mode without touching ranks', async () => {
+    const keyword = 'bubble tea garden city';
+    const url = await writeFixture({ query: keyword, cards: namedCards(2), endMarkerInitially: true });
+    const mapView = { latitude: 40.7658211, longitude: -73.8315243, zoom: 15 };
+    const out = await runQueryAttempt(deps(url, { mapView }), input({ queryId: 'q0102' }));
+    expect(out.result).toMatchObject({ keyword, status: 'captured', observedCount: 2 });
+    expect(out.result.context).toMatchObject({ locationMode: 'map_view', configuredMapView: mapView, geolocationPermission: 'not_granted' });
+    expect(out.result.listings.map((l) => l.organicRank)).toEqual([1, 2]);
+  });
+
   it('records passive geographic warnings without changing the query, rank or capture outcome', async () => {
     const keyword = 'bubble tea garden city';
     const url = await writeFixture({ query: keyword, cards: namedCards(2), endMarkerInitially: true });

@@ -34,9 +34,17 @@ export const expectedAreaSchema = z.object({
   source: z.string().trim().min(1),
 }).strict();
 
+export const mapViewSchema = z.object({
+  latitude: z.number().finite().min(-90).max(90),
+  longitude: z.number().finite().min(-180).max(180),
+  /** Google Maps zoom level; 15 shows roughly a neighbourhood, which matches a 2.5 km grid spacing. */
+  zoom: z.number().int().min(3).max(21).default(15),
+}).strict();
+
 const schema = z.object({
   schemaVersion: z.literal('1'),
   expectedArea: expectedAreaSchema.optional(),
+  mapView: mapViewSchema.optional(),
   keywords: z.array(z.string().refine((k) => k.trim().length > 0, { message: 'keyword must not be blank' })).min(1).max(20),
   maxResultsPerKeyword: z.number().int().min(1).max(60).default(15),
   maxScrollsPerKeyword: z.number().int().min(0).max(50).default(6),
@@ -53,9 +61,6 @@ const schema = z.object({
 }).strict();
 
 export function parseConfig(raw: unknown): LoadedConfig {
-  if (raw !== null && typeof raw === 'object' && 'mapView' in raw) {
-    throw new ConfigError('mapView is reserved for a future area-search mode and is not supported in this version; remove it to use query-only search');
-  }
   const parsed = schema.safeParse(raw);
   if (!parsed.success) {
     const detail = parsed.error.issues.map((i) => `${i.path.join('.') || '<root>'}: ${i.message}`).join('; ');
@@ -65,6 +70,7 @@ export function parseConfig(raw: unknown): LoadedConfig {
   const config: CaptureConfig = {
     schemaVersion: d.schemaVersion,
     ...(d.expectedArea ? { expectedArea: d.expectedArea } : {}),
+    ...(d.mapView ? { mapView: d.mapView } : {}),
     keywords: d.keywords,
     maxResultsPerKeyword: d.maxResultsPerKeyword,
     maxScrollsPerKeyword: d.maxScrollsPerKeyword,

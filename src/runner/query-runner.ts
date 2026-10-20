@@ -127,7 +127,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     // exception that escapes before the attempt can record its own terminal result.
     context = await newSearchContext(deps.browser, config);
     const page: Page = await context.newPage();
-    const url = deps.searchUrlFor?.(input.keyword) ?? buildSearchUrl(input.keyword, config.locale);
+    const url = deps.searchUrlFor?.(input.keyword) ?? buildSearchUrl(input.keyword, config.locale, config.mapView);
     const open = deps.openSearchImpl ?? openSearch;
     let opened: Awaited<ReturnType<typeof openSearch>>;
     try {
@@ -403,7 +403,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     metadata: deps.metadata,
     context: {
       locale: config.locale, browserTimezoneId: config.browserTimezoneId, viewport: config.viewport, deviceScaleFactor: 1,
-      locationMode: 'query_only' as const, configuredMapView: null, observedMapView: parseObservedMapView(finalUrl),
+      locationMode: config.mapView ? 'map_view' as const : 'query_only' as const, configuredMapView: config.mapView ? { ...config.mapView } : null, observedMapView: parseObservedMapView(finalUrl),
       loggedIn: false as const, geolocationPermission: 'not_granted' as const, egressRegion: null, egressSource: null, observedLocationText: null, filters: [],
     },
     quality: { verifiedPrefixLength: state.committed.length, classificationComplete, screenshotCoverageComplete, warnings, observedQueryText, queryCorrectionText: null, resultSurface, geographicRelevance, ...(placeDetails ? { placeDetails } : {}) },

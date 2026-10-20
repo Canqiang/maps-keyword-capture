@@ -74,7 +74,7 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
   const manifestPath = store.absolutePath(`${attemptRel}/manifest.json`);
   const metadata: RunMetadata = {
     configHash: hashJson(config),
-    profileHash: hashJson({ surface: 'google-maps-desktop', locale: config.locale, browserTimezoneId: config.browserTimezoneId, viewport: config.viewport, deviceScaleFactor: 1, locationMode: 'query_only', adapterVersion: ADAPTER_VERSION }),
+    profileHash: hashJson({ surface: 'google-maps-desktop', locale: config.locale, browserTimezoneId: config.browserTimezoneId, viewport: config.viewport, deviceScaleFactor: 1, locationMode: config.mapView ? 'map_view' : 'query_only', adapterVersion: ADAPTER_VERSION }),
     adapterVersion: ADAPTER_VERSION,
     sourceCommit: process.env['GIT_COMMIT'] ?? null,
     browserVersion: null,

@@ -16,7 +16,8 @@
     "capture": "tsx src/cli.ts",
     "monitor": "tsx src/monitor/cli.ts",
     "android": "tsx src/android/cli.ts",
-    "grid": "tsx src/grid/cli.ts"
+    "grid": "tsx src/grid/cli.ts",
+    "tracking": "tsx src/domain/cli.ts"
   },
   "dependencies": {
     "@azure/identity": "4.13.3",

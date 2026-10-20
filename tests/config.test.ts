@@ -33,9 +33,11 @@ describe('config', () => {
     expect('mapView' in config).toBe(false);
   });
 
-  it('rejects the reserved mapView field with a clear message', () => {
-    expect(() => parseConfig({ ...valid, mapView: { latitude: 1, longitude: 2, zoom: 3 } }))
-      .toThrowError(/mapView/);
+  it('accepts a map view anchor with a default zoom and rejects an incomplete one', () => {
+    expect(parseConfig({ ...valid, mapView: { latitude: 40.7658211, longitude: -73.8315243 } }).config.mapView).toEqual({ latitude: 40.7658211, longitude: -73.8315243, zoom: 15 });
+    expect(parseConfig({ ...valid, mapView: { latitude: 1, longitude: 2, zoom: 3 } }).config.mapView).toEqual({ latitude: 1, longitude: 2, zoom: 3 });
+    expect(() => parseConfig({ ...valid, mapView: {} })).toThrowError(/mapView/);
+    expect(() => parseConfig({ ...valid, mapView: { latitude: 1, longitude: 2, zoom: 25 } })).toThrowError(/zoom/);
   });
 
   it('rejects unknown fields, empty keywords, and invalid timezones', () => {

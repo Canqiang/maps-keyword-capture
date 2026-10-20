@@ -22,6 +22,10 @@ describe('buildSearchUrl', () => {
     expect(buildSearchUrl('café & "tea" / 奶茶', 'en-US')).toContain('query=caf%C3%A9+%26+%22tea%22+%2F+%E5%A5%B6%E8%8C%B6');
     expect(buildSearchUrl('x', 'en-US')).not.toMatch(/@|ll=|center=|near/);
   });
+  it('anchors an area search to the map view path form', () => {
+    expect(buildSearchUrl('braised food', 'en-US', { latitude: 40.7658211, longitude: -73.8315243, zoom: 15 })).toBe('https://www.google.com/maps/search/braised%20food/@40.7658211,-73.8315243,15z?hl=en');
+    expect(buildSearchUrl('卤味', 'zh-CN', { latitude: 40.76, longitude: -73.8, zoom: 14 })).toBe('https://www.google.com/maps/search/%E5%8D%A4%E5%91%B3/@40.76,-73.8,14z?hl=zh');
+  });
 });
 
 describe('page function serialization', () => {

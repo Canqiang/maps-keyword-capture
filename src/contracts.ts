@@ -42,9 +42,9 @@ export interface CaptureConfig {
   /** Optional comparison area; does not set browser geolocation or map view. */
   expectedArea?: ExpectedArea;
   /**
-   * Reserved optional map view for a future explicit area-search mode.
-   * Omit for query-only search. The first runner must reject a supplied value
-   * until that mode is implemented; never silently apply or ignore it.
+   * Optional area-search anchor: the search opens with the map centred here at this zoom
+   * (`/maps/search/<keyword>/@lat,lng,zoomz`), so results are ranked for that viewport.
+   * Omit for query-only search, which leaves the location to Google's own guess.
    */
   mapView?: { latitude: number; longitude: number; zoom: number };
 }
@@ -182,8 +182,8 @@ export interface SearchContext {
   browserTimezoneId: string;
   viewport: CaptureConfig["viewport"];
   deviceScaleFactor: number;
-  locationMode: "query_only";
-  configuredMapView: null;
+  locationMode: "query_only" | "map_view";
+  configuredMapView: { latitude: number; longitude: number; zoom: number } | null;
   /** The resulting map view is not proof of the searcher's location. */
   observedMapView: { latitude: number; longitude: number; zoom: number | null } | null;
   loggedIn: false;

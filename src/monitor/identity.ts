@@ -1,7 +1,7 @@
 import type { Listing } from '../contracts.js';
 export interface OwnStoreSummary { status: 'observed' | 'not_observed' | 'identity_unresolved'; displayPositions: number[]; organicRanks: number[]; adDisplayPositions: number[]; observedScope: number }
 /** The adapter may expose a hex feature ID as placeId; it is not a canonical Place ID. */
-function canonicalPlaceId(listing: Listing): string | null {
+export function canonicalPlaceId(listing: Listing): string | null {
   if (listing.placeId && /^ChIJ[\w-]+$/.test(listing.placeId)) return listing.placeId;
   if (!listing.mapsUrl) return null;
   const match = /!19s(ChIJ[\w-]+)/.exec(listing.mapsUrl);
