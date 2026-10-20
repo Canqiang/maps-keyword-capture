@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Connexup · Maps 关键词观测 · 设计预览</title>
+<style>
+:root{--bg:#f6f5fa;--paper:#fff;--ink:#242034;--secondary:#686278;--muted:#858092;--line:#e8e5ee;--lavender:#f0eafa;--accent:#6d3bd1;--bright:#8c55f3;--green:#187153;--green-bg:#e9f5ef;--amber:#8e641a;--amber-bg:#fff5df;--red:#a64452;--red-bg:#fff0f1;--nav:216px;--radius:10px}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--bg);font-family:"PingFang SC","Hiragino Sans GB",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);font-size:14px;line-height:1.5}
+button,select,input{font:inherit}
+button,a,select{touch-action:manipulation}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+button:focus-visible,a:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #af8aed;outline-offset:3px}
+button:disabled{cursor:default}
+button{color:inherit}
+[hidden]{display:none!important}
+.shell{display:grid;grid-template-columns:var(--nav) minmax(0,1fr);min-height:100vh}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:29px 18px 20px;position:fixed;inset:0 auto 0 0;width:var(--nav);display:flex;flex-direction:column;z-index:20}
+.brand{display:block;width:145px;height:33px;object-fit:contain;object-position:left center;margin:0 13px 15px}
+.workspace-label{font-size:12px;color:var(--secondary);margin:0 13px 37px;display:flex;align-items:center;gap:6px}
+.workspace-label span{width:6px;height:6px;background:var(--bright);border-radius:50%}
+.nav-caption{color:var(--muted);font-size:11px;margin:0 13px 9px}
+.nav-list{display:flex;flex-direction:column;gap:6px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:7px;color:var(--secondary);font-weight:500}
+.nav-item:hover{background:#f7f5fb;color:var(--accent)}
+.nav-item[aria-current=page]{background:var(--lavender);color:var(--accent);font-weight:650}
+.icon{width:18px;height:18px;flex-shrink:0;display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.nav-item small{font-size:10px;padding:1px 5px;margin-left:auto;border:1px solid #dcd3eb;border-radius:4px}
+.sidebar-bottom{margin-top:auto;padding:22px 12px 0;color:var(--muted);font-size:11px;line-height:1.7}
+.sidebar-bottom b{font-weight:500;color:var(--secondary)}
+.sidebar-rule{border:0;border-top:1px solid var(--line);margin:24px 0 15px}
+.main{grid-column:2;min-width:0}
+.preview-banner{position:sticky;top:0;z-index:30;min-height:35px;padding:7px 32px;background:#fff5df;border-bottom:1px solid #eedcb8;display:flex;align-items:center;justify-content:space-between;gap:20px;color:#805c21;font-size:12px}
+.preview-banner strong{font-weight:650;white-space:nowrap}
+.preview-banner span{color:#937443}
+.topbar{height:65px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--line);background:#fff;gap:20px}
+.breadcrumb{font-size:13px;color:var(--muted);display:flex;gap:12px;align-items:center;min-width:0}
+.breadcrumb strong{color:var(--ink);font-weight:500}
+.account{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--secondary);white-space:nowrap}
+.avatar{display:grid;place-items:center;width:28px;height:28px;border:1px solid #ded6ee;background:var(--lavender);color:var(--accent);border-radius:50%;font-size:10px;font-weight:600}
+.canvas{padding:30px 34px 48px;max-width:1800px;margin:0 auto}
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:24px}
+h1{font-size:27px;letter-spacing:-.6px;line-height:1.3;margin:0 0 8px;font-weight:650}
+.subtitle{margin:0;color:var(--secondary);font-size:13px;line-height:1.7}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;padding:7px 12px;border:1px solid #dcd6e7;border-radius:6px;background:white;font-size:12px;white-space:nowrap}
+.button:hover{border-color:#ac8ce0;background:#faf8ff}
+.button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.button.subtle{background:transparent;border-color:transparent;color:var(--accent)}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 18px;flex-wrap:wrap}
+.surface-switch{display:flex;align-items:center;gap:3px;background:#ebe8f1;border:1px solid #e2ddea;padding:3px;border-radius:7px}
+.surface-switch button{border:0;background:transparent;color:var(--secondary);padding:6px 12px;border-radius:4px;font-size:12px;min-width:104px}
+.surface-switch button[aria-pressed=true]{background:white;color:var(--accent);box-shadow:0 1px 3px #2420340d;font-weight:650}
+.toolbar-left,.toolbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.date-label{display:flex;align-items:center;gap:8px;color:var(--secondary);font-size:12px}
+.timezone{color:var(--muted);font-size:11px}
+.meta-chip{font-size:11px;padding:4px 8px;border:1px solid var(--line);border-radius:4px;color:var(--secondary);background:#fff}
+.section{background:white;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.section-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:20px 22px;border-bottom:1px solid var(--line)}
+.section-heading h2{font-size:15px;font-weight:650;margin:0}
+.section-heading p{font-size:12px;color:var(--muted);margin:4px 0 0}
+.section-heading .count{font-size:11px;font-weight:400;color:var(--muted);margin-left:8px}
+.metrics-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:0;background:#fff;border-radius:var(--radius) var(--radius) 0 0}
+.metric{padding:0 25px;border-right:1px solid var(--line)}
+.metric:last-child{border:0}
+.metric-label{color:var(--secondary);font-size:12px;margin-bottom:8px}
+.metric-value{font-size:28px;font-weight:600;line-height:1;letter-spacing:-.7px;font-variant-numeric:tabular-nums}
+.metric-value small{font-size:14px;letter-spacing:0;color:var(--muted);font-weight:400;margin-left:3px}
+.metric-note{margin-top:8px;color:var(--muted);font-size:11px}
+.metric-value.purple{color:var(--accent)}
+.metric-value.amber{color:var(--amber)}
+.table-wrap{overflow:auto;scrollbar-width:thin;scrollbar-color:#d6cde4 transparent}
+table{border-collapse:separate;border-spacing:0;width:100%;text-align:left;font-variant-numeric:tabular-nums}
+th{background:#fbfafe;color:var(--secondary);font-size:11px;font-weight:500;border-bottom:1px solid var(--line);padding:12px 17px;white-space:nowrap}
+td{padding:17px;border-bottom:1px solid #efedf4;vertical-align:middle;font-size:12px}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:#fcfbff}
+.store-table{min-width:850px}
+.store-table td:first-child,.store-table th:first-child{padding-left:25px}
+.store-name{font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:8px}
+.store-name:hover{color:var(--accent)}
+.store-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.store-initial{display:grid;place-items:center;height:29px;width:29px;font-size:12px;color:var(--accent);border:1px solid #e3d9f1;border-radius:7px;background:#f7f3fd;flex-shrink:0}
+.store-cell{display:flex;align-items:center;gap:10px}
+.numeric{font-weight:550;font-size:14px}
+.subnum{color:var(--muted);font-size:11px;margin-left:3px}
+.status{display:inline-flex;align-items:center;gap:5px;font-size:11px;line-height:1.4;padding:4px 7px;border-radius:4px;white-space:nowrap}
+.status.green{background:var(--green-bg);color:var(--green)}
+.status.gray{background:#f1f0f4;color:#70697e}
+.status.amber{background:var(--amber-bg);color:var(--amber)}
+.status.purple{background:var(--lavender);color:var(--accent)}
+.status.red{background:var(--red-bg);color:var(--red)}
+.table-link{color:var(--accent);font-size:12px;white-space:nowrap}
+.table-link:hover{text-decoration:underline}
+.section-footer{padding:13px 22px;border-top:1px solid var(--line);background:#fdfcfe;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.insight-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
+.note-panel{padding:19px 21px;background:white;border:1px solid var(--line);border-radius:8px}
+.note-panel h3{font-size:13px;margin:0 0 12px}
+.note-list{margin:0;padding:0;list-style:none}
+.note-list li{display:flex;gap:12px;font-size:12px;line-height:1.8;color:var(--secondary);margin-top:8px}
+.note-list .dot{color:var(--accent);font-size:18px;line-height:1.2}
+.note-list b{color:var(--ink);font-weight:550}
+.inline-note{margin:16px 0 0;padding-left:11px;border-left:2px solid #cdb9ec;color:var(--secondary);font-size:11px;line-height:1.8}
+.store-heading{display:flex;align-items:center;gap:12px}
+.store-heading .store-initial{width:42px;height:42px;font-size:16px;border-radius:9px}
+.store-heading h1{margin-bottom:4px}
+.context-strip{display:flex;gap:18px;padding:11px 16px;border:1px solid #e5deef;background:#f8f5fd;border-radius:6px;font-size:11px;color:var(--secondary);margin-bottom:20px;flex-wrap:wrap}
+.context-strip b{color:var(--ink);font-weight:500}
+.pill-divider{color:#c8bfd6}
+.matrix{table-layout:fixed;min-width:1020px}
+.matrix th:first-child,.matrix td:first-child{width:270px;position:sticky;left:0;z-index:2;border-right:1px solid var(--line)}
+.matrix th:first-child{background:#fbfafe;z-index:4}
+.matrix td:first-child{background:#fff}
+.matrix th:not(:first-child){text-align:center;width:87px}
+.matrix td{height:67px;text-align:center;padding:8px 6px}
+.matrix td:first-child{text-align:left;padding:12px 17px}
+.matrix .keyword{font-size:12px;font-weight:500;background:transparent;border:0;padding:0;color:var(--ink);text-align:left;line-height:1.5}
+.matrix .keyword:hover{color:var(--accent);text-decoration:underline}
+.keyword-meta{margin-top:4px;font-size:10px;color:var(--muted)}
+.matrix tbody tr.selected td:first-child{background:#f7f1ff;border-left:3px solid var(--accent);padding-left:14px}
+.matrix tbody tr.selected td:not(:first-child){background:#fcfaff}
+.rank-cell{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:36px;max-width:77px;margin:auto;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--secondary);font-size:17px;font-weight:600}
+.rank-cell.good{background:#f1e9fc;color:var(--accent)}
+.rank-cell.middle{background:#f7f5fa;color:#6d627e}
+.rank-cell.unavailable{font-size:10px;color:var(--muted);font-weight:400}
+.rank-cell.failure{color:var(--red);background:#fff7f7}
+.rank-cell:hover{border-color:#b99bdd;background:#f0e8fb}
+.rank-cell.active{border:1px solid var(--accent)}
+.day-week{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.legend{display:flex;gap:15px;flex-wrap:wrap;color:var(--secondary);font-size:11px;padding:13px 20px;border-top:1px solid var(--line)}
+.legend-item{display:flex;gap:5px;align-items:center}
+.legend-square{width:9px;height:9px;border-radius:2px;background:#eee4fb}
+.legend-square.gray{background:#eeebf2}
+.legend-square.red{background:#f6dbdf}
+.trend-section{padding:23px 22px 18px;border-top:1px solid var(--line)}
+.trend-title{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.trend-title h3{font-size:15px;color:var(--accent);margin:0 0 5px}
+.trend-title p{font-size:11px;margin:0;color:var(--muted)}
+.trend-stats{display:flex;gap:25px;flex-shrink:0}
+.trend-stat small{display:block;color:var(--secondary);font-size:10px;margin-bottom:4px}
+.trend-stat strong{font-size:19px;font-weight:600}
+.trend-stat.positive strong{color:var(--green)}
+.chart-wrap{margin-top:16px;overflow:auto}
+.trend-chart{display:block;width:100%;min-width:650px;height:214px}
+.chart-line{stroke:#8c55f3;fill:none;stroke-width:2.5}
+.chart-dot{fill:white;stroke:#8c55f3;stroke-width:2.5}
+.chart-dot.last{fill:#8c55f3}
+.chart-label{font-size:11px;fill:#82788f}
+.chart-value{font-size:12px;fill:#7950bd;font-weight:600}
+.trend-foot{display:flex;gap:16px;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+.review-note{font-size:11px;color:var(--secondary);padding:14px 17px;border:1px solid #e7def3;background:#faf7ff;border-radius:6px;margin-top:18px;line-height:1.8}
+.review-note b{font-weight:550;color:var(--accent)}
+.back-link{color:var(--secondary);font-size:12px;display:inline-flex;align-items:center;gap:7px;margin-bottom:14px}
+.back-link:hover{color:var(--accent)}
+.evidence-title{font-size:23px;letter-spacing:-.3px;word-break:break-word}
+.comparison-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:12px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.evidence-card{background:white;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.evidence-card-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;gap:12px;border-bottom:1px solid var(--line)}
+.evidence-card-head b{font-size:13px;font-weight:600}
+.evidence-card-head small{font-size:11px;color:var(--muted)}
+.evidence-context{padding:13px 18px;font-size:11px;color:var(--secondary);line-height:1.8}
+.evidence-context strong{font-size:24px;color:var(--accent);font-weight:600;line-height:1.25;margin-right:6px}
+.evidence-context .context-row{display:flex;justify-content:space-between;gap:12px;margin-top:7px}
+.screenshot-placeholder{min-height:249px;margin:0 18px 16px;background:#f9f8fb;border:1px dashed #cfc7db;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--secondary)}
+.placeholder-icon{width:39px;height:39px;color:#aaa0b8;margin-bottom:14px}
+.screenshot-placeholder b{font-size:13px;font-weight:500;color:#6e637c}
+.screenshot-placeholder p{font-size:11px;max-width:270px;line-height:1.8;margin:7px 0 0;color:#8a8196}
+.placeholder-format{font-size:10px;color:#aaa1b7;margin-top:20px}
+.capture-caption{font-size:11px;color:var(--muted);padding:0 18px 16px}
+.evidence-table{margin-top:20px}
+.evidence-table table{min-width:740px}
+.evidence-table .own-row td{background:#f7f1ff}
+.evidence-table td{padding:13px 18px}
+.evidence-table .store-name{font-size:12px}
+.tag{font-size:10px;padding:2px 5px;margin-left:7px;border:1px solid #d8c7ee;border-radius:3px;color:var(--accent);font-weight:400}
+.rank-label{font-size:10px;color:var(--muted);font-weight:400}
+details{margin-top:17px;border:1px solid var(--line);border-radius:6px;padding:12px 16px;background:white;font-size:12px;color:var(--secondary)}
+summary{cursor:pointer;color:var(--ink)}
+pre{font-size:11px;line-height:1.7;overflow:auto;background:#f8f6fb;border-radius:4px;padding:14px;max-height:280px;margin-bottom:0;color:#68577e;tab-size:2}
+.grid-layout{display:grid;grid-template-columns:minmax(430px,1.1fr) minmax(330px,1fr);gap:20px}
+.point-map{background:#faf9fc;min-height:410px;padding:27px;position:relative;border-bottom:1px solid var(--line)}
+.point-map .map-label{text-align:center;font-size:11px;color:var(--muted)}
+.points-board{position:relative;margin:27px auto 12px;width:290px;max-width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:35px;isolation:isolate}
+.points-board:before,.points-board:after{content:"";position:absolute;inset:28px 28px;border:1px dashed #d7cee5;border-radius:50%;z-index:-1}
+.points-board:after{inset:-5px;border-color:#e4ddec}
+.point{width:62px;min-height:62px;justify-self:center;border:1px solid #dfd3ee;background:white;border-radius:50%;color:#69587f;font-weight:600;font-size:18px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.point small{font-size:8px;font-weight:400;letter-spacing:0;color:var(--muted)}
+.point.good{color:var(--accent);background:#eee3fc;border-color:#e3d1fa}
+.point.center{border:2px solid var(--accent);box-shadow:0 0 0 5px #e8defa}
+.point.unavailable{color:var(--muted);font-size:10px;background:#f2f0f5;border-style:dashed}
+.point:hover{outline:2px solid #bb9fe6;outline-offset:3px}
+.point.active{outline:2px solid var(--accent);outline-offset:3px}
+.grid-caption{text-align:center;color:var(--muted);font-size:10px;margin-top:26px}
+.grid-meta{display:grid;grid-template-columns:1fr 1fr 1fr;padding:18px}
+.grid-meta div{border-right:1px solid var(--line);padding:0 13px}
+.grid-meta div:last-child{border:0}
+.grid-meta small{font-size:10px;color:var(--secondary);display:block}
+.grid-meta strong{font-size:20px;font-weight:600;display:block;margin-top:5px}
+.point-detail{padding:21px}
+.point-detail h3{margin:0 0 14px;font-size:15px}
+.detail-list{margin:0}
+.detail-list div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid #eeeaf4;font-size:11px}
+.detail-list dt{color:var(--muted)}
+.detail-list dd{margin:0;color:var(--ink);overflow-wrap:anywhere}
+.point-evidence{margin-top:19px;background:#faf8fd;padding:15px;border-radius:6px;color:var(--secondary);font-size:11px;line-height:1.8}
+.point-evidence b{font-weight:550;color:var(--ink)}
+.empty-state{padding:70px 25px;text-align:center;color:var(--secondary)}
+.empty-state .empty-icon{width:44px;height:44px;margin:0 auto 18px;color:#a28cbf}
+.empty-state h2{font-size:18px;color:var(--ink);margin:0 0 10px}
+.empty-state p{max-width:510px;margin:0 auto 24px;font-size:13px;line-height:1.8}
+.mobile-label{display:none}
+.page-note{font-size:11px;color:var(--muted);line-height:1.8;margin:18px 0 0}
+.toast{position:fixed;right:24px;bottom:24px;z-index:50;background:#30243f;color:#fff;padding:12px 17px;border-radius:7px;box-shadow:0 5px 20px #251b3b22;font-size:12px;max-width:340px}
+@media(min-width:1500px){.canvas{padding-left:42px;padding-right:42px}.matrix th:first-child,.matrix td:first-child{width:300px}.point-map{min-height:430px}.points-board{gap:40px;margin-top:35px}}
+@media(max-width:1180px){:root{--nav:190px}.sidebar{padding:26px 12px 20px}.brand{width:137px}.canvas{padding:25px 24px 40px}.topbar{padding:0 24px}.preview-banner{padding-left:24px;padding-right:24px}.trend-title{flex-wrap:wrap}.trend-stats{gap:30px}.grid-layout{grid-template-columns:1fr}.point-map{min-height:380px}.point-detail{padding:22px}.insight-row{gap:16px}}
+@media(max-width:850px){:root{--nav:68px}.sidebar{padding:25px 9px 20px}.brand{width:44px;object-fit:cover;object-position:left;height:28px;margin:0 3px 30px}.workspace-label,.nav-caption,.nav-item>span,.nav-item small,.sidebar-bottom{display:none}.nav-item{justify-content:center;padding:13px 10px}.nav-list{gap:12px}.canvas{padding:24px 20px 36px}.topbar{padding:0 20px}.preview-banner{padding:8px 20px}.preview-banner span{display:none}.compare-grid{gap:14px}.metrics-strip{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:22px}.metric:nth-child(2){border:0}.insight-row{grid-template-columns:1fr}.page-head{gap:12px}h1{font-size:25px}.screenshot-placeholder{min-height:218px;padding:17px}.trend-stats{width:100%;justify-content:space-between}}
+@media(max-width:620px){.shell{display:block;padding-bottom:63px}.sidebar{inset:auto 0 0;width:100%;height:62px;padding:0;border-right:0;border-top:1px solid var(--line);background:#fff;z-index:40}.brand,.sidebar-rule{display:none}.nav-list{height:100%;flex-direction:row;gap:0;justify-content:space-around}.nav-item{flex:1;flex-direction:column;gap:3px;padding:8px 4px;border-radius:0;font-size:10px}.nav-item>span{display:block}.nav-item .icon{width:18px;height:18px}.main{width:100%}.preview-banner{padding:8px 15px;min-height:34px;justify-content:center}.preview-banner strong{font-size:11px}.topbar{height:48px;padding:0 16px}.account{display:none}.breadcrumb{font-size:11px;gap:8px}.canvas{padding:22px 15px 29px}.page-head{margin-bottom:20px;flex-wrap:wrap}.page-head .button{min-height:31px}.subtitle{font-size:12px}h1{font-size:23px}.toolbar{gap:12px}.toolbar-left{gap:8px}.surface-switch button{min-width:91px}.toolbar-right{width:100%;justify-content:space-between}.date-label{font-size:11px}.timezone{font-size:10px}.metrics-strip{padding:20px 0;gap:20px 0}.metric{padding:0 18px}.metric-value{font-size:25px}.metric-label{font-size:11px}.metric-note{font-size:10px}.section-heading{padding:16px}.section-heading h2{font-size:14px}.section-heading p{font-size:11px}.section-footer{padding:13px 16px}.store-table td:first-child,.store-table th:first-child{padding-left:17px}.matrix{min-width:825px}.matrix th:first-child,.matrix td:first-child{width:196px}.matrix th:not(:first-child){width:78px}.matrix .keyword{font-size:11px}.matrix td:first-child{padding-left:13px}.matrix tbody tr.selected td:first-child{padding-left:10px}.keyword-meta{font-size:9px}.rank-cell{min-width:41px;font-size:16px}.context-strip{padding:11px 12px;gap:6px 12px;font-size:10px}.pill-divider{display:none}.trend-section{padding:18px 15px 15px}.trend-title h3{font-size:13px}.trend-stats{gap:10px;margin-top:5px}.trend-stat strong{font-size:17px}.trend-stat small{font-size:9px}.trend-title p{font-size:10px}.trend-chart{min-width:620px;height:200px}.legend{padding:12px 15px;gap:10px}.legend-item{font-size:10px}.compare-grid{grid-template-columns:1fr}.evidence-title{font-size:21px}.evidence-context .context-row{font-size:10px}.screenshot-placeholder{min-height:225px}.grid-layout{display:block}.grid-layout>.section+ .section{margin-top:18px}.point-map{padding:22px 14px;min-height:370px}.points-board{width:270px;gap:32px}.point{width:58px;min-height:58px;font-size:17px}.grid-meta{padding:17px 7px}.grid-meta div{padding:0 11px}.grid-meta strong{font-size:18px}.grid-meta small{font-size:9px}.point-detail{padding:19px 16px}.detail-list div{grid-template-columns:89px 1fr;font-size:10px}.note-panel{padding:17px 18px}.note-list li{font-size:11px}.empty-state{padding:45px 20px}.empty-state h2{font-size:17px}.empty-state p{font-size:12px}.review-note{font-size:10px}.toast{left:15px;right:15px;bottom:76px;max-width:none}.mobile-label{display:inline}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg style="display:none" aria-hidden="true"><defs>
+<symbol id="i-overview" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 4v16h18M6 15l5-5 4 3 6-8"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><path d="M3 17l6-6 4 4 3-3 5 5"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><circle cx="5" cy="5" r="1.5"/><circle cx="12" cy="5" r="1.5"/><circle cx="19" cy="5" r="1.5"/><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="19" r="1.5"/><circle cx="12" cy="19" r="1.5"/><circle cx="19" cy="19" r="1.5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 5h4M11 19h2"/></symbol>
+</defs></svg>
+<div class="shell">
+<aside class="sidebar" aria-label="主导航">
+<a href="#portfolio" aria-label="Connexup 门店总览"><img class="brand" src="assets/connexup.svg" alt="Connexup"></a>
+<p class="workspace-label"><span></span>Maps 关键词观测</p>
+<p class="nav-caption">分析工作区</p>
+<nav class="nav-list">
+<a class="nav-item" href="#portfolio" data-nav="portfolio" aria-label="门店总览" aria-current="page"><svg class="icon"><use href="#i-overview"/></svg><span>门店总览</span></a>
+<a class="nav-item" href="#store/keke" data-nav="store" aria-label="关键词趋势"><svg class="icon"><use href="#i-trend"/></svg><span>关键词趋势</span></a>
+<a class="nav-item" href="#evidence" data-nav="evidence" aria-label="截图证据"><svg class="icon"><use href="#i-image"/></svg><span>截图证据</span></a>
+<a class="nav-item" href="#grid" data-nav="grid" aria-label="Android 手机点位"><svg class="icon"><use href="#i-grid"/></svg><span>手机点位</span><small>App</small></a>
+</nav>
+<div class="sidebar-bottom"><hr class="sidebar-rule"><b>内部分析工作区</b><br>Web 与 Android 分开观测<br>每一个排名，都能回到证据</div>
+</aside>
+<main class="main">
+<div class="preview-banner"><strong>设计预览 · 示例数据，非实时排名</strong><span>仅演示页面与交互，不连接数据库或采集服务</span></div>
+<header class="topbar"><div class="breadcrumb"><span>Maps 关键词观测</span><span>/</span><strong id="breadcrumbCurrent">门店总览</strong></div><div class="account"><span>Connexup SEO 团队</span><span class="avatar">CX</span></div></header>
+<div class="canvas">
+<section id="view-portfolio" class="view" aria-labelledby="portfolio-title">
+<div class="page-head"><div><h1 id="portfolio-title">门店总览</h1><p class="subtitle">先看哪些店值得关注，再下钻到关键词、日期和原始截图。</p></div><span class="meta-chip">6 家示例门店</span></div>
+<div class="toolbar">
+<div class="toolbar-left"><div class="surface-switch" aria-label="采集渠道"><button type="button" data-surface="web" aria-pressed="true">Web 浏览器</button><button type="button" data-surface="android" aria-pressed="false">Android App</button></div><span class="meta-chip">最近一次观测</span></div>
+<div class="toolbar-right"><span class="date-label"><svg class="icon" style="width:14px;height:14px"><use href="#i-clock"/></svg>2026 年 10 月 14 日</span><span class="timezone">日期按北京时间</span></div>
+</div>
+<div id="portfolio-web">
+<div class="section">
+<div class="metrics-strip">
+<div class="metric"><div class="metric-label">监控关键词</div><div class="metric-value">220<small>个</small></div><div class="metric-note">6 家门店的示例词表</div></div>
+<div class="metric"><div class="metric-label">排名可判定</div><div class="metric-value">191<small>/ 220</small></div><div class="metric-note">需同时通过身份与证据检查</div></div>
+<div class="metric"><div class="metric-label">自然排名前 5</div><div class="metric-value purple">86<small>/ 191</small></div><div class="metric-note">仅在排名可判定的词中统计</div></div>
+<div class="metric"><div class="metric-label">需要检查的采集</div><div class="metric-value amber">3<small>次</small></div><div class="metric-note">失败记录不算作排名下降</div></div>
+</div>
+<div class="section-heading"><div><h2>各店最新观测</h2><p>已启用仅表示配置状态；最近观测时间不代表任务运行健康。</p></div><span class="status gray">示例统计</span></div>
+<div class="table-wrap" tabindex="0" aria-label="门店观测表，可横向滚动">
+<table class="store-table"><thead><tr><th>门店</th><th>监控词</th><th>排名可判定</th><th>自然前 5</th><th>最近观测</th><th>配置</th><th></th></tr></thead><tbody id="storeRows"></tbody></table>
+</div>
+<div class="section-footer"><span>示例观测时间：2026-10-14 00:12—01:24（Asia/Shanghai）</span><span>点击门店，进入本地设计示例</span></div>
+</div>
+<div class="insight-row">
+<article class="note-panel"><h3>值得核对的变化（示例）</h3><ul class="note-list"><li><span class="dot">•</span><span><b>可可小卤</b> · spicy duck neck flushing 的示例自然排名从第 9 到第 4，值得打开前后截图核对。</span></li><li><span class="dot">•</span><span><b>SEE JOY</b> · 有 3 次采集失败，应先排查证据，再讨论排名变化。</span></li></ul></article>
+<article class="note-panel"><h3>把变化和采集质量分开看</h3><ul class="note-list"><li><span class="dot">•</span><span>Web 与 Android 的排名分别展示；不同渠道不连成一条趋势线。</span></li><li><span class="dot">•</span><span>缺失、失败和非榜单页面保留原状态，不补成「第 21 名」。</span></li></ul></article>
+</div>
+<p class="page-note">设计说明：本页数字均为示例。排名变化用于发现需要核查的现象，不能直接证明 SEO 工作带来销量或营收提升。</p>
+</div>
+<div id="portfolio-android" class="section" hidden><div class="empty-state"><svg class="icon empty-icon"><use href="#i-phone"/></svg><h2>Android 先看点位，再看排名</h2><p>App 数据按设备定位、点位和采集批次独立展示。本设计稿提供可可小卤的 9 点示例，尚未接入任何真实 Android 数据。</p><a class="button primary" href="#grid">打开 9 点设计示例</a></div></div>
+</section>
+
+<section id="view-store" class="view" aria-labelledby="store-title" hidden>
+<div class="page-head"><div class="store-heading"><span class="store-initial" id="selectedInitial">卤</span><div><h1 id="store-title">可可小卤</h1><p class="subtitle" id="storeSubtitle">KEKE Food · Flushing, New York</p></div></div><a class="button" href="#portfolio">全部门店</a></div>
+<div class="toolbar"><div class="toolbar-left"><div class="surface-switch" aria-label="门店采集渠道"><button type="button" data-surface="web" aria-pressed="true">Web 浏览器</button><button type="button" data-surface="android" aria-pressed="false">Android App</button></div><span class="meta-chip">关键词随时间变化</span></div><div class="toolbar-right"><span class="date-label">2026.10.07 — 2026.10.14</span><span class="timezone">Asia/Shanghai</span></div></div>
+<div id="store-web">
+<div class="context-strip"><span><b>观测口径</b> Web · 同一采集配置</span><span class="pill-divider">|</span><span>未指定浏览器 GPS</span><span class="pill-divider">|</span><span>结果地区：未核验</span><span class="pill-divider">|</span><span>品牌词与获客词分组</span></div>
+<div class="section">
+<div class="section-heading"><div><h2>关键词 × 日期<span class="count" id="matrixCount">6 个示例词</span></h2><p>点关键词看走势；点日期格子看对应截图。名次越小，位置越高。</p></div><span class="status purple">自然排名</span></div>
+<div class="table-wrap" tabindex="0" aria-label="关键词日期矩阵，可横向滚动"><table class="matrix"><thead id="matrixHead"></thead><tbody id="matrixBody"></tbody></table></div>
+<div class="legend"><span class="legend-item"><span class="legend-square"></span>前 5 名</span><span class="legend-item"><span class="legend-square gray"></span>第 6 名及以后</span><span class="legend-item"><span class="legend-square red"></span>采集失败</span><span class="legend-item">— 未采集</span><span class="legend-item">其他状态保留文字</span></div>
+<div class="trend-section">
+<div class="trend-title"><div><h3 id="trendKeyword">spicy duck neck flushing</h3><p>同一门店、渠道、点位与配置的示例观测</p></div><div class="trend-stats"><div class="trend-stat"><small>10/07 · 期初观测</small><strong id="trendFirst">第 9 名</strong></div><div class="trend-stat"><small>10/14 · 期末观测</small><strong id="trendLast">第 4 名</strong></div><div class="trend-stat positive" id="trendChangeBox"><small>期初与期末比较</small><strong id="trendChange">上升 5 位</strong></div></div></div>
+<div class="chart-wrap" tabindex="0" aria-label="关键词排名趋势，可横向滚动"><svg id="trendChart" class="trend-chart" viewBox="0 0 1050 214" role="img" aria-label="模拟排名趋势，采集失败日期断开连线"></svg></div>
+<div class="trend-foot"><span id="trendFootnote">10/10 采集失败处断线，未补值；其他状态也不会被转换成排名。</span><a class="table-link" id="compareLink" href="#evidence">查看前后证据设计</a></div>
+</div>
+</div>
+<div class="review-note"><b>怎么读这组变化</b>　<span id="trendInterpretation">示例中自然排名第 9 → 第 4。</span>先核对前后截图、搜索词和采集环境，再确认是否属于可持续变化。当前页面不推断提升原因。<br>历史对比和完整矩阵为拟议功能，正式实现还需要历史查询接口。</div>
+</div>
+<div id="store-android" class="section" hidden><div class="empty-state"><svg class="icon empty-icon"><use href="#i-grid"/></svg><h2>Android 结果需要指定点位</h2><p>手机端趋势必须先选择点位和批次。这里保留独立入口，避免把不同地点的 App 排名混到 Web 趋势中。</p><a class="button primary" href="#grid">查看手机点位示例</a></div></div>
+</section>
+
+<section id="view-evidence" class="view" aria-labelledby="evidence-title" hidden>
+<a class="back-link" id="evidenceBack" href="#store/keke"><svg class="icon" style="width:14px;height:14px"><use href="#i-left"/></svg>回到关键词趋势</a>
+<div class="page-head"><div><h1 class="evidence-title" id="evidence-title">spicy duck neck flushing</h1><p class="subtitle" id="evidenceSubtitle">可可小卤 · Web 浏览器 · 前后观测对比</p><div class="comparison-meta"><span class="status purple">同一示例观测口径</span><span class="status amber">结果地区未核验</span><span class="meta-chip">所有时间：Asia/Shanghai</span></div></div></div>
+<div class="compare-grid">
+<article class="evidence-card"><div class="evidence-card-head"><b id="beforeDate">2026.10.07 · 00:14:28</b><small>较早一次</small></div><div class="evidence-context"><strong id="beforeRank">9</strong><span id="beforeRankLabel">自然排名</span><div class="context-row"><span id="beforeDisplay">自然结果显示在第 10 位（含广告）</span><span id="beforeIdentity">身份：已匹配</span></div></div><div class="screenshot-placeholder"><svg class="icon placeholder-icon"><use href="#i-image"/></svg><b>原始截图展示区域</b><p>设计占位，非采集证据<br>正式页面按截图比例展示，可放大、切换连续帧。</p><span class="placeholder-format">原始 PNG · 保留搜索词与完整页面</span></div><div class="capture-caption" id="beforeCapture">示例观测 ID：preview-web-1007-keke-01<br>来源：设计数据，无实际 Azure 文件</div></article>
+<article class="evidence-card"><div class="evidence-card-head"><b id="afterDate">2026.10.14 · 00:16:42</b><small>选中的一次</small></div><div class="evidence-context"><strong id="afterRank">4</strong><span id="afterRankLabel">自然排名</span><div class="context-row"><span id="afterDisplay">自然结果显示在第 5 位（含广告）</span><span id="afterIdentity">身份：已匹配</span></div></div><div class="screenshot-placeholder"><svg class="icon placeholder-icon"><use href="#i-image"/></svg><b>原始截图展示区域</b><p>设计占位，非采集证据<br>图片和列表来自同一次观测；不会拼成伪造的搜索页面。</p><span class="placeholder-format">支持截图帧与商家行双向定位（拟议）</span></div><div class="capture-caption" id="afterCapture">示例观测 ID：preview-web-1014-keke-01<br>来源：设计数据，无实际 Azure 文件</div></article>
+</div>
+<div class="section evidence-table">
+<div class="section-heading"><div><h2>这次搜索出现了哪些店？</h2><p>含广告的显示顺序，与排除已确认广告后的自然排名分开记录。</p></div><span class="status gray">列表结构示例</span></div>
+<div class="table-wrap" tabindex="0" aria-label="商家排名明细，可横向滚动"><table><thead><tr><th>显示顺序</th><th>商家</th><th>结果类型</th><th>自然排名</th><th>评分 / 评论数</th></tr></thead><tbody id="evidenceRows">
+<tr class="own-row"><td>1</td><td><span class="store-name">可可小卤 KEKE Food<span class="tag">本店</span></span></td><td><span class="status amber">广告</span></td><td>— <span class="rank-label">广告不计入</span></td><td>4.7 / 186 <span class="rank-label">示例</span></td></tr>
+<tr><td>2</td><td>卤味商家 A（示例）</td><td><span class="status gray">自然结果</span></td><td>1</td><td>4.6 / 328 <span class="rank-label">示例</span></td></tr>
+<tr><td>3</td><td>卤味商家 B（示例）</td><td><span class="status gray">自然结果</span></td><td>2</td><td>4.5 / 211 <span class="rank-label">示例</span></td></tr>
+<tr><td>4</td><td>卤味商家 C（示例）</td><td><span class="status gray">自然结果</span></td><td>3</td><td>4.4 / 162 <span class="rank-label">示例</span></td></tr>
+<tr class="own-row"><td>5</td><td><span class="store-name">可可小卤 KEKE Food<span class="tag">本店</span></span></td><td><span class="status purple">自然结果</span></td><td><b style="color:var(--accent)">4</b></td><td>4.7 / 186 <span class="rank-label">示例</span></td></tr>
+<tr><td>6</td><td>卤味商家 D（示例）</td><td><span class="status gray">自然结果</span></td><td>5</td><td>— <span class="rank-label">页面未展示评分与评论数</span></td></tr>
+</tbody></table></div>
+<div class="section-footer"><span>同一商家的广告和自然结果分别保留。现有 topListings 接口最多返回前 10 条展示，不代表全部竞品。</span><span>独立质量规则：存在分类未知时，该次观测不参与可比排名计算。</span></div>
+</div>
+<details><summary>查看观测字段与证据边界</summary><pre id="observationJson"></pre></details>
+<p class="page-note">设计说明：前后截图对比需要新增历史观测查询及证据浏览能力。图像区只是占位，没有用重绘界面代替 Google Maps 原始截图。</p>
+</section>
+
+<section id="view-grid" class="view" aria-labelledby="grid-title" hidden>
+<div class="page-head"><div><h1 id="grid-title">Android 手机点位</h1><p class="subtitle">可可小卤 · spicy duck neck flushing · 同一批次的固定点位观测</p></div><span class="status purple">Android 官方 Maps App</span></div>
+<div class="toolbar"><div class="toolbar-left"><span class="meta-chip">示例批次 · 2026.10.14 01:06</span><span class="meta-chip">3 × 3 点位</span><span class="meta-chip">间距 500 m</span></div><span class="timezone">Asia/Shanghai</span></div>
+<div class="context-strip"><span><b>设备定位</b> 单独核对请求与 GPS 回执</span><span class="pill-divider">|</span><span>自然排名按每个点位展示</span><span class="pill-divider">|</span><span>点位观测不代表周边区域覆盖率</span></div>
+<div class="grid-layout">
+<div class="section"><div class="section-heading"><div><h2>9 个固定点，分别看到什么</h2><p>点击点位，查看定位回执和证据状态。</p></div></div><div class="point-map"><div class="map-label">固定点位示意 · 非地图</div><div class="points-board" id="pointsBoard"></div><div class="grid-caption">圆环只用于展示相对位置，不代表商圈边界或服务范围。</div></div><div class="grid-meta"><div><small>排名可判定点位</small><strong>7 / 9</strong></div><div><small>前 5 名 / 可判定</small><strong style="color:var(--accent)">3 / 7</strong></div><div><small>证据不足点位</small><strong style="color:var(--amber)">2 / 9</strong></div></div></div>
+<div class="section"><div class="point-detail"><h3 id="pointTitle">中心点 · 0,0</h3><div id="pointStatus" style="margin-bottom:14px"><span class="status purple">自然排名第 4</span></div><dl class="detail-list" id="pointDetails"></dl><div class="point-evidence"><b>截图与定位一起检查</b><br>正式页面将此点的原始截图、XML / OCR 观察和设备定位回执放在一起。这里是结构示例，没有真实截图或真实设备回执。</div><div class="inline-note">GPS 匹配只说明设备位置符合请求。搜索结果是否来自目标地区，需要另行核验，不能用 GPS 匹配替代。</div></div></div>
+</div>
+<div class="review-note"><b>口径保持独立</b>　Android 按「门店 + 关键词 + 点位 + 设备配置」查看趋势；Web 按自己的配置查看趋势。两种渠道可以并排观察，但不会合并计算一个平均排名。</div>
+</section>
+</div>
+</main>
+</div>
+<div id="toast" class="toast" role="status" hidden></div>
+<script>
+(() => {
+'use strict';
+const stores=[
+{id:'keke',initial:'卤',name:'可可小卤',en:'KEKE Food',area:'Flushing, New York',words:40,valid:36,top:12,state:'已完成观测',kind:'green',time:'00:16',keyword:'spicy duck neck flushing'},
+{id:'onlybear',initial:'B',name:'Only Bear',en:'Only Bear Chicken & Boba',area:'Mineola, New York',words:40,valid:38,top:26,state:'已完成观测',kind:'green',time:'00:33',keyword:'fried chicken mineola'},
+{id:'uws',initial:'U',name:'UWS',en:'UWS 示例门店',area:'Upper West Side, New York',words:40,valid:35,top:18,state:'部分证据待核对',kind:'amber',time:'00:49',keyword:'bakery upper west side'},
+{id:'seejoy',initial:'S',name:'SEE JOY',en:'SEE JOY 示例门店',area:'New York',words:40,valid:31,top:9,state:'3 次采集失败',kind:'red',time:'01:02',keyword:'seafood restaurant queens'},
+{id:'clinton',initial:'C',name:'Clinton Hill',en:'Clinton Hill 示例门店',area:'Brooklyn, New York',words:40,valid:34,top:14,state:'已完成观测',kind:'green',time:'01:16',keyword:'bakery clinton hill'},
+{id:'szechuan',initial:'川',name:'Szechuan Gourmet',en:'Szechuan Gourmet',area:'New York',words:20,valid:17,top:7,state:'已完成观测',kind:'green',time:'01:24',keyword:'szechuan restaurant manhattan'}
+];
+const dates=['10/07','10/08','10/09','10/10','10/11','10/12','10/13','10/14'];
+const weekdays=['周三','周四','周五','周六','周日','周一','周二','周三'];
+const keywords=[
+{name:'spicy duck neck flushing',type:'产品 + 地区 · 获客词',values:[9,8,7,'failed',6,5,4,4]},
+{name:'chinese braised food flushing',type:'品类 + 地区 · 获客词',values:[12,11,11,10,10,9,9,8]},
+{name:'duck neck flushing',type:'产品 + 地区 · 获客词',values:[6,6,5,6,5,4,4,3]},
+{name:'chinese snacks flushing',type:'品类 + 地区 · 获客词',values:['outside','outside',15,14,'insufficient',13,12,11]},
+{name:'luwei flushing',type:'产品 + 地区 · 获客词',values:['ad','ad','nonranking','uncollected',7,6,6,5]},
+{name:'keke food',type:'品牌词 · 品牌可见性',values:['nonranking','nonranking',1,1,'nonranking',1,1,1]}
+];
+const states={failed:'采集失败',outside:'未进前20',insufficient:'证据不足',ad:'仅广告',nonranking:'非榜单',uncollected:'—'};
+const stateLabels={failed:'采集失败',outside:'确认未进前 20',insufficient:'证据不足',ad:'仅广告',nonranking:'非榜单结果',uncollected:'未采集'};
+let surface='web',store=stores[0],selectedKeyword=0,selectedDay=7,view='portfolio';
+const $=id=>document.getElementById(id);
+function esc(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function activeKeywords(){return store.id==='keke'?keywords:[{name:store.keyword,type:'品类 + 地区 · 获客词',values:[9,8,7,'failed',6,5,4,4]}];}
+function setSurface(next){surface=next;document.querySelectorAll('[data-surface]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.surface===next)));$('portfolio-web').hidden=next!=='web';$('portfolio-android').hidden=next!=='android';$('store-web').hidden=next!=='web';$('store-android').hidden=next!=='android';}
+document.querySelectorAll('[data-surface]').forEach(b=>b.addEventListener('click',()=>setSurface(b.dataset.surface)));
+$('storeRows').innerHTML=stores.map(s=>`<tr><td><div class="store-cell"><span class="store-initial">${esc(s.initial)}</span><div><a class="store-name" href="#store/${s.id}">${esc(s.name)}</a><div class="store-sub">${esc(s.area)}</div></div></div></td><td class="numeric">${s.words}</td><td><span class="numeric">${s.valid}</span><span class="subnum">/ ${s.words}</span></td><td><span class="numeric" style="color:var(--accent)">${s.top}</span><span class="subnum">/ ${s.valid}</span></td><td><span class="status ${s.kind}">${s.state}</span><div class="store-sub">10/14 ${s.time} · 示例</div></td><td><span class="status gray">已启用</span></td><td><a class="table-link" href="#store/${s.id}">查看示例</a></td></tr>`).join('');
+$('matrixHead').innerHTML='<tr><th>关键词</th>'+dates.map((d,i)=>`<th>${d}<span class="day-week">${weekdays[i]}</span></th>`).join('')+'</tr>';
+function renderStore(){
+$('selectedInitial').textContent=store.initial;$('store-title').textContent=store.name;$('storeSubtitle').textContent=store.en+' · '+store.area;
+const list=activeKeywords();selectedKeyword=Math.min(selectedKeyword,list.length-1);$('matrixCount').textContent=list.length+' 个示例词';
+$('matrixBody').innerHTML=list.map((k,i)=>`<tr class="${i===selectedKeyword?'selected':''}"><td><button class="keyword" type="button" data-keyword="${i}" aria-pressed="${i===selectedKeyword}">${esc(k.name)}</button><div class="keyword-meta">${esc(k.type)}</div></td>${k.values.map((r,d)=>`<td><button class="rank-cell ${typeof r==='number'?(r<=5?'good':'middle'):'unavailable'} ${r==='failed'?'failure':''}" data-evidence-keyword="${i}" data-day="${d}" type="button" aria-label="${esc(k.name)}，2026年${dates[d].replace('/','月')}日，${typeof r==='number'?'自然排名第'+r+'名':stateLabels[r]}，打开证据设计">${typeof r==='number'?r:states[r]}</button></td>`).join('')}</tr>`).join('');
+$('matrixBody').querySelectorAll('[data-keyword]').forEach(b=>b.addEventListener('click',()=>{selectedKeyword=Number(b.dataset.keyword);renderStore();$('matrixBody').querySelector('[data-keyword="'+selectedKeyword+'"]').focus({preventScroll:true});}));
+$('matrixBody').querySelectorAll('[data-evidence-keyword]').forEach(b=>b.addEventListener('click',()=>{selectedKeyword=Number(b.dataset.evidenceKeyword);selectedDay=Number(b.dataset.day);location.hash='evidence';renderEvidence();}));
+renderTrend();
+}
+function renderTrend(){
+const k=activeKeywords()[selectedKeyword],first=k.values[0],last=k.values[k.values.length-1],comparable=typeof first==='number'&&typeof last==='number',diff=comparable?first-last:null;
+const formatRank=r=>typeof r==='number'?'第 '+r+' 名':stateLabels[r];
+$('trendKeyword').textContent=k.name;$('trendFirst').textContent=formatRank(first);$('trendLast').textContent=formatRank(last);$('trendChange').textContent=!comparable?'暂不计算':diff>0?'上升 '+diff+' 位':diff<0?'下降 '+Math.abs(diff)+' 位':'持平';
+$('trendChangeBox').classList.toggle('positive',comparable&&diff>0);
+$('trendFootnote').textContent=k.values[3]==='failed'?'10/10 采集失败处断线，未补值；其他状态也不会被转换成排名。':'未采集、非榜单等状态保留为断点，不转换成排名，不补值。';
+$('trendInterpretation').textContent='示例期初为'+formatRank(first)+'，期末为'+formatRank(last)+'。'+(comparable?'':'至少一个端点没有可比数值，不计算上升或下降位数。');
+const y=r=>28+(r-1)*10.2,x=i=>55+i*137;
+let svg='<text x="0" y="12" class="chart-label">自然排名</text>';
+[1,5,10,15].forEach(r=>{svg+=`<line x1="42" x2="1030" y1="${y(r)}" y2="${y(r)}" stroke="#eeeaf3"/><text x="16" y="${y(r)+4}" class="chart-label">${r}</text>`;});
+let segment=[];
+const drawSegment=()=>{if(segment.length>1)svg+=`<polyline points="${segment.join(' ')}" class="chart-line"/>`;segment=[];};
+k.values.forEach((r,i)=>{if(typeof r==='number')segment.push(`${x(i)},${y(r)}`);else drawSegment();});drawSegment();
+k.values.forEach((r,i)=>{if(typeof r==='number')svg+=`<circle cx="${x(i)}" cy="${y(r)}" r="4" class="chart-dot ${i===7?'last':''}"/><text x="${x(i)}" y="${y(r)-12}" text-anchor="middle" class="chart-value">${r}</text>`;else svg+=`<text x="${x(i)}" y="99" text-anchor="middle" class="chart-label">${states[r]}</text>`;svg+=`<text x="${x(i)}" y="202" text-anchor="middle" class="chart-label">${dates[i]}</text>`;});
+$('trendChart').innerHTML=svg;
+$('trendChart').setAttribute('aria-label',k.name+' 示例排名趋势：'+k.values.map((r,i)=>dates[i]+(typeof r==='number'?' 第'+r+'名':' '+stateLabels[r])).join('；'));
+}
+function renderEvidence(){
+const k=activeKeywords()[selectedKeyword],r=k.values[selectedDay],uncollected=r==='uncollected',firstIndex=selectedDay>0&&!uncollected?0:-1,first=firstIndex>=0?k.values[firstIndex]:null,beforeNumeric=typeof first==='number';
+$('evidence-title').textContent=k.name;$('evidenceSubtitle').textContent=store.name+' · Web 浏览器 · 前后观测对比';$('evidenceBack').href='#store/'+store.id;
+$('beforeDate').textContent=firstIndex>=0?'2026.'+dates[firstIndex].replace('/','.')+' · 00:14:28':uncollected?'未选择比较基准':'无更早示例观测';$('beforeRank').textContent=first===null?'—':beforeNumeric?String(first):stateLabels[first];$('beforeRankLabel').textContent=beforeNumeric?'自然排名':'';$('beforeDisplay').textContent=beforeNumeric?'自然结果显示在第 '+(first+1)+' 位（含广告）':'不计算前后变化';$('beforeIdentity').textContent=first===null?'基准：未提供':beforeNumeric?'身份：已匹配':'保留原始状态';
+$('beforeCapture').replaceChildren(document.createTextNode(firstIndex>=0?'示例观测 ID：preview-web-'+dates[firstIndex].replace('/','')+'-'+store.id+'-01':uncollected?'当前日期没有观测，不能建立前后比较':'没有早于所选日期的示例观测'),document.createElement('br'),document.createTextNode('来源：设计数据，无实际 Azure 文件'));
+$('afterDate').textContent='2026.'+dates[selectedDay].replace('/','.')+(uncollected?' · 未采集':' · 00:16:42');$('afterRank').textContent=typeof r==='number'?String(r):stateLabels[r];$('afterRankLabel').textContent=typeof r==='number'?'自然排名':'';
+$('afterDisplay').textContent=typeof r==='number'?'自然结果显示在第 '+(r+1)+' 位（含广告）':'自然排名：不可用于数值比较';$('afterIdentity').textContent=uncollected?'没有观测记录':typeof r==='number'?'身份：已匹配':'保留原始状态';
+$('afterCapture').replaceChildren(document.createTextNode(uncollected?'该日期未采集，没有观测 ID 或截图':'示例观测 ID：preview-web-'+dates[selectedDay].replace('/','')+'-'+store.id+'-01'),document.createElement('br'),document.createTextNode('来源：设计数据，无实际 Azure 文件'));
+$('observationJson').textContent=JSON.stringify({designPreview:true,evidence:uncollected?'none':'placeholder_only',store:store.name,keyword:k.name,surface:'web',selectedDate:'2026-'+dates[selectedDay].replace('/','-'),observationId:uncollected?null:'preview-web-'+dates[selectedDay].replace('/','')+'-'+store.id+'-01',capturedAt:uncollected?null:'2026-'+dates[selectedDay].replace('/','-')+'T00:16:42+08:00',status:typeof r==='number'?'ranked':r,organicOccurrence:typeof r==='number'?{displayPosition:r+1,organicRank:r}:null,advertisementOccurrences:store.id==='keke'&&selectedKeyword===0&&r===4?[{displayPosition:1,organicRank:null,resultType:'ad'}]:[],requestedBrowserLocation:'not_configured',geographicStatus:'unverified',classificationNote:'unknown classification excludes comparable rank',comparison:uncollected?'unavailable_no_observation':'same-cohort mock observations only'},null,2);
+document.querySelector('.evidence-table').hidden=!(store.id==='keke'&&selectedKeyword===0&&r===4);
+}
+const points=[
+{id:'-1,-1',name:'西北点',rank:9,lat:40.76460,lng:-73.83664},
+{id:'-1,0',name:'北侧点',rank:6,lat:40.76460,lng:-73.83071},
+{id:'-1,1',name:'东北点',rank:8,lat:40.76460,lng:-73.82478},
+{id:'0,-1',name:'西侧点',rank:4,lat:40.76011,lng:-73.83664},
+{id:'0,0',name:'中心点',rank:4,lat:40.76011,lng:-73.83071},
+{id:'0,1',name:'东侧点',rank:5,lat:40.76011,lng:-73.82478},
+{id:'1,-1',name:'西南点',rank:null,reason:'截图不完整',lat:40.75562,lng:-73.83664},
+{id:'1,0',name:'南侧点',rank:7,lat:40.75562,lng:-73.83071},
+{id:'1,1',name:'东南点',rank:null,reason:'定位未匹配',lat:40.75562,lng:-73.82478}
+];
+function renderPoint(index){
+const p=points[index];
+$('pointsBoard').innerHTML=points.map((p,i)=>`<button type="button" class="point ${p.rank&&p.rank<=5?'good':''} ${i===4?'center':''} ${p.rank===null?'unavailable':''} ${i===index?'active':''}" data-point="${i}" aria-pressed="${i===index}" aria-label="${p.name}，${p.rank?'自然排名第'+p.rank+'名':p.reason}">${p.rank===null?'证据不足':p.rank}<small>${p.id}</small></button>`).join('');
+$('pointsBoard').querySelectorAll('[data-point]').forEach(b=>b.addEventListener('click',()=>{const next=Number(b.dataset.point);renderPoint(next);$('pointsBoard').querySelector('[data-point="'+next+'"]').focus({preventScroll:true});}));
+$('pointTitle').textContent=p.name+' · '+p.id;
+$('pointStatus').innerHTML=p.rank?'<span class="status purple">自然排名第 '+p.rank+'</span>':'<span class="status amber">证据不足 · '+p.reason+'</span>';
+const matched=p.reason!=='定位未匹配';
+const pairs=[['请求坐标',p.lat.toFixed(5)+', '+p.lng.toFixed(5)],['设备 GPS 回执',matched?p.lat.toFixed(5)+', '+p.lng.toFixed(5)+'（示例）':'未获得匹配回执（示例）'],['定位校验',matched?'已匹配 · 仅设备层':'未匹配 · 不计算排名指标'],['结果地区','未核验'],['截图覆盖',p.reason==='截图不完整'?'不完整 · 不计算排名指标':'示例状态：完整'],['含广告顺序',p.rank?'第 '+(p.rank+1):'不可判定'],['自然排名',p.rank?'第 '+p.rank:'不可判定，不补成末位'],['环境与批次','Android · 示例设备配置 A / preview-grid-1014'],['采集时间','2026-10-14 01:06:42 +08:00']];
+$('pointDetails').innerHTML=pairs.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('');
+}
+function route(){
+const parts=(location.hash.slice(1)||'portfolio').split('/');view=['portfolio','store','evidence','grid'].includes(parts[0])?parts[0]:'portfolio';
+if(view==='store'){const next=stores.find(s=>s.id===parts[1])||stores[0];if(next.id!==store.id){selectedKeyword=0;selectedDay=7;}store=next;renderStore();}
+if(view==='evidence')renderEvidence();
+document.querySelectorAll('.view').forEach(el=>el.hidden=el.id!=='view-'+view);
+document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===view)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+$('breadcrumbCurrent').textContent={portfolio:'门店总览',store:store.name+' / 关键词趋势',evidence:'截图证据',grid:'Android 手机点位'}[view];
+document.title='Connexup · '+$('breadcrumbCurrent').textContent+' · 设计预览';
+window.scrollTo(0,0);
+}
+$('compareLink').addEventListener('click',()=>{selectedDay=7;});
+window.addEventListener('hashchange',route);
+renderStore();renderPoint(4);setSurface('web');route();
+})();
+</script>
+</body>
+</html>

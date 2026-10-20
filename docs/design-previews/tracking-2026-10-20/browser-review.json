@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-10-20T12:01:13.933643+00:00",
+  "scope": "Local illustrative design preview only, not production application acceptance",
+  "htmlSha256": "c1615713d4ab13ae76b79e0a71311843951c5c77910c0d0dc72a354393185c2b",
+  "localPreviewUrl": "http://127.0.0.1:50650/#store/keke",
+  "browserChecks": [
+    "Portfolio, store matrix, evidence comparison and Android grid rendered in the in-app browser.",
+    "Selected date navigates to its illustrative keyword/date evidence view.",
+    "No-collection date shows no observation ID or capture timestamp.",
+    "Web/Android surface switch hides the Web trend in Android mode.",
+    "Android unmatched-location point displays unavailable rank, not a numeric penalty.",
+    "Keyword selection preserves focus on its rebuilt button and updates trend heading.",
+    "At 768px all four icon navigation links retain accessible labels.",
+    "At 390px document scroll width equals viewport width; matrix scrolls in its own region; local logo loads.",
+    "Temporary viewport overrides reset before handoff."
+  ],
+  "visualReview": {
+    "desktop": "Portfolio, keyword matrix/trend, evidence layout",
+    "mobile": "390px keyword workspace",
+    "screenshotsDirectory": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/frontend-design-20261020",
+    "limitations": "Not an exhaustive cross-browser or accessibility audit."
+  },
+  "independentReviews": {
+    "designContract": "No important unanswered questions after roster-summary and grid-run API additions.",
+    "previewCode": "No remaining actionable findings after date, classification, no-record, navigation and focus fixes."
+  },
+  "backendChanges": false,
+  "liveCollectorChanges": false,
+  "deployed": false,
+  "data": "Illustrative only; image slots are explicit placeholders."
+}

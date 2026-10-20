@@ -1,0 +1,27 @@
+{
+  "scope": "Static checks only; visual and interaction QA performed separately by parent agent",
+  "syntax": "passed",
+  "html_ids": 57,
+  "duplicate_ids": false,
+  "local_assets": [
+    "assets/connexup.svg"
+  ],
+  "external_network_calls": false,
+  "navigation_accessible_names": 4,
+  "views": [
+    "portfolio",
+    "store",
+    "evidence",
+    "grid"
+  ],
+  "sha256": "c1615713d4ab13ae76b79e0a71311843951c5c77910c0d0dc72a354393185c2b",
+  "state_rules": [
+    "first/last date endpoints preserved including nonnumeric states",
+    "nonnumeric endpoints have no numeric delta",
+    "no earlier evidence baseline for first date",
+    "uncollected date has no observation ID or capture timestamp",
+    "Android and Web remain separate",
+    "unknown result classification excludes comparable rank",
+    "keyword and point focus restored after local render"
+  ]
+}

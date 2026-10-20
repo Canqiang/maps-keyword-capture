@@ -1,8 +1,12 @@
 # Maps tracking frontend design
 
-Date: 2026-10-20  
-Implementation baseline: `83f3609`  
+Date: 2026-10-20
+
+Implementation baseline: `83f3609`
+
 Status: design proposal for review; not a deployed feature.
+
+[Open the companion visual preview](../../design-previews/tracking-2026-10-20/index.html). Its figures are illustrative and its screenshot areas are labeled placeholders.
 
 ## Intent and existing decisions
 
