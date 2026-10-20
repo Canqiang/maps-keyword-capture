@@ -44,11 +44,11 @@ spec:
             fsGroup: 1001
           containers:
             - name: tracking
-              image: IMAGE_PLACEHOLDER
+              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:2a3cacb6d3b91aab4044354d871a8b6655d18befee2a5db29d6782fe2ba752a7
               args: ["node", "dist/domain/cli.js", "scan", "--config", "/config/tracking.json", "--surface", "web", "--tier", "point", "--storage", "azure", "--output-dir", "/work/outputs", "--mongo-uri-env", "MAPS_TRACKING_MONGO_URI"]
               env:
                 - name: IMAGE_DIGEST
-                  value: DIGEST_PLACEHOLDER
+                  value: sha256:2a3cacb6d3b91aab4044354d871a8b6655d18befee2a5db29d6782fe2ba752a7
                 - name: EGRESS_PROFILE_ID
                   value: aks-fbrdev-eastus2-aiapp
                 - name: AZURE_STORAGE_CONTAINER
