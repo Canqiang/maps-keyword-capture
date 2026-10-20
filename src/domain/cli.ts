@@ -11,7 +11,8 @@ import type { BatchManifest, KeywordResult } from '../contracts.js';
 import { ingestAndroidManifest, ingestWebBatch, type AndroidManifestLike } from './ingest.js';
 import { keywordKey, type RankObservation } from './model.js';
 import { MemoryObservationStore, MongoObservationStore, type ObservationStore } from './observation-store.js';
-import { centerPoint, loadTrackingConfig, planScan, storeGridSpec, toAndroidRuns, toWebBatches, type TrackingConfig } from './tracking-config.js';
+import { centerPoint, loadTrackingConfig, planScan, shardStores, storeGridSpec, toAndroidRuns, toWebBatches, withStores, type TrackingConfig } from './tracking-config.js';
+import { MongoTrackingRepository } from './repository.js';
 
 const USAGE = [
   'Usage:',
@@ -20,6 +21,8 @@ const USAGE = [
   '  tracking ingest --config tracking.json --surface android --manifest manifest.json [--manifest-key <key>] [--out file.json | --mongo-uri-env MAPS_TRACKING_MONGO_URI]',
   '  tracking scan   --config tracking.json --surface web --tier point|grid [--store-id <id>] [--storage local|azure] [--output-dir ./outputs] [--mongo-uri-env MAPS_TRACKING_MONGO_URI]',
   '  tracking recent --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI [--store-id <id>] [--limit 20]',
+  '  tracking stores --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI (--list | --import stores.json)',
+  '  scan shards: --shard-index <i> --shard-count <n>, or JOB_COMPLETION_INDEX with --shard-count <n> (Indexed Jobs)',
 ].join('\n');
 
 function parse(args: string[]): { command: string; options: Map<string, string> } {
@@ -59,6 +62,27 @@ async function openStore(config: TrackingConfig, options: Map<string, string>, e
     return { store: new MongoObservationStore({ uri, database: config.database.database, collection: config.database.collection }), sink: `mongo ${config.database.database}.${config.database.collection}` };
   }
   return { store: new MemoryObservationStore(), sink: options.get('--out') ?? 'stdout' };
+}
+
+function shardIndex(options: Map<string, string>, env: NodeJS.ProcessEnv): number {
+  const raw = options.get('--shard-index') ?? env.JOB_COMPLETION_INDEX;
+  const value = Number(raw);
+  if (raw === undefined || !Number.isInteger(value)) throw new Error('--shard-count needs --shard-index or JOB_COMPLETION_INDEX');
+  return value;
+}
+/** Stores for this scan: inline or from the database, then this pod's shard. */
+async function resolveStores(config: TrackingConfig, options: Map<string, string>, env: NodeJS.ProcessEnv): Promise<TrackingConfig> {
+  let resolved = config;
+  if (config.storeSource.provider === 'mongo') {
+    const envName = options.get('--mongo-uri-env');
+    const uri = envName ? env[envName] : undefined;
+    if (!uri) throw new Error('storeSource mongo needs --mongo-uri-env with a set variable');
+    const repo = new MongoTrackingRepository({ uri, database: config.database.database, storesCollection: config.storeSource.collection, observationsCollection: config.database.collection });
+    try { resolved = withStores(config, await repo.listStores()); } finally { await repo.close(); }
+  }
+  const count = options.get('--shard-count');
+  if (count !== undefined) resolved = withStores(resolved, shardStores(resolved.stores, shardIndex(options, env), Number(count)));
+  return resolved;
 }
 
 export async function main(args = process.argv.slice(2), env = process.env): Promise<number> {
@@ -113,6 +137,7 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
       const storage = options.get('--storage') ?? 'local';
       if (storage !== 'local' && storage !== 'azure') throw new Error('--storage must be local or azure');
       const { store } = createStore(storage, options.get('--output-dir') ?? './outputs', env);
+      const scanConfig = await resolveStores(config, options, env);
       const { store: observations, sink } = await openStore(config, options, env);
       const controller = new AbortController();
       const stop = () => controller.abort();
@@ -120,7 +145,8 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
       const log = (event: Record<string, unknown>) => process.stdout.write(`${JSON.stringify({ ts: new Date().toISOString(), ...event })}\n`);
       try {
         const storeId = options.get('--store-id');
-        const summary = await runWebScan({ config, tier, store, observations, log, signal: controller.signal, ...(storeId ? { storeIds: [storeId] } : {}),
+        log({ stage: 'scan_stores', stores: scanConfig.stores.length, shard: options.get('--shard-count') ? `${shardIndex(options, env)}/${options.get('--shard-count')}` : null });
+        const summary = await runWebScan({ config: scanConfig, tier, store, observations, log, signal: controller.signal, ...(storeId ? { storeIds: [storeId] } : {}),
           launch: () => chromium.launch({ channel: 'chromium', headless: true, chromiumSandbox: true, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false, env: monitorBrowserEnv(env) }) });
         console.log(JSON.stringify({ event: 'tracking_scan_finished', sink, ...summary }));
         return summary.exitCode;
@@ -129,6 +155,25 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
         console.error(error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 300) : 'tracking scan failed');
         return 1;
       } finally { process.off('SIGINT', stop); process.off('SIGTERM', stop); await observations.close(); }
+    }
+    if (command === 'stores') {
+      const envName = need(options, '--mongo-uri-env');
+      const uri = env[envName];
+      if (!uri) throw new Error(`${envName} is not set`);
+      const repo = new MongoTrackingRepository({ uri, database: config.database.database, storesCollection: config.storeSource.collection, observationsCollection: config.database.collection });
+      try {
+        if (options.get('--import')) {
+          const raw = JSON.parse(await readFile(options.get('--import')!, 'utf8')) as unknown;
+          const list = Array.isArray(raw) ? raw : (raw as { stores?: unknown[] }).stores ?? [];
+          const saved = [];
+          for (const item of list) saved.push((await repo.saveStore(item)).storeId);
+          console.log(JSON.stringify({ imported: saved.length, storeIds: saved }));
+        } else {
+          const stores = await repo.listStores({ includeInactive: true });
+          console.log(JSON.stringify(stores.map(st => ({ storeId: st.storeId, name: st.name, active: st.active, keywords: st.keywords.core.length + st.keywords.longTail.length })), null, 2));
+        }
+      } finally { await repo.close(); }
+      return 0;
     }
     if (command === 'recent') {
       const { store, sink } = await openStore(config, options, env);

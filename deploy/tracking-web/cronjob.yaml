@@ -23,9 +23,14 @@ spec:
         app.kubernetes.io/name: maps-keyword-capture
         app.kubernetes.io/component: tracking-web
     spec:
-      backoffLimit: 0
-      # 40 keywords at about 20 s each plus delivery; well inside the two-hour window.
-      activeDeadlineSeconds: 5400
+      # Stores are split across indexed pods by a stable hash of storeId (--shard-count must equal completions).
+      completionMode: Indexed
+      completions: 2
+      parallelism: 2
+      backoffLimitPerIndex: 0
+      maxFailedIndexes: 2
+      # About 20 s per keyword per pod; keep each shard under about 250 keywords to finish inside two hours.
+      activeDeadlineSeconds: 6600
       template:
         metadata:
           labels:
@@ -45,7 +50,7 @@ spec:
           containers:
             - name: tracking
               image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:5eb33f8017cef5d223b78d18bc3860801f5f8046ec25f83e2a619dc1fa6dc064
-              args: ["node", "dist/domain/cli.js", "scan", "--config", "/config/tracking.json", "--surface", "web", "--tier", "point", "--storage", "azure", "--output-dir", "/work/outputs", "--mongo-uri-env", "MAPS_TRACKING_MONGO_URI"]
+              args: ["node", "dist/domain/cli.js", "scan", "--config", "/config/tracking.json", "--surface", "web", "--tier", "point", "--storage", "azure", "--output-dir", "/work/outputs", "--mongo-uri-env", "MAPS_TRACKING_MONGO_URI", "--shard-count", "2"]
               env:
                 - name: IMAGE_DIGEST
                   value: sha256:5eb33f8017cef5d223b78d18bc3860801f5f8046ec25f83e2a619dc1fa6dc064

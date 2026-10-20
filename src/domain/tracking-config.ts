@@ -44,7 +44,9 @@ const schema = z.object({
   /** The stores' local time: scan hours and the local date of every observation use it. */
   timezone: timezone.default('America/New_York'),
   defaults: z.object({ grid: gridSchema.default({ radiusKm: 5, size: 5 }), zoom: z.number().int().min(3).max(21).default(15) }).strict().default({ grid: { radiusKm: 5, size: 5 }, zoom: 15 }),
-  stores: z.array(storeSchema).min(1).max(200),
+  /** Where stores come from: inline in this file, or the `stores` collection managed through the UI. */
+  storeSource: z.object({ provider: z.enum(['config', 'mongo']), collection: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,62}$/u).default('stores') }).strict().default({ provider: 'config', collection: 'stores' }),
+  stores: z.array(storeSchema).max(2000).default([]),
   surfaces: z.object({ web: surfaceSchema, android: surfaceSchema }).strict(),
   database: z.object({ provider: z.literal('mongo'), database: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,62}$/u), collection: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,62}$/u).default('observations') }).strict(),
 }).strict();
@@ -59,6 +61,34 @@ export function parseTrackingConfig(raw: unknown): TrackingConfig {
   const parsed = schema.safeParse(raw);
   if (!parsed.success) throw new ConfigError(`invalid tracking configuration: ${parsed.error.issues.map(i => `${i.path.join('.') || '<root>'}: ${i.message}`).join('; ')}`);
   const config = parsed.data;
+  if (config.storeSource.provider === 'config' && config.stores.length === 0) throw new ConfigError('stores must be nonempty when storeSource is config');
+  validateStores(config.stores);
+  return config;
+}
+
+/** Validate one store as the UI or an import submits it; returns the normalized store. */
+export function parseStore(raw: unknown): TrackingStore {
+  const parsed = storeSchema.safeParse(raw);
+  if (!parsed.success) throw new ConfigError(`invalid store: ${parsed.error.issues.map(i => `${i.path.join('.') || '<root>'}: ${i.message}`).join('; ')}`);
+  validateStores([parsed.data]);
+  return parsed.data;
+}
+
+/** Replace the configured stores, e.g. with the ones loaded from the database. */
+export function withStores(config: TrackingConfig, stores: TrackingStore[]): TrackingConfig {
+  validateStores(stores);
+  return { ...config, stores };
+}
+
+/** Stable assignment of stores to `count` shards, so a store always runs on the same indexed pod. */
+export function shardStores(stores: TrackingStore[], index: number, count: number): TrackingStore[] {
+  if (!Number.isInteger(count) || count < 1 || !Number.isInteger(index) || index < 0 || index >= count) throw new ConfigError('shard index must be within 0..count-1');
+  const hash = (text: string): number => { let h = 2166136261; for (const ch of text) { h ^= ch.codePointAt(0)!; h = Math.imul(h, 16777619) >>> 0; } return h; };
+  return stores.filter(store => hash(store.storeId) % count === index);
+}
+
+function validateStores(stores: TrackingStore[]): void {
+  const config = { stores };
   for (const field of ['storeId', 'placeId'] as const) {
     if (new Set(config.stores.map(s => s[field])).size !== config.stores.length) throw new ConfigError(`duplicate stores.${field}`);
   }
@@ -66,7 +96,6 @@ export function parseTrackingConfig(raw: unknown): TrackingConfig {
     const all = [...store.keywords.core, ...store.keywords.longTail].map(k => k.toLowerCase());
     if (new Set(all).size !== all.length) throw new ConfigError(`store ${store.storeId} repeats a keyword across core and long tail`);
   }
-  return config;
 }
 export async function loadTrackingConfig(path: string): Promise<TrackingConfig> {
   let raw: unknown;

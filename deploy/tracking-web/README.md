@@ -1,8 +1,12 @@
 # Two-hourly web rank tracking
 
-CronJob `maps-tracking-web-2h` in `uat` runs the desktop collector every two hours (store local time, `America/New_York`) for every store and keyword in `configmap.yaml`, searching with the map centred on the store (`mapView`), delivering screenshots and manifests to the private container `maps-keyword-capture-uat` under `tracking/web/<date>/point/<scanId>/…`, and upserting one `RankObservation` per keyword into MongoDB `maps-rank-tracking.observations`. The domain is described in [`docs/domain.md`](../../docs/domain.md).
+CronJob `maps-tracking-web-2h` in `uat` runs the desktop collector every two hours (store local time, `America/New_York`) for every active store and keyword, searching with the map centred on the store (`mapView`), delivering screenshots and manifests to the private container `maps-keyword-capture-uat` under `tracking/web/<date>/point/<scanId>/…`, and upserting one `RankObservation` per keyword into MongoDB `maps-rank-tracking.observations`. The domain is described in [`docs/domain.md`](../../docs/domain.md).
 
-It runs on the `uatops` pool and reuses the UAT monitor's storage SAS Secret and Mongo URI Secret (the Mongo user must be allowed to create the `maps-rank-tracking` database on the UAT replica set). The daily monitor keeps running unchanged; this job is additional load on the same egress IP, about 40 searches every two hours for one store.
+**Stores live in MongoDB** (`maps-rank-tracking.stores`) and are added, edited and paused in the [tracking UI](../tracking-ui/README.md). `configmap.yaml` only holds shared settings (`storeSource: mongo`); `stores-seed.json` is the initial import. Each run reads the active stores at start.
+
+**Sharding.** The Job is Indexed with `completions: 2`; each pod scans the stores whose stable storeId hash falls in its index (`--shard-count` must equal `completions`). One pod covers about 250 keywords in two hours, so raise both together when the total keyword count grows past about 450. More shards means more concurrent browsers on `uatops` and more searches from the same egress IP.
+
+It reuses the UAT monitor's storage SAS Secret and Mongo URI Secret. The daily monitor keeps running unchanged.
 
 ## Build and pin
 
@@ -42,7 +46,7 @@ kubectl -n uat patch job maps-tracking-recent --type=json -p '[{"op":"replace","
 
 ## Change keywords or stores
 
-Edit `configmap.yaml` and apply it; the next run reads the new list. Keep each store's keywords unique across `core` and `longTail`. Adding a store adds one batch per 20 keywords per run; keep the total under about 250 queries per run so the scan stays well inside the two-hour window and the egress stays under roughly 3000 searches a day.
+Use the tracking UI; the next run picks the change up. Keep each store's keywords unique across `core` and `longTail`. Every 20 keywords of a store is one batch of about 7 minutes.
 
 ## Pause, stop, remove
 
