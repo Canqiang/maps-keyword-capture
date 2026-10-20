@@ -14,7 +14,7 @@ kubectl -n dev-ai get cronjob maps-capture-daily
 ```
 
 - **Keywords.** Edit `configmap.yaml` (at most 20) and apply it. The next run reads the new list; a run in progress keeps the old one. An invalid list makes the next run exit 64 without collecting anything, so run `npm test` first: it validates the file.
-- **Schedule.** Edit `schedule` and `timeZone` in `cronjob.yaml` and apply it. A 20-keyword run took about 6 minutes, and the Job deadline is 3000 s. `concurrencyPolicy: Forbid` makes a schedule wait while the previous scheduled run is still active; it does not see Jobs created by hand (see [Run now](#run-now-pause-stop-remove)).
+- **Schedule.** Edit `schedule` and `timeZone` in `cronjob.yaml` and apply it. A 20-keyword run took about 6 minutes, and the Job deadline is 3000 s. `concurrencyPolicy: Forbid` makes a schedule wait while the previous scheduled run is still active; it does not see Jobs created by hand (see [Run now](#run-now-pause-stop-remove)). Before changing the time, run the check in [Co-tenants on the pool](#co-tenants-on-the-pool): the new window must not overlap another browser workload there.
 - **Image.** Put a new digest into `image` and `IMAGE_DIGEST` in both `deploy/job/job.yaml` and `cronjob.yaml`, run `npm test`, then apply `cronjob.yaml`. The next run uses it.
 
 ## Check runs
@@ -65,7 +65,7 @@ esac
 
 ## Run now, pause, stop, remove
 
-- **Run now.** `Forbid` only sees Jobs the CronJob scheduled itself: a Job created by hand, from this CronJob or from `deploy/job/`, neither waits for a scheduled run nor holds one back. Two runs at once put two browsers on the same egress and compete for CPU. Check that nothing is running, and do not start a manual run within an hour before 10:00 New York time unless the CronJob is suspended.
+- **Run now.** `Forbid` only sees Jobs the CronJob scheduled itself: a Job created by hand, from this CronJob or from `deploy/job/`, neither waits for a scheduled run nor holds one back. Two runs at once share one egress IP and compete for CPU on the pool (see [Co-tenants on the pool](#co-tenants-on-the-pool)). Check that nothing is running, and do not start a manual run within an hour before 10:00 New York time unless the CronJob is suspended.
 
   ```bash
   kubectl -n dev-ai get jobs -l app.kubernetes.io/name=maps-keyword-capture
@@ -87,6 +87,29 @@ esac
 
 - **Stop a run in progress.** Set `JOB` to the running Job with the `JOB=$(...)` line from [Check runs](#check-runs), then use the stop block in [`deploy/job/README.md`](../job/README.md#stop-revoke-rotate). Its final `kubectl delete "$JOB"` is optional here: the history limits remove the Job later.
 - **Remove the schedule.** `kubectl -n dev-ai delete cronjob maps-capture-daily` also deletes the Jobs it created, their logs, and any run in progress, so check for a `Running` Job first. Results already in Azure stay. Delete the keywords with `kubectl -n dev-ai delete configmap maps-capture-keywords-daily`.
+
+## Co-tenants on the pool
+
+Every run shares the fixed `aiapp` pool and the cluster's egress IP with other workloads. Two browsers at once share one egress and compete for CPU, and on 2026-09-28 the pool had under 400m of unreserved CPU per node (see [`docs/uat-monitor-operations.md`](../../docs/uat-monitor-operations.md)). Run this check before moving the schedule and before starting a run by hand.
+
+The known browser workload on the pool is the CronJob `maps-keyword-monitor-daily` in `uat` ([`deploy/uat-monitor/cronjob.yaml`](../uat-monitor/cronjob.yaml)); it uses the same egress profile. It is committed with `suspend: true` and is resumed after UAT acceptance without anyone reopening this file, so treat it as live. It starts at 00:00 Asia/Shanghai and its Job deadline is 51 000 s, so its window is 00:00 to about 14:10 Shanghai: 12:00 to 02:10 the next day in New York during EDT, or 11:00 to 01:10 during EST. The current 10:00 New York schedule (22:00 or 23:00 Shanghai, about 6 minutes plus up to the 3000 s deadline) is outside that window.
+
+Compare windows, not start times: a workload's window is its schedule plus its Job deadline, or its measured duration when that is known. The two CronJobs declare different `timeZone` values, so convert with the TIMEZONE column before comparing the SCHEDULE columns. A CronJob listing is also not the whole picture: a Job started by hand from `deploy/job/`, `deploy/dev-trial/` or either CronJob, and any other Pod on the pool, never appears in it.
+
+```bash
+kubectl -n dev-ai get cronjobs -o wide
+kubectl -n uat get cronjobs -o wide
+kubectl -n dev-ai get jobs -l app.kubernetes.io/name=maps-keyword-capture
+kubectl -n uat get jobs -l app.kubernetes.io/name=maps-keyword-monitor
+```
+
+With cluster-wide read access, this also lists every running Pod on the pool, whatever created it:
+
+```bash
+for NODE in $(kubectl get nodes -l envpool=aiapp -o jsonpath='{.items[*].metadata.name}'); do
+  kubectl get pods -A --field-selector "spec.nodeName=$NODE,status.phase=Running" -o wide
+done
+```
 
 ## Limits
 
