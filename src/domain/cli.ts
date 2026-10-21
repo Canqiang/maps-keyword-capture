@@ -12,6 +12,8 @@ import type { BatchManifest, KeywordResult, ManifestDeliveryReceipt } from '../c
 import { ingestAndroidManifest, ingestWebBatch, type AndroidManifestLike } from './ingest.js';
 import type { RankObservation } from './model.js';
 import { MemoryObservationStore, MongoObservationStore, type ObservationStore } from './observation-store.js';
+import { azureBlobSource, dateRange, ingestDailyMonitor, recentBeijingDates } from './daily-ingest.js';
+import { containerClientFromEnv } from '../storage/azure-gateway.js';
 import { balancedShardStores, loadTrackingConfig, parseStore, planScan, shardStores, trackingIngestContext, toAndroidRuns, toWebBatches, withStores, type TrackingConfig, type ScanTier, type Surface } from './tracking-config.js';
 import { MongoTrackingRepository } from './repository.js';
 import { parseTargetCatalog, reconcileTargetStores } from './target-catalog.js';
@@ -22,6 +24,7 @@ const USAGE = [
   '  tracking ingest --config tracking.json --surface web --store-id <id> --batch-dir <dir> [--point-id r0c0] [--manifest-key <key>] [--out file.json | --mongo-uri-env MAPS_TRACKING_MONGO_URI]',
   '  tracking ingest --config tracking.json --surface android --manifest manifest.json [--manifest-key <key>] [--out file.json | --mongo-uri-env MAPS_TRACKING_MONGO_URI]',
   '  tracking scan   --config tracking.json --surface web|android --tier point|grid [--catalog catalog.json --catalog-sha256 <sha256>] [--store-id <id>] [--storage local|azure] [--output-dir ./outputs] [--mongo-uri-env MAPS_TRACKING_MONGO_URI]',
+  '  tracking ingest-daily --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI [--from YYYY-MM-DD --to YYYY-MM-DD | --date YYYY-MM-DD] [--store-id <id>] [--dry-run true]',
   '  tracking recent --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI [--store-id <id>] [--limit 20]',
   '  tracking stores --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI (--list | --import stores.json)',
   '  tracking stores --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI --import-catalog catalog.json',
@@ -183,6 +186,20 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
         console.error(JSON.stringify({ event: 'tracking_ingested', surface, sink, observations: observations.length, ...result }));
       } finally { await store.close(); }
       return 0;
+    }
+    if (command === 'ingest-daily') {
+      const resolved = await resolveStores(config, options, env, true);
+      const dates = options.has('--date') ? [need(options, '--date')] : options.has('--from') || options.has('--to') ? dateRange(need(options, '--from'), need(options, '--to')) : recentBeijingDates(new Date());
+      const dryRun = options.get('--dry-run') === 'true';
+      const log = (event: Record<string, unknown>) => console.error(JSON.stringify({ ts: new Date().toISOString(), ...event }));
+      const source = azureBlobSource(containerClientFromEnv(env));
+      const { store, sink } = dryRun ? { store: new MemoryObservationStore(), sink: 'dry-run' } : await openStore(config, options, env);
+      if (!dryRun && store instanceof MemoryObservationStore) throw new Error('ingest-daily writes to MongoDB; pass --mongo-uri-env or --dry-run true');
+      try {
+        const summary = await ingestDailyMonitor(resolved, source, store, { dates, ...(options.get('--store-id') ? { storeIds: [options.get('--store-id')!] } : {}), log });
+        console.log(JSON.stringify({ event: 'tracking_daily_ingested', sink, ...summary }, null, 2));
+        return summary.errors.length || summary.manifests.skippedIncompleteDelivery ? 2 : 0;
+      } finally { await store.close(); }
     }
     if (command === 'scan') {
       const surface = need(options, '--surface'), tier = need(options, '--tier');

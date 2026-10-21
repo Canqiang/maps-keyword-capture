@@ -1,0 +1,86 @@
+# Daily-monitor ingestion: reads the batches that `maps-keyword-monitor-daily` delivered to the UAT
+# evidence container (today's and yesterday's Beijing-date folders), verifies each selected result
+# against its artifact receipt, and appends the missing RankObservations (query-only, point r0c0) to
+# MongoDB maps-rank-tracking.observations. Existing rows are never replaced, so re-runs are no-ops.
+# The daily monitor starts at 00:00 Asia/Shanghai and takes about two hours; this runs at 04:00.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: maps-tracking-ingest-daily
+  namespace: uat
+  labels:
+    app.kubernetes.io/name: maps-keyword-capture
+    app.kubernetes.io/component: tracking-ingest
+spec:
+  schedule: "0 4 * * *"
+  timeZone: Asia/Shanghai
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 3600
+  successfulJobsHistoryLimit: 7
+  failedJobsHistoryLimit: 7
+  suspend: false
+  jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/name: maps-keyword-capture
+        app.kubernetes.io/component: tracking-ingest
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 1800
+      ttlSecondsAfterFinished: 604800
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: maps-keyword-capture
+            app.kubernetes.io/component: tracking-ingest
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          nodeSelector:
+            envpool: uatops
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 1001
+          containers:
+            - name: ingest
+              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:REPLACE_DIGEST
+              args: ["node", "dist/domain/cli.js", "ingest-daily", "--config", "/config/tracking.json", "--mongo-uri-env", "MAPS_TRACKING_MONGO_URI"]
+              env:
+                - name: IMAGE_DIGEST
+                  value: sha256:REPLACE_DIGEST
+                - name: AZURE_STORAGE_CONTAINER
+                  value: maps-keyword-capture-uat
+                - name: AZURE_STORAGE_CONTAINER_SAS_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: maps-keyword-monitor-storage
+                      key: AZURE_STORAGE_CONTAINER_SAS_URL
+                - name: MAPS_TRACKING_MONGO_URI
+                  valueFrom:
+                    secretKeyRef:
+                      name: maps-keyword-monitor-source
+                      key: KEYWORD_MONGO_URI
+                - name: HOME
+                  value: /tmp
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+                limits:
+                  cpu: "1"
+                  memory: 1Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              volumeMounts:
+                - { name: config, mountPath: /config, readOnly: true }
+                - { name: tmp, mountPath: /tmp }
+          volumes:
+            - name: config
+              configMap:
+                name: maps-targets-liya90-v1-476d4c50
+            - name: tmp
+              emptyDir: { sizeLimit: 256Mi }

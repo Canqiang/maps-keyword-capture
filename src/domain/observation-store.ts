@@ -2,8 +2,11 @@ import { MongoClient, type MongoClientOptions } from 'mongodb';
 import type { RankObservation } from './model.js';
 
 export interface UpsertResult { inserted: number; updated: number }
+export interface InsertMissingResult { inserted: number; existing: number }
 export interface ObservationStore {
   upsert(observations: RankObservation[]): Promise<UpsertResult>;
+  /** Append-only ingestion: an observation whose ID already exists is left untouched. */
+  insertMissing(observations: RankObservation[]): Promise<InsertMissingResult>;
   close(): Promise<void>;
 }
 
@@ -17,6 +20,14 @@ export class MemoryObservationStore implements ObservationStore {
       this.documents.set(observation.observationId, structuredClone(observation));
     }
     return { inserted, updated };
+  }
+  async insertMissing(observations: RankObservation[]): Promise<InsertMissingResult> {
+    let inserted = 0, existing = 0;
+    for (const observation of observations) {
+      if (this.documents.has(observation.observationId)) { existing++; continue; }
+      this.documents.set(observation.observationId, structuredClone(observation)); inserted++;
+    }
+    return { inserted, existing };
   }
   async close(): Promise<void> { /* nothing to release */ }
 }
@@ -68,6 +79,20 @@ export class MongoObservationStore implements ObservationStore {
     } catch (error) {
       // A replica-set restart can leave the pooled client pointing at vanished members. Drop it so
       // the next call connects afresh; the caller decides whether to retry.
+      await this.client.close(true).catch(() => undefined);
+      this.connected = false;
+      throw error;
+    }
+  }
+  async insertMissing(observations: RankObservation[]): Promise<InsertMissingResult> {
+    if (!observations.length) return { inserted: 0, existing: 0 };
+    try {
+      const collection = await this.coll();
+      const result = await collection.bulkWrite(observations.map(observation => ({
+        updateOne: { filter: { _id: observation.observationId }, update: { $setOnInsert: { _id: observation.observationId, ...observation } }, upsert: true },
+      })), { ordered: false });
+      return { inserted: result.upsertedCount, existing: result.matchedCount };
+    } catch (error) {
       await this.client.close(true).catch(() => undefined);
       this.connected = false;
       throw error;
