@@ -64,8 +64,9 @@ npm run tracking -- plan --config tracking.json --surface android --tier point -
 npm run tracking -- ingest --config tracking.json --surface web --store-id keke-flushing --batch-dir outputs/<run>/<attempt> --manifest-receipt final-web-receipt.json --point-id r0c0 --mongo-uri-env MAPS_TRACKING_MONGO_URI
 npm run tracking -- ingest --config tracking.json --surface android --manifest outputs/android-maps/<date>/<run>/manifest.json --manifest-receipt final-android-receipt.json --mongo-uri-env MAPS_TRACKING_MONGO_URI
 npm run tracking -- stores --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI --list
+npm run tracking -- ingest-daily --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI --from 2026-10-15 --to 2026-10-21   # daily-monitor batches from the evidence container, append-only
 ```
 
-Receipt options above apply to Azure manifests; explicitly local-only manifests do not require remote receipts. A saved collector receipt is used here for ingestion consistency, not a new independent Azure download.
+`ingest-daily` needs the evidence container settings (`AZURE_STORAGE_CONTAINER_SAS_URL`) and verifies every selected result against the manifest's own artifact receipt; it never replaces stored observations (see [daily-monitor ingestion](../deploy/tracking-ingest/README.md)). Receipt options above apply to Azure manifests; explicitly local-only manifests do not require remote receipts. A saved collector receipt is used here for ingestion consistency, not a new independent Azure download.
 
 The Mongo URI comes from the named environment variable and must not be stored in config or evidence. Deployment procedures are in [tracking Web operations](../deploy/tracking-web/README.md). Local tests use synthetic collector outputs and mock/in-memory external services; passing them does not establish live Google behavior, Azure permissions or runtime isolation.
