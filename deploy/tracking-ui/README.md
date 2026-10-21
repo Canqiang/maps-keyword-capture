@@ -21,7 +21,7 @@ Configuration: `TRACKING_SCAN_TARGETS` is a JSON array of `{ "id", "title", "cro
 
 ## Deploy
 
-Deployed 2026-10-21 12:40 Asia/Shanghai from `deploy/tracking-targets/ui.yaml` + `ui-rbac.yaml` with image digest `sha256:51088ac8c26b5f1ef43abb313a64a178ddfc164a9128319ab6f19d6d6a2aff5d` (source e8bdd6b): sign-in page, session cookie and the collect-now button are live at https://maps.connexup-uat.net.
+Deployed 2026-10-21 14:40 Asia/Shanghai from `deploy/tracking-targets/ui.yaml` + `ui-rbac.yaml` with image digest `sha256:0a9d412be44ccb8429b7410b69ffe6fb56270e3f7d91408925f0f22672c398e5`: sign-in page, session cookie, the collect-now button, and real OpenStreetMap base maps (Leaflet 1.9.4 from cdnjs) under the point and grid views with Local Falcon style rank pins, true 1 / 3 / 5 km distance rings and a legend; the former SVG sketches remain as the fallback when the library cannot load.
 
 ```bash
 kubectl apply -f deploy/tracking-web/configmap.yaml -f deploy/tracking-ui/deployment.yaml
