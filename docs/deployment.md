@@ -69,3 +69,7 @@ Confirm Chromium sandbox behavior on the `aiapp` nodes and measured resource use
 - [Playwright in Docker](https://playwright.dev/docs/docker)
 - [Kubernetes Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
 - [Kubernetes emptyDir volumes](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
+
+## Manifest source of truth (UAT)
+
+Since 2026-10-21 the UAT objects of this system (tracking UI with RBAC and Ingress, the two Web CronJobs, the daily monitor CronJob, their ConfigMaps and the three Secrets encrypted with sops) are mirrored in the environment repository `fbr-env-project` under `azure/uat/kube/resource/app/ai/6x-maps-*.yml`, `config/6x-maps-*.yml` and `secrets/enc/6x-maps-*.enc.yml` (namespace stays `uat`). The copies were exported from the live cluster and verified with `kubectl diff`. Images remain pinned by digest; the `deploy/` directories here keep the templates, READMEs and tests, and new digests are produced with `az acr build` as documented there. When a manifest changes, update both places: the environment repository is what the team applies, this repository is where the change is reviewed and tested.
