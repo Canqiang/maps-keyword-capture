@@ -1,0 +1,104 @@
+{
+  "checkedAt": "2026-10-21T04:38:27.734921+00:00",
+  "verificationStatus": "passed",
+  "collectionAcceptance": "requires_separate_visual_and_acceptance_review",
+  "originalExitCode": 2,
+  "runId": "run_20261021T042153Z_4f919e",
+  "startedAt": "2026-10-21T04:21:53.055Z",
+  "finishedAt": "2026-10-21T04:36:21.954Z",
+  "manifestReceipt": {
+    "relativePath": "android-maps/2026-10-21/run_20261021T042153Z_4f919e/manifest.json",
+    "bytes": 747011,
+    "sha256": "5f7d88f775ee6eb80b4fa4fb4b16d9f9cbb629f884633130888516d7ec328ab0",
+    "storageStatus": "local_only",
+    "objectKey": null,
+    "verifiedAt": null,
+    "storageError": null
+  },
+  "allArtifactReceiptsVerified": 615,
+  "pngDecoded": 154,
+  "jsonQueriesMatched": 5,
+  "csvQueryRowsMatched": 5,
+  "csvListingRowsMatched": 46,
+  "device": {
+    "serial": "emulator-5554",
+    "androidVersion": "15",
+    "appVersion": "26.41.03.993332563",
+    "appPackage": "com.google.android.apps.maps",
+    "locale": "en-US",
+    "timezone": "America/New_York",
+    "emulator": true,
+    "display": {
+      "widthPixels": 720,
+      "heightPixels": 1280,
+      "densityDpi": 320,
+      "fontScale": 1
+    }
+  },
+  "profileHash": "3ade85846c51651e913ecb7c00d274372fdc21217b69253a72c40aef46dee6c4",
+  "profileMethod": "full_screen_ocr_native_context_ordered_overlap/v10",
+  "displayMatchedAllPngs": true,
+  "nativeFrameRefreshCount": 5,
+  "candidateSourceValidated": true,
+  "sourceReadbackFiles": 154,
+  "sourceReadbackSha256": "712045c18e9767a14ec679e05f64066c0520aa5b5eac7611df1a3fda12408f56",
+  "counts": {
+    "total": 5,
+    "captured": 0,
+    "needsReview": 5,
+    "failed": 0,
+    "skipped": 0,
+    "screenshots": 149,
+    "locationScreenshots": 5,
+    "completeListingQueries": 0,
+    "partialListingQueries": 5,
+    "rankedQueries": 0,
+    "listings": 46,
+    "ads": 3,
+    "organic": 41,
+    "unknown": 2
+  },
+  "queryResults": [
+    {
+      "queryId": "q0001",
+      "keyword": "卤味",
+      "stopReason": "ranking_unreliable",
+      "screens": 25,
+      "rows": 7
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "chinese food",
+      "stopReason": "ranking_unreliable",
+      "screens": 44,
+      "rows": 12
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "bubble tea near me",
+      "stopReason": "ranking_unreliable",
+      "screens": 33,
+      "rows": 13
+    },
+    {
+      "queryId": "q0004",
+      "keyword": "hot pot near me",
+      "stopReason": "source_changed",
+      "screens": 34,
+      "rows": 12
+    },
+    {
+      "queryId": "q0005",
+      "keyword": "bakery",
+      "stopReason": "unknown_scroll_layout",
+      "screens": 13,
+      "rows": 2
+    }
+  ],
+  "limits": [
+    "Producer manifest receipt and every referenced artifact size/SHA checked separately from operational tree read-time hashes.",
+    "PNG decoding is structural; visual review is separately scoped.",
+    "All five GPS matched/following; Google backend geography remains unverified.",
+    "No top20 or2hourcapacity acceptance; original partial statuses retained."
+  ]
+}

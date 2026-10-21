@@ -21,6 +21,8 @@ Configuration: `TRACKING_SCAN_TARGETS` is a JSON array of `{ "id", "title", "cro
 
 ## Deploy
 
+Deployed 2026-10-21 12:40 Asia/Shanghai from `deploy/tracking-targets/ui.yaml` + `ui-rbac.yaml` with image digest `sha256:51088ac8c26b5f1ef43abb313a64a178ddfc164a9128319ab6f19d6d6a2aff5d` (source e8bdd6b): sign-in page, session cookie and the collect-now button are live at https://maps.connexup-uat.net.
+
 ```bash
 kubectl apply -f deploy/tracking-web/configmap.yaml -f deploy/tracking-ui/deployment.yaml
 kubectl -n uat rollout status deploy/maps-tracking-ui
