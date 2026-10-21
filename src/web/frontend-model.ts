@@ -25,8 +25,9 @@ export function createFrontendModel() {
     if (row.eligible) return { label: row.rank.status === 'ad_only' ? '仅广告 · 确认自然未见' : '确认未见', short: '未见', kind: 'amber', qualified: true };
     const states: Record<string,string> = { failed:'采集失败',blocked:'采集受阻',ad_only:'仅见广告',not_found:'未确认未见',not_found_in_prefix:'已采部分未见',not_evaluated:'非排名列表',identity_unresolved:'商家匹配待核',unreliable:'排名证据不足' };
     if (row.rank.status === 'ranked' && Number.isInteger(row.rank.organicRank) && row.rank.organicRank! > 0) return { label:'观测 '+row.rank.organicRank, short:String(row.rank.organicRank)+'*', kind:'amber', qualified:false };
+    const shorts: Record<string,string> = { failed:'失败',blocked:'受阻',ad_only:'仅广告',not_found:'未见*',not_found_in_prefix:'未见*',not_evaluated:'非列表',identity_unresolved:'待核',unreliable:'待核' };
     const label = states[row.rank.status] || '排名不可用';
-    return { label, short: label, kind: row.rank.status === 'failed' || row.rank.status === 'blocked' ? 'red' : 'gray', qualified:false };
+    return { label, short: shorts[row.rank.status] || '不可用', kind: row.rank.status === 'failed' || row.rank.status === 'blocked' ? 'red' : 'gray', qualified:false };
   };
   const compare = (before?: FrontendObservation, after?: FrontendObservation) => {
     if (!before || !after) return { comparable:false,delta:null,reason:'请选择两个确切的采集记录' };
