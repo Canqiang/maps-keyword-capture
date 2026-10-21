@@ -171,6 +171,47 @@ function insideBounds(inner: NonNullable<UiNode['bounds']>, outer: NonNullable<U
   return inner.left >= outer.left && inner.top >= outer.top && inner.right <= outer.right && inner.bottom <= outer.bottom;
 }
 
+export interface NativeAdvertisementMarker {
+  label: string;
+  kind: 'sponsored' | 'disclosure' | 'ambiguous';
+  bounds: UiNode['bounds'];
+  /** Source-local owner, never a merchant identity or an ordering assertion. */
+  ownerIndex: number | null;
+  cardBounds: UiNode['bounds'];
+  listBounds: UiNode['bounds'];
+}
+
+/** Cross-check OCR against visible native ad evidence. Unsupported associations
+ * remain in the output with null geometry so callers cannot infer organic. */
+export function inspectNativeAdvertisementMarkers(xml: string): NativeAdvertisementMarker[] {
+  const nodes = parseEvidence(xml);
+  const markers: NativeAdvertisementMarker[] = [];
+  const positive = new Set(['sponsored', 'paid advertisement']);
+  const signals = new Set([...positive, 'about this ad', 'ad', 'ads', 'advertisement', 'promoted']);
+  for (const node of nodes) {
+    if (node.packageName !== MAPS_PACKAGE) continue;
+    const values = labels(node), signal = values.find(value => signals.has(normalized(value)));
+    if (!signal) continue;
+    const label = normalized(signal);
+    const consistent = values.every(value => normalized(value) === label);
+    const kind = consistent && positive.has(label) ? 'sponsored' : consistent && label === 'about this ad' ? 'disclosure' : 'ambiguous';
+    let owner: EvidenceNode = node;
+    while (owner.parent && owner.parent.resourceId !== `${MAPS_PACKAGE}:id/search_list_layout`) owner = owner.parent;
+    const list = owner.parent;
+    let valid = !!list && list.enabled && list.packageName === MAPS_PACKAGE && list.bounds !== null &&
+      owner !== node && owner.enabled && owner.packageName === MAPS_PACKAGE && owner.className === 'android.widget.FrameLayout' &&
+      !owner.resourceId && !labels(owner).length && !owner.foreignDescendant && owner.bounds !== null &&
+      insideBounds(owner.bounds, list.bounds) && owner.bounds.left === list.bounds.left && owner.bounds.right === list.bounds.right;
+    for (let part: EvidenceNode | null = node; valid && part !== owner; part = part?.parent ?? null) {
+      if (!part || !part.enabled || part.packageName !== MAPS_PACKAGE || !part.bounds || !part.parent?.bounds ||
+        !insideBounds(part.bounds, part.parent.bounds) || !insideBounds(part.bounds, owner.bounds!)) valid = false;
+    }
+    markers.push({ label: signal, kind, bounds: node.bounds, ownerIndex: valid ? nodes.indexOf(owner) : null,
+      cardBounds: valid ? owner.bounds : null, listBounds: valid ? list!.bounds : null });
+  }
+  return markers;
+}
+
 /** The reader uses the same native image-grid predicate; a module is never a merchant. */
 function nativePhotoModule(nodes: EvidenceNode[], card: EvidenceNode, exactKeyword: string): boolean {
   if (!card.bounds) return false;
@@ -496,8 +537,15 @@ function liveSearchLists(nodes: EvidenceNode[], query: string, exactKeyword = qu
     if (!header.some((node) => node.enabled && node.heading && node.className === 'android.widget.TextView' && hasLabel(node, [query])) ||
         !header.some((node) => node.enabled && node.clickable && node.resourceId === id('terra_navigation_header_close_button') && hasLabel(node, ['close']))) return false;
     const descendants = nodes.filter((node) => withinMaps(node, list));
-    const filters = descendants.some((node) => node.resourceId === id('recycler_view') && recycler(node) &&
-      controls(descendants.filter((child) => withinMaps(child, node)), ['more filters', 'relevance', 'open now']));
+    const filters = descendants.some((node) => {
+      if (node.resourceId !== id('recycler_view') || !recycler(node)) return false;
+      const row = descendants.filter(child => withinMaps(child, node));
+      // Maps 26.41 restaurant searches also expose Open now / Find a table /
+      // Price with no Relevance chip. All four native controls are required;
+      // a word in a merchant snippet cannot substitute for this filter row.
+      return controls(row, ['more filters', 'relevance', 'open now']) ||
+        controls(row, ['more filters', 'open now', 'find a table', 'price']);
+    });
     const actionNames = ['directions', 'call', 'website', 'menu', 'share', 'save'];
     const actions = descendants.some((node) => {
       if (!node.enabled || !node.scrollable || node.className !== 'android.widget.HorizontalScrollView') return false;

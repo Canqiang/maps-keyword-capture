@@ -1,0 +1,938 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "3c84c7bfb3581c74561829df2e7d4226f035d1b41ff9b86d73c9b0e096b4d5a5",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 2,
+  "lines": [
+    {
+      "text": "chinese food flushing",
+      "confidence": 96.41,
+      "bounds": {
+        "left": 65.5,
+        "top": 184,
+        "right": 441.5,
+        "bottom": 222
+      },
+      "words": [
+        {
+          "text": "chinese",
+          "confidence": 96.353516,
+          "bounds": {
+            "left": 65.5,
+            "top": 184,
+            "right": 200,
+            "bottom": 213.5
+          }
+        },
+        {
+          "text": "food",
+          "confidence": 96.674294,
+          "bounds": {
+            "left": 211,
+            "top": 184,
+            "right": 292.5,
+            "bottom": 213.5
+          }
+        },
+        {
+          "text": "flushing",
+          "confidence": 96.211456,
+          "bounds": {
+            "left": 305,
+            "top": 184,
+            "right": 441.5,
+            "bottom": 222
+          }
+        }
+      ]
+    },
+    {
+      "text": "wesoun",
+      "confidence": 14.1,
+      "bounds": {
+        "left": 88,
+        "top": 248,
+        "right": 211,
+        "bottom": 271.5
+      },
+      "words": [
+        {
+          "text": "wesoun",
+          "confidence": 14.100235,
+          "bounds": {
+            "left": 88,
+            "top": 248,
+            "right": 211,
+            "bottom": 271.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "o",
+      "confidence": 64.56,
+      "bounds": {
+        "left": 104.5,
+        "top": 273,
+        "right": 125,
+        "bottom": 287.5
+      },
+      "words": [
+        {
+          "text": "o",
+          "confidence": 64.56282,
+          "bounds": {
+            "left": 104.5,
+            "top": 273,
+            "right": 125,
+            "bottom": 287.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "DunHuang Lan~’ 比",
+      "confidence": 51.45,
+      "bounds": {
+        "left": 459,
+        "top": 283.5,
+        "right": 681,
+        "bottom": 319
+      },
+      "words": [
+        {
+          "text": "DunHuang",
+          "confidence": 92.503555,
+          "bounds": {
+            "left": 459,
+            "top": 295,
+            "right": 576,
+            "bottom": 319
+          }
+        },
+        {
+          "text": "Lan~’",
+          "confidence": 36.310036,
+          "bounds": {
+            "left": 586,
+            "top": 294,
+            "right": 643,
+            "bottom": 314
+          }
+        },
+        {
+          "text": "比",
+          "confidence": 25.525131,
+          "bounds": {
+            "left": 654.5,
+            "top": 283.5,
+            "right": 681,
+            "bottom": 307.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "+",
+      "confidence": 96.47,
+      "bounds": {
+        "left": 655,
+        "top": 315.5,
+        "right": 671,
+        "bottom": 332
+      },
+      "words": [
+        {
+          "text": "+",
+          "confidence": 96.469727,
+          "bounds": {
+            "left": 655,
+            "top": 315.5,
+            "right": 671,
+            "bottom": 332
+          }
+        }
+      ]
+    },
+    {
+      "text": "f",
+      "confidence": 41.22,
+      "bounds": {
+        "left": 0,
+        "top": 357,
+        "right": 11.5,
+        "bottom": 382.5
+      },
+      "words": [
+        {
+          "text": "f",
+          "confidence": 41.216526,
+          "bounds": {
+            "left": 0,
+            "top": 357,
+            "right": 11.5,
+            "bottom": 382.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "chinese food flushing x",
+      "confidence": 93.13,
+      "bounds": {
+        "left": 41.5,
+        "top": 395,
+        "right": 661,
+        "bottom": 437
+      },
+      "words": [
+        {
+          "text": "chinese",
+          "confidence": 95.950424,
+          "bounds": {
+            "left": 41.5,
+            "top": 395,
+            "right": 194.5,
+            "bottom": 428
+          }
+        },
+        {
+          "text": "food",
+          "confidence": 96.730583,
+          "bounds": {
+            "left": 207,
+            "top": 395,
+            "right": 300.5,
+            "bottom": 427.5
+          }
+        },
+        {
+          "text": "flushing",
+          "confidence": 96.371376,
+          "bounds": {
+            "left": 314,
+            "top": 395,
+            "right": 471,
+            "bottom": 437
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 83.464806,
+          "bounds": {
+            "left": 635,
+            "top": 395,
+            "right": 661,
+            "bottom": 421
+          }
+        }
+      ]
+    },
+    {
+      "text": "= 二 Open now Find a table Price wv",
+      "confidence": 86.42,
+      "bounds": {
+        "left": 46,
+        "top": 486,
+        "right": 657,
+        "bottom": 522
+      },
+      "words": [
+        {
+          "text": "=",
+          "confidence": 72.559273,
+          "bounds": {
+            "left": 46,
+            "top": 490,
+            "right": 62,
+            "bottom": 518
+          }
+        },
+        {
+          "text": "二",
+          "confidence": 54.181217,
+          "bounds": {
+            "left": 62,
+            "top": 486,
+            "right": 82,
+            "bottom": 522
+          }
+        },
+        {
+          "text": "Open",
+          "confidence": 95.867432,
+          "bounds": {
+            "left": 137.5,
+            "top": 492.5,
+            "right": 206.5,
+            "bottom": 519
+          }
+        },
+        {
+          "text": "now",
+          "confidence": 95.867432,
+          "bounds": {
+            "left": 217,
+            "top": 498,
+            "right": 269,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "Find",
+          "confidence": 96.544456,
+          "bounds": {
+            "left": 337,
+            "top": 491,
+            "right": 389.5,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 94.961052,
+          "bounds": {
+            "left": 400.5,
+            "top": 498,
+            "right": 413,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "table",
+          "confidence": 94.961052,
+          "bounds": {
+            "left": 423,
+            "top": 491,
+            "right": 489,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "Price",
+          "confidence": 96.582954,
+          "bounds": {
+            "left": 556,
+            "top": 491,
+            "right": 622,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "wv",
+          "confidence": 76.239487,
+          "bounds": {
+            "left": 637.5,
+            "top": 500,
+            "right": 657,
+            "bottom": 510
+          }
+        }
+      ]
+    },
+    {
+      "text": "Sponsored :",
+      "confidence": 81.05,
+      "bounds": {
+        "left": 41,
+        "top": 574,
+        "right": 187,
+        "bottom": 599
+      },
+      "words": [
+        {
+          "text": "Sponsored",
+          "confidence": 92.690956,
+          "bounds": {
+            "left": 41,
+            "top": 574.5,
+            "right": 157.5,
+            "bottom": 599
+          }
+        },
+        {
+          "text": ":",
+          "confidence": 69.404274,
+          "bounds": {
+            "left": 181,
+            "top": 574,
+            "right": 187,
+            "bottom": 598
+          }
+        }
+      ]
+    },
+    {
+      "text": "Congee Village Flushing",
+      "confidence": 95.14,
+      "bounds": {
+        "left": 41.5,
+        "top": 621.5,
+        "right": 423,
+        "bottom": 656.5
+      },
+      "words": [
+        {
+          "text": "Congee",
+          "confidence": 92.855728,
+          "bounds": {
+            "left": 41.5,
+            "top": 621.5,
+            "right": 168,
+            "bottom": 656.5
+          }
+        },
+        {
+          "text": "Village",
+          "confidence": 96.128235,
+          "bounds": {
+            "left": 178,
+            "top": 622,
+            "right": 283,
+            "bottom": 656.5
+          }
+        },
+        {
+          "text": "Flushing",
+          "confidence": 96.443542,
+          "bounds": {
+            "left": 295,
+            "top": 622,
+            "right": 423,
+            "bottom": 656.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "3.9 計 (1256) - Cantonese - 4.7 mi",
+      "confidence": 79.5,
+      "bounds": {
+        "left": 41,
+        "top": 668,
+        "right": 444,
+        "bottom": 694
+      },
+      "words": [
+        {
+          "text": "3.9",
+          "confidence": 87.271713,
+          "bounds": {
+            "left": 41,
+            "top": 669.5,
+            "right": 75.5,
+            "bottom": 690.5
+          }
+        },
+        {
+          "text": "計",
+          "confidence": 12.604813,
+          "bounds": {
+            "left": 89,
+            "top": 668,
+            "right": 104.5,
+            "bottom": 691
+          }
+        },
+        {
+          "text": "(1256)",
+          "confidence": 92.966774,
+          "bounds": {
+            "left": 111.5,
+            "top": 668,
+            "right": 185.5,
+            "bottom": 694
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 88.739548,
+          "bounds": {
+            "left": 198,
+            "top": 680,
+            "right": 201,
+            "bottom": 683
+          }
+        },
+        {
+          "text": "Cantonese",
+          "confidence": 93.213631,
+          "bounds": {
+            "left": 212.5,
+            "top": 669.5,
+            "right": 346.5,
+            "bottom": 690.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 68.961998,
+          "bounds": {
+            "left": 359,
+            "top": 680,
+            "right": 362,
+            "bottom": 683
+          }
+        },
+        {
+          "text": "4.7",
+          "confidence": 95.964394,
+          "bounds": {
+            "left": 373.5,
+            "top": 670,
+            "right": 408,
+            "bottom": 690
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.310005,
+          "bounds": {
+            "left": 418,
+            "top": 668.5,
+            "right": 444,
+            "bottom": 690
+          }
+        }
+      ]
+    },
+    {
+      "text": "Opens soon : 11 AM",
+      "confidence": 83.23,
+      "bounds": {
+        "left": 41,
+        "top": 709.5,
+        "right": 284,
+        "bottom": 736
+      },
+      "words": [
+        {
+          "text": "Opens",
+          "confidence": 96.052971,
+          "bounds": {
+            "left": 41,
+            "top": 709.5,
+            "right": 123,
+            "bottom": 736
+          }
+        },
+        {
+          "text": "soon",
+          "confidence": 82.638962,
+          "bounds": {
+            "left": 132,
+            "top": 715,
+            "right": 191,
+            "bottom": 730.5
+          }
+        },
+        {
+          "text": ":",
+          "confidence": 54.639465,
+          "bounds": {
+            "left": 202,
+            "top": 720,
+            "right": 205,
+            "bottom": 723
+          }
+        },
+        {
+          "text": "11",
+          "confidence": 89.239044,
+          "bounds": {
+            "left": 216,
+            "top": 710,
+            "right": 234.5,
+            "bottom": 730
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 93.558014,
+          "bounds": {
+            "left": 245.5,
+            "top": 710,
+            "right": 284,
+            "bottom": 730
+          }
+        }
+      ]
+    },
+    {
+      "text": "egg",
+      "confidence": 14.09,
+      "bounds": {
+        "left": 210,
+        "top": 756.5,
+        "right": 256,
+        "bottom": 769.5
+      },
+      "words": [
+        {
+          "text": "egg",
+          "confidence": 14.08905,
+          "bounds": {
+            "left": 210,
+            "top": 756.5,
+            "right": 256,
+            "bottom": 769.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "q Ba iP ——-_",
+      "confidence": 25.24,
+      "bounds": {
+        "left": 45.5,
+        "top": 778.5,
+        "right": 324,
+        "bottom": 794
+      },
+      "words": [
+        {
+          "text": "q",
+          "confidence": 33.446976,
+          "bounds": {
+            "left": 45.5,
+            "top": 792.5,
+            "right": 48,
+            "bottom": 794
+          }
+        },
+        {
+          "text": "Ba",
+          "confidence": 67.527313,
+          "bounds": {
+            "left": 144.5,
+            "top": 778.5,
+            "right": 155,
+            "bottom": 780.5
+          }
+        },
+        {
+          "text": "iP",
+          "confidence": 0,
+          "bounds": {
+            "left": 230,
+            "top": 781,
+            "right": 241,
+            "bottom": 794
+          }
+        },
+        {
+          "text": "——-_",
+          "confidence": 0,
+          "bounds": {
+            "left": 274,
+            "top": 785.5,
+            "right": 324,
+            "bottom": 791.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "i Ae Thee z |",
+      "confidence": 22.26,
+      "bounds": {
+        "left": 79,
+        "top": 812.5,
+        "right": 341.5,
+        "bottom": 849.5
+      },
+      "words": [
+        {
+          "text": "i",
+          "confidence": 0,
+          "bounds": {
+            "left": 79,
+            "top": 817.5,
+            "right": 103,
+            "bottom": 828.5
+          }
+        },
+        {
+          "text": "Ae",
+          "confidence": 16.168335,
+          "bounds": {
+            "left": 129,
+            "top": 815.5,
+            "right": 149,
+            "bottom": 824.5
+          }
+        },
+        {
+          "text": "Thee",
+          "confidence": 15.484192,
+          "bounds": {
+            "left": 195.5,
+            "top": 812.5,
+            "right": 292,
+            "bottom": 849.5
+          }
+        },
+        {
+          "text": "z",
+          "confidence": 0,
+          "bounds": {
+            "left": 316.5,
+            "top": 830.5,
+            "right": 323.5,
+            "bottom": 837
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 79.643684,
+          "bounds": {
+            "left": 340,
+            "top": 821.5,
+            "right": 341.5,
+            "bottom": 825.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "ae |e Weak VD ;",
+      "confidence": 34.09,
+      "bounds": {
+        "left": 129,
+        "top": 834,
+        "right": 316.5,
+        "bottom": 860.5
+      },
+      "words": [
+        {
+          "text": "ae",
+          "confidence": 52.827492,
+          "bounds": {
+            "left": 129,
+            "top": 839.5,
+            "right": 148,
+            "bottom": 859
+          }
+        },
+        {
+          "text": "|e",
+          "confidence": 9.881065,
+          "bounds": {
+            "left": 174.5,
+            "top": 852,
+            "right": 179,
+            "bottom": 858.5
+          }
+        },
+        {
+          "text": "Weak",
+          "confidence": 28.239212,
+          "bounds": {
+            "left": 190,
+            "top": 836.5,
+            "right": 247.5,
+            "bottom": 853
+          }
+        },
+        {
+          "text": "VD",
+          "confidence": 77.113686,
+          "bounds": {
+            "left": 255,
+            "top": 834,
+            "right": 275,
+            "bottom": 854.5
+          }
+        },
+        {
+          "text": ";",
+          "confidence": 2.375046,
+          "bounds": {
+            "left": 313.5,
+            "top": 856.5,
+            "right": 316.5,
+            "bottom": 860.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions % Call © Website |",
+      "confidence": 73.29,
+      "bounds": {
+        "left": 67,
+        "top": 1081,
+        "right": 720,
+        "bottom": 1111
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 50.707169,
+          "bounds": {
+            "left": 67,
+            "top": 1081,
+            "right": 97,
+            "bottom": 1111
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 96.07502,
+          "bounds": {
+            "left": 118,
+            "top": 1084,
+            "right": 242,
+            "bottom": 1107
+          }
+        },
+        {
+          "text": "%",
+          "confidence": 18.167488,
+          "bounds": {
+            "left": 320,
+            "top": 1082,
+            "right": 348,
+            "bottom": 1110
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 92.570869,
+          "bounds": {
+            "left": 369,
+            "top": 1084,
+            "right": 412.5,
+            "bottom": 1106.5
+          }
+        },
+        {
+          "text": "©",
+          "confidence": 78.524689,
+          "bounds": {
+            "left": 490,
+            "top": 1081,
+            "right": 520,
+            "bottom": 1111
+          }
+        },
+        {
+          "text": "Website",
+          "confidence": 96.236931,
+          "bounds": {
+            "left": 539.5,
+            "top": 1084,
+            "right": 640,
+            "bottom": 1107
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 80.763252,
+          "bounds": {
+            "left": 715,
+            "top": 1084.5,
+            "right": 720,
+            "bottom": 1110
+          }
+        }
+      ]
+    },
+    {
+      "text": "Nlaw Viann CA Ta MDM: umn~nlinac Ch ihinn",
+      "confidence": 42.32,
+      "bounds": {
+        "left": 43,
+        "top": 1216,
+        "right": 636,
+        "bottom": 1236.5
+      },
+      "words": [
+        {
+          "text": "Nlaw",
+          "confidence": 60.874405,
+          "bounds": {
+            "left": 43,
+            "top": 1218,
+            "right": 102,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Viann",
+          "confidence": 66.485313,
+          "bounds": {
+            "left": 113.5,
+            "top": 1218,
+            "right": 200,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "CA",
+          "confidence": 57.64967,
+          "bounds": {
+            "left": 212,
+            "top": 1217.5,
+            "right": 256,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Ta",
+          "confidence": 42.331772,
+          "bounds": {
+            "left": 266,
+            "top": 1225,
+            "right": 291,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "MDM:",
+          "confidence": 0,
+          "bounds": {
+            "left": 302,
+            "top": 1216,
+            "right": 331,
+            "bottom": 1236.5
+          }
+        },
+        {
+          "text": "umn~nlinac",
+          "confidence": 7.225021,
+          "bounds": {
+            "left": 341,
+            "top": 1216,
+            "right": 471,
+            "bottom": 1236.5
+          }
+        },
+        {
+          "text": "Ch",
+          "confidence": 72.962341,
+          "bounds": {
+            "left": 508,
+            "top": 1218,
+            "right": 537,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "ihinn",
+          "confidence": 31.066696,
+          "bounds": {
+            "left": 547,
+            "top": 1218,
+            "right": 636,
+            "bottom": 1232
+          }
+        }
+      ]
+    }
+  ]
+}

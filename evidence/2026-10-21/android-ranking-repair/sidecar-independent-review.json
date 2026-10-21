@@ -1,0 +1,30 @@
+{
+  "reviewedAt": "2026-10-21T01:31:29.479943+00:00",
+  "mode": "independent_read_only_review",
+  "files": {
+    "deploy/android/Dockerfile": "5e60cf9ec9bb9d089393f9cebe5be3d9c717aaf8358396494dbfe408749abfa1",
+    "deploy/android/linux/tracking_sidecar.py": "f790d00fd16938ad6254c4d418246b2140760c380a65869706bea48d493bcaca",
+    "deploy/android/linux/test_tracking_sidecar.py": "4e75b35bf48dda89aaed1322c4e0f58cdc8aceeeb59284a4fd86a02c99113a82",
+    "deploy/android/linux/runtime.py": "35426c2c86e8bf180af9044cad226042f2b9d886219b2d59dcaf06ac1e2a82e1",
+    "deploy/android/linux/appium.sh": "10a7614d63112f16e02adb98a8cbee34c5b6a8834b4782e23bf4e43872bd5009",
+    "deploy/android/appium.sh": "44ad07d569bd800f078fc9d416ba1fce1a7e198e888468af61ae2e4a3b67577e"
+  },
+  "test": "python3 -m unittest test_tracking_sidecar.py:3passed",
+  "observations": [
+    "Docker copies deploy/android including Python OCR helper.",
+    "Appium launch exec chain makes owned Popen PID the Appium process.",
+    "Cleanup signals only owned direct Popen objects; runtime supervisor then cleans its owned emulator.",
+    "No code path in reviewed sidecar installs packages or writes shared SDK."
+  ],
+  "requestedHardening": [
+    "Reject a worker root that is a symlink or resolves outside its exact per-worker path.",
+    "Verify clone receipt target worker/root rather than existence alone.",
+    "Remove any stale local android-ready file before starting fresh services.",
+    "Consider proving emulator PID parent/argv matches this runtime supervisor instead of PID existence alone."
+  ],
+  "pending": [
+    "Final Kubernetes sidecar manifest credentials/mounts/startupProbe not yet available in reviewed files.",
+    "Actual clone/boot/Appium/native-capture acceptance belongs to isolated live validation."
+  ],
+  "mutationsPerformed": false
+}

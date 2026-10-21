@@ -1,0 +1,3885 @@
+{
+  "schemaVersion": "android-offline-regression-replay/v1",
+  "createdAt": "2026-10-21T01:45:04.208Z",
+  "originalGridRunId": "android_grid_20261020T143326776Z_dd909459",
+  "mode": "offline_only_no_history_mutation",
+  "sourceHashes": {
+    "src/android/screen-reader.ts": "e8bae1781615eb09c98c5d29cb97e10bd82916d5a0365b80bfa06b6df7ece3a2",
+    "src/android/ui.ts": "b1824d02705700e1c2473d2b19af7e95e65d6162222752461abd673b5afcafd4",
+    "src/android/device.ts": "dfcc1a528b03e0541e9c3794a59863a959eca003cdd77caf6dffd3ee86e7b875",
+    "src/android/runner.ts": "85e825c521b17819beb3e5e1591ca68debff36319ead8a59023b35bef92f6bf0",
+    "src/android/contracts.ts": "9f589bd213dd970a5c6f59eefcbea6640c3b29703ae6a2156e524d356b26c609"
+  },
+  "originalReceiptObjectsVerified": 1034,
+  "before": {
+    "queries": 125,
+    "searchFrames": 156,
+    "noCardsQueries": 3,
+    "ads": 53,
+    "organic": 27,
+    "unknown": 79,
+    "topVerifiedFirstFrames": 27,
+    "reliableExistingPrefixes": 0
+  },
+  "after": {
+    "queries": 125,
+    "searchFrames": 156,
+    "noCardsQueries": 0,
+    "ads": 67,
+    "organic": 50,
+    "unknown": 45,
+    "topVerifiedFirstFrames": 83,
+    "reliableExistingPrefixes": 45
+  },
+  "limits": [
+    "Historical query statuses, ranks, screenshots and manifests are unchanged.",
+    "Only existing frames were reparsed. No new gesture, capture, complete list, absence or customer-local ranking is established.",
+    "Positive prefix proof is not a full top-20 capture. New native scroll behavior still requires a bounded device run.",
+    "Unknown photo-discovery layouts and clipped identity gaps remain unqualified."
+  ],
+  "rows": [
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0001/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 3
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 3,
+        "ads": 1,
+        "organic": 1,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0001:frame-001 -> q0001:frame-002",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0002/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0003/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0004/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0005/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0006/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0006:frame-001 -> q0006:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0007/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0008/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0009/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0010/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0011/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0011:frame-001 -> q0011:frame-002",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0012/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0013/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0014/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0015/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0016/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 1,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0016:frame-001 -> q0016:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0017/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "photo_discovery",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0018/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0019/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "no_cards_recognized",
+        "rows": 0
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0020/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0001/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 3
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 3,
+        "ads": 1,
+        "organic": 2,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0001:frame-001 -> q0001:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0002/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "photo_discovery",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0003/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "no_cards_recognized",
+        "rows": 0
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0004/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0005/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0006/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 1,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0006:frame-001 -> q0006:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0007/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0008/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0009/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0010/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0011/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 3,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 0,
+        "organic": 2,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0011:frame-002 -> q0011:frame-003"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0012/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0013/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0014/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 0,
+        "organic": 2,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0015/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0016/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0017/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0018/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0019/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 0,
+        "organic": 2,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0020/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0001/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0001:frame-001 -> q0001:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0002/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "photo_discovery",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0003/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0004/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0005/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0006/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r+1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 1,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0006:frame-001 -> q0006:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0007/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r+1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "photo_discovery",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0008/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r+1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0009/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r+1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0010/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r+1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0011/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r0c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0011:frame-001 -> q0011:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0012/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r0c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0013/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r0c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0014/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r0c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0015/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r0c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0016/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r0c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 1,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0016:frame-001 -> q0016:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0017/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r0c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0018/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r0c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0019/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r0c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T150058Z_3b3daf/q0020/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r0c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0001/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r0c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0002/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r0c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0003/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r0c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0003:frame-001 -> q0003:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0004/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r0c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 0,
+        "organic": 2,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0005/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r0c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0006/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r0c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 4,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          },
+          {
+            "kind": "results",
+            "backward": true
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 0,
+        "organic": 2,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0006:frame-003 -> q0006:frame-004"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0007/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r0c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "photo_discovery",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0008/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r0c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0008:frame-001 -> q0008:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0009/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r0c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 0,
+        "organic": 2,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0010/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r0c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0011/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r0c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0011:frame-001 -> q0011:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0012/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r0c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "photo_discovery",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0013/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r0c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0014/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r0c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0015/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r0c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0016/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0016:frame-001 -> q0016:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0017/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0018/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0019/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0020/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-1c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0001/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 3
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 3,
+        "ads": 1,
+        "organic": 1,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0001:frame-001 -> q0001:frame-002",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0002/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0003/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0004/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0005/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-1c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0006/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 3,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 0,
+        "organic": 2,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0006:frame-002 -> q0006:frame-003"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0007/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0008/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0008:frame-001 -> q0008:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0009/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0010/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-1c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0011/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0011:frame-001 -> q0011:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0012/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "photo_discovery",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0013/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0014/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "results",
+            "backward": true
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 0,
+        "organic": 2,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0014:frame-001 -> q0014:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0015/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-1c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0016/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 3
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 3,
+        "ads": 1,
+        "organic": 1,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0016:frame-001 -> q0016:frame-002",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0017/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "photo_discovery",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0018/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0019/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T151908Z_0e5bd8/q0020/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-1c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0001/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 3
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 3,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0001:frame-001 -> q0001:frame-002",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0002/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0003/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0004/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0005/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-2c-2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0006/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "ordered_overlap_missing: q0006:frame-001 -> q0006:frame-002",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0007/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0008/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0009/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0010/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-2c-1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0011/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0011:frame-001 -> q0011:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0012/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0013/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0014/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0015/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-2c0",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0016/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 2
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 2,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0016:frame-001 -> q0016:frame-002"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0017/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0018/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0019/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T152806Z_4e91fb/q0020/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-2c+1",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0001/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "braised food",
+      "pointId": "r-2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 3
+      },
+      "offlineReplay": {
+        "frames": 2,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          },
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 3,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "native_ad_evidence_unresolved",
+          "ordered_overlap_missing: q0001:frame-001 -> q0001:frame-002",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0002/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "卤味",
+      "pointId": "r-2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0003/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese food flushing",
+      "pointId": "r-2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "no_cards_recognized",
+        "rows": 0
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0004/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "chinese braised food flushing",
+      "pointId": "r-2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "results",
+            "backward": false
+          }
+        ],
+        "firstTopVerified": true,
+        "rows": 1,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "sequenceVerified": true,
+        "existingPrefixReliable": true,
+        "warnings": []
+      }
+    },
+    {
+      "sourceResultKey": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0005/query.json",
+      "storeId": "keke-flushing",
+      "keyword": "法拉盛 卤味",
+      "pointId": "r-2c+2",
+      "original": {
+        "status": "needs_review",
+        "stopReason": "ranking_unreliable",
+        "rows": 1
+      },
+      "offlineReplay": {
+        "frames": 1,
+        "nativeKinds": [
+          {
+            "kind": "unknown",
+            "backward": null
+          }
+        ],
+        "firstTopVerified": false,
+        "rows": 1,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 1,
+        "sequenceVerified": false,
+        "existingPrefixReliable": false,
+        "warnings": [
+          "list_top_unverified",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      }
+    }
+  ]
+}

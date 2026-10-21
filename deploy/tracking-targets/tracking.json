@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "tracking-config/v1",
+  "timezone": "America/New_York",
+  "defaults": {
+    "grid": {
+      "radiusKm": 5,
+      "size": 5
+    },
+    "zoom": 15
+  },
+  "storeSource": {
+    "provider": "mongo",
+    "collection": "monitor-target-stores-v1"
+  },
+  "stores": [],
+  "surfaces": {
+    "web": {
+      "point": {
+        "everyHours": 2,
+        "keywords": "all"
+      },
+      "grid": {
+        "enabled": false,
+        "atHour": 2,
+        "keywords": "all"
+      }
+    },
+    "android": {
+      "point": {
+        "everyHours": 2,
+        "keywords": "all"
+      },
+      "grid": {
+        "enabled": false,
+        "atHour": 2,
+        "keywords": "all"
+      }
+    }
+  },
+  "database": {
+    "provider": "mongo",
+    "database": "maps-rank-tracking",
+    "collection": "observations"
+  }
+}

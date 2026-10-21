@@ -3,7 +3,7 @@ import { keywordKey } from './model.js';
 import type { IngestContext } from './ingest.js';
 import { z } from 'zod';
 import { ConfigError, expectedAreaSchema } from '../config.js';
-import { generateGrid, type GridPoint, type GridSpec } from '../grid/grid.js';
+import { generateGrid, ringFor, type GridPoint, type GridSpec } from '../grid/grid.js';
 
 /**
  * One configuration for the whole rank-tracking system: the stores to follow, how to recognize
@@ -25,6 +25,22 @@ const gridTierSchema = z.object({
   keywords: z.enum(['core', 'all']).default('core'),
 }).strict();
 const surfaceSchema = z.object({ point: tierSchema, grid: gridTierSchema }).strict();
+const fixedPointSchema = z.object({
+  id: safeId, label: z.string().min(1), latitude: z.number().finite().min(-85).max(85), longitude: z.number().finite().min(-180).max(180),
+  distanceKm: z.number().finite().min(0).max(50), direction: z.string().min(1), sourceReference: z.string().min(1),
+}).strict();
+const monitoringCatalogSchema = z.object({
+  version: z.string().min(1),
+  source: z.object({ path: z.string().min(1), sha256: z.string().regex(/^[a-f0-9]{64}$/u), documentDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/u), sectionId: z.string().min(1), sourceBaselineIsLive: z.literal(false) }).strict(),
+}).strict();
+const pointTargetSchema = z.object({
+  pointId: safeId, pointLabel: z.string().min(1), radiusKm: z.number().finite().min(0).max(50), targetRank: z.union([z.literal(3), z.literal(10)]),
+  targetText: z.string().min(1), historicalBaselineDisplay: z.string().min(1), historicalEvidenceRef: z.string().nullable(), sourceCellText: z.string().min(1),
+}).strict();
+const keywordTargetSchema = z.object({
+  keyword, sourceSearchVolumeText: z.string(), sourceRoleAndConditions: z.string(), pointTargets: z.array(pointTargetSchema).min(1),
+}).strict();
+export const monitoringTargetSchema = z.object({ catalog: monitoringCatalogSchema, point: fixedPointSchema, target: pointTargetSchema }).strict();
 const storeSchema = z.object({
   storeId: safeId,
   name: z.string().trim().min(1).max(500),
@@ -35,6 +51,11 @@ const storeSchema = z.object({
   center: z.object({ latitude: z.number().finite().min(-85).max(85), longitude: z.number().finite().min(-180).max(180) }).strict(),
   grid: gridSchema.optional(),
   expectedArea: expectedAreaSchema.optional(),
+  /** Explicit samples, independent of square-grid coordinates and old r0c0 history. */
+  fixedPoints: z.array(fixedPointSchema).min(1).max(100).optional(),
+  monitoringCatalog: monitoringCatalogSchema.optional(),
+  /** Active exact-query scope. keywords retains older discovery/history terms. */
+  keywordTargets: z.array(keywordTargetSchema).min(1).max(70).optional(),
   keywords: z.object({
     core: z.array(keyword).min(1).max(10),
     longTail: z.array(keyword).max(60).default([]),
@@ -58,6 +79,10 @@ export type TrackingStore = TrackingConfig['stores'][number];
 export type Surface = keyof TrackingConfig['surfaces'];
 export type ScanTier = 'point' | 'grid';
 export type KeywordTier = 'core' | 'longTail';
+export type FixedPoint = z.infer<typeof fixedPointSchema>;
+export type MonitoringCatalog = z.infer<typeof monitoringCatalogSchema>;
+export type KeywordTarget = z.infer<typeof keywordTargetSchema>;
+export type TrackingPoint = GridPoint & { fixedPoint?: FixedPoint };
 
 export function parseTrackingConfig(raw: unknown): TrackingConfig {
   const parsed = schema.safeParse(raw);
@@ -90,6 +115,35 @@ export function shardStores(stores: TrackingStore[], index: number, count: numbe
   return stores.filter(store => hash(store.storeId) % count === index);
 }
 
+/** Largest planned workloads first; one improving pair swap reduces avoidable imbalance. */
+export function balancedShardStores(config: TrackingConfig, selection: { surface: Surface; tier: ScanTier }, index: number, count: number): TrackingStore[] {
+  shardStores([], index, count);
+  const weights = new Map<string, number>();
+  for (const query of planScan(config, selection).queries) weights.set(query.storeId, (weights.get(query.storeId) ?? 0) + 1);
+  const sorted = config.stores.map(store => ({ store, weight: weights.get(store.storeId) ?? 0, shard: 0 }))
+    .sort((a, b) => b.weight - a.weight || (a.store.storeId < b.store.storeId ? -1 : a.store.storeId > b.store.storeId ? 1 : 0));
+  const loads = Array<number>(count).fill(0);
+  for (const item of sorted) {
+    item.shard = loads.indexOf(Math.min(...loads));
+    loads[item.shard]! += item.weight;
+  }
+  let best: [number, number] | null = null, improvement = 0;
+  for (let a = 0; a < sorted.length; a++) for (let b = a + 1; b < sorted.length; b++) {
+    const left = sorted[a]!, right = sorted[b]!;
+    if (left.shard === right.shard) continue;
+    const delta = left.weight - right.weight;
+    const gain = loads[left.shard]! ** 2 + loads[right.shard]! ** 2
+      - (loads[left.shard]! - delta) ** 2 - (loads[right.shard]! + delta) ** 2;
+    if (gain > improvement) { improvement = gain; best = [a, b]; }
+  }
+  if (best) {
+    const left = sorted[best[0]]!, right = sorted[best[1]]!;
+    [left.shard, right.shard] = [right.shard, left.shard];
+  }
+  const assigned = new Set(sorted.filter(item => item.shard === index).map(item => item.store.storeId));
+  return config.stores.filter(store => assigned.has(store.storeId));
+}
+
 function validateStores(stores: TrackingStore[]): void {
   const config = { stores };
   for (const field of ['storeId', 'placeId'] as const) {
@@ -98,6 +152,16 @@ function validateStores(stores: TrackingStore[]): void {
   for (const store of config.stores) {
     const all = [...store.keywords.core, ...store.keywords.longTail].map(keywordKey);
     if (new Set(all).size !== all.length) throw new ConfigError(`store ${store.storeId} repeats a keyword across core and long tail`);
+    const points = store.fixedPoints;
+    if (points && (new Set(points.map(p => p.id)).size !== points.length || points.some(p => /^r[+-]?\d+c[+-]?\d+$/u.test(p.id)))) throw new ConfigError(`store ${store.storeId} needs unique fixed point IDs distinct from grid IDs`);
+    if (store.keywordTargets || store.monitoringCatalog) {
+      if (!points || !store.keywordTargets || !store.monitoringCatalog) throw new ConfigError(`store ${store.storeId} needs fixedPoints, keywordTargets and monitoringCatalog together`);
+      if (new Set(store.keywordTargets.map(t => keywordKey(t.keyword))).size !== store.keywordTargets.length) throw new ConfigError(`store ${store.storeId} repeats a target keyword`);
+      for (const target of store.keywordTargets) {
+        if (!all.includes(keywordKey(target.keyword))) throw new ConfigError(`store ${store.storeId} target keyword is missing from its keyword inventory`);
+        if (target.pointTargets.length !== points.length || new Set(target.pointTargets.map(p => p.pointId)).size !== points.length || target.pointTargets.some(t => !points.some(p => p.id === t.pointId && p.label === t.pointLabel && p.distanceKm === t.radiusKm))) throw new ConfigError(`store ${store.storeId} target points must match its fixed point definitions`);
+      }
+    }
   }
 }
 export async function loadTrackingConfig(path: string): Promise<TrackingConfig> {
@@ -114,11 +178,14 @@ export function storeGridSpec(config: TrackingConfig, store: TrackingStore): Gri
 export function centerPoint(store: TrackingStore): GridPoint {
   return { id: 'r0c0', row: 0, col: 0, latitude: store.center.latitude, longitude: store.center.longitude, distanceKm: 0, ring: 'inner' };
 }
+export function storeFixedPoints(store: TrackingStore): TrackingPoint[] {
+  return store.fixedPoints?.map(point => ({ id: point.id, row: 0, col: 0, latitude: point.latitude, longitude: point.longitude, distanceKm: point.distanceKm, ring: ringFor(point.distanceKm), fixedPoint: structuredClone(point) })) ?? [centerPoint(store)];
+}
 
 export interface PlannedQuery {
   storeId: string; placeId: string; aliases: string[];
   keyword: string; keywordTier: KeywordTier;
-  point: GridPoint; zoom: number;
+  point: TrackingPoint; zoom: number;
   expectedArea?: TrackingStore['expectedArea'];
 }
 export interface ScanPlan { surface: Surface; tier: ScanTier; queries: PlannedQuery[] }
@@ -130,8 +197,9 @@ export function planScan(config: TrackingConfig, selection: { surface: Surface; 
   if (selection.tier === 'grid' && !(tierConfig as { enabled: boolean }).enabled) return { surface: selection.surface, tier: selection.tier, queries };
   for (const store of config.stores) {
     if (!store.active || (selection.storeIds && !selection.storeIds.includes(store.storeId))) continue;
-    const points = selection.tier === 'grid' ? generateGrid(storeGridSpec(config, store)) : [centerPoint(store)];
-    const keywords: Array<[string, KeywordTier]> = [...store.keywords.core.map((k): [string, KeywordTier] => [k, 'core']), ...(tierConfig.keywords === 'all' ? store.keywords.longTail.map((k): [string, KeywordTier] => [k, 'longTail']) : [])];
+    const points = selection.tier === 'grid' ? generateGrid(storeGridSpec(config, store)) : storeFixedPoints(store);
+    const selectedKeywords = store.keywordTargets?.map(t => t.keyword) ?? [...store.keywords.core, ...store.keywords.longTail];
+    const keywords: Array<[string, KeywordTier]> = selectedKeywords.map((k): [string, KeywordTier] => [k, store.keywords.core.some(core => keywordKey(core) === keywordKey(k)) ? 'core' : 'longTail']).filter(([, tier]) => tierConfig.keywords === 'all' || tier === 'core');
     for (const point of points) for (const [kw, keywordTier] of keywords) {
       queries.push({ storeId: store.storeId, placeId: store.placeId, aliases: store.aliases, keyword: kw, keywordTier, point, zoom: config.defaults.zoom, ...(store.expectedArea ? { expectedArea: store.expectedArea } : {}) });
     }
@@ -175,7 +243,7 @@ export function toAndroidRuns(plan: ScanPlan, config: TrackingConfig, maxTasksPe
   const names = new Map(config.stores.map(s => [s.storeId, s.name]));
   const tasks = plan.queries.map((q): AndroidTaskLike => ({
     storeId: q.storeId, storeName: names.get(q.storeId) ?? q.storeId, keyword: q.keyword, aliases: q.aliases,
-    location: { id: q.point.id, label: `${q.point.id} (${q.point.distanceKm} km ${q.point.ring})`, latitude: q.point.latitude, longitude: q.point.longitude, accuracyMeters: 20, toleranceMeters: 100, source: `tracking-config ${plan.tier} scan` },
+    location: { id: q.point.id, label: q.point.fixedPoint?.label ?? `${q.point.id} (${q.point.distanceKm} km ${q.point.ring})`, latitude: q.point.latitude, longitude: q.point.longitude, accuracyMeters: 20, toleranceMeters: 100, source: q.point.fixedPoint?.sourceReference ?? `tracking-config ${plan.tier} scan` },
     sourceReference: `tracking-config/v1 ${plan.surface}/${plan.tier} ${q.storeId} ${q.keywordTier}`,
   }));
   const runs: AndroidTaskLike[][] = [];
@@ -184,13 +252,14 @@ export function toAndroidRuns(plan: ScanPlan, config: TrackingConfig, maxTasksPe
 }
 
 /** Point IDs and keyword tiers are store-local, never global metadata keys. */
-export function trackingIngestContext(config: TrackingConfig, options: { includeGridSpec?: boolean } = {}): IngestContext {
+export function trackingIngestContext(config: TrackingConfig, options: { includeGridSpec?: boolean; includeTargetSnapshot?: boolean } = {}): IngestContext {
   return { timezone: config.timezone, storeContexts: new Map(config.stores.map(store => {
-    const points = new Map(generateGrid(storeGridSpec(config, store)).map(point => [point.id, point]));
+    const points = new Map<string, TrackingPoint>(generateGrid(storeGridSpec(config, store)).map(point => [point.id, point]));
     points.set('r0c0', centerPoint(store));
+    for (const point of storeFixedPoints(store)) points.set(point.id, point);
     const keywordTiers = new Map<string, KeywordTier>();
     for (const keyword of store.keywords.core) keywordTiers.set(keywordKey(keyword), 'core');
     for (const keyword of store.keywords.longTail) keywordTiers.set(keywordKey(keyword), 'longTail');
-    return [store.storeId, { points, keywordTiers, ...(options.includeGridSpec ? { gridSpec: storeGridSpec(config, store) } : {}) }];
+    return [store.storeId, { points, keywordTiers, ...(options.includeGridSpec ? { gridSpec: storeGridSpec(config, store) } : {}), ...(options.includeTargetSnapshot && store.monitoringCatalog && store.keywordTargets ? { monitoringCatalog: structuredClone(store.monitoringCatalog), keywordTargets: new Map(store.keywordTargets.map(target => [target.keyword, structuredClone(target)])) } : {}) }];
   })) };
 }

@@ -1215,25 +1215,44 @@ describe('NativeMapsDevice bounded native result list gestures', () => {
   });
 });
 
-describe('NativeMapsDevice fixed result swipe (v4)', () => {
-  it('swipes a fixed fraction of the screen with adb after a verified search', async () => {
-    const appium = await appiumFixture({ source: () => rankingFixture('04-expanded-sheet') });
-    const fixture = adbFixture({ 'shell wm size': 'Physical size: 720x1280', 'shell input swipe 360 1088 360 576 700': '' });
+describe('NativeMapsDevice evidence-bound result swipe', () => {
+  it('uses the validated native list with a 10% overlap-preserving touch, never a screen-size ADB swipe', async () => {
+    const source = rankingFixture('04-expanded-sheet');
+    const appium = await appiumFixture({ source: () => source });
+    const fixture = adbFixture();
     const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: fixture.adb });
     await device.start();
     await device.search('hot pot near me');
-    await device.swipeResults();
-    expect(fixture.calls.some(args => args.join(' ').endsWith('shell input swipe 360 1088 360 576 700'))).toBe(true);
-    expect(appium.calls.some(call => call.path.endsWith('/actions') || call.body?.script === 'mobile: scrollGesture')).toBe(false);
+    await device.swipeResults({ sourceXml: source, listBounds: { left: 0, top: 272, right: 720, bottom: 1232 }, anchors: [] });
+    const movements = appium.calls.filter(call => call.path.endsWith('/actions'));
+    expect(movements).toHaveLength(1);
+    const actions = movements[0]!.body.actions[0].actions;
+    expect([actions[0].x, actions[0].y, actions[2].x, actions[2].y]).toEqual([360, 1136, 360, 1040]);
+    expect(fixture.calls.some(args => args.includes('swipe') || args.includes('size'))).toBe(false);
+    expect(appium.calls.some(call => call.body?.script === 'mobile: scrollGesture')).toBe(false);
     await device.close();
   });
-  it('refuses to swipe before a verified search or when the screen size is unknown', async () => {
-    const appium = await appiumFixture({ source: () => rankingFixture('04-expanded-sheet') });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture({ 'shell wm size': 'Physical size: unknown' }).adb });
+  it('rejects changed persisted XML before sending any gesture', async () => {
+    const source = rankingFixture('04-expanded-sheet');
+    const appium = await appiumFixture({ source: () => source });
+    const fixture = adbFixture();
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: fixture.adb });
+    await device.start(); await device.search('hot pot near me');
+    await expect(device.swipeResults({ sourceXml: source + '\n', listBounds: { left: 0, top: 272, right: 720, bottom: 1232 }, anchors: [] })).rejects.toMatchObject({ code: 'SOURCE_CHANGED' });
+    expect(appium.calls.some(call => call.path.endsWith('/actions') || /Gesture$/.test(call.body?.script ?? ''))).toBe(false);
+    expect(fixture.calls.some(args => args.includes('swipe'))).toBe(false);
+    await device.close();
+  });
+  it('refuses unknown native result geometry with no fallback gesture', async () => {
+    const appium = await appiumFixture({ source: () => resultsXml('hot pot near me') });
+    const fixture = adbFixture();
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: fixture.adb });
     await device.start();
     await expect(device.swipeResults()).rejects.toMatchObject({ code: 'UNKNOWN_SCROLL_LAYOUT' });
     await device.search('hot pot near me');
     await expect(device.swipeResults()).rejects.toMatchObject({ code: 'UNKNOWN_SCROLL_LAYOUT' });
+    expect(appium.calls.some(call => call.path.endsWith('/actions') || /Gesture$/.test(call.body?.script ?? ''))).toBe(false);
+    expect(fixture.calls.some(args => args.includes('swipe'))).toBe(false);
     await device.close();
   });
 });

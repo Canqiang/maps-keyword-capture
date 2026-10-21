@@ -7,24 +7,26 @@ import { chromium } from 'playwright';
 import { monitorBrowserEnv } from '../monitor/cli-options.js';
 import { createStore } from '../storage/factory.js';
 import { deliveryStatus } from '../runner/manifest.js';
-import { runWebScan } from './scan.js';
+import { runWebScan, type FrozenCatalog } from './scan.js';
 import type { BatchManifest, KeywordResult, ManifestDeliveryReceipt } from '../contracts.js';
 import { ingestAndroidManifest, ingestWebBatch, type AndroidManifestLike } from './ingest.js';
 import type { RankObservation } from './model.js';
 import { MemoryObservationStore, MongoObservationStore, type ObservationStore } from './observation-store.js';
-import { loadTrackingConfig, parseStore, planScan, shardStores, trackingIngestContext, toAndroidRuns, toWebBatches, withStores, type TrackingConfig } from './tracking-config.js';
+import { balancedShardStores, loadTrackingConfig, parseStore, planScan, shardStores, trackingIngestContext, toAndroidRuns, toWebBatches, withStores, type TrackingConfig, type ScanTier, type Surface } from './tracking-config.js';
 import { MongoTrackingRepository } from './repository.js';
+import { parseTargetCatalog, reconcileTargetStores } from './target-catalog.js';
 
 const USAGE = [
   'Usage:',
-  '  tracking plan   --config tracking.json --surface web|android --tier point|grid [--store-id <id>] [--format queries|web-batches|android-runs]',
+  '  tracking plan   --config tracking.json --surface web|android --tier point|grid [--catalog catalog.json] [--store-id <id>] [--format queries|web-batches|android-runs]',
   '  tracking ingest --config tracking.json --surface web --store-id <id> --batch-dir <dir> [--point-id r0c0] [--manifest-key <key>] [--out file.json | --mongo-uri-env MAPS_TRACKING_MONGO_URI]',
   '  tracking ingest --config tracking.json --surface android --manifest manifest.json [--manifest-key <key>] [--out file.json | --mongo-uri-env MAPS_TRACKING_MONGO_URI]',
-  '  tracking scan   --config tracking.json --surface web --tier point|grid [--store-id <id>] [--storage local|azure] [--output-dir ./outputs] [--mongo-uri-env MAPS_TRACKING_MONGO_URI]',
+  '  tracking scan   --config tracking.json --surface web|android --tier point|grid [--catalog catalog.json --catalog-sha256 <sha256>] [--store-id <id>] [--storage local|azure] [--output-dir ./outputs] [--mongo-uri-env MAPS_TRACKING_MONGO_URI]',
   '  tracking recent --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI [--store-id <id>] [--limit 20]',
   '  tracking stores --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI (--list | --import stores.json)',
+  '  tracking stores --config tracking.json --mongo-uri-env MAPS_TRACKING_MONGO_URI --import-catalog catalog.json',
   '  Azure ingest additionally requires --manifest-receipt <final-receipt.json>; --manifest-key must match it when supplied.',
-  '  scan shards: --shard-index <i> --shard-count <n>, or JOB_COMPLETION_INDEX with --shard-count <n> (Indexed Jobs)',
+  '  scan shards: --shard-index <i> --shard-count <n>, or JOB_COMPLETION_INDEX with --shard-count <n> (Indexed Jobs); optional --shard-strategy hash|balanced (default hash)',
 ].join('\n');
 
 function parse(args: string[]): { command: string; options: Map<string, string> } {
@@ -60,6 +62,10 @@ function shardIndex(options: Map<string, string>, env: NodeJS.ProcessEnv): numbe
 /** Resolve the catalog independently of scan sharding; history ingestion includes inactive stores. */
 async function resolveStores(config: TrackingConfig, options: Map<string, string>, env: NodeJS.ProcessEnv, includeInactive = false): Promise<TrackingConfig> {
   let resolved = config;
+  if (options.has('--catalog')) {
+    const catalog = parseTargetCatalog(JSON.parse(await readFile(options.get('--catalog')!, 'utf8')));
+    return withStores(config, catalog.stores);
+  }
   if (config.storeSource.provider === 'mongo') {
     const envName = options.get('--mongo-uri-env');
     const uri = envName ? env[envName] : undefined;
@@ -72,9 +78,28 @@ async function resolveStores(config: TrackingConfig, options: Map<string, string
   }
   return resolved;
 }
-function applyShard(config: TrackingConfig, options: Map<string, string>, env: NodeJS.ProcessEnv): TrackingConfig {
+
+/** One read supplies both shard assignment and execution; mutable Mongo stores are bypassed. */
+async function frozenScanCatalog(config: TrackingConfig, options: Map<string, string>): Promise<{ config: TrackingConfig; snapshot: FrozenCatalog } | null> {
+  const file = options.get('--catalog'), expected = options.get('--catalog-sha256');
+  if (!file) {
+    if (expected !== undefined) throw new Error('--catalog-sha256 requires --catalog');
+    return null;
+  }
+  if (!expected || !/^[a-f0-9]{64}$/u.test(expected)) throw new Error('scan --catalog requires --catalog-sha256 with the approved exact file hash');
+  const bytes = await readFile(file), sha256 = createHash('sha256').update(bytes).digest('hex');
+  if (sha256 !== expected) throw new Error('catalog SHA-256 does not match the pinned scan version');
+  const catalog = parseTargetCatalog(JSON.parse(bytes.toString('utf8')));
+  return { config: withStores(config, catalog.stores), snapshot: { version: catalog.version, sha256, bytes } };
+}
+function applyShard(config: TrackingConfig, options: Map<string, string>, env: NodeJS.ProcessEnv, selection: { surface: Surface; tier: ScanTier }): TrackingConfig {
   const count = options.get('--shard-count');
-  return count === undefined ? config : withStores(config, shardStores(config.stores, shardIndex(options, env), Number(count)));
+  const strategy = options.get('--shard-strategy') ?? 'hash';
+  if (strategy !== 'hash' && strategy !== 'balanced') throw new Error('--shard-strategy must be hash or balanced');
+  if (options.has('--shard-strategy') && count === undefined) throw new Error('--shard-strategy needs --shard-count');
+  if (count === undefined) return config;
+  const index = shardIndex(options, env);
+  return withStores(config, strategy === 'balanced' ? balancedShardStores(config, selection, index, Number(count)) : shardStores(config.stores, index, Number(count)));
 }
 
 /** Manual imports use the same durable-delivery boundary as automatic scans. */
@@ -101,7 +126,7 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
       if (surface !== 'web' && surface !== 'android') throw new Error('--surface must be web or android');
       if (tier !== 'point' && tier !== 'grid') throw new Error('--tier must be point or grid');
       const storeId = options.get('--store-id');
-      const resolved = applyShard(await resolveStores(config, options, env), options, env);
+      const resolved = applyShard(await resolveStores(config, options, env), options, env, { surface, tier });
       const plan = planScan(resolved, { surface, tier, ...(storeId ? { storeIds: [storeId] } : {}) });
       const format = options.get('--format') ?? 'queries';
       const output = format === 'web-batches' ? toWebBatches(plan) : format === 'android-runs' ? toAndroidRuns(plan, resolved) : plan;
@@ -161,12 +186,13 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
     }
     if (command === 'scan') {
       const surface = need(options, '--surface'), tier = need(options, '--tier');
-      if (surface !== 'web') throw new Error('scan supports --surface web only; Android scans run through the Android collector');
+      if (surface !== 'web' && surface !== 'android') throw new Error('--surface must be web or android');
       if (tier !== 'point' && tier !== 'grid') throw new Error('--tier must be point or grid');
       const storage = options.get('--storage') ?? 'local';
       if (storage !== 'local' && storage !== 'azure') throw new Error('--storage must be local or azure');
+      const frozen = await frozenScanCatalog(config, options);
       const { store } = createStore(storage, options.get('--output-dir') ?? './outputs', env);
-      const scanConfig = applyShard(await resolveStores(config, options, env), options, env);
+      const scanConfig = applyShard(frozen?.config ?? await resolveStores(config, options, env), options, env, { surface, tier });
       const { store: observations, sink } = await openStore(config, options, env);
       const controller = new AbortController();
       const stop = () => controller.abort();
@@ -175,8 +201,11 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
       try {
         const storeId = options.get('--store-id');
         log({ stage: 'scan_stores', stores: scanConfig.stores.length, shard: options.get('--shard-count') ? `${shardIndex(options, env)}/${options.get('--shard-count')}` : null });
-        const summary = await runWebScan({ config: scanConfig, tier, store, observations, log, signal: controller.signal, ...(storeId ? { storeIds: [storeId] } : {}),
-          launch: () => chromium.launch({ channel: 'chromium', headless: true, chromiumSandbox: true, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false, env: monitorBrowserEnv(env) }) });
+        const common = { config: scanConfig, tier: tier as ScanTier, store, observations, log, signal: controller.signal, ...(storeId ? { storeIds: [storeId] } : {}), ...(frozen ? { catalogSnapshot: frozen.snapshot } : {}) };
+        const summary = surface === 'android'
+          ? await (await import('./android-scan.js')).runAndroidScan({ ...common, env })
+          : await runWebScan({ ...common,
+            launch: () => chromium.launch({ channel: 'chromium', headless: true, chromiumSandbox: true, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false, env: monitorBrowserEnv(env) }) });
         console.log(JSON.stringify({ event: 'tracking_scan_finished', sink, ...summary }));
         return summary.exitCode;
       } catch (error) {
@@ -186,13 +215,19 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
       } finally { process.off('SIGINT', stop); process.off('SIGTERM', stop); await observations.close(); }
     }
     if (command === 'stores') {
-      if (options.has('--list') && options.has('--import')) throw new Error('--list and --import are mutually exclusive');
+      if (['--list', '--import', '--import-catalog'].filter(flag => options.has(flag)).length > 1) throw new Error('--list, --import and --import-catalog are mutually exclusive');
       const envName = need(options, '--mongo-uri-env');
       const uri = env[envName];
       if (!uri) throw new Error(`${envName} is not set`);
       const repo = new MongoTrackingRepository({ uri, database: config.database.database, storesCollection: config.storeSource.collection, observationsCollection: config.database.collection });
       try {
-        if (options.get('--import')) {
+        if (options.get('--import-catalog')) {
+          const catalog = parseTargetCatalog(JSON.parse(await readFile(options.get('--import-catalog')!, 'utf8')));
+          const reconciled = reconcileTargetStores(await repo.listStores({ includeInactive: true }), catalog);
+          const saved = [];
+          for (const item of reconciled) saved.push((await repo.saveStore(item, new Date(), { fillMissingCenter: true })).storeId);
+          console.log(JSON.stringify({ event: 'tracking_catalog_imported', version: catalog.version, imported: saved.length, activeKeywordPairs: reconciled.reduce((n, s) => n + s.keywordTargets!.length, 0), storeIds: saved }));
+        } else if (options.get('--import')) {
           const raw = JSON.parse(await readFile(options.get('--import')!, 'utf8')) as unknown;
           const list = Array.isArray(raw) ? raw : (raw as { stores?: unknown[] }).stores ?? [];
           const saved = [];

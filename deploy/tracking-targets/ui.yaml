@@ -1,0 +1,97 @@
+# Substitute the independently verified Web image digest before applying.
+# The existing ClusterIP Service and historical collections are retained.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maps-tracking-ui
+  namespace: uat
+  labels:
+    app.kubernetes.io/name: maps-keyword-capture
+    app.kubernetes.io/component: tracking-ui
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: { maxSurge: 1, maxUnavailable: 0 }
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: maps-keyword-capture
+      app.kubernetes.io/component: tracking-ui
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: maps-keyword-capture
+        app.kubernetes.io/component: tracking-ui
+    spec:
+      automountServiceAccountToken: false
+      nodeSelector: { envpool: uatops }
+      securityContext: { runAsNonRoot: true, runAsUser: 1001, runAsGroup: 1001 }
+      containers:
+        - name: ui
+          image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:REPLACE_WEB_DIGEST
+          args: [node, dist/web/server.js]
+          ports: [{ name: http, containerPort: 8080 }]
+          env:
+            - { name: PORT, value: "8080" }
+            - { name: TRACKING_CONFIG, value: /config/tracking.json }
+            - { name: HOME, value: /tmp }
+            - name: TRACKING_AUTH_USER
+              valueFrom:
+                secretKeyRef: { name: maps-tracking-ui-auth, key: username }
+            - name: TRACKING_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: maps-tracking-ui-auth, key: password }
+            - name: MAPS_TRACKING_MONGO_URI
+              valueFrom:
+                secretKeyRef: { name: maps-keyword-monitor-source, key: KEYWORD_MONGO_URI }
+            - { name: AZURE_STORAGE_CONTAINER, value: maps-keyword-capture-uat }
+            - name: AZURE_STORAGE_CONTAINER_SAS_URL
+              valueFrom:
+                secretKeyRef: { name: maps-keyword-monitor-storage, key: AZURE_STORAGE_CONTAINER_SAS_URL }
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 30
+          resources:
+            requests: { cpu: 100m, memory: 256Mi }
+            limits: { cpu: "1", memory: 1Gi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - { name: config, mountPath: /config, readOnly: true }
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - name: config
+          configMap: { name: maps-targets-liya90-v1-476d4c50 }
+        - name: tmp
+          emptyDir: { sizeLimit: 64Mi }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: maps-tracking-ui
+  namespace: uat
+  annotations:
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    appgw.ingress.kubernetes.io/health-probe-path: /healthz
+    appgw.ingress.kubernetes.io/health-probe-status-codes: "200"
+    appgw.ingress.kubernetes.io/request-timeout: "60"
+spec:
+  ingressClassName: azure-application-gateway
+  tls:
+    - hosts: [maps.connexup-uat.net]
+      secretName: fbr-uat-net-tls
+  rules:
+    - host: maps.connexup-uat.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: maps-tracking-ui
+                port: { number: 80 }

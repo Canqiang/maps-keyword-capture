@@ -1,0 +1,572 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "b38fb86ad919bbffea77cac4b27e18a463c735b2d50cdef45eb8e603e0467a67",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 2,
+  "lines": [
+    {
+      "text": "DunHuang Lan",
+      "confidence": 58.79,
+      "bounds": {
+        "left": 456,
+        "top": 284.5,
+        "right": 645.5,
+        "bottom": 321.5
+      },
+      "words": [
+        {
+          "text": "DunHuang",
+          "confidence": 93.10276,
+          "bounds": {
+            "left": 456,
+            "top": 297,
+            "right": 573,
+            "bottom": 321.5
+          }
+        },
+        {
+          "text": "Lan",
+          "confidence": 24.485397,
+          "bounds": {
+            "left": 583,
+            "top": 284.5,
+            "right": 645.5,
+            "bottom": 316.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "/",
+      "confidence": 63.97,
+      "bounds": {
+        "left": 0,
+        "top": 350,
+        "right": 18,
+        "bottom": 382.5
+      },
+      "words": [
+        {
+          "text": "/",
+          "confidence": 63.967777,
+          "bounds": {
+            "left": 0,
+            "top": 350,
+            "right": 18,
+            "bottom": 382.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "chinese food flushing x",
+      "confidence": 93.13,
+      "bounds": {
+        "left": 41.5,
+        "top": 395,
+        "right": 661,
+        "bottom": 437
+      },
+      "words": [
+        {
+          "text": "chinese",
+          "confidence": 95.950424,
+          "bounds": {
+            "left": 41.5,
+            "top": 395,
+            "right": 194.5,
+            "bottom": 428
+          }
+        },
+        {
+          "text": "food",
+          "confidence": 96.730583,
+          "bounds": {
+            "left": 207,
+            "top": 395,
+            "right": 300.5,
+            "bottom": 427.5
+          }
+        },
+        {
+          "text": "flushing",
+          "confidence": 96.371376,
+          "bounds": {
+            "left": 314,
+            "top": 395,
+            "right": 471,
+            "bottom": 437
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 83.464806,
+          "bounds": {
+            "left": 635,
+            "top": 395,
+            "right": 661,
+            "bottom": 421
+          }
+        }
+      ]
+    },
+    {
+      "text": "= 二 Open now Find a table Price wv",
+      "confidence": 86.42,
+      "bounds": {
+        "left": 46,
+        "top": 486,
+        "right": 657,
+        "bottom": 522
+      },
+      "words": [
+        {
+          "text": "=",
+          "confidence": 72.559273,
+          "bounds": {
+            "left": 46,
+            "top": 490,
+            "right": 62,
+            "bottom": 518
+          }
+        },
+        {
+          "text": "二",
+          "confidence": 54.181217,
+          "bounds": {
+            "left": 62,
+            "top": 486,
+            "right": 82,
+            "bottom": 522
+          }
+        },
+        {
+          "text": "Open",
+          "confidence": 95.867432,
+          "bounds": {
+            "left": 137.5,
+            "top": 492.5,
+            "right": 206.5,
+            "bottom": 519
+          }
+        },
+        {
+          "text": "now",
+          "confidence": 95.867432,
+          "bounds": {
+            "left": 217,
+            "top": 498,
+            "right": 269,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "Find",
+          "confidence": 96.544456,
+          "bounds": {
+            "left": 337,
+            "top": 491,
+            "right": 389.5,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 94.961052,
+          "bounds": {
+            "left": 400.5,
+            "top": 498,
+            "right": 413,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "table",
+          "confidence": 94.961052,
+          "bounds": {
+            "left": 423,
+            "top": 491,
+            "right": 489,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "Price",
+          "confidence": 96.582954,
+          "bounds": {
+            "left": 556,
+            "top": 491,
+            "right": 622,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "wv",
+          "confidence": 76.239487,
+          "bounds": {
+            "left": 637.5,
+            "top": 500,
+            "right": 657,
+            "bottom": 510
+          }
+        }
+      ]
+    },
+    {
+      "text": "Sponsored :",
+      "confidence": 81.05,
+      "bounds": {
+        "left": 41,
+        "top": 574,
+        "right": 187,
+        "bottom": 599
+      },
+      "words": [
+        {
+          "text": "Sponsored",
+          "confidence": 92.690956,
+          "bounds": {
+            "left": 41,
+            "top": 574.5,
+            "right": 157.5,
+            "bottom": 599
+          }
+        },
+        {
+          "text": ":",
+          "confidence": 69.404274,
+          "bounds": {
+            "left": 181,
+            "top": 574,
+            "right": 187,
+            "bottom": 598
+          }
+        }
+      ]
+    },
+    {
+      "text": "Congee Village Flushing",
+      "confidence": 95.14,
+      "bounds": {
+        "left": 41.5,
+        "top": 621.5,
+        "right": 423,
+        "bottom": 656.5
+      },
+      "words": [
+        {
+          "text": "Congee",
+          "confidence": 92.855728,
+          "bounds": {
+            "left": 41.5,
+            "top": 621.5,
+            "right": 168,
+            "bottom": 656.5
+          }
+        },
+        {
+          "text": "Village",
+          "confidence": 96.128235,
+          "bounds": {
+            "left": 178,
+            "top": 622,
+            "right": 283,
+            "bottom": 656.5
+          }
+        },
+        {
+          "text": "Flushing",
+          "confidence": 96.443542,
+          "bounds": {
+            "left": 295,
+            "top": 622,
+            "right": 423,
+            "bottom": 656.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "3.9 計 (1256) - Cantonese - 4.2 mi",
+      "confidence": 79.14,
+      "bounds": {
+        "left": 41,
+        "top": 668,
+        "right": 445,
+        "bottom": 694
+      },
+      "words": [
+        {
+          "text": "3.9",
+          "confidence": 86.807922,
+          "bounds": {
+            "left": 41,
+            "top": 669.5,
+            "right": 75.5,
+            "bottom": 690.5
+          }
+        },
+        {
+          "text": "計",
+          "confidence": 7.45546,
+          "bounds": {
+            "left": 89,
+            "top": 668,
+            "right": 104.5,
+            "bottom": 691
+          }
+        },
+        {
+          "text": "(1256)",
+          "confidence": 92.984612,
+          "bounds": {
+            "left": 111.5,
+            "top": 668,
+            "right": 185.5,
+            "bottom": 694
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 88.108574,
+          "bounds": {
+            "left": 198,
+            "top": 680,
+            "right": 201,
+            "bottom": 683
+          }
+        },
+        {
+          "text": "Cantonese",
+          "confidence": 93.207443,
+          "bounds": {
+            "left": 212.5,
+            "top": 669.5,
+            "right": 346.5,
+            "bottom": 690.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 70.953491,
+          "bounds": {
+            "left": 359,
+            "top": 680,
+            "right": 362,
+            "bottom": 683
+          }
+        },
+        {
+          "text": "4.2",
+          "confidence": 96.681496,
+          "bounds": {
+            "left": 373.5,
+            "top": 669.5,
+            "right": 408.5,
+            "bottom": 690
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.9011,
+          "bounds": {
+            "left": 419,
+            "top": 668.5,
+            "right": 445,
+            "bottom": 690
+          }
+        }
+      ]
+    },
+    {
+      "text": "Open - Closes 10 PM",
+      "confidence": 86.97,
+      "bounds": {
+        "left": 41,
+        "top": 708,
+        "right": 300,
+        "bottom": 736
+      },
+      "words": [
+        {
+          "text": "Open",
+          "confidence": 91.922874,
+          "bounds": {
+            "left": 41,
+            "top": 709.5,
+            "right": 108,
+            "bottom": 736
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 53.553219,
+          "bounds": {
+            "left": 119,
+            "top": 720,
+            "right": 122,
+            "bottom": 723
+          }
+        },
+        {
+          "text": "Closes",
+          "confidence": 96.079239,
+          "bounds": {
+            "left": 132.5,
+            "top": 708,
+            "right": 215.5,
+            "bottom": 730.5
+          }
+        },
+        {
+          "text": "10",
+          "confidence": 96.416977,
+          "bounds": {
+            "left": 226,
+            "top": 709.5,
+            "right": 253,
+            "bottom": 730.5
+          }
+        },
+        {
+          "text": "PM",
+          "confidence": 96.892685,
+          "bounds": {
+            "left": 264.5,
+            "top": 710,
+            "right": 300,
+            "bottom": 730
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions % Call © Website |",
+      "confidence": 73.29,
+      "bounds": {
+        "left": 67,
+        "top": 1081,
+        "right": 720,
+        "bottom": 1111
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 50.707169,
+          "bounds": {
+            "left": 67,
+            "top": 1081,
+            "right": 97,
+            "bottom": 1111
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 96.07502,
+          "bounds": {
+            "left": 118,
+            "top": 1084,
+            "right": 242,
+            "bottom": 1107
+          }
+        },
+        {
+          "text": "%",
+          "confidence": 18.167488,
+          "bounds": {
+            "left": 320,
+            "top": 1082,
+            "right": 348,
+            "bottom": 1110
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 92.570869,
+          "bounds": {
+            "left": 369,
+            "top": 1084,
+            "right": 412.5,
+            "bottom": 1106.5
+          }
+        },
+        {
+          "text": "©",
+          "confidence": 78.524689,
+          "bounds": {
+            "left": 490,
+            "top": 1081,
+            "right": 520,
+            "bottom": 1111
+          }
+        },
+        {
+          "text": "Website",
+          "confidence": 96.236931,
+          "bounds": {
+            "left": 539.5,
+            "top": 1084,
+            "right": 640,
+            "bottom": 1107
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 80.763252,
+          "bounds": {
+            "left": 715,
+            "top": 1084.5,
+            "right": 720,
+            "bottom": 1110
+          }
+        }
+      ]
+    },
+    {
+      "text": "linnan Alan Chicehinan",
+      "confidence": 65.24,
+      "bounds": {
+        "left": 53.5,
+        "top": 1218,
+        "right": 338,
+        "bottom": 1232
+      },
+      "words": [
+        {
+          "text": "linnan",
+          "confidence": 59.042698,
+          "bounds": {
+            "left": 53.5,
+            "top": 1218,
+            "right": 125,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Alan",
+          "confidence": 90.585701,
+          "bounds": {
+            "left": 138,
+            "top": 1218,
+            "right": 197,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Chicehinan",
+          "confidence": 46.10397,
+          "bounds": {
+            "left": 210,
+            "top": 1218,
+            "right": 338,
+            "bottom": 1232
+          }
+        }
+      ]
+    }
+  ]
+}

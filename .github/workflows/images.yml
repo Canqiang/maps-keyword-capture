@@ -1,0 +1,139 @@
+name: Test and publish images
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - main
+      # Remove this bootstrap branch and its Azure federation after merging.
+      - codex/fix-tracking-review-20261020
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: images-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run typecheck
+      - run: npm run test:contracts
+      - run: npm run test:unit -- --maxWorkers=2
+      - run: node --test .github/tests/*.test.mjs
+      - run: npm run build
+      - name: Android Python contracts
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y python3-pil
+          /usr/bin/python3 -m unittest discover -s deploy/android/linux -p 'test_*.py'
+
+  publish:
+    needs: checks
+    # PR jobs never receive an Azure token, including PRs originating in this repo.
+    if: >-
+      github.repository == 'Canqiang/maps-keyword-capture' &&
+      vars.ACR_PUBLISH_ENABLED == 'true' &&
+      github.event_name != 'pull_request' &&
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/codex/fix-tracking-review-20261020')
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - surface: web
+            dockerfile: Dockerfile
+            repository: ai/maps-keyword-capture
+          - surface: android
+            dockerfile: deploy/android/Dockerfile
+            repository: ai/maps-keyword-capture-android
+    env:
+      ACR_NAME: fbrdevacr
+      ACR_SERVER: fbrdevacr.azurecr.io
+      IMAGE_REPOSITORY: ${{ matrix.repository }}
+      # Reruns get new tags; no commit tag or moving alias is overwritten.
+      IMAGE_TAG: sha-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+      AZURE_CORE_OUTPUT: none
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - name: Require configured Azure identity
+        env:
+          AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+        run: |
+          for name in AZURE_CLIENT_ID AZURE_TENANT_ID AZURE_SUBSCRIPTION_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing repository variable $name; see docs/ci-images.md."
+              exit 1
+            fi
+          done
+      - name: Make space on the disposable GitHub runner
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          df -h /
+      - uses: Azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Sign in to ACR
+        run: az acr login --name "$ACR_NAME"
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - name: Build and push
+        id: image
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ env.ACR_SERVER }}/${{ matrix.repository }}:${{ env.IMAGE_TAG }}
+          build-args: GIT_COMMIT=${{ github.sha }}
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          provenance: mode=min
+      - name: Lock and independently verify published image
+        env:
+          BUILD_DIGEST: ${{ steps.image.outputs.digest }}
+          IMAGE_SURFACE: ${{ matrix.surface }}
+        run: |
+          set -euo pipefail
+          [[ "$BUILD_DIGEST" =~ ^sha256:[a-f0-9]{64}$ ]]
+          # Tag and manifest attributes are separate; protect both.
+          az acr repository update --name "$ACR_NAME" --image "$IMAGE_REPOSITORY:$IMAGE_TAG" --write-enabled false --delete-enabled false
+          az acr repository update --name "$ACR_NAME" --image "$IMAGE_REPOSITORY@$BUILD_DIGEST" --write-enabled false --delete-enabled false
+          mkdir -p image-receipt
+          az acr repository show-tags --name "$ACR_NAME" --repository "$IMAGE_REPOSITORY" --detail --query "[?name=='$IMAGE_TAG'] | [0]" --output json > image-receipt/tag.json
+          az acr repository show --name "$ACR_NAME" --image "$IMAGE_REPOSITORY@$BUILD_DIGEST" --output json > image-receipt/manifest.json
+          node .github/scripts/image-receipt.mjs image-receipt/tag.json image-receipt/manifest.json image-receipt/image.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: image-receipt-${{ matrix.surface }}
+          path: image-receipt/*.json
+          if-no-files-found: error
+          retention-days: 30

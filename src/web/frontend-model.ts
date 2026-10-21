@@ -4,6 +4,12 @@ export interface FrontendObservation {
   eligible: boolean; metricOrganicRank: number | null; cohortKey: string | null;
   rank: { status: string; organicRank: number | null };
 }
+interface TargetStore {
+  keywords: { core: string[]; longTail: string[] };
+  keywordTargets?: Array<{ keyword: string; sourceSearchVolumeText?: string; pointTargets: Array<{ pointId: string; targetRank: number; targetText: string; historicalBaselineDisplay?: string }> }>;
+}
+interface PlannedPoint { id: string; label: string; latitude: number; longitude: number; distanceKm: number }
+interface PointChoice { pointId: string; label?: string; planned?: boolean; point: { latitude: number | null; longitude: number | null; distanceKm: number | null }; observations?: number }
 export function createFrontendModel() {
   const escape = (value: unknown): string => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
   const key = (s: string): string => s.normalize('NFKC').trim().replace(/\s+/g, ' ').toLowerCase();
@@ -46,5 +52,14 @@ export function createFrontendModel() {
     return result;
   };
   const evidenceUrl = (s: string): string | null => /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u.test(s) && !s.split('/').some(x=>x==='' || x==='.' || x==='..') ? '/api/evidence?key='+encodeURIComponent(s) : null;
-  return { escape,key,daily,present,compare,days,segments,evidenceUrl };
+  const activeKeywords = (store: TargetStore): string[] => store.keywordTargets ? store.keywordTargets.map(t => t.keyword) : [...store.keywords.core, ...store.keywords.longTail];
+  const targetFor = (store: TargetStore, keyword: string, pointId: string) => store.keywordTargets?.find(t => key(t.keyword) === key(keyword))?.pointTargets.find(t => t.pointId === pointId) ?? null;
+  const pointChoices = (observed: PointChoice[], planned: PlannedPoint[] = []): PointChoice[] => {
+    const choices = planned.map(p => {
+      const actual = observed.find(o => o.pointId === p.id);
+      return actual ? { ...actual, label: p.label, planned: true } : { pointId: p.id, label: p.label, planned: true, observations: 0, point: { latitude: p.latitude, longitude: p.longitude, distanceKm: p.distanceKm } };
+    });
+    return [...choices, ...observed.filter(o => !planned.some(p => p.id === o.pointId))];
+  };
+  return { escape,key,daily,present,compare,days,segments,evidenceUrl,activeKeywords,targetFor,pointChoices };
 }

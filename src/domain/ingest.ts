@@ -4,12 +4,15 @@ import { canonicalPlaceId } from '../monitor/identity.js';
 import type { BatchManifest, KeywordResult, Listing } from '../contracts.js';
 import { keywordKey, observationId, type ObservedListing, type ObservationQuality, type RankObservation, type RankStatus, type TargetOccurrence } from './model.js';
 import type { GridPoint, GridSpec } from '../grid/grid.js';
+import type { KeywordTarget, MonitoringCatalog, TrackingPoint } from './tracking-config.js';
 
 export interface StoreIngestContext {
-  points?: Map<string, GridPoint>;
+  points?: Map<string, TrackingPoint>;
   keywordTiers?: Map<string, 'core' | 'longTail'>;
   /** Captured scan plan only; historical imports must not substitute today's grid. */
   gridSpec?: GridSpec;
+  monitoringCatalog?: MonitoringCatalog;
+  keywordTargets?: Map<string, KeywordTarget>;
 }
 export interface IngestContext extends StoreIngestContext {
   timezone: string;
@@ -27,6 +30,12 @@ function allVerified(checks: Array<boolean | null>): boolean | null {
 function plannedMetadata(point: GridPoint | undefined, latitude: number | null, longitude: number | null) {
   const matches = point && latitude !== null && longitude !== null && Math.abs(point.latitude - latitude) < 0.000001 && Math.abs(point.longitude - longitude) < 0.000001;
   return { distanceKm: matches ? point.distanceKm : null, ring: matches ? point.ring : null };
+}
+function monitoringSnapshot(context: StoreIngestContext, keyword: string, point: TrackingPoint | undefined, latitude: number | null, longitude: number | null): Pick<RankObservation, 'monitoringTarget'> {
+  const target = context.keywordTargets?.get(keyword)?.pointTargets.find(t => t.pointId === point?.id);
+  if (!context.monitoringCatalog || !point?.fixedPoint || !target || latitude === null || longitude === null
+    || Math.abs(point.latitude - latitude) >= 0.000001 || Math.abs(point.longitude - longitude) >= 0.000001) return {};
+  return { monitoringTarget: structuredClone({ catalog: context.monitoringCatalog, point: point.fixedPoint, target }) };
 }
 function webListing(listing: Listing): ObservedListing {
   return { displayPosition: listing.displayPosition, organicRank: listing.organicRank, resultType: listing.resultType, name: listing.name, placeId: canonicalPlaceId(listing), rating: listing.rating, reviewCount: listing.reviewCount, distanceText: null };
@@ -122,6 +131,7 @@ export function ingestWebBatch(input: WebIngestInput, context: IngestContext): R
       observationId: '', surface: 'web', storeId: input.store.storeId, placeId: input.store.placeId,
       keyword: entry.keyword, keywordKey: keywordKey(entry.keyword), keywordTier: scoped.keywordTiers?.get(keywordKey(entry.keyword)) ?? null,
       pointId, point: { latitude, longitude, ...plannedMetadata(point, latitude, longitude), zoom: configured?.zoom ?? null },
+      ...monitoringSnapshot(scoped, entry.keyword, point, latitude, longitude),
       ...(scoped.gridSpec ? { gridSpec: structuredClone(scoped.gridSpec) } : {}),
       ...(context.gridRunId ? { gridRunId: context.gridRunId } : {}),
       locationMode: result?.context.locationMode ?? 'query_only', observedAt, localDate: dateFolder(new Date(observedAt), context.timezone), scanId: input.manifest.runId, queryId: entry.queryId,
@@ -192,6 +202,7 @@ export function ingestAndroidManifest(input: AndroidIngestInput, context: Ingest
       observationId: '', surface: 'android', storeId: query.storeId, placeId,
       keyword: query.keyword, keywordKey: keywordKey(query.keyword), keywordTier: scoped.keywordTiers?.get(keywordKey(query.keyword)) ?? null,
       pointId: query.location.id, point: { latitude, longitude, ...plannedMetadata(point, latitude, longitude) },
+      ...monitoringSnapshot(scoped, query.keyword, point, latitude, longitude),
       ...(scoped.gridSpec ? { gridSpec: structuredClone(scoped.gridSpec) } : {}),
       ...(context.gridRunId ? { gridRunId: context.gridRunId } : {}),
       locationMode: 'device_gps', observedAt, localDate: dateFolder(new Date(observedAt), context.timezone), scanId: input.manifest.runId, queryId: query.queryId,

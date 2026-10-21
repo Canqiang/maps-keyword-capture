@@ -1,5 +1,6 @@
 import type { GridRing, GridSpec } from '../grid/grid.js';
 import type { GeographicRelevance } from '../contracts.js';
+import type { FixedPoint, KeywordTarget, MonitoringCatalog } from './tracking-config.js';
 
 /**
  * The rank-tracking domain.
@@ -53,6 +54,8 @@ export interface RankObservation {
   /** Snapshot supplied by the executing scan, never reconstructed from today's configuration. */
   gridSpec?: GridSpec;
   gridRunId?: string;
+  /** Planned catalog snapshot, not a fresh location verification or achieved target. */
+  monitoringTarget?: { catalog: MonitoringCatalog; point: FixedPoint; target: KeywordTarget['pointTargets'][number] };
   rank: {
     status: RankStatus; displayPosition: number | null; organicRank: number | null;
     listingsObserved: number; listingStatus: string; stopReason: string | null;

@@ -8,13 +8,14 @@ import { MongoTrackingRepository, type TrackingRepository } from '../domain/repo
 import { loadTrackingConfig, type TrackingConfig } from '../domain/tracking-config.js';
 import { AzureBlobGateway, containerClientFromEnv } from '../storage/azure-gateway.js';
 import { UI_HTML } from './ui.js';
+import { createBasicAuth, type BasicAuth } from './auth.js';
 
 /**
  * Tracking UI service: a small JSON API over the stores and observations collections, the
  * single-page UI, and a read-only proxy for screenshots in the private evidence container.
  */
 export interface EvidenceReader { get(key: string): Promise<Buffer> }
-export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
+export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; auth?: BasicAuth; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
 
 const EVIDENCE_KEY = /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u;
 const MAX_BODY = 256 * 1024;
@@ -63,7 +64,7 @@ function dateInZone(now: Date, timezone: string): string {
   const values = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now).map(part => [part.type, part.value]));
   return `${values.year}-${values.month}-${values.day}`;
 }
-function timelineOptions(url: URL, now: Date, timezone: string): TimelineOptions {
+function timelineOptions(url: URL, now: Date, timezone: string, defaultPointId = 'r0c0'): TimelineOptions {
   const surface = explicitSurface(url.searchParams.get('surface'));
   const to = url.searchParams.get('to') ?? dateInZone(now, timezone);
   if (!validDate(to)) throw new HttpError(400, 'to must be a real YYYY-MM-DD date');
@@ -71,7 +72,7 @@ function timelineOptions(url: URL, now: Date, timezone: string): TimelineOptions
   if (!validDate(from) || from > to || Date.parse(to) - Date.parse(from) > 89 * 86_400_000) throw new HttpError(400, 'from/to must span 1 to 90 calendar days');
   const limit = Number(url.searchParams.get('limit') ?? 2000);
   if (!Number.isSafeInteger(limit) || limit < 1 || limit > 2000) throw new HttpError(400, 'limit must be an integer from 1 to 2000');
-  const pointId = url.searchParams.get('point') ?? 'r0c0', keyword = url.searchParams.get('keyword'), cursor = url.searchParams.get('cursor');
+  const pointId = url.searchParams.get('point') ?? defaultPointId, keyword = url.searchParams.get('keyword'), cursor = url.searchParams.get('cursor');
   if (!pointId || pointId.length > 500) throw new HttpError(400, 'point is invalid');
   return { surface, pointId, from, to, limit, ...(keyword ? { keywordKey: keywordKey(keyword) } : {}), ...(cursor ? { cursor } : {}) };
 }
@@ -87,8 +88,12 @@ export function createHandler(deps: ServerDeps) {
         pathname = url.pathname;
         parts = url.pathname.split('/').filter(Boolean).map(decodeURIComponent);
       } catch { throw new HttpError(400, 'malformed URL path'); }
-      if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) return send(res, 200, UI_HTML, 'text/html; charset=utf-8');
       if (req.method === 'GET' && url.pathname === '/healthz') return send(res, 200, { ok: true });
+      if (deps.auth && !deps.auth.accepts(req.headers.authorization)) {
+        res.setHeader('www-authenticate', 'Basic realm="Maps tracking", charset="UTF-8"');
+        return send(res, 401, { error: 'authentication required' });
+      }
+      if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) return send(res, 200, UI_HTML, 'text/html; charset=utf-8');
       if (parts[0] !== 'api') throw new HttpError(404, 'not found');
       if (deps.readOnly && !['GET', 'HEAD', 'OPTIONS'].includes(req.method ?? '')) throw new HttpError(403, 'this preview is read-only');
       if (req.method === 'GET' && parts[1] === 'settings' && parts.length === 2) {
@@ -116,7 +121,8 @@ export function createHandler(deps: ServerDeps) {
         if (parts.length === 3 && req.method === 'PUT') {
           const body = await readJson(req) as Record<string, unknown>;
           if (body.storeId !== undefined && body.storeId !== storeId) throw new HttpError(400, 'storeId cannot change');
-          try { return send(res, 200, await deps.repo.saveStore({ ...(store.expectedArea ? { expectedArea: store.expectedArea } : {}), ...body, storeId }, now())); }
+          const retained = Object.fromEntries(['expectedArea', 'fixedPoints', 'monitoringCatalog', 'keywordTargets'].filter(key => key in store).map(key => [key, (store as unknown as Record<string, unknown>)[key]]));
+          try { return send(res, 200, await deps.repo.saveStore({ ...retained, ...body, storeId }, now())); }
           catch (error) { throw new HttpError(400, error instanceof Error ? error.message : 'invalid store'); }
         }
         if (parts.length === 4 && parts[3] === 'active' && req.method === 'PUT') {
@@ -125,7 +131,7 @@ export function createHandler(deps: ServerDeps) {
           return send(res, 200, await deps.repo.setActive(storeId, body.active, now()));
         }
         if (parts.length === 4 && parts[3] === 'timeline' && req.method === 'GET') {
-          const options = timelineOptions(url, now(), deps.config.timezone);
+          const options = timelineOptions(url, now(), deps.config.timezone, store.fixedPoints?.find(p => p.distanceKm === 0)?.id);
           try { decodeHistoryCursor(storeId, options); } catch { throw new HttpError(400, 'invalid timeline cursor for this selection'); }
           const page = await deps.repo.timeline(storeId, options);
           return send(res, 200, { storeId, surface: options.surface, pointId: options.pointId, from: options.from, to: options.to, timezone: deps.config.timezone,
@@ -148,14 +154,16 @@ export function createHandler(deps: ServerDeps) {
         }
         if (parts.length === 4 && parts[3] === 'latest' && req.method === 'GET') {
           const surface = url.searchParams.get('surface');
-          return send(res, 200, await deps.repo.latest(storeId, { ...(surface ? { surface: surfaceOf(surface) } : {}), pointId: url.searchParams.get('point') ?? 'r0c0' }));
+          const pointId = url.searchParams.get('point');
+          return send(res, 200, await deps.repo.latest(storeId, { ...(surface ? { surface: surfaceOf(surface) } : {}), ...(pointId ? { pointId } : {}) }));
         }
         if (parts.length === 4 && parts[3] === 'trend' && req.method === 'GET') {
           const keyword = url.searchParams.get('keyword');
           if (!keyword) throw new HttpError(400, 'keyword is required');
           const days = Math.min(90, Math.max(1, Number(url.searchParams.get('days') ?? 7) || 7));
           const since = new Date(now().getTime() - days * 86_400_000).toISOString();
-          return send(res, 200, await deps.repo.trend(storeId, keywordKey(keyword), { surface: surfaceOf(url.searchParams.get('surface')), pointId: url.searchParams.get('point') ?? 'r0c0', since }));
+          const pointId = url.searchParams.get('point');
+          return send(res, 200, await deps.repo.trend(storeId, keywordKey(keyword), { surface: surfaceOf(url.searchParams.get('surface')), ...(pointId ? { pointId } : {}), since }));
         }
         if (parts.length === 4 && parts[3] === 'grid' && req.method === 'GET') {
           const keyword = url.searchParams.get('keyword'), localDate = url.searchParams.get('date'), gridRunId = url.searchParams.get('gridRunId');
@@ -192,6 +200,7 @@ export function startServer(deps: ServerDeps, port: number): Server {
 }
 
 async function main(): Promise<void> {
+  const auth = createBasicAuth(process.env.TRACKING_AUTH_USER, process.env.TRACKING_AUTH_PASSWORD);
   const configPath = process.env.TRACKING_CONFIG ?? '/config/tracking.json';
   const config = await loadTrackingConfig(configPath);
   const uriEnv = process.env.TRACKING_MONGO_URI_ENV ?? 'MAPS_TRACKING_MONGO_URI';
@@ -201,7 +210,7 @@ async function main(): Promise<void> {
   const evidence = process.env.AZURE_STORAGE_CONTAINER_SAS_URL || process.env.AZURE_STORAGE_ACCOUNT_URL ? new AzureBlobGateway(containerClientFromEnv(process.env)) : undefined;
   const log = (event: Record<string, unknown>) => process.stdout.write(`${JSON.stringify({ ts: new Date().toISOString(), ...event })}\n`);
   const port = Number(process.env.PORT ?? 8080);
-  const server = startServer({ config, repo, ...(evidence ? { evidence } : {}), log }, port);
+  const server = startServer({ config, repo, ...(evidence ? { evidence } : {}), ...(auth ? { auth } : {}), log }, port);
   log({ stage: 'listening', port, stores: config.storeSource.provider, evidence: Boolean(evidence) });
   const stop = () => { server.close(); void repo.close().finally(() => process.exit(0)); };
   process.once('SIGTERM', stop); process.once('SIGINT', stop);

@@ -1,0 +1,65 @@
+{
+  "createdAt": "2026-10-21T01:45:52.517815+00:00",
+  "frozenForParentProbe": true,
+  "liveValidated": false,
+  "sourceHashes": {
+    "src/android/contracts.ts": "9f589bd213dd970a5c6f59eefcbea6640c3b29703ae6a2156e524d356b26c609",
+    "src/android/device.ts": "dfcc1a528b03e0541e9c3794a59863a959eca003cdd77caf6dffd3ee86e7b875",
+    "src/android/runner.ts": "85e825c521b17819beb3e5e1591ca68debff36319ead8a59023b35bef92f6bf0",
+    "src/android/screen-reader.ts": "e8bae1781615eb09c98c5d29cb97e10bd82916d5a0365b80bfa06b6df7ece3a2",
+    "src/android/ui.ts": "b1824d02705700e1c2473d2b19af7e95e65d6162222752461abd673b5afcafd4",
+    "tests/android-grid-ocr-regressions.test.ts": "c090e9cd222f81adfdd59aeaf0de271a2bf346457c88e9cee57da7ea4833a4e1",
+    "tests/android-runner.test.ts": "344832b1abc1996babc9c48a61af720f653dcbcfa5900aa6bc782db70da7ef9c"
+  },
+  "finding": "Removing only the real bamboo OCR Sponsored line previously yielded organic rank1 despite a native Sponsored node.",
+  "checks": [
+    {
+      "stage": "RED",
+      "testsFailed": 7,
+      "testsPassed": 14,
+      "scope": "real OCR-label deletion and six missing/ambiguous native association cases"
+    },
+    {
+      "stage": "RED follow-up",
+      "testsFailed": 2,
+      "testsPassed": 24,
+      "scope": "empty/unmatched native-ad frames must not remain rankingReliable"
+    },
+    {
+      "stage": "GREEN",
+      "command": "npx vitest run tests/android-grid-ocr-regressions.test.ts tests/android-screen-reader.test.ts tests/android-ui.test.ts tests/android-runner.test.ts --maxWorkers=1",
+      "testsPassed": 399,
+      "testsFailed": 0
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "passed"
+    },
+    {
+      "command": "git diff --check -- src/android tests/android-grid-ocr-regressions.test.ts tests/android-runner.test.ts",
+      "status": "passed"
+    }
+  ],
+  "syntheticFixtureRepair": "Generic runner mocked OCR merchants formerly shared an unrelated SEE JOY Sponsored fixture; neutralized only that shared helper. Dedicated runner negative preserves the original contradictory pair and rejects organic rank.",
+  "nativeMarkerCensus": {
+    "frames": 156,
+    "Sponsored": 81,
+    "About this ad": 81,
+    "otherRepresentationsObserved": 0
+  },
+  "offlineReplay": {
+    "file": "offline-replay-native-ad-crosscheck.json",
+    "sha256": "d4fa63c73e5fe17751a1730e44c392eda4f86178e5759a8e7dd2f41915df7b81",
+    "originalObjectsVerified": 1034,
+    "queries": 125,
+    "frames": 156,
+    "existingPrefixesReliable": 45,
+    "notNewCapture": true
+  },
+  "scope": [
+    "No historical artifact or status changed.",
+    "No cluster/device/storage writes.",
+    "Source frozen; parent owns final serial integrated suite and live validation.",
+    "No new identity, rank-order, list-top or backend geography proof introduced."
+  ]
+}

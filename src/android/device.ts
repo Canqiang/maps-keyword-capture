@@ -749,18 +749,12 @@ export class NativeMapsDevice implements AndroidDevice {
     return true;
   }
 
-  /** One slow upward swipe over the lower half of the screen: 40% of the height in 700 ms, so the
-   * sheet moves without a fling and every card is fully visible in at least one of two consecutive screenshots. */
-  async swipeResults(): Promise<void> {
-    await this.foreground();
-    if (!this.activeKeyword || this.searchFailed) fail('UNKNOWN_SCROLL_LAYOUT', 'A verified native query is required before swiping');
-    const size = /(\d{3,5})x(\d{3,5})/u.exec(await this.adb(['shell', 'wm', 'size']));
-    if (!size) fail('UNKNOWN_SCROLL_LAYOUT', 'The emulator screen size is unavailable');
-    const width = Number(size[1]), height = Number(size[2]);
-    const x = Math.round(width / 2), startY = Math.round(height * 0.85), endY = Math.round(height * 0.45);
-    if (!(endY > 0 && startY > endY && startY < height)) fail('UNKNOWN_SCROLL_LAYOUT', 'Screen geometry cannot contain the swipe');
-    await this.adb(['shell', 'input', 'swipe', String(x), String(startY), String(x), String(endY), '700']);
-    await this.foreground();
+  /** Use the same bounded native-list path as the reviewed geometry probes.
+   * A requested 10% movement is not proof of overlap; the next frame must pass
+   * reconciliation. Never fall back to a whole-screen swipe on an unknown list.
+   */
+  async swipeResults(evidence?: NativeScrollEvidence): Promise<void> {
+    await this.scroll(evidence);
   }
 
   async close(): Promise<void> {

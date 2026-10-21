@@ -2,12 +2,13 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parseConfig } from '../config.js';
 import type { BatchManifest, CaptureConfig, KeywordResult, StorageState } from '../contracts.js';
-import { newRunId } from '../ids.js';
+import { hashJson, newRunId, sha256Hex } from '../ids.js';
 import { dateFolder } from '../naming.js';
 import { NamespacedBatchStore } from '../monitor/storage.js';
 import { deliveryStatus, executionStatusFor, isCompleteNonRankingObservation } from '../runner/manifest.js';
 import { runBatch, type BatchDeps, type BatchOutput } from '../runner/batch-runner.js';
-import type { ArtifactStore } from '../storage/types.js';
+import type { ArtifactStore, WrittenFile } from '../storage/types.js';
+import { parseTargetCatalog } from './target-catalog.js';
 import { ingestWebBatch } from './ingest.js';
 import { organicRankForMetrics, type RankObservation } from './model.js';
 import type { ObservationStore } from './observation-store.js';
@@ -33,6 +34,25 @@ export interface WebScanDeps {
   now?: () => Date;
   /** Pause before the single retry of a failed upsert. */
   ingestRetryDelayMs?: number;
+  /** Exact pinned catalog bytes loaded once by the CLI, before shard assignment. */
+  catalogSnapshot?: FrozenCatalog;
+}
+export interface FrozenCatalog { version: string; sha256: string; bytes: Buffer }
+export type ScanCatalogReceipt = WrittenFile & StorageState & { version: string; storeIds: string[] };
+
+/** Publish the exact approved catalog before any browser/device operation. */
+export async function persistScanCatalog(snapshot: FrozenCatalog, config: TrackingConfig, store: ArtifactStore, prefix: string): Promise<ScanCatalogReceipt> {
+  if (sha256Hex(snapshot.bytes) !== snapshot.sha256) throw new Error('frozen catalog bytes changed');
+  const catalog = parseTargetCatalog(JSON.parse(snapshot.bytes.toString('utf8')));
+  if (catalog.version !== snapshot.version || config.stores.some(selected => {
+    const expected = catalog.stores.find(candidate => candidate.storeId === selected.storeId);
+    return !expected || hashJson(expected) !== hashJson(selected);
+  })) throw new Error('executing stores do not match the frozen catalog');
+  const written = await store.writeFile(`${prefix}/catalog.json`, snapshot.bytes);
+  if (written.bytes !== snapshot.bytes.length || written.sha256 !== snapshot.sha256) throw new Error('catalog write receipt mismatch');
+  const receipt = await store.persist(written);
+  if (store.mode === 'azure_blob' ? receipt.storageStatus !== 'verified' || !receipt.objectKey || !receipt.verifiedAt || receipt.storageError !== null : receipt.storageStatus !== 'local_only') throw new Error('catalog delivery unverified');
+  return { ...written, ...receipt, version: snapshot.version, storeIds: config.stores.map(s => s.storeId) };
 }
 export interface WebScanSummary {
   scanId: string; tier: ScanTier; prefix: string; startedAt: string; finishedAt: string;
@@ -44,6 +64,7 @@ export interface WebScanSummary {
   /** notIngested counts batches held back by unverified delivery or a failed database upsert. */
   observations: { inserted: number; updated: number; notIngested: number };
   exitCode: 0 | 1 | 2;
+  catalogSnapshot?: ScanCatalogReceipt;
 }
 
 async function readResults(out: BatchOutput): Promise<Map<string, KeywordResult>> {
@@ -64,12 +85,17 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
   const prefix = `tracking/web/${dateFolder(started, deps.config.timezone)}/${deps.tier}/${scanId}`;
   const plan = planScan(deps.config, { surface: 'web', tier: deps.tier, ...(deps.storeIds ? { storeIds: deps.storeIds } : {}) });
   const batches = toWebBatches(plan);
-  const context = { ...trackingIngestContext(deps.config, { includeGridSpec: deps.tier === 'grid' }), ...(deps.tier === 'grid' ? { gridRunId: scanId } : {}), now };
+  const context = { ...trackingIngestContext(deps.config, { includeGridSpec: deps.tier === 'grid', includeTargetSnapshot: deps.tier === 'point' }), ...(deps.tier === 'grid' ? { gridRunId: scanId } : {}), now };
   const summary: WebScanSummary = { scanId, tier: deps.tier, prefix, startedAt: started.toISOString(), finishedAt: started.toISOString(), status: 'completed',
     batches: { planned: batches.length, run: 0, blocked: 0, failed: 0, partial: 0, deliveryFailed: 0 }, queries: { planned: plan.queries.length, dispatched: 0, observed: 0, ranked: 0, notFound: 0, blocked: 0, failed: 0, captured: 0, nonRanking: 0, partial: 0, skipped: 0, unresolved: 0 }, summaryReceipt: null, observations: { inserted: 0, updated: 0, notIngested: 0 }, exitCode: 0 };
   log({ stage: 'scan_start', scanId, tier: deps.tier, batches: batches.length, queries: plan.queries.length, prefix });
+  if (deps.catalogSnapshot) {
+    try { summary.catalogSnapshot = await persistScanCatalog(deps.catalogSnapshot, deps.config, deps.store, prefix); }
+    catch { summary.status = 'failed'; log({ stage: 'scan_catalog_failed', scanId }); }
+  }
   const runner = deps.batchRunner ?? runBatch;
   for (const [index, batch] of batches.entries()) {
+    if (summary.status === 'failed') break;
     if (deps.signal?.aborted) { summary.status = 'cancelled'; break; }
     // Storage paths allow only [A-Za-z0-9_/-]; encode the point's signs (r+2c-2 → rp2cm2). The observation keeps the real ID.
     const pointPath = batch.pointId.replaceAll('+', 'p').replaceAll('-', 'm');
@@ -116,7 +142,7 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
       else if (o.rank.status === 'failed' && entry.status !== 'skipped') summary.queries.failed++;
       else if (!isCompleteNonRankingObservation(out.manifest, entry) && entry.status !== 'skipped') summary.queries.unresolved++;
     }
-    log({ stage: upsert ? 'batch_ingested' : 'batch_not_ingested', scanId, storeId: batch.storeId, pointId: batch.pointId, queries: observations.length, ranked: observations.filter(o => o.rank.status === 'ranked').length, manifestKey: out.manifestReceipt?.objectKey ?? null, batchExit: out.exitCode });
+    log({ stage: upsert ? 'batch_ingested' : 'batch_not_ingested', scanId, storeId: batch.storeId, pointId: batch.pointId, queries: observations.length, ranked: observations.filter(o => o.rank.status === 'ranked').length, manifestKey: out.manifestReceipt?.objectKey ?? null, batchExit: out.exitCode, ...(summary.catalogSnapshot ? { catalogSha256: summary.catalogSnapshot.sha256 } : {}) });
     if (deliveryFailed) { summary.status = 'failed'; break; }
     // A CAPTCHA or consent page means the egress is being challenged; stop the scan rather than feed it.
     if (observations.some(o => o.rank.status === 'blocked')) { summary.batches.blocked++; summary.status = 'blocked'; break; }

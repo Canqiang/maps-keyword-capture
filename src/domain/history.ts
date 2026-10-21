@@ -40,7 +40,7 @@ export function historyPage(storeId: string, rows: RankObservation[], options: T
   return { items, complete, nextCursor: complete || !last ? null : Buffer.from(JSON.stringify({ v: 1, scope: scope(storeId, options), observedAt: last.observedAt, observationId: last.observationId })).toString('base64url') };
 }
 export function summarizeRoster(store: StoredStore, surface: Surface, rows: RankObservation[]): RosterLatest {
-  const roster = new Set([...store.keywords.core, ...store.keywords.longTail].map(keywordKey));
+  const roster = new Set((store.keywordTargets?.map(t => t.keyword) ?? [...store.keywords.core, ...store.keywords.longTail]).map(keywordKey));
   const latest = new Map<string, RankObservation>();
   for (const row of rows) if (!latest.has(row.keywordKey) || compareObservations(row, latest.get(row.keywordKey)!) > 0) latest.set(row.keywordKey, row);
   let qualifiedRanked = 0, top3 = 0, qualifiedAbsent = 0, unavailable = 0, noRecord = 0;
@@ -88,6 +88,7 @@ export function historyObservation(row: RankObservation): HistoryObservation {
     locationMode: row.locationMode, observedAt: row.observedAt, localDate: row.localDate, scanId: row.scanId, queryId: row.queryId,
     ...(row.gridSpec ? { gridSpec: { center: { latitude: row.gridSpec.center.latitude, longitude: row.gridSpec.center.longitude }, radiusKm: row.gridSpec.radiusKm, size: row.gridSpec.size } } : {}),
     ...(row.gridRunId ? { gridRunId: row.gridRunId } : {}),
+    ...(row.monitoringTarget ? { monitoringTarget: structuredClone(row.monitoringTarget) } : {}),
     rank: { status: row.rank.status, displayPosition: row.rank.displayPosition, organicRank: row.rank.organicRank, listingsObserved: row.rank.listingsObserved, listingStatus: row.rank.listingStatus, stopReason: row.rank.stopReason,
       ...(row.rank.targetOccurrences ? { targetOccurrences: row.rank.targetOccurrences.map(o => ({ displayPosition: o.displayPosition, organicRank: o.organicRank, resultType: o.resultType, ...(o.occurrenceId === undefined ? {} : { occurrenceId: o.occurrenceId }) })) } : {}),
       ...(row.rank.adDisplayPositions ? { adDisplayPositions: row.rank.adDisplayPositions.slice() } : {}) },

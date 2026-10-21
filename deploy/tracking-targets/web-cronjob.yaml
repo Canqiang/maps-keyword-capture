@@ -1,0 +1,96 @@
+# Candidate template: replace REPLACE_DIGEST_WEB with the verified ACR digest before applying.
+# Separate names/configuration preserve the legacy tracking and daily collectors.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: maps-targets-web-2h
+  namespace: uat
+  labels: &labels
+    app.kubernetes.io/name: maps-keyword-capture
+    app.kubernetes.io/component: targets-web
+spec:
+  schedule: "15 */2 * * *"
+  timeZone: America/New_York
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 1800
+  successfulJobsHistoryLimit: 12
+  failedJobsHistoryLimit: 12
+  suspend: true
+  jobTemplate:
+    metadata:
+      labels: *labels
+    spec:
+      completionMode: Indexed
+      completions: 2
+      parallelism: 2
+      backoffLimitPerIndex: 0
+      maxFailedIndexes: 2
+      activeDeadlineSeconds: 6600
+      template:
+        metadata:
+          labels: *labels
+        spec:
+          restartPolicy: Never
+          terminationGracePeriodSeconds: 300
+          automountServiceAccountToken: false
+          nodeSelector: { envpool: uatops }
+          securityContext: { runAsNonRoot: true, runAsUser: 1001, runAsGroup: 1001, fsGroup: 1001 }
+          containers:
+            - name: tracking
+              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:REPLACE_DIGEST_WEB
+              args:
+                - node
+                - dist/domain/cli.js
+                - scan
+                - --config
+                - /config/tracking.json
+                - --catalog
+                - /config/liya-90-v1.json
+                - --catalog-sha256
+                - 476d4c506730f165951e505ee59c9ed27e6157313d87728b75679678e940068c
+                - --surface
+                - web
+                - --tier
+                - point
+                - --storage
+                - azure
+                - --output-dir
+                - /work/outputs
+                - --mongo-uri-env
+                - MAPS_TRACKING_MONGO_URI
+                - --shard-count
+                - "2"
+                - --shard-strategy
+                - balanced
+              env:
+                - { name: IMAGE_DIGEST, value: "sha256:REPLACE_DIGEST_WEB" }
+                - { name: EGRESS_PROFILE_ID, value: aks-fbrdev-eastus2-uatops }
+                - { name: AZURE_STORAGE_CONTAINER, value: maps-keyword-capture-uat }
+                - name: AZURE_STORAGE_CONTAINER_SAS_URL
+                  valueFrom:
+                    secretKeyRef: { name: maps-keyword-monitor-storage, key: AZURE_STORAGE_CONTAINER_SAS_URL }
+                - name: MAPS_TRACKING_MONGO_URI
+                  valueFrom:
+                    secretKeyRef: { name: maps-keyword-monitor-source, key: KEYWORD_MONGO_URI }
+                - { name: HOME, value: /tmp }
+                - name: JOB_COMPLETION_INDEX
+                  valueFrom:
+                    fieldRef: { fieldPath: "metadata.annotations['batch.kubernetes.io/job-completion-index']" }
+              resources:
+                requests: { cpu: 250m, memory: 1Gi, ephemeral-storage: 512Mi }
+                limits: { cpu: "2", memory: 2Gi, ephemeral-storage: 2Gi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: { drop: [ALL] }
+              volumeMounts:
+                - { name: config, mountPath: /config, readOnly: true }
+                - { name: work, mountPath: /work }
+                - { name: tmp, mountPath: /tmp }
+                - { name: dshm, mountPath: /dev/shm }
+          volumes:
+            - name: config
+              configMap: { name: maps-targets-liya90-v1-476d4c50 }
+            - { name: work, emptyDir: { sizeLimit: 2Gi } }
+            - { name: tmp, emptyDir: { sizeLimit: 1Gi } }
+            - { name: dshm, emptyDir: { medium: Memory, sizeLimit: 512Mi } }

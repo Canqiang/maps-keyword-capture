@@ -1,0 +1,17 @@
+node_modules
+dist
+outputs
+.git
+.github
+.idea
+.superpowers
+evidence
+docs
+tests
+deploy/*
+!deploy/android
+**/__pycache__
+**/*.pyc
+*.log
+.env
+.env.*

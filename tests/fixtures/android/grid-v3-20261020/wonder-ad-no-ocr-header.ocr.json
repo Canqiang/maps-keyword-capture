@@ -1,0 +1,652 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "081250b2d0ca006bcdf01bdb6e0ad77f0893a985946c31f12221520a2695241a",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 2,
+  "lines": [
+    {
+      "text": "—2th ve —= >",
+      "confidence": 10.07,
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 271,
+        "bottom": 19.5
+      },
+      "words": [
+        {
+          "text": "—2th",
+          "confidence": 31.730812,
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 106.5,
+            "bottom": 19.5
+          }
+        },
+        {
+          "text": "ve",
+          "confidence": 0,
+          "bounds": {
+            "left": 114,
+            "top": 7.5,
+            "right": 129.5,
+            "bottom": 8
+          }
+        },
+        {
+          "text": "—=",
+          "confidence": 0,
+          "bounds": {
+            "left": 139,
+            "top": 8.5,
+            "right": 173,
+            "bottom": 10
+          }
+        },
+        {
+          "text": ">",
+          "confidence": 8.535324,
+          "bounds": {
+            "left": 178.5,
+            "top": 0,
+            "right": 271,
+            "bottom": 17
+          }
+        }
+      ]
+    },
+    {
+      "text": "11:11 a",
+      "confidence": 82.88,
+      "bounds": {
+        "left": 73,
+        "top": 35.5,
+        "right": 276.5,
+        "bottom": 78
+      },
+      "words": [
+        {
+          "text": "11:11",
+          "confidence": 93.887047,
+          "bounds": {
+            "left": 73,
+            "top": 55,
+            "right": 136,
+            "bottom": 78
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 71.874557,
+          "bounds": {
+            "left": 249,
+            "top": 35.5,
+            "right": 276.5,
+            "bottom": 74
+          }
+        }
+      ]
+    },
+    {
+      "text": "“ey. | 9 a 4 = Nac n",
+      "confidence": 41.85,
+      "bounds": {
+        "left": 0,
+        "top": 55,
+        "right": 687,
+        "bottom": 139
+      },
+      "words": [
+        {
+          "text": "“ey.",
+          "confidence": 17.829552,
+          "bounds": {
+            "left": 0,
+            "top": 73.5,
+            "right": 45.5,
+            "bottom": 134
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 93.430229,
+          "bounds": {
+            "left": 101,
+            "top": 81,
+            "right": 110,
+            "bottom": 139
+          }
+        },
+        {
+          "text": "9",
+          "confidence": 43.445366,
+          "bounds": {
+            "left": 153,
+            "top": 55,
+            "right": 175,
+            "bottom": 83
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 17.171097,
+          "bounds": {
+            "left": 198.5,
+            "top": 59,
+            "right": 212.5,
+            "bottom": 79.5
+          }
+        },
+        {
+          "text": "4",
+          "confidence": 78.308975,
+          "bounds": {
+            "left": 232.5,
+            "top": 74,
+            "right": 248.5,
+            "bottom": 93
+          }
+        },
+        {
+          "text": "=",
+          "confidence": 78.944496,
+          "bounds": {
+            "left": 442.5,
+            "top": 96.5,
+            "right": 464.5,
+            "bottom": 118.5
+          }
+        },
+        {
+          "text": "Nac",
+          "confidence": 5.708313,
+          "bounds": {
+            "left": 525.5,
+            "top": 55.5,
+            "right": 626.5,
+            "bottom": 96.5
+          }
+        },
+        {
+          "text": "n",
+          "confidence": 0,
+          "bounds": {
+            "left": 659.5,
+            "top": 55,
+            "right": 687,
+            "bottom": 96.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "“Sp, ay A One 御 庭 酒 樓 gad AE",
+      "confidence": 62.51,
+      "bounds": {
+        "left": 14,
+        "top": 94.5,
+        "right": 646,
+        "bottom": 162.5
+      },
+      "words": [
+        {
+          "text": "“Sp,",
+          "confidence": 28.297684,
+          "bounds": {
+            "left": 14,
+            "top": 114,
+            "right": 61.5,
+            "bottom": 162.5
+          }
+        },
+        {
+          "text": "ay",
+          "confidence": 40.366188,
+          "bounds": {
+            "left": 70,
+            "top": 94.5,
+            "right": 186.5,
+            "bottom": 145
+          }
+        },
+        {
+          "text": "A",
+          "confidence": 0,
+          "bounds": {
+            "left": 231,
+            "top": 127.5,
+            "right": 291,
+            "bottom": 151.5
+          }
+        },
+        {
+          "text": "One",
+          "confidence": 96.548058,
+          "bounds": {
+            "left": 299.5,
+            "top": 127.5,
+            "right": 344,
+            "bottom": 151.5
+          }
+        },
+        {
+          "text": "御",
+          "confidence": 83.542023,
+          "bounds": {
+            "left": 357,
+            "top": 124,
+            "right": 376.5,
+            "bottom": 151.5
+          }
+        },
+        {
+          "text": "庭",
+          "confidence": 92.323036,
+          "bounds": {
+            "left": 386,
+            "top": 124,
+            "right": 409,
+            "bottom": 149
+          }
+        },
+        {
+          "text": "酒",
+          "confidence": 92.929634,
+          "bounds": {
+            "left": 417,
+            "top": 124,
+            "right": 437,
+            "bottom": 151.5
+          }
+        },
+        {
+          "text": "樓",
+          "confidence": 89.3918,
+          "bounds": {
+            "left": 443.5,
+            "top": 124,
+            "right": 452.5,
+            "bottom": 149
+          }
+        },
+        {
+          "text": "gad",
+          "confidence": 29.593056,
+          "bounds": {
+            "left": 533,
+            "top": 123.5,
+            "right": 607,
+            "bottom": 151.5
+          }
+        },
+        {
+          "text": "AE",
+          "confidence": 72.098206,
+          "bounds": {
+            "left": 613,
+            "top": 121,
+            "right": 646,
+            "bottom": 151.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions % Call © Website |",
+      "confidence": 72.46,
+      "bounds": {
+        "left": 67,
+        "top": 615,
+        "right": 720,
+        "bottom": 645
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 42.858219,
+          "bounds": {
+            "left": 67,
+            "top": 615,
+            "right": 97,
+            "bottom": 645
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.751495,
+          "bounds": {
+            "left": 118,
+            "top": 618,
+            "right": 242,
+            "bottom": 640.5
+          }
+        },
+        {
+          "text": "%",
+          "confidence": 21.959503,
+          "bounds": {
+            "left": 320,
+            "top": 616,
+            "right": 348,
+            "bottom": 644
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 89.767685,
+          "bounds": {
+            "left": 369,
+            "top": 618,
+            "right": 412.5,
+            "bottom": 640.5
+          }
+        },
+        {
+          "text": "©",
+          "confidence": 81.063576,
+          "bounds": {
+            "left": 490,
+            "top": 615,
+            "right": 520,
+            "bottom": 645
+          }
+        },
+        {
+          "text": "Website",
+          "confidence": 96.576553,
+          "bounds": {
+            "left": 539.5,
+            "top": 618,
+            "right": 640,
+            "bottom": 640.5
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 79.241638,
+          "bounds": {
+            "left": 715,
+            "top": 618.5,
+            "right": 720,
+            "bottom": 644
+          }
+        }
+      ]
+    },
+    {
+      "text": "Sponsored 3:",
+      "confidence": 73.08,
+      "bounds": {
+        "left": 41,
+        "top": 740,
+        "right": 187,
+        "bottom": 765
+      },
+      "words": [
+        {
+          "text": "Sponsored",
+          "confidence": 95.019943,
+          "bounds": {
+            "left": 41,
+            "top": 740.5,
+            "right": 157.5,
+            "bottom": 765
+          }
+        },
+        {
+          "text": "3:",
+          "confidence": 51.134109,
+          "bounds": {
+            "left": 181,
+            "top": 740,
+            "right": 187,
+            "bottom": 764
+          }
+        }
+      ]
+    },
+    {
+      "text": "Wonder Fresh Meadows",
+      "confidence": 96.09,
+      "bounds": {
+        "left": 41,
+        "top": 788,
+        "right": 429,
+        "bottom": 814.5
+      },
+      "words": [
+        {
+          "text": "Wonder",
+          "confidence": 96.421379,
+          "bounds": {
+            "left": 41,
+            "top": 788,
+            "right": 169,
+            "bottom": 814.5
+          }
+        },
+        {
+          "text": "Fresh",
+          "confidence": 95.81308,
+          "bounds": {
+            "left": 180,
+            "top": 788,
+            "right": 262,
+            "bottom": 814.5
+          }
+        },
+        {
+          "text": "Meadows",
+          "confidence": 96.041504,
+          "bounds": {
+            "left": 275,
+            "top": 788,
+            "right": 429,
+            "bottom": 814.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "No reviews - Restaurant . 2.6 mi",
+      "confidence": 91.86,
+      "bounds": {
+        "left": 42.5,
+        "top": 834.5,
+        "right": 437,
+        "bottom": 856
+      },
+      "words": [
+        {
+          "text": "No",
+          "confidence": 96.271538,
+          "bounds": {
+            "left": 42.5,
+            "top": 836,
+            "right": 75,
+            "bottom": 856
+          }
+        },
+        {
+          "text": "reviews",
+          "confidence": 93.008034,
+          "bounds": {
+            "left": 85,
+            "top": 834.5,
+            "right": 177.5,
+            "bottom": 856
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 84.171379,
+          "bounds": {
+            "left": 190,
+            "top": 846,
+            "right": 193,
+            "bottom": 849
+          }
+        },
+        {
+          "text": "Restaurant",
+          "confidence": 93.191353,
+          "bounds": {
+            "left": 205.5,
+            "top": 836,
+            "right": 340,
+            "bottom": 856
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 83.859421,
+          "bounds": {
+            "left": 354,
+            "top": 846,
+            "right": 354.5,
+            "bottom": 849
+          }
+        },
+        {
+          "text": "2.6",
+          "confidence": 96.273766,
+          "bounds": {
+            "left": 365.5,
+            "top": 836,
+            "right": 400,
+            "bottom": 856
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.273766,
+          "bounds": {
+            "left": 411,
+            "top": 834.5,
+            "right": 437,
+            "bottom": 856
+          }
+        }
+      ]
+    },
+    {
+      "text": "Open - Closes 11:30 PM",
+      "confidence": 86.4,
+      "bounds": {
+        "left": 41.5,
+        "top": 874.5,
+        "right": 334,
+        "bottom": 902
+      },
+      "words": [
+        {
+          "text": "Open",
+          "confidence": 92.171158,
+          "bounds": {
+            "left": 41.5,
+            "top": 875.5,
+            "right": 108,
+            "bottom": 902
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 50.412373,
+          "bounds": {
+            "left": 119,
+            "top": 886,
+            "right": 122,
+            "bottom": 889
+          }
+        },
+        {
+          "text": "Closes",
+          "confidence": 96.167618,
+          "bounds": {
+            "left": 132.5,
+            "top": 874.5,
+            "right": 215.5,
+            "bottom": 896
+          }
+        },
+        {
+          "text": "11:30",
+          "confidence": 96.58728,
+          "bounds": {
+            "left": 226,
+            "top": 876,
+            "right": 287,
+            "bottom": 896
+          }
+        },
+        {
+          "text": "PM",
+          "confidence": 96.672325,
+          "bounds": {
+            "left": 298.5,
+            "top": 876,
+            "right": 334,
+            "bottom": 896
+          }
+        }
+      ]
+    },
+    {
+      "text": "DEAL Special offers available",
+      "confidence": 95.63,
+      "bounds": {
+        "left": 51.5,
+        "top": 930,
+        "right": 421.5,
+        "bottom": 958
+      },
+      "words": [
+        {
+          "text": "DEAL",
+          "confidence": 94.918053,
+          "bounds": {
+            "left": 51.5,
+            "top": 932.5,
+            "right": 108.5,
+            "bottom": 950.5
+          }
+        },
+        {
+          "text": "Special",
+          "confidence": 94.918053,
+          "bounds": {
+            "left": 136.5,
+            "top": 930.5,
+            "right": 225,
+            "bottom": 958
+          }
+        },
+        {
+          "text": "offers",
+          "confidence": 96.283913,
+          "bounds": {
+            "left": 235.5,
+            "top": 930,
+            "right": 305.5,
+            "bottom": 952
+          }
+        },
+        {
+          "text": "available",
+          "confidence": 96.384926,
+          "bounds": {
+            "left": 315.5,
+            "top": 930.5,
+            "right": 421.5,
+            "bottom": 952
+          }
+        }
+      ]
+    }
+  ]
+}

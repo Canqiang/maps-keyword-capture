@@ -1,0 +1,262 @@
+{
+  "note": "Exact OCR and native XML copied after verifying each original producer receipt. PNG stays in original evidence bundle. Offline regression fixtures are not a new capture. All original outcomes are unchanged.",
+  "sourceCommit": "b5120eba519061c3be7ef4b8e5cc32e7a0ca42b9",
+  "cases": [
+    {
+      "case": "nong-rating-star",
+      "keyword": "chinese braised food flushing",
+      "chunk": 1,
+      "queryId": "q0019",
+      "screenIndex": 0,
+      "originalStopReason": "no_cards_recognized",
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0019/20261020T144544.146Z__chinese-braised-food-flushing__01.png",
+        "bytes": 612148,
+        "sha256": "f5f898044bf1f7ad1c9e341d025d9cc8a09815c6857e198bdf0a6b998c1771f8",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      },
+      "files": [
+        {
+          "fixture": "nong-rating-star.ocr.json",
+          "source": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0019/20261020T144544.146Z__chinese-braised-food-flushing__01.ocr.json",
+          "sha256": "4ece70d74e9da66fa9b7d9f0ab1f10ae9f3abbd5a0e1a1ab02b2816931e16b77",
+          "bytes": 19498
+        },
+        {
+          "fixture": "nong-rating-star.xml",
+          "source": "android-maps/2026-10-20/run_20261020T143813Z_0c7d31/q0019/20261020T144544.146Z__chinese-braised-food-flushing__01.xml",
+          "sha256": "c2207e459ad0ff5a027e54fda9cc2b27e7ca80964570c1f630495d2f05eea192",
+          "bytes": 76049
+        }
+      ]
+    },
+    {
+      "case": "congee-rating-star",
+      "keyword": "chinese food flushing",
+      "chunk": 2,
+      "queryId": "q0003",
+      "screenIndex": 0,
+      "originalStopReason": "no_cards_recognized",
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0003/20261020T145325.839Z__chinese-food-flushing__01.png",
+        "bytes": 551022,
+        "sha256": "3c84c7bfb3581c74561829df2e7d4226f035d1b41ff9b86d73c9b0e096b4d5a5",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      },
+      "files": [
+        {
+          "fixture": "congee-rating-star.ocr.json",
+          "source": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0003/20261020T145325.839Z__chinese-food-flushing__01.ocr.json",
+          "sha256": "768f369e9778bde1b40725d7b463dd9abbc7d428cf439bc32c8d33696dfe8fd8",
+          "bytes": 19683
+        },
+        {
+          "fixture": "congee-rating-star.xml",
+          "source": "android-maps/2026-10-20/run_20261020T145220Z_b55c89/q0003/20261020T145325.839Z__chinese-food-flushing__01.xml",
+          "sha256": "14b4e0c06519774795247654660be06fef735dab04d072952f35fe81c9412f04",
+          "bytes": 77911
+        }
+      ]
+    },
+    {
+      "case": "center-top",
+      "keyword": "braised food",
+      "chunk": 4,
+      "queryId": "q0001",
+      "screenIndex": 0,
+      "originalStopReason": "ranking_unreliable",
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0001/20261020T151037.941Z__braised-food__01.png",
+        "bytes": 591313,
+        "sha256": "3d3d4328b3602726ea7893c78bc4a97fa4caad721b38629a704f4ed63740b790",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      },
+      "files": [
+        {
+          "fixture": "center-top.ocr.json",
+          "source": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0001/20261020T151037.941Z__braised-food__01.ocr.json",
+          "sha256": "5a17c2f014013138e86b7816d43a45b81214b72316c749759c1198835ff1679c",
+          "bytes": 17279
+        },
+        {
+          "fixture": "center-top.xml",
+          "source": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0001/20261020T151037.941Z__braised-food__01.xml",
+          "sha256": "9da6e3d47022de65f3ab51ba624d22c83f2a81c8d7dfe6cc8ce5c6541d6667e6",
+          "bytes": 74781
+        }
+      ]
+    },
+    {
+      "case": "wonder-ad-no-ocr-header",
+      "keyword": "chinese food flushing",
+      "chunk": 4,
+      "queryId": "q0003",
+      "screenIndex": 1,
+      "originalStopReason": "ranking_unreliable",
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0003/20261020T151125.279Z__chinese-food-flushing__02.png",
+        "bytes": 844586,
+        "sha256": "081250b2d0ca006bcdf01bdb6e0ad77f0893a985946c31f12221520a2695241a",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      },
+      "files": [
+        {
+          "fixture": "wonder-ad-no-ocr-header.ocr.json",
+          "source": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0003/20261020T151125.279Z__chinese-food-flushing__02.ocr.json",
+          "sha256": "d53ff08da104da69234d3404d9bf918503b62a3179ba1b4813d4922aa8bdb8f2",
+          "bytes": 13814
+        },
+        {
+          "fixture": "wonder-ad-no-ocr-header.xml",
+          "source": "android-maps/2026-10-20/run_20261020T151014Z_015642/q0003/20261020T151125.279Z__chinese-food-flushing__02.xml",
+          "sha256": "3d2218f7b03944a38dc49121ec0f289ef616143882e6ddab53a616ca406842a7",
+          "bytes": 69965
+        }
+      ]
+    },
+    {
+      "case": "bamboo-ad-cjk-header",
+      "keyword": "\u5364\u5473",
+      "chunk": 7,
+      "queryId": "q0002",
+      "screenIndex": 0,
+      "originalStopReason": "ranking_unreliable",
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0002/20261020T153812.078Z__keyword__01.png",
+        "bytes": 609669,
+        "sha256": "c07208037b7fcc1c1c956441f007abae54b12d23a7e3d4e1356186a86b322678",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      },
+      "files": [
+        {
+          "fixture": "bamboo-ad-cjk-header.ocr.json",
+          "source": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0002/20261020T153812.078Z__keyword__01.ocr.json",
+          "sha256": "9357f2f94c4b10aae16e8faaa7d9592d83da9e6c6d91d9c7d4246c60a093ab3c",
+          "bytes": 17039
+        },
+        {
+          "fixture": "bamboo-ad-cjk-header.xml",
+          "source": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0002/20261020T153812.078Z__keyword__01.xml",
+          "sha256": "36bef08d108e8d2b3b8a5124c42eecf5f02855223bfacd543c19db3b83b616fb",
+          "bytes": 67819
+        }
+      ]
+    },
+    {
+      "case": "wonder-before-clip",
+      "keyword": "braised food",
+      "chunk": 7,
+      "queryId": "q0001",
+      "screenIndex": 0,
+      "originalStopReason": "ranking_unreliable",
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0001/20261020T153748.921Z__braised-food__01.png",
+        "bytes": 626034,
+        "sha256": "19dee1cb0dcae09c9b01f3fad83597ad7dc414b11faf3c4088a652c2608ec99c",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      },
+      "files": [
+        {
+          "fixture": "wonder-before-clip.ocr.json",
+          "source": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0001/20261020T153748.921Z__braised-food__01.ocr.json",
+          "sha256": "6af66eeee0d41a2893d2f7673a5742c7e49468fa1847eceada008795d4356411",
+          "bytes": 25060
+        },
+        {
+          "fixture": "wonder-before-clip.xml",
+          "source": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0001/20261020T153748.921Z__braised-food__01.xml",
+          "sha256": "59088bb12a8fabd3148c6d14cd9009e43d9e4d6ba81103599c2ac2b844e3472c",
+          "bytes": 72493
+        }
+      ]
+    },
+    {
+      "case": "wonder-clipped",
+      "keyword": "braised food",
+      "chunk": 7,
+      "queryId": "q0001",
+      "screenIndex": 1,
+      "originalStopReason": "ranking_unreliable",
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0001/20261020T153752.681Z__braised-food__02.png",
+        "bytes": 656116,
+        "sha256": "53b4cf57706f35bc745f07d1b948936411d0751e0a0f3c47b5e74e412de09ca3",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      },
+      "files": [
+        {
+          "fixture": "wonder-clipped.ocr.json",
+          "source": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0001/20261020T153752.681Z__braised-food__02.ocr.json",
+          "sha256": "fc44cb0a46ea7b68285f04e0c52767e92e9bf0494a1a7f67b86002fe9df3ce4c",
+          "bytes": 27641
+        },
+        {
+          "fixture": "wonder-clipped.xml",
+          "source": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0001/20261020T153752.681Z__braised-food__02.xml",
+          "sha256": "b4de82e7e32274f972dba83ee2b1ee1e8754ad10c37bd540cd9541d06290f366",
+          "bytes": 74082
+        }
+      ]
+    },
+    {
+      "case": "congee-rating-star-south",
+      "keyword": "chinese food flushing",
+      "chunk": 7,
+      "queryId": "q0003",
+      "screenIndex": 0,
+      "originalStopReason": "no_cards_recognized",
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0003/20261020T153834.202Z__chinese-food-flushing__01.png",
+        "bytes": 559327,
+        "sha256": "b38fb86ad919bbffea77cac4b27e18a463c735b2d50cdef45eb8e603e0467a67",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      },
+      "files": [
+        {
+          "fixture": "congee-rating-star-south.ocr.json",
+          "source": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0003/20261020T153834.202Z__chinese-food-flushing__01.ocr.json",
+          "sha256": "83bdf42f2516a212b62455573fe2089836d7591ee50163b4195c614aa7ec3b3f",
+          "bytes": 12128
+        },
+        {
+          "fixture": "congee-rating-star-south.xml",
+          "source": "android-maps/2026-10-20/run_20261020T153724Z_aece5a/q0003/20261020T153834.202Z__chinese-food-flushing__01.xml",
+          "sha256": "1f85570467803a863aa3c4536817a91811d3008685c7acc2a559cd5328fd533c",
+          "bytes": 77977
+        }
+      ]
+    }
+  ]
+}

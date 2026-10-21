@@ -40,9 +40,10 @@ async function setup(extra:Partial<AndroidDevice>={}){
 }
 
 // A valid 1x1 grayscale PNG whose pixel value is the seed, so screenshots differ without breaking PNG checks.
-const pngWith=(seed:number)=>{const chunk=(type:string,data:Buffer)=>{const body=Buffer.concat([Buffer.from(type,'ascii'),data]);const crc=Buffer.alloc(4);crc.writeUInt32BE(zlib.crc32(body)>>>0);const len=Buffer.alloc(4);len.writeUInt32BE(data.length);return Buffer.concat([len,body,crc]);};
- const ihdr=Buffer.alloc(13);ihdr.writeUInt32BE(1,0);ihdr.writeUInt32BE(1,4);ihdr[8]=8;ihdr[9]=0;ihdr[10]=0;ihdr[11]=0;ihdr[12]=0;
- return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',ihdr),chunk('IDAT',zlib.deflateSync(Buffer.from([0,seed&255]))),chunk('IEND',Buffer.alloc(0))]);};
+const pngWith=(seed:number,width=1,height=1)=>{const chunk=(type:string,data:Buffer)=>{const body=Buffer.concat([Buffer.from(type,'ascii'),data]);const crc=Buffer.alloc(4);crc.writeUInt32BE(zlib.crc32(body)>>>0);const len=Buffer.alloc(4);len.writeUInt32BE(data.length);return Buffer.concat([len,body,crc]);};
+ const ihdr=Buffer.alloc(13);ihdr.writeUInt32BE(width,0);ihdr.writeUInt32BE(height,4);ihdr[8]=8;ihdr[9]=0;ihdr[10]=0;ihdr[11]=0;ihdr[12]=0;
+ const pixels=Buffer.alloc(height*(width+1));pixels[1]=seed&255;
+ return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',ihdr),chunk('IDAT',zlib.deflateSync(pixels)),chunk('IEND',Buffer.alloc(0))]);};
 // Synthetic full-screen OCR: every screen shows the sheet header plus one card per name.
 const shaOf=(buffer:Buffer)=>createHash('sha256').update(buffer).digest('hex');
 const ocrLine=(text:string,top:number)=>({text,confidence:90,bounds:{left:40,top,right:600,bottom:top+30}});
@@ -91,7 +92,13 @@ describe('native screenshot evidence runner',()=>{
  });
 });
 
-const fixtureXml=async(name:string,keyword='noodles')=>(await readFile(new URL(`./fixtures/android/${name}.xml`,import.meta.url),'utf8')).replaceAll('seafood buffet',keyword);
+const fixtureXml=async(name:string,keyword='noodles')=>{
+ const source=(await readFile(new URL(`./fixtures/android/${name}.xml`,import.meta.url),'utf8')).replaceAll('seafood buffet',keyword);
+ // These isolated OCR/control-flow tests supply arbitrary synthetic merchants.
+ // Do not pair them with the fixture's unrelated SEE JOY advertisement. The
+ // contradictory native-ad pair has a dedicated fail-closed regression below.
+ return name==='results-en'?source.replace('text="Sponsored"','text="Synthetic control"'):source;
+};
 
 describe('v2 location preparation gates',()=>{
  it.each(['unverified','mismatch'] as const)('stops before search when GPS is %s',async status=>{
@@ -340,5 +347,50 @@ describe('review regressions: runner ranking and stop boundaries', () => {
     const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: async ({ png }) => ({ ...cardScreen('Keke')(png), lines: [ocrLine('noodles x',200), ocrLine('Relevance Open now Price',240), ocrLine('4.8 (33)',280), ocrLine('Keke',400),ocrLine('4.6 (9)',440)] }) });
     expect(r.manifest.queries[0]).toMatchObject({ organicRank: null, displayPosition: null, rankingStatus: 'not_evaluated', evidenceStatus: 'needs_review' });
     expect(r.exitCode).toBe(2);
+  });
+});
+
+describe('grid regression: native evidence stays attached to each OCR frame', () => {
+  const fixtureRoot = new URL('./fixtures/android/grid-v3-20261020/', import.meta.url);
+  it('refuses organic rank when native ad evidence cannot be matched to the OCR card', async () => {
+    const source = (await readFile(new URL('./fixtures/android/results-en.xml', import.meta.url), 'utf8')).replaceAll('seafood buffet', 'noodles');
+    const swipe = vi.fn(async () => {});
+    const s = await setup({ snapshot: async () => ({ png, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: swipe });
+    s.config.tasks[0]!.aliases = ['Keke'];
+    const result = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('Keke')]) });
+    expect(result.manifest.queries[0]).toMatchObject({ organicRank: null, rankingStatus: 'not_evaluated', evidenceStatus: 'needs_review', stopReason: 'ranking_unreliable' });
+    expect(result.manifest.queries[0]?.listings[0]?.resultType).toBe('unknown');
+    expect(swipe).not.toHaveBeenCalled(); expect(result.exitCode).toBe(2);
+  });
+  it('persists native top/ad proof and sends the same captured XML to the bounded gesture', async () => {
+    const source = await readFile(new URL('bamboo-ad-cjk-header.xml', fixtureRoot), 'utf8');
+    const ocr = JSON.parse(await readFile(new URL('bamboo-ad-cjk-header.ocr.json', fixtureRoot), 'utf8'));
+    const synthetic = pngWith(7, 720, 1280); // synthetic pixels; real OCR is replayed offline only
+    const swipe = vi.fn(async () => {});
+    const s = await setup({ snapshot: async () => ({ png: synthetic, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: swipe });
+    s.config.tasks[0]!.keyword = '卤味'; s.config.maxScreenshotsPerQuery = 2;
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: async () => ({ ...ocr, imageSha256: shaOf(synthetic) }) });
+    expect(swipe).toHaveBeenCalledTimes(1);
+    expect(swipe).toHaveBeenCalledWith({ sourceXml: source, listBounds: { left: 0, top: 456, right: 720, bottom: 1232 }, anchors: [] });
+    expect(r.manifest.queries[0]?.listings[0]).toMatchObject({ resultType: 'ad', name: 'Sweet Bamboo Chinese Food | Hillside', organicRank: null });
+    const first = r.manifest.queries[0]!.screens[0]!.screenFrame!;
+    expect(JSON.parse(await readFile(join(s.root, first.relativePath), 'utf8'))).toMatchObject({ topStateSource: 'native_scroll_actions', sheetBoundarySource: 'native_result_list' });
+  });
+  it.each(['UNKNOWN_SCROLL_LAYOUT', 'SOURCE_CHANGED'])('keeps %s as an unqualified partial and still captures the next query', async code => {
+    const s = await setup({ swipeResults: async () => { throw Object.assign(new Error('no gesture was sent'), { code }); } });
+    s.config.tasks.push({ ...s.config.tasks[0]! }); s.config.maxScreenshotsPerQuery = 2;
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('Keke'), emptyScreen()]) });
+    expect(r.manifest.queries[0]).toMatchObject({ evidenceStatus: 'needs_review', stopReason: code.toLowerCase(), rankingStatus: 'not_evaluated', error: null });
+    expect(r.manifest.queries[0]?.listingQuality?.rankingReliable).toBe(false);
+    expect(r.manifest.queries[1]?.screens).toHaveLength(1);
+    expect(r.manifest.counts).toMatchObject({ failed: 0, skipped: 0 });
+    expect(r.manifest.errors).toHaveLength(0);
+    expect(r.exitCode).toBe(2);
+  });
+  it('rejects OCR dimensions that do not match the persisted PNG', async () => {
+    const s = await setup();
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: async request => ({ ...cardScreen('Keke')(request.png), imageWidth: 720, imageHeight: 1280 }) });
+    expect(r.manifest.queries[0]).toMatchObject({ evidenceStatus: 'failed', stopReason: 'ocr_dimensions_mismatch' });
+    expect(r.manifest.queries[0]?.listings).toEqual([]);
   });
 });

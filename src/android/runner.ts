@@ -267,7 +267,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       androidVersion: info.androidVersion, appVersion: info.appVersion, appPackage: info.appPackage, emulator: info.emulator,
       locale: info.locale, timezone: info.timezone,
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_ordered_overlap/v5', ocrLanguages: config.ocrLanguages,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v6', ocrLanguages: config.ocrLanguages,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -316,12 +316,14 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           checkQuery();
           try { validateScreenOcr(ocr); } catch { throw new CaptureFailure('invalid_screen_ocr'); }
           if (ocr.imageSha256 !== evidence.png.sha256) throw new CaptureFailure('ocr_provenance_mismatch');
+          if (ocr.imageWidth !== evidence.width || ocr.imageHeight !== evidence.height) throw new CaptureFailure('ocr_dimensions_mismatch');
           const base = evidence.png.relativePath.slice(0, -4);
           evidence.frameId = frameId;
           evidence.ocr = await saveArtifact('ocr_json', `${base}.ocr.json`, JSON.stringify(ocr, null, 2));
-          const frame = parseScreenFrame(ocr, query.keyword, frameId, source.capturedAt);
+          const frame = parseScreenFrame(ocr, query.keyword, frameId, source.capturedAt, source.xml);
+          const nativeList = inspectNativeResultList(source.xml, query.keyword);
           // A known native list already scrolled backwards contradicts an OCR top marker.
-          if (frames.length === 0 && inspectNativeResultList(source.xml, query.keyword)?.canScrollBackward === true) {
+          if (frames.length === 0 && nativeList?.canScrollBackward === true) {
             frame.topStateVerified = false; frame.warnings.push('native_list_top_contradicted');
           }
           evidence.screenFrame = await saveArtifact('screen_frame', `${base}.frame.json`, JSON.stringify(frame, null, 2));
@@ -353,7 +355,20 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           if (shot + 1 >= config.maxScreenshotsPerQuery) { query.stopReason = 'screenshot_budget'; break; }
           if (swipes >= config.maxScrolls) { query.stopReason = 'scroll_budget'; break; }
           checkQuery(); stage = 'swipe';
-          await device.swipeResults();
+          try {
+            await device.swipeResults({ sourceXml: source.xml, listBounds: nativeList?.bounds ?? null, anchors: [] });
+          } catch (error) {
+            // These guards reject before sending a gesture. Keep the observed
+            // prefix as an unqualified partial, then allow the next task to
+            // prepare its own location/query. Transport, storage, cancellation
+            // and unknown action outcomes still take the fatal path below.
+            const code = safeError(error, 'swipe_failed').code;
+            if (!['unknown_scroll_layout', 'source_changed'].includes(code)) throw error;
+            query.stopReason = code;
+            query.listingQuality.rankingReliable = false;
+            query.listingQuality.warnings.push(code);
+            break;
+          }
           swipes++;
           stage = 'snapshot';
         }

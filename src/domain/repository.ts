@@ -1,5 +1,5 @@
 import { MongoClient, type MongoClientOptions } from 'mongodb';
-import { observationCohortKey, organicRankForMetrics, type RankObservation, type Surface } from './model.js';
+import { keywordKey, observationCohortKey, organicRankForMetrics, type RankObservation, type Surface } from './model.js';
 import { parseStore, type TrackingStore } from './tracking-config.js';
 import { compareObservations, decodeHistoryCursor, historyPage, observedPoints, summarizeRoster, validCoordinates, type TimelineOptions, type TimelinePage, type PointInventory, type ObservedPoint, type RosterLatest } from './history.js';
 
@@ -22,7 +22,7 @@ export interface TrackingRepository {
   listStores(options?: { includeInactive?: boolean }): Promise<StoredStore[]>;
   getStore(storeId: string): Promise<StoredStore | null>;
   /** Create or replace; validation happens here so every writer gets the same rules. */
-  saveStore(raw: unknown, now?: Date): Promise<StoredStore>;
+  saveStore(raw: unknown, now?: Date, options?: { fillMissingCenter?: boolean }): Promise<StoredStore>;
   setActive(storeId: string, active: boolean, now?: Date): Promise<StoredStore | null>;
   /** Most recent observation per keyword, surface and point, with the one before it for change. */
   latest(storeId: string, options?: { surface?: Surface; pointId?: string }): Promise<LatestRank[]>;
@@ -66,18 +66,29 @@ function summarize(storeId: string, surface: Surface, latest: LatestRank[]): Sto
     top3: ranks.filter(r => r <= 3).length, averageOrganicRank: ranks.length ? Math.round((ranks.reduce((a, b) => a + b, 0) / ranks.length) * 10) / 10 : null };
 }
 
-function ensureSameIdentity(existing: StoredStore | null | undefined, next: TrackingStore): void {
-  if (existing && (existing.placeId !== next.placeId || !existing.center || existing.center.latitude !== next.center.latitude || existing.center.longitude !== next.center.longitude)) {
+function ensureSameIdentity(existing: StoredStore | null | undefined, next: TrackingStore, fillMissingCenter = false): void {
+  if (existing && (existing.placeId !== next.placeId || (!existing.center ? !(fillMissingCenter && next.monitoringCatalog) : existing.center.latitude !== next.center.latitude || existing.center.longitude !== next.center.longitude))) {
     throw new Error('store identity cannot change in the UI; use a new storeId for a different place, or a reviewed migration to move the same place');
   }
 }
+function defaultPointId(store: StoredStore | null): string { return store?.fixedPoints?.find(p => p.distanceKm === 0)?.id ?? 'r0c0'; }
+function pointDefinition(store: StoredStore, pointId: string) { return store.fixedPoints?.find(p => p.id === pointId) ?? (pointId === 'r0c0' ? store.center : null); }
+function pointCoordinatesFilter(store: StoredStore, pointId: string) {
+  const point = pointDefinition(store, pointId);
+  return point ? { 'point.latitude': { $gte: point.latitude - 0.000001, $lte: point.latitude + 0.000001 }, 'point.longitude': { $gte: point.longitude - 0.000001, $lte: point.longitude + 0.000001 } } : {};
+}
+function activeLatest(store: StoredStore, rows: LatestRank[]): LatestRank[] {
+  if (!store.keywordTargets) return rows;
+  const active = new Set(store.keywordTargets.map(t => keywordKey(t.keyword)));
+  return rows.filter(row => active.has(row.keywordKey));
+}
 function belongsToStore(row: RankObservation, store: StoredStore | null): boolean {
   if (!store || row.placeId !== store.placeId) return false;
-  if (row.pointId !== 'r0c0') return true;
-  if (!store.center) return false;
+  const point = pointDefinition(store, row.pointId);
+  if (!point) return row.pointId !== 'r0c0';
   return typeof row.point.latitude === 'number' && typeof row.point.longitude === 'number'
-    && Math.abs(row.point.latitude - store.center.latitude) <= 0.000001
-    && Math.abs(row.point.longitude - store.center.longitude) <= 0.000001;
+    && Math.abs(row.point.latitude - point.latitude) <= 0.000001
+    && Math.abs(row.point.longitude - point.longitude) <= 0.000001;
 }
 function trendRows(rows: RankObservation[]): TrendPoint[] {
   const sorted = rows.slice().sort((a, b) => b.observedAt.localeCompare(a.observedAt));
@@ -111,9 +122,9 @@ export class MemoryTrackingRepository implements TrackingRepository {
   constructor(readonly observations: RankObservation[] = []) {}
   async listStores(options: { includeInactive?: boolean } = {}) { return [...this.stores.values()].filter(s => options.includeInactive || s.active).sort((a, b) => a.name.localeCompare(b.name)); }
   async getStore(storeId: string) { return this.stores.get(storeId) ?? null; }
-  async saveStore(raw: unknown, now = new Date()) {
+  async saveStore(raw: unknown, now = new Date(), options: { fillMissingCenter?: boolean } = {}) {
     const store = parseStore(raw);
-    ensureSameIdentity(this.stores.get(store.storeId), store);
+    ensureSameIdentity(this.stores.get(store.storeId), store, options.fillMissingCenter);
     const clash = [...this.stores.values()].find(s => s.placeId === store.placeId && s.storeId !== store.storeId);
     if (clash) throw new Error(`placeId already tracked by ${clash.storeId}`);
     const saved: StoredStore = { ...store, createdAt: this.stores.get(store.storeId)?.createdAt ?? now.toISOString(), updatedAt: now.toISOString() };
@@ -129,11 +140,11 @@ export class MemoryTrackingRepository implements TrackingRepository {
   }
   async latest(storeId: string, options: { surface?: Surface; pointId?: string } = {}) {
     const store = await this.getStore(storeId);
-    return toLatest(this.observations.filter(o => o.storeId === storeId && belongsToStore(o, store) && (!options.surface || o.surface === options.surface) && o.pointId === (options.pointId ?? 'r0c0')));
+    return toLatest(this.observations.filter(o => o.storeId === storeId && belongsToStore(o, store) && (!options.surface || o.surface === options.surface) && o.pointId === (options.pointId ?? defaultPointId(store))));
   }
   async trend(storeId: string, keywordKey: string, options: { surface: Surface; pointId?: string; since: string }) {
     const store = await this.getStore(storeId);
-    return trendRows(this.observations.filter(o => o.storeId === storeId && belongsToStore(o, store) && o.keywordKey === keywordKey && o.surface === options.surface && o.pointId === (options.pointId ?? 'r0c0') && o.observedAt >= options.since));
+    return trendRows(this.observations.filter(o => o.storeId === storeId && belongsToStore(o, store) && o.keywordKey === keywordKey && o.surface === options.surface && o.pointId === (options.pointId ?? defaultPointId(store)) && o.observedAt >= options.since));
   }
   async day(storeId: string, keywordKey: string, options: { surface: Surface; localDate: string }) {
     const store = await this.getStore(storeId);
@@ -142,7 +153,7 @@ export class MemoryTrackingRepository implements TrackingRepository {
   async summaries(options: { surface?: Surface } = {}) {
     const surface = options.surface ?? 'web';
     const stores = await this.listStores({ includeInactive: true });
-    return Promise.all(stores.map(async s => summarize(s.storeId, surface, await this.latest(s.storeId, { surface }))));
+    return Promise.all(stores.map(async s => summarize(s.storeId, surface, activeLatest(s, await this.latest(s.storeId, { surface })))));
   }
   async timeline(storeId: string, options: TimelineOptions): Promise<TimelinePage> {
     const cursor = decodeHistoryCursor(storeId, options), store = await this.getStore(storeId);
@@ -161,7 +172,7 @@ export class MemoryTrackingRepository implements TrackingRepository {
   }
   async rosterLatest(storeId: string, surface: Surface) {
     const store = await this.getStore(storeId);
-    return store ? summarizeRoster(store, surface, this.observations.filter(row => row.storeId === storeId && row.placeId === store.placeId && row.surface === surface && row.pointId === 'r0c0')) : null;
+    return store ? summarizeRoster(store, surface, this.observations.filter(row => row.storeId === storeId && row.placeId === store.placeId && row.surface === surface && row.pointId === defaultPointId(store) && (!store.fixedPoints || belongsToStore(row, store)))) : null;
   }
   async close() { /* nothing to release */ }
 }
@@ -200,13 +211,13 @@ export class MongoTrackingRepository implements TrackingRepository {
     return docs.map(d => this.strip(d)!);
   }
   async getStore(storeId: string) { return this.strip(await (await this.storesCol()).findOne({ _id: storeId })); }
-  async saveStore(raw: unknown, now = new Date()) {
+  async saveStore(raw: unknown, now = new Date(), options: { fillMissingCenter?: boolean } = {}) {
     const store = parseStore(raw);
     const col = await this.storesCol();
     const clash = await col.findOne({ placeId: store.placeId, _id: { $ne: store.storeId } });
     if (clash) throw new Error(`placeId already tracked by ${clash.storeId}`);
     const existing = await col.findOne({ _id: store.storeId });
-    ensureSameIdentity(existing, store);
+    ensureSameIdentity(existing, store, options.fillMissingCenter);
     const saved: StoredStore = { ...store, createdAt: existing?.createdAt ?? now.toISOString(), updatedAt: now.toISOString() };
     await col.replaceOne({ _id: store.storeId }, saved, { upsert: true });
     return saved;
@@ -218,11 +229,11 @@ export class MongoTrackingRepository implements TrackingRepository {
   }
   async latest(storeId: string, options: { surface?: Surface; pointId?: string } = {}) {
     const store = await this.getStore(storeId);
-    if (!store || ((options.pointId ?? 'r0c0') === 'r0c0' && !store.center)) return [];
+    if (!store || ((options.pointId ?? defaultPointId(store)) === 'r0c0' && !store.center)) return [];
     const col = await this.obsCol();
-    const pointId = options.pointId ?? 'r0c0';
+    const pointId = options.pointId ?? defaultPointId(store);
     const match: Record<string, unknown> = { storeId, placeId: store.placeId, pointId, ...(options.surface ? { surface: options.surface } : {}),
-      ...(pointId === 'r0c0' ? { 'point.latitude': { $gte: store.center!.latitude - 0.000001, $lte: store.center!.latitude + 0.000001 }, 'point.longitude': { $gte: store.center!.longitude - 0.000001, $lte: store.center!.longitude + 0.000001 } } : {}) };
+      ...pointCoordinatesFilter(store, pointId) };
     // Two newest per keyword, surface and point.
     const rows = await col.aggregate<RankObservation>([
       { $match: match }, { $sort: { observedAt: -1, observationId: -1 } },
@@ -233,11 +244,11 @@ export class MongoTrackingRepository implements TrackingRepository {
   }
   async trend(storeId: string, keywordKey: string, options: { surface: Surface; pointId?: string; since: string }) {
     const store = await this.getStore(storeId);
-    if (!store || ((options.pointId ?? 'r0c0') === 'r0c0' && !store.center)) return [];
-    const pointId = options.pointId ?? 'r0c0';
+    if (!store || ((options.pointId ?? defaultPointId(store)) === 'r0c0' && !store.center)) return [];
+    const pointId = options.pointId ?? defaultPointId(store);
     const col = await this.obsCol();
     const match = { storeId, placeId: store.placeId, keywordKey, surface: options.surface, pointId, observedAt: { $gte: options.since },
-      ...(pointId === 'r0c0' ? { 'point.latitude': { $gte: store.center!.latitude - 0.000001, $lte: store.center!.latitude + 0.000001 }, 'point.longitude': { $gte: store.center!.longitude - 0.000001, $lte: store.center!.longitude + 0.000001 } } : {}) };
+      ...pointCoordinatesFilter(store, pointId) };
     // Fetch a bounded timeline, including missing-result gaps and profile transitions. Filtering
     // metadata in Mongo would remove the very records that must break the rendered curve.
     const docs = await col.find(match, { sort: { observedAt: -1 }, limit: 2000, projection: { _id: 0 } }).toArray();
@@ -252,7 +263,7 @@ export class MongoTrackingRepository implements TrackingRepository {
   async summaries(options: { surface?: Surface } = {}) {
     const surface = options.surface ?? 'web';
     const stores = await this.listStores({ includeInactive: true });
-    return Promise.all(stores.map(async s => summarize(s.storeId, surface, await this.latest(s.storeId, { surface }))));
+    return Promise.all(stores.map(async s => summarize(s.storeId, surface, activeLatest(s, await this.latest(s.storeId, { surface })))));
   }
   async timeline(storeId: string, options: TimelineOptions): Promise<TimelinePage> {
     const cursor = decodeHistoryCursor(storeId, options), store = await this.getStore(storeId);
@@ -286,7 +297,7 @@ export class MongoTrackingRepository implements TrackingRepository {
     const store = await this.getStore(storeId);
     if (!store) return null;
     const rows = await (await this.obsCol()).aggregate<RankObservation>([
-      { $match: { storeId, placeId: store.placeId, surface, pointId: 'r0c0' } }, { $sort: { observedAt: -1, observationId: -1 } },
+      { $match: { storeId, placeId: store.placeId, surface, pointId: defaultPointId(store), ...(store.fixedPoints ? pointCoordinatesFilter(store, defaultPointId(store)) : {}) } }, { $sort: { observedAt: -1, observationId: -1 } },
       { $group: { _id: '$keywordKey', row: { $first: '$$ROOT' } } }, { $replaceRoot: { newRoot: '$row' } }, { $project: { _id: 0 } },
     ], { allowDiskUse: true }).toArray();
     return summarizeRoster(store, surface, rows);

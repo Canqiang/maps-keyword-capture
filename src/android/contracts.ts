@@ -64,8 +64,8 @@ export interface AndroidDevice {
   setLocation(location: ObservationLocation): Promise<LocationEvidence>;
   search(keyword: string): Promise<void>;
   snapshot(): Promise<NativeScreen>;
-  /** One bounded upward swipe over the result sheet; the next screenshot shows the moved content. */
-  swipeResults(): Promise<void>;
+  /** One bounded exact-query native list gesture. Persisted evidence must still match live XML. */
+  swipeResults(evidence?: NativeScrollEvidence): Promise<void>;
   close(): Promise<void>;
 }
 export interface UiNode {

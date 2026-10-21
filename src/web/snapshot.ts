@@ -9,7 +9,7 @@ import { BlobServiceClient } from '@azure/storage-blob';
 import { AzureCliCredential } from '@azure/identity';
 import { keywordKey, type RankObservation } from '../domain/model.js';
 import { MemoryTrackingRepository, type StoredStore } from '../domain/repository.js';
-import { parseStore, parseTrackingConfig } from '../domain/tracking-config.js';
+import { monitoringTargetSchema, parseStore, parseTrackingConfig } from '../domain/tracking-config.js';
 import type { EvidenceReader } from './server.js';
 
 const dateTime = z.string().datetime({offset:true});
@@ -23,6 +23,7 @@ const observation = z.object({
  observationId:z.string().min(1),surface:z.enum(['web','android']),storeId:z.string(),placeId:z.string(),keyword:z.string().min(1),keywordKey:z.string(),keywordTier:z.enum(['core','longTail']).nullable(),pointId:z.string().min(1),point,
  locationMode:z.enum(['query_only','map_view','device_gps']),observedAt:dateTime,localDate:z.string().regex(/^\d{4}-\d{2}-\d{2}$/u),scanId:z.string(),queryId:z.string(),
  gridSpec:z.object({center:z.object({latitude:z.number(),longitude:z.number()}),radiusKm:z.number().positive(),size:z.number().int().positive()}).optional(),gridRunId:z.string().optional(),
+ monitoringTarget:monitoringTargetSchema.optional(),
  rank:z.object({status:z.enum(['ranked','ad_only','not_found','not_found_in_prefix','not_evaluated','identity_unresolved','unreliable','blocked','failed']),displayPosition:positive.nullable(),organicRank:positive.nullable(),listingsObserved:z.number().int().nonnegative(),listingStatus:z.string(),stopReason:z.string().nullable(),targetOccurrences:z.array(occurrence).optional(),adDisplayPositions:z.array(positive).optional()}),
  quality:z.object({rankingReliable:z.boolean().nullable(),sequenceVerified:z.boolean().nullable(),classificationComplete:z.boolean().nullable(),screenshotCoverageComplete:z.boolean().nullable(),identityResolved:z.boolean().nullable(),organicCoverage:z.number().int().nonnegative().nullable(),endOfResults:z.boolean().nullable(),resultSurface:z.string().nullable(),geographicRelevance:geographic.nullable(),locationEvidence:z.object({injectionStatus:z.string().nullable(),deviceLocationStatus:z.string().nullable(),mapsLocationStatus:z.string().nullable()}).optional(),warnings:z.array(z.string())}).optional(),
  topListings:z.array(z.object({displayPosition:positive,organicRank:positive.nullable(),resultType,name:z.string().nullable(),placeId:z.string().nullable(),rating:nullableNumber,reviewCount:z.number().int().nonnegative().nullable(),distanceText:z.string().nullable().default(null)})),

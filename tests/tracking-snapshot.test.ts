@@ -60,4 +60,13 @@ describe('read-only historical snapshot',()=>{
   const f=await fixture(); (f.data.stores[0] as any).center=null; await writeFile(f.file,JSON.stringify(f.data));
   const loaded=await loadSnapshot(f.file); expect((await loaded.repo.listStores())[0]?.center).toBeNull();
  });
+ it('preserves captured target provenance without promoting the report baseline to live evidence',async()=>{
+  const catalog=JSON.parse(await readFile(new URL('../deploy/tracking-targets/liya-90-v1.json',import.meta.url),'utf8'));
+  const store=catalog.stores[0], target={catalog:store.monitoringCatalog,point:store.fixedPoints[0],target:store.keywordTargets[0].pointTargets[0]};
+  const f=await fixture(); Object.assign(f.data.observations[0]!,{monitoringTarget:target}); await writeFile(f.file,JSON.stringify(f.data));
+  const loaded=await loadSnapshot(f.file);
+  expect(loaded.repo.observations[0]?.monitoringTarget).toEqual(target);
+  expect(loaded.repo.observations[0]?.monitoringTarget?.catalog.source.sourceBaselineIsLive).toBe(false);
+  expect(loaded.repo.observations[0]?.quality).toBeUndefined();
+ });
 });

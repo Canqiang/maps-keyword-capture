@@ -1,0 +1,4276 @@
+{
+  "schemaVersion": "tracking-target-catalog/v1",
+  "version": "liya-nine-store-90-2026-10-16-v1",
+  "provenance": {
+    "sourceCatalogSha256": "7657302602a046dc707742333379d3e3254069ad858abe5e1236026407fecc8a",
+    "historicalPointsSha256": "0bb7eccac9420731e0815cdce7e6a284be29c0001ad27a6282d9d97c2682030d",
+    "identitySnapshotSha256": "279a95ee21b556c07ec4a36addbba84a5fc2110e899c79303e720f785736cdc6"
+  },
+  "stores": [
+    {
+      "storeId": "keke-flushing",
+      "merchantId": "29742a52-d824-469b-a395-52084345b7ad",
+      "placeId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+      "name": "可可小卤 KEKE",
+      "aliases": [
+        "可可小卤",
+        "KEKE BRAISED DELI"
+      ],
+      "center": {
+        "latitude": 40.7658211,
+        "longitude": -73.8315243
+      },
+      "keywords": {
+        "core": [
+          "braised food",
+          "卤味",
+          "chinese food flushing",
+          "chinese braised food flushing",
+          "法拉盛 卤味"
+        ],
+        "longTail": [
+          "chinese restaurant flushing",
+          "chinese takeout flushing",
+          "chinese food delivery flushing",
+          "chinese deli flushing",
+          "chinese braised snacks flushing",
+          "braised food flushing",
+          "luwei flushing",
+          "chinese snacks flushing",
+          "duck neck flushing",
+          "spicy duck neck flushing",
+          "braised chicken flushing",
+          "five spice chicken flushing",
+          "braised beef flushing",
+          "pork trotters flushing",
+          "braised pork feet flushing",
+          "chicken feet flushing",
+          "braised tofu flushing",
+          "hot dry noodles flushing",
+          "法拉盛 中餐",
+          "法拉盛 中餐外卖",
+          "法拉盛 卤肉",
+          "法拉盛 鸭脖",
+          "法拉盛 卤鸡",
+          "法拉盛 卤牛肉",
+          "法拉盛 卤猪蹄",
+          "法拉盛 猪脚饭",
+          "法拉盛 鸡爪",
+          "法拉盛 卤豆腐",
+          "法拉盛 热干面",
+          "chinese braised snacks near flushing high school",
+          "chinese deli near flushing high school",
+          "pork feet rice flushing",
+          "chinese cold dishes flushing",
+          "法拉盛 夫妻肺片",
+          "法拉盛 卤味外卖",
+          "keke braised deli flushing",
+          "可可小卤 法拉盛",
+          "chinese food near me",
+          "chinese food",
+          "deli",
+          "chinese deli near me",
+          "chinese deli",
+          "braised chicken",
+          "pork trotters",
+          "spicy duck neck",
+          "braised food pickup"
+        ]
+      },
+      "active": true,
+      "monitoringCatalog": {
+        "version": "liya-nine-store-90-2026-10-16-v1",
+        "source": {
+          "path": "/Users/xander/Desktop/九店搜索量与排名目标_Liya_2026-10-16.html",
+          "sha256": "9c717f3f2eb6caa2612ed7d2dafdbbc69871916188ba52fbf65e8cf362c0665d",
+          "documentDate": "2026-10-16",
+          "sectionId": "active-keyword-pool",
+          "sourceBaselineIsLive": false
+        }
+      },
+      "fixedPoints": [
+        {
+          "id": "keke-center",
+          "label": "中心",
+          "latitude": 40.7658211,
+          "longitude": -73.8315243,
+          "distanceKm": 0,
+          "direction": "中心",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#keke-center sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "keke-3km",
+          "label": "3公里",
+          "latitude": 40.7634642,
+          "longitude": -73.796039,
+          "distanceKm": 3,
+          "direction": "95°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#keke-3km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "keke-5km",
+          "label": "5公里",
+          "latitude": 40.7658059,
+          "longitude": -73.7721542,
+          "distanceKm": 5,
+          "direction": "东",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#keke-5km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        }
+      ],
+      "keywordTargets": [
+        {
+          "keyword": "chinese food near me",
+          "sourceSearchVolumeText": "450,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 高量中餐找店词；旧GBP主类及菜单支持测试，但跨中餐品类，属于扩量挑战。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese food",
+          "sourceSearchVolumeText": "110,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "替换为无地名词并补测 具名地名词与无地名词是不同查询；原词旧截图与名次保留在历史证据，不能迁移到新词。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "deli",
+          "sourceSearchVolumeText": "90,500 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "观察 · 泛词防守 保留原监测词，需求组为泛熟食；其原分组为观察 · 泛词防守，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "remaining-R004",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 10:01 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "remaining-R008",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 10:05 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R012",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:28 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese deli near me",
+          "sourceSearchVolumeText": "6,600 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 中式熟食＋附近找店，与卤味菜单最贴合；比deli宽词更准确。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "expansion-E001",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 20:07 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E002",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:09 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E003",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:09 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese deli",
+          "sourceSearchVolumeText": "1,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 品类 保留原监测词，需求组为中式卤味；其原分组为主攻 · 品类，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-T001",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 09:57 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-T003",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 10:02 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第13名",
+              "historicalEvidenceRef": "remaining-T005",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第13名 2026-10-16 10:05 原54词批次 提升：争取前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "braised chicken",
+          "sourceSearchVolumeText": "880 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 招牌菜意图验证 保留原监测词，需求组为卤鸡；其原分组为辅助 · 招牌菜意图验证，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "remaining-R002",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 10:01 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "remaining-R006",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 10:04 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R010",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:27 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "pork trotters",
+          "sourceSearchVolumeText": "720 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 招牌菜意图验证 保留原监测词，需求组为猪蹄；其原分组为辅助 · 招牌菜意图验证，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R001",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 10:01 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R005",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 10:04 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第30名",
+              "historicalEvidenceRef": "remaining-R009",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "第30名 2026-10-16 10:11 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "卤味",
+          "sourceSearchVolumeText": "390 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "新增中文优先候选 · 待测 与卤味主业直接匹配，中文需求明确。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "spicy duck neck",
+          "sourceSearchVolumeText": "10 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 前三防守 保留原监测词，需求组为鸭脖；其原分组为辅助 · 前三防守，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "remaining-T002",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 10:01 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "remaining-T004",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 10:02 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "名次未定",
+              "historicalEvidenceRef": "remaining-T006",
+              "targetText": "挑战：挑战前3",
+              "sourceCellText": "名次未定 2026-10-16 10:05 原54词批次 挑战：挑战前3",
+              "targetRank": 3
+            }
+          ]
+        },
+        {
+          "keyword": "braised food pickup",
+          "sourceSearchVolumeText": "未返回数值 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 自取 保留原监测词，需求组为中式卤味；其原分组为辅助 · 自取，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "keke-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "remaining-R003",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 10:01 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R007",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 10:04 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "keke-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R011",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:28 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "merchantId": "f0750173-0113-464d-bb90-cbebb9c08ba7",
+      "placeId": "ChIJUYXjAsNZwokRk2AfiERJO2k",
+      "name": "SEE JOY 喜聚",
+      "aliases": [
+        "SEE JOY 喜聚",
+        "SEE JOY",
+        "喜聚"
+      ],
+      "center": {
+        "latitude": 40.7484778,
+        "longitude": -73.9900448
+      },
+      "keywords": {
+        "core": [
+          "hot pot near me",
+          "hot pot NYC",
+          "hot pot Manhattan",
+          "hot pot Midtown Manhattan",
+          "hot pot Koreatown NYC",
+          "Koreatown hot pot",
+          "hot pot restaurant near me",
+          "hot pot near Penn Station",
+          "hot pot near Madison Square Garden",
+          "all you can eat hot pot near me"
+        ],
+        "longTail": [
+          "all you can eat hot pot NYC",
+          "all you can eat hot pot Manhattan",
+          "all you can eat hot pot Midtown Manhattan",
+          "all you can eat hot pot near Penn Station",
+          "all you can eat hot pot near Madison Square Garden",
+          "ayce hot pot near me",
+          "ayce hot pot NYC",
+          "ayce hot pot Manhattan",
+          "individual hot pot near me",
+          "individual hot pot NYC",
+          "individual hot pot Manhattan",
+          "hot pot for groups NYC",
+          "all you can eat hot pot for groups NYC",
+          "hot pot and sushi NYC",
+          "see joy",
+          "seejoy",
+          "see joy hot pot",
+          "seejoy hot pot",
+          "see joy near me",
+          "seejoy near me",
+          "see joy nyc",
+          "seejoy nyc",
+          "see joy Manhattan",
+          "seejoy Manhattan",
+          "喜聚 火锅",
+          "hot pot Midtown West",
+          "hot pot near Herald Square",
+          "hot pot near Empire State Building",
+          "all you can eat hot pot Koreatown NYC",
+          "all you can eat hot pot Midtown West",
+          "hot pot",
+          "hotpot",
+          "all you can eat near me",
+          "火锅",
+          "ayce hot pot",
+          "all you can eat hot pot",
+          "自助火锅"
+        ]
+      },
+      "active": true,
+      "monitoringCatalog": {
+        "version": "liya-nine-store-90-2026-10-16-v1",
+        "source": {
+          "path": "/Users/xander/Desktop/九店搜索量与排名目标_Liya_2026-10-16.html",
+          "sha256": "9c717f3f2eb6caa2612ed7d2dafdbbc69871916188ba52fbf65e8cf362c0665d",
+          "documentDate": "2026-10-16",
+          "sectionId": "active-keyword-pool",
+          "sourceBaselineIsLive": false
+        }
+      },
+      "fixedPoints": [
+        {
+          "id": "seejoy-center",
+          "label": "中心",
+          "latitude": 40.7484778,
+          "longitude": -73.9900448,
+          "distanceKm": 0,
+          "direction": "中心",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#seejoy-center sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "seejoy-3km",
+          "label": "3公里",
+          "latitude": 40.7231246,
+          "longitude": -73.9778692,
+          "distanceKm": 3,
+          "direction": "160°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#seejoy-3km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "seejoy-5km",
+          "label": "5公里",
+          "latitude": 40.7062218,
+          "longitude": -74.0103324,
+          "distanceKm": 5,
+          "direction": "200°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#seejoy-5km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        }
+      ],
+      "keywordTargets": [
+        {
+          "keyword": "hot pot near me",
+          "sourceSearchVolumeText": "40,500 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 核心需求 保留原监测词，需求组为火锅；其原分组为主攻 · 核心需求，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第5名",
+              "historicalEvidenceRef": "remaining-R013",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第5名 2026-10-16 14:29 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R017",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:30 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R021",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:32 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "hot pot",
+          "sourceSearchVolumeText": "33,100 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 品类 保留原监测词，需求组为火锅；其原分组为主攻 · 品类，后续依据该词自己的实测和业务匹配安排优先级。 已把同店去地点后相同的表达合并为一条；搜索量只计一个返回值，不将原词量相加。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第5名",
+              "historicalEvidenceRef": "remaining-T007",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第5名 2026-10-16 14:29 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第7名",
+              "historicalEvidenceRef": "remaining-T009",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第7名 2026-10-16 15:13 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第16名",
+              "historicalEvidenceRef": "remaining-T011",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第16名 2026-10-16 15:21 原54词批次 提升：争取前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "hotpot",
+          "sourceSearchVolumeText": "33,100 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "观察 · 拼写变体 保留原监测词，需求组为火锅；其原分组为观察 · 拼写变体，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "remaining-R015",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 14:30 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第11名",
+              "historicalEvidenceRef": "remaining-R019",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第11名 2026-10-16 14:31 原54词批次 提升：争取前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R023",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:33 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "all you can eat near me",
+          "sourceSearchVolumeText": "5,400 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 更大AYCE需求池，但跨菜系；仅作扩量挑战。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "火锅",
+          "sourceSearchVolumeText": "3,600 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "新增中文优先候选 · 待测 与主业一致，中文需求量足够，建议加入监测。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "hot pot restaurant near me",
+          "sourceSearchVolumeText": "1,900 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 明确找火锅餐厅，补足现有hot pot near me的消费表达。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第5名",
+              "historicalEvidenceRef": "expansion-E005",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第5名 2026-10-16 20:10 新增25查询批次 提升：争取前3 争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E008",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:12 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E011",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:14 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "ayce hot pot",
+          "sourceSearchVolumeText": "1,300 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 经营特色 保留原监测词，需求组为火锅；其原分组为主攻 · 经营特色，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第5名",
+              "historicalEvidenceRef": "remaining-T008",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第5名 2026-10-16 14:29 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第7名",
+              "historicalEvidenceRef": "remaining-T010",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第7名 2026-10-16 14:30 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第12名",
+              "historicalEvidenceRef": "remaining-T012",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第12名 2026-10-16 14:32 原54词批次 提升：争取前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "all you can eat hot pot",
+          "sourceSearchVolumeText": "880 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 AYCE完整表达，与ayce hot pot同组，搜索量不相加。 已把同店去地点后相同的表达合并为一条；搜索量只计一个返回值，不将原词量相加。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "all you can eat hot pot near me",
+          "sourceSearchVolumeText": "480 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 明确附近AYCE火锅，符合已确认经营方式。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第4名",
+              "historicalEvidenceRef": "expansion-E006",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第4名 2026-10-16 20:11 新增25查询批次 提升：争取前3 争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第8名",
+              "historicalEvidenceRef": "expansion-E009",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第8名 2026-10-16 20:12 新增25查询批次 提升：争取前3 先稳定前10，再争前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E012",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:14 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "自助火锅",
+          "sourceSearchVolumeText": "390 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "新增中文优先候选 · 待测 与AYCE火锅服务更匹配。",
+          "pointTargets": [
+            {
+              "pointId": "seejoy-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "seejoy-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "merchantId": "47c65660-ade7-4431-8d46-9ec9c58aef5b",
+      "placeId": "ChIJH8iZh-5ZwokRPLzzADeSnYE",
+      "name": "Choice Brooklyn — Upper West Side",
+      "aliases": [
+        "Choice Brooklyn - Upper West Side",
+        "Choice Brooklyn"
+      ],
+      "center": {
+        "latitude": 40.7771028,
+        "longitude": -73.9816854
+      },
+      "keywords": {
+        "core": [
+          "bakery",
+          "breakfast",
+          "brunch",
+          "brunch UWS",
+          "cafe",
+          "coffee",
+          "sandwiches"
+        ],
+        "longTail": [
+          "avocado toast upper west side",
+          "bakery near me",
+          "bakery Upper West Side",
+          "breakfast near me",
+          "breakfast Upper West Side",
+          "Broadway brunch",
+          "Broadway coffee",
+          "brunch near Central Park",
+          "brunch near Lincoln Center",
+          "brunch near me",
+          "cafe Broadway NYC",
+          "cafe near Lincoln Center",
+          "cafe near me",
+          "catering Upper West Side",
+          "Central Park breakfast",
+          "chicken salad sandwich UWS",
+          "chocolate croissant NYC",
+          "coffee near me",
+          "cold brew upper west side",
+          "Columbus Circle breakfast",
+          "croissant upper west side",
+          "latte Upper West Side",
+          "Lincoln Center brunch spots",
+          "Lincoln Center coffee shop",
+          "pancakes upper west side",
+          "panini Upper West Side",
+          "pastries",
+          "pastries near me",
+          "scones NYC",
+          "smoothies",
+          "smoothies near me",
+          "smoothies Upper West Side",
+          "upper west side brunch cafe",
+          "coffee shops near me",
+          "sandwiches near me",
+          "lunch",
+          "sandwich",
+          "breakfast sandwich near me"
+        ]
+      },
+      "active": true,
+      "monitoringCatalog": {
+        "version": "liya-nine-store-90-2026-10-16-v1",
+        "source": {
+          "path": "/Users/xander/Desktop/九店搜索量与排名目标_Liya_2026-10-16.html",
+          "sha256": "9c717f3f2eb6caa2612ed7d2dafdbbc69871916188ba52fbf65e8cf362c0665d",
+          "documentDate": "2026-10-16",
+          "sectionId": "active-keyword-pool",
+          "sourceBaselineIsLive": false
+        }
+      },
+      "fixedPoints": [
+        {
+          "id": "uws-center",
+          "label": "中心",
+          "latitude": 40.7771028,
+          "longitude": -73.9816854,
+          "distanceKm": 0,
+          "direction": "中心",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#uws-center sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "uws-3km",
+          "label": "3公里",
+          "latitude": 40.8015537,
+          "longitude": -73.9666228,
+          "distanceKm": 3,
+          "direction": "25°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#uws-3km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "uws-5km",
+          "label": "5公里",
+          "latitude": 40.7348468,
+          "longitude": -74.0019817,
+          "distanceKm": 5,
+          "direction": "200°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#uws-5km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        }
+      ],
+      "keywordTargets": [
+        {
+          "keyword": "coffee near me",
+          "sourceSearchVolumeText": "1,500,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 补足明确找附近咖啡的高量需求；原coffee宽词可能含商品或知识搜索。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E013",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:15 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E018",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:16 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E023",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:19 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "coffee",
+          "sourceSearchVolumeText": "550,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 品类 保留原监测词，需求组为咖啡；其原分组为主攻 · 品类，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-T013",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:33 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T015",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:38 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T017",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:40 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "cafe near me",
+          "sourceSearchVolumeText": "450,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 咖啡馆消费场景，与咖啡、早餐、三明治产品线匹配。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E015",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:15 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E020",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:17 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E025",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:20 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "breakfast near me",
+          "sourceSearchVolumeText": "368,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 明确附近早餐找店；官网有早餐依据。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E016",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:16 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E021",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:18 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E026",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:20 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "coffee shops near me",
+          "sourceSearchVolumeText": "368,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 明确找咖啡门店，与coffee near me分词测排名、同组解释需求。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E014",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:15 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E019",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:17 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E024",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:20 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "bakery",
+          "sourceSearchVolumeText": "135,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "观察 · 定位待确认 保留原监测词，需求组为烘焙；其原分组为观察 · 定位待确认，后续依据该词自己的实测和业务匹配安排优先级。 完整烘焙品类及门店定位待确认。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R027",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:34 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R031",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:39 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R035",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:41 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "breakfast",
+          "sourceSearchVolumeText": "135,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 用餐时段 保留原监测词，需求组为早餐；其原分组为主攻 · 用餐时段，后续依据该词自己的实测和业务匹配安排优先级。 当前早餐供应时段待门店复核。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-T014",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:34 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T016",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:38 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T018",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:40 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "brunch",
+          "sourceSearchVolumeText": "110,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "观察 · 业务待确认 保留原监测词，需求组为早午餐；其原分组为观察 · 业务待确认，后续依据该词自己的实测和业务匹配安排优先级。 brunch具体供给与时段待确认。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R025",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:34 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R029",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:38 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R033",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:40 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "sandwiches near me",
+          "sourceSearchVolumeText": "110,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 附近三明治购买意图，比sandwich宽词更直接。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E017",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:16 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E022",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:18 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E027",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:21 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "lunch",
+          "sourceSearchVolumeText": "74,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 用餐时段 保留原监测词，需求组为午餐；其原分组为辅助 · 用餐时段，后续依据该词自己的实测和业务匹配安排优先级。 分店当前午餐供给及时段待确认。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R026",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:34 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R030",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:39 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R034",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:41 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "sandwich",
+          "sourceSearchVolumeText": "40,500 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 三明治 保留原监测词，需求组为三明治；其原分组为主攻 · 三明治，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R028",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:34 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R032",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:39 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R036",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:41 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "breakfast sandwich near me",
+          "sourceSearchVolumeText": "12,100 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 早餐与三明治交叉需求；具体早餐三明治及供应时段仍需分店核对，补测后检验是否值得独立投入。",
+          "pointTargets": [
+            {
+              "pointId": "uws-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "uws-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "storeId": "choice-clinton-hill",
+      "merchantId": "47c65660-ade7-4431-8d46-9ec9c58aef5b",
+      "placeId": "ChIJaYcllU0N7ocR4lWiLngfEYg",
+      "name": "Choice Market — Clinton Hill",
+      "aliases": [
+        "Choice Market - Clinton Hill",
+        "Choice Market"
+      ],
+      "center": {
+        "latitude": 40.6884013,
+        "longitude": -73.9629705
+      },
+      "keywords": {
+        "core": [
+          "brunch",
+          "breakfast near me",
+          "best breakfast NYC",
+          "best coffee shop brooklyn",
+          "best coffee NYC",
+          "Brooklyn bakery",
+          "pastries near me",
+          "french bakery NYC",
+          "sandwich shop near me",
+          "panini NYC"
+        ],
+        "longTail": [
+          "breakfast catering NYC",
+          "brunch near me",
+          "breakfast",
+          "healthy breakfast NYC",
+          "cafe",
+          "coffee",
+          "cafe near me",
+          "coffee near me",
+          "Brooklyn cafe",
+          "handcrafted coffee",
+          "artisan coffee",
+          "brooklyn coffee shop",
+          "matcha latte NYC",
+          "scones NYC",
+          "bakery",
+          "bakery cafe NYC",
+          "breakfast pastries",
+          "sandwich shop Brooklyn",
+          "breakfast sandwiches NYC",
+          "best sandwiches Brooklyn",
+          "smoothies near me",
+          "healthy brunch NYC",
+          "vegan cafe NYC",
+          "vegetarian brunch NYC",
+          "brunch catering Brooklyn",
+          "brunch clinton hill",
+          "brunch brooklyn",
+          "family brunch NYC",
+          "breakfast brooklyn",
+          "breakfast cafe NYC",
+          "coffee shops near me",
+          "sandwiches near me",
+          "lunch",
+          "sandwich",
+          "breakfast sandwich near me"
+        ]
+      },
+      "active": true,
+      "monitoringCatalog": {
+        "version": "liya-nine-store-90-2026-10-16-v1",
+        "source": {
+          "path": "/Users/xander/Desktop/九店搜索量与排名目标_Liya_2026-10-16.html",
+          "sha256": "9c717f3f2eb6caa2612ed7d2dafdbbc69871916188ba52fbf65e8cf362c0665d",
+          "documentDate": "2026-10-16",
+          "sectionId": "active-keyword-pool",
+          "sourceBaselineIsLive": false
+        }
+      },
+      "fixedPoints": [
+        {
+          "id": "choice-market-center",
+          "label": "中心",
+          "latitude": 40.6884013,
+          "longitude": -73.9629705,
+          "distanceKm": 0,
+          "direction": "中心",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#choice-market-center sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "choice-market-3km",
+          "label": "3公里",
+          "latitude": 40.6883958,
+          "longitude": -73.9273898,
+          "distanceKm": 3,
+          "direction": "东",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#choice-market-3km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "choice-market-5km",
+          "label": "5公里",
+          "latitude": 40.6883861,
+          "longitude": -73.9036694,
+          "distanceKm": 5,
+          "direction": "东",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#choice-market-5km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        }
+      ],
+      "keywordTargets": [
+        {
+          "keyword": "coffee near me",
+          "sourceSearchVolumeText": "1,500,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 补足明确找附近咖啡的高量需求；原coffee宽词可能含商品或知识搜索。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E028",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:21 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E033",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:26 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E038",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:28 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "coffee",
+          "sourceSearchVolumeText": "550,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 品类 保留原监测词，需求组为咖啡；其原分组为主攻 · 品类，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-T020",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:42 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T022",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:44 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T024",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:46 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "cafe near me",
+          "sourceSearchVolumeText": "450,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 咖啡馆消费场景，与咖啡、早餐、三明治产品线匹配。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E030",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:22 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E035",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:26 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E040",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:29 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "breakfast near me",
+          "sourceSearchVolumeText": "368,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 明确附近早餐找店；官网有早餐依据。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E031",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:25 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E036",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:27 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E041",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:29 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "coffee shops near me",
+          "sourceSearchVolumeText": "368,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 明确找咖啡门店，与coffee near me分词测排名、同组解释需求。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E029",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:22 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E034",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:26 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E039",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:28 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "bakery",
+          "sourceSearchVolumeText": "135,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "观察 · 定位待确认 保留原监测词，需求组为烘焙；其原分组为观察 · 定位待确认，后续依据该词自己的实测和业务匹配安排优先级。 完整烘焙品类及门店定位待确认。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R040",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:43 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R044",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:45 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R048",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:47 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "breakfast",
+          "sourceSearchVolumeText": "135,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 用餐时段 保留原监测词，需求组为早餐；其原分组为主攻 · 用餐时段，后续依据该词自己的实测和业务匹配安排优先级。 当前早餐供应时段待门店复核。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-T019",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:42 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T021",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:44 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T023",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:46 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "brunch",
+          "sourceSearchVolumeText": "110,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "观察 · 业务待确认 保留原监测词，需求组为早午餐；其原分组为观察 · 业务待确认，后续依据该词自己的实测和业务匹配安排优先级。 brunch具体供给与时段待确认。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R039",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:43 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R043",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:45 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R047",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:47 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "sandwiches near me",
+          "sourceSearchVolumeText": "110,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 附近三明治购买意图，比sandwich宽词更直接。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E032",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:25 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E037",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:27 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E042",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:29 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "lunch",
+          "sourceSearchVolumeText": "74,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 用餐时段 保留原监测词，需求组为午餐；其原分组为辅助 · 用餐时段，后续依据该词自己的实测和业务匹配安排优先级。 分店当前午餐供给及时段待确认。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R037",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:42 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R041",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:44 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R045",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:46 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "sandwich",
+          "sourceSearchVolumeText": "40,500 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 三明治 保留原监测词，需求组为三明治；其原分组为主攻 · 三明治，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R038",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:43 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R042",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:44 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R046",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:46 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "breakfast sandwich near me",
+          "sourceSearchVolumeText": "12,100 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 早餐与三明治交叉需求；具体早餐三明治及供应时段仍需分店核对，补测后检验是否值得独立投入。",
+          "pointTargets": [
+            {
+              "pointId": "choice-market-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "choice-market-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "storeId": "only-bear",
+      "merchantId": "04ef8b4c-4837-4cf2-a8f5-0c9228658376",
+      "placeId": "ChIJgR0AKI2HwokRcMm_K7J7Phw",
+      "name": "Only Bear Chicken & Boba",
+      "aliases": [
+        "Only Bear Chicken & Boba"
+      ],
+      "center": {
+        "latitude": 40.749241,
+        "longitude": -73.6415096
+      },
+      "keywords": {
+        "core": [
+          "bubble tea delivery mineola",
+          "bubble tea mineola",
+          "best bubble tea mineola",
+          "boba delivery mineola",
+          "fried chicken delivery mineola",
+          "fried chicken mineola",
+          "matcha mineola",
+          "cha dao bubble tea mineola",
+          "taiwanese restaurant mineola",
+          "cafe mineola"
+        ],
+        "longTail": [
+          "bubble tea near mineola train station",
+          "bubble tea garden city",
+          "boba mineola",
+          "best fried chicken mineola",
+          "matcha latte mineola",
+          "korean restaurant mineola",
+          "bubble tea williston park",
+          "bubble tea carle place",
+          "bubble tea albertson",
+          "bubble tea new hyde park",
+          "bubble tea roslyn heights",
+          "bubble tea near nassau county",
+          "bubble tea near winthrop hospital",
+          "bubble tea near lirr mineola",
+          "bubble tea shop mineola",
+          "best boba mineola",
+          "boba near mineola",
+          "boba tea mineola",
+          "boba garden city",
+          "korean fried chicken mineola",
+          "best korean fried chicken mineola",
+          "korean fried chicken near me mineola",
+          "korean fried chicken garden city",
+          "korean fried chicken new hyde park",
+          "smoothie mineola",
+          "best smoothie mineola",
+          "slush mineola",
+          "only bear chicken & boba mineola",
+          "only bear mineola",
+          "food near me mineola",
+          "bubble tea near me",
+          "boba near me",
+          "bubble tea",
+          "fried chicken near me",
+          "boba shops near me",
+          "fried chicken",
+          "korean fried chicken",
+          "korean fried chicken near me",
+          "matcha latte"
+        ]
+      },
+      "active": true,
+      "monitoringCatalog": {
+        "version": "liya-nine-store-90-2026-10-16-v1",
+        "source": {
+          "path": "/Users/xander/Desktop/九店搜索量与排名目标_Liya_2026-10-16.html",
+          "sha256": "9c717f3f2eb6caa2612ed7d2dafdbbc69871916188ba52fbf65e8cf362c0665d",
+          "documentDate": "2026-10-16",
+          "sectionId": "active-keyword-pool",
+          "sourceBaselineIsLive": false
+        }
+      },
+      "fixedPoints": [
+        {
+          "id": "onlybear-center",
+          "label": "中心",
+          "latitude": 40.749241,
+          "longitude": -73.6415096,
+          "distanceKm": 0,
+          "direction": "中心",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#onlybear-center sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "onlybear-3km",
+          "label": "3公里",
+          "latitude": 40.7222614,
+          "longitude": -73.6415096,
+          "distanceKm": 3,
+          "direction": "南",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#onlybear-3km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "onlybear-5km",
+          "label": "5公里",
+          "latitude": 40.7492258,
+          "longitude": -73.7008649,
+          "distanceKm": 5,
+          "direction": "西",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#onlybear-5km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        }
+      ],
+      "keywordTargets": [
+        {
+          "keyword": "bubble tea near me",
+          "sourceSearchVolumeText": "170 次/月 Mineola · Google Search",
+          "sourceRoleAndConditions": "优先补测 Mineola已返回170，较现有boba near me的90更大；同类表达不相加。",
+          "pointTargets": [
+            {
+              "pointId": "onlybear-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "expansion-E043",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 20:30 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "onlybear-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第9名",
+              "historicalEvidenceRef": "expansion-E046",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第9名 2026-10-16 20:31 新增25查询批次 提升：争取前3 先稳定前10，再争前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "onlybear-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第17名",
+              "historicalEvidenceRef": "expansion-E049",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "第17名 2026-10-16 20:32 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "boba near me",
+          "sourceSearchVolumeText": "90 次/月 Mineola · Google Search",
+          "sourceRoleAndConditions": "主攻 · 核心需求 保留原监测词，需求组为奶茶；其原分组为主攻 · 核心需求，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "onlybear-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R050",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:48 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "onlybear-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第6名",
+              "historicalEvidenceRef": "remaining-R054",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第6名 2026-10-16 14:53 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "onlybear-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第13名",
+              "historicalEvidenceRef": "remaining-R058",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第13名 2026-10-16 14:55 原54词批次 提升：争取前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "bubble tea",
+          "sourceSearchVolumeText": "70 次/月 Mineola · Google Search",
+          "sourceRoleAndConditions": "主攻 · 品类 保留原监测词，需求组为奶茶；其原分组为主攻 · 品类，后续依据该词自己的实测和业务匹配安排优先级。 已把同店去地点后相同的表达合并为一条；搜索量只计一个返回值，不将原词量相加。",
+          "pointTargets": [
+            {
+              "pointId": "onlybear-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-T025",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:48 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "onlybear-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第7名",
+              "historicalEvidenceRef": "remaining-T027",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第7名 2026-10-16 14:53 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "onlybear-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第14名",
+              "historicalEvidenceRef": "remaining-T029",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第14名 2026-10-16 14:54 原54词批次 提升：争取前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "fried chicken near me",
+          "sourceSearchVolumeText": "50 次/月 Mineola · Google Search",
+          "sourceRoleAndConditions": "优先补测 更宽炸鸡需求，但仍能由实际产品承接。",
+          "pointTargets": [
+            {
+              "pointId": "onlybear-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第4名",
+              "historicalEvidenceRef": "expansion-E045",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第4名 2026-10-16 20:30 新增25查询批次 提升：争取前3 争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "onlybear-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E048",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:32 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "onlybear-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E051",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:33 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "boba shops near me",
+          "sourceSearchVolumeText": "30 次/月 Mineola · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 补足找奶茶门店表达，量较小，第二批验证即可。",
+          "pointTargets": [
+            {
+              "pointId": "onlybear-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "onlybear-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "onlybear-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "fried chicken",
+          "sourceSearchVolumeText": "30 次/月 Mineola · Google Search",
+          "sourceRoleAndConditions": "替换为无地名词并补测 具名地名词与无地名词是不同查询；原词旧截图与名次保留在历史证据，不能迁移到新词。",
+          "pointTargets": [
+            {
+              "pointId": "onlybear-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "onlybear-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "onlybear-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "korean fried chicken",
+          "sourceSearchVolumeText": "30 次/月 Mineola · Google Search",
+          "sourceRoleAndConditions": "主攻 · 第二业务线 保留原监测词，需求组为韩式炸鸡；其原分组为主攻 · 第二业务线，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "onlybear-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-T026",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:48 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "onlybear-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第13名",
+              "historicalEvidenceRef": "remaining-T028",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第13名 2026-10-16 14:53 原54词批次 提升：争取前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "onlybear-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T030",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:54 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "korean fried chicken near me",
+          "sourceSearchVolumeText": "30 次/月 Mineola · Google Search",
+          "sourceRoleAndConditions": "优先补测 明确韩式炸鸡找店，与产品线直接匹配。",
+          "pointTargets": [
+            {
+              "pointId": "onlybear-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "expansion-E044",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 20:30 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "onlybear-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第18名",
+              "historicalEvidenceRef": "expansion-E047",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "第18名 2026-10-16 20:31 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "onlybear-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E050",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:33 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "matcha latte",
+          "sourceSearchVolumeText": "10 次/月 Mineola · Google Search",
+          "sourceRoleAndConditions": "菜单核实后再加入 具名地名词与无地名词是不同查询；原词旧截图与名次保留在历史证据，不能迁移到新词。 先确认确实稳定供应抹茶拿铁。",
+          "pointTargets": [
+            {
+              "pointId": "onlybear-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "onlybear-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "onlybear-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "merchantId": "ec3a8e03-28c0-4291-9f94-14289e63cdc7",
+      "placeId": "ChIJZ4gQONX3wokRUd76p6byNOE",
+      "name": "朵颐 Szechuan Gourmet — UWS",
+      "aliases": [
+        "Szechuan Gourmet 朵颐食府",
+        "Szechuan Gourmet",
+        "朵颐"
+      ],
+      "center": {
+        "latitude": 40.8005554,
+        "longitude": -73.967553
+      },
+      "keywords": {
+        "core": [
+          "sichuan restaurant Upper West Side",
+          "szechuan restaurant Upper West Side",
+          "chinese restaurant Upper West Side",
+          "sichuan restaurant near Columbia University",
+          "szechuan restaurant near Columbia University",
+          "chinese restaurant near Columbia University",
+          "sichuan food Upper West Side",
+          "chinese food Upper West Side",
+          "sichuan food near Columbia University",
+          "sichuan restaurant near me"
+        ],
+        "longTail": [
+          "szechuan restaurant near me",
+          "chinese restaurant near me",
+          "chinese delivery Upper West Side",
+          "chinese takeout Upper West Side",
+          "sichuan takeout Upper West Side",
+          "chinese delivery near Columbia University",
+          "chinese takeout near Columbia University",
+          "sichuan takeout near Columbia University",
+          "chinese lunch Upper West Side",
+          "chinese lunch near Columbia University",
+          "chinese food near me",
+          "chinese food",
+          "asian food near me",
+          "中餐",
+          "best chinese food near me",
+          "sichuan restaurant",
+          "川菜",
+          "sichuan takeout"
+        ]
+      },
+      "active": true,
+      "monitoringCatalog": {
+        "version": "liya-nine-store-90-2026-10-16-v1",
+        "source": {
+          "path": "/Users/xander/Desktop/九店搜索量与排名目标_Liya_2026-10-16.html",
+          "sha256": "9c717f3f2eb6caa2612ed7d2dafdbbc69871916188ba52fbf65e8cf362c0665d",
+          "documentDate": "2026-10-16",
+          "sectionId": "active-keyword-pool",
+          "sourceBaselineIsLive": false
+        }
+      },
+      "fixedPoints": [
+        {
+          "id": "szechuan-center",
+          "label": "中心",
+          "latitude": 40.8005554,
+          "longitude": -73.967553,
+          "distanceKm": 0,
+          "direction": "中心",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#szechuan-center sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "szechuan-3km",
+          "label": "3公里",
+          "latitude": 40.7761026,
+          "longitude": -73.9826099,
+          "distanceKm": 3,
+          "direction": "205°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#szechuan-3km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "szechuan-5km",
+          "label": "5公里",
+          "latitude": 40.7582994,
+          "longitude": -73.9878565,
+          "distanceKm": 5,
+          "direction": "200°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#szechuan-5km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        }
+      ],
+      "keywordTargets": [
+        {
+          "keyword": "chinese food near me",
+          "sourceSearchVolumeText": "450,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 高量附近中餐需求，优先补测的扩量候选；不替代精准川菜主线，投入优先级待基线与业务价值验证。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "expansion-E052",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 20:34 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E054",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:35 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E056",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:36 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese food",
+          "sourceSearchVolumeText": "110,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 泛中餐扩量 保留原监测词，需求组为中餐；其原分组为辅助 · 泛中餐扩量，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "remaining-T032",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 14:56 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第18名",
+              "historicalEvidenceRef": "remaining-T034",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第18名 2026-10-16 14:57 原54词批次 提升：争取前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T036",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:59 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese restaurant near me",
+          "sourceSearchVolumeText": "60,500 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 明确找中餐馆，业务适配；不能用广告竞争指数判断Maps难度。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "expansion-E053",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 20:34 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E055",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:35 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E057",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:36 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "asian food near me",
+          "sourceSearchVolumeText": "33,100 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 跨亚洲菜系宽词，保留扩量挑战，优先级低于中餐。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "中餐",
+          "sourceSearchVolumeText": "12,100 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 中文需求 保留原监测词，需求组为中餐；其原分组为辅助 · 中文需求，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "remaining-R064",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 14:56 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第20名",
+              "historicalEvidenceRef": "remaining-R068",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第20名 2026-10-16 14:58 原54词批次 提升：争取前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R072",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:00 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "best chinese food near me",
+          "sourceSearchVolumeText": "5,400 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 商业找店意图明确；查询中的best不作为对门店的事实宣称。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "sichuan restaurant",
+          "sourceSearchVolumeText": "4,400 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "替换为无地名词并补测 具名地名词与无地名词是不同查询；原词旧截图与名次保留在历史证据，不能迁移到新词。 已把同店去地点后相同的表达合并为一条；搜索量只计一个返回值，不将原词量相加。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "川菜",
+          "sourceSearchVolumeText": "1,600 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "新增中文优先候选 · 待测 与四川菜定位最一致，优先中文主类目。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "sichuan restaurant near me",
+          "sourceSearchVolumeText": "1,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 川菜 保留原监测词，需求组为川菜；其原分组为主攻 · 川菜，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "remaining-T031",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 14:56 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第7名",
+              "historicalEvidenceRef": "remaining-T033",
+              "targetText": "防守：守住前10",
+              "sourceCellText": "第7名 2026-10-16 14:57 原54词批次 防守：守住前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T035",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:59 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "sichuan takeout",
+          "sourceSearchVolumeText": "10 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "履约核实后低量观察 具名地名词与无地名词是不同查询；原词旧截图与名次保留在历史证据，不能迁移到新词。 需先确认外带服务；无地名词量小。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "storeId": "place-d83da948f2e65da8928b14abe3d39d13",
+      "merchantId": "72331742-93cd-45d4-bdf2-325289548251",
+      "placeId": "ChIJPwLjwxFgwokR--CbiBEvDws",
+      "name": "Royal Queen 君豪大酒楼",
+      "aliases": [
+        "Royal Queen",
+        "君豪大酒楼"
+      ],
+      "center": {
+        "latitude": 40.7594017,
+        "longitude": -73.8291601
+      },
+      "keywords": {
+        "core": [
+          "dim sum Flushing",
+          "dim sum near me",
+          "Cantonese restaurant Flushing",
+          "Chinese restaurant Flushing",
+          "Cantonese restaurant near me",
+          "banquet hall Flushing",
+          "Chinese wedding banquet Flushing",
+          "best dim sum Flushing",
+          "Chinese banquet hall Flushing",
+          "wedding banquet hall Flushing"
+        ],
+        "longTail": [
+          "Chinese restaurant near me",
+          "wedding venue Flushing",
+          "dim sum Queens",
+          "dim sum restaurant Flushing",
+          "Hong Kong dim sum Flushing",
+          "traditional dim sum Flushing",
+          "Cantonese dim sum Flushing",
+          "Cantonese restaurant Queens",
+          "Chinese restaurant Queens",
+          "banquet hall Queens",
+          "wedding venue Queens",
+          "Chinese wedding venue Queens",
+          "private event venue Flushing",
+          "private dining Flushing",
+          "restaurant for large groups Flushing",
+          "dim sum near Flushing Main Street station",
+          "Chinese restaurant near Flushing Main Street station",
+          "dim sum New World Mall",
+          "Chinese restaurant New World Mall",
+          "seafood restaurant Flushing",
+          "Cantonese seafood restaurant Flushing",
+          "dim sum NYC",
+          "Cantonese restaurant NYC",
+          "Chinese restaurant NYC",
+          "Chinese banquet NYC",
+          "banquet hall NYC",
+          "Chinese wedding venue NYC",
+          "wedding banquet NYC",
+          "Cantonese banquet Flushing",
+          "Cantonese dinner Flushing",
+          "chinese food near me",
+          "dim sum",
+          "cantonese restaurant",
+          "早茶",
+          "dim sum restaurant near me",
+          "粤菜",
+          "chinese banquet wedding"
+        ]
+      },
+      "active": true,
+      "monitoringCatalog": {
+        "version": "liya-nine-store-90-2026-10-16-v1",
+        "source": {
+          "path": "/Users/xander/Desktop/九店搜索量与排名目标_Liya_2026-10-16.html",
+          "sha256": "9c717f3f2eb6caa2612ed7d2dafdbbc69871916188ba52fbf65e8cf362c0665d",
+          "documentDate": "2026-10-16",
+          "sectionId": "active-keyword-pool",
+          "sourceBaselineIsLive": false
+        }
+      },
+      "fixedPoints": [
+        {
+          "id": "royal-queen-center",
+          "label": "中心",
+          "latitude": 40.7594017,
+          "longitude": -73.8291601,
+          "distanceKm": 0,
+          "direction": "中心",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#royal-queen-center sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "royal-queen-3km",
+          "label": "3公里",
+          "latitude": 40.7640813,
+          "longitude": -73.7940801,
+          "distanceKm": 3,
+          "direction": "80°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#royal-queen-3km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "royal-queen-5km",
+          "label": "5公里",
+          "latitude": 40.7633057,
+          "longitude": -73.7700181,
+          "distanceKm": 5,
+          "direction": "85°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#royal-queen-5km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        }
+      ],
+      "keywordTargets": [
+        {
+          "keyword": "chinese food near me",
+          "sourceSearchVolumeText": "450,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 高量泛中餐挑战；点心、粤菜、婚宴仍分开评价。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese restaurant near me",
+          "sourceSearchVolumeText": "60,500 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 官网有粤菜餐厅依据，可试高量中餐扩量；不替代点心主攻。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "dim sum near me",
+          "sourceSearchVolumeText": "40,500 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 核心需求 保留原监测词，需求组为点心；其原分组为主攻 · 核心需求，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "remaining-R073",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 15:01 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R077",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:03 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R081",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:05 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "dim sum",
+          "sourceSearchVolumeText": "27,100 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 品类 保留原监测词，需求组为点心；其原分组为主攻 · 品类，后续依据该词自己的实测和业务匹配安排优先级。 点心当前供应时段待门店复核。 已把同店去地点后相同的表达合并为一条；搜索量只计一个返回值，不将原词量相加。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第4名",
+              "historicalEvidenceRef": "remaining-T037",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第4名 2026-10-16 15:01 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T039",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:15 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T041",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:04 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "cantonese restaurant near me",
+          "sourceSearchVolumeText": "1,900 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 附近粤菜餐厅，比现有无near me宽词更明确。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第10名",
+              "historicalEvidenceRef": "expansion-E059",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第10名 2026-10-16 20:37 新增25查询批次 提升：争取前3 争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E061",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:38 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E063",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:39 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "cantonese restaurant",
+          "sourceSearchVolumeText": "1,600 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 菜系 保留原监测词，需求组为粤菜；其原分组为辅助 · 菜系，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "remaining-R074",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 15:01 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R078",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:03 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R082",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:05 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "早茶",
+          "sourceSearchVolumeText": "1,300 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 中文需求 保留原监测词，需求组为点心；其原分组为辅助 · 中文需求，后续依据该词自己的实测和业务匹配安排优先级。 早茶当前供应时段待门店复核。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R075",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 15:02 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "remaining-R079",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 15:04 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第9名",
+              "historicalEvidenceRef": "remaining-R083",
+              "targetText": "防守：守住前10",
+              "sourceCellText": "第9名 2026-10-16 15:06 原54词批次 防守：守住前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "dim sum restaurant near me",
+          "sourceSearchVolumeText": "1,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 明确找点心餐厅，直接承接核心产品。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第7名",
+              "historicalEvidenceRef": "expansion-E058",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第7名 2026-10-16 20:37 新增25查询批次 提升：争取前3 争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第16名",
+              "historicalEvidenceRef": "expansion-E060",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "第16名 2026-10-16 20:38 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E062",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:39 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "粤菜",
+          "sourceSearchVolumeText": "720 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "新增中文优先候选 · 待测 与粤式餐饮定位相符，可增加中文菜系需求覆盖。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese banquet wedding",
+          "sourceSearchVolumeText": "70 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 宴席专项 保留原监测词，需求组为宴席；其原分组为主攻 · 宴席专项，后续依据该词自己的实测和业务匹配安排优先级。 接待容量、最低消费及可预约日期待确认。",
+          "pointTargets": [
+            {
+              "pointId": "royal-queen-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R076",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 15:02 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "royal-queen-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R080",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 15:04 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "royal-queen-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R084",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 15:06 原54词批次 防守：守住前3",
+              "targetRank": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "storeId": "place-2bb885ba4a9411eed9118fa9abddea3a",
+      "merchantId": "9af6471e-0b33-4727-951e-1e391be56fb3",
+      "placeId": "ChIJLVdhR05hwokRdAVKzmXcx0k",
+      "name": "Connexion Spa 凯盛水汇",
+      "aliases": [
+        "CONNEXION SPA 凯盛水汇",
+        "CONNEXION SPA",
+        "凯盛水汇"
+      ],
+      "center": {
+        "latitude": 40.7625501,
+        "longitude": -73.8319887
+      },
+      "keywords": {
+        "core": [
+          "bathhouse Flushing",
+          "bathhouse near me",
+          "spa Flushing",
+          "day spa Flushing",
+          "sauna Flushing",
+          "spa near me",
+          "sauna near me",
+          "spa day pass Flushing",
+          "bathhouse Queens",
+          "spa day pass Queens"
+        ],
+        "longTail": [
+          "spa with pool Flushing",
+          "spa with pool Queens",
+          "spa with sauna Queens",
+          "bathhouse NYC",
+          "spa day pass NYC",
+          "spa with pool NYC",
+          "spa near Flushing Main Street station",
+          "24 hour spa Flushing",
+          "body scrub Flushing",
+          "deep tissue massage Flushing",
+          "Swedish massage Flushing",
+          "hot stone massage Flushing",
+          "foot reflexology Flushing",
+          "massage Flushing",
+          "spa day Queens",
+          "indoor pool spa Queens",
+          "head therapy Flushing",
+          "spa open late Queens",
+          "法拉盛水疗",
+          "法拉盛桑拿",
+          "法拉盛水疗门票",
+          "纽约浴场",
+          "massage",
+          "spa",
+          "sauna",
+          "day spa near me",
+          "24 hour spa",
+          "桑拿"
+        ]
+      },
+      "active": true,
+      "monitoringCatalog": {
+        "version": "liya-nine-store-90-2026-10-16-v1",
+        "source": {
+          "path": "/Users/xander/Desktop/九店搜索量与排名目标_Liya_2026-10-16.html",
+          "sha256": "9c717f3f2eb6caa2612ed7d2dafdbbc69871916188ba52fbf65e8cf362c0665d",
+          "documentDate": "2026-10-16",
+          "sectionId": "active-keyword-pool",
+          "sourceBaselineIsLive": false
+        }
+      },
+      "fixedPoints": [
+        {
+          "id": "connexion-spa-center",
+          "label": "中心",
+          "latitude": 40.7625501,
+          "longitude": -73.8319887,
+          "distanceKm": 0,
+          "direction": "中心",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#connexion-spa-center sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "connexion-spa-3km",
+          "label": "3公里",
+          "latitude": 40.7601932,
+          "longitude": -73.7965052,
+          "distanceKm": 3,
+          "direction": "95°方位",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#connexion-spa-3km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "connexion-spa-5km",
+          "label": "5公里",
+          "latitude": 40.7625349,
+          "longitude": -73.7726215,
+          "distanceKm": 5,
+          "direction": "东",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#connexion-spa-5km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        }
+      ],
+      "keywordTargets": [
+        {
+          "keyword": "massage",
+          "sourceSearchVolumeText": "135,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "观察 · 服务边界 保留原监测词，需求组为按摩；其原分组为观察 · 服务边界，后续依据该词自己的实测和业务匹配安排优先级。 按摩服务时段、收费和入场要求需按实际说明。",
+          "pointTargets": [
+            {
+              "pointId": "connexion-spa-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T044",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:07 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T046",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:09 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T048",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:12 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "spa near me",
+          "sourceSearchVolumeText": "90,500 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 附近泛词 保留原监测词，需求组为综合SPA；其原分组为辅助 · 附近泛词，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "connexion-spa-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第5名",
+              "historicalEvidenceRef": "remaining-T043",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第5名 2026-10-16 15:07 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "connexion-spa-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T045",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:08 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T047",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:11 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "spa",
+          "sourceSearchVolumeText": "74,000 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "辅助 · 宽品类 保留原监测词，需求组为综合SPA；其原分组为辅助 · 宽品类，后续依据该词自己的实测和业务匹配安排优先级。 已把同店去地点后相同的表达合并为一条；搜索量只计一个返回值，不将原词量相加。",
+          "pointTargets": [
+            {
+              "pointId": "connexion-spa-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第4名",
+              "historicalEvidenceRef": "remaining-R085",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第4名 2026-10-16 15:06 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "connexion-spa-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R089",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:08 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R093",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 15:11 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "sauna",
+          "sourceSearchVolumeText": "18,100 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "主攻 · 核心设施 保留原监测词，需求组为桑拿；其原分组为主攻 · 核心设施，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "connexion-spa-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R086",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 15:07 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "connexion-spa-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "remaining-R090",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 15:09 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "connexion-spa-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第4名",
+              "historicalEvidenceRef": "remaining-R094",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第4名 2026-10-16 15:12 原54词批次 提升：争取前3",
+              "targetRank": 3
+            }
+          ]
+        },
+        {
+          "keyword": "sauna near me",
+          "sourceSearchVolumeText": "12,100 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 找附近桑拿，实际服务匹配，比sauna宽词少一层设备意图。",
+          "pointTargets": [
+            {
+              "pointId": "connexion-spa-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "expansion-E064",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 20:40 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "connexion-spa-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "expansion-E066",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 20:41 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "connexion-spa-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第20名",
+              "historicalEvidenceRef": "expansion-E068",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "第20名 2026-10-16 20:42 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "bathhouse near me",
+          "sourceSearchVolumeText": "6,600 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "优先补测 与浴场、桑拿、泳池设施吻合，补足当前SPA词组。",
+          "pointTargets": [
+            {
+              "pointId": "connexion-spa-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "expansion-E065",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 20:40 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "connexion-spa-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第6名",
+              "historicalEvidenceRef": "expansion-E067",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第6名 2026-10-16 20:41 新增25查询批次 提升：争取前3 争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "connexion-spa-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第7名",
+              "historicalEvidenceRef": "expansion-E069",
+              "targetText": "防守：守住前10",
+              "sourceCellText": "第7名 2026-10-16 20:44 新增25查询批次 防守：守住前10 守住前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "day spa near me",
+          "sourceSearchVolumeText": "1,900 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 广义日间SPA需求，消费预期可能偏护理套餐，先作第二批测试。",
+          "pointTargets": [
+            {
+              "pointId": "connexion-spa-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "24 hour spa",
+          "sourceSearchVolumeText": "720 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "替换为无地名词并补测 具名地名词与无地名词是不同查询；原词旧截图与名次保留在历史证据，不能迁移到新词。",
+          "pointTargets": [
+            {
+              "pointId": "connexion-spa-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "桑拿",
+          "sourceSearchVolumeText": "320 次/月 New York City · Google Search",
+          "sourceRoleAndConditions": "新增中文优先候选 · 待测 与已有sauna服务匹配，适合中文补充核心词。",
+          "pointTargets": [
+            {
+              "pointId": "connexion-spa-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "connexion-spa-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "storeId": "place-ac78f6908231da8da688f4a25e980087",
+      "merchantId": "b483d4ac-e9e7-4b85-9a5d-7ea639672dcf",
+      "placeId": "ChIJSYTKAtH5wokR8Dd7FUcSPPM",
+      "name": "Szechuan Opera — American Dream",
+      "aliases": [
+        "Szechuan Opera"
+      ],
+      "center": {
+        "latitude": 40.8083701,
+        "longitude": -74.0720491
+      },
+      "keywords": {
+        "core": [
+          "Chinese restaurant American Dream",
+          "Chinese food American Dream Mall",
+          "Sichuan restaurant American Dream",
+          "Szechuan restaurant East Rutherford",
+          "Chinese restaurant East Rutherford NJ",
+          "Sichuan food near me"
+        ],
+        "longTail": [
+          "Chinese takeout East Rutherford",
+          "Chinese food delivery East Rutherford",
+          "Chinese lunch American Dream Mall",
+          "Sichuan restaurant Bergen County",
+          "dan dan noodles American Dream",
+          "mapo tofu American Dream",
+          "Sichuan boiled fish East Rutherford",
+          "Chinese restaurant near American Dream",
+          "Szechuan restaurant North Jersey",
+          "chili oil wontons American Dream",
+          "spicy food American Dream",
+          "美国梦商场川菜",
+          "restaurants near me",
+          "restaurants",
+          "chinese food near me",
+          "chinese food",
+          "asian food near me",
+          "chinese restaurant near me",
+          "chinese restaurant",
+          "sichuan restaurant"
+        ]
+      },
+      "active": true,
+      "monitoringCatalog": {
+        "version": "liya-nine-store-90-2026-10-16-v1",
+        "source": {
+          "path": "/Users/xander/Desktop/九店搜索量与排名目标_Liya_2026-10-16.html",
+          "sha256": "9c717f3f2eb6caa2612ed7d2dafdbbc69871916188ba52fbf65e8cf362c0665d",
+          "documentDate": "2026-10-16",
+          "sectionId": "active-keyword-pool",
+          "sourceBaselineIsLive": false
+        }
+      },
+      "fixedPoints": [
+        {
+          "id": "szechuan-opera-center",
+          "label": "中心",
+          "latitude": 40.8083701,
+          "longitude": -74.0720491,
+          "distanceKm": 0,
+          "direction": "中心",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#szechuan-opera-center sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "szechuan-opera-3km",
+          "label": "3公里",
+          "latitude": 40.8274448,
+          "longitude": -74.0972611,
+          "distanceKm": 3,
+          "direction": "西北",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#szechuan-opera-3km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        },
+        {
+          "id": "szechuan-opera-5km",
+          "label": "5公里",
+          "latitude": 40.8401583,
+          "longitude": -74.1140772,
+          "distanceKm": 5,
+          "direction": "西北",
+          "sourceReference": "/Users/xander/Documents/vault/chancetop/outputs/merchant-goals-2026-10-16/full-point-queue.json#szechuan-opera-5km sha256:aadf4c88105511e48694a17651d82d4a08f661bfb1c5aeb298fe74946d733908"
+        }
+      ],
+      "keywordTargets": [
+        {
+          "keyword": "restaurants near me",
+          "sourceSearchVolumeText": "12,100 次/月 East Rutherford · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 当地城市12100；跨菜系且商场内外场景不同，属于挑战，不能承诺3/5公里覆盖。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-opera-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "restaurants",
+          "sourceSearchVolumeText": "5,400 次/月 East Rutherford · Google Search",
+          "sourceRoleAndConditions": "仅作宽词观察 具名地名词与无地名词是不同查询；原词旧截图与名次保留在历史证据，不能迁移到新词。 去掉商场名后变成全部餐厅需求，虽量较大但相关性与竞争均不同，不作为川菜店主攻。 已把同店去地点后相同的表达合并为一条；搜索量只计一个返回值，不将原词量相加。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-opera-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese food near me",
+          "sourceSearchVolumeText": "720 次/月 East Rutherford · Google Search",
+          "sourceRoleAndConditions": "主攻 · 附近就餐 保留原监测词，需求组为中餐；其原分组为主攻 · 附近就餐，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-opera-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第5名",
+              "historicalEvidenceRef": "remaining-T049",
+              "targetText": "提升：争取前3",
+              "sourceCellText": "第5名 2026-10-16 13:49 原54词批次 提升：争取前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-opera-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T051",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 13:52 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-T053",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:19 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese food",
+          "sourceSearchVolumeText": "210 次/月 East Rutherford · Google Search",
+          "sourceRoleAndConditions": "辅助 · 品类 保留原监测词，需求组为中餐；其原分组为辅助 · 品类，后续依据该词自己的实测和业务匹配安排优先级。 已把同店去地点后相同的表达合并为一条；搜索量只计一个返回值，不将原词量相加。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-opera-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第3名",
+              "historicalEvidenceRef": "remaining-R097",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第3名 2026-10-16 14:26 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-opera-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第18名",
+              "historicalEvidenceRef": "remaining-R101",
+              "targetText": "提升：争取前10",
+              "sourceCellText": "第18名 2026-10-16 13:52 原54词批次 提升：争取前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "remaining-R105",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 14:20 原54词批次 挑战：挑战前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "asian food near me",
+          "sourceSearchVolumeText": "140 次/月 East Rutherford · Google Search",
+          "sourceRoleAndConditions": "第二批扩量 高于不少当地细分词，但跨菜系，作为辅助扩量。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-opera-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese restaurant near me",
+          "sourceSearchVolumeText": "140 次/月 East Rutherford · Google Search",
+          "sourceRoleAndConditions": "优先补测 East Rutherford城市范围的附近中餐馆需求，与川菜餐厅匹配。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-opera-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第2名",
+              "historicalEvidenceRef": "expansion-E070",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第2名 2026-10-16 20:45 新增25查询批次 防守：守住前3 守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-opera-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第18名",
+              "historicalEvidenceRef": "expansion-E072",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "第18名 2026-10-16 20:46 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "NR20",
+              "historicalEvidenceRef": "expansion-E074",
+              "targetText": "挑战：挑战前10",
+              "sourceCellText": "NR20 2026-10-16 20:47 新增25查询批次 挑战：挑战前10 先进入前10",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "chinese restaurant",
+          "sourceSearchVolumeText": "50 次/月 East Rutherford · Google Search",
+          "sourceRoleAndConditions": "替换为无地名词并补测 具名地名词与无地名词是不同查询；原词旧截图与名次保留在历史证据，不能迁移到新词。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-opera-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            },
+            {
+              "pointId": "szechuan-opera-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "待测",
+              "historicalEvidenceRef": null,
+              "targetText": "候选方向：前10；待实测后校准",
+              "sourceCellText": "待测 无同店同精确词的已核验记录 候选方向：前10；待实测后校准",
+              "targetRank": 10
+            }
+          ]
+        },
+        {
+          "keyword": "sichuan restaurant",
+          "sourceSearchVolumeText": "10 次/月 East Rutherford · Google Search",
+          "sourceRoleAndConditions": "辅助 · 菜系 保留原监测词，需求组为川菜；其原分组为辅助 · 菜系，后续依据该词自己的实测和业务匹配安排优先级。",
+          "pointTargets": [
+            {
+              "pointId": "szechuan-opera-center",
+              "pointLabel": "中心",
+              "radiusKm": 0,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R099",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 13:50 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-opera-3km",
+              "pointLabel": "3公里",
+              "radiusKm": 3,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R103",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 13:53 原54词批次 防守：守住前3",
+              "targetRank": 3
+            },
+            {
+              "pointId": "szechuan-opera-5km",
+              "pointLabel": "5公里",
+              "radiusKm": 5,
+              "historicalBaselineDisplay": "第1名",
+              "historicalEvidenceRef": "remaining-R107",
+              "targetText": "防守：守住前3",
+              "sourceCellText": "第1名 2026-10-16 14:21 原54词批次 防守：守住前3",
+              "targetRank": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { inspectNativeAdvertisementMarkers, inspectNativeResultList } from './ui.js';
 
 /**
  * Screen reader v4: full-screen OCR is the primary listing evidence.
@@ -36,6 +37,9 @@ export interface ScreenFrame {
   queryVisible: boolean; sheetTop: number | null;
   topStateVerified: boolean; endOfResults: boolean;
   cards: ScreenCard[]; warnings: string[];
+  /** Auxiliary native geometry can establish context, never a merchant identity. */
+  sheetBoundarySource?: 'native_result_list' | 'ocr_header' | null;
+  topStateSource?: 'native_scroll_actions' | 'ocr_relevance' | null;
 }
 export interface RankedListing {
   displayPosition: number; organicRank: number | null;
@@ -63,7 +67,9 @@ const CHROME_PREFIXES = ['relevance', 'open now', 'opennow', 'price', 'find a ta
   'visit site', 'search here', 'search google maps', 'all filters', 'rating', 'hours'];
 const CHROME_WORDS = new Set(['directions', 'order', 'menu', 'call', 'website', 'reserve', 'save', 'share', 'visit', 'site', 'open', 'now', 'price',
   'relevance', 'results', 'filters', 'opennow', 'rating', 'hours', 'book', 'online', 'join', 'waitlist', 'table', 'find']);
-const RATING = /^\s*([1-5](?:[.,]\d)?)\s*[^\da-z一-鿿(]{0,4}\s*\(\s*(\d[\d,.]*)\s*([km])?\s*\)/iu;
+// Receipt-verified Maps/Tesseract frames misread the star as 玄 or 計. Accept
+// only these observed substitutions in the star slot, not arbitrary CJK prose.
+const RATING = /^\s*([1-4](?:[.,]\d)?|5(?:[.,]0)?)\s*(?:[^\da-z一-鿿(]|[玄計]){0,4}\s*\(\s*(\d[\d,.]*)\s*([km])?\s*\)/iu;
 const NO_REVIEWS = /^\s*no reviews\b/iu;
 const DISTANCE = /(\d+(?:[.,]\d+)?)\s*(mi|ft|km|m)\b/iu;
 const OPEN_STATUS = /\b(temporarily closed|permanently closed|open 24 hours|closed|opens?|closes)\b/iu;
@@ -115,8 +121,14 @@ function parsePrice(token: string): string | null {
 }
 
 /** Parse one OCR'd screenshot into the result cards visible inside the result sheet. */
-export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: string, capturedAt: string): ScreenFrame {
+export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: string, capturedAt: string, sourceXml?: string): ScreenFrame {
   const frame: ScreenFrame = { frameId, capturedAt, imageSha256: ocr.imageSha256, queryVisible: false, sheetTop: null, topStateVerified: false, endOfResults: false, cards: [], warnings: [] };
+  const inspected = sourceXml === undefined ? null : inspectNativeResultList(sourceXml, keyword);
+  // Caller pairs this source with the PNG before OCR. Reject geometry for another
+  // image size; inspectNativeResultList also requires the exact native query and
+  // a supported, settled list. Unknown/photo layouts receive no positive proof.
+  const native = inspected && inspected.bounds.left >= 0 && inspected.bounds.top >= 0 &&
+    inspected.bounds.right <= ocr.imageWidth && inspected.bounds.bottom <= ocr.imageHeight ? inspected : null;
   const lines = [...ocr.lines].sort((a, b) => a.bounds.top - b.bounds.top || a.bounds.left - b.bounds.left);
   const query = normalizeText(keyword);
   // The result sheet starts at its own copy of the query. Map labels above it are never results.
@@ -125,9 +137,11 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     return line.confidence >= 40 && text.startsWith(query.replace(/[^a-z0-9一-鿿 ]/gu, '').trim()) && text.length <= query.length + 4;
   });
   const header = headers.at(-1);
-  if (header) { frame.queryVisible = true; frame.sheetTop = header.bounds.bottom; }
+  if (native) { frame.queryVisible = true; frame.sheetTop = native.bounds.top; frame.sheetBoundarySource = 'native_result_list'; }
+  else if (header) { frame.queryVisible = true; frame.sheetTop = header.bounds.bottom; frame.sheetBoundarySource = 'ocr_header'; }
   else frame.warnings.push('query_header_not_recognized: the result sheet header was not found by OCR; all lines were considered.');
-  const sheet = lines.filter(line => frame.sheetTop === null || line.bounds.top >= frame.sheetTop);
+  const sheet = lines.filter(line => (frame.sheetTop === null || line.bounds.top >= frame.sheetTop) &&
+    (!native || (line.bounds.bottom <= native.bounds.bottom && line.bounds.right > native.bounds.left && line.bounds.left < native.bounds.right)));
   const kind = (line: OcrLine): 'rating' | 'no_reviews' | 'sponsored' | 'uncertain_ad' | 'chrome' | 'snippet' | 'text' => {
     if (RATING.test(normalizeText(line.text))) return 'rating';
     if (NO_REVIEWS.test(line.text)) return 'no_reviews';
@@ -138,6 +152,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     return 'text';
   };
   const kinds = sheet.map(kind);
+  const cardHeaders: Array<{ name: Rect | null; rating: Rect }> = [];
   sheet.forEach((line, index) => {
     const lineKind = kinds[index]!;
     if (lineKind !== 'rating' && lineKind !== 'no_reviews') return;
@@ -161,6 +176,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     }
     // Name: the closest text line directly above the rating line, plus one wrapped line above it.
     let nameIndex = -1;
+    let nameBounds: Rect | null = null;
     for (let i = index - 1; i >= 0; i--) {
       const candidate = sheet[i]!;
       if (line.bounds.top - candidate.bounds.bottom > 90) break;
@@ -172,6 +188,8 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
       const above = sheet[nameIndex - 1];
       if (above && kinds[nameIndex - 1] === 'text' && parts[0]!.bounds.top - above.bounds.bottom <= 22) parts.unshift(above);
       card.name = parts.map(part => part.text.normalize('NFKC').replace(/\s+/gu, ' ').trim()).join(' ');
+      nameBounds = { left: Math.min(...parts.map(part => part.bounds.left)), top: parts[0]!.bounds.top,
+        right: Math.max(...parts.map(part => part.bounds.right)), bottom: parts.at(-1)!.bounds.bottom };
       card.nameConfidence = Math.round(parts.reduce((sum, part) => sum + part.confidence, 0) / parts.length * 100) / 100;
       card.bounds.top = parts[0]!.bounds.top;
       if (card.nameConfidence < 40) card.warnings.push('low_name_confidence');
@@ -196,12 +214,62 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     }
     if (line.confidence < 40) card.warnings.push('low_rating_confidence');
     if (!frame.queryVisible) card.warnings.push('sheet_header_unverified');
-    if (card.name !== null && card.bounds.top - (frame.sheetTop ?? 0) < 35) card.warnings.push('card_header_clipped');
-    if (card.warnings.some(warning => ['low_name_confidence', 'low_rating_confidence', 'uncertain_ad_label', 'sheet_header_unverified', 'card_header_clipped'].includes(warning))) card.resultType = 'unknown';
+    if (card.name !== null && native?.canScrollBackward !== false && card.bounds.top - (frame.sheetTop ?? 0) < 35) card.warnings.push('card_header_clipped');
+    // A legible positive Sponsored label is independent of list-top/query OCR.
+    // Missing sheet context still prevents reliable ordering; it must not erase
+    // a directly observed advertisement. Organic inference remains stricter.
+    const uncertain = card.resultType === 'ad' ? ['uncertain_ad_label'] :
+      ['low_name_confidence', 'low_rating_confidence', 'uncertain_ad_label', 'sheet_header_unverified', 'card_header_clipped'];
+    if (card.warnings.some(warning => uncertain.includes(warning))) card.resultType = 'unknown';
     else if (card.resultType !== 'ad' && card.name !== null && (card.rating !== null || lineKind === 'no_reviews')) card.resultType = 'organic';
     frame.cards.push(card);
+    cardHeaders.push({ name: nameBounds, rating: line.bounds });
   });
+  if (sourceXml !== undefined) {
+    const contains = (outer: Rect, inner: Rect): boolean => inner.left >= outer.left && inner.top >= outer.top && inner.right <= outer.right && inner.bottom <= outer.bottom;
+    const markers = inspectNativeAdvertisementMarkers(sourceXml);
+    const groups = new Map<number, typeof markers>();
+    let unresolved = markers.some(marker => marker.ownerIndex === null);
+    for (const marker of markers) {
+      if (marker.ownerIndex === null) continue;
+      const group = groups.get(marker.ownerIndex) ?? [];
+      group.push(marker); groups.set(marker.ownerIndex, group);
+    }
+    const associations = [...groups.values()].map(group => ({ group, candidates: cardHeaders.flatMap((header, index) =>
+      header.name && contains(group[0]!.cardBounds!, header.name) && contains(group[0]!.cardBounds!, header.rating) ? [index] : []) }));
+    const ownerCounts = new Map<number, number>();
+    for (const { candidates } of associations) for (const index of candidates) ownerCounts.set(index, (ownerCounts.get(index) ?? 0) + 1);
+    for (const { group, candidates } of associations) {
+      const owner = group[0]!.cardBounds!, list = group[0]!.listBounds!;
+      // The exact native result list establishes only this association's scope.
+      // Require uniqueness in both directions: one complete OCR header in one
+      // native owner. Duplicate/overlapping owners are not independent proof.
+      const supported = native && contains(native.bounds, list) && contains(list, native.bounds) && candidates.length === 1 &&
+        ownerCounts.get(candidates[0]!) === 1 &&
+        group.every(marker => marker.kind !== 'ambiguous' && marker.bounds && contains(owner, marker.bounds));
+      const index = candidates[0], header = index === undefined ? null : cardHeaders[index]!.name;
+      const positive = supported && header ? group.find(marker => marker.kind === 'sponsored' && marker.bounds!.bottom <= header.top && header.top - marker.bounds!.bottom <= 160) : undefined;
+      if (positive && index !== undefined) {
+        const card = frame.cards[index]!;
+        card.resultType = 'ad'; card.adLabel ??= positive.label;
+        card.warnings.push('native_ad_label_confirmed');
+      } else unresolved = true;
+    }
+    if (unresolved) {
+      frame.warnings.push('native_ad_evidence_unresolved');
+      for (const card of frame.cards) {
+        if (card.resultType !== 'ad') card.resultType = 'unknown';
+        card.warnings.push('native_ad_evidence_unresolved');
+      }
+    }
+  }
   frame.topStateVerified = frame.queryVisible && sheet.some(line => line.confidence >= 40 && /\brelevance\b/iu.test(line.text) && line.bounds.bottom <= (frame.cards[0]?.bounds.top ?? Infinity));
+  if (frame.topStateVerified) frame.topStateSource = 'ocr_relevance';
+  if (native && native.canScrollBackward !== null) {
+    frame.topStateVerified = native.canScrollBackward === false;
+    frame.topStateSource = frame.topStateVerified ? 'native_scroll_actions' : null;
+    if (!frame.topStateVerified) frame.warnings.push('native_list_top_contradicted');
+  }
   frame.endOfResults = frame.queryVisible && sheet.some(line => line.confidence >= 60 && /^(?:you['’]ve reached the end of the list[.!]?|no more results[.!]?)$/iu.test(line.text.trim()) && line.bounds.top >= (frame.cards.at(-1)?.bounds.bottom ?? Infinity));
   if (!frame.cards.length) frame.warnings.push('no_cards_recognized');
   return frame;
@@ -238,6 +306,9 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
   let continuous = frames[0]?.topStateVerified === true;
   if (frames.length && !continuous) warnings.push('list_top_unverified');
   for (const frame of frames) {
+    if (frame.warnings.includes('native_ad_evidence_unresolved')) {
+      continuous = false; warnings.push('native_ad_evidence_unresolved');
+    }
     let overlap = 0;
     if (previous) {
       for (let count = Math.min(previous.cards.length, frame.cards.length); count > 0; count--) {
@@ -264,9 +335,11 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
     previous = frame; previousRows = rows;
   }
   const trimmed = listings.slice(0, maxDisplayedResults);
-  let organic = 0, rankingReliable = frames.length > 0 && frames[0]?.topStateVerified === true;
+  let organic = 0, rankingReliable = frames.length > 0 && frames[0]?.topStateVerified === true &&
+    !frames.some(frame => frame.warnings.includes('native_ad_evidence_unresolved'));
   for (const listing of trimmed) {
-    if (listing.resultType === 'unknown' || listing.name === null || (listing.nameConfidence ?? 0) < 40 || listing.warnings.includes('sequence_unverified')) rankingReliable = false;
+    if (listing.resultType === 'unknown' || listing.name === null || (listing.nameConfidence ?? 0) < 40 ||
+      listing.warnings.includes('low_rating_confidence') || listing.warnings.includes('native_ad_evidence_unresolved') || listing.warnings.includes('sequence_unverified')) rankingReliable = false;
     if (listing.resultType === 'organic') { organic++; listing.organicRank = rankingReliable ? organic : null; }
   }
   if (trimmed.some(listing => listing.resultType === 'unknown')) warnings.push('unknown_cards_precede_organic_ranks');

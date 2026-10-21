@@ -1,0 +1,59 @@
+{
+  "createdAt": "2026-10-21T01:29:32.907852+00:00",
+  "sourceHashes": {
+    "src/android/contracts.ts": "9f589bd213dd970a5c6f59eefcbea6640c3b29703ae6a2156e524d356b26c609",
+    "src/android/device.ts": "dfcc1a528b03e0541e9c3794a59863a959eca003cdd77caf6dffd3ee86e7b875",
+    "src/android/runner.ts": "85e825c521b17819beb3e5e1591ca68debff36319ead8a59023b35bef92f6bf0",
+    "src/android/screen-reader.ts": "e20e2d4d50d5240b9fec7ea917f294361f9f0fef971f22192e6662cf95e63ea8",
+    "src/android/ui.ts": "4256c1abbe4a638a3ff0ad2c80a86374ea34195f338440b8f7e5be04358524c2"
+  },
+  "liveValidated": false,
+  "frozenForParentProbe": true,
+  "checks": [
+    {
+      "command": "npx vitest run tests/android-*.test.ts --maxWorkers=1",
+      "status": "passed",
+      "tests": 545,
+      "note": "Before final two low-confidence-ad tests."
+    },
+    {
+      "command": "npx vitest run tests/android-grid-ocr-regressions.test.ts tests/android-screen-reader.test.ts --maxWorkers=1",
+      "status": "passed",
+      "tests": 42,
+      "note": "Final reader source, including two added tests."
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "passed"
+    },
+    {
+      "command": "npm run test:contracts",
+      "status": "passed"
+    },
+    {
+      "command": "npm test -- --maxWorkers=1",
+      "status": "failed_nonfinal_overlapping_run",
+      "passed": 1299,
+      "failed": 3,
+      "failures": [
+        "two intentional low-confidence-ad RED tests observed before final fix",
+        "monitor-daily recognized-details continuation timed out at30000ms"
+      ],
+      "note": "npm consumed maxWorkers instead of passing it to Vitest. This is not the final integrated validation."
+    },
+    {
+      "command": "npm run test:unit -- --maxWorkers=1",
+      "status": "cancelled_by_parent_coordination",
+      "exitCode": 143,
+      "note": "Parent requested sole ownership of final integrated serial suite. Only verified owned Vitest PID3555 was terminated."
+    }
+  ],
+  "offlineReplay": {
+    "file": "offline-replay-final.json",
+    "sha256": "e02a98df5101b81d08f8f3c0fab4fad3001f5bda500bc2e495450b3710a4c309",
+    "independentlyVerifiedOriginalObjects": 1034,
+    "queries": 125,
+    "frames": 156,
+    "notANewCapture": true
+  }
+}

@@ -107,6 +107,22 @@ describe('tracking ui server', () => {
     expect((await call('/api/stores/keke-flushing', { method: 'PUT', body: JSON.stringify({ ...keke, placeId: 'ChIJdifferent' }) })).status).toBe(400);
     expect((await repo.getStore('keke-flushing'))!.placeId).toBe(keke.placeId);
   });
+  it('retains approved catalog metadata on ordinary edits and defaults history to the configured center', async () => {
+    const point = { id: 'keke-center', label: '中心', ...keke.center, distanceKm: 0, direction: '中心', sourceReference: 'approved report' };
+    const monitoringCatalog = { version: 'v1', source: { path: 'approved.html', sha256: 'a'.repeat(64), documentDate: '2026-10-16', sectionId: 'scope', sourceBaselineIsLive: false } };
+    const keywordTargets = [{ keyword: 'braised food', sourceSearchVolumeText: '100', sourceRoleAndConditions: 'exact', pointTargets: [{ pointId: point.id, pointLabel: point.label, radiusKm: 0, targetRank: 3, targetText: 'Top3', historicalBaselineDisplay: 'NR20', historicalEvidenceRef: null, sourceCellText: 'NR20 → Top3' }] }];
+    const fixed = obs('braised food', 3, '2026-10-20T12:00:00Z', { pointId: point.id });
+    const { repo, call } = await start([fixed, obs('braised food', 1, '2026-10-19T12:00:00Z')]);
+    await repo.saveStore({ ...keke, fixedPoints: [point], monitoringCatalog, keywordTargets });
+    const edited = await call('/api/stores/keke-flushing', { method: 'PUT', body: JSON.stringify({ ...keke, name: 'Catalog store' }) });
+    expect(edited.status).toBe(200);
+    expect(edited.body).toMatchObject({ fixedPoints: [point], monitoringCatalog, keywordTargets });
+    const current = await call('/api/stores/keke-flushing/timeline?surface=web');
+    expect(current.body.pointId).toBe('keke-center');
+    expect(current.body.items.map((o: RankObservation) => o.pointId)).toEqual(['keke-center']);
+    expect((await call('/api/stores/keke-flushing/latest?surface=web')).body[0].pointId).toBe('keke-center');
+    expect((await call('/api/stores/keke-flushing/timeline?surface=web&point=r0c0')).body.items).toHaveLength(1);
+  });
   it('returns the requested surface in store summaries', async () => {
     const { call } = await start([obs('braised food', 8, '2026-10-20T12:00:00Z'), obs('braised food', 1, '2026-10-20T12:00:00Z', { surface: 'android' })]);
     expect((await call('/api/stores?surface=web')).body[0].summary).toMatchObject({ surface: 'web', top3: 0, averageOrganicRank: 8 });
