@@ -1,6 +1,6 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-21 12:20 Asia/Shanghai. **Work in progress; Android recurring collection is not accepted or enabled.** Latest candidate: candidate7 (probe 7 checkpoint below). Update this document after each candidate replay, device run, deployment, or change to the acceptance criteria.
+Last updated: 2026-10-21 12:20 Asia/Shanghai. **Work in progress; Android recurring collection is not accepted or enabled.** Latest candidate: candidate8 (probe 8 checkpoint below). Update this document after each candidate replay, device run, deployment, or change to the acceptance criteria.
 
 ## Objective and scope
 
@@ -142,6 +142,24 @@ Source `8d8ebc57b2f2f37fa9530f87ee5ad5c8611ad8fa` (merged to main). Repairs, rep
 Reading: candidate7 removed the photo-module stop at the first card for q0001/q0002 and q0005 progressed into the module. The recurring blocker is now a ~1,000 px content jump at a fixed position in long lists (q0002 44, q0003 33, probe 6 q0003 27), plus the `View photo map` module state and the source-change budget on q0004.
 
 Next action (candidate8): (1) diff the XML/PNG pairs around the jumps (probe 6 q0003 26/27, probe 7 q0002 43/44, q0003 32/33) to tell a fling from a RecyclerView re-layout; if it is a re-layout after loading more items, a smaller gesture will not help and a backward correction gesture or a second capture before the gesture is needed. (2) Accept the module's `View photo map` control as a known module label (exact text, clickable ViewGroup) in `cardsBesidePhotoModule` while keeping the dedicated photo-map-tail proofs for other shapes. (3) Inspect q0001 frame 25 (no native list, no OCR header). (4) Make the source-change budget per gesture rather than per query once (1)–(3) hold. The verification Pod's 4-hour deadline ends at 05:19 UTC; all outputs stay on the `android-runtime` PVC under `/runtime/nine-store-verification-20261021{e,f,g}`.
+
+## Candidate8 checkpoint (probe 8)
+
+Source `5111f091eda124bfd27423c391ba529501a4da93` (merged to main). Repairs, reproduced first from the probe-7 fixtures (`tests/android-candidate8-probe7.test.ts`, runner tests in `tests/android-runner.test.ts`): a forward gesture whose next frame shares no ordered overlap is corrected by one bounded **backward** gesture (45% of the native list, backward-scroll proof required, `device.swipeResults(evidence, 'backward')`); the skipped frame stays as evidence (`screens[].discarded`) but leaves the reconciled sequence (`nativeFrameCorrections`), at most two per query; the photo-discovery module may carry its own `View photo map` control (clickable ViewGroup with ACTION_CLICK below the tiles, that label only); listing method v11. Software gates: typecheck, full `npm test` 1,577 tests / 77 files.
+
+2026-10-21 15:36–15:50 Asia/Shanghai, run `run_20261021T073609Z_835f64`, new Pod `maps-nine-android-verify-20261021b` (the first Pod's 4-hour deadline had passed; emulator and Appium started by hand from `deploy/android/linux/runtime.py` and `appium.sh`), source `/runtime/nine-store-source-20261021h` (160 files SHA-256 checked), output `/runtime/nine-store-verification-20261021j` (two earlier launches in `…h` and `…i` failed before any capture: Appium not running, then a stale device lease from that failure — cleared after confirming no session existed), profile hash `0441d97dd1e75e1a111a85e6f946c54e3f73b93277894ae3df1562c164a49055`. Original exit 2, `needs_review`, all five GPS injections matched. Independent readback (`candidate8-live-verification.json`): 619 artifact receipts verified, 155 PNGs decoded, 5 + 44 CSV rows matched, 7 native refreshes. **Outcome: still 0 of 5 complete; 44 rows (2 ads, 42 organic, 0 unknown); first query to end in a reliable state (q0002, 14 rows, `not_found_in_prefix`, stopped only by the 60-screenshot budget).**
+
+| Query | Frames / rows | Stop reason | What happened |
+|---|---:|---|---|
+| q0001 卤味 | 24 / 5 | `ranking_unreliable` | Frame 22 read `一 回 小 店` for the card frame 21 read as `一 间 小 店` (4-character CJK name, one character differs; bigram similarity 0.2 < 0.5). Two backward corrections re-exposed the previous cards (frames 23–24) but every continuity rule rejects *downward* movement, so the corrected frames could not join frame 21 either. Keke visible at display 2 / organic 2. |
+| q0002 chinese food | 60 / 14 | `screenshot_budget` | Corrections after frame 48 worked (frame 51 rejoined frame 48); sequence verified to the end; 14 rows reliable; budget exhausted at 60 screenshots. |
+| q0003 bubble tea near me | 40 / 14 | `unknown_scroll_layout` | Corrections after frame 33 worked; frame 40's list (one complete card plus the next card whose action row is not yet visible) is not accepted by `liveSearchLists` (`sheetBoundarySource: ocr_header`). Only Bear at display 2 / organic 1 behind a Gong Cha ad. |
+| q0004 hot pot near me | 25 / 10 | `ranking_unreliable` | Frame 23: the same card with a 34 px clipped header keeps its legible name but lost its distance text; the clipped-prefix join requires equal distance and the anchored join requires a *null* name, so neither applies; the two corrections then hit the downward-movement rule as in q0001. |
+| q0005 bakery | 1 / 1 | `unknown_scroll_layout` | The very first frame (filter row + one card with Directions/Save in a non-scrolling row) is not accepted by `liveSearchLists`, so no gesture was sent. |
+
+Reading: the backward correction works when the previous content is re-exposed and names re-read identically (q0002, q0003). The remaining stops are rule gaps rather than device behaviour: (1) continuity rules refuse downward movement, which is exactly what a correction produces; (2) short CJK names with one misread character fail the bigram similarity; (3) a clipped header whose name is still legible but whose status line lost its distance cannot join; (4) two more list shapes are outside the native whitelist (q0003 frame 40, q0005 frame 1). Throughput: q0002 needed 60 frames for 14 rows; a reliable Top20 needs roughly 90 screenshots at the current 300 px gesture.
+
+Next action (candidate9): mark frames captured after a backward correction and let the overlap/anchor/drift rules accept movement in either direction (within half the list) for them; character-level similarity for short CJK names (share ≥ 60% of characters); anchored clipped join when the clipped card keeps an identical name key; raise `maxScreenshotsPerQuery` for verification runs to 90; then look at the two list shapes.
 
 ## Operational read-only commands
 
