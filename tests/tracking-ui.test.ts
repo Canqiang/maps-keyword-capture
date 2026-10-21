@@ -5,8 +5,8 @@ import type { RankObservation } from '../src/domain/model.js';
 import { MemoryTrackingRepository } from '../src/domain/repository.js';
 import { parseTrackingConfig, shardStores, withStores } from '../src/domain/tracking-config.js';
 import { generateGrid } from '../src/grid/grid.js';
-import { startServer } from '../src/web/server.js';
-import type { Server } from 'node:http';
+import { createHandler } from '../src/web/server.js';
+import { createServer, type Server } from 'node:http';
 
 const raw = JSON.parse(await readFile(new URL('../docs/tracking-config.example.json', import.meta.url), 'utf8'));
 const keke = raw.stores[0];
@@ -55,14 +55,24 @@ describe('memory repository', () => {
 
 describe('tracking ui server', () => {
   let server: Server | undefined;
-  afterEach(() => new Promise<void>(resolve => { if (server) server.close(() => resolve()); else resolve(); }));
+  afterEach(() => new Promise<void>(resolve => { if (server) server.close(() => { server = undefined; resolve(); }); else resolve(); }));
   async function start(observations: RankObservation[] = [], evidence?: { get(key: string): Promise<Buffer> }) {
     const repo = new MemoryTrackingRepository(observations);
     await repo.saveStore(keke);
-    server = startServer({ config, repo, ...(evidence ? { evidence } : {}), now: () => new Date('2026-10-21T00:00:00Z') }, 0);
+    const handler = createHandler({ config, repo, ...(evidence ? { evidence } : {}), now: () => new Date('2026-10-21T00:00:00Z') });
+    let received = 0;
+    server = createServer((request, response) => { received++; void handler(request, response); });
+    // Bind the same address family used by the client. An unspecified-host
+    // ephemeral listener can select a different local endpoint on macOS.
+    server.listen(0, '127.0.0.1');
     await new Promise(resolve => server!.once('listening', resolve));
     const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
-    const call = async (path: string, init?: RequestInit) => { const res = await fetch(base + path, { headers: { 'content-type': 'application/json' }, ...init }); return { status: res.status, type: res.headers.get('content-type'), body: res.headers.get('content-type')?.includes('json') ? await res.json() : await res.text() }; };
+    const call = async (path: string, init?: RequestInit) => {
+      const before = received;
+      const res = await fetch(base + path, { headers: { 'content-type': 'application/json' }, ...init });
+      expect(received, `request must reach this test server: ${init?.method ?? 'GET'} ${path}`).toBe(before + 1);
+      return { status: res.status, type: res.headers.get('content-type'), body: res.headers.get('content-type')?.includes('json') ? await res.json() : await res.text() };
+    };
     return { repo, call };
   }
   it('serves the page, settings and the store list with summaries', async () => {

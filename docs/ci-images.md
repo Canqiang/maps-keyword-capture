@@ -1,8 +1,10 @@
-# GitHub-built Web and Android images
+# Remote Web and Android image builds
+
+The selected release path is **GitHub source and checks → Azure ACR remote build → Pod pulls by digest**. It uses the operator's existing authorized Azure login and needs no local Docker daemon or local image build. GitHub-hosted image publication is an optional alternative and remains disabled (`ACR_PUBLISH_ENABLED=false`); there is no outstanding requirement for the user to grant its OIDC identity a role.
 
 `.github/workflows/images.yml` runs the TypeScript checks, all Vitest tests, a production build, Python Android contract tests, and the image-receipt tests on GitHub-hosted Ubuntu runners. Chromium is installed for browser fixture tests. No Android emulator or live Maps collection is required by this workflow.
 
-After checks pass and the repository variable `ACR_PUBLISH_ENABLED` is `true`, pushes to `main` or the temporary bootstrap branch `codex/fix-tracking-review-20261020` publish both images to ACR. Manual dispatch can publish only from those same refs. Pull requests run checks with read-only repository access; they cannot publish. The workflow does not deploy, access MongoDB, alter schedules, or receive Kubernetes credentials.
+The workflow runs checks for pushes to `main`, the temporary bootstrap branch `codex/fix-tracking-review-20261020`, and pull requests targeting `main`. Its optional publish jobs also require `ACR_PUBLISH_ENABLED=true`; leave that variable false for the selected Azure build path. Manual dispatch can publish only from those same refs. Pull requests run checks with read-only repository access; they cannot publish. The workflow does not deploy, access MongoDB, alter schedules, or receive Kubernetes credentials.
 
 | Surface | Dockerfile | ACR repository |
 | --- | --- | --- |
@@ -11,9 +13,64 @@ After checks pass and the repository variable `ACR_PUBLISH_ENABLED` is `true`, p
 
 Both builds receive the full source commit as `GIT_COMMIT` and an OCI revision label. Android builds pull the existing runtime base by digest `sha256:7691aa8c220d055619ceb0d45c15ca0f2ca434f8b059d9db219ab00bf19c6fc5`; they do not build or download an emulator runtime locally. The Dockerfile-specific ignore file includes `deploy/android`, which the Web build's root `.dockerignore` excludes.
 
-## One-time Azure OIDC setup
+## Selected path: build a committed source archive in ACR
 
-The initial repository audit found no GitHub secrets, variables, or environments. During setup on 2026-10-21, the dedicated Entra application, service principal, and exact-ref federations were created. The current Azure account was denied `Microsoft.Authorization/roleAssignments/write`, so it could not grant registry access. Keep `ACR_PUBLISH_ENABLED=false` until an Azure administrator grants that permission to the publishing identity. Checks continue while publication is skipped; a green checks job is not a published image. After publication is enabled, a missing identity variable fails the publish job with the variable's name, without printing its value.
+Start from the reviewed commit in the repository after its checks pass. The archive includes only tracked files at that commit; it cannot silently include uncommitted fixes, untracked `.env` files, or the working directory's unrelated files. Commit intended source changes first. Run the following in Bash. These commands create a temporary **source** directory, not an image, and do not invoke Docker:
+
+```sh
+set -e
+git diff --quiet
+git diff --cached --quiet
+build_commit="$(git rev-parse --verify HEAD^{commit})"
+build_record_dir="$(mktemp -d "${TMPDIR:-/tmp}/maps-acr-build.XXXXXX")"
+mkdir "$build_record_dir/context"
+git archive --format=tar "$build_commit" > "$build_record_dir/source.tar"
+tar -xf "$build_record_dir/source.tar" -C "$build_record_dir/context"
+printf '%s\n' "$build_commit" > "$build_record_dir/source-commit.txt"
+shasum -a 256 "$build_record_dir/source.tar" > "$build_record_dir/source-archive.sha256"
+```
+
+Keep the source archive/hash and run metadata with the release evidence. `Dockerfile` and `deploy/android/Dockerfile` must be tracked at that commit. The Dockerfile-specific ignore file allows the Android scripts into its uploaded context.
+
+Queue the two builds on ACR's Linux workers. ACR substitutes its unique run ID into each tag; `GIT_COMMIT` remains the full source commit. `--no-wait` returns the run identity rather than claiming the build is complete:
+
+```sh
+web_run="$(az acr build --registry fbrdevacr --platform linux/amd64 \
+  --file Dockerfile --build-arg "GIT_COMMIT=$build_commit" \
+  --image "ai/maps-keyword-capture:sha-$build_commit-{{.Run.ID}}" \
+  --no-wait --query runId --output tsv "$build_record_dir/context")"
+android_run="$(az acr build --registry fbrdevacr --platform linux/amd64 \
+  --file deploy/android/Dockerfile --build-arg "GIT_COMMIT=$build_commit" \
+  --image "ai/maps-keyword-capture-android:sha-$build_commit-{{.Run.ID}}" \
+  --no-wait --query runId --output tsv "$build_record_dir/context")"
+printf '%s\n' "$web_run" > "$build_record_dir/web-run-id.txt"
+printf '%s\n' "$android_run" > "$build_record_dir/android-run-id.txt"
+az acr task logs --registry fbrdevacr --run-id "$web_run"
+az acr task logs --registry fbrdevacr --run-id "$android_run"
+```
+
+Wait until **both** `az acr task show-run` statuses are `Succeeded`; a queued/running run or upload receipt is insufficient. Save each terminal run record and compare its output digest to an independent registry read:
+
+```sh
+az acr task show-run --registry fbrdevacr --run-id "$web_run" --output json > "$build_record_dir/web-run.json"
+az acr task show-run --registry fbrdevacr --run-id "$android_run" --output json > "$build_record_dir/android-run.json"
+test "$(az acr task show-run --registry fbrdevacr --run-id "$web_run" --query status --output tsv)" = Succeeded
+test "$(az acr task show-run --registry fbrdevacr --run-id "$android_run" --query status --output tsv)" = Succeeded
+web_digest="$(az acr task show-run --registry fbrdevacr --run-id "$web_run" --query 'outputImages[0].digest' --output tsv)"
+android_digest="$(az acr task show-run --registry fbrdevacr --run-id "$android_run" --query 'outputImages[0].digest' --output tsv)"
+[[ "$web_digest" =~ ^sha256:[a-f0-9]{64}$ ]]
+[[ "$android_digest" =~ ^sha256:[a-f0-9]{64}$ ]]
+test "$web_digest" = "$(az acr repository show --name fbrdevacr --image "ai/maps-keyword-capture:sha-$build_commit-$web_run" --query digest --output tsv)"
+test "$android_digest" = "$(az acr repository show --name fbrdevacr --image "ai/maps-keyword-capture-android:sha-$build_commit-$android_run" --query digest --output tsv)"
+printf 'fbrdevacr.azurecr.io/ai/maps-keyword-capture@%s\n' "$web_digest"
+printf 'fbrdevacr.azurecr.io/ai/maps-keyword-capture-android@%s\n' "$android_digest"
+```
+
+Use those exact digest references for the selected Pod/Deployment/CronJob images and read back the rollout separately. Retain unique commit/run tags; do not use a moving `latest` tag. Existing collectors, store collections, historical records and schedules are outside this build operation. The private Android base is fetched by ACR itself using its existing registry access; no local image pull is required.
+
+## Optional alternative: GitHub OIDC publication (disabled)
+
+The initial repository audit found no GitHub secrets, variables, or environments. During setup on 2026-10-21, the dedicated Entra application, service principal, and exact-ref federations were created. The current Azure account was denied `Microsoft.Authorization/roleAssignments/write`, so it could not grant registry access. The user selected ACR remote builds instead. Keep `ACR_PUBLISH_ENABLED=false`; the instructions below are retained only if GitHub-hosted publication is explicitly chosen in the future. Checks continue while publication is skipped; a green checks job is not a published image. If this optional route is later enabled, a missing identity variable fails the publish job with the variable's name, without printing its value.
 
 Use an Entra application/service principal dedicated to image publication. Assign `AcrPush` at the **fbrdevacr registry resource scope only**, with no subscription-wide Contributor role. That permits pulling the private Android base and publishing image metadata. This recipe assumes the registry uses the registry-wide RBAC mode; an ABAC-enabled registry needs equivalent repository-scoped read/write and metadata permissions instead.
 
@@ -45,18 +102,20 @@ az role assignment create \
   --scope /subscriptions/b263120d-af69-420b-87b1-6dc7e1c86851/resourceGroups/fbrdev/providers/Microsoft.ContainerRegistry/registries/fbrdevacr
 ```
 
-After independently verifying the role assignment, enable publication and run the workflow from an allowed branch:
+After independently verifying the role assignment, enable publication. The bootstrap branch's initial push starts a run even before the workflow is merged into `main`; rerun that run after access is granted:
 
 ```sh
 gh variable set ACR_PUBLISH_ENABLED --body true --repo Canqiang/maps-keyword-capture
-gh workflow run images.yml --repo Canqiang/maps-keyword-capture --ref codex/fix-tracking-review-20261020
+gh run rerun <bootstrap-run-id> --repo Canqiang/maps-keyword-capture
 ```
+
+GitHub requires a workflow to exist on the default branch before [manual dispatch](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow) is available. After merging, `gh workflow run images.yml --repo Canqiang/maps-keyword-capture --ref main` can start an additional run. Do not depend on manual dispatch for the first feature-branch test.
 
 No client secret or registry password is needed. Do not attach a GitHub environment to the publish job without redesigning the Azure trust: an environment changes the OIDC subject from an exact ref to an environment identity. The workflow grants `id-token: write` only to the gated publish job. All third-party actions are pinned to full commits, and checkout disables persisted Git credentials. See [Azure's OIDC setup](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect).
 
 After the bootstrap branch is merged, remove its push trigger, publish condition, workflow test expectation, and Azure federated credential. Keep only `main` publication trust.
 
-## Image receipts and deployment
+## Optional GitHub publication receipts
 
 Each build publishes a unique `sha-<full-commit>-<run-id>-<attempt>` tag. Rerunning a workflow creates a new tag. The workflow disables writes and deletes on both that tag and its manifest, reads their metadata back from ACR, and verifies their digests against the builder output. [ACR treats tag and manifest locks separately](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-image-lock).
 

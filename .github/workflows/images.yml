@@ -31,6 +31,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      # Ubuntu 24.04 restricts userns for Playwright's downloaded Chromium.
+      # Keep the collector sandbox enabled; allow only this exact CI binary.
+      - name: Verify sandboxed Chromium
+        run: node --import tsx .github/scripts/browser-preflight.mjs
       - run: npm run typecheck
       - run: npm run test:contracts
       - run: npm run test:unit -- --maxWorkers=2
