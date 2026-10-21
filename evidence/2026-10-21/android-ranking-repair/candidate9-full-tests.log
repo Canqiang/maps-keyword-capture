@@ -1,0 +1,13 @@
+
+ RUN  v5.0.1 /Users/xander/git_repo/maps-keyword-capture
+
+{"ts":"2026-10-21T08:03:45.414Z","stage":"scan_stores","stores":5,"shard":"0/2"}
+{"ts":"2026-10-21T08:03:45.423Z","stage":"scan_stores","stores":4,"shard":"1/2"}
+{"ts":"2026-10-21T08:03:45.435Z","stage":"scan_stores","stores":5,"shard":"0/2"}
+{"ts":"2026-10-21T08:03:45.443Z","stage":"scan_stores","stores":4,"shard":"1/2"}
+
+ Test Files  78 passed (78)
+      Tests  1583 passed (1583)
+   Start at  16:03:11
+   Duration  106.25s (tests 95%, import 4%, transform 1%)
+

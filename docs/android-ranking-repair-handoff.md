@@ -1,6 +1,6 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-21 12:20 Asia/Shanghai. **Work in progress; Android recurring collection is not accepted or enabled.** Latest candidate: candidate8 (probe 8 checkpoint below). Update this document after each candidate replay, device run, deployment, or change to the acceptance criteria.
+Last updated: 2026-10-21 12:20 Asia/Shanghai. **Work in progress; Android recurring collection is not accepted or enabled.** Latest candidate: candidate9 (probe 9 checkpoint below). Update this document after each candidate replay, device run, deployment, or change to the acceptance criteria.
 
 ## Objective and scope
 
@@ -160,6 +160,22 @@ Source `5111f091eda124bfd27423c391ba529501a4da93` (merged to main). Repairs, rep
 Reading: the backward correction works when the previous content is re-exposed and names re-read identically (q0002, q0003). The remaining stops are rule gaps rather than device behaviour: (1) continuity rules refuse downward movement, which is exactly what a correction produces; (2) short CJK names with one misread character fail the bigram similarity; (3) a clipped header whose name is still legible but whose status line lost its distance cannot join; (4) two more list shapes are outside the native whitelist (q0003 frame 40, q0005 frame 1). Throughput: q0002 needed 60 frames for 14 rows; a reliable Top20 needs roughly 90 screenshots at the current 300 px gesture.
 
 Next action (candidate9): mark frames captured after a backward correction and let the overlap/anchor/drift rules accept movement in either direction (within half the list) for them; character-level similarity for short CJK names (share ≥ 60% of characters); anchored clipped join when the clipped card keeps an identical name key; raise `maxScreenshotsPerQuery` for verification runs to 90; then look at the two list shapes.
+
+## Candidate9 checkpoint (probe 9)
+
+Source `d53412f` (compiled files; commit later amended to `b3f05cf` with a test-only change, same `dist`), merged to main. Repairs, reproduced from the probe-8 fixtures (`tests/android-candidate9-probe8.test.ts`): frames captured after a backward correction may show content that moved *down* (within half the list) in the overlap, drift and anchor rules; short CJK names sharing 60% of their characters are the same card at an overlap position (一回小店 / 一间小店); a clipped header whose name is still legible and identical joins through anchored continuity (the probe-8 note about a lost distance was wrong: the join had failed on a 4 px tolerance); per-line movement tolerance 4 → 12 px; listing method v12. Verification config raised `maxScreenshotsPerQuery` to 90. Software gates: full `npm test` 1,583 tests / 78 files (`candidate9-full-tests.log`).
+
+2026-10-21 16:01–16:17 Asia/Shanghai, run `run_20261021T080153Z_05bdb7`, same Pod, source `/runtime/nine-store-source-20261021k` (162 files SHA-256 checked), output `/runtime/nine-store-verification-20261021k`, profile hash `62491d8d2f968bb99bf21a51d6e440d2d1a446f7bd75b5c04456a57e822f4c64`. Original exit 2, `needs_review`. Independent readback (`candidate9-live-verification.json`): 655 artifact receipts verified, 164 PNGs decoded, 5 + 47 CSV rows matched, 8 native refreshes. **Outcome: still 0 of 5 complete; 47 rows (2 ads, 44 organic, 1 unknown); q0004 reached 19 rows (one short of the 20 target).**
+
+| Query | Frames / rows | Stop reason | What happened |
+|---|---:|---|---|
+| q0001 卤味 | 19 / 3 | `ranking_unreliable` | an `unknown` card entered the sequence (`unknown_cards_precede_organic_ranks`); not yet inspected |
+| q0002 chinese food | 52 / 12 | `ranking_unreliable` | overlap missing 50 → 52 after both corrections were spent |
+| q0003 bubble tea near me | 33 / 12 | `source_changed` | the three-per-query refresh budget was exhausted |
+| q0004 hot pot near me | 54 / 19 | `source_changed` | refresh budget exhausted at 19 reliable rows |
+| q0005 bakery | 1 / 1 | `unknown_scroll_layout` | first-frame layout (filter row + one card with a non-scrolling Directions/Save row) still outside the native whitelist |
+
+Next action (candidate10): make the source-change refresh budget per *gesture* (one fresh capture after every sent gesture) instead of three per query — it now ends the two longest runs; inspect q0001's unknown card and q0002 frames 50–52; accept the q0005 first-frame layout. The verification Pod `maps-nine-android-verify-20261021b` expires at 11:11 UTC; all outputs stay on the PVC (`…h`, `…j`, `…k`).
 
 ## Operational read-only commands
 
