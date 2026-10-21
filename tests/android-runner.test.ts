@@ -314,6 +314,19 @@ describe('native terminal boundaries and profile identity',()=>{
   const ra=await runAndroidCapture(a.config,a.device,new LocalArtifactStore(a.root),opts);const rb=await runAndroidCapture(b.config,b.device,new LocalArtifactStore(b.root),opts);const rc=await runAndroidCapture(c.config,c.device,new LocalArtifactStore(c.root),opts);
   expect(ra.manifest.surface).toBe('google_maps_android_app');expect(ra.manifest.adapterVersion).toBe('android-screen-ocr/v4');expect(ra.manifest.profileHash).toMatch(/^[a-f0-9]{64}$/);expect(ra.manifest.profileHash).toBe(rb.manifest.profileHash);expect(ra.manifest.profileHash).not.toBe(rc.manifest.profileHash);
  });
+ it('persists actual display metadata and separates each display condition without inventing historical defaults',async()=>{
+  const displays = [undefined, {widthPixels:720,heightPixels:1280,densityDpi:320,fontScale:1}, {fontScale:1,densityDpi:320,heightPixels:1280,widthPixels:720},
+    {widthPixels:1080,heightPixels:1280,densityDpi:320,fontScale:1}, {widthPixels:720,heightPixels:2400,densityDpi:320,fontScale:1},
+    {widthPixels:720,heightPixels:1280,densityDpi:420,fontScale:1}, {widthPixels:720,heightPixels:1280,densityDpi:320,fontScale:1.15}];
+  const profiles: Array<string|null> = [];
+  for(const display of displays){const s=await setup();const original=s.device.preflight;s.device.preflight=async()=>({...await original(),...(display ? {display} : {})});
+    const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([emptyScreen()])});
+    profiles.push(r.manifest.profileHash);const deviceFile=r.manifest.artifacts.find(a=>a.kind==='device')!;
+    const saved=JSON.parse(await readFile(join(s.root,deviceFile.relativePath),'utf8'));expect(saved.display).toEqual(display);expect(r.manifest.device?.display).toEqual(display);
+    if(!display)expect(Object.hasOwn(saved,'display')).toBe(false);
+  }
+  expect(profiles[1]).toBe(profiles[2]);expect(new Set(profiles.filter((_,i)=>i!==2)).size).toBe(6);
+ });
  it('keeps original PNG and malformed XML as diagnostics while marking query failed',async()=>{
   const malformed='<hierarchy><node>';const s=await setup({snapshot:async()=>({png,xml:malformed,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()})});const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root));
   expect(r.exitCode).toBe(2);expect(r.manifest.queries[0]?.error?.code).toBe('invalid_ui_xml');const shot=r.manifest.queries[0]?.screens[0];expect(shot?.role).toBe('diagnostic');expect(shot?.analysis.kind).toBe('unknown');expect((await readFile(join(s.root,shot!.png.relativePath))).equals(png)).toBe(true);

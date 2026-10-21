@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "android-display-validation/v1",
+  "checkedAt": "2026-10-21T02:51:58.354088+00:00",
+  "status": "local_tests_build_pass_live_display_experiment_pending",
+  "baseCommit": "0eba0589ff960829dc48104b9ad5bafa3283c1db",
+  "sourceHashes": {
+    "src/android/contracts.ts": "a30eaa0b5779ef482047734e20632ecd03927c39e72ce67732fd7ebc7f094245",
+    "src/android/device.ts": "a6a516538cb3017b6737301f70f2d69267a578397887ca8757ef4a3e1b0e68b3",
+    "src/android/runner.ts": "8e0e03f9c1c023a4e9d23fbe1a7d5f7b6b57c1d0e9ed7a8204e88fee1ea69118",
+    "src/android/ui.ts": "c5477f7840a86b8830bbad87488a8be850372eff2117032d875f65bc78d24728",
+    "src/android/screen-reader.ts": "137b4f4653b4fd209bb94bd0233b665c2f892098d8f677fc6c7be30ca251abb3"
+  },
+  "testHashes": {
+    "tests/android-device.test.ts": "625a5a3cc42c24e1ce5503b5479f4b983e9c6f1114684a78f53f1e0c46608d93",
+    "tests/android-runner.test.ts": "4e9690a6e79e7a9e799deccce2a63d5b28203ef18833bfb2208c20e5b35b40fa"
+  },
+  "compiledHashes": {
+    "dist/android/contracts.js": "427a6852d1b4fbc59c12b396120836e73895fb11bee3ec3841f58f9c9f32499d",
+    "dist/android/device.js": "53889b2ba16cfda4a05cf36638099d71a78e1e2311eee1a47dcc8b99ff155195",
+    "dist/android/runner.js": "c36bc174c7ac2dc735a93295436ce342ebabaad33d4a8ec8a1639d9a2b39585a",
+    "dist/android/ui.js": "f398f15e0a864130117f529f4aac21aac5cf0b18ed138b704aa13f2280ad075d",
+    "dist/android/screen-reader.js": "1f0257223b9ab6ce5afb0a8e1b5d684169c3dc06bcb72225e1bc591ecc73dd8c"
+  },
+  "targetedTests": {
+    "passed": 691,
+    "failed": 0,
+    "files": 8,
+    "report": "display-targeted-tests.json"
+  },
+  "domainTests": {
+    "passed": 77,
+    "failed": 0,
+    "files": 6,
+    "report": "display-domain-tests.json"
+  },
+  "typecheck": "passed",
+  "contractChecks": "passed",
+  "build": "passed",
+  "diffCheck": "passed",
+  "redEvidence": {
+    "passed": 236,
+    "failed": 27,
+    "report": "display-red-tests.json",
+    "expectedFailures": "Existing preflight expected display, Override handling, 24 malformed evidence cases, and profile environment separation; two additional positive mixed-override cases added after green."
+  },
+  "independentReview": {
+    "reviewer": "/root",
+    "scope": "Independent narrow source diff review before final validation",
+    "blockingFindings": [],
+    "checks": [
+      "Valid override wins; physical record required and ambiguous/bad output rejected",
+      "Finite positive font scale; Native preflight reads only",
+      "Missing historical display stays absent",
+      "Actual display participates in stable profile hash",
+      "No scroll, ranking or runtime changes"
+    ]
+  },
+  "actualDisplayBaseline": {
+    "readback": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-display-baseline-readback.json",
+    "sha256": "62b0d45a13fa12afedb3663399b7a4d7274b178325b7b840308e972e447e94b3",
+    "display": {
+      "widthPixels": 720,
+      "heightPixels": 1280,
+      "densityDpi": 320,
+      "fontScale": 1
+    },
+    "readOnly": true
+  },
+  "compatibility": {
+    "displayOptionalForHistoricalEvidence": true,
+    "nativePreflightRequiresMeasuredDisplay": true,
+    "defaultNotInvented": true,
+    "oldAndNewProfilesNotCombined": true
+  },
+  "runtimeMutation": false,
+  "limits": [
+    "Build and targeted tests do not prove native top20 completeness or two-hour capacity.",
+    "No new live capture or display-setting command was executed by this change.",
+    "The root agent owns a later isolated display experiment and integrated full-suite/deployment gates."
+  ]
+}

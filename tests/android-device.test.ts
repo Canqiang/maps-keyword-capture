@@ -57,6 +57,7 @@ function adbFixture(overrides: Record<string, string> = {}) {
       'get-state': 'device', 'shell getprop sys.boot_completed': '1', 'shell getprop ro.kernel.qemu': '1',
       'shell getprop ro.build.version.release': '15', 'shell getprop persist.sys.locale': 'en-US',
       'shell getprop persist.sys.timezone': 'America/New_York',
+      'shell wm size': 'Physical size: 720x1280\n', 'shell wm density': 'Physical density: 320\n', 'shell settings get system font_scale': '1.0\n',
       [`shell pm list packages -e ${maps}`]: `package:${maps}`,
       'shell pm list packages -e com.google.android.gms': 'package:com.google.android.gms',
       [`shell dumpsys package ${maps}`]: 'versionName=25.40.01\n',
@@ -255,9 +256,40 @@ describe('NativeMapsDevice safety and preflight', () => {
   it('reads emulator/package/environment evidence with an explicit serial and no settings mutations', async () => {
     const adb = adbFixture();
     const info = await new NativeMapsDevice(config, { adb: adb.adb }).preflight();
-    expect(info).toEqual({ serial: 'emulator-5554', androidVersion: '15', appVersion: '25.40.01', appPackage: maps, locale: 'en-US', timezone: 'America/New_York', emulator: true });
+    expect(info).toEqual({ serial: 'emulator-5554', androidVersion: '15', appVersion: '25.40.01', appPackage: maps, locale: 'en-US', timezone: 'America/New_York', emulator: true, display: { widthPixels: 720, heightPixels: 1280, densityDpi: 320, fontScale: 1 } });
     expect(adb.calls.every((args) => args.includes('-s') && args.includes('emulator-5554'))).toBe(true);
-    expect(adb.calls.some((args) => args.includes('setprop') || args.includes('settings'))).toBe(false);
+    expect(adb.calls.some(args => args.includes('setprop') || (args.includes('settings') && !args.includes('get')))).toBe(false);
+    expect(adb.calls.filter(args => args.includes('wm')).map(args => args.slice(-2))).toEqual([['wm', 'size'], ['wm', 'density']]);
+  });
+  it('records effective display overrides instead of the reported physical values', async () => {
+    const adb = adbFixture({ 'shell wm size': 'Physical size: 720x1280\nOverride size: 1080x2400\n', 'shell wm density': 'Physical density: 320\nOverride density: 420\n', 'shell settings get system font_scale': '1.15\n' });
+    expect((await new NativeMapsDevice(config, { adb: adb.adb }).preflight()).display).toEqual({ widthPixels: 1080, heightPixels: 2400, densityDpi: 420, fontScale: 1.15 });
+  });
+  it.each([
+    [{ 'shell wm size': 'Physical size: 720x1280\r\nOverride size: 1080x2400\r\n' }, { widthPixels: 1080, heightPixels: 2400, densityDpi: 320, fontScale: 1 }],
+    [{ 'shell wm density': 'Physical density: 320\nOverride density: 240\n' }, { widthPixels: 720, heightPixels: 1280, densityDpi: 240, fontScale: 1 }],
+  ])('handles an override of only one metric without fabricating the other: %j', async (overrides, expected) => {
+    expect((await new NativeMapsDevice(config, { adb: adbFixture(overrides as Record<string,string>).adb }).preflight()).display).toEqual(expected);
+  });
+  it.each([
+    ['shell wm size', ''], ['shell wm size', 'Override size: 1080x2400'],
+    ['shell wm size', 'Physical size: 0x1280'], ['shell wm size', 'Physical size: -720x1280'],
+    ['shell wm size', 'Physical size: 720.5x1280'], ['shell wm size', 'Physical size: 9007199254740992x1280'],
+    ['shell wm size', 'Physical size: 720x1280\nOverride size: 0x2400'],
+    ['shell wm size', 'Physical size: 720x1280\nOverride size: 1080x2400\nOverride size: 800x1600'],
+    ['shell wm size', 'Physical size: 720x1280\nPhysical size: 800x1600'],
+    ['shell wm size', 'Physical size: 720x1280\nError: denied'],
+    ['shell wm density', 'Override density: 420'], ['shell wm density', 'Physical density: 0'],
+    ['shell wm density', 'Physical density: 320\nOverride density: -420'],
+    ['shell wm density', 'Physical density: 320\nOverride density: 420.5'],
+    ['shell wm density', 'Physical density: 320\nPhysical density: 420'],
+    ['shell wm density', 'Physical density: 320\nOverride density: 420\nOverride density: 240'],
+    ['shell settings get system font_scale', 'null'], ['shell settings get system font_scale', ''],
+    ['shell settings get system font_scale', 'NaN'], ['shell settings get system font_scale', 'Infinity'],
+    ['shell settings get system font_scale', '0'], ['shell settings get system font_scale', '-1'],
+    ['shell settings get system font_scale', '1.0\n1.5'], ['shell settings get system font_scale', '1.0f'],
+  ])('fails closed for unavailable or ambiguous display evidence: %s = %s', async (command, value) => {
+    await expect(new NativeMapsDevice(config, { adb: adbFixture({ [command]: value }).adb }).preflight()).rejects.toMatchObject({ code: 'DISPLAY_UNAVAILABLE' });
   });
   it.each([
     ['shell getprop sys.boot_completed', '0', 'DEVICE_NOT_READY'],
@@ -1326,7 +1358,7 @@ describe('NativeMapsDevice evidence-bound result swipe', () => {
     expect(movements).toHaveLength(1);
     const actions = movements[0]!.body.actions[0].actions;
     expect([actions[0].x, actions[0].y, actions[2].x, actions[2].y]).toEqual([360, 1136, 360, 1040]);
-    expect(fixture.calls.some(args => args.includes('swipe') || args.includes('size'))).toBe(false);
+    expect(fixture.calls.some(args => args.includes('swipe') || (args.includes('size') && args.at(-1) !== 'size'))).toBe(false);
     expect(appium.calls.some(call => call.body?.script === 'mobile: scrollGesture')).toBe(false);
     await device.close();
   });

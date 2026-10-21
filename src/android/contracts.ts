@@ -20,11 +20,16 @@ export interface AndroidCaptureConfig {
   maxDisplayedResults: number; maxScrolls: number; ocrLanguages: string; ocrTimeoutMs: number;
   tasks: AndroidTask[];
 }
+export interface AndroidDisplayInfo {
+  widthPixels: number; heightPixels: number; densityDpi: number; fontScale: number;
+}
 export interface AndroidDeviceInfo {
   serial: string; androidVersion: string; appVersion: string;
   appPackage: 'com.google.android.apps.maps';
   locale: string; timezone: string;
   emulator: boolean;
+  /** Effective native display settings; absent only in historical evidence/test adapters. */
+  display?: AndroidDisplayInfo;
 }
 export interface LocationPreparation {
   homeReadyAt: string | null;

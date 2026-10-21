@@ -13,7 +13,7 @@ The workflow runs checks for pushes to `main`, the temporary bootstrap branch `c
 | Web | `Dockerfile` | `fbrdevacr.azurecr.io/ai/maps-keyword-capture` |
 | Android | `deploy/android/Dockerfile` | `fbrdevacr.azurecr.io/ai/maps-keyword-capture-android` |
 
-Both builds receive the full source commit as `GIT_COMMIT` and an OCI revision label. Android builds pull the existing runtime base by digest `sha256:7691aa8c220d055619ceb0d45c15ca0f2ca434f8b059d9db219ab00bf19c6fc5`; they do not build or download an emulator runtime locally. The Android ignore file includes `deploy/android`, which the Web build's root `.dockerignore` excludes. ACR CLI context packing has different ignore-file selection from Docker BuildKit; use the distinct Android context below.
+Both builds receive the full source commit as `GIT_COMMIT`; the optional GitHub publication workflow also supplies an OCI revision label. The ACR commands below record the source archive, build argument, run identity and output digest separately. Android builds pull the existing runtime base by digest `sha256:7691aa8c220d055619ceb0d45c15ca0f2ca434f8b059d9db219ab00bf19c6fc5`; they do not build or download an emulator runtime locally. The Android ignore file includes `deploy/android`, which the Web build's root `.dockerignore` excludes. ACR CLI context packing has different ignore-file selection from Docker BuildKit; use the distinct Android context below.
 
 ## Selected path: build a committed source archive in ACR
 

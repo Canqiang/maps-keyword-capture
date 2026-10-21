@@ -38,6 +38,24 @@ const executeAdb: AdbExecutor = (file, args, options) => new Promise((resolve, r
 function fail(code: string, message: string): never { throw new AndroidDeviceError(code, message); }
 function object(value: unknown): Record<string, unknown> { return value !== null && typeof value === 'object' ? value as Record<string, unknown> : {}; }
 
+/** WindowManager prints one physical value and, when configured, one override.
+ * Never silently fall back to physical geometry when override evidence is bad.
+ */
+function effectiveDisplayMetric(output: string, metric: 'size' | 'density'): number[] {
+  const lines = output.split(/\r?\n/u);
+  if (lines.length < 1 || lines.length > 2) fail('DISPLAY_UNAVAILABLE', 'Ambiguous native display evidence');
+  const value = metric === 'size' ? '(\\d+)x(\\d+)' : '(\\d+)';
+  let effective: number[] = [];
+  for (let index = 0; index < lines.length; index++) {
+    const match = new RegExp(`^${index === 0 ? 'Physical' : 'Override'} ${metric}: ${value}$`, 'u').exec(lines[index]!);
+    if (!match) fail('DISPLAY_UNAVAILABLE', 'Native display evidence is missing or unsupported');
+    const numbers = match.slice(1).map(Number);
+    if (!numbers.every(number => Number.isSafeInteger(number) && number > 0)) fail('DISPLAY_UNAVAILABLE', 'Native display values must be positive safe integers');
+    effective = numbers;
+  }
+  return effective;
+}
+
 /** Plan one overlap-preserving attempt; gesture percent is not measured movement.
  * The next persisted frame still must pass the unchanged native reconciler.
  */
@@ -224,8 +242,16 @@ export class NativeMapsDevice implements AndroidDevice {
     const appVersion = /\bversionName=([^\s]+)/.exec(await this.adb(['shell', 'dumpsys', 'package', MAPS]))?.[1];
     const androidVersion = await this.adb(['shell', 'getprop', 'ro.build.version.release']);
     if (!appVersion || !androidVersion) fail('VERSION_UNAVAILABLE', 'Cannot read Maps/Android version evidence');
+    const [widthPixels, heightPixels] = effectiveDisplayMetric(await this.adb(['shell', 'wm', 'size']), 'size') as [number, number];
+    const [densityDpi] = effectiveDisplayMetric(await this.adb(['shell', 'wm', 'density']), 'density') as [number];
+    const fontText = await this.adb(['shell', 'settings', 'get', 'system', 'font_scale']);
+    const fontScale = Number(fontText);
+    if (!/^(?:0|[1-9]\d*)(?:\.\d+)?$/u.test(fontText) || !Number.isFinite(fontScale) || fontScale <= 0) {
+      fail('DISPLAY_UNAVAILABLE', 'Native font scale is unavailable; no default was assumed');
+    }
+    const display = { widthPixels, heightPixels, densityDpi, fontScale };
     this.checked = true;
-    return { serial: this.config.serial, androidVersion, appVersion, appPackage: MAPS, locale, timezone, emulator: true };
+    return { serial: this.config.serial, androidVersion, appVersion, appPackage: MAPS, locale, timezone, emulator: true, display };
   }
 
   async start(): Promise<void> {

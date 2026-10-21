@@ -136,7 +136,7 @@ function pngDimensions(bytes: Buffer): { width: number; height: number } {
 }
 
 function safeError(error: unknown, fallback: string): CaptureError {
-  const nativeCodes = new Set(['CANCELLED', 'QUERY_TIMEOUT', 'COMMAND_TIMEOUT', 'WRONG_FOREGROUND', 'UNKNOWN_SEARCH_LAYOUT', 'QUERY_NOT_VISIBLE', 'INVALID_SCREENSHOT', 'INVALID_UI_SOURCE', 'APPIUM_PROTOCOL_ERROR', 'ADB_COMMAND_FAILED', 'SESSION_OUTCOME_UNKNOWN', 'LIST_TOP_UNVERIFIED', 'UNKNOWN_SCROLL_LAYOUT', 'SOURCE_CHANGED', 'UNKNOWN_RESULT_SHEET', 'RESULT_SHEET_NOT_EXPANDED']);
+  const nativeCodes = new Set(['CANCELLED', 'QUERY_TIMEOUT', 'COMMAND_TIMEOUT', 'WRONG_FOREGROUND', 'UNKNOWN_SEARCH_LAYOUT', 'QUERY_NOT_VISIBLE', 'INVALID_SCREENSHOT', 'INVALID_UI_SOURCE', 'APPIUM_PROTOCOL_ERROR', 'ADB_COMMAND_FAILED', 'SESSION_OUTCOME_UNKNOWN', 'LIST_TOP_UNVERIFIED', 'UNKNOWN_SCROLL_LAYOUT', 'SOURCE_CHANGED', 'UNKNOWN_RESULT_SHEET', 'RESULT_SHEET_NOT_EXPANDED', 'DISPLAY_UNAVAILABLE']);
   const candidate = error !== null && typeof error === 'object' && 'code' in error ? (error as { code: unknown }).code : null;
   const code = error instanceof CaptureFailure ? error.code : typeof candidate === 'string' && nativeCodes.has(candidate) ? candidate.toLowerCase() : fallback;
   return { code, message: `Android capture stopped: ${code}. Inspect local device or storage logs for details.` };
@@ -291,6 +291,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       surface: manifest.surface, adapterVersion: manifest.adapterVersion,
       androidVersion: info.androidVersion, appVersion: info.appVersion, appPackage: info.appPackage, emulator: info.emulator,
       locale: info.locale, timezone: info.timezone,
+      ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
       listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v8', ocrLanguages: config.ocrLanguages,
     });
