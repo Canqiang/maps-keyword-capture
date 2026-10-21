@@ -537,7 +537,16 @@ function staticListActionRow(nodes: EvidenceNode[], row: EvidenceNode, list: Evi
   if (!cards.length || direct.some(node => !cards.includes(node) &&
     (node !== direct[0] || node.className !== 'android.widget.LinearLayout'))) return false;
   let owner: EvidenceNode | undefined;
+  // Probe 5 (q0005 frame 7): the clipped head of the photo-discovery module
+  // follows the merchant cards as an unlabeled, non-interactive direct child at
+  // the list edge. It is capture geometry, never a card, and must not invalidate
+  // the static action rows of the real cards beside it.
+  const clippedEdgeModule = (card: EvidenceNode): boolean => !!card.bounds && !!list.bounds &&
+    (card.bounds.top === list.bounds.top || card.bounds.bottom === list.bounds.bottom) &&
+    card.bounds.left === list.bounds.left && card.bounds.right === list.bounds.right && !card.clickable && !labels(card).length &&
+    !nodes.some(node => { for (let parent = node.parent; parent; parent = parent.parent) if (parent === card) return node.clickable || node.scrollable || labels(node).length > 0 || node.resourceId !== ''; return false; });
   for (const card of cards) {
+    if (clippedEdgeModule(card)) continue;
     const [frame] = children(card), body = frame && children(frame)[0];
     if (!card.bounds || card.foreignDescendant || card.bounds.left !== list.bounds.left || card.bounds.right !== list.bounds.right ||
       !insideBounds(card.bounds, list.bounds) || children(card).length !== 1 || !frame || children(frame).length !== 1 || !body ||

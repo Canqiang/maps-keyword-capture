@@ -467,6 +467,21 @@ describe('bounded native-source refresh before any gesture', () => {
     expect(r.manifest.queries[0]?.stopReason).toBe('source_changed'); expect(calls).toBe(2);
     expect(r.manifest.queries[0]?.screens).toHaveLength(2); expect(r.manifest.queries[0]?.listingQuality?.rankingReliable).toBe(false); expect(r.exitCode).toBe(2);
   });
+  it('allows another fresh frame after a sent gesture, never two in a row, and at most three per query (probe 5 q0003)', async () => {
+    const source = await fixtureXml('results-en'); let calls = 0, shots = 0;
+    // Gestures 1, 3, 5 and 7 are refused before any action; 2, 4 and 6 are sent. Each snapshot is a new PNG.
+    const s = await setup({ snapshot: async () => ({ png: pngWith(++shots), xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
+      swipeResults: async () => { if (++calls % 2 === 1) throw Object.assign(new Error('source changed'), { code: 'SOURCE_CHANGED' }); } });
+    s.config.maxScreenshotsPerQuery = 12; s.config.maxScrolls = 12;
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('A'), cardScreen('A'), cardScreen('A', 'B'), cardScreen('A', 'B'), cardScreen('A', 'B', 'C'), cardScreen('A', 'B', 'C'), cardScreen('A', 'B', 'C', 'D')]) });
+    expect(r.manifest.queries[0]?.nativeFrameRefreshes).toEqual([
+      { reason: 'source_changed', afterFrameId: 'q0001:frame-001', refreshFrameId: 'q0001:frame-002' },
+      { reason: 'source_changed', afterFrameId: 'q0001:frame-003', refreshFrameId: 'q0001:frame-004' },
+      { reason: 'source_changed', afterFrameId: 'q0001:frame-005', refreshFrameId: 'q0001:frame-006' },
+    ]);
+    expect(r.manifest.queries[0]?.stopReason).toBe('source_changed'); expect(calls).toBe(7);
+    expect(r.manifest.queries[0]?.screens).toHaveLength(7); expect(r.manifest.queries[0]?.listings.map(row => row.name)).toEqual(['A', 'B', 'C', 'D']);
+  });
   it('charges the fresh frame to the existing screenshot limit and never sends a gesture beyond it', async () => {
     const source = await fixtureXml('results-en'); const swipe = vi.fn(async () => { throw Object.assign(new Error('source changed'), { code: 'SOURCE_CHANGED' }); });
     const s = await setup({ snapshot: async () => ({ png, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: swipe }); s.config.maxScreenshotsPerQuery = 2;

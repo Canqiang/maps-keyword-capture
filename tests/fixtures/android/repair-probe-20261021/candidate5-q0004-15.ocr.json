@@ -1,0 +1,1042 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "fea77d2577cd995997cb6acf9b10b407c6695d08baefe61a7fffe4e619c4caa0",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "MOU MOUPOL 施",
+      "confidence": 53.02,
+      "bounds": {
+        "left": 341,
+        "top": 0,
+        "right": 513,
+        "bottom": 15.666666666666666
+      },
+      "words": [
+        {
+          "text": "MOU",
+          "confidence": 78.964554,
+          "bounds": {
+            "left": 341,
+            "top": 0,
+            "right": 386,
+            "bottom": 13.666666666666666
+          }
+        },
+        {
+          "text": "MOUPOL",
+          "confidence": 74.424988,
+          "bounds": {
+            "left": 395,
+            "top": 0,
+            "right": 481,
+            "bottom": 13.666666666666666
+          }
+        },
+        {
+          "text": "施",
+          "confidence": 5.683533,
+          "bounds": {
+            "left": 489,
+            "top": 0,
+            "right": 513,
+            "bottom": 15.666666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "NEBR AR.",
+      "confidence": 43.35,
+      "bounds": {
+        "left": 367,
+        "top": 24.666666666666668,
+        "right": 487,
+        "bottom": 57.333333333333336
+      },
+      "words": [
+        {
+          "text": "NEBR",
+          "confidence": 43.350945,
+          "bounds": {
+            "left": 367,
+            "top": 25,
+            "right": 439,
+            "bottom": 50.333333333333336
+          }
+        },
+        {
+          "text": "AR.",
+          "confidence": 43.350945,
+          "bounds": {
+            "left": 445.6666666666667,
+            "top": 24.666666666666668,
+            "right": 487,
+            "bottom": 57.333333333333336
+          }
+        }
+      ]
+    },
+    {
+      "text": "\"Incredible’food, the ©",
+      "confidence": 66.93,
+      "bounds": {
+        "left": 331.3333333333333,
+        "top": 54,
+        "right": 549,
+        "bottom": 86.66666666666667
+      },
+      "words": [
+        {
+          "text": "\"Incredible’food,",
+          "confidence": 60.879066,
+          "bounds": {
+            "left": 331.3333333333333,
+            "top": 57.666666666666664,
+            "right": 522.3333333333334,
+            "bottom": 85.33333333333333
+          }
+        },
+        {
+          "text": "the",
+          "confidence": 96.953316,
+          "bounds": {
+            "left": 496,
+            "top": 54,
+            "right": 526,
+            "bottom": 86.66666666666667
+          }
+        },
+        {
+          "text": "©",
+          "confidence": 42.961182,
+          "bounds": {
+            "left": 529,
+            "top": 55.333333333333336,
+            "right": 549,
+            "bottom": 80.33333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "spicy and tomato half...’",
+      "confidence": 91.45,
+      "bounds": {
+        "left": 313.3333333333333,
+        "top": 78.33333333333333,
+        "right": 540.3333333333334,
+        "bottom": 107.33333333333333
+      },
+      "words": [
+        {
+          "text": "spicy",
+          "confidence": 96.440582,
+          "bounds": {
+            "left": 313.3333333333333,
+            "top": 86.33333333333333,
+            "right": 362,
+            "bottom": 107.33333333333333
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 96.440582,
+          "bounds": {
+            "left": 370,
+            "top": 78.33333333333333,
+            "right": 402,
+            "bottom": 103
+          }
+        },
+        {
+          "text": "tomato",
+          "confidence": 96.393211,
+          "bounds": {
+            "left": 408,
+            "top": 87.66666666666667,
+            "right": 481.3333333333333,
+            "bottom": 103
+          }
+        },
+        {
+          "text": "half...’",
+          "confidence": 76.53376,
+          "bounds": {
+            "left": 485.3333333333333,
+            "top": 85.33333333333333,
+            "right": 540.3333333333334,
+            "bottom": 103
+          }
+        }
+      ]
+    },
+    {
+      "text": "hot pot near me x",
+      "confidence": 95.09,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 211.33333333333334,
+        "right": 661,
+        "bottom": 252.66666666666666
+      },
+      "words": [
+        {
+          "text": "hot",
+          "confidence": 96.935501,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 211.33333333333334,
+            "right": 107.33333333333333,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "pot",
+          "confidence": 96.422394,
+          "bounds": {
+            "left": 121.66666666666667,
+            "top": 214,
+            "right": 187.33333333333334,
+            "bottom": 252.66666666666666
+          }
+        },
+        {
+          "text": "near",
+          "confidence": 96.182167,
+          "bounds": {
+            "left": 201.66666666666666,
+            "top": 220,
+            "right": 290,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "me",
+          "confidence": 96.182167,
+          "bounds": {
+            "left": 302.6666666666667,
+            "top": 220,
+            "right": 362.6666666666667,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 89.724342,
+          "bounds": {
+            "left": 635,
+            "top": 211.33333333333334,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "Mt. ShooTao Hot Pot 蜀 道 山 火 锅",
+      "confidence": 88.11,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 318,
+        "right": 553,
+        "bottom": 352.3333333333333
+      },
+      "words": [
+        {
+          "text": "Mt.",
+          "confidence": 93.275848,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 323,
+            "right": 90.66666666666667,
+            "bottom": 349.3333333333333
+          }
+        },
+        {
+          "text": "ShooTao",
+          "confidence": 90.477196,
+          "bounds": {
+            "left": 102.33333333333333,
+            "top": 322.6666666666667,
+            "right": 238,
+            "bottom": 349.6666666666667
+          }
+        },
+        {
+          "text": "Hot",
+          "confidence": 96.417374,
+          "bounds": {
+            "left": 249.66666666666666,
+            "top": 323,
+            "right": 305,
+            "bottom": 349.6666666666667
+          }
+        },
+        {
+          "text": "Pot",
+          "confidence": 94.013504,
+          "bounds": {
+            "left": 316.6666666666667,
+            "top": 323,
+            "right": 366,
+            "bottom": 349.6666666666667
+          }
+        },
+        {
+          "text": "蜀",
+          "confidence": 54.574219,
+          "bounds": {
+            "left": 389.3333333333333,
+            "top": 319,
+            "right": 407.6666666666667,
+            "bottom": 352
+          }
+        },
+        {
+          "text": "道",
+          "confidence": 91.340317,
+          "bounds": {
+            "left": 427.6666666666667,
+            "top": 318,
+            "right": 468.3333333333333,
+            "bottom": 352
+          }
+        },
+        {
+          "text": "山",
+          "confidence": 92.542603,
+          "bounds": {
+            "left": 485,
+            "top": 318,
+            "right": 501.6666666666667,
+            "bottom": 352
+          }
+        },
+        {
+          "text": "火",
+          "confidence": 91.199272,
+          "bounds": {
+            "left": 520,
+            "top": 318,
+            "right": 532,
+            "bottom": 352
+          }
+        },
+        {
+          "text": "锅",
+          "confidence": 89.153809,
+          "bounds": {
+            "left": 534,
+            "top": 319,
+            "right": 553,
+            "bottom": 352.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.9 丙 (1174) .$40-80 . & . Hot Pot",
+      "confidence": 79.48,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 354,
+        "right": 478,
+        "bottom": 394.3333333333333
+      },
+      "words": [
+        {
+          "text": "4.9",
+          "confidence": 92.906227,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 367,
+            "right": 178.33333333333334,
+            "bottom": 393
+          }
+        },
+        {
+          "text": "丙",
+          "confidence": 53.397755,
+          "bounds": {
+            "left": 87.66666666666667,
+            "top": 354,
+            "right": 108.33333333333333,
+            "bottom": 394.3333333333333
+          }
+        },
+        {
+          "text": "(1174)",
+          "confidence": 84.953148,
+          "bounds": {
+            "left": 108,
+            "top": 367,
+            "right": 178.33333333333334,
+            "bottom": 393
+          }
+        },
+        {
+          "text": ".$40-80",
+          "confidence": 81.155884,
+          "bounds": {
+            "left": 206.33333333333334,
+            "top": 366,
+            "right": 306,
+            "bottom": 391.6666666666667
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 81.155884,
+          "bounds": {
+            "left": 318,
+            "top": 378.6666666666667,
+            "right": 321.3333333333333,
+            "bottom": 382
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 90.872566,
+          "bounds": {
+            "left": 337.6666666666667,
+            "top": 366,
+            "right": 358,
+            "bottom": 392.3333333333333
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 37.018188,
+          "bounds": {
+            "left": 375,
+            "top": 378.6666666666667,
+            "right": 376.3333333333333,
+            "bottom": 382
+          }
+        },
+        {
+          "text": "Hot",
+          "confidence": 96.942528,
+          "bounds": {
+            "left": 388.3333333333333,
+            "top": 369,
+            "right": 429,
+            "bottom": 389.3333333333333
+          }
+        },
+        {
+          "text": "Pot",
+          "confidence": 96.920311,
+          "bounds": {
+            "left": 439.3333333333333,
+            "top": 369,
+            "right": 478,
+            "bottom": 389.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closes soon: 12 AM . 3.3 mi",
+      "confidence": 92.58,
+      "bounds": {
+        "left": 41,
+        "top": 407,
+        "right": 387,
+        "bottom": 429.6666666666667
+      },
+      "words": [
+        {
+          "text": "Closes",
+          "confidence": 95.937531,
+          "bounds": {
+            "left": 41,
+            "top": 407,
+            "right": 125,
+            "bottom": 429.6666666666667
+          }
+        },
+        {
+          "text": "soon:",
+          "confidence": 92.161476,
+          "bounds": {
+            "left": 134,
+            "top": 413.6666666666667,
+            "right": 207.33333333333334,
+            "bottom": 429.6666666666667
+          }
+        },
+        {
+          "text": "12",
+          "confidence": 92.161476,
+          "bounds": {
+            "left": 218,
+            "top": 408.6666666666667,
+            "right": 241.33333333333334,
+            "bottom": 429
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 92.370346,
+          "bounds": {
+            "left": 250.66666666666666,
+            "top": 409,
+            "right": 289.3333333333333,
+            "bottom": 429
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 83.272766,
+          "bounds": {
+            "left": 302,
+            "top": 418.6666666666667,
+            "right": 305.3333333333333,
+            "bottom": 422
+          }
+        },
+        {
+          "text": "3.3",
+          "confidence": 95.758553,
+          "bounds": {
+            "left": 316.3333333333333,
+            "top": 408.6666666666667,
+            "right": 350.6666666666667,
+            "bottom": 429.3333333333333
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.423904,
+          "bounds": {
+            "left": 361,
+            "top": 407.3333333333333,
+            "right": 387,
+            "bottom": 429
+          }
+        }
+      ]
+    },
+    {
+      "text": "° “The hot pot was delicious, and the service",
+      "confidence": 87.36,
+      "bounds": {
+        "left": 50,
+        "top": 747.3333333333334,
+        "right": 633.3333333333334,
+        "bottom": 780.3333333333334
+      },
+      "words": [
+        {
+          "text": "°",
+          "confidence": 29.881508,
+          "bounds": {
+            "left": 50,
+            "top": 763.6666666666666,
+            "right": 65.66666666666667,
+            "bottom": 780.3333333333334
+          }
+        },
+        {
+          "text": "“The",
+          "confidence": 82.247169,
+          "bounds": {
+            "left": 94.33333333333333,
+            "top": 748.3333333333334,
+            "right": 150.33333333333334,
+            "bottom": 770.3333333333334
+          }
+        },
+        {
+          "text": "hot",
+          "confidence": 96.090347,
+          "bounds": {
+            "left": 161,
+            "top": 747.3333333333334,
+            "right": 199.66666666666666,
+            "bottom": 770.3333333333334
+          }
+        },
+        {
+          "text": "pot",
+          "confidence": 95.685043,
+          "bounds": {
+            "left": 209,
+            "top": 750.3333333333334,
+            "right": 249.66666666666666,
+            "bottom": 776
+          }
+        },
+        {
+          "text": "was",
+          "confidence": 95.685043,
+          "bounds": {
+            "left": 257.6666666666667,
+            "top": 755,
+            "right": 305.6666666666667,
+            "bottom": 770.3333333333334
+          }
+        },
+        {
+          "text": "delicious,",
+          "confidence": 96.343422,
+          "bounds": {
+            "left": 315.3333333333333,
+            "top": 748.3333333333334,
+            "right": 430.6666666666667,
+            "bottom": 773.3333333333334
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 96.558937,
+          "bounds": {
+            "left": 441.3333333333333,
+            "top": 748.3333333333334,
+            "right": 485.6666666666667,
+            "bottom": 770.3333333333334
+          }
+        },
+        {
+          "text": "the",
+          "confidence": 96.834167,
+          "bounds": {
+            "left": 496,
+            "top": 748.3333333333334,
+            "right": 535.3333333333334,
+            "bottom": 770.3333333333334
+          }
+        },
+        {
+          "text": "service",
+          "confidence": 96.905602,
+          "bounds": {
+            "left": 545,
+            "top": 748.3333333333334,
+            "right": 633.3333333333334,
+            "bottom": 770.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "@ was excellent.\"",
+      "confidence": 71.37,
+      "bounds": {
+        "left": 43.666666666666664,
+        "top": 782.3333333333334,
+        "right": 277.3333333333333,
+        "bottom": 805.3333333333334
+      },
+      "words": [
+        {
+          "text": "@",
+          "confidence": 27.288437,
+          "bounds": {
+            "left": 43.666666666666664,
+            "top": 782.3333333333334,
+            "right": 72.33333333333333,
+            "bottom": 795
+          }
+        },
+        {
+          "text": "was",
+          "confidence": 94.862946,
+          "bounds": {
+            "left": 92.66666666666667,
+            "top": 790,
+            "right": 140.66666666666666,
+            "bottom": 805.3333333333334
+          }
+        },
+        {
+          "text": "excellent.\"",
+          "confidence": 91.963913,
+          "bounds": {
+            "left": 150,
+            "top": 783.3333333333334,
+            "right": 277.3333333333333,
+            "bottom": 805.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions fe) Reserve M2) Menu",
+      "confidence": 66.27,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 872.6666666666666,
+        "right": 665.3333333333334,
+        "bottom": 903.3333333333334
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 45.761242,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 872.6666666666666,
+            "right": 97.33333333333333,
+            "bottom": 903.3333333333334
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.745171,
+          "bounds": {
+            "left": 118,
+            "top": 876,
+            "right": 242,
+            "bottom": 898.6666666666666
+          }
+        },
+        {
+          "text": "fe)",
+          "confidence": 8.538704,
+          "bounds": {
+            "left": 320,
+            "top": 872.6666666666666,
+            "right": 348,
+            "bottom": 903.3333333333334
+          }
+        },
+        {
+          "text": "Reserve",
+          "confidence": 86.275551,
+          "bounds": {
+            "left": 370,
+            "top": 877.6666666666666,
+            "right": 470,
+            "bottom": 898.6666666666666
+          }
+        },
+        {
+          "text": "M2)",
+          "confidence": 65.896156,
+          "bounds": {
+            "left": 544,
+            "top": 876.6666666666666,
+            "right": 578,
+            "bottom": 902.3333333333334
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 95.421257,
+          "bounds": {
+            "left": 597,
+            "top": 877.6666666666666,
+            "right": 665.3333333333334,
+            "bottom": 898.6666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "小 龙 坎 Shoo Loong Kan Hot Pot Jersey",
+      "confidence": 95.08,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1006.6666666666666,
+        "right": 658,
+        "bottom": 1046.3333333333333
+      },
+      "words": [
+        {
+          "text": "小",
+          "confidence": 93.24984,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1007.3333333333334,
+            "right": 75,
+            "bottom": 1041.3333333333333
+          }
+        },
+        {
+          "text": "龙",
+          "confidence": 92.900833,
+          "bounds": {
+            "left": 93.33333333333333,
+            "top": 1006.6666666666666,
+            "right": 125.66666666666667,
+            "bottom": 1040.3333333333333
+          }
+        },
+        {
+          "text": "坎",
+          "confidence": 89.591377,
+          "bounds": {
+            "left": 130,
+            "top": 1007,
+            "right": 146.66666666666666,
+            "bottom": 1041
+          }
+        },
+        {
+          "text": "Shoo",
+          "confidence": 96.705612,
+          "bounds": {
+            "left": 157.33333333333334,
+            "top": 1011.6666666666666,
+            "right": 237,
+            "bottom": 1038.6666666666667
+          }
+        },
+        {
+          "text": "Loong",
+          "confidence": 96.855125,
+          "bounds": {
+            "left": 248.66666666666666,
+            "top": 1012,
+            "right": 345.3333333333333,
+            "bottom": 1046.3333333333333
+          }
+        },
+        {
+          "text": "Kan",
+          "confidence": 96.838104,
+          "bounds": {
+            "left": 357.6666666666667,
+            "top": 1012,
+            "right": 415,
+            "bottom": 1038.6666666666667
+          }
+        },
+        {
+          "text": "Hot",
+          "confidence": 96.164131,
+          "bounds": {
+            "left": 427.6666666666667,
+            "top": 1012,
+            "right": 482,
+            "bottom": 1038.6666666666667
+          }
+        },
+        {
+          "text": "Pot",
+          "confidence": 96.968338,
+          "bounds": {
+            "left": 493.6666666666667,
+            "top": 1012,
+            "right": 543,
+            "bottom": 1038.6666666666667
+          }
+        },
+        {
+          "text": "Jersey",
+          "confidence": 96.482216,
+          "bounds": {
+            "left": 553,
+            "top": 1012,
+            "right": 658,
+            "bottom": 1046
+          }
+        }
+      ]
+    },
+    {
+      "text": "City",
+      "confidence": 96.94,
+      "bounds": {
+        "left": 41.666666666666664,
+        "top": 1059.6666666666667,
+        "right": 106,
+        "bottom": 1094
+      },
+      "words": [
+        {
+          "text": "City",
+          "confidence": 96.938766,
+          "bounds": {
+            "left": 41.666666666666664,
+            "top": 1059.6666666666667,
+            "right": 106,
+            "bottom": 1094
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.7% (546) - $40-70 - Restaurant",
+      "confidence": 83.92,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1103,
+        "right": 462,
+        "bottom": 1130
+      },
+      "words": [
+        {
+          "text": "4.7%",
+          "confidence": 91.042595,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1104,
+            "right": 99.33333333333333,
+            "bottom": 1127
+          }
+        },
+        {
+          "text": "(546)",
+          "confidence": 91.042595,
+          "bounds": {
+            "left": 111.66666666666667,
+            "top": 1104,
+            "right": 174.33333333333334,
+            "bottom": 1130
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 67.126999,
+          "bounds": {
+            "left": 190.66666666666666,
+            "top": 1115.6666666666667,
+            "right": 191,
+            "bottom": 1119
+          }
+        },
+        {
+          "text": "$40-70",
+          "confidence": 67.126999,
+          "bounds": {
+            "left": 201.33333333333334,
+            "top": 1103,
+            "right": 299,
+            "bottom": 1128.6666666666667
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 91.03096,
+          "bounds": {
+            "left": 312,
+            "top": 1115.6666666666667,
+            "right": 315.3333333333333,
+            "bottom": 1119
+          }
+        },
+        {
+          "text": "Restaurant",
+          "confidence": 96.140053,
+          "bounds": {
+            "left": 327.3333333333333,
+            "top": 1106,
+            "right": 462,
+            "bottom": 1126.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closed - Opens 12 PM Wed . 1.6 mi",
+      "confidence": 89.66,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1144,
+        "right": 474,
+        "bottom": 1172
+      },
+      "words": [
+        {
+          "text": "Closed",
+          "confidence": 92.832672,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1144,
+            "right": 127,
+            "bottom": 1166.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 78.212158,
+          "bounds": {
+            "left": 138,
+            "top": 1155.6666666666667,
+            "right": 141.33333333333334,
+            "bottom": 1159
+          }
+        },
+        {
+          "text": "Opens",
+          "confidence": 95.602615,
+          "bounds": {
+            "left": 151.33333333333334,
+            "top": 1145.6666666666667,
+            "right": 232.66666666666666,
+            "bottom": 1172
+          }
+        },
+        {
+          "text": "12",
+          "confidence": 95.95697,
+          "bounds": {
+            "left": 243,
+            "top": 1145.6666666666667,
+            "right": 266.3333333333333,
+            "bottom": 1166
+          }
+        },
+        {
+          "text": "PM",
+          "confidence": 96.772057,
+          "bounds": {
+            "left": 277.3333333333333,
+            "top": 1146,
+            "right": 313.3333333333333,
+            "bottom": 1166
+          }
+        },
+        {
+          "text": "Wed",
+          "confidence": 93.251762,
+          "bounds": {
+            "left": 323.6666666666667,
+            "top": 1144.3333333333333,
+            "right": 377.6666666666667,
+            "bottom": 1166.3333333333333
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 61.657284,
+          "bounds": {
+            "left": 391,
+            "top": 1155.6666666666667,
+            "right": 394.3333333333333,
+            "bottom": 1159
+          }
+        },
+        {
+          "text": "1.6",
+          "confidence": 96.345779,
+          "bounds": {
+            "left": 406,
+            "top": 1146,
+            "right": 437.3333333333333,
+            "bottom": 1166.3333333333333
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.345779,
+          "bounds": {
+            "left": 448,
+            "top": 1144.3333333333333,
+            "right": 474,
+            "bottom": 1166
+          }
+        }
+      ]
+    }
+  ]
+}

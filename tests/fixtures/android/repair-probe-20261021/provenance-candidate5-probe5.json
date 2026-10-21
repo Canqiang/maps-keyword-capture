@@ -1,0 +1,175 @@
+{
+  "runId": "run_20261021T032723Z_c779a2",
+  "sourceCommit": "af0bc7f8b301e88cc79951a42171acb03108ae8f",
+  "candidate": "5-geometry-ocr-scale",
+  "display": {
+    "widthPixels": 720,
+    "heightPixels": 1280,
+    "densityDpi": 320,
+    "fontScale": 1
+  },
+  "ocrScale": 3,
+  "receipt": "evidence/2026-10-21/android-ranking-repair/candidate5-live-verification.json",
+  "files": {
+    "candidate5-q0001-01.ocr.json": {
+      "source": "q0001/20261021T032747.043Z__keyword__01.ocr.json",
+      "sha256": "0592ecb5c9cedaa48039a4f024d6b073c678b70a585ef24128247c7ffefacdfa",
+      "bytes": 20270
+    },
+    "candidate5-q0001-01.xml": {
+      "source": "q0001/20261021T032747.043Z__keyword__01.xml",
+      "sha256": "317a272728572c5e71dc59d4a73e4b1f1bbc45bee32fb3f2500a648cfae47e54",
+      "bytes": 78537
+    },
+    "candidate5-q0001-01.frame.json": {
+      "source": "q0001/20261021T032747.043Z__keyword__01.frame.json",
+      "sha256": "771c22977bf2a39c34d8c0d051dc1d2d79ce9b2ccd290519441c9477e65c65ab",
+      "bytes": 1375
+    },
+    "candidate5-q0001-01.png (not copied)": {
+      "source": "q0001/20261021T032747.043Z__keyword__01.png",
+      "sha256": "046b54034b6bbb94a4394111644ce7af27fc984d748c60c3ae8f2d1d0e70f2bd",
+      "bytes": 588247
+    },
+    "candidate5-q0001-02.ocr.json": {
+      "source": "q0001/20261021T032751.800Z__keyword__02.ocr.json",
+      "sha256": "aa96dea153f0d8c3c82a6b8a469e94a96f3db598b827cf6d18a0ee99bd379661",
+      "bytes": 13903
+    },
+    "candidate5-q0001-02.xml": {
+      "source": "q0001/20261021T032751.800Z__keyword__02.xml",
+      "sha256": "0e43903bd4c160a3b9d1f39f9b3d3c550b0768cc8936723b39ad02e309ee1f09",
+      "bytes": 81179
+    },
+    "candidate5-q0001-02.frame.json": {
+      "source": "q0001/20261021T032751.800Z__keyword__02.frame.json",
+      "sha256": "f04193d203dfd6971bc5646d053d7e02393588b82d03192a6205779e07c4ffb1",
+      "bytes": 1434
+    },
+    "candidate5-q0001-02.png (not copied)": {
+      "source": "q0001/20261021T032751.800Z__keyword__02.png",
+      "sha256": "e54a90edff889af89eabdc4d258545672c7edd8b1064ad009a429503d3985cc6",
+      "bytes": 688116
+    },
+    "candidate5-q0002-02.ocr.json": {
+      "source": "q0002/20261021T032819.249Z__chinese-food__02.ocr.json",
+      "sha256": "1d17730129d759442b81f27e87a418ac7a96c0930ccbd17b8aba4a180c33ea30",
+      "bytes": 25383
+    },
+    "candidate5-q0002-02.xml": {
+      "source": "q0002/20261021T032819.249Z__chinese-food__02.xml",
+      "sha256": "5914e60bb4d7be17f352b9e7711fb8d48f9b048e3e4982bbbe4a10ef6c05f222",
+      "bytes": 79297
+    },
+    "candidate5-q0002-02.frame.json": {
+      "source": "q0002/20261021T032819.249Z__chinese-food__02.frame.json",
+      "sha256": "f8ed2f9e651588b9b8112e042fc40623dd75041ab1e643236599835a2dc4e5dc",
+      "bytes": 1438
+    },
+    "candidate5-q0002-02.png (not copied)": {
+      "source": "q0002/20261021T032819.249Z__chinese-food__02.png",
+      "sha256": "0bbad988b8f9cc84ecb7670f32d10367e65cedb1e2309fd3ecd4598c9d928212",
+      "bytes": 622344
+    },
+    "candidate5-q0002-03.ocr.json": {
+      "source": "q0002/20261021T032823.894Z__chinese-food__03.ocr.json",
+      "sha256": "d083f3ead94857ad6bf04e8a0f10c22f0cb9c8f678da09314edb46f07a892971",
+      "bytes": 23525
+    },
+    "candidate5-q0002-03.xml": {
+      "source": "q0002/20261021T032823.894Z__chinese-food__03.xml",
+      "sha256": "fa4fac177a021a98b8923323f32580d26f1e7097131df00536ef7d4dcc4412d4",
+      "bytes": 71391
+    },
+    "candidate5-q0002-03.frame.json": {
+      "source": "q0002/20261021T032823.894Z__chinese-food__03.frame.json",
+      "sha256": "893e27d57e65f3786a123c80c8b94ac08c70af113585858d1f3ab69bd45cf619",
+      "bytes": 1495
+    },
+    "candidate5-q0002-03.png (not copied)": {
+      "source": "q0002/20261021T032823.894Z__chinese-food__03.png",
+      "sha256": "d2c9aedd49793730b7624a30afc913acd68d450b24d9f179bd7a367352cdca6f",
+      "bytes": 745296
+    },
+    "candidate5-q0004-14.ocr.json": {
+      "source": "q0004/20261021T033152.810Z__hot-pot-near-me__14.ocr.json",
+      "sha256": "7439705090319ea0dc57befff9eba0d03756e602288f575429208f5c2d8430ec",
+      "bytes": 23476
+    },
+    "candidate5-q0004-14.xml": {
+      "source": "q0004/20261021T033152.810Z__hot-pot-near-me__14.xml",
+      "sha256": "efa0e43e3c2ef8bb39fd47e62682208b7dd6c4bbdad9503374d1e650db5f1a04",
+      "bytes": 77218
+    },
+    "candidate5-q0004-14.frame.json": {
+      "source": "q0004/20261021T033152.810Z__hot-pot-near-me__14.frame.json",
+      "sha256": "efa8e0916d6a8c9c9179d56797fd7c0f11e79edf9579824cfa14748379ed5d60",
+      "bytes": 1467
+    },
+    "candidate5-q0004-14.png (not copied)": {
+      "source": "q0004/20261021T033152.810Z__hot-pot-near-me__14.png",
+      "sha256": "66ac9b66ef7072bad7643c6acae61a384b33bd1492026f9875b54fb6dd4f0f0a",
+      "bytes": 519895
+    },
+    "candidate5-q0004-15.ocr.json": {
+      "source": "q0004/20261021T033201.270Z__hot-pot-near-me__15.ocr.json",
+      "sha256": "bba3d8a3351916dce3a37c916b77dfce03f9d1a55c9a5df45978f14ed18412f9",
+      "bytes": 25327
+    },
+    "candidate5-q0004-15.xml": {
+      "source": "q0004/20261021T033201.270Z__hot-pot-near-me__15.xml",
+      "sha256": "d4b61e6a6fcb5af22b6397d1f3e1466951b38b8be30330454067e97c48d5626e",
+      "bytes": 79093
+    },
+    "candidate5-q0004-15.frame.json": {
+      "source": "q0004/20261021T033201.270Z__hot-pot-near-me__15.frame.json",
+      "sha256": "2052168b2be2fc80250da7a3882e286f4e7eaffe40539d50ea82f8359fd39d66",
+      "bytes": 1447
+    },
+    "candidate5-q0004-15.png (not copied)": {
+      "source": "q0004/20261021T033201.270Z__hot-pot-near-me__15.png",
+      "sha256": "fea77d2577cd995997cb6acf9b10b407c6695d08baefe61a7fffe4e619c4caa0",
+      "bytes": 605462
+    },
+    "candidate5-q0005-06.ocr.json": {
+      "source": "q0005/20261021T033245.403Z__bakery__06.ocr.json",
+      "sha256": "da42423755e538d202e666b4c73a375e54031413d5c4ea77909a823af537eda6",
+      "bytes": 23845
+    },
+    "candidate5-q0005-06.xml": {
+      "source": "q0005/20261021T033245.403Z__bakery__06.xml",
+      "sha256": "2dd395bc5092fc2011ca04e1de493935569fd15d8f543588461a144b3215b758",
+      "bytes": 70624
+    },
+    "candidate5-q0005-06.frame.json": {
+      "source": "q0005/20261021T033245.403Z__bakery__06.frame.json",
+      "sha256": "bda723e7cc9cc5ef7804f138c6e8e8ad036afca63d31374d02b90b230a6accf8",
+      "bytes": 1436
+    },
+    "candidate5-q0005-06.png (not copied)": {
+      "source": "q0005/20261021T033245.403Z__bakery__06.png",
+      "sha256": "fda2ad866db856668632adb5a859dd51fb3237ab3b31de5bdd4003237d14f4e1",
+      "bytes": 507225
+    },
+    "candidate5-q0005-07.ocr.json": {
+      "source": "q0005/20261021T033249.329Z__bakery__07.ocr.json",
+      "sha256": "547d5bc10459a5578db79b411bfa9ea56b27c396f12f851f1da27b28c737b37d",
+      "bytes": 18151
+    },
+    "candidate5-q0005-07.xml": {
+      "source": "q0005/20261021T033249.329Z__bakery__07.xml",
+      "sha256": "ca34ce4733793d171b2c35d30bdcbc7ecf570a2b7d685166c1b33f23e8d54fe8",
+      "bytes": 71451
+    },
+    "candidate5-q0005-07.frame.json": {
+      "source": "q0005/20261021T033249.329Z__bakery__07.frame.json",
+      "sha256": "5db9cb9314d37d9e8eefa87df31809a501021ad4feb36fd289bfee2de6435b7b",
+      "bytes": 1281
+    },
+    "candidate5-q0005-07.png (not copied)": {
+      "source": "q0005/20261021T033249.329Z__bakery__07.png",
+      "sha256": "24829fe0fdefcf5e46f6a7fdb238a45e78ffe46ef9a1ac541e59e66fa35d9546",
+      "bytes": 485749
+    }
+  }
+}

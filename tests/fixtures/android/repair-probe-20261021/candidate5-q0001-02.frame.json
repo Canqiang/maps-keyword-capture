@@ -1,0 +1,55 @@
+{
+  "frameId": "q0001:frame-002",
+  "capturedAt": "2026-10-21T03:27:51.800Z",
+  "imageSha256": "e54a90edff889af89eabdc4d258545672c7edd8b1064ad009a429503d3985cc6",
+  "queryVisible": true,
+  "sheetTop": 272,
+  "topStateVerified": true,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0001:frame-002",
+      "name": "By AJ/)\\pq KEKE BRAISED DELI",
+      "nameConfidence": 73.44,
+      "rating": 4.6,
+      "reviewCount": 9,
+      "priceText": null,
+      "category": "chinese",
+      "distanceText": null,
+      "distanceMeters": null,
+      "openText": null,
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 40.666666666666664,
+        "top": 397.6666666666667,
+        "right": 444.6666666666667,
+        "bottom": 477
+      },
+      "ratingBounds": {
+        "left": 40.666666666666664,
+        "top": 447.3333333333333,
+        "right": 444.6666666666667,
+        "bottom": 477
+      },
+      "ratingLineText": "4.6% (9) -$10-20- & - Chinese",
+      "warnings": [],
+      "nameBounds": {
+        "left": 40.666666666666664,
+        "top": 397.6666666666667,
+        "right": 513.3333333333334,
+        "bottom": 437.6666666666667
+      }
+    }
+  ],
+  "warnings": [],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 272,
+    "right": 720,
+    "bottom": 1232
+  },
+  "topStateSource": "native_scroll_actions"
+}

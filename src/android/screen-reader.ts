@@ -71,9 +71,11 @@ const CHROME_PREFIXES = ['relevance', 'open now', 'opennow', 'price', 'find a ta
   'visit site', 'search here', 'search google maps', 'all filters', 'rating', 'hours'];
 const CHROME_WORDS = new Set(['directions', 'order', 'menu', 'call', 'website', 'reserve', 'save', 'share', 'visit', 'site', 'open', 'now', 'price',
   'relevance', 'results', 'filters', 'opennow', 'rating', 'hours', 'book', 'online', 'join', 'waitlist', 'table', 'find']);
-// Receipt-verified Maps/Tesseract frames misread the star as 玄 or 計. Accept
-// only these observed substitutions in the star slot, not arbitrary CJK prose.
-const RATING = /^\s*([1-4](?:[.,]\d)?|5(?:[.,]0)?)\s*(?:[^\da-z一-鿿(]|[玄計]){0,4}\s*\(\s*(\d[\d,.]*)\s*([km])?\s*\)/iu;
+// Receipt-verified Maps/Tesseract frames misread the star as 玄, 計 or 丙 (probe 5,
+// q0004 frame 15). The slot between a leading 1.0–5.0 rating and its parenthesised
+// count is only ever the star glyph, so accept at most one CJK glyph among the
+// punctuation there; two or more CJK characters (3.9 公里 (1256)) remain prose.
+const RATING = /^\s*([1-4](?:[.,]\d)?|5(?:[.,]0)?)\s*(?:[^\da-z一-鿿(]{0,4}|[^\da-z一-鿿(]{0,2}[一-鿿][^\da-z一-鿿(]{0,2})\s*\(\s*(\d[\d,.]*)\s*([km])?\s*\)/iu;
 const NO_REVIEWS = /^\s*no reviews\b/iu;
 const DISTANCE = /(\d+(?:[.,]\d+)?)\s*(mi|ft|km|m)\b/iu;
 const OPEN_STATUS = /\b(temporarily closed|permanently closed|open 24 hours|closed|opens?|closes)\b/iu;
@@ -326,7 +328,10 @@ function sameCard(a: ScreenCard, b: ScreenCard): boolean {
  */
 function clippedPrefixOverlap(previous: ScreenFrame, frame: ScreenFrame, count: number): boolean {
   const beforeList = previous.nativeListBounds, afterList = frame.nativeListBounds;
-  if (count < 2 || !beforeList || !afterList || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
+  // A single clipped card can only be joined when its own name is still legible and
+  // identical (probe 5, q0002 frame 3: the header sat 34 px under the list top with
+  // no following card on screen). Without a name, a following anchor is required.
+  if (count < 1 || (count < 2 && frame.cards[0]?.name === null) || !beforeList || !afterList || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
     !previous.queryVisible || !frame.queryVisible || previous.warnings.includes('native_ad_evidence_unresolved') || frame.warnings.includes('native_ad_evidence_unresolved') ||
     beforeList.left !== afterList.left || beforeList.right !== afterList.right || beforeList.bottom !== afterList.bottom || Math.abs(beforeList.top - afterList.top) > 2) return false;
   const before = previous.cards.slice(-count), after = frame.cards.slice(0, count), a = before[0]!, b = after[0]!;
@@ -347,6 +352,38 @@ function clippedPrefixOverlap(previous: ScreenFrame, frame: ScreenFrame, count: 
         'name_clipped_at_top', 'uncertain_ad_label', 'native_ad_evidence_unresolved'].includes(warning))) &&
       sameCard(anchor, next) && anchor.name !== null && next.name !== null && nameKey(anchor.name) === nameKey(next.name) &&
       !!anchor.ratingBounds && !!next.ratingBounds && Math.abs(next.ratingBounds.top - anchor.ratingBounds.top - delta) <= 4;
+  });
+}
+
+/** OCR name drift (probe 5, q0001: `可 可 小 鹵 KEKE…` then `By AJ/)\\pq KEKE…`) must
+ * not break an otherwise verified ordered overlap. The join is accepted only when
+ * every aligned pair sits in the same native list (same left/right/bottom; the top
+ * may change while the sheet expands), kept the same rating line geometry, moved
+ * by one consistent non-positive amount relative to the list top, carries equal
+ * rating, review count and result type, and has a similar name. Metadata without
+ * geometry, or geometry without a similar name, never joins.
+ */
+function measuredDriftOverlap(previous: ScreenFrame, frame: ScreenFrame, count: number): boolean {
+  const beforeList = previous.nativeListBounds, afterList = frame.nativeListBounds;
+  if (count < 1 || !beforeList || !afterList || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
+    !previous.queryVisible || !frame.queryVisible || previous.warnings.includes('native_ad_evidence_unresolved') || frame.warnings.includes('native_ad_evidence_unresolved') ||
+    beforeList.left !== afterList.left || beforeList.right !== afterList.right || beforeList.bottom !== afterList.bottom) return false;
+  const before = previous.cards.slice(-count), after = frame.cards.slice(0, count);
+  const height = afterList.bottom - afterList.top;
+  let delta: number | null = null;
+  return before.every((a, i) => {
+    const b = after[i]!;
+    const unreliable = ['low_name_confidence', 'low_rating_confidence', 'card_header_clipped', 'name_clipped_at_top', 'uncertain_ad_label', 'native_ad_evidence_unresolved', 'sheet_header_unverified'];
+    if (a.resultType === 'unknown' || a.resultType !== b.resultType || [a, b].some(card => card.warnings.some(warning => unreliable.includes(warning)))) return false;
+    if (a.name === null || b.name === null || (a.nameConfidence ?? 0) < 40 || (b.nameConfidence ?? 0) < 40 || !similarNames(a.name, b.name)) return false;
+    if (a.rating === null || a.reviewCount === null || a.rating !== b.rating || a.reviewCount !== b.reviewCount) return false;
+    if (a.distanceText !== null && b.distanceText !== null && a.distanceText !== b.distanceText) return false;
+    if (!a.ratingBounds || !b.ratingBounds || Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 3 || Math.abs(b.ratingBounds.right - a.ratingBounds.right) > 3) return false;
+    const moved = (b.ratingBounds.top - afterList.top) - (a.ratingBounds.top - beforeList.top);
+    // Sub-pixel OCR box jitter (probe 5: +0.33 px) is not downward movement.
+    if (moved > 2 || moved < -height * 0.5) return false;
+    if (delta === null) delta = moved;
+    return Math.abs(moved - delta) <= 4;
   });
 }
 
@@ -375,11 +412,12 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
       continuous = false; warnings.push('native_ad_evidence_unresolved');
     }
     let overlap = 0;
-    let clippedOverlap = false;
+    let clippedOverlap = false, driftOverlap = false;
     if (previous) {
       for (let count = Math.min(previous.cards.length, frame.cards.length); count > 0; count--) {
         if (frame.cards.slice(0, count).every((card, i) => sameCard(previous!.cards[previous!.cards.length - count + i]!, card))) { overlap = count; break; }
         if (clippedPrefixOverlap(previous, frame, count)) { overlap = count; clippedOverlap = true; break; }
+        if (measuredDriftOverlap(previous, frame, count)) { overlap = count; driftOverlap = true; break; }
       }
       if (!overlap && frame.cards.length) { continuous = false; warnings.push(`ordered_overlap_missing: ${previous.frameId} -> ${frame.frameId}`); }
     }
@@ -390,6 +428,7 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
         const existing = previousRows[previousRows.length - overlap + i]!;
         if (!existing.frameIds.includes(frame.frameId)) existing.frameIds.push(frame.frameId);
         if (clippedOverlap && i === 0) existing.warnings.push('clipped_prefix_verified_by_ordered_overlap');
+        if (driftOverlap && !existing.warnings.includes('name_drift_joined_by_measured_overlap')) existing.warnings.push('name_drift_joined_by_measured_overlap');
         if ((card.nameConfidence ?? 0) > (existing.nameConfidence ?? 0)) { existing.name = card.name; existing.nameConfidence = card.nameConfidence; }
         if (existing.warnings.includes('status_line_clipped') && !card.warnings.includes('status_line_clipped')) {
           if (existing.distanceText === null && card.distanceText !== null) {

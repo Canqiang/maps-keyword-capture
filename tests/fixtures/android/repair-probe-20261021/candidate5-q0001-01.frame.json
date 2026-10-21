@@ -1,0 +1,55 @@
+{
+  "frameId": "q0001:frame-001",
+  "capturedAt": "2026-10-21T03:27:47.043Z",
+  "imageSha256": "046b54034b6bbb94a4394111644ce7af27fc984d748c60c3ae8f2d1d0e70f2bd",
+  "queryVisible": true,
+  "sheetTop": 456,
+  "topStateVerified": true,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0001:frame-001",
+      "name": "可 可 小 鹵 KEKE BRAISED DELI",
+      "nameConfidence": 81.95,
+      "rating": 4.6,
+      "reviewCount": 9,
+      "priceText": null,
+      "category": "chinese",
+      "distanceText": "0 mi",
+      "distanceMeters": 0,
+      "openText": "closed . opens 9:30 am wed",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 40.666666666666664,
+        "top": 581,
+        "right": 445,
+        "bottom": 700.6666666666666
+      },
+      "ratingBounds": {
+        "left": 40.666666666666664,
+        "top": 631,
+        "right": 445,
+        "bottom": 661
+      },
+      "ratingLineText": "4.6% (9) -$10-20- & - Chinese",
+      "warnings": [],
+      "nameBounds": {
+        "left": 42,
+        "top": 581,
+        "right": 513.3333333333334,
+        "bottom": 624
+      }
+    }
+  ],
+  "warnings": [],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 456,
+    "right": 720,
+    "bottom": 1232
+  },
+  "topStateSource": "native_scroll_actions"
+}

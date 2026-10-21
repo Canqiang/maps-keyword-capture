@@ -83,6 +83,8 @@ export async function acquireDeviceLease(serial: string): Promise<() => Promise<
   };
 }
 
+/** Fresh captures a query may spend on pre-gesture native source changes. */
+const MAX_SOURCE_REFRESHES = 3;
 const PNG_SIGNATURE = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 const CRC_TABLE = Uint32Array.from({ length: 256 }, (_, value) => {
   let result = value;
@@ -294,7 +296,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       locale: info.locale, timezone: info.timezone,
       ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v9', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v10', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -400,11 +402,15 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
             // and unknown action outcomes still take the fatal path below.
             const code = safeError(error, 'swipe_failed').code;
             if (!['unknown_scroll_layout', 'source_changed'].includes(code)) throw error;
-            if (code === 'source_changed' && query.nativeFrameRefreshes!.length === 0) {
+            if (code === 'source_changed' && !refreshedWithoutGesture && query.nativeFrameRefreshes!.length < MAX_SOURCE_REFRESHES) {
               // The device guarantees this refusal occurred before /actions.
               // Capture a new PNG/XML/OCR/frame within the same loop budget,
               // then re-run every query, native, ad and ordered-overlap gate.
               // No blind gesture retry and no deadline/screenshot extension.
+              // Probe 5 (q0003) lost a verified 17-frame sequence to a second
+              // source change after a successful gesture: a fresh frame is
+              // allowed again after each sent gesture, never twice in a row,
+              // and at most MAX_SOURCE_REFRESHES times per query.
               query.nativeFrameRefreshes!.push({ reason: 'source_changed', afterFrameId: frameId, refreshFrameId: null });
               refreshPending = true; stage = 'snapshot'; continue;
             }

@@ -1,0 +1,55 @@
+{
+  "frameId": "q0002:frame-002",
+  "capturedAt": "2026-10-21T03:28:19.249Z",
+  "imageSha256": "0bbad988b8f9cc84ecb7670f32d10367e65cedb1e2309fd3ecd4598c9d928212",
+  "queryVisible": true,
+  "sheetTop": 272,
+  "topStateVerified": true,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0002:frame-002",
+      "name": "Hwa Lung Kitchen",
+      "nameConfidence": 95.11,
+      "rating": 3.8,
+      "reviewCount": 59,
+      "priceText": "$1–10",
+      "category": "chinese",
+      "distanceText": "0.3 mi",
+      "distanceMeters": 483,
+      "openText": "closed - opens 11 am wed",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 402,
+        "right": 386.3333333333333,
+        "bottom": 517.3333333333334
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 445.6666666666667,
+        "right": 386.3333333333333,
+        "bottom": 477.6666666666667
+      },
+      "ratingLineText": "3.8 %& (59) - $1-10 - Chinese",
+      "warnings": [],
+      "nameBounds": {
+        "left": 42.666666666666664,
+        "top": 402,
+        "right": 327,
+        "bottom": 436.3333333333333
+      }
+    }
+  ],
+  "warnings": [],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 272,
+    "right": 720,
+    "bottom": 1232
+  },
+  "topStateSource": "native_scroll_actions"
+}
