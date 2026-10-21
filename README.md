@@ -23,6 +23,8 @@ English is the primary language for project documentation and code comments. Pre
 
 ## Native Android pilot
 
+Current repair work and acceptance gates: [Android ranking repair handoff](docs/android-ranking-repair-handoff.md).
+
 A separate [Android Maps worker](docs/android-maps-node.md) searches the official native app on a dedicated emulator and records original PNG/XML evidence at explicit observation points. It has its own capture profile and storage namespace. The v3 adapter adds native-card OCR, overlap-verified scrolling, ad classification and separate displayed/organic positions in listing rows. Unreadable fields and incomplete coverage remain explicit. It does **not** enable an Android daily schedule, automatically match the monitored store, or establish customer-local geography. See [development validation](evidence/2026-10-16/android-maps/README.md) for software checks and outstanding real-device gates, and [host setup](deploy/android/README.md) for installation.
 
 ```bash

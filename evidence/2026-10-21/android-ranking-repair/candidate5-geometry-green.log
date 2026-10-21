@@ -1,0 +1,40 @@
+
+ RUN  v5.0.1 /Users/xander/git_repo/maps-keyword-capture-worktrees/fix-tracking-review-20261020
+
+·x···········································································
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/android-clipped-status.test.ts > receipt-verified clipped Android status fields > joins the exact same merchant when its distance becomes fully visible, retaining observed 3.3 mi
+AssertionError: expected { displayPosition: 2, …(14) } to match object { distanceText: '3.3 mi', …(2) }
+(12 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -1,7 +1,7 @@
+  {
+-   "distanceText": "3.3 mi",
++   "distanceText": null,
+    "frameIds": [
+      "before",
+      "after",
+    ],
+    "organicRank": null,
+
+ ❯ tests/android-clipped-status.test.ts:29:24
+     27|     const matched = result.listings.filter(row => row.name?.includes('…
+     28|     expect(matched).toHaveLength(1);
+     29|     expect(matched[0]).toMatchObject({ distanceText: '3.3 mi', frameId…
+       |                        ^
+     30|     expect(result.warnings.some(w => w.startsWith('ordered_overlap_mis…
+     31|     expect(result.rankingReliable).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 76 passed (77)
+   Start at  11:14:16
+   Duration  6.02s (tests 95%, transform 3%, import 2%)
+

@@ -1,0 +1,732 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "2a08a0c35920dd6fcc1ba1162aa6c141d6e0d4b6ff036dd9937eeff9241c8d36",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 2,
+  "lines": [
+    {
+      "text": "hot pot near me x",
+      "confidence": 94.35,
+      "bounds": {
+        "left": 42.5,
+        "top": 211,
+        "right": 661,
+        "bottom": 252.5
+      },
+      "words": [
+        {
+          "text": "hot",
+          "confidence": 95.650681,
+          "bounds": {
+            "left": 42.5,
+            "top": 211.5,
+            "right": 107.5,
+            "bottom": 244
+          }
+        },
+        {
+          "text": "pot",
+          "confidence": 95.650681,
+          "bounds": {
+            "left": 121.5,
+            "top": 214,
+            "right": 187.5,
+            "bottom": 252.5
+          }
+        },
+        {
+          "text": "near",
+          "confidence": 96.355042,
+          "bounds": {
+            "left": 201.5,
+            "top": 220,
+            "right": 290,
+            "bottom": 244
+          }
+        },
+        {
+          "text": "me",
+          "confidence": 96.124931,
+          "bounds": {
+            "left": 302.5,
+            "top": 220,
+            "right": 362.5,
+            "bottom": 244
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 87.956589,
+          "bounds": {
+            "left": 635,
+            "top": 211,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions %\\ Call © Website",
+      "confidence": 67.14,
+      "bounds": {
+        "left": 66.5,
+        "top": 338.5,
+        "right": 640,
+        "bottom": 369.5
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 39.847954,
+          "bounds": {
+            "left": 66.5,
+            "top": 338.5,
+            "right": 97.5,
+            "bottom": 369.5
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 96.263298,
+          "bounds": {
+            "left": 118,
+            "top": 342,
+            "right": 242,
+            "bottom": 365
+          }
+        },
+        {
+          "text": "%\\",
+          "confidence": 0,
+          "bounds": {
+            "left": 320,
+            "top": 340,
+            "right": 348,
+            "bottom": 368
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 94.227615,
+          "bounds": {
+            "left": 369,
+            "top": 342,
+            "right": 413,
+            "bottom": 365
+          }
+        },
+        {
+          "text": "©",
+          "confidence": 77.340973,
+          "bounds": {
+            "left": 489.5,
+            "top": 338.5,
+            "right": 520.5,
+            "bottom": 369.5
+          }
+        },
+        {
+          "text": "Website",
+          "confidence": 95.132309,
+          "bounds": {
+            "left": 539.5,
+            "top": 342,
+            "right": 640,
+            "bottom": 365
+          }
+        }
+      ]
+    },
+    {
+      "text": "LaoJie Hotpot",
+      "confidence": 92.97,
+      "bounds": {
+        "left": 43,
+        "top": 476,
+        "right": 266,
+        "bottom": 510
+      },
+      "words": [
+        {
+          "text": "LaoJie",
+          "confidence": 93.038589,
+          "bounds": {
+            "left": 43,
+            "top": 476,
+            "right": 144,
+            "bottom": 502.5
+          }
+        },
+        {
+          "text": "Hotpot",
+          "confidence": 92.895531,
+          "bounds": {
+            "left": 156,
+            "top": 476,
+            "right": 266,
+            "bottom": 510
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.3% (620) - $40-50 - & - Hot Pot",
+      "confidence": 76.74,
+      "bounds": {
+        "left": 41,
+        "top": 521,
+        "right": 477,
+        "bottom": 548
+      },
+      "words": [
+        {
+          "text": "4.3%",
+          "confidence": 76.827507,
+          "bounds": {
+            "left": 41,
+            "top": 522,
+            "right": 99.5,
+            "bottom": 545
+          }
+        },
+        {
+          "text": "(620)",
+          "confidence": 88.914497,
+          "bounds": {
+            "left": 113.5,
+            "top": 522,
+            "right": 177.5,
+            "bottom": 548
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 48.274807,
+          "bounds": {
+            "left": 194,
+            "top": 533.5,
+            "right": 194.5,
+            "bottom": 537
+          }
+        },
+        {
+          "text": "$40-50",
+          "confidence": 48.274807,
+          "bounds": {
+            "left": 204.5,
+            "top": 521,
+            "right": 305,
+            "bottom": 547
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 64.991608,
+          "bounds": {
+            "left": 317,
+            "top": 533.5,
+            "right": 320,
+            "bottom": 537
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 88.514252,
+          "bounds": {
+            "left": 336.5,
+            "top": 521,
+            "right": 357,
+            "bottom": 547.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 82.011292,
+          "bounds": {
+            "left": 372,
+            "top": 533.5,
+            "right": 375,
+            "bottom": 537
+          }
+        },
+        {
+          "text": "Hot",
+          "confidence": 96.78949,
+          "bounds": {
+            "left": 387,
+            "top": 524,
+            "right": 428,
+            "bottom": 544.5
+          }
+        },
+        {
+          "text": "Pot",
+          "confidence": 96.060188,
+          "bounds": {
+            "left": 438,
+            "top": 524,
+            "right": 477,
+            "bottom": 544.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "& “very fresh hot pot fantastic servic\"",
+      "confidence": 77.8,
+      "bounds": {
+        "left": 43.5,
+        "top": 901.5,
+        "right": 537.5,
+        "bottom": 933
+      },
+      "words": [
+        {
+          "text": "&",
+          "confidence": 0,
+          "bounds": {
+            "left": 43.5,
+            "top": 901.5,
+            "right": 72.5,
+            "bottom": 933
+          }
+        },
+        {
+          "text": "“very",
+          "confidence": 71.743729,
+          "bounds": {
+            "left": 94,
+            "top": 905,
+            "right": 158.5,
+            "bottom": 931
+          }
+        },
+        {
+          "text": "fresh",
+          "confidence": 96.064095,
+          "bounds": {
+            "left": 167,
+            "top": 903,
+            "right": 229,
+            "bottom": 925.5
+          }
+        },
+        {
+          "text": "hot",
+          "confidence": 96.751686,
+          "bounds": {
+            "left": 240,
+            "top": 902.5,
+            "right": 280,
+            "bottom": 925.5
+          }
+        },
+        {
+          "text": "pot",
+          "confidence": 96.924561,
+          "bounds": {
+            "left": 289,
+            "top": 905.5,
+            "right": 329,
+            "bottom": 931
+          }
+        },
+        {
+          "text": "fantastic",
+          "confidence": 96.471298,
+          "bounds": {
+            "left": 337,
+            "top": 903,
+            "right": 444,
+            "bottom": 925.5
+          }
+        },
+        {
+          "text": "servic\"",
+          "confidence": 86.622803,
+          "bounds": {
+            "left": 453,
+            "top": 903,
+            "right": 537.5,
+            "bottom": 925.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "@ Directions M2) Menu % Call",
+      "confidence": 64.86,
+      "bounds": {
+        "left": 66.5,
+        "top": 992.5,
+        "right": 609,
+        "bottom": 1023.5
+      },
+      "words": [
+        {
+          "text": "@",
+          "confidence": 34.235031,
+          "bounds": {
+            "left": 66.5,
+            "top": 992.5,
+            "right": 97.5,
+            "bottom": 1023.5
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 96.386925,
+          "bounds": {
+            "left": 118,
+            "top": 996,
+            "right": 242,
+            "bottom": 1019
+          }
+        },
+        {
+          "text": "M2)",
+          "confidence": 66.362274,
+          "bounds": {
+            "left": 317,
+            "top": 996.5,
+            "right": 351,
+            "bottom": 1022.5
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 95.404694,
+          "bounds": {
+            "left": 370,
+            "top": 997.5,
+            "right": 438,
+            "bottom": 1019
+          }
+        },
+        {
+          "text": "%",
+          "confidence": 0.774063,
+          "bounds": {
+            "left": 516,
+            "top": 994,
+            "right": 544,
+            "bottom": 1022
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 95.997116,
+          "bounds": {
+            "left": 565,
+            "top": 996,
+            "right": 609,
+            "bottom": 1019
+          }
+        }
+      ]
+    },
+    {
+      "text": "口",
+      "confidence": 87.68,
+      "bounds": {
+        "left": 690,
+        "top": 994,
+        "right": 712,
+        "bottom": 1021.5
+      },
+      "words": [
+        {
+          "text": "口",
+          "confidence": 87.67823,
+          "bounds": {
+            "left": 690,
+            "top": 994,
+            "right": 712,
+            "bottom": 1021.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Mt. ShooTao Hot Pot 蜀 道 山 火锅",
+      "confidence": 88.7,
+      "bounds": {
+        "left": 43,
+        "top": 1122,
+        "right": 553,
+        "bottom": 1168.5
+      },
+      "words": [
+        {
+          "text": "Mt.",
+          "confidence": 93.264656,
+          "bounds": {
+            "left": 43,
+            "top": 1132,
+            "right": 90.5,
+            "bottom": 1158.5
+          }
+        },
+        {
+          "text": "ShooTao",
+          "confidence": 92.863251,
+          "bounds": {
+            "left": 102,
+            "top": 1131.5,
+            "right": 238,
+            "bottom": 1158.5
+          }
+        },
+        {
+          "text": "Hot",
+          "confidence": 96.985641,
+          "bounds": {
+            "left": 250,
+            "top": 1132,
+            "right": 305,
+            "bottom": 1158.5
+          }
+        },
+        {
+          "text": "Pot",
+          "confidence": 96.695091,
+          "bounds": {
+            "left": 317,
+            "top": 1132,
+            "right": 366,
+            "bottom": 1158.5
+          }
+        },
+        {
+          "text": "蜀",
+          "confidence": 50.113876,
+          "bounds": {
+            "left": 386.5,
+            "top": 1128,
+            "right": 408,
+            "bottom": 1161
+          }
+        },
+        {
+          "text": "道",
+          "confidence": 91.024597,
+          "bounds": {
+            "left": 427.5,
+            "top": 1127,
+            "right": 468.5,
+            "bottom": 1161
+          }
+        },
+        {
+          "text": "山",
+          "confidence": 92.535965,
+          "bounds": {
+            "left": 468,
+            "top": 1122,
+            "right": 500.5,
+            "bottom": 1168.5
+          }
+        },
+        {
+          "text": "火锅",
+          "confidence": 96.115051,
+          "bounds": {
+            "left": 485,
+            "top": 1127,
+            "right": 553,
+            "bottom": 1161.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.9% (1174) - $40-80 - & - Hot Pot",
+      "confidence": 76.85,
+      "bounds": {
+        "left": 41,
+        "top": 1175,
+        "right": 478,
+        "bottom": 1202
+      },
+      "words": [
+        {
+          "text": "4.9%",
+          "confidence": 68.410393,
+          "bounds": {
+            "left": 41,
+            "top": 1176,
+            "right": 100.5,
+            "bottom": 1199
+          }
+        },
+        {
+          "text": "(1174)",
+          "confidence": 93.27227,
+          "bounds": {
+            "left": 112,
+            "top": 1176,
+            "right": 178.5,
+            "bottom": 1202
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 38.893814,
+          "bounds": {
+            "left": 196,
+            "top": 1187.5,
+            "right": 196.5,
+            "bottom": 1191
+          }
+        },
+        {
+          "text": "$40-80",
+          "confidence": 38.893814,
+          "bounds": {
+            "left": 206.5,
+            "top": 1175,
+            "right": 306,
+            "bottom": 1201
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 82.257896,
+          "bounds": {
+            "left": 318,
+            "top": 1187.5,
+            "right": 321,
+            "bottom": 1191
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 90.61161,
+          "bounds": {
+            "left": 337.5,
+            "top": 1175,
+            "right": 358,
+            "bottom": 1201.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 86.783737,
+          "bounds": {
+            "left": 373,
+            "top": 1187.5,
+            "right": 376,
+            "bottom": 1191
+          }
+        },
+        {
+          "text": "Hot",
+          "confidence": 95.942986,
+          "bounds": {
+            "left": 388,
+            "top": 1178,
+            "right": 429,
+            "bottom": 1198.5
+          }
+        },
+        {
+          "text": "Pot",
+          "confidence": 96.545815,
+          "bounds": {
+            "left": 439,
+            "top": 1178,
+            "right": 478,
+            "bottom": 1198.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Onan. Clacac 19 AM . 22 mi",
+      "confidence": 80.3,
+      "bounds": {
+        "left": 41,
+        "top": 1216,
+        "right": 395,
+        "bottom": 1232
+      },
+      "words": [
+        {
+          "text": "Onan.",
+          "confidence": 65.181091,
+          "bounds": {
+            "left": 41,
+            "top": 1217.5,
+            "right": 122,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Clacac",
+          "confidence": 76.133499,
+          "bounds": {
+            "left": 132.5,
+            "top": 1216,
+            "right": 215,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "19",
+          "confidence": 91.289268,
+          "bounds": {
+            "left": 226,
+            "top": 1217.5,
+            "right": 249,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 80.650215,
+          "bounds": {
+            "left": 261,
+            "top": 1218,
+            "right": 297,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 82.157928,
+          "bounds": {
+            "left": 310,
+            "top": 1227.5,
+            "right": 313,
+            "bottom": 1231
+          }
+        },
+        {
+          "text": "22",
+          "confidence": 81.863686,
+          "bounds": {
+            "left": 325,
+            "top": 1217.5,
+            "right": 358.5,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 84.854721,
+          "bounds": {
+            "left": 369,
+            "top": 1216,
+            "right": 395,
+            "bottom": 1232
+          }
+        }
+      ]
+    }
+  ]
+}

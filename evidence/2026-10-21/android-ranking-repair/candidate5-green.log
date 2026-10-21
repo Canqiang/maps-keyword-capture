@@ -1,0 +1,552 @@
+
+ RUN  v5.0.1 /Users/xander/git_repo/maps-keyword-capture-worktrees/fix-tracking-review-20261020
+
+····························x···xxx·······x········xxxxxxxxxxxx··xxxx·········x·······xxxx·x··xx·xxxxx···
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 34 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/android-runner.test.ts > native screenshot evidence runner > persists source images and UI trees with independently verifiable receipts and no invented ranks
+AssertionError: expected 'failed' to be 'needs_review' // Object.is equality
+
+Expected: "needs_review"
+Received: "failed"
+
+ ❯ tests/android-runner.test.ts:60:54
+     58|   const s=await setup();const result=await runAndroidCapture(s.config,…
+     59|   expect(s.closed()).toBe(1);expect(result.manifest.queries[0]?.rankin…
+     60|   expect(result.manifest.queries[0]?.evidenceStatus).toBe('needs_revie…
+       |                                                      ^
+     61|   for(const a of result.manifest.artifacts){const b=await readFile(joi…
+     62|   const shot=result.manifest.queries[0]!.screens[0]!;expect(shot.width…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/34]⎯
+
+ FAIL  tests/android-runner.test.ts > native screenshot evidence runner > retains the safe native swipe failure code UNKNOWN_SCROLL_LAYOUT
+AssertionError: expected 'ocr_scale_mismatch' to be 'unknown_scroll_layout' // Object.is equality
+
+Expected: "unknown_scroll_layout"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:81:45
+     79|   const s=await setup({swipeResults:async()=>{throw Object.assign(new …
+     80|   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactS…
+     81|   expect(r.manifest.queries[0]?.stopReason).toBe(code.toLowerCase());e…
+       |                                             ^
+     82|   expect(r.manifest.queries[0]?.listings).toHaveLength(1);expect(r.man…
+     83|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/34]⎯
+
+ FAIL  tests/android-runner.test.ts > native screenshot evidence runner > retains the safe native swipe failure code ADB_COMMAND_FAILED
+AssertionError: expected 'ocr_scale_mismatch' to be 'adb_command_failed' // Object.is equality
+
+Expected: "adb_command_failed"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:81:45
+     79|   const s=await setup({swipeResults:async()=>{throw Object.assign(new …
+     80|   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactS…
+     81|   expect(r.manifest.queries[0]?.stopReason).toBe(code.toLowerCase());e…
+       |                                             ^
+     82|   expect(r.manifest.queries[0]?.listings).toHaveLength(1);expect(r.man…
+     83|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/34]⎯
+
+ FAIL  tests/android-runner.test.ts > native screenshot evidence runner > retains the safe native swipe failure code COMMAND_TIMEOUT
+AssertionError: expected 'ocr_scale_mismatch' to be 'command_timeout' // Object.is equality
+
+Expected: "command_timeout"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:81:45
+     79|   const s=await setup({swipeResults:async()=>{throw Object.assign(new …
+     80|   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactS…
+     81|   expect(r.manifest.queries[0]?.stopReason).toBe(code.toLowerCase());e…
+       |                                             ^
+     82|   expect(r.manifest.queries[0]?.listings).toHaveLength(1);expect(r.man…
+     83|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v2 location preparation gates > persists a separate location screen before searching and counts only result screens toward the query budget
+AssertionError: expected 2 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 2
+
+ ❯ tests/android-runner.test.ts:119:92
+    117|   s.config.maxScreenshotsPerQuery=1;
+    118|   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactS…
+    119|   expect(calls).toEqual(['setLocation','snapshot','search','snapshot']…
+       |                                                                                            ^
+    120|   expect(r.manifest.adapterVersion).toBe('android-screen-ocr/v4');expe…
+    121|   expect(r.manifest.counts).toMatchObject({screenshots:1,locationScree…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > merges swiped frames into ranked listings, finds the target by alias and completes at list end
+AssertionError: expected 2 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 2
+
+ ❯ tests/android-runner.test.ts:158:22
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > carries independent ad and organic target occurrences from OCR through ingest
+AssertionError: expected { storeId: 'keke', …(22) } to match object { organicRank: 1, …(2) }
+(44 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "displayPosition": 2,
+-   "organicRank": 1,
+-   "rankingStatus": "ranked",
++   "displayPosition": null,
++   "organicRank": null,
++   "rankingStatus": "not_evaluated",
+  }
+
+ ❯ tests/android-runner.test.ts:176:33
+    174|   const s=await setup(await resultsSnapshot());s.config.tasks[0]!.alia…
+    175|   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactS…
+    176|   expect(r.manifest.queries[0]).toMatchObject({organicRank:1,displayPo…
+       |                                 ^
+    177|   expect(r.manifest.queries[0]?.targetMatches).toHaveLength(2);
+    178|   const observations=ingestAndroidManifest({manifest:r.manifest,placeI…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > does not claim list end when single_frame crosses the retained display cap
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > does not claim list end when overlap_frame crosses the retained display cap
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > does not claim list end when ad_prefix crosses the retained display cap
+AssertionError: expected [] to have a length of 2 but got +0
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ tests/android-runner.test.ts:190:22
+    188|   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactS…
+    189|   const q=r.manifest.queries[0]!;
+    190|   expect(q.listings).toHaveLength(2);
+       |                      ^
+    191|   expect(q.listingQuality).toMatchObject({endOfResults:false,truncated…
+    192|   expect(q.stopReason).toBe('target_reached');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > preserves true terminal absence when 2 display slots retain every occurrence
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > preserves true terminal absence when 3 display slots retain every occurrence
+AssertionError: expected { storeId: 'keke', …(21) } to match object { stopReason: 'list_end', …(2) }
+(43 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "listingQuality": {
+-     "endOfResults": true,
+-     "truncatedCount": 0,
+-   },
+-   "rankingStatus": "not_found",
+-   "stopReason": "list_end",
++   "listingQuality": null,
++   "rankingStatus": "not_evaluated",
++   "stopReason": "ocr_scale_mismatch",
+  }
+
+ ❯ tests/android-runner.test.ts:204:33
+    202|   const terminal=(image:Buffer)=>({...cardScreen('Other one','Other tw…
+    203|   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactS…
+    204|   expect(r.manifest.queries[0]).toMatchObject({stopReason:'list_end',r…
+       |                                 ^
+    205|   const observation=ingestAndroidManifest({manifest:r.manifest,placeId…
+    206|   expect(organicRankForMetrics(observation)).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > stops at the display target and reports not_found when the alias never appears
+AssertionError: expected 'ocr_scale_mismatch' to be 'target_reached' // Object.is equality
+
+Expected: "target_reached"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:211:55
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > gives ads a display position without an organic rank
+AssertionError: expected [] to deeply equal [ [ 1, null, 'ad' ], …(1) ]
+
+- Expected
++ Received
+
+- [
+-   [
+-     1,
+-     null,
+-     "ad",
+-   ],
+-   [
+-     2,
+-     1,
+-     "organic",
+-   ],
+- ]
++ []
+
+ ❯ tests/android-runner.test.ts:216:108
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > keeps an identical screenshot as a stalled partial prefix
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/android-runner.test.ts:221:18
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > retains a partial prefix at screenshot_budget
+AssertionError: expected 'ocr_scale_mismatch' to be 'screenshot_budget' // Object.is equality
+
+Expected: "screenshot_budget"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:226:55
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > retains a partial prefix at scroll_budget
+AssertionError: expected 'ocr_scale_mismatch' to be 'scroll_budget' // Object.is equality
+
+Expected: "scroll_budget"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:226:55
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > retains the screenshot but fails closed if OCR artifact delivery fails
+AssertionError: expected 'ocr_scale_mismatch' to be 'storage_unverified' // Object.is equality
+
+Expected: "storage_unverified"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:242:180
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > accepts the query from the OCR sheet header when native XML cannot see it, and reviews when neither can
+AssertionError: expected 'ocr_scale_mismatch' to be 'stalled_same_frame' // Object.is equality
+
+Expected: "stalled_same_frame"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:247:46
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > records detail-en as a non-ranking page with not_evaluated rank
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > records no-results-en as a non-ranking page with not_evaluated rank
+AssertionError: expected 'not_evaluated' to be 'non_ranking' // Object.is equality
+
+Expected: "non_ranking"
+Received: "not_evaluated"
+
+ ❯ tests/android-runner.test.ts:254:141
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/34]⎯
+
+ FAIL  tests/android-runner.test.ts > v4 full-screen OCR listing evidence > writes immutable source, query and CSV artifacts and returns the manifest receipt separately
+AssertionError: expected Set{ 'input', 'device', 'png', …(3) } to deeply equal Set{ 'input', 'device', 'png', …(5) }
+
+- Expected
++ Received
+
+  Set {
+    "csv",
+    "device",
+    "input",
+-   "ocr_json",
+    "png",
+    "query_json",
+-   "screen_frame",
+    "ui_xml",
+  }
+
+ ❯ tests/android-runner.test.ts:288:56
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/34]⎯
+
+ FAIL  tests/android-runner.test.ts > review regressions: runner ranking and stop boundaries > honors the reviewed native backward-scroll evidence over apparent OCR top controls
+AssertionError: expected { storeId: 'keke', …(21) } to match object { Object (rankingStatus, organicRank, ...) }
+(43 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "listingStatus": "partial",
++   "listingStatus": "not_evaluated",
+    "organicRank": null,
+    "rankingStatus": "not_evaluated",
+  }
+
+ ❯ tests/android-runner.test.ts:345:35
+    343|       const result = cardScreen('Keke')(png); result.lines[0]!.text = …
+    344|     } });
+    345|     expect(r.manifest.queries[0]).toMatchObject({ rankingStatus: 'not_…
+       |                                   ^
+    346|     expect(r.manifest.queries[0]?.listingQuality?.sequenceVerified).to…
+    347|     expect(r.exitCode).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/34]⎯
+
+ FAIL  tests/android-runner.test.ts > review regressions: runner ranking and stop boundaries > does not claim list end from same_png
+ FAIL  tests/android-runner.test.ts > review regressions: runner ranking and stop boundaries > does not claim list end from no_new_cards
+AssertionError: expected { storeId: 'keke', …(21) } to match object { listingStatus: 'partial', …(2) }
+(43 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "evidenceStatus": "needs_review",
+-   "listingStatus": "partial",
+-   "rankingStatus": "not_found_in_prefix",
++   "evidenceStatus": "failed",
++   "listingStatus": "not_evaluated",
++   "rankingStatus": "not_evaluated",
+  }
+
+ ❯ tests/android-runner.test.ts:354:35
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/34]⎯
+
+ FAIL  tests/android-runner.test.ts > review regressions: runner ranking and stop boundaries > does not publish a target rank from unreliable card order
+AssertionError: expected { storeId: 'keke', …(22) } to match object { organicRank: null, …(3) }
+(43 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "displayPosition": null,
+-   "evidenceStatus": "needs_review",
++   "evidenceStatus": "failed",
+    "organicRank": null,
+    "rankingStatus": "not_evaluated",
+  }
+
+ ❯ tests/android-runner.test.ts:361:35
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/34]⎯
+
+ FAIL  tests/android-runner.test.ts > grid regression: native evidence stays attached to each OCR frame > refuses organic rank when native ad evidence cannot be matched to the OCR card
+AssertionError: expected { storeId: 'keke', …(22) } to match object { organicRank: null, …(3) }
+(43 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "evidenceStatus": "needs_review",
++   "evidenceStatus": "failed",
+    "organicRank": null,
+    "rankingStatus": "not_evaluated",
+-   "stopReason": "ranking_unreliable",
++   "stopReason": "ocr_scale_mismatch",
+  }
+
+ ❯ tests/android-runner.test.ts:395:40
+    393|     s.config.tasks[0]!.aliases = ['Keke'];
+    394|     const result = await runAndroidCapture(s.config, s.device, new Loc…
+    395|     expect(result.manifest.queries[0]).toMatchObject({ organicRank: nu…
+       |                                        ^
+    396|     expect(result.manifest.queries[0]?.listings[0]?.resultType).toBe('…
+    397|     expect(swipe).not.toHaveBeenCalled(); expect(result.exitCode).toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/34]⎯
+
+ FAIL  tests/android-runner.test.ts > grid regression: native evidence stays attached to each OCR frame > keeps UNKNOWN_SCROLL_LAYOUT as an unqualified partial and still captures the next query
+AssertionError: expected { storeId: 'keke', …(21) } to match object { Object (evidenceStatus, stopReason, ...) }
+(40 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "error": null,
+-   "evidenceStatus": "needs_review",
++   "error": {
++     "code": "ocr_scale_mismatch",
++     "message": "Android capture stopped: ocr_scale_mismatch. Inspect local device or storage logs for details.",
++   },
++   "evidenceStatus": "failed",
+    "rankingStatus": "not_evaluated",
+-   "stopReason": "unknown_scroll_layout",
++   "stopReason": "ocr_scale_mismatch",
+  }
+
+ ❯ tests/android-runner.test.ts:434:35
+    432|     const frames = code === 'SOURCE_CHANGED' ? [cardScreen('Keke'), ca…
+    433|     const r = await runAndroidCapture(s.config, s.device, new LocalArt…
+    434|     expect(r.manifest.queries[0]).toMatchObject({ evidenceStatus: 'nee…
+       |                                   ^
+    435|     expect(r.manifest.queries[0]?.listingQuality?.rankingReliable).toB…
+    436|     expect(r.manifest.queries[1]?.screens).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/34]⎯
+
+ FAIL  tests/android-runner.test.ts > grid regression: native evidence stays attached to each OCR frame > keeps SOURCE_CHANGED as an unqualified partial and still captures the next query
+AssertionError: expected { storeId: 'keke', …(21) } to match object { Object (evidenceStatus, stopReason, ...) }
+(40 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "error": null,
+-   "evidenceStatus": "needs_review",
++   "error": {
++     "code": "ocr_scale_mismatch",
++     "message": "Android capture stopped: ocr_scale_mismatch. Inspect local device or storage logs for details.",
++   },
++   "evidenceStatus": "failed",
+    "rankingStatus": "not_evaluated",
+-   "stopReason": "source_changed",
++   "stopReason": "ocr_scale_mismatch",
+  }
+
+ ❯ tests/android-runner.test.ts:434:35
+    432|     const frames = code === 'SOURCE_CHANGED' ? [cardScreen('Keke'), ca…
+    433|     const r = await runAndroidCapture(s.config, s.device, new LocalArt…
+    434|     expect(r.manifest.queries[0]).toMatchObject({ evidenceStatus: 'nee…
+       |                                   ^
+    435|     expect(r.manifest.queries[0]?.listingQuality?.rankingReliable).toB…
+    436|     expect(r.manifest.queries[1]?.screens).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/34]⎯
+
+ FAIL  tests/android-runner.test.ts > bounded native-source refresh before any gesture > captures and persists fresh XML/PNG/OCR once before replanning, even when no gesture changed the pixels
+AssertionError: expected { storeId: 'keke', …(21) } to match object { listingStatus: 'complete', …(2) }
+(43 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "listingStatus": "complete",
+-   "nativeFrameRefreshes": [
+-     {
+-       "afterFrameId": "q0001:frame-001",
+-       "reason": "source_changed",
+-       "refreshFrameId": "q0001:frame-002",
+-     },
+-   ],
+-   "stopReason": "target_reached",
++   "listingStatus": "not_evaluated",
++   "nativeFrameRefreshes": [],
++   "stopReason": "ocr_scale_mismatch",
+  }
+
+ ❯ tests/android-runner.test.ts:457:35
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/34]⎯
+
+ FAIL  tests/android-runner.test.ts > bounded native-source refresh before any gesture > does not retry another source mismatch after the single fresh-frame allowance
+AssertionError: expected 'ocr_scale_mismatch' to be 'source_changed' // Object.is equality
+
+Expected: "source_changed"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:467:47
+    465|     s.config.maxScreenshotsPerQuery = 5;
+    466|     const r = await runAndroidCapture(s.config, s.device, new LocalArt…
+    467|     expect(r.manifest.queries[0]?.stopReason).toBe('source_changed'); …
+       |                                               ^
+    468|     expect(r.manifest.queries[0]?.screens).toHaveLength(2); expect(r.m…
+    469|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/34]⎯
+
+ FAIL  tests/android-runner.test.ts > bounded native-source refresh before any gesture > charges the fresh frame to the existing screenshot limit and never sends a gesture beyond it
+AssertionError: expected 'ocr_scale_mismatch' to be 'screenshot_budget' // Object.is equality
+
+Expected: "screenshot_budget"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:474:47
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/34]⎯
+
+ FAIL  tests/android-runner.test.ts > bounded native-source refresh before any gesture > rechecks the fresh native frame and stops on consent before any further gesture
+AssertionError: expected { storeId: 'keke', …(21) } to match object { evidenceStatus: 'failed', …(3) }
+(42 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "evidenceStatus": "failed",
+    "organicRank": null,
+    "rankingStatus": "not_evaluated",
+-   "stopReason": "screen_consent",
++   "stopReason": "ocr_scale_mismatch",
+  }
+
+ ❯ tests/android-runner.test.ts:481:35
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/34]⎯
+
+ FAIL  tests/android-runner.test.ts > bounded native-source refresh before any gesture > does not reset the query deadline when asking for a fresh frame
+AssertionError: expected 'ocr_scale_mismatch' to be 'query_timeout' // Object.is equality
+
+Expected: "query_timeout"
+Received: "ocr_scale_mismatch"
+
+ ❯ tests/android-runner.test.ts:491:47
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/34]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  34 failed | 71 passed (105)
+   Start at  11:15:40
+   Duration  5.97s (tests 94%, transform 3%, import 3%)
+

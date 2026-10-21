@@ -47,9 +47,9 @@ const pngWith=(seed:number,width=1,height=1)=>{const chunk=(type:string,data:Buf
 // Synthetic full-screen OCR: every screen shows the sheet header plus one card per name.
 const shaOf=(buffer:Buffer)=>createHash('sha256').update(buffer).digest('hex');
 const ocrLine=(text:string,top:number)=>({text,confidence:90,bounds:{left:40,top,right:600,bottom:top+30}});
-const cardScreen=(...names:string[])=>(png:Buffer)=>({schemaVersion:'android-screen-ocr/v1' as const,imageSha256:shaOf(png),imageWidth:1,imageHeight:1,engine:'test',engineVersion:'synthetic',languages:'eng',scale:1,
+const cardScreen=(...names:string[])=>(png:Buffer)=>({schemaVersion:'android-screen-ocr/v1' as const,imageSha256:shaOf(png),imageWidth:1,imageHeight:1,engine:'test',engineVersion:'synthetic',languages:'eng',scale:2,
  lines:[ocrLine('noodles x',200),ocrLine('Relevance Open now Price',240),...names.flatMap((name,i)=>[ocrLine(name.replace(/^AD:/,''),300+i*300),ocrLine(name.startsWith('AD:')?'4.5% (12) - Chinese':`4.6% (${20+[...name].reduce((sum,c)=>sum+c.charCodeAt(0),0)%997}) - $10-20 - Chinese`,340+i*300),ocrLine('Closed . Opens 9:30 AM - 0.2 mi',380+i*300)].concat(name.startsWith('AD:')?[ocrLine('Sponsored',270+i*300)]:[]))]});
-const emptyScreen=()=>(png:Buffer)=>({schemaVersion:'android-screen-ocr/v1' as const,imageSha256:shaOf(png),imageWidth:1,imageHeight:1,engine:'test',engineVersion:'synthetic',languages:'eng',scale:1,lines:[ocrLine('noodles x',200),ocrLine('Discover through photos',400)]});
+const emptyScreen=()=>(png:Buffer)=>({schemaVersion:'android-screen-ocr/v1' as const,imageSha256:shaOf(png),imageWidth:1,imageHeight:1,engine:'test',engineVersion:'synthetic',languages:'eng',scale:2,lines:[ocrLine('noodles x',200),ocrLine('Discover through photos',400)]});
 /** Returns the screens in order; the last screen repeats for any further shot. */
 const recognizerFor=(screens:Array<(png:Buffer)=>any>)=>{let i=0;return async(request:{png:Buffer})=>screens[Math.min(i++,screens.length-1)]!(request.png);};
 
@@ -490,4 +490,49 @@ describe('bounded native-source refresh before any gesture', () => {
     const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('A')]) });
     expect(r.manifest.queries[0]?.stopReason).toBe('query_timeout'); expect(r.manifest.queries[0]?.screens).toHaveLength(1); expect(r.exitCode).toBe(2);
   });
+});
+
+
+describe('candidate4 scroll-anchor geometry regression', () => {
+ it('uses a valid earlier title instead of sending an overlapping title/rating anchor to the device', async () => {
+  const root = new URL('./fixtures/android/repair-probe-20261021/', import.meta.url);
+  const source = await readFile(new URL('candidate4-anchor.xml', root), 'utf8');
+  const image = await readFile(new URL('candidate4-anchor.png', root));
+  const ocr = JSON.parse(await readFile(new URL('candidate4-anchor.ocr.json', root), 'utf8'));
+  const s = await setup({ snapshot: async () => ({ png: image, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
+   swipeResults: async proof => {
+    const a=proof?.ocrScrollAnchor;
+    if(a && (a.nameBounds.bottom>a.ratingBounds.top || a.ratingBounds.top-a.nameBounds.bottom>90)) throw Object.assign(new Error('Invalid title geometry'),{code:'UNKNOWN_SCROLL_LAYOUT'});
+   } });
+  s.config.tasks[0]!.keyword='bubble tea near me';s.config.maxScreenshotsPerQuery=2;
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:async()=>ocr});
+  expect(r.manifest.queries[0]!.screens).toHaveLength(2);
+  expect(r.manifest.queries[0]!.stopReason).not.toBe('unknown_scroll_layout');
+  expect(r.manifest.queries[0]!.listingStatus).toBe('partial');
+ });
+});
+
+
+describe('OCR resolution provenance', () => {
+ it('passes explicit scale to the recognizer, persists it and separates profiles', async () => {
+  const hashes: Array<string|null> = [];
+  for(const scale of [2,3]) {
+   const s=await setup();s.config.ocrScale=scale;s.config.maxDisplayedResults=1;
+   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:async request=>{
+    if(request.scale!==scale) throw new Error('Requested OCR resolution lost');
+    return {...cardScreen('Keke')(request.png),scale};
+   }});
+   expect(r.manifest.queries[0]!.screens[0]!.ocr).toBeDefined();
+   const artifact=r.manifest.queries[0]!.screens[0]!.ocr!;
+   expect(JSON.parse(await readFile(join(s.root,artifact.relativePath),'utf8')).scale).toBe(scale);
+   hashes.push(r.manifest.profileHash);
+  }
+  expect(hashes[0]).not.toBe(hashes[1]);
+ });
+ it('does not rank results when the recognizer silently used another scale', async () => {
+  const s=await setup();s.config.ocrScale=3;
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([cardScreen('Keke')])});
+  expect(r.manifest.queries[0]!.stopReason).toBe('ocr_scale_mismatch');
+  expect(r.manifest.queries[0]!.organicRank).toBeNull();
+ });
 });

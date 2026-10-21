@@ -1,0 +1,92 @@
+
+ RUN  v5.0.1 /Users/xander/git_repo/maps-keyword-capture-worktrees/fix-tracking-review-20261020
+
+····················x················································································xx
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/android-config.test.ts > explicit OCR resolution > keeps the established default and accepts a bounded higher-resolution profile
+AssertionError: expected { …(14) } to match object { ocrScale: 2 }
+(14 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "ocrScale": 2,
++   "adbPath": "adb",
++   "appiumUrl": "http://127.0.0.1:4723",
++   "keywordTimeoutMs": 600000,
++   "locale": "en-US",
++   "maxDisplayedResults": 15,
++   "maxScreenshotsPerQuery": 60,
++   "maxScrolls": 59,
++   "ocrLanguages": "eng+chi_sim+chi_tra",
++   "ocrTimeoutMs": 15000,
++   "outputDirectory": "./outputs",
++   "schemaVersion": "android-maps-input/v1",
++   "serial": "emulator-5554",
++   "tasks": [
++     {
++       "keyword": "spicy duck neck",
++       "location": {
++         "accuracyMeters": 20,
++         "id": "flushing-1",
++         "label": "Test point",
++         "latitude": 40.76,
++         "longitude": -73.83,
++         "source": "test fixture",
++         "toleranceMeters": 100,
++       },
++       "sourceReference": "test fixture",
++       "storeId": "keke",
++       "storeName": "Keke",
++     },
++   ],
++   "timezone": "America/New_York",
+  }
+
+ ❯ tests/android-config.test.ts:28:39
+     26| describe('explicit OCR resolution', () => {
+     27|  it('keeps the established default and accepts a bounded higher-resolu…
+     28|   expect(parseAndroidConfig(valid())).toMatchObject({ocrScale:2});
+       |                                       ^
+     29|   expect(parseAndroidConfig({...valid(),ocrScale:3})).toMatchObject({o…
+     30|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/android-runner.test.ts > OCR resolution provenance > passes explicit scale to the recognizer, persists it and separates profiles
+AssertionError: expected undefined to be defined
+ ❯ tests/android-runner.test.ts:525:51
+    523|     return {...cardScreen('Keke')(request.png),scale};
+    524|    }});
+    525|    expect(r.manifest.queries[0]!.screens[0]!.ocr).toBeDefined();
+       |                                                   ^
+    526|    const artifact=r.manifest.queries[0]!.screens[0]!.ocr!;
+    527|    expect(JSON.parse(await readFile(join(s.root,artifact.relativePath)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/android-runner.test.ts > OCR resolution provenance > does not rank results when the recognizer silently used another scale
+AssertionError: expected 'stalled_same_frame' to be 'ocr_scale_mismatch' // Object.is equality
+
+Expected: "ocr_scale_mismatch"
+Received: "stalled_same_frame"
+
+ ❯ tests/android-runner.test.ts:535:45
+    533|   const s=await setup();s.config.ocrScale=3;
+    534|   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactS…
+    535|   expect(r.manifest.queries[0]!.stopReason).toBe('ocr_scale_mismatch');
+       |                                             ^
+    536|   expect(r.manifest.queries[0]!.organicRank).toBeNull();
+    537|  });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 100 passed (103)
+   Start at  11:14:45
+   Duration  6.45s (tests 95%, transform 2%, import 2%)
+

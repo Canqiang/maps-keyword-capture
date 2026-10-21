@@ -27,6 +27,7 @@ const schema = z.object({
   maxDisplayedResults: z.number().int().min(1).max(50).default(15),
   maxScrolls: z.number().int().min(0).max(99).default(59),
   ocrTimeoutMs: z.number().int().min(1000).max(60_000).default(15_000),
+  ocrScale: z.number().int().min(1).max(3).default(2),
   ocrLanguages: z.string().regex(/^(eng|chi_sim|chi_tra)(\+(eng|chi_sim|chi_tra))*$/).max(50).default('eng+chi_sim+chi_tra'),
   tasks: z.array(z.object({ storeId: id, storeName: nonempty, keyword: z.string().min(1).max(200).refine(s => s.trim().length > 0 && !/[\x00-\x1f\x7f]/.test(s)), aliases: z.array(z.string().trim().min(2).max(100)).min(1).max(10).optional(), location, sourceReference: nonempty }).strict()).min(1).max(20),
 }).strict().superRefine((c, ctx) => {

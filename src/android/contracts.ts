@@ -17,7 +17,7 @@ export interface AndroidCaptureConfig {
   locale: 'en-US'; timezone: string;
   outputDirectory: string;
   maxScreenshotsPerQuery: number; keywordTimeoutMs: number;
-  maxDisplayedResults: number; maxScrolls: number; ocrLanguages: string; ocrTimeoutMs: number;
+  maxDisplayedResults: number; maxScrolls: number; ocrLanguages: string; ocrTimeoutMs: number; ocrScale: number;
   tasks: AndroidTask[];
 }
 export interface AndroidDisplayInfo {

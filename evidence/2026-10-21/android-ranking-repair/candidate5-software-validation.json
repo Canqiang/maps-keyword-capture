@@ -1,0 +1,75 @@
+{
+  "at": "2026-10-21T03:20:37.806137+00:00",
+  "candidate": "5-geometry-ocr-scale",
+  "scope": "local software only; live capture pending",
+  "red": {
+    "geometryFailures": 3,
+    "scaleFailures": 3
+  },
+  "intermediate": {
+    "geometryFillRegression": 1,
+    "syntheticScaleMismatchFailures": 34,
+    "resolution": "Filled only missing status fields after verified overlap; aligned synthetic recognizer fixture scale with configured default2"
+  },
+  "final": {
+    "targetedTests": 105,
+    "targetedFiles": 3,
+    "fullTests": 1519,
+    "fullFiles": 71,
+    "pythonTests": 26,
+    "contracts": "passed",
+    "typecheck": "passed",
+    "build": "passed",
+    "diffCheck": "passed"
+  },
+  "logs": {
+    "red": {
+      "sha256": "e162f1f30722c9774554316be327aa37d84c2ce55e2961ad64a270e369d19682",
+      "bytes": 3137,
+      "localPath": "/tmp/android-repair5-red.log",
+      "repositoryPath": "evidence/2026-10-21/android-ranking-repair/candidate5-red.log"
+    },
+    "geometry-green": {
+      "sha256": "9189b0b399bd2f526af399b8629edbab00766ab3727f7ee62022e1578df4a157",
+      "bytes": 1513,
+      "localPath": "/tmp/android-repair5-geometry-green.log",
+      "repositoryPath": "evidence/2026-10-21/android-ranking-repair/candidate5-geometry-green.log"
+    },
+    "scale-red": {
+      "sha256": "88ddabf7deff94f67b8caab48ca9e32b09d963d2af00729720d6f19458cd67b8",
+      "bytes": 3612,
+      "localPath": "/tmp/android-repair5-scale-red.log",
+      "repositoryPath": "evidence/2026-10-21/android-ranking-repair/candidate5-scale-red.log"
+    },
+    "green": {
+      "sha256": "d2ae92e303874691188409f0a8dc7fc3ace1688d35a472696c5d8f5c5468d140",
+      "bytes": 21867,
+      "localPath": "/tmp/android-repair5-green.log",
+      "repositoryPath": "evidence/2026-10-21/android-ranking-repair/candidate5-green.log"
+    },
+    "green2": {
+      "sha256": "9be54d8f5f45a5a1c6690f8d3e1933833d1c358fb650e0baef49efb361e00235",
+      "bytes": 445,
+      "localPath": "/tmp/android-repair5-green2.log",
+      "repositoryPath": "evidence/2026-10-21/android-ranking-repair/candidate5-green2.log"
+    },
+    "full-tests": {
+      "sha256": "10174659cac2a808541b6ff8159e1b0640e0b121850287214dcd8282b873dbdf",
+      "bytes": 793,
+      "localPath": "/tmp/android-repair5-full-tests.log",
+      "repositoryPath": "evidence/2026-10-21/android-ranking-repair/candidate5-full-tests.log"
+    },
+    "python-tests": {
+      "sha256": "27b9dc21f7bd5d60725d5017deeaacd6c8c04ea797db4efdf0c259659ab80520",
+      "bytes": 125,
+      "localPath": "/tmp/android-repair5-python-tests.log",
+      "repositoryPath": "evidence/2026-10-21/android-ranking-repair/candidate5-python-tests.log"
+    },
+    "typecheck": {
+      "sha256": "2fb8a356cc8f2b96ed4995e0e0becaedd52e4906c93577eb0d36d89dd8591895",
+      "bytes": 56,
+      "localPath": "/tmp/android-repair5-typecheck.log",
+      "repositoryPath": "evidence/2026-10-21/android-ranking-repair/candidate5-typecheck.log"
+    }
+  }
+}

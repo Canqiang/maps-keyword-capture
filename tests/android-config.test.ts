@@ -21,3 +21,14 @@ describe('Android bounded listing capture configuration',()=>{
   expect(()=>parseAndroidConfig({...valid(),...settings})).toThrow();
  });
 });
+
+
+describe('explicit OCR resolution', () => {
+ it('keeps the established default and accepts a bounded higher-resolution profile', () => {
+  expect(parseAndroidConfig(valid())).toMatchObject({ocrScale:2});
+  expect(parseAndroidConfig({...valid(),ocrScale:3})).toMatchObject({ocrScale:3});
+ });
+ it.each([0,4,2.5,true,'3'])('rejects invalid OCR scale %j',ocrScale=>{
+  expect(()=>parseAndroidConfig({...valid(),ocrScale})).toThrow();
+ });
+});

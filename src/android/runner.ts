@@ -193,6 +193,7 @@ function scrollEvidence(frame: ScreenFrame, sourceXml: string, listBounds: Nativ
   }
   const card = frame.cards.filter(card => card.name !== null && (card.nameConfidence ?? 0) >= 40 && card.resultType !== 'unknown' &&
     card.nameBounds && card.ratingBounds && inside(card.nameBounds) && inside(card.ratingBounds) && card.nameBounds.top >= minimumTitleTop &&
+    card.nameBounds.bottom <= card.ratingBounds.top && card.ratingBounds.top - card.nameBounds.bottom <= 90 &&
     !card.warnings.some(warning => ['low_name_confidence', 'low_rating_confidence', 'card_header_clipped', 'name_clipped_at_top',
       'uncertain_ad_label', 'native_ad_evidence_unresolved', 'sheet_header_unverified'].includes(warning)))
     .sort((a, b) => b.nameBounds!.top - a.nameBounds!.top)[0];
@@ -293,7 +294,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       locale: info.locale, timezone: info.timezone,
       ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v8', ocrLanguages: config.ocrLanguages,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v9', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -337,13 +338,14 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           stage = 'screen_ocr';
           const frameId = `${query.queryId}:frame-${String(shot + 1).padStart(3, '0')}`;
           const ocr = await (options.screenRecognizer ?? recognizeScreen)({
-            png: Buffer.from(source.png), timeoutMs: Math.max(1, Math.min(config.ocrTimeoutMs, deadline - Date.now())), languages: config.ocrLanguages,
+            png: Buffer.from(source.png), timeoutMs: Math.max(1, Math.min(config.ocrTimeoutMs, deadline - Date.now())), languages: config.ocrLanguages, scale: config.ocrScale,
             ...(options.signal ? { signal: options.signal } : {}),
           });
           checkQuery();
           try { validateScreenOcr(ocr); } catch { throw new CaptureFailure('invalid_screen_ocr'); }
           if (ocr.imageSha256 !== evidence.png.sha256) throw new CaptureFailure('ocr_provenance_mismatch');
           if (ocr.imageWidth !== evidence.width || ocr.imageHeight !== evidence.height) throw new CaptureFailure('ocr_dimensions_mismatch');
+          if (ocr.scale !== config.ocrScale) throw new CaptureFailure('ocr_scale_mismatch');
           const base = evidence.png.relativePath.slice(0, -4);
           evidence.frameId = frameId;
           evidence.ocr = await saveArtifact('ocr_json', `${base}.ocr.json`, JSON.stringify(ocr, null, 2));

@@ -207,7 +207,14 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     } else card.warnings.push(index === 0 || line.bounds.top - (frame.sheetTop ?? 0) < 60 ? 'name_clipped_at_top' : 'name_not_recognized');
     // Status: the next line below the rating line, within one card header.
     const status = sheet[index + 1];
-    if (status && kinds[index + 1] !== 'rating' && status.bounds.top - line.bounds.bottom <= 80) {
+    // A line touching the native sheet edge can contain plausible but truncated
+    // digits (a verified 3.3 mi was read as 22 mi). Keep its raw OCR, but do not
+    // make that cropped text a field or a cross-frame identity conflict.
+    const statusClipped = status && native && status.bounds.bottom >= native.bounds.bottom - 3;
+    if (status && kinds[index + 1] !== 'rating' && status.bounds.top - line.bounds.bottom <= 80 && statusClipped) {
+      card.warnings.push('status_line_clipped');
+    }
+    if (status && kinds[index + 1] !== 'rating' && status.bounds.top - line.bounds.bottom <= 80 && !statusClipped) {
       const text = normalizeText(status.text);
       const open = OPEN_STATUS.exec(text);
       if (open || DISTANCE.test(text)) {
@@ -384,6 +391,12 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
         if (!existing.frameIds.includes(frame.frameId)) existing.frameIds.push(frame.frameId);
         if (clippedOverlap && i === 0) existing.warnings.push('clipped_prefix_verified_by_ordered_overlap');
         if ((card.nameConfidence ?? 0) > (existing.nameConfidence ?? 0)) { existing.name = card.name; existing.nameConfidence = card.nameConfidence; }
+        if (existing.warnings.includes('status_line_clipped') && !card.warnings.includes('status_line_clipped')) {
+          if (existing.distanceText === null && card.distanceText !== null) {
+            existing.distanceText = card.distanceText; existing.distanceMeters = card.distanceMeters;
+          }
+          if (existing.openText === null) existing.openText = card.openText;
+        }
         rows.push(existing);
       } else {
         const row: RankedListing = { displayPosition: listings.length + 1, organicRank: null, name: card.name, nameConfidence: card.nameConfidence, rating: card.rating, reviewCount: card.reviewCount,

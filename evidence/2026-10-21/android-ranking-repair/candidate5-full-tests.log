@@ -1,0 +1,25 @@
+
+> maps-keyword-capture@0.1.0 test
+> npm run test:contracts && npm run test:unit
+
+
+> maps-keyword-capture@0.1.0 test:contracts
+> tsc -p tsconfig.contract-tests.json --noEmit
+
+
+> maps-keyword-capture@0.1.0 test:unit
+> vitest run
+
+
+ RUN  v5.0.1 /Users/xander/git_repo/maps-keyword-capture-worktrees/fix-tracking-review-20261020
+
+{"ts":"2026-10-21T03:18:51.084Z","stage":"scan_stores","stores":5,"shard":"0/2"}
+{"ts":"2026-10-21T03:18:51.090Z","stage":"scan_stores","stores":4,"shard":"1/2"}
+{"ts":"2026-10-21T03:18:51.100Z","stage":"scan_stores","stores":5,"shard":"0/2"}
+{"ts":"2026-10-21T03:18:51.104Z","stage":"scan_stores","stores":4,"shard":"1/2"}
+
+ Test Files  71 passed (71)
+      Tests  1519 passed (1519)
+   Start at  11:18:20
+   Duration  105.05s (tests 95%, import 4%, transform 1%)
+

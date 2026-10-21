@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "independent-android-release-review/v1",
+  "reviewedAt": "2026-10-21T03:21:47.141924+00:00",
+  "baseCommit": "36a1a0025feac343cec47955d38c303b57c39cf8",
+  "scope": "Uncommitted candidate5 diff including three new receipt-verified PNG/XML/OCR fixture sets and handoff documentation; independent scale review dispatched with fresh context.",
+  "verdict": "no_P0_P1_P2_blocker_found_for_isolated_live_probe",
+  "deploymentAccepted": false,
+  "findings": [],
+  "checks": [
+    "Runner excludes invalid title-before-rating geometry before anchor selection, matching unchanged device gate; no native gesture validation relaxation.",
+    "Status withholding requires verified native list geometry and line touching bottom boundary. Original OCR artifacts retained; no22-to3.3 numeric guessing.",
+    "Only already-matched adjacent occurrence may fill missing status/distance; ordinary and clipped-prefix overlap rules remain unchanged. Result type/rating/review/identity constraints remain enforced.",
+    "Negative checks preserve unjoined different merchant, ad-vs-organic, and fully observed contradictory distance; matched ad remains organicRank null.",
+    "Partial mid-list fixture pair cannot establish top-of-list ranks, list end or target completion.",
+    "OCR scale1..3 default2 propagated, saved, profilev9 hashed, returned-scale mismatch fails before parsing. Both production call sites parse config and preserve omitted-field default.",
+    "Nine new artifacts match source receipts exactly; all three XML Git filtered/raw blobs identical. No fixture byte normalization.",
+    "SOURCE_CHANGED single-refresh per-query and native ads classification are unchanged; bounded refresh, deadline and ad regressions pass in runner suite."
+  ],
+  "verification": {
+    "focusedSuites": [
+      {
+        "files": [
+          "tests/android-config.test.ts",
+          "tests/android-runner.test.ts"
+        ],
+        "passed": 103,
+        "independentReviewer": "/root/nine_store_release_review/ocr_scale_review"
+      },
+      {
+        "files": [
+          "tests/android-clipped-status.test.ts",
+          "tests/android-screen-reader.test.ts",
+          "tests/android-screen-overlap-regressions.test.ts",
+          "tests/android-candidate2-static-actions.test.ts"
+        ],
+        "passed": 102
+      }
+    ],
+    "additionalInMemoryNegativeCasesPassed": 4,
+    "diffCheckPassed": true,
+    "fixtureReceipts": 9,
+    "xmlRawFilteredChecks": 3,
+    "fullSuiteOrBuildRunByReviewer": false,
+    "AKSOrOCRCalls": false
+  },
+  "limitations": [
+    "Source review and fixture tests do not prove live rank completeness, OCRscale3 quality on the full catalog, throughput or memory capacity.",
+    "Scale1 valid path inspected but added integration tests execute scales2and3.",
+    "Pixel cap remains unchanged:1080x2400×3 exceeds20millionpixels; isolated scale3 probe must use the agreed720x1280 display.",
+    "No production recurring collection is accepted by this review."
+  ],
+  "files": {
+    "README.md": "9993f8af942a11d5e7102df125d215ab7ee67f1d803f1f7b0fc9fbfedd0ac6ce",
+    "docs/android-ranking-repair-handoff.md": "e78aaf68320e11cd7ea614b8e4273b904c1a2eddc3d513e77d50f4ada09c2138",
+    "src/android/config.ts": "c20b649067fd59dc9dfd103bd01d1cf5026573c10a808801b1202f0f821ca636",
+    "src/android/contracts.ts": "64f8e3a6a904e07ac8c0a5957253d8a655038149ffc5c9d8a11d79223d6becb0",
+    "src/android/runner.ts": "cea8d87ad18ce2d1b602d512e12f0fef524684e6acf801c936f61685963f8471",
+    "src/android/screen-reader.ts": "782988f65acc2b2d75cd5d063263c8608040574ef6d2ddc23493c36a4118c96a",
+    "tests/android-config.test.ts": "e55dfba69425eec46c6f30d155f5f55fd026b3e1ad9b0f420bc070e874b7e6e1",
+    "tests/android-runner.test.ts": "ae24e80f5f21f4cdecd50ef0ce907b84ffdac293e128879bf93107f5e014856c",
+    "tests/android-clipped-status.test.ts": "2a82394d2f3307cc7ce1201ff15429917a419b6fcfd09f7ae2d6749166df933b"
+  },
+  "trackedDiffSha256": "be719b6a3605c0edf2a39f0bfb0c7a3eb6285c7a9e529461d5e9adafcd28c88c"
+}
