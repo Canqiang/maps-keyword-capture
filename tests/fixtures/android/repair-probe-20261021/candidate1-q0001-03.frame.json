@@ -1,0 +1,39 @@
+{
+  "frameId": "q0001:frame-003",
+  "capturedAt": "2026-10-21T01:46:18.277Z",
+  "imageSha256": "38d6b9f7204544f331b1ffced4624c1916d23468e25e90a7c9e37fb715c4f0ed",
+  "queryVisible": false,
+  "sheetTop": null,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0001:frame-003",
+      "name": "Er Hou Roast Chicken",
+      "nameConfidence": 96.57,
+      "rating": 4.6,
+      "reviewCount": 62,
+      "priceText": "$20–30",
+      "category": "chinese",
+      "distanceText": "0.2 mi",
+      "distanceMeters": 322,
+      "openText": "closes soon: 10 pm:",
+      "resultType": "unknown",
+      "adLabel": null,
+      "bounds": {
+        "left": 41,
+        "top": 325,
+        "right": 406,
+        "bottom": 433
+      },
+      "ratingLineText": "4.6% (62) - $20-30 - Chinese",
+      "warnings": [
+        "sheet_header_unverified"
+      ]
+    }
+  ],
+  "warnings": [
+    "query_header_not_recognized: the result sheet header was not found by OCR; all lines were considered."
+  ]
+}

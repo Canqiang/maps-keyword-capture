@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "android-candidate3-validation/v1",
+  "checkedAt": "2026-10-21T02:32:28.635228+00:00",
+  "status": "local_targeted_pass_live_acceptance_pending",
+  "sourceHashes": {
+    "src/android/contracts.ts": "0d7dd10ebe27a2037fe030d9c9d1bc7ef6a37e7107f5053fecf3e9581ef75b74",
+    "src/android/device.ts": "31082a05fed44ab50a4df6c52b2630af2e601209112118a47c24003d396ff027",
+    "src/android/ui.ts": "c5477f7840a86b8830bbad87488a8be850372eff2117032d875f65bc78d24728",
+    "src/android/screen-reader.ts": "137b4f4653b4fd209bb94bd0233b665c2f892098d8f677fc6c7be30ca251abb3",
+    "src/android/runner.ts": "f782e07ec65e4f1375401180c14057faf15bfc43eda32a8215b902b86e3ff50b"
+  },
+  "targetedTests": {
+    "passed": 663,
+    "failed": 0,
+    "files": 8,
+    "report": "candidate3-targeted-tests.json"
+  },
+  "typecheck": "passed",
+  "contractChecks": "passed",
+  "diffCheck": "passed",
+  "meaningfulRedEvidence": [
+    {
+      "case": "complete native non-scrollable action strip and direct merchant envelopes",
+      "failedBefore": 6,
+      "report": "candidate3-independent-review.json"
+    },
+    {
+      "case": "one bounded fresh frame after SOURCE_CHANGED before any gesture, second-refusal cap, screenshot limit and original deadline",
+      "failedBefore": 4,
+      "redSession": "77183",
+      "greenTests": 5,
+      "note": "Fifth negative test verifies fresh native consent stops without OCR or another gesture. Existing source_changed continuation test now budgets the explicit refresh before second refusal."
+    }
+  ],
+  "independentReview": {
+    "runner": "candidate3-independent-review.json",
+    "ui": {
+      "reviewer": "/root/grid_run_contracts",
+      "sourceSha256": "c5477f7840a86b8830bbad87488a8be850372eff2117032d875f65bc78d24728",
+      "blockingFindings": [],
+      "scope": [
+        "Strict complete three-action row, exact direct merchant envelope, Maps ancestry, bounds, disabled/foreign/unknown child rejection.",
+        "Generic list acceptance remains separate from ordered rank/ad/identity proof. No merchant name or promo allowlist introduced.",
+        "Bottom clipped Directions/Save strip is not proof. Native backward state remains authoritative."
+      ]
+    }
+  },
+  "runtimeIdentity": {
+    "adapterVersion": "android-screen-ocr/v4",
+    "profileMethod": "full_screen_ocr_native_context_ordered_overlap/v8"
+  },
+  "liveCandidate2Evidence": {
+    "runId": "run_20261021T021313Z_43aa38",
+    "originalExitCode": 2,
+    "partialQueries": 5,
+    "completeQueries": 0,
+    "manifestSha256": "38dee332f1b7225ac051dfcaeff4d02a2311d0bd2845668aa4f541d944267d20",
+    "verifiedReferencedArtifacts": 91,
+    "decodedPngs": 23,
+    "visualSearchPngs": 10,
+    "reportDirectory": "nine-store-uat-20261021/android-probe2-review"
+  },
+  "unchangedGates": [
+    "60screens/59scrolls/20displayedresults/600s representative live probe budgets",
+    "q1 hybrid merchant-plus-photo-discovery clipped-identity refusal",
+    "native ad association and unknown classification",
+    "same-query, list-top, ordered overlap and GPS/backend-geography separation",
+    "original history/remote snapshots/legacy collectors"
+  ],
+  "nextAcceptance": "New sealed isolated candidate3 live probe required; no Android Cron activation based on local tests or saved partial artifacts."
+}

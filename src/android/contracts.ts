@@ -52,11 +52,19 @@ export interface LocationEvidence {
 export interface NativeScreen {
   png: Buffer; xml: string; packageName: string; capturedAt: string;
 }
-/** Native geometry from the latest persisted listing frame, not OCR or ranks. */
+/** Geometry from the latest persisted listing frame; never a rank or proof of movement. */
 export interface NativeScrollEvidence {
   sourceXml: string;
   listBounds: UiNode['bounds'];
   anchors: Array<{ text: string; bounds: NonNullable<UiNode['bounds']> }>;
+  /** Optional full OCR title, paired with the PNG returned by the latest snapshot. */
+  ocrScrollAnchor?: {
+    name: string;
+    nameBounds: NonNullable<UiNode['bounds']>;
+    ratingBounds: NonNullable<UiNode['bounds']>;
+    nameConfidence: number;
+    imageSha256: string;
+  };
 }
 export interface AndroidDevice {
   preflight(): Promise<AndroidDeviceInfo>;

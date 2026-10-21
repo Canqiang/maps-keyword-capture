@@ -1,0 +1,64 @@
+{
+  "sourceReadback": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/readback.json",
+  "readbackSha256": "e908e3bdc6783fb578ce1119f0bb9f1fbe5826a69a78b0a2ae3e7ed2a8c103f9",
+  "sourceManifestSha256": "27acf892d41781e0645452b5110648c4bc87332ea50a8a4232df68e46befb705",
+  "scope": "Unmodified candidate1 q0001 shot03 and q0004 shot01 artifacts; copied bytes independently checked against existing readback receipt. PNGs visually reviewed for observed native layout only; no ranking proof.",
+  "artifacts": [
+    {
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0001/20261021T014618.277Z__keyword__03.xml",
+      "bytes": 80249,
+      "sha256": "5c56686fd6b56b7c1422310f0b4d0e9a2baad9385106a9e9299ded5de6156ffb",
+      "kind": "ui_xml",
+      "fixture": "candidate1-q0001-03.xml"
+    },
+    {
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0001/20261021T014618.277Z__keyword__03.png",
+      "bytes": 766251,
+      "sha256": "38d6b9f7204544f331b1ffced4624c1916d23468e25e90a7c9e37fb715c4f0ed",
+      "kind": "png",
+      "fixture": "candidate1-q0001-03.png"
+    },
+    {
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0001/20261021T014618.277Z__keyword__03.ocr.json",
+      "bytes": 12872,
+      "sha256": "817f1f6727fed6d41c608a5399a64cb3913e2a0ab143810a893cf0f0a388e8ba",
+      "kind": "ocr_json",
+      "fixture": "candidate1-q0001-03.ocr.json"
+    },
+    {
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0001/20261021T014618.277Z__keyword__03.frame.json",
+      "bytes": 1039,
+      "sha256": "d514b0793a163757844f97c9a6034f54105aa796e58bee442f33eea26cdceadb",
+      "kind": "screen_frame",
+      "fixture": "candidate1-q0001-03.frame.json"
+    },
+    {
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0004/20261021T014743.018Z__hot-pot-near-me__01.xml",
+      "bytes": 76103,
+      "sha256": "e152c269b8d4ccaa379f8ad0fe87a9330806d5f9c6a62bf577dfe76ecbda8a86",
+      "kind": "ui_xml",
+      "fixture": "candidate1-q0004-01.xml"
+    },
+    {
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0004/20261021T014743.018Z__hot-pot-near-me__01.png",
+      "bytes": 716902,
+      "sha256": "7a723a811e1288b827bdad2e015f00e59a1f4f2332f6161cc03bc43da7a36829",
+      "kind": "png",
+      "fixture": "candidate1-q0004-01.png"
+    },
+    {
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0004/20261021T014743.018Z__hot-pot-near-me__01.ocr.json",
+      "bytes": 21715,
+      "sha256": "8c725427ea5da255cd08e5d53ae10edc64f1edf590b7f2bdf571df4bade20519",
+      "kind": "ocr_json",
+      "fixture": "candidate1-q0004-01.ocr.json"
+    },
+    {
+      "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0004/20261021T014743.018Z__hot-pot-near-me__01.frame.json",
+      "bytes": 1056,
+      "sha256": "0be54797216cd28388d5bae75db6d76b0132e7d17ec841cf1969b5122da8f0ea",
+      "kind": "screen_frame",
+      "fixture": "candidate1-q0004-01.frame.json"
+    }
+  ]
+}

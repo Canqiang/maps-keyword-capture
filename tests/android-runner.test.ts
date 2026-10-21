@@ -352,6 +352,27 @@ describe('review regressions: runner ranking and stop boundaries', () => {
 
 describe('grid regression: native evidence stays attached to each OCR frame', () => {
   const fixtureRoot = new URL('./fixtures/android/grid-v3-20261020/', import.meta.url);
+  it('resets the no-new-card stall counter only for measured movement, then stops after three stationary frames', async () => {
+    const root = new URL('./fixtures/android/repair-probe-20261021/', import.meta.url);
+    const sequence = [1, 2, 3, 3, 3, 3];
+    const samples = await Promise.all(sequence.map(async n => {
+      const stem = `q0003-frame${String(n).padStart(2, '0')}`;
+      return { xml: await readFile(new URL(`${stem}.xml`, root), 'utf8'), ocr: JSON.parse(await readFile(new URL(`${stem}.ocr.json`, root), 'utf8')) };
+    }));
+    let shot = 0, ocrIndex = 0; const swipe = vi.fn(async () => {});
+    const s = await setup({ snapshot: async () => ({ png: pngWith(++shot, 720, 1280), xml: samples[Math.min(shot - 1, 5)]!.xml,
+      packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: swipe });
+    s.config.tasks[0]!.keyword = 'bubble tea near me'; s.config.maxScreenshotsPerQuery = 7; s.config.maxScrolls = 6;
+    const result = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), {
+      // Synthetic pixels exercise runner control flow; native/OCR geometry is replayed from the actual probe.
+      screenRecognizer: async ({ png }) => ({ ...samples[Math.min(ocrIndex++, 5)]!.ocr, imageSha256: shaOf(png) }),
+    });
+    expect(result.manifest.queries[0]?.stopReason).toBe('stalled_no_new_cards');
+    expect(result.manifest.queries[0]?.screens).toHaveLength(6);
+    expect(swipe).toHaveBeenCalledTimes(5);
+    expect(result.manifest.queries[0]?.listingStatus).toBe('partial');
+    expect(result.exitCode).toBe(2);
+  });
   it('refuses organic rank when native ad evidence cannot be matched to the OCR card', async () => {
     const source = (await readFile(new URL('./fixtures/android/results-en.xml', import.meta.url), 'utf8')).replaceAll('seafood buffet', 'noodles');
     const swipe = vi.fn(async () => {});
@@ -371,15 +392,32 @@ describe('grid regression: native evidence stays attached to each OCR frame', ()
     s.config.tasks[0]!.keyword = '卤味'; s.config.maxScreenshotsPerQuery = 2;
     const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: async () => ({ ...ocr, imageSha256: shaOf(synthetic) }) });
     expect(swipe).toHaveBeenCalledTimes(1);
-    expect(swipe).toHaveBeenCalledWith({ sourceXml: source, listBounds: { left: 0, top: 456, right: 720, bottom: 1232 }, anchors: [] });
+    expect(swipe).toHaveBeenCalledWith(expect.objectContaining({ sourceXml: source, listBounds: { left: 0, top: 456, right: 720, bottom: 1232 } }));
+    const gesture = (swipe.mock.calls as unknown as Array<[{anchors: Array<{text: string}>; ocrScrollAnchor?: unknown}]>)[0]![0];
+    expect(gesture.anchors.map(anchor => anchor.text)).toEqual(['Directions', 'Call', 'Website', 'Menu']);
+    expect(gesture.ocrScrollAnchor).toBeUndefined(); // shallow title cannot support movement above the guarded 10% fallback
     expect(r.manifest.queries[0]?.listings[0]).toMatchObject({ resultType: 'ad', name: 'Sweet Bamboo Chinese Food | Hillside', organicRank: null });
     const first = r.manifest.queries[0]!.screens[0]!.screenFrame!;
     expect(JSON.parse(await readFile(join(s.root, first.relativePath), 'utf8'))).toMatchObject({ topStateSource: 'native_scroll_actions', sheetBoundarySource: 'native_result_list' });
   });
+  it('passes a full deep OCR title and same-PNG receipt for an adaptive gesture', async () => {
+    const base = new URL('./fixtures/android/repair-probe-20261021/q0003-frame02', import.meta.url);
+    const source = await readFile(`${base.pathname}.xml`, 'utf8');
+    const ocr = JSON.parse(await readFile(`${base.pathname}.ocr.json`, 'utf8'));
+    const synthetic = pngWith(10, 720, 1280), swipe = vi.fn(async () => {});
+    const s = await setup({ snapshot: async () => ({ png: synthetic, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: swipe });
+    s.config.tasks[0]!.keyword = 'bubble tea near me'; s.config.maxScreenshotsPerQuery = 2;
+    await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: async () => ({ ...ocr, imageSha256: shaOf(synthetic) }) });
+    expect(swipe).toHaveBeenCalledTimes(1);
+    expect(swipe).toHaveBeenCalledWith(expect.objectContaining({ sourceXml: source, listBounds: { left: 0, top: 272, right: 720, bottom: 1232 },
+      ocrScrollAnchor: { name: 'Tea Magic', nameConfidence: 96.14, nameBounds: { left: 41, top: 1091, right: 200.5, bottom: 1125.5 },
+        ratingBounds: { left: 41, top: 1137, right: 429, bottom: 1163 }, imageSha256: shaOf(synthetic) } }));
+  });
   it.each(['UNKNOWN_SCROLL_LAYOUT', 'SOURCE_CHANGED'])('keeps %s as an unqualified partial and still captures the next query', async code => {
     const s = await setup({ swipeResults: async () => { throw Object.assign(new Error('no gesture was sent'), { code }); } });
-    s.config.tasks.push({ ...s.config.tasks[0]! }); s.config.maxScreenshotsPerQuery = 2;
-    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('Keke'), emptyScreen()]) });
+    s.config.tasks.push({ ...s.config.tasks[0]! }); s.config.maxScreenshotsPerQuery = 3;
+    const frames = code === 'SOURCE_CHANGED' ? [cardScreen('Keke'), cardScreen('Keke'), emptyScreen()] : [cardScreen('Keke'), emptyScreen()];
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor(frames) });
     expect(r.manifest.queries[0]).toMatchObject({ evidenceStatus: 'needs_review', stopReason: code.toLowerCase(), rankingStatus: 'not_evaluated', error: null });
     expect(r.manifest.queries[0]?.listingQuality?.rankingReliable).toBe(false);
     expect(r.manifest.queries[1]?.screens).toHaveLength(1);
@@ -392,5 +430,51 @@ describe('grid regression: native evidence stays attached to each OCR frame', ()
     const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: async request => ({ ...cardScreen('Keke')(request.png), imageWidth: 720, imageHeight: 1280 }) });
     expect(r.manifest.queries[0]).toMatchObject({ evidenceStatus: 'failed', stopReason: 'ocr_dimensions_mismatch' });
     expect(r.manifest.queries[0]?.listings).toEqual([]);
+  });
+});
+
+describe('bounded native-source refresh before any gesture', () => {
+  it('captures and persists fresh XML/PNG/OCR once before replanning, even when no gesture changed the pixels', async () => {
+    const first = await fixtureXml('results-en'), refreshed = first.replace('<hierarchy', '<hierarchy refreshed="true"');
+    let shot = 0, calls = 0; const sources: string[] = [];
+    const s = await setup({ snapshot: async () => ({ png: shot++ < 2 ? png : pngWith(5), xml: shot === 1 ? first : refreshed, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
+      swipeResults: async evidence => { sources.push(evidence!.sourceXml); if (++calls === 1) throw Object.assign(new Error('source changed before any action'), { code: 'SOURCE_CHANGED' }); } });
+    s.config.maxDisplayedResults = 2; s.config.maxScreenshotsPerQuery = 3;
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('A'), cardScreen('A'), cardScreen('A', 'B')]) });
+    expect(r.manifest.queries[0]).toMatchObject({ listingStatus: 'complete', stopReason: 'target_reached', nativeFrameRefreshes: [{ reason: 'source_changed', afterFrameId: 'q0001:frame-001', refreshFrameId: 'q0001:frame-002' }] });
+    expect(r.manifest.queries[0]?.screens).toHaveLength(3); expect(sources).toEqual([first, refreshed]);
+    expect(await readFile(join(s.root, r.manifest.queries[0]!.screens[1]!.xml.relativePath), 'utf8')).toBe(refreshed);
+    expect(r.exitCode).toBe(0);
+  });
+  it('does not retry another source mismatch after the single fresh-frame allowance', async () => {
+    const source = await fixtureXml('results-en'); let calls = 0;
+    const s = await setup({ snapshot: async () => ({ png, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: async () => { calls++; throw Object.assign(new Error('source changed'), { code: 'SOURCE_CHANGED' }); } });
+    s.config.maxScreenshotsPerQuery = 5;
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('A')]) });
+    expect(r.manifest.queries[0]?.stopReason).toBe('source_changed'); expect(calls).toBe(2);
+    expect(r.manifest.queries[0]?.screens).toHaveLength(2); expect(r.manifest.queries[0]?.listingQuality?.rankingReliable).toBe(false); expect(r.exitCode).toBe(2);
+  });
+  it('charges the fresh frame to the existing screenshot limit and never sends a gesture beyond it', async () => {
+    const source = await fixtureXml('results-en'); const swipe = vi.fn(async () => { throw Object.assign(new Error('source changed'), { code: 'SOURCE_CHANGED' }); });
+    const s = await setup({ snapshot: async () => ({ png, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: swipe }); s.config.maxScreenshotsPerQuery = 2;
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('A')]) });
+    expect(r.manifest.queries[0]?.stopReason).toBe('screenshot_budget'); expect(r.manifest.queries[0]?.screens).toHaveLength(2); expect(swipe).toHaveBeenCalledTimes(1); expect(r.exitCode).toBe(2);
+  });
+  it('rechecks the fresh native frame and stops on consent before any further gesture', async () => {
+    const first = await fixtureXml('results-en'), consent = await fixtureXml('consent-en'); let snapshots = 0;
+    const swipe = vi.fn(async () => { throw Object.assign(new Error('source changed'), { code: 'SOURCE_CHANGED' }); });
+    const s = await setup({ snapshot: async () => ({ png, xml: snapshots++ === 0 ? first : consent, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: swipe });
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('Keke')]) });
+    expect(r.manifest.queries[0]).toMatchObject({ evidenceStatus: 'failed', stopReason: 'screen_consent', rankingStatus: 'not_evaluated', organicRank: null });
+    expect(r.manifest.queries[0]?.screens).toHaveLength(2); expect(swipe).toHaveBeenCalledTimes(1);
+    expect(r.manifest.queries[0]?.screens[1]?.ocr).toBeUndefined();
+    expect(r.manifest.queries[0]?.nativeFrameRefreshes).toEqual([{ reason: 'source_changed', afterFrameId: 'q0001:frame-001', refreshFrameId: null }]);
+    expect(r.exitCode).toBe(2);
+  });
+  it('does not reset the query deadline when asking for a fresh frame', async () => {
+    const source = await fixtureXml('results-en'); let clock = Date.now(); vi.spyOn(Date, 'now').mockImplementation(() => clock);
+    const s = await setup({ snapshot: async () => ({ png, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: async () => { clock += 600001; throw Object.assign(new Error('source changed'), { code: 'SOURCE_CHANGED' }); } });
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('A')]) });
+    expect(r.manifest.queries[0]?.stopReason).toBe('query_timeout'); expect(r.manifest.queries[0]?.screens).toHaveLength(1); expect(r.exitCode).toBe(2);
   });
 });

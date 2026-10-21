@@ -1,0 +1,18 @@
+{
+  "sourceManifestSha256": "27acf892d41781e0645452b5110648c4bc87332ea50a8a4232df68e46befb705",
+  "scope": "Original q0002/q0003 frame02 PNG bytes independently checked against existing receipt; paired with XML/OCR already checked in provenance-q2-q3-q5.json. Tests replay this evidence through a local fake Appium transport only.",
+  "files": [
+    {
+      "file": "q0002-frame02.png",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014644.999Z__chinese-food__02.png",
+      "bytes": 560761,
+      "sha256": "fc63f6ab333c96ce07a841858fb9b7647dafa8b6f7de4e8a5561b1e7141e10b7"
+    },
+    {
+      "file": "q0003-frame02.png",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-live-review/candidate1/android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014718.450Z__bubble-tea-near-me__02.png",
+      "bytes": 452170,
+      "sha256": "8e3e8f1ab81133489ebe1519158a65726e167afb4003787e032b581e9c873ad7"
+    }
+  ]
+}

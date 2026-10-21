@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "android-candidate3-release-review/v1",
+  "reviewedAt": "2026-10-21T02:39:01.557881+00:00",
+  "reviewer": "/root/nine_store_release_review",
+  "verdict": "no_remaining_code_review_blocker_after_precise_xml_preservation_fix",
+  "scope": {
+    "reviewedDiff": "all uncommitted candidate2 and candidate3 Android contracts/device/runner/screen-reader/ui changes and their modified/new tests, fixture provenance, release evidence README, and docs/ci-images.md",
+    "reviewedSourceHashes": {
+      "src/android/contracts.ts": "0d7dd10ebe27a2037fe030d9c9d1bc7ef6a37e7107f5053fecf3e9581ef75b74",
+      "src/android/device.ts": "31082a05fed44ab50a4df6c52b2630af2e601209112118a47c24003d396ff027",
+      "src/android/ui.ts": "c5477f7840a86b8830bbad87488a8be850372eff2117032d875f65bc78d24728",
+      "src/android/screen-reader.ts": "137b4f4653b4fd209bb94bd0233b665c2f892098d8f677fc6c7be30ca251abb3",
+      "src/android/runner.ts": "f782e07ec65e4f1375401180c14057faf15bfc43eda32a8215b902b86e3ff50b"
+    },
+    "documentationSha256": "17aec6b37afb438b329980c82f3e49cc534a9def676cdb3c5a879e03948ad09e",
+    "notPerformed": [
+      "remote execution",
+      "cloud build",
+      "commit",
+      "cluster mutation",
+      "new live collection",
+      "full suite rerun",
+      "independent visual review of all new fixtures"
+    ]
+  },
+  "resolvedFindings": [
+    {
+      "priority": "P2",
+      "title": "Preserve receipt-verified CRLF bytes in new Android XML fixtures",
+      "cause": "core.autocrlf=input plus missing -text attribute would normalize all 18 new XML fixtures on commit and break producer size/SHA provenance.",
+      "fix": "Added only tests/fixtures/android/repair-probe-20261021/*.xml -text to .gitattributes.",
+      "validation": "All 18 raw and Git-filtered blob hashes now agree; all 18 size/SHA receipts remain exact. No XML bytes changed.",
+      "examplesBeforeFix": {
+        "candidate2-q0002-01.xml": {
+          "rawGitBlob": "b2d0a6c34882dd5a4cd7a72b4352d25ced868e1c",
+          "filteredGitBlob": "b2472610f1d4ab35007b0dea3309c03e555c8787"
+        }
+      },
+      "xmlReadback": [
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/candidate1-q0001-03.xml",
+          "bytes": 80249,
+          "sha256": "5c56686fd6b56b7c1422310f0b4d0e9a2baad9385106a9e9299ded5de6156ffb",
+          "crlfCount": 164,
+          "rawGitBlob": "9a1d20d99a4085ecf954f79bddd200a24aa107b7",
+          "filteredGitBlob": "9a1d20d99a4085ecf954f79bddd200a24aa107b7",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/candidate1-q0004-01.xml",
+          "bytes": 76103,
+          "sha256": "e152c269b8d4ccaa379f8ad0fe87a9330806d5f9c6a62bf577dfe76ecbda8a86",
+          "crlfCount": 158,
+          "rawGitBlob": "cc0f9fe17dea7b70527efc5fa2edd6720b505742",
+          "filteredGitBlob": "cc0f9fe17dea7b70527efc5fa2edd6720b505742",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/candidate2-q0002-01.xml",
+          "bytes": 70609,
+          "sha256": "6d690b768909ffcb46197abf9b5f664f82e5ddf2e8f1c41afe77fcf8038d0cb1",
+          "crlfCount": 145,
+          "rawGitBlob": "b2d0a6c34882dd5a4cd7a72b4352d25ced868e1c",
+          "filteredGitBlob": "b2d0a6c34882dd5a4cd7a72b4352d25ced868e1c",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/candidate2-q0002-02.xml",
+          "bytes": 74046,
+          "sha256": "7287095f9e8d47b9ce34b29976f32ddb5be9e5a6dcb9461792d03236e59add29",
+          "crlfCount": 152,
+          "rawGitBlob": "f8871f99a1b2e953c240a92f093bbe312380bf34",
+          "filteredGitBlob": "f8871f99a1b2e953c240a92f093bbe312380bf34",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/candidate2-q0004-01.xml",
+          "bytes": 72295,
+          "sha256": "460370b79897591a03a8d78b2886139d510fdeb922e1151a973acf69884565e0",
+          "crlfCount": 148,
+          "rawGitBlob": "fd92336a98e1ad0e2817a64e2255e16dd05576e2",
+          "filteredGitBlob": "fd92336a98e1ad0e2817a64e2255e16dd05576e2",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/candidate2-q0004-02.xml",
+          "bytes": 73117,
+          "sha256": "d9a5aa309f7b690cc5d8e49337880b676dc852bf0633fdb2fc367e3813ae23da",
+          "crlfCount": 150,
+          "rawGitBlob": "ad71e77afca2167f048eeabc653329f387f1a356",
+          "filteredGitBlob": "ad71e77afca2167f048eeabc653329f387f1a356",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/candidate2-q0005-05.xml",
+          "bytes": 79092,
+          "sha256": "d00dd62c17275918418d0f1408786f151155deeb95b446fd7aea354d8aacae70",
+          "crlfCount": 163,
+          "rawGitBlob": "79e648d69eed174d1a5d4b6591af767da6c2b087",
+          "filteredGitBlob": "79e648d69eed174d1a5d4b6591af767da6c2b087",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/candidate2-q0005-06.xml",
+          "bytes": 69042,
+          "sha256": "61e955b35281b71c86b76960cf315e401fc47f151c932485de9a0f32ffbcc4e8",
+          "crlfCount": 144,
+          "rawGitBlob": "2dd3293b621d9fb5542e7c186dcd5c703cb41c0f",
+          "filteredGitBlob": "2dd3293b621d9fb5542e7c186dcd5c703cb41c0f",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0002-frame01.xml",
+          "bytes": 74493,
+          "sha256": "d220f8272e2925081b3ac921cfaf3965404e5a4212a5eef9e22aa4c174f106ec",
+          "crlfCount": 154,
+          "rawGitBlob": "b97ad23878146500774a3604639f68351b3f088b",
+          "filteredGitBlob": "b97ad23878146500774a3604639f68351b3f088b",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0002-frame02.xml",
+          "bytes": 77762,
+          "sha256": "008f5dd1bc86b34731a55c7c85c5edeab88a263d0addf7aa7f5970c55f392d5f",
+          "crlfCount": 159,
+          "rawGitBlob": "34e7296f52a4d065eb8c65ad259fd82d428c8bfd",
+          "filteredGitBlob": "34e7296f52a4d065eb8c65ad259fd82d428c8bfd",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0002-frame03.xml",
+          "bytes": 84952,
+          "sha256": "2a2990dd664cde397ff17cf4ac9baf3a3e1edb09f30b9d285237308ec9c26f29",
+          "crlfCount": 173,
+          "rawGitBlob": "9f7eba264f64ea82e7bf44714e76e5c96718a028",
+          "filteredGitBlob": "9f7eba264f64ea82e7bf44714e76e5c96718a028",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0002-frame04.xml",
+          "bytes": 73758,
+          "sha256": "278471af29a1a3804f0ad4010a4e3d32226c00e70849b7eeb6756741b274f8bb",
+          "crlfCount": 153,
+          "rawGitBlob": "1436651680607ab8dc5eae6fa155f0a49ac3a887",
+          "filteredGitBlob": "1436651680607ab8dc5eae6fa155f0a49ac3a887",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0003-frame01.xml",
+          "bytes": 74423,
+          "sha256": "6cd0bedbb75097a6785fda9099e073a2ed666e86740dda3b35933c08b15f52cd",
+          "crlfCount": 155,
+          "rawGitBlob": "3d57c04b4e941c8cee6b00b2a26351fc2de58675",
+          "filteredGitBlob": "3d57c04b4e941c8cee6b00b2a26351fc2de58675",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0003-frame02.xml",
+          "bytes": 83975,
+          "sha256": "b8dd2433ce01a582336fee031f03a16e92f9166fe0ce0c39b48d32fef05a0429",
+          "crlfCount": 174,
+          "rawGitBlob": "08733d1acad48fe08da8d879be13980b1ae344a8",
+          "filteredGitBlob": "08733d1acad48fe08da8d879be13980b1ae344a8",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0003-frame03.xml",
+          "bytes": 84703,
+          "sha256": "9d3247b2fe1efbcadde5969b3e54b86239856ef441ed9913f13c33e9316795dd",
+          "crlfCount": 175,
+          "rawGitBlob": "7bac57a9f7f5147e4cd3db0c8ad67cf44ea463d2",
+          "filteredGitBlob": "7bac57a9f7f5147e4cd3db0c8ad67cf44ea463d2",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0003-frame04.xml",
+          "bytes": 76062,
+          "sha256": "439c1cc2ad463eedd87e0a5a817768ddeaab86104ebb15cf32d549d61872781e",
+          "crlfCount": 159,
+          "rawGitBlob": "8eaee97154a4d1d0404dfa54d22705e3ed0bd3cb",
+          "filteredGitBlob": "8eaee97154a4d1d0404dfa54d22705e3ed0bd3cb",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0005-frame01.xml",
+          "bytes": 74929,
+          "sha256": "4758ea684fa7c52cd4b218d370cdbd14a3eafabdbd3048a98caf297d17775f00",
+          "crlfCount": 152,
+          "rawGitBlob": "046aeb2210d28fec5afac219b2e180869b607ab2",
+          "filteredGitBlob": "046aeb2210d28fec5afac219b2e180869b607ab2",
+          "receiptMatched": true
+        },
+        {
+          "path": "tests/fixtures/android/repair-probe-20261021/q0005-frame02.xml",
+          "bytes": 79178,
+          "sha256": "a37d516736e65cf31eacdeb9c3f561968295e164928d5f5b4f53f2aba41626d9",
+          "crlfCount": 161,
+          "rawGitBlob": "82c97584e95670207b2ce51ab40c20bee5ca28a3",
+          "filteredGitBlob": "82c97584e95670207b2ce51ab40c20bee5ca28a3",
+          "receiptMatched": true
+        }
+      ]
+    }
+  ],
+  "blockingFindings": [],
+  "reviewConclusions": [
+    "SOURCE_CHANGED is emitted only before POST /actions; a single per-query fresh-frame allowance consumes an existing screenshot iteration and never resets deadline or scroll limits. The second source mismatch remains an unqualified partial.",
+    "The fresh frame saves PNG/XML, binds validated OCR to PNG hash and dimensions, then reruns native query, advertisement, and ordered-overlap gates. Fresh consent terminates before OCR/another action.",
+    "The same-image stall exemption applies only to the no-gesture fresh frame. Measured OCR movement may reset stall counters but never itself supplies rank or list-end proof.",
+    "Adaptive motion above 10 percent requires a paired latest PNG/XML receipt, full bounded OCR title, and two distinct native action controls; proof is consumed before the gesture. Next-frame reconciliation remains mandatory.",
+    "Clipped-prefix repair preserves an existing occurrence only with a following known matching merchant and consistent measured movement/metadata/native viewport. Raw clipped cards remain unknown; existing ad identity is not converted to organic.",
+    "A trailing native ad marker can defer an incomplete bottom header only after all recognized rows and with contained same-list ownership. It adds no merchant, grants no organic rank and forces endOfResults=false. Other unresolved native ad evidence remains fail-closed.",
+    "Static action-row detection requires the exact complete Directions/Call/Website hierarchy and direct merchant envelopes; unknown/foreign/disabled/malformed variants remain rejected. Native backward-scroll proof still contradicts an apparent list top.",
+    "docs/ci-images.md now uses per-context cwd and --no-logs terminal JSON; ambiguous failure requires exact-invocation identity recovery, never latest-run selection or duplicate enqueue. The root Android.Dockerfile aliases retain the tracked Dockerfile/ignore bytes and include runtime/OCR files under the installed ACR packer."
+  ],
+  "validation": {
+    "candidate3SourceHashesMatch": true,
+    "existingTargetedTests": {
+      "passed": 663,
+      "failed": 0,
+      "files": 8,
+      "rerunByThisReviewer": false,
+      "source": "evidence/2026-10-21/android-ranking-repair/candidate3-targeted-tests.json"
+    },
+    "fixtureReceiptsRehashed": 54,
+    "xmlRawFilteredAndReceiptMatches": 18,
+    "documentationShellBlocksSyntaxPassed": 9,
+    "gitDiffCheck": "passed"
+  },
+  "remainingAcceptanceLimits": [
+    "This is a source/evidence release review. Candidate2 live results remain five partial queries and zero complete lists.",
+    "A newly sealed candidate3 live probe must still verify content displacement, advertisement association, ordered continuity, actual complete top20 coverage and cycle capacity before enabling Android schedules.",
+    "GPS receipt matching remains distinct from verified Google backend geography; no local-rank or business-outcome claim is made."
+  ]
+}

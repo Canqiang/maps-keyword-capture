@@ -1,0 +1,126 @@
+{
+  "reviewedAt": "2026-10-21T02:31:45.736868+00:00",
+  "reviewer": "native_layout_probe_fix subagent",
+  "scope": {
+    "independentReadOnlyReview": [
+      "candidate3 runner SOURCE_CHANGED refresh and device pre-action refusal call sites",
+      "verify.py producer artifact audit script"
+    ],
+    "selfValidation": [
+      "candidate3 closed static action-row UI implementation and exact candidate2 fixture regressions"
+    ],
+    "excluded": [
+      "full Android suite",
+      "new live captures",
+      "remote/device execution",
+      "q1 clipping gate changes",
+      "q3 actual Appium movement validation"
+    ]
+  },
+  "sourceSha256": {
+    "src/android/runner.ts": "f782e07ec65e4f1375401180c14057faf15bfc43eda32a8215b902b86e3ff50b",
+    "src/android/ui.ts": "c5477f7840a86b8830bbad87488a8be850372eff2117032d875f65bc78d24728",
+    "src/android/device.ts": "31082a05fed44ab50a4df6c52b2630af2e601209112118a47c24003d396ff027",
+    "src/android/screen-reader.ts": "137b4f4653b4fd209bb94bd0233b665c2f892098d8f677fc6c7be30ca251abb3",
+    "tests/android-candidate2-static-actions.test.ts": "5e6eeb15924369c2e39d7341c831edf3f4715316209540b193be78b42bca9374",
+    "tests/android-runner.test.ts": "06f5f1d61d18a399454f11d9c7f91856b23bf82ac20adcabc4d02e3a91284021"
+  },
+  "runnerReview": {
+    "status": "no_blocker",
+    "candidate2FrozenRunnerSha256": "d5d1b15992e64fa44f9c1df71055b79ca5a807964a22bb69317e7c2d997b823a",
+    "candidate3ReviewedRunnerSha256": "f782e07ec65e4f1375401180c14057faf15bfc43eda32a8215b902b86e3ff50b",
+    "gates": [
+      "Both device SOURCE_CHANGED throws execute before POST /actions; no first refused gesture is sent.",
+      "One fresh-frame allowance per query; second SOURCE_CHANGED preserves partial and clears ranking reliability.",
+      "Refresh takes the next ordinary shot iteration, with fresh saved PNG/XML then validated PNG-bound OCR and saved frame.",
+      "Fresh query/ad/native/ordered-overlap gates run before replanned gesture; blocked/consent remains fatal before OCR.",
+      "Deadline and screenshot/scroll limits remain unchanged; the refresh consumes one existing screenshot slot.",
+      "Only the no-gesture refresh iteration exempts identical pixels from stalled_same_frame; no gesture outcome becomes ranking proof.",
+      "Transport/storage/cancellation/unknown action failures remain on the fatal path."
+    ],
+    "testReview": {
+      "source": "tests/android-runner.test.ts",
+      "reviewedCases": [
+        "new saved evidence after first refusal",
+        "second refusal stops",
+        "screenshot budget charged",
+        "deadline not reset",
+        "fresh consent stops before second swipe and before OCR"
+      ],
+      "execution": "Runner test execution belongs to parent; no independent rerun or pass claim here."
+    }
+  },
+  "uiValidation": {
+    "status": "passed_targeted_only",
+    "frozenUiSha256": "c5477f7840a86b8830bbad87488a8be850372eff2117032d875f65bc78d24728",
+    "red": {
+      "command": "npx vitest run tests/android-candidate2-static-actions.test.ts",
+      "observedStartLocal": "2026-10-21 10:27:44 Asia/Shanghai",
+      "exitCode": 1,
+      "tests": 60,
+      "passed": 54,
+      "failed": 6,
+      "provenance": "Observed local exec/write_stdin output in this subagent; before UI implementation. Mutation test details were refined afterwards, while the same six positive regression assertions remained.",
+      "failures": [
+        "q2 original exact XML unknown instead of results",
+        "q4 original exact XML unknown instead of results",
+        "q5 original exact XML unknown instead of results",
+        "q2 unresolved native ad instead of pending trailing header",
+        "q4 unresolved native ad",
+        "q5 OCR boundary instead of native result-list boundary"
+      ]
+    },
+    "green": {
+      "command": "npx vitest run tests/android-candidate2-static-actions.test.ts tests/android-native-repair-probe.test.ts tests/android-ui.test.ts tests/android-screen-overlap-regressions.test.ts",
+      "observedStartLocal": "2026-10-21 10:29:46 Asia/Shanghai",
+      "exitCode": 0,
+      "testFiles": 4,
+      "passed": 371,
+      "failed": 0,
+      "provenance": "Observed local exec/write_stdin output in this subagent. This is a four-file UI/reader regression scope, not a full Android suite.",
+      "terminalSummary": "Test Files 4 passed (4); Tests 371 passed (371)"
+    },
+    "finalChecks": {
+      "command": "npm run typecheck && git diff --check",
+      "exitCode": 0,
+      "provenance": "Observed local exec output after final UI/test edits."
+    },
+    "retainedGuards": [
+      "Exact enabled Maps query and native search-panel ancestry",
+      "Native scroll-to-position and forward/backward actions for new static variant",
+      "Direct same-bounds unlabeled merchant wrappers and clickable body",
+      "Complete ordered Directions/Call/Website row with one same-bounds grid and sole unlabeled icons",
+      "Enabled Maps-owned contained nodes; unknown labels, foreign subtrees, extra descendants, wrong action order, missing click actions and invalid bounds rejected",
+      "Existing filter controls remain required; Chinese and Visit Site wording do not act as proof",
+      "Candidate1 malformed empty-tail tests still reject",
+      "Bottom-clipped Directions/Save row alone insufficient",
+      "Native ad-owner uniqueness, pending-header no-end rule and native backward-scroll contradiction unchanged"
+    ],
+    "fixtureProvenance": "tests/fixtures/android/repair-probe-20261021/provenance-candidate2-static-actions.json",
+    "fixtureProvenanceSha256": "d832d1ced8343ba235c9f4d8cc8f84a0bd7ece11c6d4c661a93089cb632b1302",
+    "fixtureArtifactsRehashed": 24
+  },
+  "visualReview": {
+    "json": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/native-layout-visual-review.json",
+    "markdown": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/native-layout-visual-review.md",
+    "scope": "Six candidate2 PNGs (q2 final2, q4 final2, q5 final2), with matching XML/OCR/frame; 24 artifacts matched receipt/inventory hashes. Other capture frames were not visually reviewed by this subagent.",
+    "sha256": "9b24a0434f4f2928b7518e472f80085ba9edb4f11b1546f0ec2d1018f190212f"
+  },
+  "artifactAuditScriptReview": {
+    "path": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/verify.py",
+    "sha256": "f726e47f7c77f6985f7baf38f63ba06c5c5121fc2ad760fe9e737fbb12f2cd97",
+    "status": "no_blocker_read_only_review",
+    "covered": [
+      "Producer manifest receipt bound to terminal event",
+      "Every listed artifact size and SHA256",
+      "Query/frame/PNG/OCR identity and dimensions",
+      "Query and listing CSV reconstruction and counts"
+    ],
+    "limit": "The script verifies every manifest-referenced artifact; full terminaltree inventory verification is a separate parent check. This reviewer did not execute the audit script."
+  },
+  "limits": [
+    "Candidate2 original run remains exit2/all5 partial; offline recognition repair is not a successful live rerun.",
+    "No additional merchant identity, complete top20 ranking, list end or two-hour capacity is claimed.",
+    "UI implementation was authored and tested by this subagent; independent UI review was performed by parent and is not represented as this reviewer independently reviewing its own code."
+  ]
+}

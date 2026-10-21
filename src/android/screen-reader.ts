@@ -31,6 +31,9 @@ export interface ScreenCard {
   distanceText: string | null; distanceMeters: number | null; openText: string | null;
   resultType: 'ad' | 'organic' | 'unknown'; adLabel: string | null;
   bounds: Rect; ratingLineText: string; warnings: string[];
+  /** Raw OCR geometry retained for bounded cross-frame movement checks. */
+  ratingBounds?: Rect;
+  nameBounds?: Rect | null;
 }
 export interface ScreenFrame {
   frameId: string; capturedAt: string; imageSha256: string;
@@ -40,6 +43,7 @@ export interface ScreenFrame {
   /** Auxiliary native geometry can establish context, never a merchant identity. */
   sheetBoundarySource?: 'native_result_list' | 'ocr_header' | null;
   topStateSource?: 'native_scroll_actions' | 'ocr_relevance' | null;
+  nativeListBounds?: Rect | null;
 }
 export interface RankedListing {
   displayPosition: number; organicRank: number | null;
@@ -137,7 +141,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     return line.confidence >= 40 && text.startsWith(query.replace(/[^a-z0-9一-鿿 ]/gu, '').trim()) && text.length <= query.length + 4;
   });
   const header = headers.at(-1);
-  if (native) { frame.queryVisible = true; frame.sheetTop = native.bounds.top; frame.sheetBoundarySource = 'native_result_list'; }
+  if (native) { frame.queryVisible = true; frame.sheetTop = native.bounds.top; frame.sheetBoundarySource = 'native_result_list'; frame.nativeListBounds = { ...native.bounds }; }
   else if (header) { frame.queryVisible = true; frame.sheetTop = header.bounds.bottom; frame.sheetBoundarySource = 'ocr_header'; }
   else frame.warnings.push('query_header_not_recognized: the result sheet header was not found by OCR; all lines were considered.');
   const sheet = lines.filter(line => (frame.sheetTop === null || line.bounds.top >= frame.sheetTop) &&
@@ -158,7 +162,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     if (lineKind !== 'rating' && lineKind !== 'no_reviews') return;
     const normalized = normalizeText(line.text);
     const card: ScreenCard = { cardIndex: frame.cards.length, frameId, name: null, nameConfidence: null, rating: null, reviewCount: null, priceText: null, category: null,
-      distanceText: null, distanceMeters: null, openText: null, resultType: 'unknown', adLabel: null, bounds: { ...line.bounds }, ratingLineText: line.text, warnings: [] };
+      distanceText: null, distanceMeters: null, openText: null, resultType: 'unknown', adLabel: null, bounds: { ...line.bounds }, ratingBounds: { ...line.bounds }, ratingLineText: line.text, warnings: [] };
     let remainder = normalized;
     if (lineKind === 'rating') {
       const match = RATING.exec(normalized)!;
@@ -190,6 +194,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
       card.name = parts.map(part => part.text.normalize('NFKC').replace(/\s+/gu, ' ').trim()).join(' ');
       nameBounds = { left: Math.min(...parts.map(part => part.bounds.left)), top: parts[0]!.bounds.top,
         right: Math.max(...parts.map(part => part.bounds.right)), bottom: parts.at(-1)!.bounds.bottom };
+      card.nameBounds = nameBounds;
       card.nameConfidence = Math.round(parts.reduce((sum, part) => sum + part.confidence, 0) / parts.length * 100) / 100;
       card.bounds.top = parts[0]!.bounds.top;
       if (card.nameConfidence < 40) card.warnings.push('low_name_confidence');
@@ -241,10 +246,20 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     for (const { candidates } of associations) for (const index of candidates) ownerCounts.set(index, (ownerCounts.get(index) ?? 0) + 1);
     for (const { group, candidates } of associations) {
       const owner = group[0]!.cardBounds!, list = group[0]!.listBounds!;
+      const sameList = native && contains(native.bounds, list) && contains(list, native.bounds);
+      // A next card may expose only its ad label at the bottom of this frame.
+      // No later recognized row can receive rank across that pending header.
+      // Keep capturing it, rather than invalidating the complete prefix above.
+      const lastCard = frame.cards.at(-1);
+      if (sameList && candidates.length === 0 && lastCard && owner.bottom === native.bounds.bottom && owner.top > lastCard.bounds.bottom &&
+        group.some(marker => marker.kind === 'sponsored') && group.every(marker => marker.kind !== 'ambiguous' && marker.bounds && contains(owner, marker.bounds))) {
+        frame.warnings.push('native_trailing_ad_header_pending');
+        continue;
+      }
       // The exact native result list establishes only this association's scope.
       // Require uniqueness in both directions: one complete OCR header in one
       // native owner. Duplicate/overlapping owners are not independent proof.
-      const supported = native && contains(native.bounds, list) && contains(list, native.bounds) && candidates.length === 1 &&
+      const supported = sameList && candidates.length === 1 &&
         ownerCounts.get(candidates[0]!) === 1 &&
         group.every(marker => marker.kind !== 'ambiguous' && marker.bounds && contains(owner, marker.bounds));
       const index = candidates[0], header = index === undefined ? null : cardHeaders[index]!.name;
@@ -271,6 +286,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     if (!frame.topStateVerified) frame.warnings.push('native_list_top_contradicted');
   }
   frame.endOfResults = frame.queryVisible && sheet.some(line => line.confidence >= 60 && /^(?:you['’]ve reached the end of the list[.!]?|no more results[.!]?)$/iu.test(line.text.trim()) && line.bounds.top >= (frame.cards.at(-1)?.bounds.bottom ?? Infinity));
+  if (frame.warnings.includes('native_trailing_ad_header_pending')) frame.endOfResults = false;
   if (!frame.cards.length) frame.warnings.push('no_cards_recognized');
   return frame;
 }
@@ -297,6 +313,48 @@ function sameCard(a: ScreenCard, b: ScreenCard): boolean {
   return a.distanceText !== null && a.distanceText === b.distanceText && similarNames(a.name, b.name);
 }
 
+/** A clipped prefix is not a new merchant if a full following header anchors
+ * the same ordered overlap and both headers moved by the same measured amount.
+ * Metadata alone, fuzzy names, missing native context or a jump cannot repair it.
+ */
+function clippedPrefixOverlap(previous: ScreenFrame, frame: ScreenFrame, count: number): boolean {
+  const beforeList = previous.nativeListBounds, afterList = frame.nativeListBounds;
+  if (count < 2 || !beforeList || !afterList || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
+    !previous.queryVisible || !frame.queryVisible || previous.warnings.includes('native_ad_evidence_unresolved') || frame.warnings.includes('native_ad_evidence_unresolved') ||
+    beforeList.left !== afterList.left || beforeList.right !== afterList.right || beforeList.bottom !== afterList.bottom || Math.abs(beforeList.top - afterList.top) > 2) return false;
+  const before = previous.cards.slice(-count), after = frame.cards.slice(0, count), a = before[0]!, b = after[0]!;
+  if (b.resultType !== 'unknown' || !b.warnings.some(warning => ['name_clipped_at_top', 'card_header_clipped'].includes(warning)) ||
+    b.warnings.some(warning => !['name_clipped_at_top', 'card_header_clipped'].includes(warning)) || b.bounds.top - afterList.top > 35 ||
+    a.name === null || (a.nameConfidence ?? 0) < 40 || a.resultType === 'unknown' || a.warnings.includes('low_rating_confidence') ||
+    (b.name !== null && ((b.nameConfidence ?? 0) < 40 || nameKey(a.name) !== nameKey(b.name))) ||
+    a.rating === null || a.reviewCount === null || a.category === null ||
+    a.rating !== b.rating || a.reviewCount !== b.reviewCount || a.distanceMeters !== b.distanceMeters || a.category !== b.category || !a.ratingBounds || !b.ratingBounds) return false;
+  if (a.distanceMeters === null && normalizeText(a.ratingLineText) !== normalizeText(b.ratingLineText)) return false;
+  const delta = b.ratingBounds.top - a.ratingBounds.top;
+  if (delta >= -2 || delta < -(afterList.bottom - afterList.top) * 0.5 || Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 3 ||
+    Math.abs(b.ratingBounds.right - a.ratingBounds.right) > 3) return false;
+  return before.slice(1).every((anchor, i) => {
+    const next = after[i + 1]!;
+    return anchor.resultType !== 'unknown' && next.resultType !== 'unknown' &&
+      ![anchor, next].some(card => card.warnings.some(warning => ['low_name_confidence', 'low_rating_confidence', 'card_header_clipped',
+        'name_clipped_at_top', 'uncertain_ad_label', 'native_ad_evidence_unresolved'].includes(warning))) &&
+      sameCard(anchor, next) && anchor.name !== null && next.name !== null && nameKey(anchor.name) === nameKey(next.name) &&
+      !!anchor.ratingBounds && !!next.ratingBounds && Math.abs(next.ratingBounds.top - anchor.ratingBounds.top - delta) <= 4;
+  });
+}
+
+/** Progress is measured from a named card moving upward in the same native
+ * viewport, not from a different PNG hash or an assumed successful gesture. */
+export function hasMeasuredScreenProgress(previous: ScreenFrame | undefined, frame: ScreenFrame): boolean {
+  const before = previous?.nativeListBounds, after = frame.nativeListBounds;
+  if (!previous || !before || !after || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
+    !previous.queryVisible || !frame.queryVisible || before.left !== after.left || before.right !== after.right || before.bottom !== after.bottom || Math.abs(before.top - after.top) > 2) return false;
+  return previous.cards.some(card => card.name !== null && card.ratingBounds && frame.cards.some(next =>
+    next.name !== null && next.ratingBounds && sameCard(card, next) && nameKey(card.name!) === nameKey(next.name) &&
+    next.ratingBounds.top < card.ratingBounds!.top - 2 && next.ratingBounds.top > card.ratingBounds!.top - (after.bottom - after.top) * 0.5 &&
+    Math.abs(next.ratingBounds.left - card.ratingBounds!.left) <= 3 && Math.abs(next.ratingBounds.right - card.ratingBounds!.right) <= 3));
+}
+
 /** Keep each card occurrence; only a suffix/prefix overlap of adjacent frames can join it. */
 export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults: number): ScreenReconciliation {
   const listings: RankedListing[] = [];
@@ -310,9 +368,11 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
       continuous = false; warnings.push('native_ad_evidence_unresolved');
     }
     let overlap = 0;
+    let clippedOverlap = false;
     if (previous) {
       for (let count = Math.min(previous.cards.length, frame.cards.length); count > 0; count--) {
         if (frame.cards.slice(0, count).every((card, i) => sameCard(previous!.cards[previous!.cards.length - count + i]!, card))) { overlap = count; break; }
+        if (clippedPrefixOverlap(previous, frame, count)) { overlap = count; clippedOverlap = true; break; }
       }
       if (!overlap && frame.cards.length) { continuous = false; warnings.push(`ordered_overlap_missing: ${previous.frameId} -> ${frame.frameId}`); }
     }
@@ -322,6 +382,7 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
       if (i < overlap) {
         const existing = previousRows[previousRows.length - overlap + i]!;
         if (!existing.frameIds.includes(frame.frameId)) existing.frameIds.push(frame.frameId);
+        if (clippedOverlap && i === 0) existing.warnings.push('clipped_prefix_verified_by_ordered_overlap');
         if ((card.nameConfidence ?? 0) > (existing.nameConfidence ?? 0)) { existing.name = card.name; existing.nameConfidence = card.nameConfidence; }
         rows.push(existing);
       } else {

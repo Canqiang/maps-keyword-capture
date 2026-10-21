@@ -1,0 +1,1248 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "85219556f34e806e7e5910ce51ec5d04d8763a027f7a7e49c47f316ce28f7334",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 2,
+  "lines": [
+    {
+      "text": "4 ¥ | U Willets Rd",
+      "confidence": 57.71,
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 707.5,
+        "bottom": 44
+      },
+      "words": [
+        {
+          "text": "4",
+          "confidence": 67.373703,
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 32,
+            "bottom": 44
+          }
+        },
+        {
+          "text": "¥",
+          "confidence": 10.843796,
+          "bounds": {
+            "left": 147,
+            "top": 26,
+            "right": 151.5,
+            "bottom": 33
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 47.260559,
+          "bounds": {
+            "left": 584,
+            "top": 27,
+            "right": 586.5,
+            "bottom": 43
+          }
+        },
+        {
+          "text": "U",
+          "confidence": 47.260559,
+          "bounds": {
+            "left": 594.5,
+            "top": 27,
+            "right": 606.5,
+            "bottom": 43
+          }
+        },
+        {
+          "text": "Willets",
+          "confidence": 76.53891,
+          "bounds": {
+            "left": 613,
+            "top": 26.5,
+            "right": 676.5,
+            "bottom": 43.5
+          }
+        },
+        {
+          "text": "Rd",
+          "confidence": 96.984375,
+          "bounds": {
+            "left": 684,
+            "top": 26.5,
+            "right": 707.5,
+            "bottom": 43.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "“人 VU",
+      "confidence": 12.96,
+      "bounds": {
+        "left": 1.5,
+        "top": 0,
+        "right": 61,
+        "bottom": 16.5
+      },
+      "words": [
+        {
+          "text": "“人",
+          "confidence": 4.287643,
+          "bounds": {
+            "left": 1.5,
+            "top": 0,
+            "right": 38.5,
+            "bottom": 4
+          }
+        },
+        {
+          "text": "VU",
+          "confidence": 21.637489,
+          "bounds": {
+            "left": 41,
+            "top": 0,
+            "right": 61,
+            "bottom": 16.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "D h",
+      "confidence": 79.53,
+      "bounds": {
+        "left": 409,
+        "top": 102,
+        "right": 694,
+        "bottom": 116
+      },
+      "words": [
+        {
+          "text": "D",
+          "confidence": 73.81897,
+          "bounds": {
+            "left": 409,
+            "top": 102,
+            "right": 425.5,
+            "bottom": 115
+          }
+        },
+        {
+          "text": "h",
+          "confidence": 85.246246,
+          "bounds": {
+            "left": 688,
+            "top": 102,
+            "right": 694,
+            "bottom": 116
+          }
+        }
+      ]
+    },
+    {
+      "text": "o",
+      "confidence": 4.05,
+      "bounds": {
+        "left": 412,
+        "top": 115,
+        "right": 432.5,
+        "bottom": 142.5
+      },
+      "words": [
+        {
+          "text": "o",
+          "confidence": 4.051811,
+          "bounds": {
+            "left": 412,
+            "top": 115,
+            "right": 432.5,
+            "bottom": 142.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "bubble tea near me x",
+      "confidence": 92.98,
+      "bounds": {
+        "left": 66.5,
+        "top": 184.5,
+        "right": 662,
+        "bottom": 214
+      },
+      "words": [
+        {
+          "text": "bubble",
+          "confidence": 96.184052,
+          "bounds": {
+            "left": 66.5,
+            "top": 184.5,
+            "right": 187,
+            "bottom": 213.5
+          }
+        },
+        {
+          "text": "tea",
+          "confidence": 95.986465,
+          "bounds": {
+            "left": 198,
+            "top": 187,
+            "right": 252,
+            "bottom": 213.5
+          }
+        },
+        {
+          "text": "near",
+          "confidence": 96.594521,
+          "bounds": {
+            "left": 265.5,
+            "top": 192,
+            "right": 342,
+            "bottom": 213.5
+          }
+        },
+        {
+          "text": "me",
+          "confidence": 96.608246,
+          "bounds": {
+            "left": 354.5,
+            "top": 192,
+            "right": 408,
+            "bottom": 213.5
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 79.532051,
+          "bounds": {
+            "left": 634,
+            "top": 186,
+            "right": 662,
+            "bottom": 214
+          }
+        }
+      ]
+    },
+    {
+      "text": "Williston TI Ar eS IOCCUIOIT",
+      "confidence": 56.21,
+      "bounds": {
+        "left": 6.5,
+        "top": 240,
+        "right": 592.5,
+        "bottom": 269.5
+      },
+      "words": [
+        {
+          "text": "Williston",
+          "confidence": 95.781372,
+          "bounds": {
+            "left": 6.5,
+            "top": 240,
+            "right": 104.5,
+            "bottom": 267
+          }
+        },
+        {
+          "text": "TI",
+          "confidence": 46.935421,
+          "bounds": {
+            "left": 180,
+            "top": 265,
+            "right": 261.5,
+            "bottom": 269.5
+          }
+        },
+        {
+          "text": "Ar",
+          "confidence": 44.351482,
+          "bounds": {
+            "left": 304,
+            "top": 242,
+            "right": 341,
+            "bottom": 260.5
+          }
+        },
+        {
+          "text": "eS",
+          "confidence": 36.983795,
+          "bounds": {
+            "left": 419,
+            "top": 248,
+            "right": 503.5,
+            "bottom": 268
+          }
+        },
+        {
+          "text": "IOCCUIOIT",
+          "confidence": 57.004337,
+          "bounds": {
+            "left": 511,
+            "top": 248,
+            "right": 592.5,
+            "bottom": 258.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "New York 回 4.4 4.4 ) i to Bes pe ues IG/",
+      "confidence": 58.01,
+      "bounds": {
+        "left": 0,
+        "top": 254.5,
+        "right": 718.5,
+        "bottom": 316
+      },
+      "words": [
+        {
+          "text": "New",
+          "confidence": 75.888702,
+          "bounds": {
+            "left": 0,
+            "top": 280,
+            "right": 43.5,
+            "bottom": 299
+          }
+        },
+        {
+          "text": "York",
+          "confidence": 96.471077,
+          "bounds": {
+            "left": 51.5,
+            "top": 279,
+            "right": 102.5,
+            "bottom": 299
+          }
+        },
+        {
+          "text": "回",
+          "confidence": 31.919403,
+          "bounds": {
+            "left": 120.5,
+            "top": 273.5,
+            "right": 161,
+            "bottom": 314
+          }
+        },
+        {
+          "text": "4.4",
+          "confidence": 86.668137,
+          "bounds": {
+            "left": 168.5,
+            "top": 286,
+            "right": 200,
+            "bottom": 303
+          }
+        },
+        {
+          "text": "4.4",
+          "confidence": 84.388565,
+          "bounds": {
+            "left": 217,
+            "top": 284,
+            "right": 248.5,
+            "bottom": 301
+          }
+        },
+        {
+          "text": ")",
+          "confidence": 91.989838,
+          "bounds": {
+            "left": 260,
+            "top": 269.5,
+            "right": 272.5,
+            "bottom": 301.5
+          }
+        },
+        {
+          "text": "i",
+          "confidence": 68.262192,
+          "bounds": {
+            "left": 381.5,
+            "top": 308,
+            "right": 389.5,
+            "bottom": 311
+          }
+        },
+        {
+          "text": "to",
+          "confidence": 6.840248,
+          "bounds": {
+            "left": 411.5,
+            "top": 269.5,
+            "right": 492.5,
+            "bottom": 309
+          }
+        },
+        {
+          "text": "Bes",
+          "confidence": 20.826881,
+          "bounds": {
+            "left": 500,
+            "top": 265,
+            "right": 562.5,
+            "bottom": 282
+          }
+        },
+        {
+          "text": "pe",
+          "confidence": 32.130058,
+          "bounds": {
+            "left": 569,
+            "top": 254.5,
+            "right": 598,
+            "bottom": 316
+          }
+        },
+        {
+          "text": "ues",
+          "confidence": 30.195602,
+          "bounds": {
+            "left": 618,
+            "top": 256.5,
+            "right": 680,
+            "bottom": 314
+          }
+        },
+        {
+          "text": "IG/",
+          "confidence": 70.567291,
+          "bounds": {
+            "left": 684.5,
+            "top": 295,
+            "right": 718.5,
+            "bottom": 314
+          }
+        }
+      ]
+    },
+    {
+      "text": "Tea, Boba, — : (ws Ware “then hak OF ish",
+      "confidence": 40.05,
+      "bounds": {
+        "left": 2.5,
+        "top": 311.5,
+        "right": 717.5,
+        "bottom": 343
+      },
+      "words": [
+        {
+          "text": "Tea,",
+          "confidence": 96.14109,
+          "bounds": {
+            "left": 2.5,
+            "top": 311.5,
+            "right": 41,
+            "bottom": 330.5
+          }
+        },
+        {
+          "text": "Boba,",
+          "confidence": 93.22654,
+          "bounds": {
+            "left": 48.5,
+            "top": 311.5,
+            "right": 101,
+            "bottom": 330.5
+          }
+        },
+        {
+          "text": "—",
+          "confidence": 0,
+          "bounds": {
+            "left": 116.5,
+            "top": 313,
+            "right": 117.5,
+            "bottom": 314.5
+          }
+        },
+        {
+          "text": ":",
+          "confidence": 36.105457,
+          "bounds": {
+            "left": 210,
+            "top": 313,
+            "right": 213,
+            "bottom": 317
+          }
+        },
+        {
+          "text": "(ws",
+          "confidence": 33.801056,
+          "bounds": {
+            "left": 363,
+            "top": 314.5,
+            "right": 408.5,
+            "bottom": 336
+          }
+        },
+        {
+          "text": "Ware",
+          "confidence": 22.91111,
+          "bounds": {
+            "left": 418,
+            "top": 316,
+            "right": 468,
+            "bottom": 336
+          }
+        },
+        {
+          "text": "“then",
+          "confidence": 12.78466,
+          "bounds": {
+            "left": 516,
+            "top": 326.5,
+            "right": 572.5,
+            "bottom": 336
+          }
+        },
+        {
+          "text": "hak",
+          "confidence": 58.697697,
+          "bounds": {
+            "left": 580,
+            "top": 326.5,
+            "right": 612.5,
+            "bottom": 336
+          }
+        },
+        {
+          "text": "OF",
+          "confidence": 0,
+          "bounds": {
+            "left": 633,
+            "top": 315.5,
+            "right": 671,
+            "bottom": 336
+          }
+        },
+        {
+          "text": "ish",
+          "confidence": 46.816708,
+          "bounds": {
+            "left": 692,
+            "top": 326.5,
+            "right": 717.5,
+            "bottom": 343
+          }
+        }
+      ]
+    },
+    {
+      "text": "SF -",
+      "confidence": 69.7,
+      "bounds": {
+        "left": 0,
+        "top": 337.5,
+        "right": 38.5,
+        "bottom": 354
+      },
+      "words": [
+        {
+          "text": "SF",
+          "confidence": 69.696182,
+          "bounds": {
+            "left": 0,
+            "top": 337.5,
+            "right": 25.5,
+            "bottom": 354
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 69.696182,
+          "bounds": {
+            "left": 34.5,
+            "top": 337.5,
+            "right": 38.5,
+            "bottom": 340
+          }
+        }
+      ]
+    },
+    {
+      "text": "7 3",
+      "confidence": 73.77,
+      "bounds": {
+        "left": 0,
+        "top": 352.5,
+        "right": 720,
+        "bottom": 370
+      },
+      "words": [
+        {
+          "text": "7",
+          "confidence": 71.904877,
+          "bounds": {
+            "left": 0,
+            "top": 358.5,
+            "right": 10.5,
+            "bottom": 370
+          }
+        },
+        {
+          "text": "3",
+          "confidence": 75.636429,
+          "bounds": {
+            "left": 709,
+            "top": 352.5,
+            "right": 720,
+            "bottom": 369
+          }
+        }
+      ]
+    },
+    {
+      "text": "bubble tea near me Xx",
+      "confidence": 88.58,
+      "bounds": {
+        "left": 42.5,
+        "top": 395,
+        "right": 661,
+        "bottom": 428
+      },
+      "words": [
+        {
+          "text": "bubble",
+          "confidence": 90.467224,
+          "bounds": {
+            "left": 42.5,
+            "top": 395.5,
+            "right": 179.5,
+            "bottom": 428
+          }
+        },
+        {
+          "text": "tea",
+          "confidence": 91.038177,
+          "bounds": {
+            "left": 192,
+            "top": 398,
+            "right": 253.5,
+            "bottom": 428
+          }
+        },
+        {
+          "text": "near",
+          "confidence": 92.389481,
+          "bounds": {
+            "left": 268.5,
+            "top": 404,
+            "right": 357,
+            "bottom": 428
+          }
+        },
+        {
+          "text": "me",
+          "confidence": 96.427032,
+          "bounds": {
+            "left": 369.5,
+            "top": 404,
+            "right": 429.5,
+            "bottom": 428
+          }
+        },
+        {
+          "text": "Xx",
+          "confidence": 72.601715,
+          "bounds": {
+            "left": 635,
+            "top": 395,
+            "right": 661,
+            "bottom": 421
+          }
+        }
+      ]
+    },
+    {
+      "text": "a Relevance w Open now Top rated |",
+      "confidence": 85.78,
+      "bounds": {
+        "left": 46,
+        "top": 456.5,
+        "right": 718,
+        "bottom": 537.5
+      },
+      "words": [
+        {
+          "text": "a",
+          "confidence": 51.418819,
+          "bounds": {
+            "left": 46,
+            "top": 486,
+            "right": 82,
+            "bottom": 522
+          }
+        },
+        {
+          "text": "Relevance",
+          "confidence": 93.280258,
+          "bounds": {
+            "left": 138,
+            "top": 491,
+            "right": 271,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "w",
+          "confidence": 64.320145,
+          "bounds": {
+            "left": 287.5,
+            "top": 500,
+            "right": 307,
+            "bottom": 510
+          }
+        },
+        {
+          "text": "Open",
+          "confidence": 95.81279,
+          "bounds": {
+            "left": 370.5,
+            "top": 492.5,
+            "right": 439.5,
+            "bottom": 519
+          }
+        },
+        {
+          "text": "now",
+          "confidence": 95.81279,
+          "bounds": {
+            "left": 450,
+            "top": 498,
+            "right": 502,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "Top",
+          "confidence": 95.236649,
+          "bounds": {
+            "left": 568.5,
+            "top": 493,
+            "right": 616,
+            "bottom": 519
+          }
+        },
+        {
+          "text": "rated",
+          "confidence": 95.236649,
+          "bounds": {
+            "left": 627,
+            "top": 491,
+            "right": 693.5,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 95.110596,
+          "bounds": {
+            "left": 712.5,
+            "top": 456.5,
+            "right": 718,
+            "bottom": 537.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Only Bear Chicken & Boba",
+      "confidence": 94.62,
+      "bounds": {
+        "left": 41.5,
+        "top": 585.5,
+        "right": 459,
+        "bottom": 620
+      },
+      "words": [
+        {
+          "text": "Only",
+          "confidence": 96.706818,
+          "bounds": {
+            "left": 41.5,
+            "top": 585.5,
+            "right": 116,
+            "bottom": 620
+          }
+        },
+        {
+          "text": "Bear",
+          "confidence": 96.340057,
+          "bounds": {
+            "left": 127,
+            "top": 586,
+            "right": 199,
+            "bottom": 612.5
+          }
+        },
+        {
+          "text": "Chicken",
+          "confidence": 91.822319,
+          "bounds": {
+            "left": 208.5,
+            "top": 585.5,
+            "right": 336,
+            "bottom": 612.5
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 91.822319,
+          "bounds": {
+            "left": 347.5,
+            "top": 585.5,
+            "right": 367.5,
+            "bottom": 612.5
+          }
+        },
+        {
+          "text": "Boba",
+          "confidence": 96.387131,
+          "bounds": {
+            "left": 379,
+            "top": 586,
+            "right": 459,
+            "bottom": 612.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.7% (102) - & - Fried Chicken",
+      "confidence": 90.51,
+      "bounds": {
+        "left": 41,
+        "top": 631,
+        "right": 424,
+        "bottom": 658
+      },
+      "words": [
+        {
+          "text": "4.7%",
+          "confidence": 87.686234,
+          "bounds": {
+            "left": 41,
+            "top": 632,
+            "right": 99.5,
+            "bottom": 655
+          }
+        },
+        {
+          "text": "(102)",
+          "confidence": 87.686234,
+          "bounds": {
+            "left": 111.5,
+            "top": 632,
+            "right": 172.5,
+            "bottom": 658
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 85.867996,
+          "bounds": {
+            "left": 185,
+            "top": 644,
+            "right": 188,
+            "bottom": 647
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 92.594582,
+          "bounds": {
+            "left": 204.5,
+            "top": 631,
+            "right": 225,
+            "bottom": 657.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 86.651939,
+          "bounds": {
+            "left": 240,
+            "top": 644,
+            "right": 243,
+            "bottom": 647
+          }
+        },
+        {
+          "text": "Fried",
+          "confidence": 96.236244,
+          "bounds": {
+            "left": 255.5,
+            "top": 632.5,
+            "right": 314,
+            "bottom": 654.5
+          }
+        },
+        {
+          "text": "Chicken",
+          "confidence": 96.818382,
+          "bounds": {
+            "left": 324.5,
+            "top": 632,
+            "right": 424,
+            "bottom": 654.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closed - Opens 11 AM Wed - O mi",
+      "confidence": 89.93,
+      "bounds": {
+        "left": 41,
+        "top": 672,
+        "right": 456,
+        "bottom": 700
+      },
+      "words": [
+        {
+          "text": "Closed",
+          "confidence": 93.020432,
+          "bounds": {
+            "left": 41,
+            "top": 672,
+            "right": 127,
+            "bottom": 694.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 77.011772,
+          "bounds": {
+            "left": 138,
+            "top": 684,
+            "right": 141,
+            "bottom": 687
+          }
+        },
+        {
+          "text": "Opens",
+          "confidence": 96.187881,
+          "bounds": {
+            "left": 151.5,
+            "top": 673.5,
+            "right": 232.5,
+            "bottom": 700
+          }
+        },
+        {
+          "text": "11",
+          "confidence": 95.689308,
+          "bounds": {
+            "left": 243,
+            "top": 674,
+            "right": 261.5,
+            "bottom": 694
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 96.491707,
+          "bounds": {
+            "left": 272.5,
+            "top": 674,
+            "right": 311,
+            "bottom": 694
+          }
+        },
+        {
+          "text": "Wed",
+          "confidence": 92.598907,
+          "bounds": {
+            "left": 322,
+            "top": 672.5,
+            "right": 376,
+            "bottom": 694.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 73.178894,
+          "bounds": {
+            "left": 389,
+            "top": 684,
+            "right": 392,
+            "bottom": 687
+          }
+        },
+        {
+          "text": "O",
+          "confidence": 88.326515,
+          "bounds": {
+            "left": 403.5,
+            "top": 673.5,
+            "right": 419,
+            "bottom": 694.5
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.827568,
+          "bounds": {
+            "left": 430,
+            "top": 672.5,
+            "right": 456,
+            "bottom": 694
+          }
+        }
+      ]
+    },
+    {
+      "text": "@ “They are always really friendly, great service",
+      "confidence": 95.37,
+      "bounds": {
+        "left": 50,
+        "top": 1013,
+        "right": 655.5,
+        "bottom": 1045
+      },
+      "words": [
+        {
+          "text": "@",
+          "confidence": 90.453384,
+          "bounds": {
+            "left": 50,
+            "top": 1029,
+            "right": 66,
+            "bottom": 1045
+          }
+        },
+        {
+          "text": "“They",
+          "confidence": 92.42292,
+          "bounds": {
+            "left": 94,
+            "top": 1013,
+            "right": 165.5,
+            "bottom": 1041
+          }
+        },
+        {
+          "text": "are",
+          "confidence": 96.378593,
+          "bounds": {
+            "left": 174.5,
+            "top": 1020,
+            "right": 211.5,
+            "bottom": 1035.5
+          }
+        },
+        {
+          "text": "always",
+          "confidence": 95.96389,
+          "bounds": {
+            "left": 221.5,
+            "top": 1013,
+            "right": 302.5,
+            "bottom": 1041
+          }
+        },
+        {
+          "text": "really",
+          "confidence": 96.764862,
+          "bounds": {
+            "left": 313,
+            "top": 1013,
+            "right": 377.5,
+            "bottom": 1041
+          }
+        },
+        {
+          "text": "friendly,",
+          "confidence": 96.967026,
+          "bounds": {
+            "left": 386,
+            "top": 1013,
+            "right": 483,
+            "bottom": 1041
+          }
+        },
+        {
+          "text": "great",
+          "confidence": 97.018425,
+          "bounds": {
+            "left": 493,
+            "top": 1016,
+            "right": 558,
+            "bottom": 1041.5
+          }
+        },
+        {
+          "text": "service",
+          "confidence": 96.954758,
+          "bounds": {
+            "left": 567,
+            "top": 1013.5,
+            "right": 655.5,
+            "bottom": 1035.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "全 and amazing boba always fresh\"",
+      "confidence": 88.15,
+      "bounds": {
+        "left": 44,
+        "top": 1047.5,
+        "right": 496.5,
+        "bottom": 1076.5
+      },
+      "words": [
+        {
+          "text": "全",
+          "confidence": 57.113605,
+          "bounds": {
+            "left": 44,
+            "top": 1047.5,
+            "right": 72,
+            "bottom": 1060
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 93.568306,
+          "bounds": {
+            "left": 93.5,
+            "top": 1048.5,
+            "right": 138,
+            "bottom": 1070.5
+          }
+        },
+        {
+          "text": "amazing",
+          "confidence": 93.140182,
+          "bounds": {
+            "left": 148.5,
+            "top": 1048.5,
+            "right": 249.5,
+            "bottom": 1076.5
+          }
+        },
+        {
+          "text": "boba",
+          "confidence": 92.95507,
+          "bounds": {
+            "left": 261,
+            "top": 1047.5,
+            "right": 323.5,
+            "bottom": 1070.5
+          }
+        },
+        {
+          "text": "always",
+          "confidence": 96.936447,
+          "bounds": {
+            "left": 332.5,
+            "top": 1048,
+            "right": 413.5,
+            "bottom": 1076
+          }
+        },
+        {
+          "text": "fresh\"",
+          "confidence": 95.183441,
+          "bounds": {
+            "left": 423,
+            "top": 1048,
+            "right": 496.5,
+            "bottom": 1070.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "人 @ Directions Wi Order M2) Menu",
+      "confidence": 82.08,
+      "bounds": {
+        "left": 65,
+        "top": 1136,
+        "right": 636,
+        "bottom": 1170
+      },
+      "words": [
+        {
+          "text": "人",
+          "confidence": 71.535706,
+          "bounds": {
+            "left": 65,
+            "top": 1136,
+            "right": 80,
+            "bottom": 1170
+          }
+        },
+        {
+          "text": "@",
+          "confidence": 87.199677,
+          "bounds": {
+            "left": 67,
+            "top": 1138,
+            "right": 97,
+            "bottom": 1168
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 96.185188,
+          "bounds": {
+            "left": 118,
+            "top": 1141,
+            "right": 242,
+            "bottom": 1163.5
+          }
+        },
+        {
+          "text": "Wi",
+          "confidence": 65.514099,
+          "bounds": {
+            "left": 320,
+            "top": 1138,
+            "right": 348,
+            "bottom": 1168
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 95.363235,
+          "bounds": {
+            "left": 369,
+            "top": 1141,
+            "right": 441,
+            "bottom": 1163.5
+          }
+        },
+        {
+          "text": "M2)",
+          "confidence": 61.941936,
+          "bounds": {
+            "left": 515,
+            "top": 1141.5,
+            "right": 549,
+            "bottom": 1167.5
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 96.816063,
+          "bounds": {
+            "left": 568,
+            "top": 1142.5,
+            "right": 636,
+            "bottom": 1163.5
+          }
+        }
+      ]
+    }
+  ]
+}

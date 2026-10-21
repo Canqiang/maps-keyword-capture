@@ -6,9 +6,9 @@ import { hashJson, newRunId, queryIdFor, sha256Hex } from '../ids.js';
 import { dateFolder, keywordSlug } from '../naming.js';
 import type { CaptureError, StorageState } from '../contracts.js';
 import type { ArtifactStore, WrittenFile } from '../storage/types.js';
-import type { AndroidArtifact, AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, AndroidTask, LocationEvidence, NativeScreen, ScreenAnalysis } from './contracts.js';
+import type { AndroidArtifact, AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, AndroidTask, LocationEvidence, NativeScreen, NativeScrollEvidence, ScreenAnalysis } from './contracts.js';
 import { analyzeScreen, hasBlankNativeSearchWrapper, inspectNativeResultList, parseUiNodes } from './ui.js';
-import { matchTarget, parseScreenFrame, reconcileScreenFrames, recognizeScreen, targetAliases, validateScreenOcr, type RankedListing, type ScreenFrame, type ScreenRecognizer, type TargetMatch } from './screen-reader.js';
+import { hasMeasuredScreenProgress, matchTarget, parseScreenFrame, reconcileScreenFrames, recognizeScreen, targetAliases, validateScreenOcr, type RankedListing, type ScreenFrame, type ScreenRecognizer, type TargetMatch } from './screen-reader.js';
 
 export type AndroidManifestReceipt = StorageState & WrittenFile;
 export interface AndroidScreenEvidence {
@@ -22,6 +22,8 @@ export interface AndroidListingQuality {
 }
 export interface AndroidQueryEvidence extends AndroidTask {
   queryId: string;
+  /** One fresh captured frame may replace stale pre-gesture evidence. Historical manifests omit this field. */
+  nativeFrameRefreshes?: Array<{ reason: 'source_changed'; afterFrameId: string; refreshFrameId: string | null }>;
   /** ranked: the target was found; not_found: a complete list without it; not_found_in_prefix: a partial list without it. */
   rankingStatus: 'ranked' | 'not_found' | 'not_found_in_prefix' | 'not_evaluated';
   organicRank: number | null; displayPosition: number | null;
@@ -175,6 +177,29 @@ function locationScreenFollowsDevice(xml: string, analysis: ScreenAnalysis): boo
   return nodes.some((node) => node.bounds !== null && normalize(node.description) === 'enter compass mode');
 }
 
+/** Motion support comes from the already persisted frame. It is not ranking
+ * evidence until a subsequent captured frame passes ordered reconciliation. */
+function scrollEvidence(frame: ScreenFrame, sourceXml: string, listBounds: NativeScrollEvidence['listBounds']): NativeScrollEvidence {
+  const inside = (bounds: NonNullable<NativeScrollEvidence['listBounds']>): boolean => !!listBounds &&
+    bounds.left >= listBounds.left && bounds.right <= listBounds.right && bounds.top >= listBounds.top && bounds.bottom <= listBounds.bottom;
+  const anchors: NativeScrollEvidence['anchors'] = [];
+  const height = listBounds ? listBounds.bottom - listBounds.top : 0;
+  const minimumTitleTop = listBounds ? listBounds.top + Math.ceil(height * 0.1) + Math.max(12, Math.ceil(height * 0.02)) : Infinity;
+  const actionLabels = new Set(['directions', 'call', 'menu', 'website', 'order', 'reserve', 'save', 'share']);
+  for (const node of parseUiNodes(sourceXml)) {
+    if (node.packageName !== 'com.google.android.apps.maps' || !node.clickable || !node.bounds || !inside(node.bounds)) continue;
+    const text = [node.description, node.text].find(text => actionLabels.has(text.normalize('NFKC').replace(/\s+/gu, ' ').trim().toLowerCase()));
+    if (text) anchors.push({ text, bounds: node.bounds });
+  }
+  const card = frame.cards.filter(card => card.name !== null && (card.nameConfidence ?? 0) >= 40 && card.resultType !== 'unknown' &&
+    card.nameBounds && card.ratingBounds && inside(card.nameBounds) && inside(card.ratingBounds) && card.nameBounds.top >= minimumTitleTop &&
+    !card.warnings.some(warning => ['low_name_confidence', 'low_rating_confidence', 'card_header_clipped', 'name_clipped_at_top',
+      'uncertain_ad_label', 'native_ad_evidence_unresolved', 'sheet_header_unverified'].includes(warning)))
+    .sort((a, b) => b.nameBounds!.top - a.nameBounds!.top)[0];
+  return { sourceXml, listBounds, anchors, ...(card ? { ocrScrollAnchor: { name: card.name!, nameConfidence: card.nameConfidence!,
+    nameBounds: card.nameBounds!, ratingBounds: card.ratingBounds!, imageSha256: frame.imageSha256 } } : {}) };
+}
+
 export async function runAndroidCapture(config: AndroidCaptureConfig, device: AndroidDevice, store: ArtifactStore, options: AndroidRunOptions = {}): Promise<AndroidCaptureOutput> {
   const started = new Date();
   const runId = newRunId(started);
@@ -184,7 +209,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
     surface: 'google_maps_android_app', adapterVersion: 'android-screen-ocr/v4', profileHash: null, startedAt: started.toISOString(), finishedAt: started.toISOString(),
     executionStatus: 'completed', persistenceMode: store.mode, device: null,
     rankingStatus: 'evaluated', mapsLocationStatus: 'unverified',
-    queries: config.tasks.map((task, index) => ({ ...task, location: { ...task.location }, queryId: queryIdFor(index), rankingStatus: 'not_evaluated', organicRank: null, displayPosition: null, targetMatch: null, targetMatches: [], targetAliases: targetAliases(task), listingStatus: 'not_evaluated', listings: [], listingQuality: null, evidenceStatus: 'skipped', locationEvidence: null, locationScreen: null, screens: [], error: null, stopReason: 'not_started' })),
+    queries: config.tasks.map((task, index) => ({ ...task, location: { ...task.location }, queryId: queryIdFor(index), nativeFrameRefreshes: [], rankingStatus: 'not_evaluated', organicRank: null, displayPosition: null, targetMatch: null, targetMatches: [], targetAliases: targetAliases(task), listingStatus: 'not_evaluated', listings: [], listingQuality: null, evidenceStatus: 'skipped', locationEvidence: null, locationScreen: null, screens: [], error: null, stopReason: 'not_started' })),
     artifacts: [], counts: { total: config.tasks.length, captured: 0, needsReview: 0, failed: 0, skipped: config.tasks.length, screenshots: 0, locationScreenshots: 0, completeListingQueries: 0, partialListingQueries: 0, rankedQueries: 0, listings: 0, ads: 0, organic: 0, unknown: 0 }, errors: [],
     evidenceLimits: [
       'Listings come from full-screen OCR of each result-sheet screenshot: a card is a rating line, the name line above it and the status line below it. Native UI XML is retained as auxiliary evidence only.',
@@ -267,7 +292,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       androidVersion: info.androidVersion, appVersion: info.appVersion, appPackage: info.appPackage, emulator: info.emulator,
       locale: info.locale, timezone: info.timezone,
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v6', ocrLanguages: config.ocrLanguages,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v8', ocrLanguages: config.ocrLanguages,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -297,11 +322,12 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
         await device.search(query.keyword);
         checkQuery();
         stage = 'snapshot';
-        let swipes = 0, unchangedFrames = 0;
+        let swipes = 0, unchangedFrames = 0, refreshPending = false;
         const frames: ScreenFrame[] = [];
         const seenHashes = new Set<string>();
         for (let shot = 0; shot < config.maxScreenshotsPerQuery; shot++) {
           checkQuery(); snapshotAttempted = true;
+          const refreshedWithoutGesture = refreshPending; refreshPending = false;
           const source = await device.snapshot();
           const evidence = await saveScreen(query, source, 'capture');
           checkQuery();
@@ -327,6 +353,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
             frame.topStateVerified = false; frame.warnings.push('native_list_top_contradicted');
           }
           evidence.screenFrame = await saveArtifact('screen_frame', `${base}.frame.json`, JSON.stringify(frame, null, 2));
+          if (refreshedWithoutGesture) query.nativeFrameRefreshes!.at(-1)!.refreshFrameId = frameId;
           evidence.cardsRecognized = frame.cards.length;
           const before = reconcileScreenFrames(frames, config.maxDisplayedResults).listings.length;
           frames.push(frame);
@@ -346,17 +373,23 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           query.listingStatus = 'partial'; query.evidenceStatus = 'captured';
           const hash = sha256Hex(source.png);
           const repeated = seenHashes.has(hash); seenHashes.add(hash);
-          unchangedFrames = query.listings.length === before ? unchangedFrames + 1 : 0;
+          // Repeated merchants are expected while a tall card moves through the
+          // viewport. A fresh PNG alone is not progress; named OCR geometry in
+          // the same exact native list must demonstrate upward movement.
+          const moved = hasMeasuredScreenProgress(frames.at(-2), frame);
+          if (!refreshedWithoutGesture || query.listings.length !== before || moved) {
+            unchangedFrames = query.listings.length === before && !moved ? unchangedFrames + 1 : 0;
+          }
           if (!reconciled.rankingReliable) { query.stopReason = 'ranking_unreliable'; break; }
           if (query.listingQuality.endOfResults) { query.listingStatus = 'complete'; query.stopReason = 'list_end'; break; }
           if (query.listings.length >= config.maxDisplayedResults) { query.listingStatus = 'complete'; query.stopReason = 'target_reached'; break; }
           // A stalled viewport can be a failed swipe or a tall photo module; neither proves absence.
-          if (repeated || unchangedFrames >= 3) { query.stopReason = repeated ? 'stalled_same_frame' : 'stalled_no_new_cards'; break; }
+          if ((repeated && !refreshedWithoutGesture) || unchangedFrames >= 3) { query.stopReason = repeated ? 'stalled_same_frame' : 'stalled_no_new_cards'; break; }
           if (shot + 1 >= config.maxScreenshotsPerQuery) { query.stopReason = 'screenshot_budget'; break; }
           if (swipes >= config.maxScrolls) { query.stopReason = 'scroll_budget'; break; }
           checkQuery(); stage = 'swipe';
           try {
-            await device.swipeResults({ sourceXml: source.xml, listBounds: nativeList?.bounds ?? null, anchors: [] });
+            await device.swipeResults(scrollEvidence(frame, source.xml, nativeList?.bounds ?? null));
           } catch (error) {
             // These guards reject before sending a gesture. Keep the observed
             // prefix as an unqualified partial, then allow the next task to
@@ -364,6 +397,14 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
             // and unknown action outcomes still take the fatal path below.
             const code = safeError(error, 'swipe_failed').code;
             if (!['unknown_scroll_layout', 'source_changed'].includes(code)) throw error;
+            if (code === 'source_changed' && query.nativeFrameRefreshes!.length === 0) {
+              // The device guarantees this refusal occurred before /actions.
+              // Capture a new PNG/XML/OCR/frame within the same loop budget,
+              // then re-run every query, native, ad and ordered-overlap gate.
+              // No blind gesture retry and no deadline/screenshot extension.
+              query.nativeFrameRefreshes!.push({ reason: 'source_changed', afterFrameId: frameId, refreshFrameId: null });
+              refreshPending = true; stage = 'snapshot'; continue;
+            }
             query.stopReason = code;
             query.listingQuality.rankingReliable = false;
             query.listingQuality.warnings.push(code);

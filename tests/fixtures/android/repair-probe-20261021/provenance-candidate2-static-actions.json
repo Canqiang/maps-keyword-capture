@@ -1,0 +1,391 @@
+{
+  "sourceManifest": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/manifest.json",
+  "sourceManifestSha256": "38dee332f1b7225ac051dfcaeff4d02a2311d0bd2845668aa4f541d944267d20",
+  "scope": "Unmodified terminal candidate2 q2/q4 final two and q5 final two artifacts. All24 source bytes verified against producer manifest receipts and prior visual review inventory. No regenerated capture or ranking proof.",
+  "artifacts": [
+    {
+      "fixture": "candidate2-q0002-01.png",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021410.007Z__chinese-food__01.png",
+      "bytes": 661684,
+      "sha256": "a4c1d8a2126f07707e9677d3bbceeb55f36a1bb9ab4d400bf8734c96a2627c96",
+      "producerReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021410.007Z__chinese-food__01.png",
+        "bytes": 661684,
+        "sha256": "a4c1d8a2126f07707e9677d3bbceeb55f36a1bb9ab4d400bf8734c96a2627c96",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0002-01.xml",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021410.007Z__chinese-food__01.xml",
+      "bytes": 70609,
+      "sha256": "6d690b768909ffcb46197abf9b5f664f82e5ddf2e8f1c41afe77fcf8038d0cb1",
+      "producerReceipt": {
+        "kind": "ui_xml",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021410.007Z__chinese-food__01.xml",
+        "bytes": 70609,
+        "sha256": "6d690b768909ffcb46197abf9b5f664f82e5ddf2e8f1c41afe77fcf8038d0cb1",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0002-01.ocr.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021410.007Z__chinese-food__01.ocr.json",
+      "bytes": 26004,
+      "sha256": "1a4c41a9589c4466f852e306b468a5981ac00c11254d54d52b65b6ee57b8534e",
+      "producerReceipt": {
+        "kind": "ocr_json",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021410.007Z__chinese-food__01.ocr.json",
+        "bytes": 26004,
+        "sha256": "1a4c41a9589c4466f852e306b468a5981ac00c11254d54d52b65b6ee57b8534e",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0002-01.frame.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021410.007Z__chinese-food__01.frame.json",
+      "bytes": 1346,
+      "sha256": "c697557f1ebf472d87ad90ba9c24a5c58066eb055188e55b3cf9bfb6e4b29ec6",
+      "producerReceipt": {
+        "kind": "screen_frame",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021410.007Z__chinese-food__01.frame.json",
+        "bytes": 1346,
+        "sha256": "c697557f1ebf472d87ad90ba9c24a5c58066eb055188e55b3cf9bfb6e4b29ec6",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0002-02.png",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021418.556Z__chinese-food__02.png",
+      "bytes": 604700,
+      "sha256": "cceae52875d0102ba57e0f04501eb39fee720b70ad7918e7777d2cc5eb2d7c6f",
+      "producerReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021418.556Z__chinese-food__02.png",
+        "bytes": 604700,
+        "sha256": "cceae52875d0102ba57e0f04501eb39fee720b70ad7918e7777d2cc5eb2d7c6f",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0002-02.xml",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021418.556Z__chinese-food__02.xml",
+      "bytes": 74046,
+      "sha256": "7287095f9e8d47b9ce34b29976f32ddb5be9e5a6dcb9461792d03236e59add29",
+      "producerReceipt": {
+        "kind": "ui_xml",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021418.556Z__chinese-food__02.xml",
+        "bytes": 74046,
+        "sha256": "7287095f9e8d47b9ce34b29976f32ddb5be9e5a6dcb9461792d03236e59add29",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0002-02.ocr.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021418.556Z__chinese-food__02.ocr.json",
+      "bytes": 22883,
+      "sha256": "5f4a764194dd0984052fdce83463bd336af315b3f2b1c8b5d57ad14b30b19f88",
+      "producerReceipt": {
+        "kind": "ocr_json",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021418.556Z__chinese-food__02.ocr.json",
+        "bytes": 22883,
+        "sha256": "5f4a764194dd0984052fdce83463bd336af315b3f2b1c8b5d57ad14b30b19f88",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0002-02.frame.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021418.556Z__chinese-food__02.frame.json",
+      "bytes": 1278,
+      "sha256": "26f51a0557d58948978706effee8d3e27c34ee1afe5982cb4e887172312d493a",
+      "producerReceipt": {
+        "kind": "screen_frame",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0002/20261021T021418.556Z__chinese-food__02.frame.json",
+        "bytes": 1278,
+        "sha256": "26f51a0557d58948978706effee8d3e27c34ee1afe5982cb4e887172312d493a",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0004-01.png",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021516.427Z__hot-pot-near-me__01.png",
+      "bytes": 712109,
+      "sha256": "407fcf06b94c6ded709c7d64eccf3a4d5278e3127160fae27c2f71e49f6920e7",
+      "producerReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021516.427Z__hot-pot-near-me__01.png",
+        "bytes": 712109,
+        "sha256": "407fcf06b94c6ded709c7d64eccf3a4d5278e3127160fae27c2f71e49f6920e7",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0004-01.xml",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021516.427Z__hot-pot-near-me__01.xml",
+      "bytes": 72295,
+      "sha256": "460370b79897591a03a8d78b2886139d510fdeb922e1151a973acf69884565e0",
+      "producerReceipt": {
+        "kind": "ui_xml",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021516.427Z__hot-pot-near-me__01.xml",
+        "bytes": 72295,
+        "sha256": "460370b79897591a03a8d78b2886139d510fdeb922e1151a973acf69884565e0",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0004-01.ocr.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021516.427Z__hot-pot-near-me__01.ocr.json",
+      "bytes": 19671,
+      "sha256": "76c254114a842a1bac9b5f8c63a7bd8ddfcf42a57b59714bc8eee2bc853269e4",
+      "producerReceipt": {
+        "kind": "ocr_json",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021516.427Z__hot-pot-near-me__01.ocr.json",
+        "bytes": 19671,
+        "sha256": "76c254114a842a1bac9b5f8c63a7bd8ddfcf42a57b59714bc8eee2bc853269e4",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0004-01.frame.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021516.427Z__hot-pot-near-me__01.frame.json",
+      "bytes": 1358,
+      "sha256": "ecd759bd50a9fb45fb1f4bb7e917953f2e14b50499d94f7628c1b98f7185a00f",
+      "producerReceipt": {
+        "kind": "screen_frame",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021516.427Z__hot-pot-near-me__01.frame.json",
+        "bytes": 1358,
+        "sha256": "ecd759bd50a9fb45fb1f4bb7e917953f2e14b50499d94f7628c1b98f7185a00f",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0004-02.png",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021525.638Z__hot-pot-near-me__02.png",
+      "bytes": 641648,
+      "sha256": "92caf537284345ca852767133b0e8e489cbcae5c19489b0bc72b1d97dec46b57",
+      "producerReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021525.638Z__hot-pot-near-me__02.png",
+        "bytes": 641648,
+        "sha256": "92caf537284345ca852767133b0e8e489cbcae5c19489b0bc72b1d97dec46b57",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0004-02.xml",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021525.638Z__hot-pot-near-me__02.xml",
+      "bytes": 73117,
+      "sha256": "d9a5aa309f7b690cc5d8e49337880b676dc852bf0633fdb2fc367e3813ae23da",
+      "producerReceipt": {
+        "kind": "ui_xml",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021525.638Z__hot-pot-near-me__02.xml",
+        "bytes": 73117,
+        "sha256": "d9a5aa309f7b690cc5d8e49337880b676dc852bf0633fdb2fc367e3813ae23da",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0004-02.ocr.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021525.638Z__hot-pot-near-me__02.ocr.json",
+      "bytes": 19951,
+      "sha256": "36b0e0bf7eeb79eed250d620731b4be831f6e45d1e26061b4c2f567d8d3a7bfd",
+      "producerReceipt": {
+        "kind": "ocr_json",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021525.638Z__hot-pot-near-me__02.ocr.json",
+        "bytes": 19951,
+        "sha256": "36b0e0bf7eeb79eed250d620731b4be831f6e45d1e26061b4c2f567d8d3a7bfd",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0004-02.frame.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021525.638Z__hot-pot-near-me__02.frame.json",
+      "bytes": 1293,
+      "sha256": "291ef1ef3206060e968656ca42f89bdcb9cba26945867c22c1b55446581df321",
+      "producerReceipt": {
+        "kind": "screen_frame",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0004/20261021T021525.638Z__hot-pot-near-me__02.frame.json",
+        "bytes": 1293,
+        "sha256": "291ef1ef3206060e968656ca42f89bdcb9cba26945867c22c1b55446581df321",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0005-05.png",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021603.690Z__bakery__05.png",
+      "bytes": 352974,
+      "sha256": "20aad37283cef128ebd701fe4107368b408883880f319f4347a736f9464d4771",
+      "producerReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021603.690Z__bakery__05.png",
+        "bytes": 352974,
+        "sha256": "20aad37283cef128ebd701fe4107368b408883880f319f4347a736f9464d4771",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0005-05.xml",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021603.690Z__bakery__05.xml",
+      "bytes": 79092,
+      "sha256": "d00dd62c17275918418d0f1408786f151155deeb95b446fd7aea354d8aacae70",
+      "producerReceipt": {
+        "kind": "ui_xml",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021603.690Z__bakery__05.xml",
+        "bytes": 79092,
+        "sha256": "d00dd62c17275918418d0f1408786f151155deeb95b446fd7aea354d8aacae70",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0005-05.ocr.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021603.690Z__bakery__05.ocr.json",
+      "bytes": 19913,
+      "sha256": "e26e5cce67d5aeb19b49addcf80ee05eb89401248ec04ac082bcc1f468b7016b",
+      "producerReceipt": {
+        "kind": "ocr_json",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021603.690Z__bakery__05.ocr.json",
+        "bytes": 19913,
+        "sha256": "e26e5cce67d5aeb19b49addcf80ee05eb89401248ec04ac082bcc1f468b7016b",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0005-05.frame.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021603.690Z__bakery__05.frame.json",
+      "bytes": 2221,
+      "sha256": "76072a1def38e3ea7325e97ae5d7ed7cb32795da33f3401f3217531362e4f591",
+      "producerReceipt": {
+        "kind": "screen_frame",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021603.690Z__bakery__05.frame.json",
+        "bytes": 2221,
+        "sha256": "76072a1def38e3ea7325e97ae5d7ed7cb32795da33f3401f3217531362e4f591",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0005-06.png",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021607.159Z__bakery__06.png",
+      "bytes": 511486,
+      "sha256": "7f9ee6c8f7be39ba38dc5f1ec551a8143ac4664be1c1c090400cf8d9a5414bed",
+      "producerReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021607.159Z__bakery__06.png",
+        "bytes": 511486,
+        "sha256": "7f9ee6c8f7be39ba38dc5f1ec551a8143ac4664be1c1c090400cf8d9a5414bed",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0005-06.xml",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021607.159Z__bakery__06.xml",
+      "bytes": 69042,
+      "sha256": "61e955b35281b71c86b76960cf315e401fc47f151c932485de9a0f32ffbcc4e8",
+      "producerReceipt": {
+        "kind": "ui_xml",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021607.159Z__bakery__06.xml",
+        "bytes": 69042,
+        "sha256": "61e955b35281b71c86b76960cf315e401fc47f151c932485de9a0f32ffbcc4e8",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0005-06.ocr.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021607.159Z__bakery__06.ocr.json",
+      "bytes": 20362,
+      "sha256": "6d0deadd30cc69f1c8d61e6f832b4d8cff745de0ed1db9783493f6937a8ec2fd",
+      "producerReceipt": {
+        "kind": "ocr_json",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021607.159Z__bakery__06.ocr.json",
+        "bytes": 20362,
+        "sha256": "6d0deadd30cc69f1c8d61e6f832b4d8cff745de0ed1db9783493f6937a8ec2fd",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "fixture": "candidate2-q0005-06.frame.json",
+      "source": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe2-review/download/files/outputs/android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021607.159Z__bakery__06.frame.json",
+      "bytes": 1167,
+      "sha256": "38f7f9bbc747595a0233fb8c10b9850fc6437fd2aea5c0e47ddc024a43e091f6",
+      "producerReceipt": {
+        "kind": "screen_frame",
+        "relativePath": "android-maps/2026-10-21/run_20261021T021313Z_43aa38/q0005/20261021T021607.159Z__bakery__06.frame.json",
+        "bytes": 1167,
+        "sha256": "38f7f9bbc747595a0233fb8c10b9850fc6437fd2aea5c0e47ddc024a43e091f6",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    }
+  ]
+}

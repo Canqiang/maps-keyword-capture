@@ -1,0 +1,1028 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "7a723a811e1288b827bdad2e015f00e59a1f4f2332f6161cc03bc43da7a36829",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 2,
+  "lines": [
+    {
+      "text": "1",
+      "confidence": 70.7,
+      "bounds": {
+        "left": 371.5,
+        "top": 80.5,
+        "right": 379,
+        "bottom": 107
+      },
+      "words": [
+        {
+          "text": "1",
+          "confidence": 70.703209,
+          "bounds": {
+            "left": 371.5,
+            "top": 80.5,
+            "right": 379,
+            "bottom": 107
+          }
+        }
+      ]
+    },
+    {
+      "text": "Shoo Loong Kan",
+      "confidence": 96.54,
+      "bounds": {
+        "left": 210.5,
+        "top": 104.5,
+        "right": 396.5,
+        "bottom": 124.5
+      },
+      "words": [
+        {
+          "text": "Shoo",
+          "confidence": 96.734146,
+          "bounds": {
+            "left": 210.5,
+            "top": 104.5,
+            "right": 267,
+            "bottom": 124
+          }
+        },
+        {
+          "text": "Loong",
+          "confidence": 96.734146,
+          "bounds": {
+            "left": 276.5,
+            "top": 105.5,
+            "right": 331.5,
+            "bottom": 124.5
+          }
+        },
+        {
+          "text": "Kan",
+          "confidence": 96.14991,
+          "bounds": {
+            "left": 355.5,
+            "top": 105.5,
+            "right": 396.5,
+            "bottom": 124
+          }
+        }
+      ]
+    },
+    {
+      "text": "fear haa",
+      "confidence": 36.89,
+      "bounds": {
+        "left": 271,
+        "top": 108,
+        "right": 373.5,
+        "bottom": 149
+      },
+      "words": [
+        {
+          "text": "fear",
+          "confidence": 31.57193,
+          "bounds": {
+            "left": 271,
+            "top": 108,
+            "right": 312,
+            "bottom": 149
+          }
+        },
+        {
+          "text": "haa",
+          "confidence": 42.208862,
+          "bounds": {
+            "left": 325.5,
+            "top": 108,
+            "right": 373.5,
+            "bottom": 149
+          }
+        }
+      ]
+    },
+    {
+      "text": "a Hat Dat NAanhattan",
+      "confidence": 77.72,
+      "bounds": {
+        "left": 91,
+        "top": 138,
+        "right": 379.5,
+        "bottom": 152
+      },
+      "words": [
+        {
+          "text": "a",
+          "confidence": 65.435562,
+          "bounds": {
+            "left": 91,
+            "top": 139,
+            "right": 106.5,
+            "bottom": 152
+          }
+        },
+        {
+          "text": "Hat",
+          "confidence": 64.922348,
+          "bounds": {
+            "left": 162.5,
+            "top": 139.5,
+            "right": 202,
+            "bottom": 152
+          }
+        },
+        {
+          "text": "Dat",
+          "confidence": 92.870377,
+          "bounds": {
+            "left": 211.5,
+            "top": 139.5,
+            "right": 248,
+            "bottom": 152
+          }
+        },
+        {
+          "text": "NAanhattan",
+          "confidence": 87.665115,
+          "bounds": {
+            "left": 257.5,
+            "top": 138,
+            "right": 379.5,
+            "bottom": 152
+          }
+        }
+      ]
+    },
+    {
+      "text": "RN",
+      "confidence": 92.48,
+      "bounds": {
+        "left": 0,
+        "top": 183,
+        "right": 27,
+        "bottom": 196
+      },
+      "words": [
+        {
+          "text": "RN",
+          "confidence": 92.483948,
+          "bounds": {
+            "left": 0,
+            "top": 183,
+            "right": 27,
+            "bottom": 196
+          }
+        }
+      ]
+    },
+    {
+      "text": "hot pot near me",
+      "confidence": 96.34,
+      "bounds": {
+        "left": 66.5,
+        "top": 184.5,
+        "right": 349,
+        "bottom": 221.5
+      },
+      "words": [
+        {
+          "text": "hot",
+          "confidence": 96.676353,
+          "bounds": {
+            "left": 66.5,
+            "top": 184.5,
+            "right": 122,
+            "bottom": 213.5
+          }
+        },
+        {
+          "text": "pot",
+          "confidence": 96.157066,
+          "bounds": {
+            "left": 135.5,
+            "top": 187,
+            "right": 193,
+            "bottom": 221.5
+          }
+        },
+        {
+          "text": "near",
+          "confidence": 96.394051,
+          "bounds": {
+            "left": 206.5,
+            "top": 192,
+            "right": 283,
+            "bottom": 213.5
+          }
+        },
+        {
+          "text": "me",
+          "confidence": 96.143402,
+          "bounds": {
+            "left": 295.5,
+            "top": 192,
+            "right": 349,
+            "bottom": 213.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "ING",
+      "confidence": 85.12,
+      "bounds": {
+        "left": 0,
+        "top": 214,
+        "right": 34,
+        "bottom": 233.5
+      },
+      "words": [
+        {
+          "text": "ING",
+          "confidence": 85.124695,
+          "bounds": {
+            "left": 0,
+            "top": 214,
+            "right": 34,
+            "bottom": 233.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Hot Pot 4. 4 | E Oa ) ens der Lower",
+      "confidence": 65.69,
+      "bounds": {
+        "left": 4,
+        "top": 243.5,
+        "right": 718.5,
+        "bottom": 291.5
+      },
+      "words": [
+        {
+          "text": "Hot",
+          "confidence": 96.79567,
+          "bounds": {
+            "left": 4,
+            "top": 243.5,
+            "right": 44,
+            "bottom": 262.5
+          }
+        },
+        {
+          "text": "Pot",
+          "confidence": 96.700783,
+          "bounds": {
+            "left": 53,
+            "top": 244.5,
+            "right": 90,
+            "bottom": 262.5
+          }
+        },
+        {
+          "text": "4.",
+          "confidence": 79.789925,
+          "bounds": {
+            "left": 176,
+            "top": 252.5,
+            "right": 193,
+            "bottom": 270
+          }
+        },
+        {
+          "text": "4",
+          "confidence": 59.239166,
+          "bounds": {
+            "left": 195,
+            "top": 252.5,
+            "right": 204.5,
+            "bottom": 270
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 59.239166,
+          "bounds": {
+            "left": 214.5,
+            "top": 248.5,
+            "right": 222,
+            "bottom": 285
+          }
+        },
+        {
+          "text": "E",
+          "confidence": 35.460968,
+          "bounds": {
+            "left": 221,
+            "top": 269,
+            "right": 226.5,
+            "bottom": 270
+          }
+        },
+        {
+          "text": "Oa",
+          "confidence": 0,
+          "bounds": {
+            "left": 442.5,
+            "top": 244,
+            "right": 522,
+            "bottom": 291.5
+          }
+        },
+        {
+          "text": ")",
+          "confidence": 66.168732,
+          "bounds": {
+            "left": 537.5,
+            "top": 248.5,
+            "right": 542,
+            "bottom": 289.5
+          }
+        },
+        {
+          "text": "ens",
+          "confidence": 44.735523,
+          "bounds": {
+            "left": 569,
+            "top": 244,
+            "right": 617,
+            "bottom": 291.5
+          }
+        },
+        {
+          "text": "der",
+          "confidence": 92.205154,
+          "bounds": {
+            "left": 607,
+            "top": 248,
+            "right": 644,
+            "bottom": 265.5
+          }
+        },
+        {
+          "text": "Lower",
+          "confidence": 92.205154,
+          "bounds": {
+            "left": 656.5,
+            "top": 244.5,
+            "right": 718.5,
+            "bottom": 274
+          }
+        }
+      ]
+    },
+    {
+      "text": "e, Decent 用 order Dinner",
+      "confidence": 66.12,
+      "bounds": {
+        "left": 2,
+        "top": 248,
+        "right": 676,
+        "bottom": 306.5
+      },
+      "words": [
+        {
+          "text": "e,",
+          "confidence": 93.25679,
+          "bounds": {
+            "left": 2,
+            "top": 279.5,
+            "right": 16.5,
+            "bottom": 294
+          }
+        },
+        {
+          "text": "Decent",
+          "confidence": 96.897003,
+          "bounds": {
+            "left": 24,
+            "top": 275,
+            "right": 90.5,
+            "bottom": 291.5
+          }
+        },
+        {
+          "text": "用",
+          "confidence": 22.858871,
+          "bounds": {
+            "left": 95,
+            "top": 248,
+            "right": 168,
+            "bottom": 301
+          }
+        },
+        {
+          "text": "order",
+          "confidence": 26.247742,
+          "bounds": {
+            "left": 541.5,
+            "top": 260.5,
+            "right": 623,
+            "bottom": 306.5
+          }
+        },
+        {
+          "text": "Dinner",
+          "confidence": 91.32785,
+          "bounds": {
+            "left": 615.5,
+            "top": 278,
+            "right": 676,
+            "bottom": 299
+          }
+        }
+      ]
+    },
+    {
+      "text": "aff, and...\") : Tonigh ot 2",
+      "confidence": 51.01,
+      "bounds": {
+        "left": 0,
+        "top": 284,
+        "right": 720,
+        "bottom": 347
+      },
+      "words": [
+        {
+          "text": "aff,",
+          "confidence": 91.852478,
+          "bounds": {
+            "left": 0,
+            "top": 300.5,
+            "right": 29.5,
+            "bottom": 320
+          }
+        },
+        {
+          "text": "and...\")",
+          "confidence": 29.256981,
+          "bounds": {
+            "left": 36,
+            "top": 301,
+            "right": 97.5,
+            "bottom": 321
+          }
+        },
+        {
+          "text": ":",
+          "confidence": 18.320503,
+          "bounds": {
+            "left": 218,
+            "top": 301,
+            "right": 220.5,
+            "bottom": 303.5
+          }
+        },
+        {
+          "text": "Tonigh",
+          "confidence": 66.919937,
+          "bounds": {
+            "left": 555,
+            "top": 284,
+            "right": 625,
+            "bottom": 336
+          }
+        },
+        {
+          "text": "ot",
+          "confidence": 58.406143,
+          "bounds": {
+            "left": 633,
+            "top": 315.5,
+            "right": 671,
+            "bottom": 336
+          }
+        },
+        {
+          "text": "2",
+          "confidence": 41.317238,
+          "bounds": {
+            "left": 680,
+            "top": 303.5,
+            "right": 720,
+            "bottom": 347
+          }
+        }
+      ]
+    },
+    {
+      "text": "hot pot near me x",
+      "confidence": 91.97,
+      "bounds": {
+        "left": 42.5,
+        "top": 395,
+        "right": 661,
+        "bottom": 436.5
+      },
+      "words": [
+        {
+          "text": "hot",
+          "confidence": 92.907646,
+          "bounds": {
+            "left": 42.5,
+            "top": 395.5,
+            "right": 107.5,
+            "bottom": 428
+          }
+        },
+        {
+          "text": "pot",
+          "confidence": 93.150009,
+          "bounds": {
+            "left": 121.5,
+            "top": 398,
+            "right": 187.5,
+            "bottom": 436.5
+          }
+        },
+        {
+          "text": "near",
+          "confidence": 92.909424,
+          "bounds": {
+            "left": 201.5,
+            "top": 404,
+            "right": 290,
+            "bottom": 428
+          }
+        },
+        {
+          "text": "me",
+          "confidence": 93.026482,
+          "bounds": {
+            "left": 302.5,
+            "top": 404,
+            "right": 362.5,
+            "bottom": 428
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 87.847321,
+          "bounds": {
+            "left": 635,
+            "top": 395,
+            "right": 661,
+            "bottom": 421
+          }
+        }
+      ]
+    },
+    {
+      "text": "a= Relevance ~ Opennow Find a tabi",
+      "confidence": 69.67,
+      "bounds": {
+        "left": 46,
+        "top": 454.5,
+        "right": 716.5,
+        "bottom": 538.5
+      },
+      "words": [
+        {
+          "text": "a=",
+          "confidence": 36.374096,
+          "bounds": {
+            "left": 46,
+            "top": 486,
+            "right": 82,
+            "bottom": 522
+          }
+        },
+        {
+          "text": "Relevance",
+          "confidence": 84.066292,
+          "bounds": {
+            "left": 138,
+            "top": 491,
+            "right": 271,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "~",
+          "confidence": 53.86269,
+          "bounds": {
+            "left": 300.5,
+            "top": 500,
+            "right": 307,
+            "bottom": 510
+          }
+        },
+        {
+          "text": "Opennow",
+          "confidence": 67.137497,
+          "bounds": {
+            "left": 370.5,
+            "top": 492.5,
+            "right": 502,
+            "bottom": 519
+          }
+        },
+        {
+          "text": "Find",
+          "confidence": 88.672089,
+          "bounds": {
+            "left": 570,
+            "top": 491,
+            "right": 622.5,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 88.672089,
+          "bounds": {
+            "left": 633.5,
+            "top": 498,
+            "right": 646,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "tabi",
+          "confidence": 68.895691,
+          "bounds": {
+            "left": 655.5,
+            "top": 454.5,
+            "right": 716.5,
+            "bottom": 538.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Sponsored 3:",
+      "confidence": 71.72,
+      "bounds": {
+        "left": 41,
+        "top": 574,
+        "right": 187,
+        "bottom": 599
+      },
+      "words": [
+        {
+          "text": "Sponsored",
+          "confidence": 95.965103,
+          "bounds": {
+            "left": 41,
+            "top": 574.5,
+            "right": 157.5,
+            "bottom": 599
+          }
+        },
+        {
+          "text": "3:",
+          "confidence": 47.476883,
+          "bounds": {
+            "left": 181,
+            "top": 574,
+            "right": 187,
+            "bottom": 598
+          }
+        }
+      ]
+    },
+    {
+      "text": "Wonder Financial District",
+      "confidence": 96.54,
+      "bounds": {
+        "left": 41,
+        "top": 622,
+        "right": 440,
+        "bottom": 648.5
+      },
+      "words": [
+        {
+          "text": "Wonder",
+          "confidence": 96.342888,
+          "bounds": {
+            "left": 41,
+            "top": 622,
+            "right": 169,
+            "bottom": 648.5
+          }
+        },
+        {
+          "text": "Financial",
+          "confidence": 96.591576,
+          "bounds": {
+            "left": 180,
+            "top": 622,
+            "right": 314.5,
+            "bottom": 648.5
+          }
+        },
+        {
+          "text": "District",
+          "confidence": 96.700386,
+          "bounds": {
+            "left": 328,
+            "top": 622,
+            "right": 440,
+            "bottom": 648.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.3% (93) - & - Restaurant",
+      "confidence": 87.99,
+      "bounds": {
+        "left": 41,
+        "top": 667,
+        "right": 376,
+        "bottom": 694
+      },
+      "words": [
+        {
+          "text": "4.3%",
+          "confidence": 90.007217,
+          "bounds": {
+            "left": 41,
+            "top": 668,
+            "right": 101.5,
+            "bottom": 691
+          }
+        },
+        {
+          "text": "(93)",
+          "confidence": 79.682541,
+          "bounds": {
+            "left": 112.5,
+            "top": 668,
+            "right": 158.5,
+            "bottom": 694
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 79.682541,
+          "bounds": {
+            "left": 173,
+            "top": 680,
+            "right": 174,
+            "bottom": 683
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 90.981911,
+          "bounds": {
+            "left": 190.5,
+            "top": 667,
+            "right": 211,
+            "bottom": 693.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 91.04847,
+          "bounds": {
+            "left": 226,
+            "top": 680,
+            "right": 229,
+            "bottom": 683
+          }
+        },
+        {
+          "text": "Restaurant",
+          "confidence": 96.538109,
+          "bounds": {
+            "left": 241.5,
+            "top": 670,
+            "right": 376,
+            "bottom": 690.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Open - Closes 11:30 PM - 0.1 mi",
+      "confidence": 85.98,
+      "bounds": {
+        "left": 41,
+        "top": 706,
+        "right": 432,
+        "bottom": 738
+      },
+      "words": [
+        {
+          "text": "Open",
+          "confidence": 93.083405,
+          "bounds": {
+            "left": 41,
+            "top": 709.5,
+            "right": 108,
+            "bottom": 736
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 60.590294,
+          "bounds": {
+            "left": 119,
+            "top": 720,
+            "right": 122,
+            "bottom": 723
+          }
+        },
+        {
+          "text": "Closes",
+          "confidence": 96.397011,
+          "bounds": {
+            "left": 132.5,
+            "top": 708,
+            "right": 215.5,
+            "bottom": 730.5
+          }
+        },
+        {
+          "text": "11:30",
+          "confidence": 96.78862,
+          "bounds": {
+            "left": 226,
+            "top": 709.5,
+            "right": 287,
+            "bottom": 730.5
+          }
+        },
+        {
+          "text": "PM",
+          "confidence": 92.634369,
+          "bounds": {
+            "left": 298.5,
+            "top": 710,
+            "right": 334,
+            "bottom": 730
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 56.860336,
+          "bounds": {
+            "left": 337.5,
+            "top": 706,
+            "right": 348.5,
+            "bottom": 738
+          }
+        },
+        {
+          "text": "0.1",
+          "confidence": 94.756714,
+          "bounds": {
+            "left": 361.5,
+            "top": 709.5,
+            "right": 393.5,
+            "bottom": 730.5
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.693657,
+          "bounds": {
+            "left": 406,
+            "top": 708.5,
+            "right": 432,
+            "bottom": 730
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions %\\ Call © Website",
+      "confidence": 64.89,
+      "bounds": {
+        "left": 66.5,
+        "top": 1080.5,
+        "right": 640,
+        "bottom": 1111.5
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 25.705528,
+          "bounds": {
+            "left": 66.5,
+            "top": 1081,
+            "right": 97.5,
+            "bottom": 1111.5
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 96.223312,
+          "bounds": {
+            "left": 118,
+            "top": 1084,
+            "right": 242,
+            "bottom": 1107
+          }
+        },
+        {
+          "text": "%\\",
+          "confidence": 0,
+          "bounds": {
+            "left": 320,
+            "top": 1082,
+            "right": 348,
+            "bottom": 1110
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 94.572662,
+          "bounds": {
+            "left": 369,
+            "top": 1084,
+            "right": 413,
+            "bottom": 1107
+          }
+        },
+        {
+          "text": "©",
+          "confidence": 77.524055,
+          "bounds": {
+            "left": 489.5,
+            "top": 1080.5,
+            "right": 520.5,
+            "bottom": 1111.5
+          }
+        },
+        {
+          "text": "Website",
+          "confidence": 95.306221,
+          "bounds": {
+            "left": 539.5,
+            "top": 1084,
+            "right": 640,
+            "bottom": 1107
+          }
+        }
+      ]
+    },
+    {
+      "text": "| 一 一 LA LIAFtRAt",
+      "confidence": 60.31,
+      "bounds": {
+        "left": 43,
+        "top": 1216,
+        "right": 266,
+        "bottom": 1237
+      },
+      "words": [
+        {
+          "text": "|",
+          "confidence": 67.98407,
+          "bounds": {
+            "left": 43,
+            "top": 1218,
+            "right": 46,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 94.245766,
+          "bounds": {
+            "left": 60,
+            "top": 1225,
+            "right": 96.5,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 66.728806,
+          "bounds": {
+            "left": 89.5,
+            "top": 1216,
+            "right": 104,
+            "bottom": 1237
+          }
+        },
+        {
+          "text": "LA",
+          "confidence": 71.986221,
+          "bounds": {
+            "left": 111.5,
+            "top": 1218,
+            "right": 143.5,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "LIAFtRAt",
+          "confidence": 0.61525,
+          "bounds": {
+            "left": 156,
+            "top": 1218,
+            "right": 266,
+            "bottom": 1232
+          }
+        }
+      ]
+    }
+  ]
+}

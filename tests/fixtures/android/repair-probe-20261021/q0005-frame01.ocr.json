@@ -1,0 +1,1010 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "5159320c06bd9a6ccfd900ffc5f8658bbf932874b9572473460d81c7e9ed833a",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 2,
+  "lines": [
+    {
+      "text": "AB i us baked goods",
+      "confidence": 78.69,
+      "bounds": {
+        "left": 84,
+        "top": 54,
+        "right": 319.5,
+        "bottom": 90.5
+      },
+      "words": [
+        {
+          "text": "AB",
+          "confidence": 39.442451,
+          "bounds": {
+            "left": 84,
+            "top": 54,
+            "right": 119.5,
+            "bottom": 90.5
+          }
+        },
+        {
+          "text": "i",
+          "confidence": 63.923203,
+          "bounds": {
+            "left": 129,
+            "top": 62.5,
+            "right": 136,
+            "bottom": 79
+          }
+        },
+        {
+          "text": "us",
+          "confidence": 96.442635,
+          "bounds": {
+            "left": 169,
+            "top": 67,
+            "right": 189.5,
+            "bottom": 79
+          }
+        },
+        {
+          "text": "baked",
+          "confidence": 96.857315,
+          "bounds": {
+            "left": 197,
+            "top": 62.5,
+            "right": 253.5,
+            "bottom": 79
+          }
+        },
+        {
+          "text": "goods",
+          "confidence": 96.770058,
+          "bounds": {
+            "left": 260.5,
+            "top": 62.5,
+            "right": 319.5,
+            "bottom": 83.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "-_at/alreasonable price.”",
+      "confidence": 40.13,
+      "bounds": {
+        "left": 81.5,
+        "top": 87.5,
+        "right": 319.5,
+        "bottom": 110
+      },
+      "words": [
+        {
+          "text": "-_at/alreasonable",
+          "confidence": 0,
+          "bounds": {
+            "left": 81.5,
+            "top": 87.5,
+            "right": 255.5,
+            "bottom": 110
+          }
+        },
+        {
+          "text": "price.”",
+          "confidence": 80.255409,
+          "bounds": {
+            "left": 263,
+            "top": 88.5,
+            "right": 319.5,
+            "bottom": 109
+          }
+        }
+      ]
+    },
+    {
+      "text": "jj",
+      "confidence": 74.75,
+      "bounds": {
+        "left": 75,
+        "top": 96,
+        "right": 81.5,
+        "bottom": 107.5
+      },
+      "words": [
+        {
+          "text": "jj",
+          "confidence": 74.75293,
+          "bounds": {
+            "left": 75,
+            "top": 96,
+            "right": 81.5,
+            "bottom": 107.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "ALS",
+      "confidence": 69.87,
+      "bounds": {
+        "left": 68.5,
+        "top": 107.5,
+        "right": 108,
+        "bottom": 121
+      },
+      "words": [
+        {
+          "text": "ALS",
+          "confidence": 69.869476,
+          "bounds": {
+            "left": 68.5,
+            "top": 107.5,
+            "right": 108,
+            "bottom": 121
+          }
+        }
+      ]
+    },
+    {
+      "text": "bakery x ,",
+      "confidence": 85.9,
+      "bounds": {
+        "left": 66.5,
+        "top": 184.5,
+        "right": 697.5,
+        "bottom": 222.5
+      },
+      "words": [
+        {
+          "text": "bakery",
+          "confidence": 96.677963,
+          "bounds": {
+            "left": 66.5,
+            "top": 184.5,
+            "right": 186,
+            "bottom": 221.5
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 80.320175,
+          "bounds": {
+            "left": 634,
+            "top": 186,
+            "right": 662,
+            "bottom": 214
+          }
+        },
+        {
+          "text": ",",
+          "confidence": 80.691109,
+          "bounds": {
+            "left": 691.5,
+            "top": 189,
+            "right": 697.5,
+            "bottom": 222.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "BOUgNT a DIaCK and WNITE rr 7 “6x 說",
+      "confidence": 51.66,
+      "bounds": {
+        "left": 98.5,
+        "top": 229,
+        "right": 703.5,
+        "bottom": 272
+      },
+      "words": [
+        {
+          "text": "BOUgNT",
+          "confidence": 56.36499,
+          "bounds": {
+            "left": 98.5,
+            "top": 248,
+            "right": 166.5,
+            "bottom": 263.5
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 81.526573,
+          "bounds": {
+            "left": 173,
+            "top": 248,
+            "right": 182.5,
+            "bottom": 259
+          }
+        },
+        {
+          "text": "DIaCK",
+          "confidence": 52.677734,
+          "bounds": {
+            "left": 190,
+            "top": 248,
+            "right": 240.5,
+            "bottom": 259
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 80.628662,
+          "bounds": {
+            "left": 247,
+            "top": 248,
+            "right": 281,
+            "bottom": 259
+          }
+        },
+        {
+          "text": "WNITE",
+          "confidence": 26.304108,
+          "bounds": {
+            "left": 287.5,
+            "top": 248,
+            "right": 339,
+            "bottom": 259
+          }
+        },
+        {
+          "text": "rr",
+          "confidence": 23.022812,
+          "bounds": {
+            "left": 364,
+            "top": 248,
+            "right": 442,
+            "bottom": 260
+          }
+        },
+        {
+          "text": "7",
+          "confidence": 36.857647,
+          "bounds": {
+            "left": 607,
+            "top": 248,
+            "right": 613,
+            "bottom": 252.5
+          }
+        },
+        {
+          "text": "“6x",
+          "confidence": 42.772022,
+          "bounds": {
+            "left": 620,
+            "top": 248,
+            "right": 649,
+            "bottom": 272
+          }
+        },
+        {
+          "text": "說",
+          "confidence": 64.797829,
+          "bounds": {
+            "left": 684,
+            "top": 229,
+            "right": 703.5,
+            "bottom": 249.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "cookie and it was the...’ yy 4S,",
+      "confidence": 74.07,
+      "bounds": {
+        "left": 115,
+        "top": 259,
+        "right": 681.5,
+        "bottom": 298.5
+      },
+      "words": [
+        {
+          "text": "cookie",
+          "confidence": 96.972656,
+          "bounds": {
+            "left": 115,
+            "top": 268.5,
+            "right": 179,
+            "bottom": 285
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 96.161209,
+          "bounds": {
+            "left": 186,
+            "top": 268.5,
+            "right": 220,
+            "bottom": 285
+          }
+        },
+        {
+          "text": "it",
+          "confidence": 96.161209,
+          "bounds": {
+            "left": 227.5,
+            "top": 269,
+            "right": 237.5,
+            "bottom": 285
+          }
+        },
+        {
+          "text": "was",
+          "confidence": 96.809525,
+          "bounds": {
+            "left": 244,
+            "top": 273,
+            "right": 282,
+            "bottom": 285
+          }
+        },
+        {
+          "text": "the...’",
+          "confidence": 61.443321,
+          "bounds": {
+            "left": 288,
+            "top": 268.5,
+            "right": 338,
+            "bottom": 285
+          }
+        },
+        {
+          "text": "yy",
+          "confidence": 29.352158,
+          "bounds": {
+            "left": 401.5,
+            "top": 266.5,
+            "right": 423,
+            "bottom": 298.5
+          }
+        },
+        {
+          "text": "4S,",
+          "confidence": 41.601681,
+          "bounds": {
+            "left": 646,
+            "top": 259,
+            "right": 681.5,
+            "bottom": 290
+          }
+        }
+      ]
+    },
+    {
+      "text": "~ <a",
+      "confidence": 50.5,
+      "bounds": {
+        "left": 88,
+        "top": 288.5,
+        "right": 465.5,
+        "bottom": 321.5
+      },
+      "words": [
+        {
+          "text": "~",
+          "confidence": 84.773376,
+          "bounds": {
+            "left": 88,
+            "top": 306.5,
+            "right": 104,
+            "bottom": 313.5
+          }
+        },
+        {
+          "text": "<a",
+          "confidence": 16.22554,
+          "bounds": {
+            "left": 424.5,
+            "top": 288.5,
+            "right": 465.5,
+            "bottom": 321.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "入 St < 十",
+      "confidence": 63.08,
+      "bounds": {
+        "left": 83,
+        "top": 310,
+        "right": 671.5,
+        "bottom": 344
+      },
+      "words": [
+        {
+          "text": "入",
+          "confidence": 58.15538,
+          "bounds": {
+            "left": 83,
+            "top": 312,
+            "right": 99,
+            "bottom": 336
+          }
+        },
+        {
+          "text": "St",
+          "confidence": 70.880341,
+          "bounds": {
+            "left": 465.5,
+            "top": 313.5,
+            "right": 485.5,
+            "bottom": 334
+          }
+        },
+        {
+          "text": "<",
+          "confidence": 61.952507,
+          "bounds": {
+            "left": 633,
+            "top": 315.5,
+            "right": 671,
+            "bottom": 336
+          }
+        },
+        {
+          "text": "十",
+          "confidence": 61.327423,
+          "bounds": {
+            "left": 654,
+            "top": 310,
+            "right": 671.5,
+            "bottom": 344
+          }
+        }
+      ]
+    },
+    {
+      "text": "bakery x",
+      "confidence": 81.7,
+      "bounds": {
+        "left": 42.5,
+        "top": 395,
+        "right": 661,
+        "bottom": 436.5
+      },
+      "words": [
+        {
+          "text": "bakery",
+          "confidence": 92.075813,
+          "bounds": {
+            "left": 42.5,
+            "top": 395.5,
+            "right": 179,
+            "bottom": 436.5
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 71.324402,
+          "bounds": {
+            "left": 635,
+            "top": 395,
+            "right": 661,
+            "bottom": 421
+          }
+        }
+      ]
+    },
+    {
+      "text": "a= Relevance ~ Opennow Price v",
+      "confidence": 71.2,
+      "bounds": {
+        "left": 46,
+        "top": 486,
+        "right": 671,
+        "bottom": 522
+      },
+      "words": [
+        {
+          "text": "a=",
+          "confidence": 36.374096,
+          "bounds": {
+            "left": 46,
+            "top": 486,
+            "right": 82,
+            "bottom": 522
+          }
+        },
+        {
+          "text": "Relevance",
+          "confidence": 84.066292,
+          "bounds": {
+            "left": 138,
+            "top": 491,
+            "right": 271,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "~",
+          "confidence": 53.86269,
+          "bounds": {
+            "left": 300.5,
+            "top": 500,
+            "right": 307,
+            "bottom": 510
+          }
+        },
+        {
+          "text": "Opennow",
+          "confidence": 67.137497,
+          "bounds": {
+            "left": 370.5,
+            "top": 492.5,
+            "right": 502,
+            "bottom": 519
+          }
+        },
+        {
+          "text": "Price",
+          "confidence": 93.236122,
+          "bounds": {
+            "left": 570,
+            "top": 491,
+            "right": 636,
+            "bottom": 513.5
+          }
+        },
+        {
+          "text": "v",
+          "confidence": 92.525764,
+          "bounds": {
+            "left": 651.5,
+            "top": 500,
+            "right": 671,
+            "bottom": 510
+          }
+        }
+      ]
+    },
+    {
+      "text": "Sponsored 3:",
+      "confidence": 71.72,
+      "bounds": {
+        "left": 41,
+        "top": 574,
+        "right": 187,
+        "bottom": 599
+      },
+      "words": [
+        {
+          "text": "Sponsored",
+          "confidence": 95.965103,
+          "bounds": {
+            "left": 41,
+            "top": 574.5,
+            "right": 157.5,
+            "bottom": 599
+          }
+        },
+        {
+          "text": "3:",
+          "confidence": 47.476883,
+          "bounds": {
+            "left": 181,
+            "top": 574,
+            "right": 187,
+            "bottom": 598
+          }
+        }
+      ]
+    },
+    {
+      "text": "Wonder Upper West Side",
+      "confidence": 96.46,
+      "bounds": {
+        "left": 41,
+        "top": 621.5,
+        "right": 446,
+        "bottom": 656
+      },
+      "words": [
+        {
+          "text": "Wonder",
+          "confidence": 96.822159,
+          "bounds": {
+            "left": 41,
+            "top": 622,
+            "right": 169,
+            "bottom": 648.5
+          }
+        },
+        {
+          "text": "Upper",
+          "confidence": 96.459396,
+          "bounds": {
+            "left": 179.5,
+            "top": 622,
+            "right": 278,
+            "bottom": 656
+          }
+        },
+        {
+          "text": "West",
+          "confidence": 96.034698,
+          "bounds": {
+            "left": 287,
+            "top": 622,
+            "right": 368,
+            "bottom": 648.5
+          }
+        },
+        {
+          "text": "Side",
+          "confidence": 96.52243,
+          "bounds": {
+            "left": 378.5,
+            "top": 621.5,
+            "right": 446,
+            "bottom": 648.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.4% (385) - & - Restaurant",
+      "confidence": 87.37,
+      "bounds": {
+        "left": 41,
+        "top": 667,
+        "right": 392,
+        "bottom": 694
+      },
+      "words": [
+        {
+          "text": "4.4%",
+          "confidence": 79.446854,
+          "bounds": {
+            "left": 41,
+            "top": 668,
+            "right": 98,
+            "bottom": 691
+          }
+        },
+        {
+          "text": "(385)",
+          "confidence": 89.01841,
+          "bounds": {
+            "left": 113.5,
+            "top": 668,
+            "right": 174.5,
+            "bottom": 694
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 87.329819,
+          "bounds": {
+            "left": 187,
+            "top": 680,
+            "right": 190,
+            "bottom": 683
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 86.269905,
+          "bounds": {
+            "left": 206.5,
+            "top": 667,
+            "right": 227,
+            "bottom": 693.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 85.76947,
+          "bounds": {
+            "left": 242,
+            "top": 680,
+            "right": 245,
+            "bottom": 683
+          }
+        },
+        {
+          "text": "Restaurant",
+          "confidence": 96.383575,
+          "bounds": {
+            "left": 257.5,
+            "top": 670,
+            "right": 392,
+            "bottom": 690.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Open - Closes 11:30 PM - 136 ft",
+      "confidence": 88.27,
+      "bounds": {
+        "left": 41,
+        "top": 706,
+        "right": 428,
+        "bottom": 738
+      },
+      "words": [
+        {
+          "text": "Open",
+          "confidence": 93.057945,
+          "bounds": {
+            "left": 41,
+            "top": 709.5,
+            "right": 108,
+            "bottom": 736
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 62.762791,
+          "bounds": {
+            "left": 111,
+            "top": 706,
+            "right": 119,
+            "bottom": 738
+          }
+        },
+        {
+          "text": "Closes",
+          "confidence": 95.760246,
+          "bounds": {
+            "left": 132.5,
+            "top": 708,
+            "right": 215.5,
+            "bottom": 730.5
+          }
+        },
+        {
+          "text": "11:30",
+          "confidence": 95.760246,
+          "bounds": {
+            "left": 226,
+            "top": 709.5,
+            "right": 287,
+            "bottom": 730.5
+          }
+        },
+        {
+          "text": "PM",
+          "confidence": 93.265579,
+          "bounds": {
+            "left": 298.5,
+            "top": 710,
+            "right": 334,
+            "bottom": 730
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 71.769157,
+          "bounds": {
+            "left": 337.5,
+            "top": 706,
+            "right": 348.5,
+            "bottom": 738
+          }
+        },
+        {
+          "text": "136",
+          "confidence": 96.930336,
+          "bounds": {
+            "left": 362,
+            "top": 709.5,
+            "right": 401.5,
+            "bottom": 730.5
+          }
+        },
+        {
+          "text": "ft",
+          "confidence": 96.857895,
+          "bounds": {
+            "left": 411,
+            "top": 708,
+            "right": 428,
+            "bottom": 730
+          }
+        }
+      ]
+    },
+    {
+      "text": "Michelin-Starred Restaurants",
+      "confidence": 93.99,
+      "bounds": {
+        "left": 74,
+        "top": 1072,
+        "right": 441,
+        "bottom": 1094.5
+      },
+      "words": [
+        {
+          "text": "Michelin-Starred",
+          "confidence": 91.330658,
+          "bounds": {
+            "left": 74,
+            "top": 1072,
+            "right": 281,
+            "bottom": 1094.5
+          }
+        },
+        {
+          "text": "Restaurants",
+          "confidence": 96.64608,
+          "bounds": {
+            "left": 292,
+            "top": 1074,
+            "right": 441,
+            "bottom": 1094.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "order bakery food delivery and",
+      "confidence": 96.29,
+      "bounds": {
+        "left": 73,
+        "top": 1117,
+        "right": 400.5,
+        "bottom": 1141
+      },
+      "words": [
+        {
+          "text": "order",
+          "confidence": 96.193687,
+          "bounds": {
+            "left": 73,
+            "top": 1117.5,
+            "right": 130,
+            "bottom": 1136.5
+          }
+        },
+        {
+          "text": "bakery",
+          "confidence": 96.193687,
+          "bounds": {
+            "left": 138.5,
+            "top": 1117.5,
+            "right": 209.5,
+            "bottom": 1141
+          }
+        },
+        {
+          "text": "food",
+          "confidence": 96.368553,
+          "bounds": {
+            "left": 217,
+            "top": 1117,
+            "right": 264.5,
+            "bottom": 1136.5
+          }
+        },
+        {
+          "text": "delivery",
+          "confidence": 95.671341,
+          "bounds": {
+            "left": 273,
+            "top": 1117.5,
+            "right": 354.5,
+            "bottom": 1141
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 97.004539,
+          "bounds": {
+            "left": 362,
+            "top": 1117.5,
+            "right": 400.5,
+            "bottom": 1136.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Visit Site",
+      "confidence": 96.59,
+      "bounds": {
+        "left": 523,
+        "top": 1132,
+        "right": 630,
+        "bottom": 1155
+      },
+      "words": [
+        {
+          "text": "Visit",
+          "confidence": 96.693161,
+          "bounds": {
+            "left": 523,
+            "top": 1132,
+            "right": 575.5,
+            "bottom": 1155
+          }
+        },
+        {
+          "text": "Site",
+          "confidence": 96.484566,
+          "bounds": {
+            "left": 584,
+            "top": 1132,
+            "right": 630,
+            "bottom": 1155
+          }
+        }
+      ]
+    },
+    {
+      "text": "takeout from top restaurants on wo...",
+      "confidence": 95.78,
+      "bounds": {
+        "left": 73,
+        "top": 1149,
+        "right": 474.5,
+        "bottom": 1173
+      },
+      "words": [
+        {
+          "text": "takeout",
+          "confidence": 96.549347,
+          "bounds": {
+            "left": 73,
+            "top": 1149.5,
+            "right": 153.5,
+            "bottom": 1168.5
+          }
+        },
+        {
+          "text": "from",
+          "confidence": 94.560776,
+          "bounds": {
+            "left": 162,
+            "top": 1149,
+            "right": 211.5,
+            "bottom": 1168.5
+          }
+        },
+        {
+          "text": "top",
+          "confidence": 94.560776,
+          "bounds": {
+            "left": 220,
+            "top": 1152,
+            "right": 254.5,
+            "bottom": 1173
+          }
+        },
+        {
+          "text": "restaurants",
+          "confidence": 96.178062,
+          "bounds": {
+            "left": 263,
+            "top": 1152,
+            "right": 385,
+            "bottom": 1168.5
+          }
+        },
+        {
+          "text": "on",
+          "confidence": 96.3834,
+          "bounds": {
+            "left": 393,
+            "top": 1155,
+            "right": 418,
+            "bottom": 1168.5
+          }
+        },
+        {
+          "text": "wo...",
+          "confidence": 96.438538,
+          "bounds": {
+            "left": 426.5,
+            "top": 1155,
+            "right": 474.5,
+            "bottom": 1168.5
+          }
+        }
+      ]
+    }
+  ]
+}

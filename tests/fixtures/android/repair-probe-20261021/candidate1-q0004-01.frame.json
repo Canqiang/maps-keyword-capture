@@ -1,0 +1,41 @@
+{
+  "frameId": "q0004:frame-001",
+  "capturedAt": "2026-10-21T01:47:43.018Z",
+  "imageSha256": "7a723a811e1288b827bdad2e015f00e59a1f4f2332f6161cc03bc43da7a36829",
+  "queryVisible": true,
+  "sheetTop": 436.5,
+  "topStateVerified": true,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0004:frame-001",
+      "name": "Wonder Financial District",
+      "nameConfidence": 96.54,
+      "rating": 4.3,
+      "reviewCount": 93,
+      "priceText": null,
+      "category": "restaurant",
+      "distanceText": "0.1 mi",
+      "distanceMeters": 161,
+      "openText": "open - closes 11:30 pm",
+      "resultType": "ad",
+      "adLabel": "Sponsored 3:",
+      "bounds": {
+        "left": 41,
+        "top": 574,
+        "right": 376,
+        "bottom": 738
+      },
+      "ratingLineText": "4.3% (93) - & - Restaurant",
+      "warnings": [
+        "native_ad_evidence_unresolved"
+      ]
+    }
+  ],
+  "warnings": [
+    "native_ad_evidence_unresolved"
+  ],
+  "sheetBoundarySource": "ocr_header",
+  "topStateSource": "ocr_relevance"
+}

@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-21T02:39:54.798194+00:00",
+  "vitest": {
+    "files": 70,
+    "passed": 1480,
+    "failed": 0,
+    "durationSeconds": 106.26,
+    "logSha256": "67ac8c59138056b922c983276c52c041011d3862a4cd7190f7d721e3a0d65af4"
+  },
+  "ciReceiptTests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "build": "passed",
+  "releaseReview": "candidate3-release-review.json",
+  "liveAcceptance": "pending; no claim of complete top20 or two-hour Android capacity"
+}

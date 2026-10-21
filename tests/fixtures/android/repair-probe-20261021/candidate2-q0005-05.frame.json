@@ -1,0 +1,94 @@
+{
+  "frameId": "q0005:frame-005",
+  "capturedAt": "2026-10-21T02:16:03.690Z",
+  "imageSha256": "20aad37283cef128ebd701fe4107368b408883880f319f4347a736f9464d4771",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0005:frame-005",
+      "name": "Whole Foods Market",
+      "nameConfidence": 96.75,
+      "rating": 4.3,
+      "reviewCount": 4309,
+      "priceText": null,
+      "category": "grocery store",
+      "distanceText": "0.6 mi",
+      "distanceMeters": 966,
+      "openText": "closed - opens 7 am wed",
+      "resultType": "ad",
+      "adLabel": "Sponsored 3",
+      "bounds": {
+        "left": 41,
+        "top": 442,
+        "right": 445.5,
+        "bottom": 606
+      },
+      "ratingBounds": {
+        "left": 41,
+        "top": 535,
+        "right": 445.5,
+        "bottom": 564
+      },
+      "ratingLineText": "4.3% (4309) - & - Grocery store",
+      "warnings": [
+        "native_ad_label_confirmed"
+      ],
+      "nameBounds": {
+        "left": 41,
+        "top": 490,
+        "right": 370,
+        "bottom": 516.5
+      }
+    },
+    {
+      "cardIndex": 1,
+      "frameId": "q0005:frame-005",
+      "name": "Croissant et Cafe",
+      "nameConfidence": 95.94,
+      "rating": 4.5,
+      "reviewCount": 46,
+      "priceText": "$1–20",
+      "category": "bakery",
+      "distanceText": "132 ft",
+      "distanceMeters": 40,
+      "openText": "closed | - opens 7 am wed",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41,
+        "top": 969.5,
+        "right": 375.5,
+        "bottom": 1110
+      },
+      "ratingBounds": {
+        "left": 41,
+        "top": 1013,
+        "right": 375.5,
+        "bottom": 1047
+      },
+      "ratingLineText": "4.5 % (46) - $1-20 - Bakery",
+      "warnings": [],
+      "nameBounds": {
+        "left": 41.5,
+        "top": 969.5,
+        "right": 318,
+        "bottom": 996.5
+      }
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "topStateSource": null
+}

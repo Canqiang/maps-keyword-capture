@@ -459,8 +459,12 @@ function controls(scope: EvidenceNode[], names: string[]): boolean {
 /** The same native filters remain as a clipped strip during the first scroll. */
 function closedScrolledFilters(nodes: EvidenceNode[], container: EvidenceNode, row: EvidenceNode): boolean {
   if (container.foreignDescendant || !row.bounds || nodes.filter(node => node.parent === container).length !== 1) return false;
-  const allowed = ['more filters', 'relevance', 'open now', 'find a table'];
   const children = nodes.filter(node => node.parent === row);
+  // The live CJK search retains typed native controls when this strip clips:
+  // Spinner for Relevance/Price and CompoundButton for Open now/Top rated.
+  const typed = children.some(child => ['android.widget.Spinner', 'android.widget.CompoundButton'].includes(child.className));
+  const allowed = typed ? ['more filters', 'relevance', 'open now', 'price', 'top rated'] :
+    ['more filters', 'relevance', 'open now', 'find a table'];
   const seen = new Set<string>();
   let lastRight = row.bounds.left;
   for (const child of children) {
@@ -475,15 +479,121 @@ function closedScrolledFilters(nodes: EvidenceNode[], container: EvidenceNode, r
     const identity = labelIdentity(label, allowed);
     if (!identity || labels(label).some(value => normalized(value) !== identity) || seen.has(identity)) return false;
     if (child.className === 'android.widget.FrameLayout') {
-      if (labels(child).length || label.className !== 'android.widget.Button') return false;
+      if (typed || labels(child).length || label.className !== 'android.widget.Button') return false;
     } else if (child.className === 'android.widget.Button') {
       if (label.className !== 'android.view.View' || labelIdentity(child, allowed) !== identity ||
+        labels(child).some(value => normalized(value) !== identity)) return false;
+    } else if (typed && (child.className === 'android.widget.Spinner' ? ['relevance', 'price'].includes(identity) :
+      child.className === 'android.widget.CompoundButton' && ['open now', 'top rated'].includes(identity))) {
+      if (label.className !== 'android.widget.Button' || labelIdentity(child, allowed) !== identity ||
         labels(child).some(value => normalized(value) !== identity)) return false;
     } else return false;
     seen.add(identity);
     lastRight = child.bounds.right;
   }
-  return ['more filters', 'relevance', 'open now'].every(name => seen.has(name));
+  return (typed ? allowed : ['more filters', 'relevance', 'open now']).every(name => seen.has(name));
+}
+
+/** A fully fitting native action strip has no horizontal scroll action. Its
+ * complete three-button tree, not arbitrary card or promotion text, proves it.
+ * A bottom-clipped Directions/Save strip alone is deliberately insufficient.
+ */
+function closedStaticActionRow(nodes: EvidenceNode[], row: EvidenceNode, card: EvidenceNode): boolean {
+  const children = (parent: EvidenceNode): EvidenceNode[] => nodes.filter(node => node.parent === parent);
+  const same = (left: EvidenceNode, right: EvidenceNode): boolean => !!left.bounds && !!right.bounds &&
+    insideBounds(left.bounds, right.bounds) && insideBounds(right.bounds, left.bounds);
+  if (!card.bounds || row.foreignDescendant || row.className !== 'android.widget.HorizontalScrollView' ||
+    !row.enabled || !row.clickable || row.scrollable || row.resourceId || labels(row).length || !row.bounds ||
+    !row.actions?.includes('ACTION_CLICK') || row.actions.some(action => action.startsWith('ACTION_SCROLL_')) ||
+    row.bounds.left !== card.bounds.left || row.bounds.right !== card.bounds.right || !insideBounds(row.bounds, card.bounds)) return false;
+  const scope = nodes.filter(node => withinMaps(node, row));
+  if (scope.some(node => node.packageName !== MAPS_PACKAGE || !node.enabled || node.resourceId || !node.bounds || !node.parent?.bounds ||
+    !insideBounds(node.bounds, node.parent.bounds) || !insideBounds(node.bounds, row.bounds!))) return false;
+  const [grid] = children(row);
+  if (children(row).length !== 1 || !grid || grid.className !== 'android.view.ViewGroup' || grid.clickable || grid.scrollable ||
+    labels(grid).length || !same(grid, row)) return false;
+  const buttons = children(grid), names = ['directions', 'call', 'website'];
+  if (buttons.length !== names.length) return false;
+  return buttons.every((button, index) => {
+    const [icon] = children(button);
+    return button.className === 'android.view.ViewGroup' && button.clickable && !button.scrollable && button.actions?.includes('ACTION_CLICK') &&
+      labels(button).length > 0 && labels(button).every(label => normalized(label) === names[index]) &&
+      button.bounds!.top > row.bounds!.top && button.bounds!.bottom < row.bounds!.bottom &&
+      (index === 0 || button.bounds!.left > buttons[index - 1]!.bounds!.right) &&
+      children(button).length === 1 && !!icon && icon.className === 'android.widget.ImageView' && !icon.clickable && !icon.scrollable &&
+      labels(icon).length === 0 && children(icon).length === 0;
+  });
+}
+
+/** Keep static rows in the observed direct merchant envelopes. In particular,
+ * a labeled or displaced empty next-card body cannot borrow another card's row.
+ */
+function staticListActionRow(nodes: EvidenceNode[], row: EvidenceNode, list: EvidenceNode): boolean {
+  if (row.className !== 'android.widget.HorizontalScrollView' || row.scrollable || !row.enabled ||
+    !list.bounds || !list.actions?.includes('ACTION_SCROLL_TO_POSITION') ||
+    !list.actions.some(action => ['ACTION_SCROLL_FORWARD', 'ACTION_SCROLL_BACKWARD'].includes(action))) return false;
+  const children = (parent: EvidenceNode): EvidenceNode[] => nodes.filter(node => node.parent === parent);
+  const direct = children(list), cards = direct.filter(node => node.className === 'android.widget.FrameLayout');
+  if (!cards.length || direct.some(node => !cards.includes(node) &&
+    (node !== direct[0] || node.className !== 'android.widget.LinearLayout'))) return false;
+  let owner: EvidenceNode | undefined;
+  for (const card of cards) {
+    const [frame] = children(card), body = frame && children(frame)[0];
+    if (!card.bounds || card.foreignDescendant || card.bounds.left !== list.bounds.left || card.bounds.right !== list.bounds.right ||
+      !insideBounds(card.bounds, list.bounds) || children(card).length !== 1 || !frame || children(frame).length !== 1 || !body ||
+      frame.className !== 'android.widget.FrameLayout' || body.className !== 'android.view.ViewGroup' ||
+      card.clickable || frame.clickable || !body.clickable || !body.actions?.includes('ACTION_CLICK') ||
+      [card, frame, body].some(node => node.packageName !== MAPS_PACKAGE || !node.enabled || node.scrollable || node.resourceId ||
+        labels(node).length || !node.bounds || !insideBounds(node.bounds, card.bounds!) || !insideBounds(card.bounds!, node.bounds))) return false;
+    if (row.parent === body) owner = card;
+  }
+  return !!owner && closedStaticActionRow(nodes, row, owner);
+}
+
+/** Observed initial sponsored card with three fully fitting action buttons.
+ * HorizontalScrollView remains its native class but is not scrollable. The
+ * following closed empty card is capture geometry, never a merchant identity.
+ */
+function filteredStaticActionList(nodes: EvidenceNode[], list: EvidenceNode): boolean {
+  if (!list.bounds || list.foreignDescendant || !list.actions?.includes('ACTION_SCROLL_TO_POSITION') ||
+    !list.actions.includes('ACTION_SCROLL_FORWARD') || list.actions.includes('ACTION_SCROLL_BACKWARD')) return false;
+  const children = (parent: EvidenceNode): EvidenceNode[] => nodes.filter(node => node.parent === parent);
+  const same = (left: EvidenceNode, right: EvidenceNode): boolean => !!left.bounds && !!right.bounds &&
+    insideBounds(left.bounds, right.bounds) && insideBounds(right.bounds, left.bounds);
+  const direct = children(list), [filters, merchant, tail] = direct;
+  if (direct.length !== 3 || !filters || !merchant || !tail ||
+    direct.some(node => !node.enabled || node.clickable || node.scrollable || node.resourceId || labels(node).length || !node.bounds ||
+      node.bounds.left !== list.bounds!.left || node.bounds.right !== list.bounds!.right || !insideBounds(node.bounds, list.bounds!)) ||
+    filters.className !== 'android.widget.LinearLayout' || filters.bounds!.top !== list.bounds.top ||
+    merchant.className !== 'android.widget.FrameLayout' || merchant.bounds!.top !== filters.bounds!.bottom ||
+    tail.className !== 'android.widget.FrameLayout' || tail.bounds!.top <= merchant.bounds!.bottom || tail.bounds!.bottom !== list.bounds.bottom) return false;
+  const [filterRow] = children(filters);
+  if (!filterRow?.enabled || !filterRow.scrollable || filterRow.className !== 'android.support.v7.widget.RecyclerView' ||
+    filterRow.resourceId !== `${MAPS_PACKAGE}:id/recycler_view` || !same(filterRow, filters) || !closedScrolledFilters(nodes, filters, filterRow)) return false;
+  const tailScope = nodes.filter(node => withinMaps(node, tail)), [tailFrame, tailBody] = tailScope;
+  if (tailScope.length !== 2 || !tailFrame || !tailBody || tailFrame.parent !== tail || tailBody.parent !== tailFrame ||
+    tailFrame.className !== 'android.widget.FrameLayout' || tailFrame.clickable || tailBody.className !== 'android.view.ViewGroup' ||
+    !tailBody.clickable || !tailBody.actions?.includes('ACTION_CLICK') ||
+    tailScope.some(node => !node.enabled || node.scrollable || node.resourceId || labels(node).length || !same(node, tail))) return false;
+  const scope = nodes.filter(node => withinMaps(node, merchant));
+  if (scope.some(node => !node.enabled || node.resourceId || !node.bounds || !node.parent?.bounds ||
+    !insideBounds(node.bounds, node.parent.bounds) || !insideBounds(node.bounds, merchant.bounds!))) return false;
+  const [frame] = children(merchant), body = frame && children(frame)[0];
+  if (children(merchant).length !== 1 || !frame || children(frame).length !== 1 || !body ||
+    frame.className !== 'android.widget.FrameLayout' || frame.clickable || frame.scrollable || labels(frame).length || !same(frame, merchant) ||
+    body.className !== 'android.view.ViewGroup' || !body.clickable || body.scrollable || labels(body).length ||
+    !body.actions?.includes('ACTION_CLICK') || !same(body, merchant)) return false;
+  const bodyChildren = children(body), [marker, disclosure] = bodyChildren, row = bodyChildren.at(-1);
+  if (!marker || !disclosure || !row || marker.className !== 'android.view.ViewGroup' || marker.clickable || marker.scrollable ||
+    !labels(marker).length || labels(marker).some(label => normalized(label) !== 'sponsored') || children(marker).length ||
+    disclosure.className !== 'android.view.ViewGroup' || !disclosure.clickable || disclosure.scrollable ||
+    !disclosure.actions?.includes('ACTION_CLICK') || !labels(disclosure).length || labels(disclosure).some(label => normalized(label) !== 'about this ad') ||
+    marker.bounds!.top >= disclosure.bounds!.bottom || disclosure.bounds!.top >= marker.bounds!.bottom ||
+    !closedStaticActionRow(nodes, row, merchant)) return false;
+  const buttons = children(children(row)[0]!);
+  // An unrelated label anywhere else in this card cannot borrow the action row.
+  return scope.every(node => !labels(node).length || node === marker || node === disclosure || buttons.includes(node) ||
+    (node.className === 'android.widget.ImageView' && labels(node).every(label => normalized(label) === 'wheelchair accessible')));
 }
 
 /** Observed ordered native filters, one merchant card, then an embedded photo module. */
@@ -548,6 +658,7 @@ function liveSearchLists(nodes: EvidenceNode[], query: string, exactKeyword = qu
     });
     const actionNames = ['directions', 'call', 'website', 'menu', 'share', 'save'];
     const actions = descendants.some((node) => {
+      if (staticListActionRow(nodes, node, list)) return true;
       if (!node.enabled || !node.scrollable || node.className !== 'android.widget.HorizontalScrollView') return false;
       const actions = descendants.filter((child) => withinMaps(child, node))
         .map((child) => controlLabel(child, actionNames)).filter((label) => label !== null);
@@ -563,7 +674,8 @@ function liveSearchLists(nodes: EvidenceNode[], query: string, exactKeyword = qu
       node.className === 'android.widget.FrameLayout' && !node.resourceId && !labels(node).length &&
       node.bounds.left === list.bounds!.left && node.bounds.right === list.bounds!.right &&
       node.bounds.top >= list.bounds!.top && node.bounds.bottom <= list.bounds!.bottom);
-    if (scrolledPhotoModuleContinuation(nodes, list, exactKeyword) || filteredPhotoModuleList(nodes, list, exactKeyword)) return true;
+    if (scrolledPhotoModuleContinuation(nodes, list, exactKeyword) || filteredPhotoModuleList(nodes, list, exactKeyword) ||
+      filteredStaticActionList(nodes, list)) return true;
     // The observed tall first ad can fill the collapsed sheet before its action
     // row is visible. Require the native filter row and the paired ad controls
     // in that one clipped direct card; an anonymous card is insufficient.
@@ -590,9 +702,10 @@ function liveSearchLists(nodes: EvidenceNode[], query: string, exactKeyword = qu
           !livePhotoDiscovery(nodes, query, exactKeyword)) return true;
       }
     }
-    const cardActions = cards.some(card => descendants.some(row => withinMaps(row, card) && row.enabled && row.scrollable &&
+    const cardActions = cards.some(card => descendants.some(row => withinMaps(row, card) &&
+      (staticListActionRow(nodes, row, list) || (row.enabled && row.scrollable &&
       row.className === 'android.widget.HorizontalScrollView' && new Set(descendants.filter(child => withinMaps(child, row))
-        .map(child => controlLabel(child, actionNames)).filter(label => label !== null)).size >= 2));
+        .map(child => controlLabel(child, actionNames)).filter(label => label !== null)).size >= 2))));
     return !hasPhotoResultAnchors && direct.length > 0 && cards.length === direct.length && cardActions &&
       list.actions !== null && list.actions.includes('ACTION_SCROLL_TO_POSITION') &&
       list.actions.some(action => ['ACTION_SCROLL_FORWARD', 'ACTION_SCROLL_BACKWARD'].includes(action)) &&

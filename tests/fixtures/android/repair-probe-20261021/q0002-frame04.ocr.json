@@ -1,0 +1,764 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "06b18abe61e1fe5e2ff140ae03a854f87520b7170d916c5927e657a67450110e",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 2,
+  "lines": [
+    {
+      "text": "chinese food x",
+      "confidence": 92.77,
+      "bounds": {
+        "left": 41.5,
+        "top": 211,
+        "right": 661,
+        "bottom": 244
+      },
+      "words": [
+        {
+          "text": "chinese",
+          "confidence": 96.706604,
+          "bounds": {
+            "left": 41.5,
+            "top": 211,
+            "right": 194.5,
+            "bottom": 244
+          }
+        },
+        {
+          "text": "food",
+          "confidence": 96.576035,
+          "bounds": {
+            "left": 207,
+            "top": 211,
+            "right": 300.5,
+            "bottom": 244
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 85.01532,
+          "bounds": {
+            "left": 635,
+            "top": 211,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "Yummy House Chinese",
+      "confidence": 96.01,
+      "bounds": {
+        "left": 41,
+        "top": 276.5,
+        "right": 409,
+        "bottom": 311
+      },
+      "words": [
+        {
+          "text": "Yummy",
+          "confidence": 95.885185,
+          "bounds": {
+            "left": 41,
+            "top": 277,
+            "right": 159,
+            "bottom": 311
+          }
+        },
+        {
+          "text": "House",
+          "confidence": 96.072662,
+          "bounds": {
+            "left": 170,
+            "top": 277,
+            "right": 269,
+            "bottom": 303.5
+          }
+        },
+        {
+          "text": "Chinese",
+          "confidence": 96.072662,
+          "bounds": {
+            "left": 279.5,
+            "top": 276.5,
+            "right": 409,
+            "bottom": 303.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "3.7 % (445) - Chinese - 7.3 mi",
+      "confidence": 86.51,
+      "bounds": {
+        "left": 41,
+        "top": 321,
+        "right": 394,
+        "bottom": 353.5
+      },
+      "words": [
+        {
+          "text": "3.7",
+          "confidence": 84.283867,
+          "bounds": {
+            "left": 41,
+            "top": 323,
+            "right": 172.5,
+            "bottom": 349
+          }
+        },
+        {
+          "text": "%",
+          "confidence": 74.999542,
+          "bounds": {
+            "left": 85,
+            "top": 321,
+            "right": 99,
+            "bottom": 353.5
+          }
+        },
+        {
+          "text": "(445)",
+          "confidence": 93.268486,
+          "bounds": {
+            "left": 109,
+            "top": 323,
+            "right": 172,
+            "bottom": 349
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 79.547668,
+          "bounds": {
+            "left": 186,
+            "top": 334.5,
+            "right": 189,
+            "bottom": 338
+          }
+        },
+        {
+          "text": "Chinese",
+          "confidence": 93.031006,
+          "bounds": {
+            "left": 200.5,
+            "top": 323,
+            "right": 301.5,
+            "bottom": 345.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 77.00856,
+          "bounds": {
+            "left": 313,
+            "top": 334.5,
+            "right": 316,
+            "bottom": 338
+          }
+        },
+        {
+          "text": "7.3",
+          "confidence": 94.841843,
+          "bounds": {
+            "left": 327,
+            "top": 324.5,
+            "right": 357.5,
+            "bottom": 345.5
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 95.091843,
+          "bounds": {
+            "left": 368,
+            "top": 323.5,
+            "right": 394,
+            "bottom": 345
+          }
+        }
+      ]
+    },
+    {
+      "text": "Open - Closes 1 AM",
+      "confidence": 86.04,
+      "bounds": {
+        "left": 41,
+        "top": 363,
+        "right": 282,
+        "bottom": 391
+      },
+      "words": [
+        {
+          "text": "Open",
+          "confidence": 90.954842,
+          "bounds": {
+            "left": 41,
+            "top": 364.5,
+            "right": 108,
+            "bottom": 391
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 56.43869,
+          "bounds": {
+            "left": 119,
+            "top": 374.5,
+            "right": 122,
+            "bottom": 378
+          }
+        },
+        {
+          "text": "Closes",
+          "confidence": 96.528839,
+          "bounds": {
+            "left": 132.5,
+            "top": 363,
+            "right": 215.5,
+            "bottom": 385.5
+          }
+        },
+        {
+          "text": "1",
+          "confidence": 93.134697,
+          "bounds": {
+            "left": 226,
+            "top": 365,
+            "right": 232.5,
+            "bottom": 385
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 93.134697,
+          "bounds": {
+            "left": 243.5,
+            "top": 365,
+            "right": 282,
+            "bottom": 385
+          }
+        }
+      ]
+    },
+    {
+      "text": "Call now - Call To Order Chinese Food . Chinese",
+      "confidence": 94.11,
+      "bounds": {
+        "left": 41.5,
+        "top": 703,
+        "right": 641.5,
+        "bottom": 725.5
+      },
+      "words": [
+        {
+          "text": "Call",
+          "confidence": 96.937241,
+          "bounds": {
+            "left": 41.5,
+            "top": 703,
+            "right": 84.5,
+            "bottom": 725.5
+          }
+        },
+        {
+          "text": "now",
+          "confidence": 93.178757,
+          "bounds": {
+            "left": 95,
+            "top": 710,
+            "right": 145,
+            "bottom": 725.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 93.178757,
+          "bounds": {
+            "left": 155,
+            "top": 715.5,
+            "right": 164,
+            "bottom": 717.5
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 96.220345,
+          "bounds": {
+            "left": 174.5,
+            "top": 703,
+            "right": 218.5,
+            "bottom": 725.5
+          }
+        },
+        {
+          "text": "To",
+          "confidence": 96.172447,
+          "bounds": {
+            "left": 227.5,
+            "top": 705,
+            "right": 256,
+            "bottom": 725.5
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 96.172447,
+          "bounds": {
+            "left": 265.5,
+            "top": 703,
+            "right": 336.5,
+            "bottom": 725.5
+          }
+        },
+        {
+          "text": "Chinese",
+          "confidence": 95.836571,
+          "bounds": {
+            "left": 345.5,
+            "top": 703,
+            "right": 446.5,
+            "bottom": 725.5
+          }
+        },
+        {
+          "text": "Food",
+          "confidence": 93.295311,
+          "bounds": {
+            "left": 457.5,
+            "top": 703,
+            "right": 516,
+            "bottom": 725.5
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 83.468521,
+          "bounds": {
+            "left": 527,
+            "top": 714.5,
+            "right": 530,
+            "bottom": 718
+          }
+        },
+        {
+          "text": "Chinese",
+          "confidence": 96.636909,
+          "bounds": {
+            "left": 540.5,
+            "top": 703,
+            "right": 641.5,
+            "bottom": 725.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "restaurant near me with a real dining room. Dine i...",
+      "confidence": 95.29,
+      "bounds": {
+        "left": 42,
+        "top": 743,
+        "right": 674,
+        "bottom": 771.5
+      },
+      "words": [
+        {
+          "text": "restaurant",
+          "confidence": 96.240112,
+          "bounds": {
+            "left": 42,
+            "top": 746,
+            "right": 169,
+            "bottom": 765.5
+          }
+        },
+        {
+          "text": "near",
+          "confidence": 96.240112,
+          "bounds": {
+            "left": 179,
+            "top": 750,
+            "right": 233.5,
+            "bottom": 765.5
+          }
+        },
+        {
+          "text": "me",
+          "confidence": 96.481026,
+          "bounds": {
+            "left": 243,
+            "top": 750,
+            "right": 278.5,
+            "bottom": 765.5
+          }
+        },
+        {
+          "text": "with",
+          "confidence": 96.14621,
+          "bounds": {
+            "left": 287.5,
+            "top": 743,
+            "right": 338,
+            "bottom": 765
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 95.153076,
+          "bounds": {
+            "left": 348.5,
+            "top": 750,
+            "right": 360.5,
+            "bottom": 765.5
+          }
+        },
+        {
+          "text": "real",
+          "confidence": 96.362793,
+          "bounds": {
+            "left": 371,
+            "top": 743,
+            "right": 413.5,
+            "bottom": 765.5
+          }
+        },
+        {
+          "text": "dining",
+          "confidence": 96.114349,
+          "bounds": {
+            "left": 423,
+            "top": 743,
+            "right": 497.5,
+            "bottom": 771.5
+          }
+        },
+        {
+          "text": "room.",
+          "confidence": 96.224152,
+          "bounds": {
+            "left": 509,
+            "top": 750,
+            "right": 577,
+            "bottom": 765.5
+          }
+        },
+        {
+          "text": "Dine",
+          "confidence": 93.982674,
+          "bounds": {
+            "left": 588,
+            "top": 743.5,
+            "right": 641.5,
+            "bottom": 765.5
+          }
+        },
+        {
+          "text": "i...",
+          "confidence": 89.977249,
+          "bounds": {
+            "left": 651.5,
+            "top": 743.5,
+            "right": 674,
+            "bottom": 765
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions %\\ Call © Website",
+      "confidence": 67.14,
+      "bounds": {
+        "left": 66.5,
+        "top": 823.5,
+        "right": 640,
+        "bottom": 854.5
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 39.847954,
+          "bounds": {
+            "left": 66.5,
+            "top": 823.5,
+            "right": 97.5,
+            "bottom": 854.5
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 96.263298,
+          "bounds": {
+            "left": 118,
+            "top": 827,
+            "right": 242,
+            "bottom": 850
+          }
+        },
+        {
+          "text": "%\\",
+          "confidence": 0,
+          "bounds": {
+            "left": 320,
+            "top": 825,
+            "right": 348,
+            "bottom": 853
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 94.227615,
+          "bounds": {
+            "left": 369,
+            "top": 827,
+            "right": 413,
+            "bottom": 850
+          }
+        },
+        {
+          "text": "©",
+          "confidence": 77.340973,
+          "bounds": {
+            "left": 489.5,
+            "top": 823.5,
+            "right": 520.5,
+            "bottom": 854.5
+          }
+        },
+        {
+          "text": "Website",
+          "confidence": 95.132309,
+          "bounds": {
+            "left": 539.5,
+            "top": 827,
+            "right": 640,
+            "bottom": 850
+          }
+        }
+      ]
+    },
+    {
+      "text": "Sponsored 3;",
+      "confidence": 81.45,
+      "bounds": {
+        "left": 41,
+        "top": 949,
+        "right": 187,
+        "bottom": 974.5
+      },
+      "words": [
+        {
+          "text": "Sponsored",
+          "confidence": 96.352905,
+          "bounds": {
+            "left": 41,
+            "top": 949.5,
+            "right": 157.5,
+            "bottom": 974.5
+          }
+        },
+        {
+          "text": "3;",
+          "confidence": 66.540009,
+          "bounds": {
+            "left": 181,
+            "top": 949,
+            "right": 187,
+            "bottom": 973
+          }
+        }
+      ]
+    },
+    {
+      "text": "Wonder Bayside",
+      "confidence": 96.1,
+      "bounds": {
+        "left": 41,
+        "top": 997,
+        "right": 302,
+        "bottom": 1031
+      },
+      "words": [
+        {
+          "text": "Wonder",
+          "confidence": 96.012054,
+          "bounds": {
+            "left": 41,
+            "top": 997,
+            "right": 169,
+            "bottom": 1023.5
+          }
+        },
+        {
+          "text": "Bayside",
+          "confidence": 96.196281,
+          "bounds": {
+            "left": 180,
+            "top": 997,
+            "right": 302,
+            "bottom": 1031
+          }
+        }
+      ]
+    },
+    {
+      "text": "3.0 % (1) - Restaurant - 1.5 mi",
+      "confidence": 82.72,
+      "bounds": {
+        "left": 41,
+        "top": 1041,
+        "right": 399,
+        "bottom": 1073
+      },
+      "words": [
+        {
+          "text": "3.0",
+          "confidence": 90.803635,
+          "bounds": {
+            "left": 41,
+            "top": 1043,
+            "right": 142.5,
+            "bottom": 1069
+          }
+        },
+        {
+          "text": "%",
+          "confidence": 41.815735,
+          "bounds": {
+            "left": 89.5,
+            "top": 1041,
+            "right": 100.5,
+            "bottom": 1073
+          }
+        },
+        {
+          "text": "(1)",
+          "confidence": 93.101692,
+          "bounds": {
+            "left": 113.5,
+            "top": 1043,
+            "right": 142.5,
+            "bottom": 1069
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 79.027016,
+          "bounds": {
+            "left": 155,
+            "top": 1055,
+            "right": 158,
+            "bottom": 1058
+          }
+        },
+        {
+          "text": "Restaurant",
+          "confidence": 92.466499,
+          "bounds": {
+            "left": 170.5,
+            "top": 1045,
+            "right": 305,
+            "bottom": 1065.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 73.509392,
+          "bounds": {
+            "left": 316,
+            "top": 1054.5,
+            "right": 319,
+            "bottom": 1058
+          }
+        },
+        {
+          "text": "1.5",
+          "confidence": 95.531364,
+          "bounds": {
+            "left": 331,
+            "top": 1045,
+            "right": 362,
+            "bottom": 1065.5
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 95.531364,
+          "bounds": {
+            "left": 373,
+            "top": 1043.5,
+            "right": 399,
+            "bottom": 1065
+          }
+        }
+      ]
+    },
+    {
+      "text": "Open - Closes 11:30 PM",
+      "confidence": 88.92,
+      "bounds": {
+        "left": 41,
+        "top": 1083,
+        "right": 334,
+        "bottom": 1111
+      },
+      "words": [
+        {
+          "text": "Open",
+          "confidence": 93.034309,
+          "bounds": {
+            "left": 41,
+            "top": 1084.5,
+            "right": 108,
+            "bottom": 1111
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 61.879658,
+          "bounds": {
+            "left": 119,
+            "top": 1094.5,
+            "right": 122,
+            "bottom": 1098
+          }
+        },
+        {
+          "text": "Closes",
+          "confidence": 96.441887,
+          "bounds": {
+            "left": 132.5,
+            "top": 1083,
+            "right": 215.5,
+            "bottom": 1105.5
+          }
+        },
+        {
+          "text": "11:30",
+          "confidence": 96.441887,
+          "bounds": {
+            "left": 226,
+            "top": 1084.5,
+            "right": 287,
+            "bottom": 1105.5
+          }
+        },
+        {
+          "text": "PM",
+          "confidence": 96.799805,
+          "bounds": {
+            "left": 298.5,
+            "top": 1085,
+            "right": 334,
+            "bottom": 1105
+          }
+        }
+      ]
+    }
+  ]
+}

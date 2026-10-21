@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import type { AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, LocationEvidence, NativeScreen, NativeScrollEvidence, ObservationLocation } from './contracts.js';
 import { analyzeScreen, hasBlankNativeSearchWrapper, inspectNativeResultList, parseUiNodes, type NativeResultList } from './ui.js';
 
@@ -40,7 +41,9 @@ function object(value: unknown): Record<string, unknown> { return value !== null
 /** Plan one overlap-preserving attempt; gesture percent is not measured movement.
  * The next persisted frame still must pass the unchanged native reconciler.
  */
-function resultScrollPercent(xml: string, list: NativeResultList, evidence?: NativeScrollEvidence): number {
+interface ScrollSnapshotProof { xml: string; imageSha256: string; width: number; height: number }
+
+function resultScrollPercent(xml: string, list: NativeResultList, evidence?: NativeScrollEvidence, snapshot?: ScrollSnapshotProof): number {
   const defaultPercent = 0.35, fallbackPercent = 0.1;
   if (evidence === undefined) return fallbackPercent;
   const valid = (bounds: NativeScrollEvidence['listBounds']): bounds is NonNullable<NativeScrollEvidence['listBounds']> => !!bounds &&
@@ -52,8 +55,21 @@ function resultScrollPercent(xml: string, list: NativeResultList, evidence?: Nat
     fail('UNKNOWN_SCROLL_LAYOUT', 'Persisted scroll geometry no longer matches the native result list');
   }
   const normalize = (text: string): string => text.normalize('NFKC').replace(/\s+/gu, ' ').trim();
+  const contains = (outer: NonNullable<NativeScrollEvidence['listBounds']>, inner: NonNullable<NativeScrollEvidence['listBounds']>): boolean =>
+    inner.left >= outer.left && inner.top >= outer.top && inner.right <= outer.right && inner.bottom <= outer.bottom;
+  const ocr = evidence.ocrScrollAnchor;
+  if (ocr !== undefined && (!ocr || typeof ocr.name !== 'string' || !normalize(ocr.name) || ocr.name.length > 300 ||
+    /[\u0000-\u001f\u007f]/u.test(ocr.name) || !/[\p{L}\p{N}]/u.test(ocr.name) ||
+    !Number.isFinite(ocr.nameConfidence) || ocr.nameConfidence < 40 || ocr.nameConfidence > 100 ||
+    typeof ocr.imageSha256 !== 'string' || !/^[a-f0-9]{64}$/u.test(ocr.imageSha256) || !snapshot ||
+    snapshot.xml !== xml || snapshot.imageSha256 !== ocr.imageSha256 || list.bounds.right > snapshot.width || list.bounds.bottom > snapshot.height ||
+    !valid(ocr.nameBounds) || !valid(ocr.ratingBounds) || !contains(list.bounds, ocr.nameBounds) || !contains(list.bounds, ocr.ratingBounds) ||
+    ocr.nameBounds.bottom > ocr.ratingBounds.top || ocr.ratingBounds.top - ocr.nameBounds.bottom > 90)) {
+    fail('UNKNOWN_SCROLL_LAYOUT', 'The OCR scroll anchor is not a bounded title from the latest paired snapshot');
+  }
   const native = parseUiNodes(xml);
   const tops = new Map<string, number>();
+  const actionNames = new Set(['directions', 'call', 'website', 'menu', 'share', 'save', 'reserve', 'order']);
   for (const anchor of evidence.anchors) {
     if (!anchor || typeof anchor.text !== 'string' || !normalize(anchor.text) || !valid(anchor.bounds) ||
       anchor.bounds.left < list.bounds.left || anchor.bounds.right > list.bounds.right ||
@@ -62,25 +78,25 @@ function resultScrollPercent(xml: string, list: NativeResultList, evidence?: Nat
         [node.text, node.description].some(text => normalize(text) === normalize(anchor.text)))) {
       fail('UNKNOWN_SCROLL_LAYOUT', 'A scroll anchor is not bounded native evidence from this source');
     }
-    // Match the reconciler's full vertical-anchor boundary. Choose distinct
-    // labels with the most headroom; repeated controls do not add support.
-    if (anchor.bounds.top > list.bounds.top + 3 && anchor.bounds.bottom < list.bounds.bottom - 3) {
-      const text = normalize(anchor.text);
+    // Higher motion requires two distinct, fully visible native action controls
+    // in addition to a complete OCR title. Repeated labels add no support.
+    if (actionNames.has(normalize(anchor.text).toLowerCase()) && anchor.bounds.top > list.bounds.top + 3 && anchor.bounds.bottom < list.bounds.bottom - 3 &&
+      native.some(node => node.packageName === MAPS && node.clickable && node.className === 'android.view.ViewGroup' && node.bounds &&
+        same(node.bounds, anchor.bounds) && [node.text, node.description].some(text => normalize(text) === normalize(anchor.text)))) {
+      const text = normalize(anchor.text).toLowerCase();
       tops.set(text, Math.max(tops.get(text) ?? -Infinity, anchor.bounds.top));
     }
   }
   const available = [...tops.values()].sort((a, b) => b - a);
-  if (!available.length) return fallbackPercent;
+  if (!ocr || available.length < 2) return fallbackPercent;
   const height = list.bounds.bottom - list.bounds.top;
-  // Preserve two full labels when available, or one for existing edge-backed
-  // reconciliation. Leave >=12px/2% headroom for gesture/layout variability.
-  const supportTop = available[Math.min(1, available.length - 1)]!;
+  // Preserve two native labels and the OCR title. Leave >=12px/2% headroom
+  // for gesture/layout variability; pixel movement is rounded down below.
+  const supportTop = Math.min(available[1]!, ocr.nameBounds.top);
   const margin = Math.max(12, Math.ceil(height * 0.02));
   const plannedDistance = supportTop - list.bounds.top - margin;
-  // Tiny gestures can stall before these near-top anchors leave the viewport.
-  // Use the existing10% fallback as a floor. When preserving both anchors is
-  // impossible at that size, continuity remains unproven until the next frame.
-  return Math.max(fallbackPercent, Math.min(defaultPercent, plannedDistance / height));
+  if (plannedDistance < 1) fail('UNKNOWN_SCROLL_LAYOUT', 'The OCR title has no bounded upward scroll headroom');
+  return Math.min(defaultPercent, plannedDistance / height);
 }
 
 export class NativeMapsDevice implements AndroidDevice {
@@ -98,6 +114,7 @@ export class NativeMapsDevice implements AndroidDevice {
   private diagnosticPending = false;
   private locationProofExpected = false;
   private checked = false;
+  private scrollSnapshotProof: ScrollSnapshotProof | undefined;
 
   constructor(config: AndroidCaptureConfig, transport: NativeMapsTransport = {}) {
     if (!/^emulator-\d{4,5}$/.test(config.serial)) fail('UNSAFE_DEVICE', 'An explicit dedicated emulator serial is required');
@@ -533,6 +550,7 @@ export class NativeMapsDevice implements AndroidDevice {
   async search(keyword: string): Promise<void> {
     if (!keyword.trim() || keyword.length > 300 || /[\u0000-\u001f\u007f]/.test(keyword)) fail('INVALID_QUERY', 'Search keyword must be bounded printable text');
     this.queryDeadline = Date.now() + this.config.keywordTimeoutMs;
+    this.scrollSnapshotProof = undefined;
     this.activeKeyword = keyword;
     this.locationProofExpected = false;
     this.searchFailed = false;
@@ -626,6 +644,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async snapshot(): Promise<NativeScreen> {
+    this.scrollSnapshotProof = undefined;
     const diagnostic = this.searchFailed;
     if (diagnostic && !this.diagnosticPending) fail('DIAGNOSTIC_CAPTURE_EXHAUSTED', 'The bounded diagnostic capture after this failed search has already been attempted');
     const previousDeadline = this.queryDeadline;
@@ -641,7 +660,10 @@ export class NativeMapsDevice implements AndroidDevice {
         await this.foreground();
         // XML and PNG are separate Appium requests: discard a raced pair instead of
         // attaching the new query/state's XML to a screenshot from another state.
-        if (after === xml && (diagnostic || this.readyNativeXml(after, true))) return { png, xml, packageName: MAPS, capturedAt: new Date().toISOString() };
+        if (after === xml && (diagnostic || this.readyNativeXml(after, true))) {
+          if (!diagnostic) this.scrollSnapshotProof = { xml, imageSha256: createHash('sha256').update(png).digest('hex'), width: png.readUInt32BE(16), height: png.readUInt32BE(20) };
+          return { png, xml, packageName: MAPS, capturedAt: new Date().toISOString() };
+        }
         await this.observationPause();
       }
     } finally {
@@ -650,6 +672,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async prepareResults(): Promise<void> {
+    this.scrollSnapshotProof = undefined;
     if (!this.activeKeyword || this.searchFailed) fail('UNKNOWN_SCROLL_LAYOUT', 'A verified native query is required before preparing results');
     try {
       const xml = await this.stableNativeXml(false);
@@ -711,7 +734,7 @@ export class NativeMapsDevice implements AndroidDevice {
     if (evidence !== undefined && evidence.sourceXml !== xml) fail('SOURCE_CHANGED', 'Native source changed after the persisted frame; fresh evidence is required before scrolling');
     const list = inspectNativeResultList(xml, this.activeKeyword);
     if (!list || list.canScrollForward === null || list.canScrollBackward === null) fail('UNKNOWN_SCROLL_LAYOUT', 'No supported exact-query vertical native result list is visible');
-    const percent = resultScrollPercent(xml, list, evidence);
+    const percent = resultScrollPercent(xml, list, evidence, this.scrollSnapshotProof);
     // Resolve and validate the native list for every gesture; RecyclerView
     // elements are recycled even though this touch sequence uses viewport pixels.
     await this.resultListElement(list);
@@ -719,17 +742,20 @@ export class NativeMapsDevice implements AndroidDevice {
     const height = bottom - top;
     const x = left + Math.floor((right - left) / 2);
     const inset = Math.max(1, Math.ceil(height * 0.1));
-    // Trial21 retained large content jumps despite bounded 23–35% requests.
-    // Cap this controlled experiment at10% (rounded up to an integral pixel),
-    // without changing touch timing or weakening the next-frame overlap proof.
-    const maxDistance = Math.ceil(height * 0.1);
-    const distance = Math.max(1, Math.min(maxDistance, Math.round(height * percent)));
+    // Only a paired OCR title plus validated native controls can raise the
+    // requested movement above the historical 10% fallback. Do not round an
+    // OCR-bounded attempt past its measured title headroom.
+    const maxDistance = Math.ceil(height * (evidence?.ocrScrollAnchor ? 0.35 : 0.1));
+    const distance = Math.max(1, Math.min(maxDistance, evidence?.ocrScrollAnchor ? Math.floor(height * percent) : Math.round(height * percent)));
     const startY = bottom - inset, endY = startY - distance;
     if (x <= left || x >= right || endY <= top + inset || endY >= startY || startY >= bottom || distance > maxDistance) {
       fail('UNKNOWN_SCROLL_LAYOUT', 'Native list cannot contain the bounded touch movement');
     }
     await this.foreground();
     if (await this.nativeXml() !== xml) fail('SOURCE_CHANGED', 'Native result list changed before the gesture; fresh evidence is required');
+    // Consume even if the transport outcome is ambiguous. Another enlarged
+    // attempt requires a newly captured PNG/XML pair, even if XML stays equal.
+    this.scrollSnapshotProof = undefined;
     // One explicit touch attempt: move immediately after pointerDown, hold only
     // at the destination, then release. No long-press or fallback gesture. The
     // requested pixel distance is not proof of the resulting content movement.
@@ -750,7 +776,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   /** Use the same bounded native-list path as the reviewed geometry probes.
-   * A requested 10% movement is not proof of overlap; the next frame must pass
+   * A requested movement is not proof of overlap; the next frame must pass
    * reconciliation. Never fall back to a whole-screen swipe on an unknown list.
    */
   async swipeResults(evidence?: NativeScrollEvidence): Promise<void> {
@@ -758,6 +784,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async close(): Promise<void> {
+    this.scrollSnapshotProof = undefined;
     this.queryDeadline = undefined;
     this.closing = true;
     try {

@@ -4,6 +4,8 @@ The selected release path is **GitHub source and checks → Azure ACR remote bui
 
 `.github/workflows/images.yml` runs the TypeScript checks, all Vitest tests, a production build, Python Android contract tests, and the image-receipt tests on GitHub-hosted Ubuntu runners. Chromium is installed for browser fixture tests. No Android emulator or live Maps collection is required by this workflow.
 
+The browser preflight adjustment passed Linux checks in [GitHub run 39531906632](https://github.com/Canqiang/maps-keyword-capture/actions/runs/39531906632) for commit `10911d11e918ad52864ad62930eaf7a8d0113b54`. The preceding [run 39529999579](https://github.com/Canqiang/maps-keyword-capture/actions/runs/39529999579) had 20 `browser_startup_failed` cases in production sandbox launch paths. `.github/scripts/browser-preflight.mjs` first attempts the actual production sandbox launch and records its stderr. Only if that fails and Ubuntu reports the user-namespace restriction does it load an AppArmor profile for the exact Chromium executable, then retry. It does not disable the browser sandbox or change the global restriction setting. Each later source commit needs its own passing checks; this result is not a deployment or collection verdict.
+
 The workflow runs checks for pushes to `main`, the temporary bootstrap branch `codex/fix-tracking-review-20261020`, and pull requests targeting `main`. Its optional publish jobs also require `ACR_PUBLISH_ENABLED=true`; leave that variable false for the selected Azure build path. Manual dispatch can publish only from those same refs. Pull requests run checks with read-only repository access; they cannot publish. The workflow does not deploy, access MongoDB, alter schedules, or receive Kubernetes credentials.
 
 | Surface | Dockerfile | ACR repository |
@@ -11,7 +13,7 @@ The workflow runs checks for pushes to `main`, the temporary bootstrap branch `c
 | Web | `Dockerfile` | `fbrdevacr.azurecr.io/ai/maps-keyword-capture` |
 | Android | `deploy/android/Dockerfile` | `fbrdevacr.azurecr.io/ai/maps-keyword-capture-android` |
 
-Both builds receive the full source commit as `GIT_COMMIT` and an OCI revision label. Android builds pull the existing runtime base by digest `sha256:7691aa8c220d055619ceb0d45c15ca0f2ca434f8b059d9db219ab00bf19c6fc5`; they do not build or download an emulator runtime locally. The Dockerfile-specific ignore file includes `deploy/android`, which the Web build's root `.dockerignore` excludes.
+Both builds receive the full source commit as `GIT_COMMIT` and an OCI revision label. Android builds pull the existing runtime base by digest `sha256:7691aa8c220d055619ceb0d45c15ca0f2ca434f8b059d9db219ab00bf19c6fc5`; they do not build or download an emulator runtime locally. The Android ignore file includes `deploy/android`, which the Web build's root `.dockerignore` excludes. ACR CLI context packing has different ignore-file selection from Docker BuildKit; use the distinct Android context below.
 
 ## Selected path: build a committed source archive in ACR
 
@@ -30,26 +32,62 @@ printf '%s\n' "$build_commit" > "$build_record_dir/source-commit.txt"
 shasum -a 256 "$build_record_dir/source.tar" > "$build_record_dir/source-archive.sha256"
 ```
 
-Keep the source archive/hash and run metadata with the release evidence. `Dockerfile` and `deploy/android/Dockerfile` must be tracked at that commit. The Dockerfile-specific ignore file allows the Android scripts into its uploaded context.
+Keep the source archive/hash and run metadata with the release evidence. `Dockerfile`, `deploy/android/Dockerfile` and `deploy/android/Dockerfile.dockerignore` must be tracked at that commit.
 
-Queue the two builds on ACR's Linux workers. ACR substitutes its unique run ID into each tag; `GIT_COMMIT` remains the full source commit. `--no-wait` returns the run identity rather than claiming the build is complete:
+Prepare an isolated Android source context. In Azure CLI 2.75.0, ACR selects the ignore override by the Dockerfile's **basename at the context root**. Passing `--file deploy/android/Dockerfile` therefore uses the root `.dockerignore` and excludes the runtime scripts. Copy the two committed files to distinct root names without changing their bytes:
 
 ```sh
-web_run="$(az acr build --registry fbrdevacr --platform linux/amd64 \
-  --file Dockerfile --build-arg "GIT_COMMIT=$build_commit" \
-  --image "ai/maps-keyword-capture:sha-$build_commit-{{.Run.ID}}" \
-  --no-wait --query runId --output tsv "$build_record_dir/context")"
-android_run="$(az acr build --registry fbrdevacr --platform linux/amd64 \
-  --file deploy/android/Dockerfile --build-arg "GIT_COMMIT=$build_commit" \
-  --image "ai/maps-keyword-capture-android:sha-$build_commit-{{.Run.ID}}" \
-  --no-wait --query runId --output tsv "$build_record_dir/context")"
-printf '%s\n' "$web_run" > "$build_record_dir/web-run-id.txt"
-printf '%s\n' "$android_run" > "$build_record_dir/android-run-id.txt"
-az acr task logs --registry fbrdevacr --run-id "$web_run"
-az acr task logs --registry fbrdevacr --run-id "$android_run"
+cp -R "$build_record_dir/context" "$build_record_dir/android-context"
+cp "$build_record_dir/android-context/deploy/android/Dockerfile" \
+  "$build_record_dir/android-context/Android.Dockerfile"
+cp "$build_record_dir/android-context/deploy/android/Dockerfile.dockerignore" \
+  "$build_record_dir/android-context/Android.Dockerfile.dockerignore"
+cmp "$build_record_dir/context/deploy/android/Dockerfile" "$build_record_dir/android-context/Android.Dockerfile"
+cmp "$build_record_dir/context/deploy/android/Dockerfile.dockerignore" "$build_record_dir/android-context/Android.Dockerfile.dockerignore"
+shasum -a 256 "$build_record_dir/android-context/Android.Dockerfile" \
+  "$build_record_dir/android-context/Android.Dockerfile.dockerignore" > "$build_record_dir/android-context-overrides.sha256"
 ```
 
-Wait until **both** `az acr task show-run` statuses are `Succeeded`; a queued/running run or upload receipt is insufficient. Save each terminal run record and compare its output digest to an independent registry read:
+Submit each build **once** and wait for its own structured terminal response. ACR substitutes its unique run ID into the tag; `GIT_COMMIT` remains the full source commit. This recipe uses `--no-logs`, which waits and returns the run JSON. It deliberately does not use `--no-wait`: Azure CLI 2.75.0's command framework discards that return object, so `--no-wait --query runId` can exit 0 with empty stdout even after a build was queued. An explicit `--file` is resolved against the process working directory, so the function first changes into the matching context.
+
+```sh
+build_one() (
+  set -e
+  build_surface="$1"
+  build_context="$2"
+  build_file="$3"
+  build_repository="$4"
+  cd "$build_context"
+  if ! az acr build --registry fbrdevacr --platform linux/amd64 \
+    --file "$build_file" --build-arg "GIT_COMMIT=$build_commit" \
+    --image "$build_repository:sha-$build_commit-{{.Run.ID}}" \
+    --no-logs --output json . \
+    > "$build_record_dir/$build_surface-build-result.json" \
+    2> "$build_record_dir/$build_surface-build.stderr"; then
+    printf 'Build command did not complete successfully; inspect %s. Do not enqueue again.\n' \
+      "$build_record_dir/$build_surface-build.stderr" >&2
+    exit 1
+  fi
+  python3 - "$build_record_dir/$build_surface-build-result.json" \
+    "$build_record_dir/$build_surface-run-id.txt" <<'PY'
+import json, pathlib, re, sys
+run = json.loads(pathlib.Path(sys.argv[1]).read_text())
+run_id = run.get('runId')
+if not isinstance(run_id, str) or not re.fullmatch(r'[A-Za-z0-9_-]+', run_id) or run.get('status') != 'Succeeded':
+    raise SystemExit('Missing successful run identity; inspect saved result/stderr before any retry')
+pathlib.Path(sys.argv[2]).write_text(run_id + '\n')
+print(run_id)
+PY
+)
+web_run="$(build_one web "$build_record_dir/context" Dockerfile ai/maps-keyword-capture)"
+android_run="$(build_one android "$build_record_dir/android-context" Android.Dockerfile ai/maps-keyword-capture-android)"
+```
+
+If the command is interrupted, fails, or produces empty/invalid JSON, preserve its stdout and stderr and stop. The saved stderr may contain `Queued a build with ID: <id>`; recover only the single ID from that exact invocation and independently inspect it with `az acr task show-run --registry fbrdevacr --run-id <id>`. Never select the latest registry run, which could belong to a concurrent build. If no unambiguous ID can be recovered, investigate the request instead of repeating `az acr build`. For example, the observed `--no-wait` invocation that returned empty stdout had already queued run `ch155f`; it must not be submitted again.
+
+The installed CLI paths were checked directly: `acr/build.py` resolves explicit local Dockerfiles from the current directory, logs the queued ID, and returns a poller for `--no-logs`; `core/commands/__init__.py` suppresses `--no-wait` results; `acr/_archive_utils.py` selects root-level ignore overrides. Offline packing with this installed CLI excluded runtime/OCR files in the original Android invocation and included both with `Android.Dockerfile` plus its root ignore file. No build was enqueued for that packaging check.
+
+Independently check that **both** exact run IDs have status `Succeeded`; a queued/running run or upload receipt is insufficient. Save each terminal run record and compare its output digest to a registry read:
 
 ```sh
 az acr task show-run --registry fbrdevacr --run-id "$web_run" --output json > "$build_record_dir/web-run.json"

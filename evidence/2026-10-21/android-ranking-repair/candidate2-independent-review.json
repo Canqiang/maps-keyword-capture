@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "android-candidate2-independent-review/v1",
+  "checkedAt": "2026-10-21T02:12:55.708856+00:00",
+  "verdict": "no_remaining_blockers_in_reviewed_changes",
+  "sourceHashes": {
+    "src/android/screen-reader.ts": "137b4f4653b4fd209bb94bd0233b665c2f892098d8f677fc6c7be30ca251abb3",
+    "src/android/runner.ts": "d5d1b15992e64fa44f9c1df71055b79ca5a807964a22bb69317e7c2d997b823a",
+    "src/android/device.ts": "31082a05fed44ab50a4df6c52b2630af2e601209112118a47c24003d396ff027",
+    "src/android/ui.ts": "b96257edab5898e333c3b1c57adc01116c4892f43d2bb59e1de06c9ccb196393",
+    "src/android/contracts.ts": "0d7dd10ebe27a2037fe030d9c9d1bc7ef6a37e7107f5053fecf3e9581ef75b74"
+  },
+  "reviewers": [
+    {
+      "agent": "/root/grid_run_contracts/native_layout_probe_fix",
+      "scope": [
+        "src/android/screen-reader.ts",
+        "src/android/runner.ts"
+      ],
+      "findingsResolved": [
+        "Require known clean following overlap anchor",
+        "Measure negative overlap test using rating rectangle displacement",
+        "Omit shallow OCR motion support instead of diminishing sub10percentrequests"
+      ],
+      "finalChecks": [
+        "Clipped raw frame cards remain unknown",
+        "Pending bottom ad cannot swallow later OCR rows or establish list end",
+        "PNG/XML/OCR/frame persisted and hash/dimension checked before motion",
+        "Measured movement changes stall counter only; ranking gates unchanged"
+      ]
+    },
+    {
+      "agent": "/root/grid_run_contracts",
+      "scope": [
+        "src/android/device.ts",
+        "src/android/contracts.ts",
+        "src/android/ui.ts"
+      ],
+      "finalChecks": [
+        "Latest PNG/XML hash and dimension binding",
+        "Consumed one-use OCR motion proof",
+        "At least2distinct actual native action controls for enlargement",
+        "35percentceiling; title andnativeheadroom caps",
+        "Strict query/native ancestry/layout negative tests retained",
+        "No fallback device action or remote mutation"
+      ]
+    }
+  ],
+  "limits": [
+    "Independent review and595 local targeted tests are not live capture acceptance.",
+    "Actual20-result coverage,60-screenbudget and2hour90keywordcapacity require new bounded live probe."
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "android-candidate2-validation/v1",
+  "checkedAt": "2026-10-21T02:12:23.042616+00:00",
+  "status": "local_targeted_pass_live_capacity_pending",
+  "sourceHashes": {
+    "src/android/contracts.ts": "0d7dd10ebe27a2037fe030d9c9d1bc7ef6a37e7107f5053fecf3e9581ef75b74",
+    "src/android/device.ts": "31082a05fed44ab50a4df6c52b2630af2e601209112118a47c24003d396ff027",
+    "src/android/ui.ts": "b96257edab5898e333c3b1c57adc01116c4892f43d2bb59e1de06c9ccb196393",
+    "src/android/screen-reader.ts": "137b4f4653b4fd209bb94bd0233b665c2f892098d8f677fc6c7be30ca251abb3",
+    "src/android/runner.ts": "d5d1b15992e64fa44f9c1df71055b79ca5a807964a22bb69317e7c2d997b823a"
+  },
+  "targetedTests": {
+    "passed": 595,
+    "failed": 0,
+    "files": 7,
+    "report": "candidate2-targeted-tests.json"
+  },
+  "typecheck": "passed",
+  "contractChecks": "passed",
+  "diffCheck": "passed",
+  "meaningfulRedEvidence": [
+    {
+      "case": "uncertain next header must not establish clipped ordered overlap",
+      "observedBefore": "sequenceVerified true",
+      "expected": "false",
+      "redSession": "26291"
+    },
+    {
+      "case": "measured motion resets no-new-card stall count",
+      "observedBefore": "stopped after5 search frames",
+      "expected": "after6 with3stationary frames",
+      "redSession": "26291"
+    },
+    {
+      "case": "runner passes persisted OCR title proof and native anchors",
+      "observedBefore": "anchors empty/noOCRanchor",
+      "redSession": "93006"
+    },
+    {
+      "case": "shallow title omits adaptiveOCRanchor",
+      "observedBefore": "provided shallow title causing sub10percentrequests",
+      "redSession": "12257",
+      "note": "The same invocation also corrected an incorrectly copied expected confidence value; that assertion was test-data correction, not a production defect."
+    }
+  ],
+  "liveEvidence": "candidate2-probe-replay.json",
+  "scope": [
+    "Local Android source and targeted tests only. No remote mutation.",
+    "Original candidate1 and historical v3 artifacts unchanged.",
+    "60screens/20displayedresults/600s representative next live probe remains required.",
+    "No two-hour90-keyword Android activation acceptance yet."
+  ]
+}

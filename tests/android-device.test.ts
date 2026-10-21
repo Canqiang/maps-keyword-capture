@@ -2,8 +2,9 @@ import { createServer, type Server } from 'node:http';
 import { readFileSync } from 'node:fs';
 import type { AddressInfo } from 'node:net';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { AndroidCaptureConfig } from '../src/android/contracts.js';
+import type { AndroidCaptureConfig, NativeScrollEvidence } from '../src/android/contracts.js';
 import { NativeMapsDevice, type AdbExecutor } from '../src/android/device.js';
+import { parseUiNodes } from '../src/android/ui.js';
 
 const maps = 'com.google.android.apps.maps';
 const fieldId = `${maps}:id/search_omnibox_text_box`;
@@ -914,6 +915,103 @@ describe('NativeMapsDevice automatic point preparation', () => {
 
 
 const rankingFixture = (name: string): string => readFileSync(new URL(`./fixtures/android/ranking/${name}.xml`, import.meta.url), 'utf8');
+
+describe('NativeMapsDevice adaptive OCR-backed native gestures', () => {
+  const observed = (query = 3) => {
+    const base = new URL(`./fixtures/android/repair-probe-20261021/q000${query}-frame02`, import.meta.url);
+    const xml = readFileSync(`${base.pathname}.xml`, 'utf8');
+    const screenshot = readFileSync(`${base.pathname}.png`);
+    const ocr = JSON.parse(readFileSync(`${base.pathname}.ocr.json`, 'utf8'));
+    const name = query === 2 ? 'Wonder Bayside' : 'Tea Magic';
+    const title = ocr.lines.find((line: any) => line.text === name);
+    const rating = ocr.lines.find((line: any) => line.bounds.top > title.bounds.bottom && /^\d[.,]/u.test(line.text));
+    const evidence: NativeScrollEvidence = {
+      sourceXml: xml, listBounds: { left: 0, top: 272, right: 720, bottom: 1232 },
+      anchors: parseUiNodes(xml).filter(node => node.clickable && node.bounds && /^(Directions|Call|Website|Order|Menu)$/u.test(node.description))
+        .map(node => ({ text: node.description, bounds: node.bounds! })),
+      ocrScrollAnchor: { name, nameBounds: title.bounds, ratingBounds: rating.bounds, nameConfidence: title.confidence, imageSha256: ocr.imageSha256 },
+    };
+    return { evidence, screenshot, keyword: query === 2 ? 'chinese food' : 'bubble tea near me', ocr };
+  };
+  const setup = async (query = 3, capture = true) => {
+    const fixture = observed(query);
+    const appium = await appiumFixture({ source: () => fixture.evidence.sourceXml, screenshot: fixture.screenshot.toString('base64'),
+      listRect: () => ({ x: 0, y: 272, width: 720, height: 960 }) });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start(); await device.search(fixture.keyword);
+    if (capture) await device.snapshot();
+    return { ...fixture, appium, device };
+  };
+  const movements = (calls: Array<{ path: string; body: any }>) => calls.filter(call => call.path.endsWith('/actions')).map(call => {
+    const actions = call.body.actions[0].actions;
+    return { distance: actions[0].y - actions[2].y, duration: actions[2].duration, pause: actions[3].duration };
+  });
+  it.each([2, 3])('allows a bounded 35 percent attempt from real q000%i frame02 OCR and native controls', async query => {
+    const { device, evidence, appium } = await setup(query);
+    const before = structuredClone(evidence);
+    await device.scroll(evidence);
+    expect(movements(appium.calls)).toEqual([{ distance: 336, duration: 650, pause: 300 }]);
+    expect(evidence).toEqual(before);
+    await device.close();
+  });
+  it('caps movement at the actual first title headroom rather than cropping its OCR anchor', async () => {
+    const { device, evidence, appium, ocr } = await setup();
+    const title = ocr.lines.find((line: any) => line.text === 'Only Bear Chicken & Boba');
+    const rating = ocr.lines.find((line: any) => line.bounds.top > title.bounds.bottom && /^4\.7/u.test(line.text));
+    evidence.ocrScrollAnchor = { name: title.text, nameBounds: title.bounds, ratingBounds: rating.bounds, nameConfidence: title.confidence, imageSha256: ocr.imageSha256 };
+    await device.scroll(evidence);
+    expect(movements(appium.calls)[0]?.distance).toBe(109);
+    await device.close();
+  });
+  it.each(['no OCR anchor', 'no native anchors', 'one native control', 'duplicate native control'])('retains the 10 percent fallback with %s', async mode => {
+    const { device, evidence, appium } = await setup();
+    if (mode === 'no OCR anchor') delete evidence.ocrScrollAnchor;
+    if (mode === 'no native anchors') evidence.anchors = [];
+    if (mode === 'one native control') evidence.anchors = evidence.anchors.slice(0, 1);
+    if (mode === 'duplicate native control') evidence.anchors = [evidence.anchors[0]!, evidence.anchors[0]!];
+    await device.scroll(evidence);
+    expect(movements(appium.calls)[0]?.distance).toBe(96);
+    await device.close();
+  });
+  it.each(['empty name', 'control character', 'overlong name', 'low confidence', 'nonfinite confidence', 'excess confidence', 'invalid hash', 'wrong PNG hash',
+    'out of list', 'inverted title', 'nonfinite title', 'missing title', 'rating above name', 'rating gap', 'rating outside list'])('rejects %s before issuing a gesture', async fault => {
+    const { device, evidence, appium } = await setup();
+    const anchor = evidence.ocrScrollAnchor!;
+    if (fault === 'empty name') anchor.name = ' ';
+    if (fault === 'control character') anchor.name = 'Tea\nMagic';
+    if (fault === 'overlong name') anchor.name = 'x'.repeat(301);
+    if (fault === 'low confidence') anchor.nameConfidence = 39;
+    if (fault === 'nonfinite confidence') anchor.nameConfidence = NaN;
+    if (fault === 'excess confidence') anchor.nameConfidence = 101;
+    if (fault === 'invalid hash') anchor.imageSha256 = 'not a hash';
+    if (fault === 'wrong PNG hash') anchor.imageSha256 = 'a'.repeat(64);
+    if (fault === 'out of list') anchor.nameBounds.top = 271;
+    if (fault === 'inverted title') anchor.nameBounds.bottom = anchor.nameBounds.top;
+    if (fault === 'nonfinite title') anchor.nameBounds.top = Infinity;
+    if (fault === 'missing title') anchor.nameBounds = null as any;
+    if (fault === 'rating above name') anchor.ratingBounds.top = anchor.nameBounds.bottom - 1;
+    if (fault === 'rating gap') { anchor.nameBounds.top = 500; anchor.nameBounds.bottom = 530; }
+    if (fault === 'rating outside list') anchor.ratingBounds.right = 721;
+    await expect(device.scroll(evidence)).rejects.toMatchObject({ code: 'UNKNOWN_SCROLL_LAYOUT' });
+    expect(movements(appium.calls)).toEqual([]);
+    await device.close();
+  });
+  it('requires the OCR hash to match a snapshot captured by this device session', async () => {
+    const { device, evidence, appium } = await setup(3, false);
+    await expect(device.scroll(evidence)).rejects.toMatchObject({ code: 'UNKNOWN_SCROLL_LAYOUT' });
+    expect(movements(appium.calls)).toEqual([]);
+    await device.close();
+  });
+  it('consumes the snapshot proof before a gesture and requires a fresh captured frame for another adaptive attempt', async () => {
+    const { device, evidence, appium } = await setup();
+    await device.scroll(evidence);
+    await expect(device.scroll(evidence)).rejects.toMatchObject({ code: 'UNKNOWN_SCROLL_LAYOUT' });
+    expect(movements(appium.calls)).toHaveLength(1);
+    await device.snapshot(); await device.scroll(evidence);
+    expect(movements(appium.calls)).toHaveLength(2);
+    await device.close();
+  });
+});
 
 describe('NativeMapsDevice bounded native result list gestures', () => {
   const overlapEvidence = (name = 'before') => {

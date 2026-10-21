@@ -1,0 +1,296 @@
+{
+  "mode": "receipt-verified-real-fixtures",
+  "manifestSha256": "27acf892d41781e0645452b5110648c4bc87332ea50a8a4232df68e46befb705",
+  "rows": [
+    {
+      "queryId": "q0002",
+      "keyword": "chinese food",
+      "frameIndex": 1,
+      "files": {
+        "xml": {
+          "file": "q0002-frame01.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014637.445Z__chinese-food__01.xml",
+          "bytes": 74493,
+          "sha256": "d220f8272e2925081b3ac921cfaf3965404e5a4212a5eef9e22aa4c174f106ec"
+        },
+        "ocr": {
+          "file": "q0002-frame01.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014637.445Z__chinese-food__01.ocr.json",
+          "bytes": 27604,
+          "sha256": "7e1b7fae103b04a614a7f06a64a9f44407be3a4a61c5fa784bfb557c021d31b2"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014637.445Z__chinese-food__01.png",
+        "bytes": 616774,
+        "sha256": "b4d4b60a537c1aa691e25316fd9f65ec9b1632a02107805061053a9f5b5ca0a8",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "chinese food",
+      "frameIndex": 2,
+      "files": {
+        "xml": {
+          "file": "q0002-frame02.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014644.999Z__chinese-food__02.xml",
+          "bytes": 77762,
+          "sha256": "008f5dd1bc86b34731a55c7c85c5edeab88a263d0addf7aa7f5970c55f392d5f"
+        },
+        "ocr": {
+          "file": "q0002-frame02.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014644.999Z__chinese-food__02.ocr.json",
+          "bytes": 17683,
+          "sha256": "51eb370b1d3306c3125b9dded15914ecdd4a57b93acf70729ffcc65281ecc062"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014644.999Z__chinese-food__02.png",
+        "bytes": 560761,
+        "sha256": "fc63f6ab333c96ce07a841858fb9b7647dafa8b6f7de4e8a5561b1e7141e10b7",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "chinese food",
+      "frameIndex": 3,
+      "files": {
+        "xml": {
+          "file": "q0002-frame03.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014648.585Z__chinese-food__03.xml",
+          "bytes": 84952,
+          "sha256": "2a2990dd664cde397ff17cf4ac9baf3a3e1edb09f30b9d285237308ec9c26f29"
+        },
+        "ocr": {
+          "file": "q0002-frame03.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014648.585Z__chinese-food__03.ocr.json",
+          "bytes": 21077,
+          "sha256": "16e362105d5fb3170fc703d43121b5d76ebb3aa7522cf7ccb4efcfd4d905d96f"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014648.585Z__chinese-food__03.png",
+        "bytes": 593215,
+        "sha256": "622299192bf11e15b1dd336512a7861374ac4c08b33ac80eb86ba669b57359b6",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "chinese food",
+      "frameIndex": 4,
+      "files": {
+        "xml": {
+          "file": "q0002-frame04.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014651.982Z__chinese-food__04.xml",
+          "bytes": 73758,
+          "sha256": "278471af29a1a3804f0ad4010a4e3d32226c00e70849b7eeb6756741b274f8bb"
+        },
+        "ocr": {
+          "file": "q0002-frame04.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014651.982Z__chinese-food__04.ocr.json",
+          "bytes": 16392,
+          "sha256": "20e752e9ac6fc5d7bf4c4da1edab20725536522954af846038bba44e6e0861b9"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0002/20261021T014651.982Z__chinese-food__04.png",
+        "bytes": 709769,
+        "sha256": "06b18abe61e1fe5e2ff140ae03a854f87520b7170d916c5927e657a67450110e",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "bubble tea near me",
+      "frameIndex": 1,
+      "files": {
+        "xml": {
+          "file": "q0003-frame01.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014710.864Z__bubble-tea-near-me__01.xml",
+          "bytes": 74423,
+          "sha256": "6cd0bedbb75097a6785fda9099e073a2ed666e86740dda3b35933c08b15f52cd"
+        },
+        "ocr": {
+          "file": "q0003-frame01.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014710.864Z__bubble-tea-near-me__01.ocr.json",
+          "bytes": 26606,
+          "sha256": "4834225bd19a66c926ff62beeda8e54eaa711b16b11bf8eb653336db8834c394"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014710.864Z__bubble-tea-near-me__01.png",
+        "bytes": 515191,
+        "sha256": "85219556f34e806e7e5910ce51ec5d04d8763a027f7a7e49c47f316ce28f7334",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "bubble tea near me",
+      "frameIndex": 2,
+      "files": {
+        "xml": {
+          "file": "q0003-frame02.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014718.450Z__bubble-tea-near-me__02.xml",
+          "bytes": 83975,
+          "sha256": "b8dd2433ce01a582336fee031f03a16e92f9166fe0ce0c39b48d32fef05a0429"
+        },
+        "ocr": {
+          "file": "q0003-frame02.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014718.450Z__bubble-tea-near-me__02.ocr.json",
+          "bytes": 22173,
+          "sha256": "f80dbd59c42b747682e2da8dd9e070721c779c4fa4378729a33f5535f361456b"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014718.450Z__bubble-tea-near-me__02.png",
+        "bytes": 452170,
+        "sha256": "8e3e8f1ab81133489ebe1519158a65726e167afb4003787e032b581e9c873ad7",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "bubble tea near me",
+      "frameIndex": 3,
+      "files": {
+        "xml": {
+          "file": "q0003-frame03.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014722.115Z__bubble-tea-near-me__03.xml",
+          "bytes": 84703,
+          "sha256": "9d3247b2fe1efbcadde5969b3e54b86239856ef441ed9913f13c33e9316795dd"
+        },
+        "ocr": {
+          "file": "q0003-frame03.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014722.115Z__bubble-tea-near-me__03.ocr.json",
+          "bytes": 21275,
+          "sha256": "e88ff3f5c1313050355ae064c45198ddf123b634b7e17cd8aba499f24bcadf32"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014722.115Z__bubble-tea-near-me__03.png",
+        "bytes": 517097,
+        "sha256": "295da5cd916fbc49f7ac905089e762667968cb245afc327dc7019d935de965c9",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "bubble tea near me",
+      "frameIndex": 4,
+      "files": {
+        "xml": {
+          "file": "q0003-frame04.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014725.879Z__bubble-tea-near-me__04.xml",
+          "bytes": 76062,
+          "sha256": "439c1cc2ad463eedd87e0a5a817768ddeaab86104ebb15cf32d549d61872781e"
+        },
+        "ocr": {
+          "file": "q0003-frame04.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014725.879Z__bubble-tea-near-me__04.ocr.json",
+          "bytes": 17741,
+          "sha256": "bdb647cee089f2b9dede1985db298192f10c7291bd992fc70de4fa79f6f35467"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0003/20261021T014725.879Z__bubble-tea-near-me__04.png",
+        "bytes": 594736,
+        "sha256": "be6cc50484efbeba6bccab78c119f2975d3ac3580307bfdbaa554cc9165d0561",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "queryId": "q0005",
+      "keyword": "bakery",
+      "frameIndex": 1,
+      "files": {
+        "xml": {
+          "file": "q0005-frame01.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0005/20261021T014805.391Z__bakery__01.xml",
+          "bytes": 74929,
+          "sha256": "4758ea684fa7c52cd4b218d370cdbd14a3eafabdbd3048a98caf297d17775f00"
+        },
+        "ocr": {
+          "file": "q0005-frame01.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0005/20261021T014805.391Z__bakery__01.ocr.json",
+          "bytes": 21349,
+          "sha256": "cac0b683755239a6fda52361d92ec4588171e9e083e939896702967ca61dc473"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0005/20261021T014805.391Z__bakery__01.png",
+        "bytes": 434841,
+        "sha256": "5159320c06bd9a6ccfd900ffc5f8658bbf932874b9572473460d81c7e9ed833a",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    },
+    {
+      "queryId": "q0005",
+      "keyword": "bakery",
+      "frameIndex": 2,
+      "files": {
+        "xml": {
+          "file": "q0005-frame02.xml",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0005/20261021T014814.791Z__bakery__02.xml",
+          "bytes": 79178,
+          "sha256": "a37d516736e65cf31eacdeb9c3f561968295e164928d5f5b4f53f2aba41626d9"
+        },
+        "ocr": {
+          "file": "q0005-frame02.ocr.json",
+          "source": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0005/20261021T014814.791Z__bakery__02.ocr.json",
+          "bytes": 18062,
+          "sha256": "8d40177288ad7e29d5a6e58683e0ff6be3e740b147a4c8ddc78f35f0b5c03264"
+        }
+      },
+      "pngReceipt": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-21/run_20261021T014543Z_45126b/q0005/20261021T014814.791Z__bakery__02.png",
+        "bytes": 381658,
+        "sha256": "c110592ea0e54e97b4d8019cf6c6abc77e98552a265b796cd0e7c426d04b6866",
+        "storageStatus": "local_only",
+        "objectKey": null,
+        "verifiedAt": null,
+        "storageError": null
+      }
+    }
+  ]
+}

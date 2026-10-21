@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "android-candidate2-probe-replay/v1",
+  "createdAt": "2026-10-21T02:11:00.360Z",
+  "originalRunId": "run_20261021T014543Z_45126b",
+  "originalManifestSha256": "27acf892d41781e0645452b5110648c4bc87332ea50a8a4232df68e46befb705",
+  "manifestSourceScope": "Owned terminal run readback; no separate producer manifest receipt claim",
+  "verifiedManifestArtifactCount": 75,
+  "searchFrames": 14,
+  "sourceHashes": {
+    "src/android/screen-reader.ts": "137b4f4653b4fd209bb94bd0233b665c2f892098d8f677fc6c7be30ca251abb3",
+    "src/android/runner.ts": "d5d1b15992e64fa44f9c1df71055b79ca5a807964a22bb69317e7c2d997b823a",
+    "src/android/ui.ts": "b96257edab5898e333c3b1c57adc01116c4892f43d2bb59e1de06c9ccb196393",
+    "src/android/device.ts": "31082a05fed44ab50a4df6c52b2630af2e601209112118a47c24003d396ff027",
+    "src/android/contracts.ts": "0d7dd10ebe27a2037fe030d9c9d1bc7ef6a37e7107f5053fecf3e9581ef75b74"
+  },
+  "rows": [
+    {
+      "queryId": "q0001",
+      "keyword": "卤味",
+      "frames": 3,
+      "original": {
+        "stopReason": "ranking_unreliable",
+        "rows": 2,
+        "rankingReliable": false,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 1
+      },
+      "offlineOnly": {
+        "rows": 1,
+        "rankingReliable": true,
+        "sequenceVerified": true,
+        "ads": 0,
+        "organic": 1,
+        "unknown": 0,
+        "warnings": [],
+        "frameWarnings": [
+          [],
+          [],
+          [
+            "native_list_top_contradicted"
+          ]
+        ]
+      }
+    },
+    {
+      "queryId": "q0002",
+      "keyword": "chinese food",
+      "frames": 4,
+      "original": {
+        "stopReason": "ranking_unreliable",
+        "rows": 4,
+        "rankingReliable": false,
+        "ads": 3,
+        "organic": 0,
+        "unknown": 1
+      },
+      "offlineOnly": {
+        "rows": 2,
+        "rankingReliable": true,
+        "sequenceVerified": true,
+        "ads": 2,
+        "organic": 0,
+        "unknown": 0,
+        "warnings": [],
+        "frameWarnings": [
+          [],
+          [],
+          [
+            "native_list_top_contradicted"
+          ],
+          [
+            "native_list_top_contradicted"
+          ]
+        ]
+      }
+    },
+    {
+      "queryId": "q0003",
+      "keyword": "bubble tea near me",
+      "frames": 4,
+      "original": {
+        "stopReason": "ranking_unreliable",
+        "rows": 4,
+        "rankingReliable": false,
+        "ads": 0,
+        "organic": 3,
+        "unknown": 1
+      },
+      "offlineOnly": {
+        "rows": 2,
+        "rankingReliable": true,
+        "sequenceVerified": true,
+        "ads": 0,
+        "organic": 2,
+        "unknown": 0,
+        "warnings": [],
+        "frameWarnings": [
+          [],
+          [],
+          [
+            "native_list_top_contradicted"
+          ],
+          [
+            "native_list_top_contradicted"
+          ]
+        ]
+      }
+    },
+    {
+      "queryId": "q0004",
+      "keyword": "hot pot near me",
+      "frames": 1,
+      "original": {
+        "stopReason": "ranking_unreliable",
+        "rows": 1,
+        "rankingReliable": false,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0
+      },
+      "offlineOnly": {
+        "rows": 1,
+        "rankingReliable": true,
+        "sequenceVerified": true,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "warnings": [],
+        "frameWarnings": [
+          []
+        ]
+      }
+    },
+    {
+      "queryId": "q0005",
+      "keyword": "bakery",
+      "frames": 2,
+      "original": {
+        "stopReason": "ranking_unreliable",
+        "rows": 1,
+        "rankingReliable": false,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0
+      },
+      "offlineOnly": {
+        "rows": 1,
+        "rankingReliable": true,
+        "sequenceVerified": true,
+        "ads": 1,
+        "organic": 0,
+        "unknown": 0,
+        "warnings": [],
+        "frameWarnings": [
+          [],
+          [
+            "native_trailing_ad_header_pending"
+          ]
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Offline only; original outcomes, ranks and evidence are unchanged.",
+    "Existing short prefixes only; no complete top20 or new capture is proved.",
+    "Actual adaptive displacement, screenshot budget and two-hour capacity still need the next bounded live probe.",
+    "GPS matched and following do not verify Google backend geography."
+  ]
+}

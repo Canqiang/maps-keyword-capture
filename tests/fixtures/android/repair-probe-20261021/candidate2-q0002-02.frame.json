@@ -1,0 +1,53 @@
+{
+  "frameId": "q0002:frame-002",
+  "capturedAt": "2026-10-21T02:14:18.556Z",
+  "imageSha256": "cceae52875d0102ba57e0f04501eb39fee720b70ad7918e7777d2cc5eb2d7c6f",
+  "queryVisible": true,
+  "sheetTop": 244,
+  "topStateVerified": true,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0002:frame-002",
+      "name": "Wonder Bayside",
+      "nameConfidence": 96.29,
+      "rating": 3,
+      "reviewCount": 1,
+      "priceText": null,
+      "category": "restaurant",
+      "distanceText": "1.5 mi",
+      "distanceMeters": 2414,
+      "openText": "open - closes 11:30 pm",
+      "resultType": "ad",
+      "adLabel": "Sponsored 3",
+      "bounds": {
+        "left": 41,
+        "top": 390,
+        "right": 399,
+        "bottom": 554
+      },
+      "ratingBounds": {
+        "left": 41,
+        "top": 482,
+        "right": 399,
+        "bottom": 514
+      },
+      "ratingLineText": "3.0 %& (1) - Restaurant - 1.5 mi",
+      "warnings": [
+        "native_ad_evidence_unresolved"
+      ],
+      "nameBounds": {
+        "left": 41,
+        "top": 438,
+        "right": 302,
+        "bottom": 472
+      }
+    }
+  ],
+  "warnings": [
+    "native_ad_evidence_unresolved"
+  ],
+  "sheetBoundarySource": "ocr_header",
+  "topStateSource": "ocr_relevance"
+}

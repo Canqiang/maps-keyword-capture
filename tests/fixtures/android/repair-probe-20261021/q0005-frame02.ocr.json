@@ -1,0 +1,856 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "c110592ea0e54e97b4d8019cf6c6abc77e98552a265b796cd0e7c426d04b6866",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 2,
+  "lines": [
+    {
+      "text": "Merieule",
+      "confidence": 33.39,
+      "bounds": {
+        "left": 191,
+        "top": 0,
+        "right": 319.5,
+        "bottom": 28.5
+      },
+      "words": [
+        {
+          "text": "Merieule",
+          "confidence": 33.39312,
+          "bounds": {
+            "left": 191,
+            "top": 0,
+            "right": 319.5,
+            "bottom": 28.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "9 147",
+      "confidence": 35.79,
+      "bounds": {
+        "left": 339,
+        "top": 24.5,
+        "right": 418,
+        "bottom": 65
+      },
+      "words": [
+        {
+          "text": "9",
+          "confidence": 35.789543,
+          "bounds": {
+            "left": 339,
+            "top": 24.5,
+            "right": 379.5,
+            "bottom": 65
+          }
+        },
+        {
+          "text": "147",
+          "confidence": 35.789543,
+          "bounds": {
+            "left": 387,
+            "top": 37,
+            "right": 418,
+            "bottom": 54.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Bakery Cafe",
+      "confidence": 91.92,
+      "bounds": {
+        "left": 184,
+        "top": 28,
+        "right": 319.5,
+        "bottom": 66.5
+      },
+      "words": [
+        {
+          "text": "Bakery",
+          "confidence": 92.74826,
+          "bounds": {
+            "left": 184,
+            "top": 28,
+            "right": 260.5,
+            "bottom": 66.5
+          }
+        },
+        {
+          "text": "Cafe",
+          "confidence": 91.089287,
+          "bounds": {
+            "left": 267.5,
+            "top": 30,
+            "right": 319.5,
+            "bottom": 50
+          }
+        }
+      ]
+    },
+    {
+      "text": "eli us baked goods",
+      "confidence": 88.89,
+      "bounds": {
+        "left": 113.5,
+        "top": 62,
+        "right": 320,
+        "bottom": 90
+      },
+      "words": [
+        {
+          "text": "eli",
+          "confidence": 66.515808,
+          "bounds": {
+            "left": 113.5,
+            "top": 62.5,
+            "right": 136.5,
+            "bottom": 90
+          }
+        },
+        {
+          "text": "us",
+          "confidence": 96.680031,
+          "bounds": {
+            "left": 168.5,
+            "top": 67,
+            "right": 190,
+            "bottom": 79
+          }
+        },
+        {
+          "text": "baked",
+          "confidence": 96.113983,
+          "bounds": {
+            "left": 196.5,
+            "top": 62,
+            "right": 253.5,
+            "bottom": 79
+          }
+        },
+        {
+          "text": "goods",
+          "confidence": 96.236702,
+          "bounds": {
+            "left": 260,
+            "top": 62,
+            "right": 320,
+            "bottom": 83.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "at/a/reasonable price.’",
+      "confidence": 72.54,
+      "bounds": {
+        "left": 108.5,
+        "top": 88.5,
+        "right": 319.5,
+        "bottom": 109.5
+      },
+      "words": [
+        {
+          "text": "at/a/reasonable",
+          "confidence": 50.485378,
+          "bounds": {
+            "left": 108.5,
+            "top": 88.5,
+            "right": 255.5,
+            "bottom": 105.5
+          }
+        },
+        {
+          "text": "price.’",
+          "confidence": 94.597916,
+          "bounds": {
+            "left": 262.5,
+            "top": 88.5,
+            "right": 319.5,
+            "bottom": 109.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "baKery X",
+      "confidence": 88.94,
+      "bounds": {
+        "left": 42.5,
+        "top": 211,
+        "right": 661,
+        "bottom": 252.5
+      },
+      "words": [
+        {
+          "text": "baKery",
+          "confidence": 87.933891,
+          "bounds": {
+            "left": 42.5,
+            "top": 211.5,
+            "right": 179,
+            "bottom": 252.5
+          }
+        },
+        {
+          "text": "X",
+          "confidence": 89.948631,
+          "bounds": {
+            "left": 635,
+            "top": 211,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "a= Relevance ~ Open now Price ~",
+      "confidence": 74.79,
+      "bounds": {
+        "left": 46,
+        "top": 302,
+        "right": 671,
+        "bottom": 338
+      },
+      "words": [
+        {
+          "text": "a=",
+          "confidence": 30.660614,
+          "bounds": {
+            "left": 46,
+            "top": 302,
+            "right": 82,
+            "bottom": 338
+          }
+        },
+        {
+          "text": "Relevance",
+          "confidence": 76.798843,
+          "bounds": {
+            "left": 138,
+            "top": 307,
+            "right": 271,
+            "bottom": 329.5
+          }
+        },
+        {
+          "text": "~",
+          "confidence": 73.954765,
+          "bounds": {
+            "left": 287.5,
+            "top": 316,
+            "right": 307,
+            "bottom": 326
+          }
+        },
+        {
+          "text": "Open",
+          "confidence": 96.834061,
+          "bounds": {
+            "left": 370.5,
+            "top": 308.5,
+            "right": 439.5,
+            "bottom": 335
+          }
+        },
+        {
+          "text": "now",
+          "confidence": 96.342339,
+          "bounds": {
+            "left": 450,
+            "top": 314,
+            "right": 502,
+            "bottom": 329.5
+          }
+        },
+        {
+          "text": "Price",
+          "confidence": 93.266418,
+          "bounds": {
+            "left": 570,
+            "top": 307,
+            "right": 636,
+            "bottom": 329.5
+          }
+        },
+        {
+          "text": "~",
+          "confidence": 55.661106,
+          "bounds": {
+            "left": 651.5,
+            "top": 316,
+            "right": 671,
+            "bottom": 326
+          }
+        }
+      ]
+    },
+    {
+      "text": "Sponsored 3:",
+      "confidence": 73.08,
+      "bounds": {
+        "left": 41,
+        "top": 390,
+        "right": 187,
+        "bottom": 415
+      },
+      "words": [
+        {
+          "text": "Sponsored",
+          "confidence": 95.019943,
+          "bounds": {
+            "left": 41,
+            "top": 390.5,
+            "right": 157.5,
+            "bottom": 415
+          }
+        },
+        {
+          "text": "3:",
+          "confidence": 51.134109,
+          "bounds": {
+            "left": 181,
+            "top": 390,
+            "right": 187,
+            "bottom": 414
+          }
+        }
+      ]
+    },
+    {
+      "text": "Wonder Upper West Side",
+      "confidence": 96.53,
+      "bounds": {
+        "left": 41,
+        "top": 437.5,
+        "right": 446,
+        "bottom": 472
+      },
+      "words": [
+        {
+          "text": "Wonder",
+          "confidence": 96.204597,
+          "bounds": {
+            "left": 41,
+            "top": 438,
+            "right": 169,
+            "bottom": 464.5
+          }
+        },
+        {
+          "text": "Upper",
+          "confidence": 96.739761,
+          "bounds": {
+            "left": 179.5,
+            "top": 438,
+            "right": 278,
+            "bottom": 472
+          }
+        },
+        {
+          "text": "West",
+          "confidence": 96.368385,
+          "bounds": {
+            "left": 287,
+            "top": 438,
+            "right": 368,
+            "bottom": 464.5
+          }
+        },
+        {
+          "text": "Side",
+          "confidence": 96.795403,
+          "bounds": {
+            "left": 378.5,
+            "top": 437.5,
+            "right": 446,
+            "bottom": 464.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.4% (385) - & - Restaurant",
+      "confidence": 85.14,
+      "bounds": {
+        "left": 41.5,
+        "top": 483,
+        "right": 392,
+        "bottom": 510
+      },
+      "words": [
+        {
+          "text": "4.4%",
+          "confidence": 66.993301,
+          "bounds": {
+            "left": 41.5,
+            "top": 484,
+            "right": 98.5,
+            "bottom": 507
+          }
+        },
+        {
+          "text": "(385)",
+          "confidence": 84.524933,
+          "bounds": {
+            "left": 113.5,
+            "top": 484,
+            "right": 174.5,
+            "bottom": 510
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 84.524933,
+          "bounds": {
+            "left": 187,
+            "top": 496,
+            "right": 190,
+            "bottom": 499
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 90.642509,
+          "bounds": {
+            "left": 206.5,
+            "top": 483,
+            "right": 227,
+            "bottom": 509.5
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 87.84053,
+          "bounds": {
+            "left": 242,
+            "top": 496,
+            "right": 245,
+            "bottom": 499
+          }
+        },
+        {
+          "text": "Restaurant",
+          "confidence": 96.342628,
+          "bounds": {
+            "left": 257.5,
+            "top": 486,
+            "right": 392,
+            "bottom": 506.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Open - Closes 11:30 PM - 136 ft",
+      "confidence": 86.6,
+      "bounds": {
+        "left": 41,
+        "top": 522,
+        "right": 428,
+        "bottom": 554
+      },
+      "words": [
+        {
+          "text": "Open",
+          "confidence": 93.04705,
+          "bounds": {
+            "left": 41,
+            "top": 525.5,
+            "right": 108,
+            "bottom": 552
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 47.101959,
+          "bounds": {
+            "left": 108,
+            "top": 522,
+            "right": 119,
+            "bottom": 554
+          }
+        },
+        {
+          "text": "Closes",
+          "confidence": 96.069244,
+          "bounds": {
+            "left": 132.5,
+            "top": 524,
+            "right": 215.5,
+            "bottom": 546.5
+          }
+        },
+        {
+          "text": "11:30",
+          "confidence": 95.811195,
+          "bounds": {
+            "left": 226,
+            "top": 525.5,
+            "right": 287,
+            "bottom": 546.5
+          }
+        },
+        {
+          "text": "PM",
+          "confidence": 93.268379,
+          "bounds": {
+            "left": 298.5,
+            "top": 526,
+            "right": 334,
+            "bottom": 546
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 73.781898,
+          "bounds": {
+            "left": 335,
+            "top": 522,
+            "right": 346,
+            "bottom": 554
+          }
+        },
+        {
+          "text": "136",
+          "confidence": 96.797302,
+          "bounds": {
+            "left": 362,
+            "top": 525.5,
+            "right": 401.5,
+            "bottom": 546.5
+          }
+        },
+        {
+          "text": "ft",
+          "confidence": 96.895317,
+          "bounds": {
+            "left": 411,
+            "top": 524,
+            "right": 428,
+            "bottom": 546
+          }
+        }
+      ]
+    },
+    {
+      "text": "Michelin-Starred Restaurants",
+      "confidence": 94.24,
+      "bounds": {
+        "left": 74,
+        "top": 888,
+        "right": 441,
+        "bottom": 910.5
+      },
+      "words": [
+        {
+          "text": "Michelin-Starred",
+          "confidence": 91.848236,
+          "bounds": {
+            "left": 74,
+            "top": 888,
+            "right": 281,
+            "bottom": 910.5
+          }
+        },
+        {
+          "text": "Restaurants",
+          "confidence": 96.62178,
+          "bounds": {
+            "left": 292,
+            "top": 890,
+            "right": 441,
+            "bottom": 910.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "order bakery food delivery and",
+      "confidence": 96.39,
+      "bounds": {
+        "left": 73,
+        "top": 933,
+        "right": 400.5,
+        "bottom": 957
+      },
+      "words": [
+        {
+          "text": "order",
+          "confidence": 96.06485,
+          "bounds": {
+            "left": 73,
+            "top": 933.5,
+            "right": 130,
+            "bottom": 952.5
+          }
+        },
+        {
+          "text": "bakery",
+          "confidence": 96.06485,
+          "bounds": {
+            "left": 139,
+            "top": 933.5,
+            "right": 209.5,
+            "bottom": 957
+          }
+        },
+        {
+          "text": "food",
+          "confidence": 96.594582,
+          "bounds": {
+            "left": 217,
+            "top": 933,
+            "right": 264.5,
+            "bottom": 952.5
+          }
+        },
+        {
+          "text": "delivery",
+          "confidence": 96.222481,
+          "bounds": {
+            "left": 273,
+            "top": 933.5,
+            "right": 354.5,
+            "bottom": 957
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 97.006783,
+          "bounds": {
+            "left": 362,
+            "top": 933.5,
+            "right": 400.5,
+            "bottom": 952.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "Visit Site",
+      "confidence": 96.63,
+      "bounds": {
+        "left": 523,
+        "top": 948,
+        "right": 630,
+        "bottom": 971
+      },
+      "words": [
+        {
+          "text": "Visit",
+          "confidence": 96.753639,
+          "bounds": {
+            "left": 523,
+            "top": 948,
+            "right": 575.5,
+            "bottom": 971
+          }
+        },
+        {
+          "text": "Site",
+          "confidence": 96.505135,
+          "bounds": {
+            "left": 584,
+            "top": 948,
+            "right": 630,
+            "bottom": 971
+          }
+        }
+      ]
+    },
+    {
+      "text": "takeout from top restaurants on wo...",
+      "confidence": 95.97,
+      "bounds": {
+        "left": 73,
+        "top": 965,
+        "right": 474.5,
+        "bottom": 989
+      },
+      "words": [
+        {
+          "text": "takeout",
+          "confidence": 96.161263,
+          "bounds": {
+            "left": 73,
+            "top": 965.5,
+            "right": 153.5,
+            "bottom": 984.5
+          }
+        },
+        {
+          "text": "from",
+          "confidence": 95.591385,
+          "bounds": {
+            "left": 162,
+            "top": 965,
+            "right": 211.5,
+            "bottom": 984.5
+          }
+        },
+        {
+          "text": "top",
+          "confidence": 95.591385,
+          "bounds": {
+            "left": 220,
+            "top": 968,
+            "right": 254.5,
+            "bottom": 989
+          }
+        },
+        {
+          "text": "restaurants",
+          "confidence": 96.359955,
+          "bounds": {
+            "left": 263,
+            "top": 968,
+            "right": 385,
+            "bottom": 984.5
+          }
+        },
+        {
+          "text": "on",
+          "confidence": 95.638458,
+          "bounds": {
+            "left": 393,
+            "top": 971,
+            "right": 418,
+            "bottom": 984.5
+          }
+        },
+        {
+          "text": "wo...",
+          "confidence": 96.500786,
+          "bounds": {
+            "left": 426.5,
+            "top": 971,
+            "right": 474.5,
+            "bottom": 984.5
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions %\\ Call © Website |",
+      "confidence": 74.11,
+      "bounds": {
+        "left": 67,
+        "top": 1065,
+        "right": 720,
+        "bottom": 1095
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 42.858219,
+          "bounds": {
+            "left": 67,
+            "top": 1065,
+            "right": 97,
+            "bottom": 1095
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.751495,
+          "bounds": {
+            "left": 118,
+            "top": 1068,
+            "right": 242,
+            "bottom": 1091
+          }
+        },
+        {
+          "text": "%\\",
+          "confidence": 29.15773,
+          "bounds": {
+            "left": 320,
+            "top": 1066,
+            "right": 348,
+            "bottom": 1094
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 96.289619,
+          "bounds": {
+            "left": 369,
+            "top": 1068,
+            "right": 412.5,
+            "bottom": 1090.5
+          }
+        },
+        {
+          "text": "©",
+          "confidence": 81.063576,
+          "bounds": {
+            "left": 490,
+            "top": 1065,
+            "right": 520,
+            "bottom": 1095
+          }
+        },
+        {
+          "text": "Website",
+          "confidence": 96.576553,
+          "bounds": {
+            "left": 539.5,
+            "top": 1068,
+            "right": 640,
+            "bottom": 1091
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 77.046661,
+          "bounds": {
+            "left": 715,
+            "top": 1068.5,
+            "right": 720,
+            "bottom": 1094
+          }
+        }
+      ]
+    },
+    {
+      "text": "Sponsored :",
+      "confidence": 77.83,
+      "bounds": {
+        "left": 41,
+        "top": 1206,
+        "right": 187,
+        "bottom": 1231
+      },
+      "words": [
+        {
+          "text": "Sponsored",
+          "confidence": 91.85257,
+          "bounds": {
+            "left": 41,
+            "top": 1206.5,
+            "right": 157.5,
+            "bottom": 1231
+          }
+        },
+        {
+          "text": ":",
+          "confidence": 63.812534,
+          "bounds": {
+            "left": 181,
+            "top": 1206,
+            "right": 187,
+            "bottom": 1230
+          }
+        }
+      ]
+    }
+  ]
+}
