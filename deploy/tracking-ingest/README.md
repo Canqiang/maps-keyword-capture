@@ -21,4 +21,4 @@ The last stdout line is `tracking_daily_ingested` with per-date `manifests / ins
 
 ## Build, pin, deploy
 
-Same image as the other tracking workloads (`az acr build` in the repo root, see `deploy/tracking-web/README.md`); put the digest into `image` and `IMAGE_DIGEST`, then `kubectl apply -f deploy/tracking-ingest/cronjob.yaml`. The mirror of the applied manifest lives in `fbr-env-project` (`azure/uat/kube/resource/app/ai/64-maps-tracking-ingest-daily-cronjob.yml`).
+The container SAS of the daily monitor can write but not list, so the ingest uses its own read+list SAS from the stored access policy `maps-uat-ingest-reader` (expires 2027-10-21; delete the policy to revoke) in Secret `maps-tracking-ingest-storage`. Same image as the other tracking workloads (`az acr build` in the repo root, see `deploy/tracking-web/README.md`); put the digest into `image` and `IMAGE_DIGEST`, then `kubectl apply -f deploy/tracking-ingest/cronjob.yaml`. The mirror of the applied manifest lives in `fbr-env-project` (`azure/uat/kube/resource/app/ai/64-maps-tracking-ingest-daily-cronjob.yml`).
