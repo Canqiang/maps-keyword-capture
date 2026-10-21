@@ -24,6 +24,17 @@ describe('frontend history presentation', () => {
   const rows = [o('a','2026-10-16',9),o('b','2026-10-17',8),o('c','2026-10-19',7),o('d','2026-10-20',6,{cohortKey:'new'}),o('e','2026-10-21',5,{eligible:false})];
   expect(m.segments(rows).map(s=>s.map(x=>x.observationId))).toEqual([['a','b'],['c'],['d']]);
  });
+ it('connects same-cohort qualified ranks across a short gap and breaks everywhere else', () => {
+  const at = (id: string, iso: string, rank: number | null, extra: Record<string, unknown> = {}) => ({ ...o(id, iso.slice(0,10), rank, extra), observedAt: iso });
+  const rows = [at('a','2026-10-20T02:00:00Z',9), at('b','2026-10-20T04:00:00Z',8), at('c','2026-10-21T20:00:00Z',7), at('d','2026-10-21T22:00:00Z',6,{cohortKey:'new'}), at('e','2026-10-22T00:00:00Z',null), at('f','2026-10-22T02:00:00Z',5,{cohortKey:'new'}), at('g','2026-10-22T04:00:00Z',4,{cohortKey:'new',eligible:false})];
+  expect(m.series(rows).map(s => s.map(x => x.observationId))).toEqual([['a','b'],['c'],['d'],['f']]);
+  expect(m.series(rows.slice().reverse()).map(s => s.map(x => x.observationId))).toEqual([['a','b'],['c'],['d'],['f']]);
+ });
+ it('summarises a range without averaging unqualified attempts', () => {
+  const rows = [o('a','2026-10-18',2), o('b','2026-10-19',null), o('c','2026-10-20',7,{eligible:false}), o('d','2026-10-21',3), o('e','2026-10-21',12)];
+  expect(m.stats(rows)).toEqual({ total:5, qualified:4, ranked:3, absent:1, unverified:1, best:2, worst:12, median:3, top3:2 });
+  expect(m.stats([])).toMatchObject({ total:0, qualified:0, best:null, median:null });
+ });
  it('preserves evidence identity and safely encodes only supported evidence keys', () => {
   expect(m.evidenceUrl('tracking/web/past/a.png')).toBe('/api/evidence?key=tracking%2Fweb%2Fpast%2Fa.png');
   for(const key of ['/etc/secret.png','tracking/../secret.png','https://x/a.png','tracking/a.json','tracking/x.png?sig=secret']) expect(m.evidenceUrl(key)).toBeNull();

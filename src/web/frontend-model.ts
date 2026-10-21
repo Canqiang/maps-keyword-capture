@@ -52,6 +52,26 @@ export function createFrontendModel() {
     }
     return result;
   };
+  /** Connect consecutive qualified ranks of one series when the cohort is unchanged and the gap is short; anything else breaks the line. */
+  const series = (rows: FrontendObservation[], maxGapHours = 36): FrontendObservation[][] => {
+    const sorted = [...rows].sort((a,b) => a.observedAt.localeCompare(b.observedAt) || a.observationId.localeCompare(b.observationId));
+    const result: FrontendObservation[][] = []; let previous: FrontendObservation | null = null;
+    for (const row of sorted) {
+      if (!row.eligible || row.metricOrganicRank === null || !row.cohortKey) { previous = null; continue; }
+      const contiguous = previous && previous.cohortKey === row.cohortKey && Date.parse(row.observedAt) - Date.parse(previous.observedAt) <= maxGapHours * 3600000;
+      if (contiguous) result[result.length-1]!.push(row); else result.push([row]);
+      previous = row;
+    }
+    return result;
+  };
+  /** Range statistics over every attempt; unqualified attempts are counted, never averaged. */
+  const stats = (rows: FrontendObservation[]) => {
+    const ranks = rows.filter(o => o.eligible && o.metricOrganicRank !== null).map(o => o.metricOrganicRank!).sort((a,b) => a-b);
+    const absent = rows.filter(o => o.eligible && o.metricOrganicRank === null).length;
+    const median = ranks.length ? (ranks.length % 2 ? ranks[(ranks.length-1)/2]! : (ranks[ranks.length/2-1]! + ranks[ranks.length/2]!) / 2) : null;
+    return { total: rows.length, qualified: ranks.length + absent, ranked: ranks.length, absent, unverified: rows.length - ranks.length - absent,
+      best: ranks[0] ?? null, worst: ranks.at(-1) ?? null, median, top3: ranks.filter(n => n <= 3).length };
+  };
   const evidenceUrl = (s: string): string | null => /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u.test(s) && !s.split('/').some(x=>x==='' || x==='.' || x==='..') ? '/api/evidence?key='+encodeURIComponent(s) : null;
   const activeKeywords = (store: TargetStore): string[] => store.keywordTargets ? store.keywordTargets.map(t => t.keyword) : [...store.keywords.core, ...store.keywords.longTail];
   const targetFor = (store: TargetStore, keyword: string, pointId: string) => store.keywordTargets?.find(t => key(t.keyword) === key(keyword))?.pointTargets.find(t => t.pointId === pointId) ?? null;
@@ -62,5 +82,5 @@ export function createFrontendModel() {
     });
     return [...choices, ...observed.filter(o => !planned.some(p => p.id === o.pointId))];
   };
-  return { escape,key,daily,present,compare,days,segments,evidenceUrl,activeKeywords,targetFor,pointChoices };
+  return { escape,key,daily,present,compare,days,segments,series,stats,evidenceUrl,activeKeywords,targetFor,pointChoices };
 }
