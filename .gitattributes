@@ -1,0 +1,2 @@
+# Preserve receipt-verified Android XML bytes across all checkout platforms.
+tests/fixtures/android/grid-v3-20261020/*.xml -text
