@@ -44,6 +44,9 @@ export interface ScreenFrame {
   sheetBoundarySource?: 'native_result_list' | 'ocr_header' | null;
   topStateSource?: 'native_scroll_actions' | 'ocr_relevance' | null;
   nativeListBounds?: Rect | null;
+  /** Legible sheet lines (snippets, status, action rows, module titles) used only to measure
+   * continuity between adjacent frames; never a merchant identity. */
+  anchors?: Array<{ text: string; bounds: Rect }>;
 }
 export interface RankedListing {
   displayPosition: number; organicRank: number | null;
@@ -287,6 +290,8 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
       }
     }
   }
+  frame.anchors = sheet.filter(line => line.confidence >= 55 && normalizeText(line.text).length >= 10 && !/^[^a-z0-9一-鿿]*$/u.test(normalizeText(line.text)))
+    .map(line => ({ text: normalizeText(line.text), bounds: { ...line.bounds } }));
   frame.topStateVerified = frame.queryVisible && sheet.some(line => line.confidence >= 40 && /\brelevance\b/iu.test(line.text) && line.bounds.bottom <= (frame.cards[0]?.bounds.top ?? Infinity));
   if (frame.topStateVerified) frame.topStateSource = 'ocr_relevance';
   if (native && native.canScrollBackward !== null) {
@@ -387,12 +392,59 @@ function measuredDriftOverlap(previous: ScreenFrame, frame: ScreenFrame, count: 
   });
 }
 
+/** Continuity between adjacent frames measured from the sheet text itself (probe 6,
+ * q0001/q0002 frames 3→4: the first card's name slid under the sheet header while the
+ * photo-discovery module filled the rest of the viewport, so no card header was shared).
+ * Two or more identical legible lines at the same left/right that all moved by one
+ * non-positive amount within half the list height prove that nothing between the two
+ * viewports was skipped. Returns that movement, or null. A pitch-sized jump that could
+ * align one card's repeated chrome with the next card's is excluded by the bound.
+ */
+export function anchoredContinuity(previous: ScreenFrame | undefined, frame: ScreenFrame): number | null {
+  const before = previous?.nativeListBounds, after = frame.nativeListBounds;
+  if (!previous || !before || !after || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
+    !previous.queryVisible || !frame.queryVisible || before.left !== after.left || before.right !== after.right || before.bottom !== after.bottom || Math.abs(before.top - after.top) > 2 ||
+    !previous.anchors?.length || !frame.anchors?.length) return null;
+  const height = after.bottom - after.top;
+  const matches: number[] = [];
+  const texts = new Set<string>();
+  for (const a of previous.anchors) {
+    const candidates = frame.anchors.filter(b => b.text === a.text && Math.abs(b.bounds.left - a.bounds.left) <= 4 && Math.abs(b.bounds.right - a.bounds.right) <= 4 &&
+      b.bounds.top - a.bounds.top <= 2 && b.bounds.top - a.bounds.top >= -height * 0.5);
+    // A text that appears twice in either frame cannot anchor anything.
+    if (candidates.length !== 1 || previous.anchors.filter(other => other.text === a.text).length !== 1 || texts.has(a.text)) continue;
+    texts.add(a.text); matches.push(candidates[0]!.bounds.top - a.bounds.top);
+  }
+  if (matches.length < 2) return null;
+  const delta = matches[0]!;
+  return matches.every(moved => Math.abs(moved - delta) <= 4) ? delta : null;
+}
+
+/** With anchored continuity, a first card whose name is hidden under the sheet header is
+ * the previous frame's last card when its rating line kept the same geometry and moved by
+ * the anchored amount, and its rating, review count and visible distance agree. */
+function anchoredClippedJoin(previous: ScreenFrame, row: RankedListing | undefined, frame: ScreenFrame, delta: number): boolean {
+  // Identity comes from the row already verified for that card (it may itself have
+  // been joined as a clipped header); geometry comes from the previous frame's card.
+  const a = previous.cards.at(-1), b = frame.cards[0];
+  if (!a || !b || !row || row.name === null || (row.nameConfidence ?? 0) < 40 || row.resultType === 'unknown' ||
+    row.warnings.includes('low_rating_confidence') || a.warnings.includes('low_rating_confidence') || b.name !== null || b.resultType !== 'unknown' ||
+    !b.warnings.some(warning => ['name_clipped_at_top', 'card_header_clipped'].includes(warning)) ||
+    b.warnings.some(warning => !['name_clipped_at_top', 'card_header_clipped'].includes(warning)) ||
+    a.rating === null || a.reviewCount === null || a.rating !== b.rating || a.reviewCount !== b.reviewCount ||
+    (a.distanceText !== null && b.distanceText !== null && a.distanceText !== b.distanceText) || !a.ratingBounds || !b.ratingBounds ||
+    Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 4 || Math.abs(b.ratingBounds.right - a.ratingBounds.right) > 4) return false;
+  return Math.abs((b.ratingBounds.top - a.ratingBounds.top) - delta) <= 4;
+}
+
 /** Progress is measured from a named card moving upward in the same native
  * viewport, not from a different PNG hash or an assumed successful gesture. */
 export function hasMeasuredScreenProgress(previous: ScreenFrame | undefined, frame: ScreenFrame): boolean {
   const before = previous?.nativeListBounds, after = frame.nativeListBounds;
   if (!previous || !before || !after || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
     !previous.queryVisible || !frame.queryVisible || before.left !== after.left || before.right !== after.right || before.bottom !== after.bottom || Math.abs(before.top - after.top) > 2) return false;
+  const anchored = anchoredContinuity(previous, frame);
+  if (anchored !== null && anchored <= -2) return true;
   return previous.cards.some(card => card.name !== null && card.ratingBounds && frame.cards.some(next =>
     next.name !== null && next.ratingBounds && sameCard(card, next) && nameKey(card.name!) === nameKey(next.name) &&
     next.ratingBounds.top < card.ratingBounds!.top - 2 && next.ratingBounds.top > card.ratingBounds!.top - (after.bottom - after.top) * 0.5 &&
@@ -412,14 +464,18 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
       continuous = false; warnings.push('native_ad_evidence_unresolved');
     }
     let overlap = 0;
-    let clippedOverlap = false, driftOverlap = false;
+    let clippedOverlap = false, driftOverlap = false, anchoredJoin = false;
     if (previous) {
       for (let count = Math.min(previous.cards.length, frame.cards.length); count > 0; count--) {
         if (frame.cards.slice(0, count).every((card, i) => sameCard(previous!.cards[previous!.cards.length - count + i]!, card))) { overlap = count; break; }
         if (clippedPrefixOverlap(previous, frame, count)) { overlap = count; clippedOverlap = true; break; }
         if (measuredDriftOverlap(previous, frame, count)) { overlap = count; driftOverlap = true; break; }
       }
-      if (!overlap && frame.cards.length) { continuous = false; warnings.push(`ordered_overlap_missing: ${previous.frameId} -> ${frame.frameId}`); }
+      if (!overlap) {
+        const delta = anchoredContinuity(previous, frame);
+        if (delta !== null && anchoredClippedJoin(previous, previousRows.at(-1), frame, delta)) { overlap = 1; anchoredJoin = true; }
+        else if (delta === null && frame.cards.length) { continuous = false; warnings.push(`ordered_overlap_missing: ${previous.frameId} -> ${frame.frameId}`); }
+      }
     }
     const rows: RankedListing[] = [];
     for (let i = 0; i < frame.cards.length; i++) {
@@ -429,6 +485,7 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
         if (!existing.frameIds.includes(frame.frameId)) existing.frameIds.push(frame.frameId);
         if (clippedOverlap && i === 0) existing.warnings.push('clipped_prefix_verified_by_ordered_overlap');
         if (driftOverlap && !existing.warnings.includes('name_drift_joined_by_measured_overlap')) existing.warnings.push('name_drift_joined_by_measured_overlap');
+        if (anchoredJoin && !existing.warnings.includes('clipped_prefix_verified_by_line_anchors')) existing.warnings.push('clipped_prefix_verified_by_line_anchors');
         if ((card.nameConfidence ?? 0) > (existing.nameConfidence ?? 0)) { existing.name = card.name; existing.nameConfidence = card.nameConfidence; }
         if (existing.warnings.includes('status_line_clipped') && !card.warnings.includes('status_line_clipped')) {
           if (existing.distanceText === null && card.distanceText !== null) {

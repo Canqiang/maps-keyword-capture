@@ -1,0 +1,57 @@
+{
+  "frameId": "q0003:frame-026",
+  "capturedAt": "2026-10-21T04:04:36.429Z",
+  "imageSha256": "8b53e13ab0241162a7ea7ed07135854a86cc4c65bf700aad5c65d5667fcb9a9d",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0003:frame-026",
+      "name": "Teamisu cafe",
+      "nameConfidence": 94.43,
+      "rating": 4.5,
+      "reviewCount": 55,
+      "priceText": "$10–20",
+      "category": "dessert",
+      "distanceText": "0.7 mi",
+      "distanceMeters": 1127,
+      "openText": "opens 11 am",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 849,
+        "right": 461,
+        "bottom": 963
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 894,
+        "right": 461,
+        "bottom": 921
+      },
+      "ratingLineText": "4.5% (55) - $10-20 - & - Dessert",
+      "warnings": [],
+      "nameBounds": {
+        "left": 40.666666666666664,
+        "top": 849,
+        "right": 248,
+        "bottom": 875.6666666666666
+      }
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "topStateSource": null
+}

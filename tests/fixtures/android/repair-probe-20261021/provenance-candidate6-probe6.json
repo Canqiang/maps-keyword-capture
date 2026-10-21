@@ -1,0 +1,165 @@
+{
+  "runId": "run_20261021T040041Z_172916",
+  "sourceCommit": "df3bab1195e062bfa30042b7a239c96e5dc8684e",
+  "candidate": "6-probe5-repairs",
+  "display": {
+    "widthPixels": 720,
+    "heightPixels": 1280,
+    "densityDpi": 320,
+    "fontScale": 1
+  },
+  "ocrScale": 3,
+  "receipt": "evidence/2026-10-21/android-ranking-repair/candidate6-live-verification.json",
+  "files": {
+    "candidate6-q0001-03.ocr.json": {
+      "source": "q0001/20261021T040114.949Z__keyword__03.ocr.json",
+      "sha256": "c461c8412739507f9ac48afd9295e80f80ecde816fa52029fe3a7681237b7764",
+      "bytes": 17089
+    },
+    "candidate6-q0001-03.xml": {
+      "source": "q0001/20261021T040114.949Z__keyword__03.xml",
+      "sha256": "8d1ce3623ab55cb5aa04caf360309ab5f8d7d4baa8ce4a12fd50a89c1d31dde0",
+      "bytes": 69814
+    },
+    "candidate6-q0001-03.frame.json": {
+      "source": "q0001/20261021T040114.949Z__keyword__03.frame.json",
+      "sha256": "a34d6a078e6713474b25cf1046e5ffab7192b3992ca435ff0fcff73bcb6d8cc0",
+      "bytes": 1440
+    },
+    "candidate6-q0001-04.ocr.json": {
+      "source": "q0001/20261021T040119.447Z__keyword__04.ocr.json",
+      "sha256": "29135c5a3497ccbe87a4116fd6129bad91e8eb8ee631ec0313a810425e06569a",
+      "bytes": 17585
+    },
+    "candidate6-q0001-04.xml": {
+      "source": "q0001/20261021T040119.447Z__keyword__04.xml",
+      "sha256": "1ff6f29eb2763f08720790115b7299744342afde81f15cd0ef7091a34a51843c",
+      "bytes": 69810
+    },
+    "candidate6-q0001-04.frame.json": {
+      "source": "q0001/20261021T040119.447Z__keyword__04.frame.json",
+      "sha256": "06206a6411dbb8b5ce6654aa24ddc0779c8f06d38ece4330973be44eb952333a",
+      "bytes": 1295
+    },
+    "candidate6-q0002-03.ocr.json": {
+      "source": "q0002/20261021T040153.069Z__chinese-food__03.ocr.json",
+      "sha256": "266f9e6c4a33fc52ed4cf83a3871c2a57e45bcf41a1a680124baa846fce181a8",
+      "bytes": 28771
+    },
+    "candidate6-q0002-03.xml": {
+      "source": "q0002/20261021T040153.069Z__chinese-food__03.xml",
+      "sha256": "b24670ec55d845a25bdc5c9970fd0b09a29fb8160c53a2c546f0073ca33a38d7",
+      "bytes": 71391
+    },
+    "candidate6-q0002-03.frame.json": {
+      "source": "q0002/20261021T040153.069Z__chinese-food__03.frame.json",
+      "sha256": "63669b03c975e30d3aaa9a19bbb767b5a3ef76f47088143c60ee8ada92e505d6",
+      "bytes": 1477
+    },
+    "candidate6-q0002-04.ocr.json": {
+      "source": "q0002/20261021T040157.965Z__chinese-food__04.ocr.json",
+      "sha256": "ee3b9f0131021730a098b072132139df7cbe7111ae992d5fd2b574e6622b3590",
+      "bytes": 25180
+    },
+    "candidate6-q0002-04.xml": {
+      "source": "q0002/20261021T040157.965Z__chinese-food__04.xml",
+      "sha256": "b0c8e51d312c02e6a91aacebd6e453d87ae033514dc1975e559b0d41bbe8dd56",
+      "bytes": 71390
+    },
+    "candidate6-q0002-04.frame.json": {
+      "source": "q0002/20261021T040157.965Z__chinese-food__04.frame.json",
+      "sha256": "0f8699f81dce69a5d7a3aa3a8ea50c7f0bf9e9ff235776447b0850fd68d13c0b",
+      "bytes": 1293
+    },
+    "candidate6-q0005-05.ocr.json": {
+      "source": "q0005/20261021T040817.414Z__bakery__05.ocr.json",
+      "sha256": "47638fe2722b18edc9196a81a9950c4cdf034d8e86710a373d62d90cbf6d9ff6",
+      "bytes": 17167
+    },
+    "candidate6-q0005-05.xml": {
+      "source": "q0005/20261021T040817.414Z__bakery__05.xml",
+      "sha256": "0df3f854efcbf074ecd8be7295ee23bfdebc690b3549b68cf57fe9ae0ead877d",
+      "bytes": 73165
+    },
+    "candidate6-q0005-05.frame.json": {
+      "source": "q0005/20261021T040817.414Z__bakery__05.frame.json",
+      "sha256": "88bf564a52c300992e82dab8d0310b23cd95bb70c80e45965fe3cf37b93756c1",
+      "bytes": 1445
+    },
+    "candidate6-q0005-06.ocr.json": {
+      "source": "q0005/20261021T040821.414Z__bakery__06.ocr.json",
+      "sha256": "5e7545bf27462501caf88c5f7214f32585fade90052859579d719a87bc99a352",
+      "bytes": 18831
+    },
+    "candidate6-q0005-06.xml": {
+      "source": "q0005/20261021T040821.414Z__bakery__06.xml",
+      "sha256": "6248afb0c4e9a4459733d448dfcb3627d7e79034fb1bfa096aca771910f1989b",
+      "bytes": 67954
+    },
+    "candidate6-q0005-06.frame.json": {
+      "source": "q0005/20261021T040821.414Z__bakery__06.frame.json",
+      "sha256": "8351e467ef26b2b8fdcd510a61f0b0a1c197065a262d85120506b25806f5667f",
+      "bytes": 1324
+    },
+    "candidate6-q0003-26.ocr.json": {
+      "source": "q0003/20261021T040436.429Z__bubble-tea-near-me__26.ocr.json",
+      "sha256": "b52f678bdca87b9fd11b3da964ed1813ef990f43f756794b3f625776c3f627b2",
+      "bytes": 12485
+    },
+    "candidate6-q0003-26.xml": {
+      "source": "q0003/20261021T040436.429Z__bubble-tea-near-me__26.xml",
+      "sha256": "68f64b01411a07443ac221529382368c29e880411a77da1d1a83ae821e144f02",
+      "bytes": 75245
+    },
+    "candidate6-q0003-26.frame.json": {
+      "source": "q0003/20261021T040436.429Z__bubble-tea-near-me__26.frame.json",
+      "sha256": "85530bb7a0d2ef0e9c4810a2dd37aa793025cf3827f128fd4c339d37bcc638f9",
+      "bytes": 1376
+    },
+    "candidate6-q0003-27.ocr.json": {
+      "source": "q0003/20261021T040441.826Z__bubble-tea-near-me__27.ocr.json",
+      "sha256": "6b7f1dcef085886b151d5f2650d4884624b259534714cc4510353f1c1ba4acbe",
+      "bytes": 23947
+    },
+    "candidate6-q0003-27.xml": {
+      "source": "q0003/20261021T040441.826Z__bubble-tea-near-me__27.xml",
+      "sha256": "64fc709d627699d219ba11e214a6732f17a531a2f5485ac1ff8b6568dde3920a",
+      "bytes": 77192
+    },
+    "candidate6-q0003-27.frame.json": {
+      "source": "q0003/20261021T040441.826Z__bubble-tea-near-me__27.frame.json",
+      "sha256": "8e013cf1c59db1b94130a8b1c6406bee644b50a0663ac10f7c28a39911882d1e",
+      "bytes": 1425
+    },
+    "candidate6-q0001-02.ocr.json": {
+      "source": "q0001/20261021T040110.411Z__keyword__02.ocr.json",
+      "sha256": "0106e2ec5a67e9aa123d823eb7b2d73c4a691af13fd36a29b88d1b6899af3653",
+      "bytes": 20832
+    },
+    "candidate6-q0001-02.xml": {
+      "source": "q0001/20261021T040110.411Z__keyword__02.xml",
+      "sha256": "f07f9f76ea09c5d24d274101e03188a439d3f046a7000864ba28470a6cc32f93",
+      "bytes": 79510
+    },
+    "candidate6-q0001-02.frame.json": {
+      "source": "q0001/20261021T040110.411Z__keyword__02.frame.json",
+      "sha256": "d54a681755f26c00e1c7b935fdc1009a9ce6f8a005b28efced31f76b4d567e91",
+      "bytes": 1431
+    },
+    "candidate6-q0002-02.ocr.json": {
+      "source": "q0002/20261021T040147.952Z__chinese-food__02.ocr.json",
+      "sha256": "2ce79a48a2fc8c810d09b8fdbcf43e2ad9d942154dd3ea488159ca97170c8119",
+      "bytes": 35755
+    },
+    "candidate6-q0002-02.xml": {
+      "source": "q0002/20261021T040147.952Z__chinese-food__02.xml",
+      "sha256": "2ddc986fd90be6ab88854dec0c96f5259016abee8efb0ba000029db80b852e4f",
+      "bytes": 79297
+    },
+    "candidate6-q0002-02.frame.json": {
+      "source": "q0002/20261021T040147.952Z__chinese-food__02.frame.json",
+      "sha256": "727a47f317e08fe8624b3ab09be17f6737c9616e16702fc11ee4e0c25c47de3a",
+      "bytes": 1420
+    }
+  }
+}

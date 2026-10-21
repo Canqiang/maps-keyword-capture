@@ -525,6 +525,16 @@ function closedStaticActionRow(nodes: EvidenceNode[], row: EvidenceNode, card: E
   });
 }
 
+/** Probe 6 (q0005 frame 6): the photo-discovery module is a direct child of the
+ * exact-query result list beside the merchant cards. It carries image-result or
+ * photo-map labels and no merchant action controls; it is never a card. */
+function photoModuleChild(nodes: EvidenceNode[], card: EvidenceNode): boolean {
+  const inside = nodes.filter(node => { for (let parent = node.parent; parent; parent = parent.parent) if (parent === card) return true; return false; });
+  const actionNames = ['directions', 'call', 'website', 'menu', 'share', 'save', 'order', 'reserve'];
+  return !card.clickable && !labels(card).length && inside.some(node => labels(node).some(label => normalized(label).startsWith('image result for ') || normalized(label) === 'view photo map')) &&
+    !inside.some(node => controlLabel(node, actionNames) !== null);
+}
+
 /** Keep static rows in the observed direct merchant envelopes. In particular,
  * a labeled or displaced empty next-card body cannot borrow another card's row.
  */
@@ -546,7 +556,7 @@ function staticListActionRow(nodes: EvidenceNode[], row: EvidenceNode, list: Evi
     card.bounds.left === list.bounds.left && card.bounds.right === list.bounds.right && !card.clickable && !labels(card).length &&
     !nodes.some(node => { for (let parent = node.parent; parent; parent = parent.parent) if (parent === card) return node.clickable || node.scrollable || labels(node).length > 0 || node.resourceId !== ''; return false; });
   for (const card of cards) {
-    if (clippedEdgeModule(card)) continue;
+    if (clippedEdgeModule(card) || photoModuleChild(nodes, card)) continue;
     const [frame] = children(card), body = frame && children(frame)[0];
     if (!card.bounds || card.foreignDescendant || card.bounds.left !== list.bounds.left || card.bounds.right !== list.bounds.right ||
       !insideBounds(card.bounds, list.bounds) || children(card).length !== 1 || !frame || children(frame).length !== 1 || !body ||
@@ -684,7 +694,7 @@ function liveSearchLists(nodes: EvidenceNode[], query: string, exactKeyword = qu
       node.bounds.left === list.bounds!.left && node.bounds.right === list.bounds!.right &&
       node.bounds.top >= list.bounds!.top && node.bounds.bottom <= list.bounds!.bottom);
     if (scrolledPhotoModuleContinuation(nodes, list, exactKeyword) || filteredPhotoModuleList(nodes, list, exactKeyword) ||
-      filteredStaticActionList(nodes, list)) return true;
+      filteredStaticActionList(nodes, list) || cardsBesidePhotoModule(nodes, list, query)) return true;
     // The observed tall first ad can fill the collapsed sheet before its action
     // row is visible. Require the native filter row and the paired ad controls
     // in that one clipped direct card; an anonymous card is insufficient.
@@ -722,6 +732,38 @@ function liveSearchLists(nodes: EvidenceNode[], query: string, exactKeyword = qu
   });
 }
 
+/** Probe 6: a scrolled exact-query list whose direct children are complete merchant
+ * cards (each with a static or scrolling row of at least two distinct action controls),
+ * the photo-discovery module, and at most clipped unlabeled children at the list edges. */
+function cardsBesidePhotoModule(nodes: EvidenceNode[], list: EvidenceNode, query: string): boolean {
+  // Only the scrolled state (native backward-scroll proof) qualifies; the initial
+  // photo-discovery layout keeps its own classification. The module must prove the
+  // exact query through at least two image results and expose no photo-map control
+  // (those partially visible module shapes keep their dedicated proofs).
+  if (!query || !list.bounds || list.foreignDescendant || !list.actions?.includes('ACTION_SCROLL_TO_POSITION') ||
+    !list.actions.includes('ACTION_SCROLL_BACKWARD') || !list.actions.includes('ACTION_SCROLL_FORWARD')) return false;
+  const direct = nodes.filter(node => node.parent === list);
+  const actionNames = ['directions', 'call', 'website', 'menu', 'share', 'save', 'order', 'reserve'];
+  const within = (node: EvidenceNode, container: EvidenceNode): boolean => { for (let parent = node.parent; parent; parent = parent.parent) if (parent === container) return true; return false; };
+  const full = (node: EvidenceNode): boolean => node.enabled && node.packageName === MAPS_PACKAGE && node.bounds !== null && node.className === 'android.widget.FrameLayout' &&
+    !node.resourceId && node.bounds.left === list.bounds!.left && node.bounds.right === list.bounds!.right && node.bounds.top >= list.bounds!.top && node.bounds.bottom <= list.bounds!.bottom;
+  if (!direct.length || !direct.every(full)) return false;
+  const card = (node: EvidenceNode): boolean => !photoModuleChild(nodes, node) && nodes.some(row => within(row, node) && row.enabled && row.clickable &&
+    row.className === 'android.widget.HorizontalScrollView' && new Set(nodes.filter(child => within(child, row) && child.className === 'android.view.ViewGroup')
+      .map(child => controlLabel(child, actionNames)).filter(label => label !== null)).size >= 2);
+  const edge = (node: EvidenceNode): boolean => (node.bounds!.top === list.bounds!.top || node.bounds!.bottom === list.bounds!.bottom) && !node.clickable && !labels(node).length &&
+    !nodes.some(inner => within(inner, node) && (inner.clickable || inner.scrollable || labels(inner).length > 0 || inner.resourceId !== ''));
+  const imagePrefix = `image result for ${query} posted by `;
+  const exactModule = (node: EvidenceNode): boolean => photoModuleChild(nodes, node) &&
+    nodes.filter(inner => within(inner, node) && inner.className === 'android.widget.ImageView' && normalized(inner.description).startsWith(imagePrefix) &&
+      normalized(inner.description).length > imagePrefix.length).length >= 2 &&
+    // Every label inside the module is an exact-query image result; any other labeled
+    // node (a photo-map control, a caption, a foreign button) keeps the dedicated proofs.
+    !nodes.some(inner => within(inner, node) && labels(inner).some(label => !normalized(label).startsWith(imagePrefix)));
+  const modules = direct.filter(exactModule), cards = direct.filter(card);
+  return cards.length >= 1 && modules.length >= 1 && direct.every(node => card(node) || exactModule(node) || edge(node));
+}
+
 /** A separate unranked search layout observed on Maps 26.41, not a ranked list. */
 function livePhotoDiscovery(nodes: EvidenceNode[], query: string, exactKeyword = query): boolean {
   if (!query) return false;
@@ -733,7 +775,7 @@ function livePhotoDiscovery(nodes: EvidenceNode[], query: string, exactKeyword =
     const header = nodes.filter(node => withinMaps(node, panel) && !withinMaps(node, list));
     if (!header.some(node => node.enabled && node.heading && node.className === 'android.widget.TextView' && hasLabel(node, [query]))
       || !header.some(node => node.enabled && node.clickable && node.resourceId === id('terra_navigation_header_close_button') && hasLabel(node, ['close']))) return false;
-    if (scrolledPhotoModuleContinuation(nodes, list, exactKeyword) || filteredPhotoModuleList(nodes, list, exactKeyword)) return false;
+    if (scrolledPhotoModuleContinuation(nodes, list, exactKeyword) || filteredPhotoModuleList(nodes, list, exactKeyword) || cardsBesidePhotoModule(nodes, list, query)) return false;
     const descendants = nodes.filter(node => withinMaps(node, list));
     const rows = descendants.filter(node => node.enabled && node.scrollable && node.bounds !== null && node.className === 'android.widget.HorizontalScrollView');
     const actions = rows.some(row => {

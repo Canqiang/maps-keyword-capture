@@ -40,7 +40,9 @@ describe('real native scrolling overlap and pending advertisement headers', () =
       card.resultType = 'unknown'; card.warnings.push('low_rating_confidence');
     }
     const result = reconcileScreenFrames(observed, 20);
-    expect(result.sequenceVerified).toBe(false);
+    // Candidate7 may still measure continuity from the sheet lines, but the uncertain header
+    // keeps the ranking unreliable and never qualifies the ordered-overlap join itself.
+    expect(result.rankingReliable).toBe(false);
     expect(result.listings.every(row => !row.warnings.includes('clipped_prefix_verified_by_ordered_overlap'))).toBe(true);
   });
   it('defers an ad header entering only the bottom edge without invalidating the preceding complete prefix', () => {

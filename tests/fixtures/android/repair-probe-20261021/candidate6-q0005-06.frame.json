@@ -1,0 +1,48 @@
+{
+  "frameId": "q0005:frame-006",
+  "capturedAt": "2026-10-21T04:08:21.414Z",
+  "imageSha256": "32fb89e8a2fa163edffa5ad7bdaebef43eb64bb1a2c6186f48777232fe5dbf23",
+  "queryVisible": true,
+  "sheetTop": 252.66666666666666,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0005:frame-006",
+      "name": "Croissant et Cafe",
+      "nameConfidence": 96.21,
+      "rating": 4.5,
+      "reviewCount": 46,
+      "priceText": "$1–20",
+      "category": "bakery",
+      "distanceText": "132 ft",
+      "distanceMeters": 40,
+      "openText": "closed - opens 7 am",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 307.6666666666667,
+        "right": 375.6666666666667,
+        "bottom": 423.3333333333333
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 351.6666666666667,
+        "right": 375.6666666666667,
+        "bottom": 383.3333333333333
+      },
+      "ratingLineText": "4.5 % (46) - $1-20 - Bakery",
+      "warnings": [],
+      "nameBounds": {
+        "left": 41.666666666666664,
+        "top": 307.6666666666667,
+        "right": 318,
+        "bottom": 334.6666666666667
+      }
+    }
+  ],
+  "warnings": [],
+  "sheetBoundarySource": "ocr_header"
+}

@@ -1,0 +1,53 @@
+{
+  "frameId": "q0001:frame-004",
+  "capturedAt": "2026-10-21T04:01:19.447Z",
+  "imageSha256": "c7497e2a9ad9a03617177cba13bdf4b42f797d0370f3d98192fbe70b4b0a1b49",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0001:frame-004",
+      "name": null,
+      "nameConfidence": null,
+      "rating": 4.6,
+      "reviewCount": 62,
+      "priceText": null,
+      "category": "s20-30. chinese",
+      "distanceText": "0.2 mi",
+      "distanceMeters": 322,
+      "openText": "opens 10 am",
+      "resultType": "unknown",
+      "adLabel": null,
+      "bounds": {
+        "left": 40.666666666666664,
+        "top": 276,
+        "right": 405.6666666666667,
+        "bottom": 344.6666666666667
+      },
+      "ratingBounds": {
+        "left": 40.666666666666664,
+        "top": 276,
+        "right": 405.6666666666667,
+        "bottom": 305
+      },
+      "ratingLineText": "4.6% (62) - S20-30. Chinese",
+      "warnings": [
+        "name_clipped_at_top"
+      ]
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "topStateSource": null
+}

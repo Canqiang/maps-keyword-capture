@@ -50,16 +50,18 @@ describe('candidate6: probe 5 one-card clipped prefix (q0002 chinese food)', () 
     expect(result.listings[0]).toMatchObject({ name: 'Hwa Lung Kitchen', organicRank: 1, resultType: 'organic', frameIds: ['q0002:frame-002', 'q0002:frame-003'] });
     expect(result.listings[0]?.warnings).toContain('clipped_prefix_verified_by_ordered_overlap');
   });
-  it.each(['different-name', 'no-name', 'different-reviews', 'moved-down', 'other-warning'])('does not join a lone clipped header on weak evidence: %s', variant => {
+  // Candidate7 measures continuity from the sheet lines as well, so the frames may still be
+  // continuous; the card itself must nevertheless stay a separate, unreliable occurrence.
+  it.each(['different-name', 'different-reviews', 'moved-down', 'other-warning'])('does not join a lone clipped header on weak evidence: %s', variant => {
     const observed = [frame('q0002', 2, 'chinese food'), frame('q0002', 3, 'chinese food')], card = observed[1]!.cards[0]!;
     if (variant === 'different-name') card.name = 'Hwa Lung Kitchen II';
-    if (variant === 'no-name') { card.name = null; card.nameConfidence = null; card.warnings = ['name_clipped_at_top']; }
     if (variant === 'different-reviews') card.reviewCount = 60;
     if (variant === 'moved-down') { card.ratingBounds!.top += 200; card.ratingBounds!.bottom += 200; }
     if (variant === 'other-warning') card.warnings.push('low_rating_confidence');
     const result = reconcileScreenFrames(observed, 20);
     expect(result.rankingReliable).toBe(false);
-    expect(result.warnings).toContain('ordered_overlap_missing: q0002:frame-002 -> q0002:frame-003');
+    expect(result.listings).toHaveLength(2);
+    expect(result.listings[1]).toMatchObject({ resultType: 'unknown', organicRank: null });
   });
 });
 

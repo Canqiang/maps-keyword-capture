@@ -1,0 +1,57 @@
+{
+  "frameId": "q0001:frame-003",
+  "capturedAt": "2026-10-21T04:01:14.949Z",
+  "imageSha256": "96b6b0710989aee2c3fe4b738a03bdcb2d2b249825c4b501d2d1ef90b3c69291",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0001:frame-003",
+      "name": "Er Hou Roast Chicken",
+      "nameConfidence": 91.35,
+      "rating": 4.6,
+      "reviewCount": 62,
+      "priceText": null,
+      "category": "s20-30. chinese",
+      "distanceText": null,
+      "distanceMeters": null,
+      "openText": null,
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 40.666666666666664,
+        "top": 309,
+        "right": 405.6666666666667,
+        "bottom": 384.6666666666667
+      },
+      "ratingBounds": {
+        "left": 40.666666666666664,
+        "top": 352.6666666666667,
+        "right": 405.6666666666667,
+        "bottom": 384.6666666666667
+      },
+      "ratingLineText": "4.6 %& (62) - S20-30. Chinese",
+      "warnings": [],
+      "nameBounds": {
+        "left": 42.666666666666664,
+        "top": 309,
+        "right": 387,
+        "bottom": 336.3333333333333
+      }
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "topStateSource": null
+}

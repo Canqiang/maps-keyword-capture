@@ -1,0 +1,57 @@
+{
+  "frameId": "q0003:frame-027",
+  "capturedAt": "2026-10-21T04:04:41.826Z",
+  "imageSha256": "f16a5cacab1c3de4fa89b64b5f1e8d2f1499c1eb4f90af1a4b322d4561e0b4e8",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0003:frame-027",
+      "name": "Super FL Mart",
+      "nameConfidence": 95.94,
+      "rating": 4.1,
+      "reviewCount": 1643,
+      "priceText": null,
+      "category": "chinese supermarket",
+      "distanceText": "0.3 mi",
+      "distanceMeters": 483,
+      "openText": "closed - opens 8 am",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 543.6666666666666,
+        "right": 533,
+        "bottom": 658
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 589.3333333333334,
+        "right": 533,
+        "bottom": 618
+      },
+      "ratingLineText": "4.1% (1643) - & - Chinese supermarket",
+      "warnings": [],
+      "nameBounds": {
+        "left": 41.333333333333336,
+        "top": 543.6666666666666,
+        "right": 263,
+        "bottom": 578
+      }
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "topStateSource": null
+}
