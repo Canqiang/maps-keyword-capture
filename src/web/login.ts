@@ -1,6 +1,7 @@
 import { CONNEXUP_LOGO } from './frontend-logo.js';
 
-/** Standalone sign-in page; it never embeds credentials or data. */
+/** Standalone sign-in page; it never embeds credentials or data. A deep link such as /#evidence/… survives the
+ * unauthenticated redirect only as the URL fragment, which the server never sees, so the page copies it into `next`. */
 export function loginPage(options: { error?: boolean; next?: string } = {}): string {
   const next = options.next && /^\/[^\\/]?[^\s]*$/u.test(options.next) && !options.next.startsWith('//') ? options.next : '/';
   return String.raw`<!doctype html>
@@ -30,6 +31,7 @@ ${options.error ? '<div class="error" role="alert">用户名或密码不正确�
 <label for="password">密码</label><input id="password" name="password" type="password" autocomplete="current-password" required>
 <button type="submit">登录</button>
 </form>
+<script>(function(){var n=document.querySelector('input[name="next"]');if(n&&n.value==='/'&&location.hash.length>1&&location.hash.indexOf('/')!==0)n.value='/'+location.hash;})();</script>
 <div class="foot">登录状态保持 12 小时；服务重启后需要重新登录。</div>
 </main></body></html>`;
 }

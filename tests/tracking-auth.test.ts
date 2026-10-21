@@ -58,6 +58,8 @@ describe('tracking authentication', () => {
     expect(html).toContain('<form method="post" action="/login"');
     expect(html).not.toContain('test-password');
     expect(html).not.toContain('private UI');
+    expect(html).toContain('<input type="hidden" name="next" value="/">');
+    expect(html).toMatch(/n\.value='\/'\+location\.hash/);
     const form=(body:string,extra:Record<string,string>={})=>fetch(base+'/login',{method:'POST',redirect:'manual',headers:{'content-type':'application/x-www-form-urlencoded',...extra},body});
     const bad=await form('username=seo&password=wrong');
     expect(bad.status).toBe(303); expect(bad.headers.get('location')).toBe('/login?error=1'); expect(bad.headers.get('set-cookie')).toBeNull();
