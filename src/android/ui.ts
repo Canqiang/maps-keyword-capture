@@ -757,11 +757,22 @@ function cardsBesidePhotoModule(nodes: EvidenceNode[], list: EvidenceNode, query
   const exactModule = (node: EvidenceNode): boolean => photoModuleChild(nodes, node) &&
     nodes.filter(inner => within(inner, node) && inner.className === 'android.widget.ImageView' && normalized(inner.description).startsWith(imagePrefix) &&
       normalized(inner.description).length > imagePrefix.length).length >= 2 &&
-    // Every label inside the module is an exact-query image result; any other labeled
-    // node (a photo-map control, a caption, a foreign button) keeps the dedicated proofs.
-    !nodes.some(inner => within(inner, node) && labels(inner).some(label => !normalized(label).startsWith(imagePrefix)));
+    // Every label inside the module is an exact-query image result, except the module's own
+    // "View photo map" control (probe 7, q0005 frame 13): one clickable ViewGroup with ACTION_CLICK
+    // below the photo tiles, labeled only with that text and holding only unlabeled images.
+    nodes.filter(inner => within(inner, node) && labels(inner).some(label => !normalized(label).startsWith(imagePrefix))).every(inner => photoMapControl(nodes, node, inner, imagePrefix));
   const modules = direct.filter(exactModule), cards = direct.filter(card);
   return cards.length >= 1 && modules.length >= 1 && direct.every(node => card(node) || exactModule(node) || edge(node));
+}
+
+function photoMapControl(nodes: EvidenceNode[], module: EvidenceNode, control: EvidenceNode, imagePrefix: string): boolean {
+  const within = (node: EvidenceNode, container: EvidenceNode): boolean => { for (let parent = node.parent; parent; parent = parent.parent) if (parent === container) return true; return false; };
+  if (control.className !== 'android.view.ViewGroup' || !control.enabled || !control.clickable || !control.actions?.includes('ACTION_CLICK') || !control.bounds || !module.bounds ||
+    !labels(control).every(label => normalized(label) === 'view photo map') || control.resourceId !== '' ||
+    control.bounds.left < module.bounds.left || control.bounds.right > module.bounds.right || control.bounds.top < module.bounds.top || control.bounds.bottom > module.bounds.bottom) return false;
+  const tiles = nodes.filter(inner => within(inner, module) && inner.className === 'android.widget.ImageView' && normalized(inner.description).startsWith(imagePrefix) && inner.bounds);
+  if (tiles.length < 2 || tiles.some(tile => tile.bounds!.bottom > control.bounds!.top)) return false;
+  return nodes.filter(inner => within(inner, control)).every(inner => inner.className === 'android.widget.ImageView' && !inner.clickable && !inner.scrollable && !labels(inner).length);
 }
 
 /** A separate unranked search layout observed on Maps 26.41, not a ranked list. */

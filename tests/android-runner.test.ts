@@ -482,6 +482,41 @@ describe('bounded native-source refresh before any gesture', () => {
     expect(r.manifest.queries[0]?.stopReason).toBe('source_changed'); expect(calls).toBe(7);
     expect(r.manifest.queries[0]?.screens).toHaveLength(7); expect(r.manifest.queries[0]?.listings.map(row => row.name)).toEqual(['A', 'B', 'C', 'D']);
   });
+  // A frame whose content moved by about a card height: the card sits low, no filter chips, and
+  // nothing shares a position with the previous frame (probe 6/7 page-boundary jump).
+  // Cards start 150 px below the native list top (272) so no header is clipped; the jumped frame
+  // moved by about a card height so nothing shares a position with the previous frame.
+  const rating = (name: string) => `4.6% (${20 + [...name].reduce((sum, c) => sum + c.charCodeAt(0), 0) % 997}) - $10-20 - Chinese`;
+  const seated = (...names: string[]) => (png: Buffer) => ({ ...cardScreen(...names)(png), imageWidth: 720, imageHeight: 1280, lines: [ocrLine('chinese food x', 200), ...names.flatMap((name, i) => [ocrLine(name, 420 + i * 300), ocrLine(rating(name), 460 + i * 300), ocrLine('Closed . Opens 9:30 AM - 0.2 mi', 500 + i * 300)])] });
+  const jumped = (name: string) => (png: Buffer) => ({ ...cardScreen(name)(png), imageWidth: 720, imageHeight: 1280, lines: [ocrLine('chinese food x', 200), ocrLine(name, 820), ocrLine(rating(name), 860), ocrLine('Closed . Opens 9:30 AM - 0.2 mi', 900)] });
+  // The synthetic results fixture exposes no gesture-grade native list; the correction needs one, so
+  // these two tests pair the synthetic OCR with a real probe-5 list frame for the same exact query.
+  const liveList = async () => (await readFile(new URL('./fixtures/android/repair-probe-20261021/candidate5-q0002-02.xml', import.meta.url), 'utf8'));
+  it('corrects a missing ordered overlap with one backward gesture, discards the skipped frame, and keeps the sequence (probe 6/7 page jump)', async () => {
+    const source = await liveList(); let shots = 0; const directions: string[] = [];
+    const s = await setup({ snapshot: async () => ({ png: pngWith(++shots, 720, 1280), xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
+      swipeResults: async (_evidence, direction) => { directions.push(direction ?? 'forward'); } });
+    s.config.tasks[0]!.keyword = 'chinese food'; s.config.maxDisplayedResults = 3; s.config.maxScreenshotsPerQuery = 8;
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([seated('A'), jumped('C'), seated('A', 'B'), seated('B', 'C')]) });
+    const q = r.manifest.queries[0]!;
+    expect(directions).toEqual(['forward', 'backward', 'forward']);
+    expect(q.nativeFrameCorrections).toEqual([{ reason: 'ordered_overlap_missing', afterFrameId: 'q0001:frame-001', discardedFrameId: 'q0001:frame-002' }]);
+    expect(q.screens.map(screen => screen.discarded ?? null)).toEqual([null, 'ordered_overlap_missing', null, null]);
+    expect(q.listings.map(row => row.name)).toEqual(['A', 'B', 'C']);
+    expect(q).toMatchObject({ listingStatus: 'complete', stopReason: 'target_reached', listingQuality: { rankingReliable: true, sequenceVerified: true, frames: 3 } });
+  });
+  it('spends at most two backward corrections per query and then keeps the unqualified partial', async () => {
+    const source = await liveList(); let shots = 0; const directions: string[] = [];
+    const s = await setup({ snapshot: async () => ({ png: pngWith(++shots, 720, 1280), xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
+      swipeResults: async (_evidence, direction) => { directions.push(direction ?? 'forward'); } });
+    s.config.tasks[0]!.keyword = 'chinese food'; s.config.maxScreenshotsPerQuery = 8;
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([seated('A'), jumped('C'), jumped('D'), jumped('E')]) });
+    const q = r.manifest.queries[0]!;
+    expect(directions).toEqual(['forward', 'backward', 'backward']);
+    expect(q.nativeFrameCorrections).toHaveLength(2);
+    expect(q).toMatchObject({ stopReason: 'ranking_unreliable', listingStatus: 'partial', evidenceStatus: 'needs_review' });
+    expect(q.screens).toHaveLength(4); expect(r.exitCode).toBe(2);
+  });
   it('charges the fresh frame to the existing screenshot limit and never sends a gesture beyond it', async () => {
     const source = await fixtureXml('results-en'); const swipe = vi.fn(async () => { throw Object.assign(new Error('source changed'), { code: 'SOURCE_CHANGED' }); });
     const s = await setup({ snapshot: async () => ({ png, xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }), swipeResults: swipe }); s.config.maxScreenshotsPerQuery = 2;

@@ -1,0 +1,400 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "fbfd4abe4e3578fd3629f7b258e04b367ec926944d96da83705bf7919371d93b",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "gn 讓",
+      "confidence": 22.86,
+      "bounds": {
+        "left": 117,
+        "top": 0,
+        "right": 287,
+        "bottom": 35
+      },
+      "words": [
+        {
+          "text": "gn",
+          "confidence": 20.177048,
+          "bounds": {
+            "left": 117,
+            "top": 0,
+            "right": 167,
+            "bottom": 35
+          }
+        },
+        {
+          "text": "讓",
+          "confidence": 25.544891,
+          "bounds": {
+            "left": 263,
+            "top": 27,
+            "right": 287,
+            "bottom": 30
+          }
+        }
+      ]
+    },
+    {
+      "text": "Le Fain Quotidien",
+      "confidence": 94.14,
+      "bounds": {
+        "left": 117,
+        "top": 25,
+        "right": 315,
+        "bottom": 61.333333333333336
+      },
+      "words": [
+        {
+          "text": "Le",
+          "confidence": 96.047745,
+          "bounds": {
+            "left": 117,
+            "top": 27.333333333333332,
+            "right": 140.66666666666666,
+            "bottom": 46.333333333333336
+          }
+        },
+        {
+          "text": "Fain",
+          "confidence": 94.136719,
+          "bounds": {
+            "left": 149.66666666666666,
+            "top": 27.333333333333332,
+            "right": 198.33333333333334,
+            "bottom": 61
+          }
+        },
+        {
+          "text": "Quotidien",
+          "confidence": 92.228149,
+          "bounds": {
+            "left": 206,
+            "top": 25,
+            "right": 315,
+            "bottom": 61.333333333333336
+          }
+        }
+      ]
+    },
+    {
+      "text": "了",
+      "confidence": 88.97,
+      "bounds": {
+        "left": 137,
+        "top": 48.333333333333336,
+        "right": 142,
+        "bottom": 55.666666666666664
+      },
+      "words": [
+        {
+          "text": "了",
+          "confidence": 88.966125,
+          "bounds": {
+            "left": 137,
+            "top": 48.333333333333336,
+            "right": 142,
+            "bottom": 55.666666666666664
+          }
+        }
+      ]
+    },
+    {
+      "text": "baKery",
+      "confidence": 88.61,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 211.33333333333334,
+        "right": 179,
+        "bottom": 252.66666666666666
+      },
+      "words": [
+        {
+          "text": "baKery",
+          "confidence": 88.613388,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 211.33333333333334,
+            "right": 179,
+            "bottom": 252.66666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "Discover through photos",
+      "confidence": 96.44,
+      "bounds": {
+        "left": 43,
+        "top": 390.6666666666667,
+        "right": 452.3333333333333,
+        "bottom": 425.3333333333333
+      },
+      "words": [
+        {
+          "text": "Discover",
+          "confidence": 96.768341,
+          "bounds": {
+            "left": 43,
+            "top": 390.6666666666667,
+            "right": 186.66666666666666,
+            "bottom": 417.6666666666667
+          }
+        },
+        {
+          "text": "through",
+          "confidence": 96.282555,
+          "bounds": {
+            "left": 196,
+            "top": 391,
+            "right": 327,
+            "bottom": 425.3333333333333
+          }
+        },
+        {
+          "text": "photos",
+          "confidence": 96.282555,
+          "bounds": {
+            "left": 339,
+            "top": 391,
+            "right": 452.3333333333333,
+            "bottom": 425
+          }
+        }
+      ]
+    },
+    {
+      "text": "oW jee",
+      "confidence": 61.33,
+      "bounds": {
+        "left": 164,
+        "top": 494,
+        "right": 267.3333333333333,
+        "bottom": 517.3333333333334
+      },
+      "words": [
+        {
+          "text": "oW",
+          "confidence": 79.68383,
+          "bounds": {
+            "left": 164,
+            "top": 499.6666666666667,
+            "right": 204.33333333333334,
+            "bottom": 517.3333333333334
+          }
+        },
+        {
+          "text": "jee",
+          "confidence": 42.969517,
+          "bounds": {
+            "left": 232.66666666666666,
+            "top": 494,
+            "right": 267.3333333333333,
+            "bottom": 515.6666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "Zeppola Bakery Breads Bakery",
+      "confidence": 95.75,
+      "bounds": {
+        "left": 65,
+        "top": 1047,
+        "right": 708.6666666666666,
+        "bottom": 1075
+      },
+      "words": [
+        {
+          "text": "Zeppola",
+          "confidence": 92.733017,
+          "bounds": {
+            "left": 65,
+            "top": 1047,
+            "right": 164.66666666666666,
+            "bottom": 1075
+          }
+        },
+        {
+          "text": "Bakery",
+          "confidence": 96.891556,
+          "bounds": {
+            "left": 175.33333333333334,
+            "top": 1047,
+            "right": 259.6666666666667,
+            "bottom": 1075
+          }
+        },
+        {
+          "text": "Breads",
+          "confidence": 96.785751,
+          "bounds": {
+            "left": 528.3333333333334,
+            "top": 1047.3333333333333,
+            "right": 613.6666666666666,
+            "bottom": 1069.3333333333333
+          }
+        },
+        {
+          "text": "Bakery",
+          "confidence": 96.574539,
+          "bounds": {
+            "left": 624.3333333333334,
+            "top": 1047,
+            "right": 708.6666666666666,
+            "bottom": 1075
+          }
+        }
+      ]
+    },
+    {
+      "text": "Bakery - 1.7 mi Bakery - 0.4 mi",
+      "confidence": 86.39,
+      "bounds": {
+        "left": 66,
+        "top": 1088.3333333333333,
+        "right": 688,
+        "bottom": 1112
+      },
+      "words": [
+        {
+          "text": "Bakery",
+          "confidence": 93.086075,
+          "bounds": {
+            "left": 66,
+            "top": 1088.3333333333333,
+            "right": 137.33333333333334,
+            "bottom": 1112
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 44.350208,
+          "bounds": {
+            "left": 147.66666666666666,
+            "top": 1098,
+            "right": 150.33333333333334,
+            "bottom": 1101
+          }
+        },
+        {
+          "text": "1.7",
+          "confidence": 96.166252,
+          "bounds": {
+            "left": 161.66666666666666,
+            "top": 1090,
+            "right": 187.33333333333334,
+            "bottom": 1107
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.100479,
+          "bounds": {
+            "left": 196,
+            "top": 1088.6666666666667,
+            "right": 218,
+            "bottom": 1107
+          }
+        },
+        {
+          "text": "Bakery",
+          "confidence": 93.262291,
+          "bounds": {
+            "left": 528,
+            "top": 1088.3333333333333,
+            "right": 599.3333333333334,
+            "bottom": 1112
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 75.55658,
+          "bounds": {
+            "left": 609.6666666666666,
+            "top": 1098,
+            "right": 612.3333333333334,
+            "bottom": 1101
+          }
+        },
+        {
+          "text": "0.4",
+          "confidence": 95.953117,
+          "bounds": {
+            "left": 623.3333333333334,
+            "top": 1089.6666666666667,
+            "right": 656.6666666666666,
+            "bottom": 1107.3333333333333
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.653732,
+          "bounds": {
+            "left": 666,
+            "top": 1088.6666666666667,
+            "right": 688,
+            "bottom": 1107
+          }
+        }
+      ]
+    },
+    {
+      "text": "View photo map >",
+      "confidence": 91.33,
+      "bounds": {
+        "left": 236.66666666666666,
+        "top": 1191,
+        "right": 471,
+        "bottom": 1219.3333333333333
+      },
+      "words": [
+        {
+          "text": "View",
+          "confidence": 96.365494,
+          "bounds": {
+            "left": 236.66666666666666,
+            "top": 1191,
+            "right": 295,
+            "bottom": 1213.6666666666667
+          }
+        },
+        {
+          "text": "photo",
+          "confidence": 92.195251,
+          "bounds": {
+            "left": 305,
+            "top": 1191,
+            "right": 375.3333333333333,
+            "bottom": 1219.3333333333333
+          }
+        },
+        {
+          "text": "map",
+          "confidence": 92.195251,
+          "bounds": {
+            "left": 385,
+            "top": 1197.6666666666667,
+            "right": 436.6666666666667,
+            "bottom": 1219.3333333333333
+          }
+        },
+        {
+          "text": ">",
+          "confidence": 84.574165,
+          "bounds": {
+            "left": 460,
+            "top": 1194,
+            "right": 471,
+            "bottom": 1212
+          }
+        }
+      ]
+    }
+  ]
+}

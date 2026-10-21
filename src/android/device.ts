@@ -751,7 +751,7 @@ export class NativeMapsDevice implements AndroidDevice {
     return id;
   }
 
-  async scroll(evidence?: NativeScrollEvidence): Promise<boolean> {
+  async scroll(evidence?: NativeScrollEvidence, direction: 'forward' | 'backward' = 'forward'): Promise<boolean> {
     await this.foreground();
     if (!this.activeKeyword || this.searchFailed) fail('UNKNOWN_SCROLL_LAYOUT', 'A verified native query is required before scrolling');
     const xml = await this.nativeXml();
@@ -760,7 +760,11 @@ export class NativeMapsDevice implements AndroidDevice {
     if (evidence !== undefined && evidence.sourceXml !== xml) fail('SOURCE_CHANGED', 'Native source changed after the persisted frame; fresh evidence is required before scrolling');
     const list = inspectNativeResultList(xml, this.activeKeyword);
     if (!list || list.canScrollForward === null || list.canScrollBackward === null) fail('UNKNOWN_SCROLL_LAYOUT', 'No supported exact-query vertical native result list is visible');
-    const percent = resultScrollPercent(xml, list, evidence, this.scrollSnapshotProof);
+    // A backward correction (probe 6/7: the list re-laid out by about a card height at a page
+    // boundary) re-exposes the content that a forward gesture skipped. It needs the same fresh
+    // evidence, native backward-scroll proof, and moves a fixed 45% of the list.
+    if (direction === 'backward' && (evidence === undefined || list.canScrollBackward !== true)) fail('UNKNOWN_SCROLL_LAYOUT', 'A backward correction needs fresh evidence and native backward-scroll proof');
+    const percent = direction === 'backward' ? 0.45 : resultScrollPercent(xml, list, evidence, this.scrollSnapshotProof);
     // Resolve and validate the native list for every gesture; RecyclerView
     // elements are recycled even though this touch sequence uses viewport pixels.
     await this.resultListElement(list);
@@ -771,10 +775,11 @@ export class NativeMapsDevice implements AndroidDevice {
     // Only a paired OCR title plus validated native controls can raise the
     // requested movement above the historical 10% fallback. Do not round an
     // OCR-bounded attempt past its measured title headroom.
-    const maxDistance = Math.ceil(height * (evidence?.ocrScrollAnchor ? 0.35 : 0.1));
-    const distance = Math.max(1, Math.min(maxDistance, evidence?.ocrScrollAnchor ? Math.floor(height * percent) : Math.round(height * percent)));
-    const startY = bottom - inset, endY = startY - distance;
-    if (x <= left || x >= right || endY <= top + inset || endY >= startY || startY >= bottom || distance > maxDistance) {
+    const maxDistance = Math.ceil(height * (direction === 'backward' ? 0.45 : evidence?.ocrScrollAnchor ? 0.35 : 0.1));
+    const distance = Math.max(1, Math.min(maxDistance, evidence?.ocrScrollAnchor || direction === 'backward' ? Math.floor(height * percent) : Math.round(height * percent)));
+    const startY = direction === 'backward' ? top + inset : bottom - inset, endY = direction === 'backward' ? startY + distance : startY - distance;
+    const contained = direction === 'backward' ? endY < bottom - inset && endY > startY && startY > top : endY > top + inset && endY < startY && startY < bottom;
+    if (x <= left || x >= right || !contained || distance > maxDistance) {
       fail('UNKNOWN_SCROLL_LAYOUT', 'Native list cannot contain the bounded touch movement');
     }
     await this.foreground();
@@ -805,8 +810,8 @@ export class NativeMapsDevice implements AndroidDevice {
    * A requested movement is not proof of overlap; the next frame must pass
    * reconciliation. Never fall back to a whole-screen swipe on an unknown list.
    */
-  async swipeResults(evidence?: NativeScrollEvidence): Promise<void> {
-    await this.scroll(evidence);
+  async swipeResults(evidence?: NativeScrollEvidence, direction: 'forward' | 'backward' = 'forward'): Promise<void> {
+    await this.scroll(evidence, direction);
   }
 
   async close(): Promise<void> {
