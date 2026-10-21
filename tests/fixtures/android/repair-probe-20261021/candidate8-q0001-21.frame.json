@@ -1,0 +1,148 @@
+{
+  "frameId": "q0001:frame-021",
+  "capturedAt": "2026-10-21T07:38:09.712Z",
+  "imageSha256": "c7780f61570826301ed1535bab16b374a2128be3427a5a01ba88f7c0467f47c5",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0001:frame-021",
+      "name": "Braised Canaan 迦 南 地 涉 味",
+      "nameConfidence": 70.33,
+      "rating": 4.8,
+      "reviewCount": 75,
+      "priceText": "$10–20",
+      "category": "chinese",
+      "distanceText": "0.5 mi",
+      "distanceMeters": 805,
+      "openText": "opens 8 am",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 350.6666666666667,
+        "right": 407.3333333333333,
+        "bottom": 468
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 399.3333333333333,
+        "right": 407.3333333333333,
+        "bottom": 426
+      },
+      "ratingLineText": "4.8% (75) . $10-20 - Chinese",
+      "warnings": [],
+      "nameBounds": {
+        "left": 42.666666666666664,
+        "top": 350.6666666666667,
+        "right": 478.3333333333333,
+        "bottom": 385.3333333333333
+      }
+    },
+    {
+      "cardIndex": 1,
+      "frameId": "q0001:frame-021",
+      "name": "一 回 小 店",
+      "nameConfidence": 85.83,
+      "rating": 4.9,
+      "reviewCount": 41,
+      "priceText": null,
+      "category": "butcher shop deli",
+      "distanceText": "0.6 mi",
+      "distanceMeters": 966,
+      "openText": "opens 10 am",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 947,
+        "right": 503,
+        "bottom": 1064
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 996,
+        "right": 503,
+        "bottom": 1024
+      },
+      "ratingLineText": "4.9% (41) - Butcher shop deli - 0.6 mi",
+      "warnings": [],
+      "nameBounds": {
+        "left": 41.333333333333336,
+        "top": 947,
+        "right": 182.33333333333334,
+        "bottom": 981.3333333333334
+      }
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "anchors": [
+    {
+      "text": "braised canaan 迦 南 地 涉 味",
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 350.6666666666667,
+        "right": 478.3333333333333,
+        "bottom": 385.3333333333333
+      }
+    },
+    {
+      "text": "4.8% (75) . $10-20 - chinese",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 399.3333333333333,
+        "right": 407.3333333333333,
+        "bottom": 426
+      }
+    },
+    {
+      "text": "-opens 8 am - 0.5 mi",
+      "bounds": {
+        "left": 138,
+        "top": 440.3333333333333,
+        "right": 405,
+        "bottom": 468
+      }
+    },
+    {
+      "text": "人 directions ya order me) menu",
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 812.6666666666666,
+        "right": 636,
+        "bottom": 843.3333333333334
+      }
+    },
+    {
+      "text": "4.9% (41) - butcher shop deli - 0.6 mi",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 996,
+        "right": 503,
+        "bottom": 1024
+      }
+    },
+    {
+      "text": "‘opens 10 am",
+      "bounds": {
+        "left": 138,
+        "top": 1037.6666666666667,
+        "right": 318,
+        "bottom": 1064
+      }
+    }
+  ],
+  "topStateSource": null
+}

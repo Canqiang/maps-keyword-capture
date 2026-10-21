@@ -1,0 +1,1092 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "cdfafa12b4902aa8aa3237a9e0915099d5abc406df0b247dca63bb8817ff27ed",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "COLLEGE POINT",
+      "confidence": 96.39,
+      "bounds": {
+        "left": 159,
+        "top": 9.666666666666666,
+        "right": 346.6666666666667,
+        "bottom": 34.333333333333336
+      },
+      "words": [
+        {
+          "text": "COLLEGE",
+          "confidence": 96.38295,
+          "bounds": {
+            "left": 159,
+            "top": 9.666666666666666,
+            "right": 264,
+            "bottom": 26.333333333333332
+          }
+        },
+        {
+          "text": "POINT",
+          "confidence": 96.39682,
+          "bounds": {
+            "left": 276.6666666666667,
+            "top": 9.666666666666666,
+            "right": 346.6666666666667,
+            "bottom": 34.333333333333336
+          }
+        }
+      ]
+    },
+    {
+      "text": "oO -一",
+      "confidence": 46.71,
+      "bounds": {
+        "left": 494.3333333333333,
+        "top": 29.666666666666668,
+        "right": 586,
+        "bottom": 45
+      },
+      "words": [
+        {
+          "text": "oO",
+          "confidence": 43.50547,
+          "bounds": {
+            "left": 494.3333333333333,
+            "top": 29.666666666666668,
+            "right": 513.6666666666666,
+            "bottom": 45
+          }
+        },
+        {
+          "text": "-一",
+          "confidence": 49.904945,
+          "bounds": {
+            "left": 570.6666666666666,
+            "top": 33.666666666666664,
+            "right": 586,
+            "bottom": 40.333333333333336
+          }
+        }
+      ]
+    },
+    {
+      "text": "> 0",
+      "confidence": 82.9,
+      "bounds": {
+        "left": 499.6666666666667,
+        "top": 41,
+        "right": 585,
+        "bottom": 58.333333333333336
+      },
+      "words": [
+        {
+          "text": ">",
+          "confidence": 96.421959,
+          "bounds": {
+            "left": 499.6666666666667,
+            "top": 45.666666666666664,
+            "right": 516.6666666666666,
+            "bottom": 58.333333333333336
+          }
+        },
+        {
+          "text": "0",
+          "confidence": 69.373131,
+          "bounds": {
+            "left": 568.3333333333334,
+            "top": 41,
+            "right": 585,
+            "bottom": 53
+          }
+        }
+      ]
+    },
+    {
+      "text": "3389 2 0 #40",
+      "confidence": 52.8,
+      "bounds": {
+        "left": 72.33333333333333,
+        "top": 54.666666666666664,
+        "right": 657.3333333333334,
+        "bottom": 100.33333333333333
+      },
+      "words": [
+        {
+          "text": "3389",
+          "confidence": 41.504456,
+          "bounds": {
+            "left": 72.33333333333333,
+            "top": 55,
+            "right": 159,
+            "bottom": 83
+          }
+        },
+        {
+          "text": "2",
+          "confidence": 57.435654,
+          "bounds": {
+            "left": 495,
+            "top": 60,
+            "right": 516.3333333333334,
+            "bottom": 100.33333333333333
+          }
+        },
+        {
+          "text": "0",
+          "confidence": 52.855949,
+          "bounds": {
+            "left": 535.6666666666666,
+            "top": 55.333333333333336,
+            "right": 549,
+            "bottom": 80
+          }
+        },
+        {
+          "text": "#40",
+          "confidence": 59.413559,
+          "bounds": {
+            "left": 564.3333333333334,
+            "top": 54.666666666666664,
+            "right": 657.3333333333334,
+            "bottom": 90.66666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "圖 主 mA & ~ §",
+      "confidence": 61.18,
+      "bounds": {
+        "left": 150,
+        "top": 71,
+        "right": 621,
+        "bottom": 152
+      },
+      "words": [
+        {
+          "text": "圖",
+          "confidence": 59.776951,
+          "bounds": {
+            "left": 150,
+            "top": 104.33333333333333,
+            "right": 151.66666666666666,
+            "bottom": 106.66666666666667
+          }
+        },
+        {
+          "text": "主",
+          "confidence": 55.70089,
+          "bounds": {
+            "left": 169.66666666666666,
+            "top": 106.33333333333333,
+            "right": 177.66666666666666,
+            "bottom": 108
+          }
+        },
+        {
+          "text": "mA",
+          "confidence": 35.711563,
+          "bounds": {
+            "left": 210.33333333333334,
+            "top": 71,
+            "right": 431.6666666666667,
+            "bottom": 152
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 65.73925,
+          "bounds": {
+            "left": 485.3333333333333,
+            "top": 100,
+            "right": 503,
+            "bottom": 122
+          }
+        },
+        {
+          "text": "~",
+          "confidence": 75.072968,
+          "bounds": {
+            "left": 562.3333333333334,
+            "top": 89.66666666666667,
+            "right": 579.6666666666666,
+            "bottom": 111
+          }
+        },
+        {
+          "text": "§",
+          "confidence": 75.072968,
+          "bounds": {
+            "left": 602,
+            "top": 91.33333333333333,
+            "right": 621,
+            "bottom": 121
+          }
+        }
+      ]
+    },
+    {
+      "text": "坟 人 一",
+      "confidence": 56.44,
+      "bounds": {
+        "left": 210.33333333333334,
+        "top": 117.66666666666667,
+        "right": 617,
+        "bottom": 138.66666666666666
+      },
+      "words": [
+        {
+          "text": "坟",
+          "confidence": 22.731163,
+          "bounds": {
+            "left": 210.33333333333334,
+            "top": 117.66666666666667,
+            "right": 227.33333333333334,
+            "bottom": 135.33333333333334
+          }
+        },
+        {
+          "text": "人",
+          "confidence": 76.571106,
+          "bounds": {
+            "left": 477.6666666666667,
+            "top": 119,
+            "right": 492.6666666666667,
+            "bottom": 138.66666666666666
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 70.026886,
+          "bounds": {
+            "left": 601.3333333333334,
+            "top": 125,
+            "right": 617,
+            "bottom": 131.66666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "PEEP NL Ld lis",
+      "confidence": 12.54,
+      "bounds": {
+        "left": 111,
+        "top": 129.66666666666666,
+        "right": 532,
+        "bottom": 160.66666666666666
+      },
+      "words": [
+        {
+          "text": "PEEP",
+          "confidence": 0,
+          "bounds": {
+            "left": 111,
+            "top": 136.66666666666666,
+            "right": 257,
+            "bottom": 151.66666666666666
+          }
+        },
+        {
+          "text": "NL",
+          "confidence": 0,
+          "bounds": {
+            "left": 215.33333333333334,
+            "top": 129.66666666666666,
+            "right": 236.33333333333334,
+            "bottom": 160.66666666666666
+          }
+        },
+        {
+          "text": "Ld",
+          "confidence": 24.051956,
+          "bounds": {
+            "left": 241.33333333333334,
+            "top": 129.66666666666666,
+            "right": 257,
+            "bottom": 160.66666666666666
+          }
+        },
+        {
+          "text": "lis",
+          "confidence": 26.100151,
+          "bounds": {
+            "left": 462,
+            "top": 136,
+            "right": 532,
+            "bottom": 151.66666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "固 味 人",
+      "confidence": 35.38,
+      "bounds": {
+        "left": 44.666666666666664,
+        "top": 210,
+        "right": 660.6666666666666,
+        "bottom": 252
+      },
+      "words": [
+        {
+          "text": "固",
+          "confidence": 21.722496,
+          "bounds": {
+            "left": 44.666666666666664,
+            "top": 210,
+            "right": 81,
+            "bottom": 252
+          }
+        },
+        {
+          "text": "味",
+          "confidence": 74.015182,
+          "bounds": {
+            "left": 87,
+            "top": 210.33333333333334,
+            "right": 126.33333333333333,
+            "bottom": 252
+          }
+        },
+        {
+          "text": "人",
+          "confidence": 10.395363,
+          "bounds": {
+            "left": 635.3333333333334,
+            "top": 211.33333333333334,
+            "right": 660.6666666666666,
+            "bottom": 236.66666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "人 Directions ME) Menu XY Call 内",
+      "confidence": 74.1,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 313.6666666666667,
+        "right": 712,
+        "bottom": 344.3333333333333
+      },
+      "words": [
+        {
+          "text": "人",
+          "confidence": 77.258179,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 313.6666666666667,
+            "right": 97.33333333333333,
+            "bottom": 344.3333333333333
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.449539,
+          "bounds": {
+            "left": 118,
+            "top": 317,
+            "right": 242,
+            "bottom": 339.6666666666667
+          }
+        },
+        {
+          "text": "ME)",
+          "confidence": 56.357456,
+          "bounds": {
+            "left": 317,
+            "top": 317.6666666666667,
+            "right": 351,
+            "bottom": 343.3333333333333
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 95.687553,
+          "bounds": {
+            "left": 370,
+            "top": 318.6666666666667,
+            "right": 438,
+            "bottom": 339.6666666666667
+          }
+        },
+        {
+          "text": "XY",
+          "confidence": 22.369743,
+          "bounds": {
+            "left": 516,
+            "top": 315,
+            "right": 544,
+            "bottom": 343
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 91.03183,
+          "bounds": {
+            "left": 565,
+            "top": 317,
+            "right": 608.6666666666666,
+            "bottom": 339.6666666666667
+          }
+        },
+        {
+          "text": "内",
+          "confidence": 80.515182,
+          "bounds": {
+            "left": 690,
+            "top": 315,
+            "right": 712,
+            "bottom": 342.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "Braised Canaan 迦 南 地 涉 味",
+      "confidence": 67.07,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 447.6666666666667,
+        "right": 478,
+        "bottom": 482.3333333333333
+      },
+      "words": [
+        {
+          "text": "Braised",
+          "confidence": 96.377365,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 453,
+            "right": 157.33333333333334,
+            "bottom": 479.6666666666667
+          }
+        },
+        {
+          "text": "Canaan",
+          "confidence": 95.95623,
+          "bounds": {
+            "left": 169.66666666666666,
+            "top": 452.6666666666667,
+            "right": 290,
+            "bottom": 479.6666666666667
+          }
+        },
+        {
+          "text": "迦",
+          "confidence": 83.902542,
+          "bounds": {
+            "left": 317.6666666666667,
+            "top": 448,
+            "right": 334.6666666666667,
+            "bottom": 481.3333333333333
+          }
+        },
+        {
+          "text": "南",
+          "confidence": 91.767227,
+          "bounds": {
+            "left": 353.6666666666667,
+            "top": 448,
+            "right": 385,
+            "bottom": 482.3333333333333
+          }
+        },
+        {
+          "text": "地",
+          "confidence": 88.450745,
+          "bounds": {
+            "left": 384.6666666666667,
+            "top": 447.6666666666667,
+            "right": 416,
+            "bottom": 481.3333333333333
+          }
+        },
+        {
+          "text": "涉",
+          "confidence": 4.242088,
+          "bounds": {
+            "left": 419.6666666666667,
+            "top": 447.6666666666667,
+            "right": 452.3333333333333,
+            "bottom": 482
+          }
+        },
+        {
+          "text": "味",
+          "confidence": 8.780457,
+          "bounds": {
+            "left": 455.6666666666667,
+            "top": 448,
+            "right": 478,
+            "bottom": 482
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.8% (75) . $10-20 - Chinese",
+      "confidence": 85.22,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 496.3333333333333,
+        "right": 407.3333333333333,
+        "bottom": 523
+      },
+      "words": [
+        {
+          "text": "4.8%",
+          "confidence": 90.822067,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 497,
+            "right": 99.33333333333333,
+            "bottom": 520
+          }
+        },
+        {
+          "text": "(75)",
+          "confidence": 90.822067,
+          "bounds": {
+            "left": 112.33333333333333,
+            "top": 497,
+            "right": 157.33333333333334,
+            "bottom": 523
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 69.273674,
+          "bounds": {
+            "left": 170,
+            "top": 509,
+            "right": 173,
+            "bottom": 512
+          }
+        },
+        {
+          "text": "$10-20",
+          "confidence": 77.127411,
+          "bounds": {
+            "left": 184.33333333333334,
+            "top": 496.3333333333333,
+            "right": 280,
+            "bottom": 521.6666666666666
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 86.748329,
+          "bounds": {
+            "left": 292,
+            "top": 509,
+            "right": 295,
+            "bottom": 512
+          }
+        },
+        {
+          "text": "Chinese",
+          "confidence": 96.544159,
+          "bounds": {
+            "left": 306.3333333333333,
+            "top": 497.3333333333333,
+            "right": 407.3333333333333,
+            "bottom": 519.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closed - Opens 8 AM - 0.5 mi",
+      "confidence": 88.56,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 537,
+        "right": 405,
+        "bottom": 565
+      },
+      "words": [
+        {
+          "text": "Closed",
+          "confidence": 88.55735,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 537,
+            "right": 127,
+            "bottom": 559.3333333333334
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 78.239334,
+          "bounds": {
+            "left": 138,
+            "top": 549,
+            "right": 141,
+            "bottom": 552
+          }
+        },
+        {
+          "text": "Opens",
+          "confidence": 95.066185,
+          "bounds": {
+            "left": 151.33333333333334,
+            "top": 538.6666666666666,
+            "right": 232.66666666666666,
+            "bottom": 565
+          }
+        },
+        {
+          "text": "8",
+          "confidence": 96.197601,
+          "bounds": {
+            "left": 242.33333333333334,
+            "top": 538.6666666666666,
+            "right": 255,
+            "bottom": 559.3333333333334
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 91.53524,
+          "bounds": {
+            "left": 263.6666666666667,
+            "top": 539,
+            "right": 302,
+            "bottom": 559
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 70.081551,
+          "bounds": {
+            "left": 315,
+            "top": 549,
+            "right": 318,
+            "bottom": 552
+          }
+        },
+        {
+          "text": "0.5",
+          "confidence": 94.207985,
+          "bounds": {
+            "left": 329.6666666666667,
+            "top": 538.6666666666666,
+            "right": 368,
+            "bottom": 559.3333333333334
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 94.599373,
+          "bounds": {
+            "left": 379,
+            "top": 537.3333333333334,
+            "right": 405,
+            "bottom": 559
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions Ya Order ME) Menu",
+      "confidence": 67.84,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 909.6666666666666,
+        "right": 636,
+        "bottom": 940.3333333333334
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 40.073196,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 909.6666666666666,
+            "right": 97.33333333333333,
+            "bottom": 940.3333333333334
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.927765,
+          "bounds": {
+            "left": 118,
+            "top": 913,
+            "right": 242,
+            "bottom": 935.6666666666666
+          }
+        },
+        {
+          "text": "Ya",
+          "confidence": 41.030163,
+          "bounds": {
+            "left": 320,
+            "top": 909.6666666666666,
+            "right": 348,
+            "bottom": 940.3333333333334
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 91.151535,
+          "bounds": {
+            "left": 369,
+            "top": 913,
+            "right": 441,
+            "bottom": 935.6666666666666
+          }
+        },
+        {
+          "text": "ME)",
+          "confidence": 43.014469,
+          "bounds": {
+            "left": 515,
+            "top": 913.6666666666666,
+            "right": 549,
+            "bottom": 939.3333333333334
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 95.822449,
+          "bounds": {
+            "left": 568,
+            "top": 914.6666666666666,
+            "right": 636,
+            "bottom": 935.6666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "一 间 小 店",
+      "confidence": 90.87,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1044,
+        "right": 182.33333333333334,
+        "bottom": 1078.3333333333333
+      },
+      "words": [
+        {
+          "text": "一",
+          "confidence": 93.159348,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1044.6666666666667,
+            "right": 85.66666666666667,
+            "bottom": 1078.3333333333333
+          }
+        },
+        {
+          "text": "间",
+          "confidence": 92.337975,
+          "bounds": {
+            "left": 87,
+            "top": 1045.6666666666667,
+            "right": 122.33333333333333,
+            "bottom": 1078
+          }
+        },
+        {
+          "text": "小",
+          "confidence": 89.58535,
+          "bounds": {
+            "left": 122.66666666666667,
+            "top": 1044.3333333333333,
+            "right": 147,
+            "bottom": 1078.3333333333333
+          }
+        },
+        {
+          "text": "店",
+          "confidence": 88.407883,
+          "bounds": {
+            "left": 159.66666666666666,
+            "top": 1044,
+            "right": 182.33333333333334,
+            "bottom": 1078
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.9% (41) - Butcher shop deli - 0.6 mi",
+      "confidence": 90.9,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1093,
+        "right": 503,
+        "bottom": 1121
+      },
+      "words": [
+        {
+          "text": "4.9%",
+          "confidence": 72.393234,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1093,
+            "right": 99,
+            "bottom": 1116
+          }
+        },
+        {
+          "text": "(41)",
+          "confidence": 93.273521,
+          "bounds": {
+            "left": 112.33333333333333,
+            "top": 1093,
+            "right": 154.33333333333334,
+            "bottom": 1119
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 87.472778,
+          "bounds": {
+            "left": 170.33333333333334,
+            "top": 1105,
+            "right": 170.66666666666666,
+            "bottom": 1108
+          }
+        },
+        {
+          "text": "Butcher",
+          "confidence": 96.267868,
+          "bounds": {
+            "left": 182.33333333333334,
+            "top": 1093.3333333333333,
+            "right": 279.6666666666667,
+            "bottom": 1115.3333333333333
+          }
+        },
+        {
+          "text": "shop",
+          "confidence": 96.262627,
+          "bounds": {
+            "left": 288,
+            "top": 1093.3333333333333,
+            "right": 348.3333333333333,
+            "bottom": 1121
+          }
+        },
+        {
+          "text": "deli",
+          "confidence": 91.724152,
+          "bounds": {
+            "left": 358.3333333333333,
+            "top": 1093.3333333333333,
+            "right": 401,
+            "bottom": 1115.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 88.124458,
+          "bounds": {
+            "left": 413,
+            "top": 1105,
+            "right": 416,
+            "bottom": 1108
+          }
+        },
+        {
+          "text": "0.6",
+          "confidence": 96.055435,
+          "bounds": {
+            "left": 427.6666666666667,
+            "top": 1094.6666666666667,
+            "right": 466.3333333333333,
+            "bottom": 1115.3333333333333
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.493752,
+          "bounds": {
+            "left": 477,
+            "top": 1093.3333333333333,
+            "right": 503,
+            "bottom": 1115
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closed - Opens 10 AM",
+      "confidence": 92.7,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1133,
+        "right": 318,
+        "bottom": 1161
+      },
+      "words": [
+        {
+          "text": "Closed",
+          "confidence": 89.20636,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1133,
+            "right": 127,
+            "bottom": 1155.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 85.142273,
+          "bounds": {
+            "left": 138,
+            "top": 1145,
+            "right": 141,
+            "bottom": 1148
+          }
+        },
+        {
+          "text": "Opens",
+          "confidence": 96.283081,
+          "bounds": {
+            "left": 151.33333333333334,
+            "top": 1134.6666666666667,
+            "right": 232.66666666666666,
+            "bottom": 1161
+          }
+        },
+        {
+          "text": "10",
+          "confidence": 96.272858,
+          "bounds": {
+            "left": 243,
+            "top": 1134.6666666666667,
+            "right": 270,
+            "bottom": 1155.3333333333333
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 96.612114,
+          "bounds": {
+            "left": 279.6666666666667,
+            "top": 1135,
+            "right": 318,
+            "bottom": 1155
+          }
+        }
+      ]
+    },
+    {
+      "text": "mi i",
+      "confidence": 24.45,
+      "bounds": {
+        "left": 482,
+        "top": 1181,
+        "right": 578,
+        "bottom": 1191.6666666666667
+      },
+      "words": [
+        {
+          "text": "mi",
+          "confidence": 9.263702,
+          "bounds": {
+            "left": 482,
+            "top": 1181,
+            "right": 488,
+            "bottom": 1191.6666666666667
+          }
+        },
+        {
+          "text": "i",
+          "confidence": 39.639999,
+          "bounds": {
+            "left": 574,
+            "top": 1181.6666666666667,
+            "right": 578,
+            "bottom": 1191
+          }
+        }
+      ]
+    },
+    {
+      "text": "站 y)",
+      "confidence": 21.86,
+      "bounds": {
+        "left": 487,
+        "top": 1192.3333333333333,
+        "right": 579,
+        "bottom": 1198.3333333333333
+      },
+      "words": [
+        {
+          "text": "站",
+          "confidence": 15.904419,
+          "bounds": {
+            "left": 487,
+            "top": 1192.3333333333333,
+            "right": 492,
+            "bottom": 1197.6666666666667
+          }
+        },
+        {
+          "text": "y)",
+          "confidence": 27.807709,
+          "bounds": {
+            "left": 572.3333333333334,
+            "top": 1192.3333333333333,
+            "right": 579,
+            "bottom": 1198.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "A",
+      "confidence": 48.44,
+      "bounds": {
+        "left": 579.3333333333334,
+        "top": 1202,
+        "right": 591.6666666666666,
+        "bottom": 1205.3333333333333
+      },
+      "words": [
+        {
+          "text": "A",
+          "confidence": 48.436081,
+          "bounds": {
+            "left": 579.3333333333334,
+            "top": 1202,
+            "right": 591.6666666666666,
+            "bottom": 1205.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "2",
+      "confidence": 52.92,
+      "bounds": {
+        "left": 593.3333333333334,
+        "top": 1219.3333333333333,
+        "right": 598,
+        "bottom": 1222
+      },
+      "words": [
+        {
+          "text": "2",
+          "confidence": 52.916527,
+          "bounds": {
+            "left": 593.3333333333334,
+            "top": 1219.3333333333333,
+            "right": 598,
+            "bottom": 1222
+          }
+        }
+      ]
+    }
+  ]
+}

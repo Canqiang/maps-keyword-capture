@@ -47,6 +47,8 @@ export interface ScreenFrame {
   /** Legible sheet lines (snippets, status, action rows, module titles) used only to measure
    * continuity between adjacent frames; never a merchant identity. */
   anchors?: Array<{ text: string; bounds: Rect }>;
+  /** Captured right after a bounded backward correction: content may legitimately have moved down. */
+  afterBackwardCorrection?: boolean;
 }
 export interface RankedListing {
   displayPosition: number; organicRank: number | null;
@@ -309,6 +311,14 @@ function similarNames(a: string, b: string): boolean {
   const ka = nameKey(a), kb = nameKey(b);
   if (!ka || !kb) return false;
   if (ka === kb || ka.includes(kb) || kb.includes(ka)) return true;
+  // Short CJK names (probe 8: 一回小店 vs 一间小店) share most characters when one is misread.
+  const cjk = (text: string): string[] => [...text].filter(ch => /[一-鿿]/u.test(ch));
+  const ca = cjk(ka), cb = cjk(kb);
+  if (ca.length >= 3 && cb.length >= 3 && ca.length === cjk(ka).length && ka.length <= 8 && kb.length <= 8 && ca.length >= ka.length - 1 && cb.length >= kb.length - 1) {
+    const sa = new Set(ca), sb = new Set(cb);
+    let shared = 0; for (const ch of sa) if (sb.has(ch)) shared++;
+    if (shared / (sa.size + sb.size - shared) >= 0.6) return true;
+  }
   const bigrams = (text: string): Set<string> => { const out = new Set<string>(); for (let i = 0; i + 1 < text.length; i++) out.add(text.slice(i, i + 2)); return out; };
   const ba = bigrams(ka), bb = bigrams(kb);
   let shared = 0;
@@ -348,7 +358,8 @@ function clippedPrefixOverlap(previous: ScreenFrame, frame: ScreenFrame, count: 
     a.rating !== b.rating || a.reviewCount !== b.reviewCount || a.distanceMeters !== b.distanceMeters || a.category !== b.category || !a.ratingBounds || !b.ratingBounds) return false;
   if (a.distanceMeters === null && normalizeText(a.ratingLineText) !== normalizeText(b.ratingLineText)) return false;
   const delta = b.ratingBounds.top - a.ratingBounds.top;
-  if (delta >= -2 || delta < -(afterList.bottom - afterList.top) * 0.5 || Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 3 ||
+  const span = (afterList.bottom - afterList.top) * 0.5;
+  if ((frame.afterBackwardCorrection ? Math.abs(delta) > span : delta >= -2 || delta < -span) || Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 3 ||
     Math.abs(b.ratingBounds.right - a.ratingBounds.right) > 3) return false;
   return before.slice(1).every((anchor, i) => {
     const next = after[i + 1]!;
@@ -356,7 +367,7 @@ function clippedPrefixOverlap(previous: ScreenFrame, frame: ScreenFrame, count: 
       ![anchor, next].some(card => card.warnings.some(warning => ['low_name_confidence', 'low_rating_confidence', 'card_header_clipped',
         'name_clipped_at_top', 'uncertain_ad_label', 'native_ad_evidence_unresolved'].includes(warning))) &&
       sameCard(anchor, next) && anchor.name !== null && next.name !== null && nameKey(anchor.name) === nameKey(next.name) &&
-      !!anchor.ratingBounds && !!next.ratingBounds && Math.abs(next.ratingBounds.top - anchor.ratingBounds.top - delta) <= 4;
+      !!anchor.ratingBounds && !!next.ratingBounds && Math.abs(next.ratingBounds.top - anchor.ratingBounds.top - delta) <= 12;
   });
 }
 
@@ -385,10 +396,11 @@ function measuredDriftOverlap(previous: ScreenFrame, frame: ScreenFrame, count: 
     if (a.distanceText !== null && b.distanceText !== null && a.distanceText !== b.distanceText) return false;
     if (!a.ratingBounds || !b.ratingBounds || Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 3 || Math.abs(b.ratingBounds.right - a.ratingBounds.right) > 3) return false;
     const moved = (b.ratingBounds.top - afterList.top) - (a.ratingBounds.top - beforeList.top);
-    // Sub-pixel OCR box jitter (probe 5: +0.33 px) is not downward movement.
-    if (moved > 2 || moved < -height * 0.5) return false;
+    // Sub-pixel OCR box jitter (probe 5: +0.33 px) is not downward movement; after a backward
+    // correction the content may sit lower than in the kept frame (probe 8).
+    if (moved > (frame.afterBackwardCorrection ? height * 0.5 : 2) || moved < -height * 0.5) return false;
     if (delta === null) delta = moved;
-    return Math.abs(moved - delta) <= 4;
+    return Math.abs(moved - delta) <= 12;
   });
 }
 
@@ -410,14 +422,15 @@ export function anchoredContinuity(previous: ScreenFrame | undefined, frame: Scr
   const texts = new Set<string>();
   for (const a of previous.anchors) {
     const candidates = frame.anchors.filter(b => b.text === a.text && Math.abs(b.bounds.left - a.bounds.left) <= 4 && Math.abs(b.bounds.right - a.bounds.right) <= 4 &&
-      b.bounds.top - a.bounds.top <= 2 && b.bounds.top - a.bounds.top >= -height * 0.5);
+      b.bounds.top - a.bounds.top <= (frame.afterBackwardCorrection ? height * 0.5 : 2) && b.bounds.top - a.bounds.top >= -height * 0.5);
     // A text that appears twice in either frame cannot anchor anything.
     if (candidates.length !== 1 || previous.anchors.filter(other => other.text === a.text).length !== 1 || texts.has(a.text)) continue;
     texts.add(a.text); matches.push(candidates[0]!.bounds.top - a.bounds.top);
   }
   if (matches.length < 2) return null;
   const delta = matches[0]!;
-  return matches.every(moved => Math.abs(moved - delta) <= 4) ? delta : null;
+  // RecyclerView items re-measure independently by a few pixels (probe 8: 86 vs 90 px).
+  return matches.every(moved => Math.abs(moved - delta) <= 12) ? delta : null;
 }
 
 /** With anchored continuity, a first card whose name is hidden under the sheet header is
@@ -428,13 +441,13 @@ function anchoredClippedJoin(previous: ScreenFrame, row: RankedListing | undefin
   // been joined as a clipped header); geometry comes from the previous frame's card.
   const a = previous.cards.at(-1), b = frame.cards[0];
   if (!a || !b || !row || row.name === null || (row.nameConfidence ?? 0) < 40 || row.resultType === 'unknown' ||
-    row.warnings.includes('low_rating_confidence') || a.warnings.includes('low_rating_confidence') || b.name !== null || b.resultType !== 'unknown' ||
+    row.warnings.includes('low_rating_confidence') || a.warnings.includes('low_rating_confidence') || (b.name !== null && ((b.nameConfidence ?? 0) < 40 || nameKey(b.name) !== nameKey(row.name))) || b.resultType !== 'unknown' ||
     !b.warnings.some(warning => ['name_clipped_at_top', 'card_header_clipped'].includes(warning)) ||
     b.warnings.some(warning => !['name_clipped_at_top', 'card_header_clipped'].includes(warning)) ||
     a.rating === null || a.reviewCount === null || a.rating !== b.rating || a.reviewCount !== b.reviewCount ||
     (a.distanceText !== null && b.distanceText !== null && a.distanceText !== b.distanceText) || !a.ratingBounds || !b.ratingBounds ||
     Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 4 || Math.abs(b.ratingBounds.right - a.ratingBounds.right) > 4) return false;
-  return Math.abs((b.ratingBounds.top - a.ratingBounds.top) - delta) <= 4;
+  return Math.abs((b.ratingBounds.top - a.ratingBounds.top) - delta) <= 12;
 }
 
 /** Progress is measured from a named card moving upward in the same native

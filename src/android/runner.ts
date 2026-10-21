@@ -302,7 +302,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       locale: info.locale, timezone: info.timezone,
       ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v11', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v12', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -332,7 +332,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
         await device.search(query.keyword);
         checkQuery();
         stage = 'snapshot';
-        let swipes = 0, unchangedFrames = 0, refreshPending = false;
+        let swipes = 0, unchangedFrames = 0, refreshPending = false, correctionPending = false;
         const frames: ScreenFrame[] = [];
         const seenHashes = new Set<string>();
         for (let shot = 0; shot < config.maxScreenshotsPerQuery; shot++) {
@@ -358,6 +358,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           evidence.frameId = frameId;
           evidence.ocr = await saveArtifact('ocr_json', `${base}.ocr.json`, JSON.stringify(ocr, null, 2));
           const frame = parseScreenFrame(ocr, query.keyword, frameId, source.capturedAt, source.xml);
+          if (correctionPending) { frame.afterBackwardCorrection = true; correctionPending = false; }
           const nativeList = inspectNativeResultList(source.xml, query.keyword);
           // A known native list already scrolled backwards contradicts an OCR top marker.
           if (frames.length === 0 && nativeList?.canScrollBackward === true) {
@@ -396,7 +397,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
               if (!['unknown_scroll_layout', 'source_changed'].includes(code)) throw error;
               query.stopReason = code; query.listingQuality.rankingReliable = false; query.listingQuality.warnings.push(code); break;
             }
-            swipes++; stage = 'snapshot'; continue;
+            swipes++; correctionPending = true; stage = 'snapshot'; continue;
           }
           if (!frame.cards.length && frames.length === 1) {
             if (['detail', 'no_results', 'photo_discovery'].includes(analysis.kind)) { query.evidenceStatus = 'captured'; query.listingStatus = 'non_ranking'; query.stopReason = `screen_${analysis.kind}`; }

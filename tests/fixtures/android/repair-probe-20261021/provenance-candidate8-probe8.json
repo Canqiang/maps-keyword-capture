@@ -1,0 +1,83 @@
+{
+  "runId": "run_20261021T073609Z_835f64",
+  "sourceCommit": "5111f091eda124bfd27423c391ba529501a4da93",
+  "candidate": "8-backward-correction",
+  "receipt": "evidence/2026-10-21/android-ranking-repair/candidate8-live-verification.json",
+  "files": {
+    "candidate8-q0001-21.ocr.json": {
+      "source": "q0001/20261021T073809.712Z__keyword__21.ocr.json",
+      "sha256": "1e46db885a99a6c6a8e2f9c574e903b9d17da61bd48f684bd917d69d78de9070",
+      "bytes": 20631
+    },
+    "candidate8-q0001-21.xml": {
+      "source": "q0001/20261021T073809.712Z__keyword__21.xml",
+      "sha256": "4fb89524c7e47fa106bedbd45c57114c352b0ea953b2b0f6409b90ca6ab0b422",
+      "bytes": 75247
+    },
+    "candidate8-q0001-21.frame.json": {
+      "source": "q0001/20261021T073809.712Z__keyword__21.frame.json",
+      "sha256": "365274223d43b4b7bef05a0b96d2c700a2f13ca44f75a02c1bc3be070c092609",
+      "bytes": 3603
+    },
+    "candidate8-q0001-22.ocr.json": {
+      "source": "q0001/20261021T073814.170Z__keyword__22.ocr.json",
+      "sha256": "a9b105ac311f4dcea903306234a2d85b6db10addfb713f240f0ea5aceae2162e",
+      "bytes": 15303
+    },
+    "candidate8-q0001-22.xml": {
+      "source": "q0001/20261021T073814.170Z__keyword__22.xml",
+      "sha256": "e810c15ee4ee9072ee97527713b82c6b576f4f0b9253d311702e43dd8d142b61",
+      "bytes": 79866
+    },
+    "candidate8-q0001-22.frame.json": {
+      "source": "q0001/20261021T073814.170Z__keyword__22.frame.json",
+      "sha256": "f47aa193b9ed2a5efee5a087716887d4b8d2934a84a5fe41a348498ee74d9320",
+      "bytes": 2358
+    },
+    "candidate8-q0001-23.ocr.json": {
+      "source": "q0001/20261021T073818.225Z__keyword__23.ocr.json",
+      "sha256": "f13cdfe3e10c1299c295502d8ab552f6d25693b58c999875c4ad3b44ace961fb",
+      "bytes": 25916
+    },
+    "candidate8-q0001-23.xml": {
+      "source": "q0001/20261021T073818.225Z__keyword__23.xml",
+      "sha256": "f0025b6d66225a9f56bd9300b0b67098f1bbbf7482b663ce8f6f42ff8bf0224b",
+      "bytes": 82028
+    },
+    "candidate8-q0001-23.frame.json": {
+      "source": "q0001/20261021T073818.225Z__keyword__23.frame.json",
+      "sha256": "e9452c9ab12cb8c6c13e1a685838e1154a5f7df95341511f35a8ef57e4c8a418",
+      "bytes": 3832
+    },
+    "candidate8-q0004-22.ocr.json": {
+      "source": "q0004/20261021T074928.495Z__hot-pot-near-me__22.ocr.json",
+      "sha256": "538777a8fe864978794ea1fa54a0e7a0d00c13abf443fdb374929267a5956e13",
+      "bytes": 25438
+    },
+    "candidate8-q0004-22.xml": {
+      "source": "q0004/20261021T074928.495Z__hot-pot-near-me__22.xml",
+      "sha256": "5eb4177d43ccfc2a1a011a44cd8da11dff8ec7b251468c075ef3a1ec261120bb",
+      "bytes": 81169
+    },
+    "candidate8-q0004-22.frame.json": {
+      "source": "q0004/20261021T074928.495Z__hot-pot-near-me__22.frame.json",
+      "sha256": "1efe2b73aaa00611fc4f49136a5dc936f0ff0bc4bd71546c6f9c62a1ef0691ce",
+      "bytes": 4091
+    },
+    "candidate8-q0004-23.ocr.json": {
+      "source": "q0004/20261021T074934.956Z__hot-pot-near-me__23.ocr.json",
+      "sha256": "f5a1a890aa442551ce9c6dd3c123c2962ad8ade960e5d0761f1ee88326c31cd0",
+      "bytes": 26884
+    },
+    "candidate8-q0004-23.xml": {
+      "source": "q0004/20261021T074934.956Z__hot-pot-near-me__23.xml",
+      "sha256": "a6a789b53f1da4b66353ebb65753cca0ff7b320c7a14e2fc77440413ca01f7dc",
+      "bytes": 79158
+    },
+    "candidate8-q0004-23.frame.json": {
+      "source": "q0004/20261021T074934.956Z__hot-pot-near-me__23.frame.json",
+      "sha256": "3b2b123f991cc8d706b081cba935a34a79fb216c714e52af9d3e13b75f10cdcd",
+      "bytes": 4338
+    }
+  }
+}

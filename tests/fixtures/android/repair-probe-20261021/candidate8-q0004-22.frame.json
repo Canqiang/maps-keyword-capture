@@ -1,0 +1,166 @@
+{
+  "frameId": "q0004:frame-022",
+  "capturedAt": "2026-10-21T07:49:28.495Z",
+  "imageSha256": "4752846b02e6257192b0b6701224de5795895fe66feeb7f3a137ecbd8d12f7d4",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0004:frame-022",
+      "name": "小 龙 坎 Shoo Loong Kan Hot Pot Jersey City",
+      "nameConfidence": 95.91,
+      "rating": 4.7,
+      "reviewCount": 546,
+      "priceText": "$40–70",
+      "category": "restaurant",
+      "distanceText": "1.6 mi",
+      "distanceMeters": 2575,
+      "openText": "closed - opens 12 pm",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 399,
+        "right": 462,
+        "bottom": 565.3333333333334
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 494,
+        "right": 462,
+        "bottom": 523.3333333333334
+      },
+      "ratingLineText": "4.7% (546) - $40-70 - Restaurant",
+      "warnings": [],
+      "nameBounds": {
+        "left": 41.333333333333336,
+        "top": 399,
+        "right": 658,
+        "bottom": 486
+      }
+    },
+    {
+      "cardIndex": 1,
+      "frameId": "q0004:frame-022",
+      "name": "Mt. ShooTao Hot Pot 蜀 道 山 火 锅",
+      "nameConfidence": 85.33,
+      "rating": 4.9,
+      "reviewCount": 1174,
+      "priceText": "$40–80",
+      "category": "a .hot pot",
+      "distanceText": null,
+      "distanceMeters": null,
+      "openText": null,
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1131.6666666666667,
+        "right": 478,
+        "bottom": 1230
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 1171.6666666666667,
+        "right": 478,
+        "bottom": 1230
+      },
+      "ratingLineText": "4.9% (1174) - $40-80 - a .Hot Pot",
+      "warnings": [],
+      "nameBounds": {
+        "left": 42.666666666666664,
+        "top": 1131.6666666666667,
+        "right": 553,
+        "bottom": 1172.6666666666667
+      }
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "anchors": [
+    {
+      "text": "小 龙 坎 shoo loong kan hot pot jersey",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 399,
+        "right": 658,
+        "bottom": 438.3333333333333
+      }
+    },
+    {
+      "text": "4.7% (546) - $40-70 - restaurant",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 494,
+        "right": 462,
+        "bottom": 523.3333333333334
+      }
+    },
+    {
+      "text": "closed - opens 12 pm - 1.6 mi",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 534.6666666666666,
+        "right": 409,
+        "bottom": 565.3333333333334
+      }
+    },
+    {
+      "text": "@ ‘very nice customer service, hot pot has a lot",
+      "bounds": {
+        "left": 50,
+        "top": 875.3333333333334,
+        "right": 659,
+        "bottom": 910.6666666666666
+      }
+    },
+    {
+      "text": "of flavor!\"",
+      "bounds": {
+        "left": 93.33333333333333,
+        "top": 912,
+        "right": 211.33333333333334,
+        "bottom": 934.3333333333334
+      }
+    },
+    {
+      "text": "® directions ya order me) menu",
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 1001.6666666666666,
+        "right": 636,
+        "bottom": 1032.3333333333333
+      }
+    },
+    {
+      "text": "mt. shootao hot pot 蜀 道 山 火 锅",
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 1131.6666666666667,
+        "right": 553,
+        "bottom": 1172.6666666666667
+      }
+    },
+    {
+      "text": "4.9% (1174) - $40-80 - a .hot pot",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1171.6666666666667,
+        "right": 478,
+        "bottom": 1230
+      }
+    }
+  ],
+  "topStateSource": null
+}

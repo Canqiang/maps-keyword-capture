@@ -1,0 +1,177 @@
+{
+  "frameId": "q0004:frame-023",
+  "capturedAt": "2026-10-21T07:49:34.956Z",
+  "imageSha256": "03b3a4d4ffe57dc500c34b45f0c36924559b6d0eac42f9e05211453db7d03e81",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0004:frame-023",
+      "name": "小 龙 坎 Shoo Loong Kan Hot Pot Jersey City",
+      "nameConfidence": 95.91,
+      "rating": 4.7,
+      "reviewCount": 546,
+      "priceText": "$40–70",
+      "category": "restaurant",
+      "distanceText": "1.6 mi",
+      "distanceMeters": 2575,
+      "openText": "closed - opens 12 pm",
+      "resultType": "unknown",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 308.6666666666667,
+        "right": 462,
+        "bottom": 475.3333333333333
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 405,
+        "right": 462,
+        "bottom": 432
+      },
+      "ratingLineText": "4.7% (546) - $40-70 - Restaurant",
+      "warnings": [
+        "card_header_clipped"
+      ],
+      "nameBounds": {
+        "left": 41.333333333333336,
+        "top": 308.6666666666667,
+        "right": 658,
+        "bottom": 396
+      }
+    },
+    {
+      "cardIndex": 1,
+      "frameId": "q0004:frame-023",
+      "name": "Mt. ShooTao Hot Pot 蜀 道 山 火 锅",
+      "nameConfidence": 85.87,
+      "rating": 4.9,
+      "reviewCount": 1174,
+      "priceText": "$40–80",
+      "category": "hot pot",
+      "distanceText": "3.3 mi",
+      "distanceMeters": 5311,
+      "openText": "closed - opens 12 pm",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1046,
+        "right": 478,
+        "bottom": 1164.3333333333333
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 1094,
+        "right": 478,
+        "bottom": 1121
+      },
+      "ratingLineText": "4.9% (1174) . $40-80 . & - Hot Pot",
+      "warnings": [],
+      "nameBounds": {
+        "left": 42.666666666666664,
+        "top": 1046,
+        "right": 553,
+        "bottom": 1080.3333333333333
+      }
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "anchors": [
+    {
+      "text": "小 龙 坎 shoo loong kan hot pot jersey",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 308.6666666666667,
+        "right": 658,
+        "bottom": 348.3333333333333
+      }
+    },
+    {
+      "text": "4.7% (546) - $40-70 - restaurant",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 405,
+        "right": 462,
+        "bottom": 432
+      }
+    },
+    {
+      "text": "closed - opens 12 pm - 1.6 mi",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 444.6666666666667,
+        "right": 409,
+        "bottom": 475.3333333333333
+      }
+    },
+    {
+      "text": "@ ‘very nice customer service, hot pot has a lot",
+      "bounds": {
+        "left": 50,
+        "top": 785,
+        "right": 659,
+        "bottom": 820.6666666666666
+      }
+    },
+    {
+      "text": "* of flavor!\"",
+      "bounds": {
+        "left": 43.666666666666664,
+        "top": 821.3333333333334,
+        "right": 211.33333333333334,
+        "bottom": 844.3333333333334
+      }
+    },
+    {
+      "text": "® directions ya order me) menu",
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 911.6666666666666,
+        "right": 636.3333333333334,
+        "bottom": 942.3333333333334
+      }
+    },
+    {
+      "text": "mt. shootao hot pot 蜀 道 山 火 锅",
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 1046,
+        "right": 553,
+        "bottom": 1080.3333333333333
+      }
+    },
+    {
+      "text": "4.9% (1174) . $40-80 . & - hot pot",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1094,
+        "right": 478,
+        "bottom": 1121
+      }
+    },
+    {
+      "text": "closed - opens 12 pm - 3.3 mi",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1133.6666666666667,
+        "right": 411,
+        "bottom": 1164.3333333333333
+      }
+    }
+  ],
+  "topStateSource": null
+}
