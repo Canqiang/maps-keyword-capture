@@ -8,14 +8,15 @@ metadata:
   labels: &labels
     app.kubernetes.io/name: maps-keyword-capture
     app.kubernetes.io/component: targets-web
+# Enabled 2026-10-21 at every three hours (user decision, staged start); raise to every two hours after a clean day.
 spec:
-  schedule: "15 */2 * * *"
+  schedule: "15 */3 * * *"
   timeZone: America/New_York
   concurrencyPolicy: Forbid
   startingDeadlineSeconds: 1800
   successfulJobsHistoryLimit: 12
   failedJobsHistoryLimit: 12
-  suspend: true
+  suspend: false
   jobTemplate:
     metadata:
       labels: *labels

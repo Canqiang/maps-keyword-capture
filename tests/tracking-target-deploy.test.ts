@@ -17,7 +17,7 @@ describe('isolated nine-store scheduler candidates',()=>{
  it.each(docs)('$surface pins the full execution catalog and keeps the legacy scheduler untouched',({surface,cron})=>{
   const job=cron.spec.jobTemplate.spec,pod=job.template.spec,main=pod.containers[0];
   expect(cron.metadata).toMatchObject({name:`maps-targets-${surface}-2h`,namespace:surface==='web'?'uat':'android-maps-pilot'});
-  expect(cron.spec).toMatchObject({schedule:'15 */2 * * *',timeZone:'America/New_York',suspend:true,concurrencyPolicy:'Forbid'});
+  expect(cron.spec).toMatchObject({schedule:surface==='web'?'15 */3 * * *':'15 */2 * * *',timeZone:'America/New_York',suspend:surface!=='web',concurrencyPolicy:'Forbid'});
   expect(job).toMatchObject({completionMode:'Indexed',completions:2,parallelism:2,backoffLimitPerIndex:0,activeDeadlineSeconds:6600});
   expect(option(main.args,'--catalog-sha256')).toBe(hash);
   expect(option(main.args,'--catalog')).toBe('/config/liya-90-v1.json');
