@@ -9,13 +9,15 @@ import { loadTrackingConfig, type TrackingConfig } from '../domain/tracking-conf
 import { AzureBlobGateway, containerClientFromEnv } from '../storage/azure-gateway.js';
 import { UI_HTML } from './ui.js';
 import { createBasicAuth, type BasicAuth } from './auth.js';
+import { loginPage } from './login.js';
+import { createScanTrigger, inClusterKubeApi, parseScanTargets, ScanTriggerError, type ScanTrigger } from './scan-trigger.js';
 
 /**
  * Tracking UI service: a small JSON API over the stores and observations collections, the
  * single-page UI, and a read-only proxy for screenshots in the private evidence container.
  */
 export interface EvidenceReader { get(key: string): Promise<Buffer> }
-export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; auth?: BasicAuth; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
+export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; auth?: BasicAuth; scans?: ScanTrigger; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
 
 const EVIDENCE_KEY = /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u;
 const MAX_BODY = 256 * 1024;
@@ -46,6 +48,30 @@ async function readJson(req: IncomingMessage): Promise<unknown> {
     if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('not an object');
     return value;
   } catch { throw new HttpError(400, 'body must be a JSON object'); }
+}
+/** Login form body: small, urlencoded, same-origin. */
+async function readForm(req: IncomingMessage): Promise<URLSearchParams> {
+  if (req.headers['content-type']?.split(';')[0]?.trim().toLowerCase() !== 'application/x-www-form-urlencoded') throw new HttpError(415, 'content-type must be application/x-www-form-urlencoded');
+  if (req.headers.origin) {
+    let origin: URL;
+    try { origin = new URL(req.headers.origin); } catch { throw new HttpError(403, 'invalid origin'); }
+    if (!['http:', 'https:'].includes(origin.protocol) || origin.host !== req.headers.host) throw new HttpError(403, 'cross-origin login is not allowed');
+  }
+  const chunks: Buffer[] = [];
+  let size = 0;
+  for await (const chunk of req) {
+    size += (chunk as Buffer).length;
+    if (size > 8 * 1024) throw new HttpError(413, 'request body too large');
+    chunks.push(chunk as Buffer);
+  }
+  return new URLSearchParams(Buffer.concat(chunks).toString('utf8'));
+}
+function secureRequest(req: IncomingMessage): boolean {
+  return (req.socket as { encrypted?: boolean }).encrypted === true || String(req.headers['x-forwarded-proto'] ?? '').split(',')[0]?.trim().toLowerCase() === 'https';
+}
+function redirect(res: ServerResponse, location: string, cookie?: string): void {
+  res.writeHead(303, { location, 'cache-control': 'no-store', ...(cookie ? { 'set-cookie': cookie } : {}) });
+  res.end();
 }
 function surfaceOf(value: string | null): Surface {
   if (value === null || value === 'web') return 'web';
@@ -89,7 +115,31 @@ export function createHandler(deps: ServerDeps) {
         parts = url.pathname.split('/').filter(Boolean).map(decodeURIComponent);
       } catch { throw new HttpError(400, 'malformed URL path'); }
       if (req.method === 'GET' && url.pathname === '/healthz') return send(res, 200, { ok: true });
-      if (deps.auth && !deps.auth.accepts(req.headers.authorization)) {
+      const auth = deps.auth;
+      const signedIn = !auth || auth.accepts(req.headers.authorization) || auth.acceptsSession(req.headers.cookie);
+      if (auth && url.pathname === '/login') {
+        if (req.method === 'GET') {
+          if (signedIn) return redirect(res, '/');
+          return send(res, 200, loginPage({ error: url.searchParams.get('error') === '1', ...(url.searchParams.get('next') ? { next: url.searchParams.get('next')! } : {}) }), 'text/html; charset=utf-8');
+        }
+        if (req.method === 'POST') {
+          const form = await readForm(req);
+          const next = form.get('next') ?? '/';
+          const target = /^\/(?!\/)[^\s]*$/u.test(next) ? next : '/';
+          if (!auth.login(form.get('username') ?? '', form.get('password') ?? '')) {
+            deps.log?.({ stage: 'login_rejected' });
+            return redirect(res, '/login?error=1' + (target !== '/' ? '&next=' + encodeURIComponent(target) : ''));
+          }
+          const cookie = `${auth.cookieName}=${auth.issueSession(now().getTime())}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${auth.sessionSeconds}${secureRequest(req) ? '; Secure' : ''}`;
+          deps.log?.({ stage: 'login_ok' });
+          return redirect(res, target, cookie);
+        }
+      }
+      if (auth && url.pathname === '/logout' && req.method === 'POST') {
+        return redirect(res, '/login', `${auth.cookieName}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${secureRequest(req) ? '; Secure' : ''}`);
+      }
+      if (!signedIn) {
+        if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) return redirect(res, '/login');
         res.setHeader('www-authenticate', 'Basic realm="Maps tracking", charset="UTF-8"');
         return send(res, 401, { error: 'authentication required' });
       }
@@ -98,7 +148,22 @@ export function createHandler(deps: ServerDeps) {
       if (deps.readOnly && !['GET', 'HEAD', 'OPTIONS'].includes(req.method ?? '')) throw new HttpError(403, 'this preview is read-only');
       if (req.method === 'GET' && parts[1] === 'settings' && parts.length === 2) {
         const { stores: _stores, ...settings } = deps.config;
-        return send(res, 200, { ...settings, readOnly: deps.readOnly ?? false, ...(deps.previewInfo ? { previewInfo: deps.previewInfo } : {}) });
+        return send(res, 200, { ...settings, readOnly: deps.readOnly ?? false, scans: Boolean(deps.scans) && !deps.readOnly, signedIn: Boolean(auth), ...(deps.previewInfo ? { previewInfo: deps.previewInfo } : {}) });
+      }
+      if (parts[1] === 'scans') {
+        if (!deps.scans) throw new HttpError(503, '此环境没有配置采集触发');
+        try {
+          if (parts.length === 2 && req.method === 'GET') {
+            const [targets, jobs] = await Promise.all([deps.scans.targets(), deps.scans.jobs()]);
+            return send(res, 200, { targets, jobs, now: now().toISOString() });
+          }
+          if (parts.length === 4 && parts[3] === 'trigger' && req.method === 'POST') {
+            await readJson(req);
+            const job = await deps.scans.trigger(parts[2]!);
+            deps.log?.({ stage: 'scan_triggered', target: parts[2], job: job.name });
+            return send(res, 202, job);
+          }
+        } catch (error) { if (error instanceof ScanTriggerError) throw new HttpError(error.status, error.message); throw error; }
       }
       if (parts[1] === 'stores' && parts.length === 2) {
         if (req.method === 'GET') {
@@ -210,8 +275,12 @@ async function main(): Promise<void> {
   const evidence = process.env.AZURE_STORAGE_CONTAINER_SAS_URL || process.env.AZURE_STORAGE_ACCOUNT_URL ? new AzureBlobGateway(containerClientFromEnv(process.env)) : undefined;
   const log = (event: Record<string, unknown>) => process.stdout.write(`${JSON.stringify({ ts: new Date().toISOString(), ...event })}\n`);
   const port = Number(process.env.PORT ?? 8080);
-  const server = startServer({ config, repo, ...(evidence ? { evidence } : {}), ...(auth ? { auth } : {}), log }, port);
-  log({ stage: 'listening', port, stores: config.storeSource.provider, evidence: Boolean(evidence) });
+  const targets = parseScanTargets(process.env.TRACKING_SCAN_TARGETS);
+  const cluster = targets.length ? await inClusterKubeApi() : undefined;
+  if (targets.length && !cluster) throw new Error('TRACKING_SCAN_TARGETS is set but the in-cluster service account is unavailable');
+  const scans = cluster ? createScanTrigger(targets, cluster.api, cluster.namespace) : undefined;
+  const server = startServer({ config, repo, ...(evidence ? { evidence } : {}), ...(auth ? { auth } : {}), ...(scans ? { scans } : {}), log }, port);
+  log({ stage: 'listening', port, stores: config.storeSource.provider, evidence: Boolean(evidence), scanTargets: targets.map(t => t.cronJob) });
   const stop = () => { server.close(); void repo.close().finally(() => process.exit(0)); };
   process.once('SIGTERM', stop); process.once('SIGINT', stop);
 }
