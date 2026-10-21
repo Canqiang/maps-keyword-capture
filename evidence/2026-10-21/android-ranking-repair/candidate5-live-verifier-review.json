@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "independent-probe-verifier-review/v1",
+  "reviewedAt": "2026-10-21T03:34:31.320994+00:00",
+  "helper": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/nine-store-uat-20261021/android-probe5-review/verify.py",
+  "helperSha256": "16e41dcf42aca8b21a0c590a86afbb6c0945340ec875357bd40c0e6004e48745",
+  "sourceCommit": "af0bc7f8b301e88cc79951a42171acb03108ae8f",
+  "verdict": "no_remaining_blocker_for_declared_five_attempted_error_free_bundle_scope",
+  "reviewerEdits": "None to helper or collector source; local review evidence only.",
+  "resolvedFindings": [
+    {
+      "severity": "P1",
+      "issue": "Reported terminal status and exit were accepted without deriving outcome contract.",
+      "resolution": "Now accepts0/2, derives executionStatus from errors/counts, enforces expected exit and per-query evidence/listing-state mapping."
+    },
+    {
+      "severity": "P1",
+      "issue": "Ranking and completion fields could contradict rows or target match.",
+      "resolution": "Reliable organic ordinal checked; ad/unknown rank null; target row/field and selected-target/query rank consistency checked; finished.ranked summary compared; complete requires reliable target count or endOfResults. Partial/not_found and non_ranking populated/ranked combinations rejected."
+    },
+    {
+      "severity": "P2",
+      "issue": "Valid failed/skipped/diagnostic shapes were treated as complete dynamic evidence and would crash.",
+      "resolution": "Explicit helper scope excludes errors and failed/skipped outputs before per-query evidence assumptions, with raw-evidence fallback message. This is a restricted checker, not a general failure verifier."
+    },
+    {
+      "severity": "P1",
+      "issue": "Intermediate replacement inserted assert inside exit conditional, causing syntax error.",
+      "resolution": "Final exact helper compiles successfully and exit conditional restored."
+    }
+  ],
+  "validation": {
+    "syntaxCompilePassed": true,
+    "perQueryOutcomeBranchChecks": [
+      {
+        "case": "partial/captured rejected",
+        "expectedAccept": false,
+        "observedAccept": false
+      },
+      {
+        "case": "partial/needs_review retained",
+        "expectedAccept": true,
+        "observedAccept": true
+      },
+      {
+        "case": "non_ranking with nonempty rows rejected",
+        "expectedAccept": false,
+        "observedAccept": false
+      },
+      {
+        "case": "non_ranking empty rows retained",
+        "expectedAccept": true,
+        "observedAccept": true
+      },
+      {
+        "case": "target_reached below20 rejected",
+        "expectedAccept": false,
+        "observedAccept": false
+      }
+    ],
+    "rankBranchChecks": {
+      "helperSha256": "16e41dcf42aca8b21a0c590a86afbb6c0945340ec875357bd40c0e6004e48745",
+      "scope": "AST-extracted exact per-query row and target rank guard block only; no full bundle execution",
+      "checks": [
+        {
+          "case": "ad-only target retains null natural rank",
+          "expected": "accept",
+          "result": "accepted"
+        },
+        {
+          "case": "organic target ordinal1",
+          "expected": "accept",
+          "result": "accepted"
+        },
+        {
+          "case": "ad-only query claims natural1",
+          "expected": "reject",
+          "result": "rejected"
+        },
+        {
+          "case": "organic row/query jumps to8",
+          "expected": "reject",
+          "result": "rejected"
+        }
+      ]
+    },
+    "fullHelperRun": false,
+    "reason": "Terminal bundle was downloading; no unverified result verdict issued by this review.",
+    "clusterCalls": false,
+    "OCRCalls": false
+  },
+  "checkedAreas": [
+    "Pinned launch/config/source and operational compiled hashes",
+    "v9 profile includingdisplay and requestedOCRscale",
+    "Every manifest-listed artifact bytes/SHA and PNGstructure",
+    "Per-query JSON and CSV agreement",
+    "Frame reference association and one source_changed refresh budget",
+    "Ad/nonorganic null rank, reliable organic ordinal and target/query mapping",
+    "Counts and original exit-code preservation"
+  ],
+  "requiredInterpretationLimits": [
+    "GPS check confirms producer reported matched/following; helper does not independently recompute coordinate distance, elapsed-realtime freshness or native viewport proof. Do not call it independent GPS truth.",
+    "Target aliases are checked as declared references; helper does not independently rerun nameKey/alias selection completeness or interpret native advertisement ownership. Visual/evidence review remains separate.",
+    "The parser/reconciliation algorithm is not independently replayed from rawOCR/XML. Structurally consistent producer classification may still be wrong.",
+    "All-artifact receipt scope and PNGstructural checks are not visual verification.",
+    "Passing helper is evidence-integrity/declared-contract verification for this restricted probe, never production acceptance, Top20 completeness for partials,2-hour capacity or provenGoogle-local geography.",
+    "If failed/skipped/storage-error shapes appear, treat scope rejection as checker limitation and inspect valid raw evidence separately."
+  ],
+  "collectionAcceptance": "separate_visual_and_runtime_acceptance_required"
+}

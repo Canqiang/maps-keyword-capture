@@ -16,22 +16,36 @@ The approved target catalog is `deploy/tracking-targets/liya-90-v1.json`: 9 stor
 - Protected workloads: UAT `maps-keyword-monitor-daily`, `maps-tracking-web-2h`, and their existing ConfigMaps. Do not repurpose, replace, rerun or delete them while repairing Android.
 - New nine-store Web verification completed 270/270 searches across 138/132 shards, with zero restarts. Independent readback: all 270 Mongo rows matched; all 2,018 writer receipts passed remote size/availability checks; 310 files passed independent full SHA-256 readback, including every result/manifest/catalog/scan JSON and nine sampled PNGs. Outcome: 84 ranked, 2 confirmed absent, 184 unavailable under the 15-displayed-result limit. These 184 are **not NR20**. The new Web schedule remains suspended until separately enabled/read back.
 - Authenticated UAT viewer: https://maps.connexup-uat.net. Do not put credentials or SAS URLs in this document.
-- Cloud image builds use Azure ACR. Existing Android candidate image digest `sha256:98aad6fa03e1e3060bb7e5755aa52fe9a266d5ec4ffd720e2bc750af096db063` is source `0eba0589ff960829dc48104b9ad5bafa3283c1db`, not the uncommitted repair below. UI/Web deployed image remains `sha256:3fd3c076221a48bf43083bd80976de5b1f2a6b6acfd9a423e01d417f099c75df`.
+- Cloud image builds use Azure ACR. Existing Android candidate image digest `sha256:98aad6fa03e1e3060bb7e5755aa52fe9a266d5ec4ffd720e2bc750af096db063` is source `0eba0589ff960829dc48104b9ad5bafa3283c1db`, not the candidate5 repair below. UI/Web deployed image remains `sha256:3fd3c076221a48bf43083bd80976de5b1f2a6b6acfd9a423e01d417f099c75df`.
 
 ## Confirmed problems and required effects
 
 | ID | Evidence / root cause | Intended handling | Current status |
 |---|---|---|---|
-| A1 | Candidate4 OnlyBear: Manny's OCR title has a word box extending below its rating. Runner selected this last title, while the native gesture correctly rejected overlapping geometry. | Filter candidate anchors using the same title-before-rating constraints; select an earlier valid anchor or retain the bounded fallback. Never weaken native stale-source/geometry checks. | Local regression reproduced and passing; live revalidation pending. |
-| A2 | Candidate3 SEE JOY frame5: a status line touches native sheet bottom at y=1232; clipped `3.3 mi` is read as `22 mi`, conflicting with the next full frame. | Keep raw OCR; withhold cropped status/distance values. Fill missing values only after the same merchant passes existing ordered overlap. Do not guess a corrected number. | Local regression reproduced and passing; live revalidation pending. |
-| A3 | Candidate3 small-frame OCR loses a rating decimal and varies CJK names; candidate4 large canvas still varies the same merchant name across frames. | Test explicit higher OCR resolution on the immutable source PNGs; record scale in input, artifact and profile hash. Keep exact occurrence/overlap checks; do not infer identity from rating/review/distance alone. | PSM4 ×3 improves six offline samples reproducibly; full live acceptance pending. Candidate introduces opt-in `ocrScale: 3`; default remains 2. |
+| A1 | Candidate4 OnlyBear: Manny's OCR title has a word box extending below its rating. Runner selected this last title, while the native gesture correctly rejected overlapping geometry. | Filter candidate anchors using the same title-before-rating constraints; select an earlier valid anchor or retain the bounded fallback. Never weaken native stale-source/geometry checks. | Local regression passing; probe 5 (candidate5) showed no recurrence. |
+| A2 | Candidate3 SEE JOY frame5: a status line touches native sheet bottom at y=1232; clipped `3.3 mi` is read as `22 mi`, conflicting with the next full frame. | Keep raw OCR; withhold cropped status/distance values. Fill missing values only after the same merchant passes existing ordered overlap. Do not guess a corrected number. | Local regression passing; probe 5 (candidate5) showed no recurrence. |
+| A3 | Candidate3 small-frame OCR loses a rating decimal and varies CJK names; candidate4 large canvas still varies the same merchant name across frames. | Test explicit higher OCR resolution on the immutable source PNGs; record scale in input, artifact and profile hash. Keep exact occurrence/overlap checks; do not infer identity from rating/review/distance alone. | PSM4 ×3 improves six offline samples reproducibly, but probe 5 at scale 3 still drifted (q0001 f2 name, q0004 star glyph 丙). Candidate introduces opt-in `ocrScale: 3`; default remains 2. |
 | A4 | Ad labels can be incomplete or attached to partially visible native owners; the same merchant can appear as ad and organic. | Positive visible Sponsored/native ownership evidence yields `ad`; ambiguous association yields `unknown`. Keep separate displayed occurrences, do not consume an organic rank for an ad, and withhold reliable downstream ranks after unresolved classification. | Existing regression coverage; must recheck on the next real ad sample. |
 | A5 | Photo-discovery modules interrupt native result cards. Forward/backward actions remain available at observed stopping points. | Do not interpret a short/stationary/photo viewport as list end. Preserve partial output and stop reason unless explicit supported terminal evidence exists. | Unresolved complete-list acceptance; do not bypass guards to produce Top20. |
 | A6 | Short partial probes exit early, so elapsed time understates complete-list cost. One verification Pod retains ~7 GiB working set. | Validate memory/CPU, artifact staging volume, and complete-list throughput before enabling two workers. Keep crawler 4 CPU/16 GiB for pilot; no direct 8 GiB downsize. | Full two-worker capacity pending. |
 
+## Expected data and user-visible behavior
+
+| Field / view | Expected behavior | Never imply |
+|---|---|---|
+| `name`, `rating`, `reviewCount` | Extract observed values, with raw PNG/XML/OCR and frame references available for review. Leave unreadable fields missing. | A guessed decimal, review count or normalized merchant identity is an observed fact. |
+| `resultType` / `adLabel` | `ad` requires positive supported ad evidence; `organic` requires the parser's complete classification evidence; unresolved ownership stays `unknown`. | No visible label in a cropped card proves organic. |
+| `displayPosition` | Ordered displayed occurrence, counting both paid and organic entries; preserve the same merchant appearing twice in different result types. | Deduplicating all identical merchant names preserves the displayed list. |
+| `organicRank` | Count only verified organic occurrences; null for ads/unknown. Only publish target ranks when the query's ordering/classification quality gates pass. | Partial/unknown sequence means a reliable full-list rank. |
+| `listingStatus` / `stopReason` | Complete only at configured target or supported explicit list end; otherwise retain partial plus the actual stopping reason. | A stationary screen, photo module or available forward action is an end-of-list receipt. |
+| Location / profile | Separate requested point, device GPS receipt, viewport following and unverified Google backend geography. Keep Web and Android profiles separate. | Injected GPS proves Google's entire ranking backend used that location. |
+| UAT page | Select store, keyword, date, surface and observation point; show status/rank and open the original corresponding screenshot. Keep historical profiles visible and labelled. | Missing observations are rank0, improvements, or a continuous interpolated trend. |
+
+Example: a verified sequence `Sponsored A → B → C` yields display positions1/2/3, with organic ranks null/1/2. If the first occurrence is `unknown`, it must not silently become organic rank1, and downstream target ranks must follow the reliability gate. Both surfaces may legitimately disagree at the same keyword/point/time; retain their independent evidence.
+
 ## Latest candidate and evidence
 
-Working branch: `codex/fix-tracking-review-20261020`; active checkout is a managed sibling worktree. Last committed display metadata change: `93db1892b3ce75c9368ce0c8f1af6d80135b6346`; documentation receipt commit: `36a1a00`. New repairs are not included in either commit or an ACR image yet.
+Working branch: `codex/fix-tracking-review-20261020`; active checkout is a managed sibling worktree. Last committed display metadata change: `93db1892b3ce75c9368ce0c8f1af6d80135b6346`; documentation receipt commit: `36a1a00`. Candidate5 repairs and this handoff were committed as `af0bc7f8b301e88cc79951a42171acb03108ae8f`. No candidate5 ACR image has been built or deployed.
 
 Changes being verified:
 
@@ -70,6 +84,39 @@ If any ranking gate fails, deliver the partial evidence and exact cause; do not 
 ## Candidate5 software checkpoint
 
 2026-10-21: full `npm test` passed (1,519 tests /71 files, including contract checks); targeted 105/105 and Python26/26 passed. Typecheck/build/diff checks passed. Geometry failures were observed before the fix; explicit-scale failures were observed before propagation. Earlier intermediate failures are retained in the software receipt, not hidden. Independent review passed with no P0/P1/P2 blocker (205 targeted tests and four negative cases independently checked); live verification remains pending. See `evidence/2026-10-21/android-ranking-repair/candidate5-independent-review.json`. See `evidence/2026-10-21/android-ranking-repair/candidate5-software-validation.json`.
+
+## Candidate5 live verification checkpoint
+
+2026-10-21 11:26–11:28 Asia/Shanghai: the original five-query probe is running in the isolated Pod, using source `af0bc7f8b301e88cc79951a42171acb03108ae8f`, fresh source directory `/runtime/nine-store-source-20261021e` and output directory `/runtime/nine-store-verification-20261021e`. All 134 uploaded compiled/runtime files were independently SHA-256 checked before launch. Baseline display remains 720×1280 /320 dpi; OCR scale is explicitly3. Pod UID `a09f1277-3b96-4a1e-8c7b-a6dcf8774ec6`, original launch PID5347, zero restarts at launch. The terminal outcome is recorded in the next section; it is not acceptance.
+
+Local monitoring: `android-probe5-review/monitor.py` reads progress only. At termination, `download.py` saves bounded raw files and checks transfer hashes; `read-operations.py` checks runtime source/config/lease; `verify.py` verifies artifact receipts, JSON/CSV/PNG/profile consistency. The verifier is undergoing separate review. Run these from the durable local evidence base above; preserve all earlier probe folders.
+
+## Candidate5 live verification outcome (probe 5)
+
+2026-10-21 11:27–11:33 Asia/Shanghai, run `run_20261021T032723Z_c779a2`, source `af0bc7f8b301e88cc79951a42171acb03108ae8f`, OCR scale 3, display 720×1280 / 320 dpi, profile method `full_screen_ocr_native_context_ordered_overlap/v9` (hash `0f7321713349e6dc9a0e13ffa820fb7761b486734fd984c9c74e10cfcf144bfd`). Original exit 2, `needs_review`, zero restarts. All five GPS injections matched and the viewport followed. Independent readback (`candidate5-live-verification.json`, helper review `candidate5-live-verifier-review.json`): manifest receipt 255,006 bytes matched, all 195 artifact receipts verified by size/SHA-256, 49 PNGs decoded at the baseline display, 5 query JSON and 5 + 20 CSV rows matched. Visual review covered the ten contact-sheet frames (first and last frame of every query). **Outcome: 0 of 5 complete, 0 ranked, 5 partial** (44 search + 5 location screenshots, 20 listings: 2 ads, 17 organic, 1 unknown). This is still not Top20 acceptance.
+
+| Query | Frames / rows | Stop reason | Diagnosed cause (from the persisted OCR/XML/frame evidence) |
+|---|---:|---|---|
+| q0001 卤味 @ keke-center | 2 / 2 | `ranking_unreliable` | Ordered overlap missing f1→f2. The same card was OCR'd as `可 可 小 鹵 KEKE BRAISED DELI` (f1) and `By AJ/)\pq KEKE BRAISED DELI` (f2); f2 also lost its status line (`d.0 ml`), so `distanceText` is null and the fuzzy-name path is not allowed. The sheet expanded between the frames (list top 456→272), so no geometric path applies either. A3 recurred at scale 3. |
+| q0002 chinese food @ keke-3km | 3 / 2 | `ranking_unreliable` | f3 shows Hwa Lung Kitchen 34 px below the list top (< 35) → `card_header_clipped` → `unknown`. `clippedPrefixOverlap` requires at least two aligned cards, so a one-card frame cannot be joined; the reconciler reports overlap missing and the loop stops. |
+| q0003 bubble tea near me @ onlybear-center | 17 / 7 | `source_changed` | Sequence verified for 17 frames; one refresh already used after f4. A second pre-gesture `SOURCE_CHANGED` stopped the query: the runner allows one refresh per query (the earlier text of this document said two). |
+| q0004 hot pot near me @ seejoy-5km | 15 / 6 | `ranking_unreliable` | f15 OCR reads the rating line as `4.9 丙 (1174) …`; the star-slot substitution set `[玄計]` does not include 丙, so Mt. ShooTao is not a card in f15 and the overlap with f14 is missing. Name drift across f5–f9 (`/J\ 龙 欣 火 钢` … `小 龍 坎 火 鋼`) was absorbed by the equal-distance similar-name path. |
+| q0005 bakery @ uws-center | 7 / 3 | `unknown_scroll_layout` | f7 native list has a third direct child `[0,1131][720,1232]`: the clipped head of the photo-discovery module with no labels and no action row. `liveSearchLists` requires every direct card to carry a scrollable HorizontalScrollView or static action row, so the list is rejected although it is the same `search_list_layout` with the exact query heading. |
+
+A1/A2 did not recur (no anchor-geometry rejection, no clipped-status conflict). Throughput: each gesture moved about 300 px against a card pitch of about 690 px, so a row costs 2–3 frames at about 5.5 s per frame (q0003: 7 rows in 17 frames). A 20-row list would need roughly 50 frames, close to the 60-screenshot cap and far from the 2-hour 270-search requirement (A6).
+
+Next action (candidate6, not started on a device): accept any single non-alphanumeric glyph in the star slot when the parenthesised count follows; allow a one-card clipped-prefix join when the name key is identical; add a measured-geometry identity (same native list, same upward delta, equal rating/review count, similar name) for drifted CJK names; raise the per-query source-change refresh budget; accept a trailing unlabeled list child beside cards that carry clickable action controls. Reproduce each from the probe5 fixtures before any device run.
+
+## Operational read-only commands
+
+```sh
+kubectl --context FBRDevAKSCluster -n android-maps-pilot get pod maps-nine-android-verify-20261021 -o wide
+kubectl --context FBRDevAKSCluster -n uat get cronjob maps-keyword-monitor-daily maps-tracking-web-2h maps-targets-web-2h
+```
+
+Check the Pod UID and deadline against the checkpoint before using any saved helper. The collector was launched inside the runtime container; its application log is the candidate output directory's `capture.log`, not necessarily `kubectl logs`. Never start the launch script twice: `started.json` is an exclusive run guard. Preserve the PVC and candidate output directories when cleaning up a finished Pod.
+
+See also `docs/ci-images.md` for ACR builds and `deploy/tracking-targets/` for candidate catalog/schedules. A subsequent maintainer should append a dated checkpoint with source commit, original exit code, counts, receipt coverage, visual scope, unresolved issues and next action. Do not rewrite prior failed observations into successful ones.
 
 ## Next engineer checklist
 
