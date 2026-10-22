@@ -97,6 +97,7 @@ describe('tracking history boundaries', () => {
       db: () => ({ collection: (name: string) => name === 'stores' ? {
         createIndexes: async () => {}, findOne: async () => ({ ...store, _id: store.storeId }),
       } : {
+        createIndexes: async () => {},
         findOne: async () => newest,
         find: (filter: Record<string, unknown>, opts: Record<string, unknown>) => {
           query = filter; options = opts;
