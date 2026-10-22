@@ -32,6 +32,8 @@ spec:
       # 20 keywords: 60 + 20 * (90 + 30) + 60 = 2520 s application budget, plus margin for the measured
       # per-keyword overshoot and manifest publication. Time spent Pending counts against it.
       activeDeadlineSeconds: 3000
+      # Delete the finished Job and its Pods 10 minutes after it ends (success or failure); results live in Azure/Mongo.
+      ttlSecondsAfterFinished: 600
       template:
         metadata:
           labels:

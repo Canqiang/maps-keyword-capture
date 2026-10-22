@@ -21,6 +21,8 @@ spec:
       backoffLimit: 0
       # 14-hour application deadline plus 600s for termination/finalization margin.
       activeDeadlineSeconds: 51000
+      # Delete the finished Job and its Pods 10 minutes after it ends (success or failure); results live in Azure/Mongo.
+      ttlSecondsAfterFinished: 600
       template:
         metadata:
           labels:

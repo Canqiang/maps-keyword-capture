@@ -31,6 +31,8 @@ spec:
       maxFailedIndexes: 2
       # About 20 s per keyword per pod; keep each shard under about 250 keywords to finish inside two hours.
       activeDeadlineSeconds: 6600
+      # Delete the finished Job and its Pods 10 minutes after it ends (success or failure); results live in Azure/Mongo.
+      ttlSecondsAfterFinished: 600
       template:
         metadata:
           labels:

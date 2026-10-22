@@ -20,8 +20,8 @@ describe('CronJob schedule', () => {
     const cron = await load('deploy/cronjob/cronjob.yaml');
 
     const expected = structuredClone(job.spec);
-    // Finished Jobs are kept by the CronJob history limits; a TTL would delete them first.
-    delete expected.ttlSecondsAfterFinished;
+    // Scheduled Jobs and their Pods are removed 10 minutes after they finish; results are in Azure.
+    expected.ttlSecondsAfterFinished = 600;
     expected.template.metadata.labels = { ...expected.template.metadata.labels, ...SCHEDULED_INSTANCE };
     const configVolume = expected.template.spec.volumes.find((v: Doc) => v.name === 'config');
     configVolume.configMap.name = SCHEDULED_CONFIG_MAP;

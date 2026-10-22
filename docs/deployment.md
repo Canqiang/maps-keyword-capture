@@ -24,7 +24,7 @@ The first version uses query-only search: omit `mapView` from the input, submit 
 | Dedicated memory-backed `/dev/shm` | 512Mi |
 | Termination grace period | 120 seconds (worst case about 100 s plus the in-flight round with a stalled storage account) |
 | Active deadline | 3000 seconds (20 keywords) |
-| Finished Job TTL | 24 hours (manual Jobs; scheduled Jobs use the history limits below) |
+| Finished Job TTL | 24 hours for manual Jobs from this file; Jobs created by any CronJob (scheduled or "立即采集") are deleted with their Pods 10 minutes after they finish |
 
 ## Dev schedule in `deploy/cronjob/cronjob.yaml`
 
@@ -33,10 +33,10 @@ The first version uses query-only search: omit `mapView` from the input, submit 
 | Schedule | `0 10 * * *` in `America/New_York` (10:00 every day) |
 | Concurrency policy | `Forbid` (does not count Jobs created by hand) |
 | Starting deadline | 3600 seconds |
-| Job history | last 7 successful and 7 failed Jobs; a Job's log lasts as long as its Pod |
+| Job history | `ttlSecondsAfterFinished: 600`: each Job and its Pods are deleted 10 minutes after finishing, success or failure, so read `kubectl logs` within that window; results and receipts stay in Azure |
 | Keywords | ConfigMap `maps-capture-keywords-daily`, separate from the manual Job's `maps-capture-keywords` |
 
-The Job template must match `deploy/job/job.yaml` except for the keyword ConfigMap, an `app.kubernetes.io/instance` label, and the TTL; `tests/deploy-manifests.test.ts` enforces this. Operation is described in [deploy/cronjob/README.md](../deploy/cronjob/README.md).
+The Job template must match `deploy/job/job.yaml` except for the keyword ConfigMap, an `app.kubernetes.io/instance` label, and the TTL (600 s instead of 24 h); `tests/deploy-manifests.test.ts` enforces this. Operation is described in [deploy/cronjob/README.md](../deploy/cronjob/README.md).
 
 Measured on 2026-09-17 with 20 keywords: 6 min 10 s, peak about 1.1 CPU and 654Mi memory (15-second `kubectl top` samples). Set the application deadline from batch size and per-keyword budgets, with a separate outer Job deadline. Verify Chromium sandbox compatibility rather than silently disabling it. Shared-memory usage counts against the memory budget.
 
@@ -45,6 +45,8 @@ Run as non-root, keep permissions minimal, and mount writable paths required by 
 Storage target: private container `maps-keyword-capture` in account `fbrdevstorage` (the `seo` container is publicly readable and is not used). Pods authenticate with a container-scoped SAS tied to stored access policy `maps-capture-writer`, from Secret `maps-keyword-capture-storage`; local runs use `az login` with `AZURE_STORAGE_ACCOUNT_URL`. Setup, run, inspection, and revocation steps are in [deploy/job/README.md](../deploy/job/README.md).
 
 ## UAT monitor in `deploy/uat-monitor/cronjob.yaml`
+
+Since 2026-10-22 every CronJob in this repository and the UAT environment repository (`maps-keyword-monitor-daily`, `maps-tracking-web-2h`, `maps-targets-web-2h`, `maps-tracking-ingest-daily`, Dev `maps-capture-daily`) sets `ttlSecondsAfterFinished: 600`, so finished Jobs and their Pods are removed automatically. The history limits no longer retain anything past that window. The tracking UI's recent-scan list therefore only shows runs that finished in the last 10 minutes or are still running.
 
 CronJob `uat/maps-keyword-monitor-daily` runs at `0 0 * * *` in `Asia/Shanghai`. Seven enrolled stores use the latest API records, capped at 40 keywords per store and split into batches of at most 20. The current source selection totals 260 queries. It uses private container `maps-keyword-capture-uat` and Secret `maps-keyword-monitor-storage`, separately from Dev.
 

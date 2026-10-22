@@ -26,6 +26,8 @@ spec:
       backoffLimitPerIndex: 0
       maxFailedIndexes: 2
       activeDeadlineSeconds: 6600
+      # Delete the finished Job and its Pods 10 minutes after it ends (success or failure); results live in Azure/Mongo.
+      ttlSecondsAfterFinished: 600
       template:
         metadata:
           labels: *labels
