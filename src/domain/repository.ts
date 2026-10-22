@@ -216,6 +216,8 @@ export class MongoTrackingRepository implements TrackingRepository {
     this.connected ??= this.client.connect().then(async () => {
       const stores = this.client.db(this.options.database).collection(this.options.storesCollection ?? 'stores');
       await stores.createIndexes([{ key: { placeId: 1 }, name: 'placeId', unique: true }, { key: { active: 1, name: 1 }, name: 'active' }]);
+      // The UAT server rejects unindexed queries; the change log is read newest first per store.
+      await this.client.db(this.options.database).collection((this.options.storesCollection ?? 'stores') + '-changes').createIndexes([{ key: { storeId: 1, at: -1 }, name: 'storeId_at' }]);
     }).catch(error => { this.connected = null; throw error; });
     await this.connected;
     return this.client.db(this.options.database);
