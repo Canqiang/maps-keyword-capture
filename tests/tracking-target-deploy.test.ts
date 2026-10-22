@@ -20,7 +20,8 @@ describe('isolated nine-store scheduler candidates',()=>{
   expect(cron.metadata).toMatchObject({name:surface==='web'?'maps-targets-web-2h':'maps-targets-android-daily',namespace:surface==='web'?'uat':'android-maps-pilot'});
   // Web every three hours; Android one daily pass (~4 minutes per native query on two emulator workers).
   expect(cron.spec).toMatchObject({schedule:surface==='web'?'15 */3 * * *':'0 21 * * *',timeZone:'America/New_York',concurrencyPolicy:'Forbid'});
-  expect(job).toMatchObject({completionMode:'Indexed',completions:surface==='web'?3:2,parallelism:surface==='web'?3:2,backoffLimitPerIndex:0,activeDeadlineSeconds:surface==='web'?6600:64800});
+  // Android: the namespace quota admits one emulator Pod.
+  expect(job).toMatchObject({completionMode:'Indexed',completions:surface==='web'?3:1,parallelism:surface==='web'?3:1,backoffLimitPerIndex:0,activeDeadlineSeconds:surface==='web'?6600:64800});
   // Both read stores from Mongo (what the settings page saves); no report catalog is pinned.
   expect(main.args).not.toContain('--catalog');expect(main.args).not.toContain('--catalog-sha256');
   expect((surface==='web'?settings:androidSettings).storeSource).toEqual({provider:'mongo',collection:'monitor-target-stores-v1'});
