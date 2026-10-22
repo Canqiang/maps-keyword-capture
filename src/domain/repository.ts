@@ -18,12 +18,28 @@ export interface LatestRank {
 export interface TrendPoint { observedAt: string; status: RankObservation['rank']['status']; displayPosition: number | null; organicRank: number | null; scanId: string; eligible: boolean }
 export interface StoreSummary { storeId: string; surface: Surface; lastObservedAt: string | null; keywords: number; ranked: number; top3: number; averageOrganicRank: number | null; unavailable: number }
 
+/** One saved change to a store's configuration: who, when, and which top-level fields differ. */
+export interface StoreChange { storeId: string; at: string; by: string | null; action: 'create' | 'update' | 'activate' | 'pause'; fields: string[]; keywordsAdded: string[]; keywordsRemoved: string[] }
+export interface SaveStoreOptions { fillMissingCenter?: boolean; by?: string | null }
+
+/** Field-level difference between two configurations, for the change log. */
+export function describeStoreChange(previous: StoredStore | null, next: TrackingStore, at: string, by: string | null): StoreChange {
+  const fields = (Object.keys({ ...(previous ?? {}), ...next }) as Array<keyof TrackingStore>)
+    .filter(key => !['createdAt', 'updatedAt'].includes(key as string) && JSON.stringify(previous?.[key as keyof StoredStore] ?? null) !== JSON.stringify(next[key] ?? null)).sort();
+  const words = (store: Pick<TrackingStore, 'keywordTargets'> | null) => new Map((store?.keywordTargets ?? []).map(t => [keywordKey(t.keyword), t.keyword]));
+  const before = words(previous), after = words(next);
+  return { storeId: next.storeId, at, by, action: previous ? 'update' : 'create', fields,
+    keywordsAdded: [...after].filter(([k]) => !before.has(k)).map(([, v]) => v), keywordsRemoved: [...before].filter(([k]) => !after.has(k)).map(([, v]) => v) };
+}
+
 export interface TrackingRepository {
   listStores(options?: { includeInactive?: boolean }): Promise<StoredStore[]>;
   getStore(storeId: string): Promise<StoredStore | null>;
-  /** Create or replace; validation happens here so every writer gets the same rules. */
-  saveStore(raw: unknown, now?: Date, options?: { fillMissingCenter?: boolean }): Promise<StoredStore>;
-  setActive(storeId: string, active: boolean, now?: Date): Promise<StoredStore | null>;
+  /** Create or replace; validation happens here so every writer gets the same rules. Every save is appended to the change log. */
+  saveStore(raw: unknown, now?: Date, options?: SaveStoreOptions): Promise<StoredStore>;
+  /** Newest first. */
+  storeChanges(storeId: string, limit?: number): Promise<StoreChange[]>;
+  setActive(storeId: string, active: boolean, now?: Date, by?: string | null): Promise<StoredStore | null>;
   /** Most recent observation per keyword, surface and point, with the one before it for change. */
   latest(storeId: string, options?: { surface?: Surface; pointId?: string }): Promise<LatestRank[]>;
   trend(storeId: string, keywordKey: string, options: { surface: Surface; pointId?: string; since: string }): Promise<TrendPoint[]>;
@@ -122,18 +138,23 @@ export class MemoryTrackingRepository implements TrackingRepository {
   constructor(readonly observations: RankObservation[] = []) {}
   async listStores(options: { includeInactive?: boolean } = {}) { return [...this.stores.values()].filter(s => options.includeInactive || s.active).sort((a, b) => a.name.localeCompare(b.name)); }
   async getStore(storeId: string) { return this.stores.get(storeId) ?? null; }
-  async saveStore(raw: unknown, now = new Date(), options: { fillMissingCenter?: boolean } = {}) {
+  readonly changes: StoreChange[] = [];
+  async saveStore(raw: unknown, now = new Date(), options: SaveStoreOptions = {}) {
     const store = parseStore(raw);
-    ensureSameIdentity(this.stores.get(store.storeId), store, options.fillMissingCenter);
+    const existing = this.stores.get(store.storeId) ?? null;
+    ensureSameIdentity(existing, store, options.fillMissingCenter);
     const clash = [...this.stores.values()].find(s => s.placeId === store.placeId && s.storeId !== store.storeId);
     if (clash) throw new Error(`placeId already tracked by ${clash.storeId}`);
-    const saved: StoredStore = { ...store, createdAt: this.stores.get(store.storeId)?.createdAt ?? now.toISOString(), updatedAt: now.toISOString() };
+    const saved: StoredStore = { ...store, createdAt: existing?.createdAt ?? now.toISOString(), updatedAt: now.toISOString() };
     this.stores.set(store.storeId, saved);
+    this.changes.push(describeStoreChange(existing, store, now.toISOString(), options.by ?? null));
     return saved;
   }
-  async setActive(storeId: string, active: boolean, now = new Date()) {
+  async storeChanges(storeId: string, limit = 20) { return this.changes.filter(c => c.storeId === storeId).reverse().slice(0, limit); }
+  async setActive(storeId: string, active: boolean, now = new Date(), by: string | null = null) {
     const store = this.stores.get(storeId);
     if (!store) return null;
+    if (store.active !== active) this.changes.push({ storeId, at: now.toISOString(), by, action: active ? 'activate' : 'pause', fields: ['active'], keywordsAdded: [], keywordsRemoved: [] });
     const saved = { ...store, active, updatedAt: now.toISOString() };
     this.stores.set(storeId, saved);
     return saved;
@@ -200,6 +221,11 @@ export class MongoTrackingRepository implements TrackingRepository {
     return this.client.db(this.options.database);
   }
   private async storesCol() { return (await this.db()).collection<StoredStore & { _id: string }>(this.options.storesCollection ?? 'stores'); }
+  private async changesCol() { return (await this.db()).collection<StoreChange>((this.options.storesCollection ?? 'stores') + '-changes'); }
+  async storeChanges(storeId: string, limit = 20) {
+    const docs = await (await this.changesCol()).find({ storeId }, { sort: { at: -1 }, limit: Math.min(Math.max(1, limit), 200), projection: { _id: 0 } }).toArray();
+    return docs as StoreChange[];
+  }
   private async obsCol() { return (await this.db()).collection<RankObservation & { _id: string }>(this.options.observationsCollection ?? 'observations'); }
   private strip(doc: (StoredStore & { _id?: string }) | null): StoredStore | null {
     if (!doc) return null;
@@ -211,20 +237,22 @@ export class MongoTrackingRepository implements TrackingRepository {
     return docs.map(d => this.strip(d)!);
   }
   async getStore(storeId: string) { return this.strip(await (await this.storesCol()).findOne({ _id: storeId })); }
-  async saveStore(raw: unknown, now = new Date(), options: { fillMissingCenter?: boolean } = {}) {
+  async saveStore(raw: unknown, now = new Date(), options: SaveStoreOptions = {}) {
     const store = parseStore(raw);
     const col = await this.storesCol();
     const clash = await col.findOne({ placeId: store.placeId, _id: { $ne: store.storeId } });
     if (clash) throw new Error(`placeId already tracked by ${clash.storeId}`);
-    const existing = await col.findOne({ _id: store.storeId });
+    const existing = this.strip(await col.findOne({ _id: store.storeId }));
     ensureSameIdentity(existing, store, options.fillMissingCenter);
     const saved: StoredStore = { ...store, createdAt: existing?.createdAt ?? now.toISOString(), updatedAt: now.toISOString() };
     await col.replaceOne({ _id: store.storeId }, saved, { upsert: true });
+    await (await this.changesCol()).insertOne(describeStoreChange(existing, store, now.toISOString(), options.by ?? null));
     return saved;
   }
-  async setActive(storeId: string, active: boolean, now = new Date()) {
+  async setActive(storeId: string, active: boolean, now = new Date(), by: string | null = null) {
     const col = await this.storesCol();
-    await col.updateOne({ _id: storeId }, { $set: { active, updatedAt: now.toISOString() } });
+    const result = await col.updateOne({ _id: storeId, active: { $ne: active } }, { $set: { active, updatedAt: now.toISOString() } });
+    if (result.modifiedCount) await (await this.changesCol()).insertOne({ storeId, at: now.toISOString(), by, action: active ? 'activate' : 'pause', fields: ['active'], keywordsAdded: [], keywordsRemoved: [] });
     return this.getStore(storeId);
   }
   async latest(storeId: string, options: { surface?: Surface; pointId?: string } = {}) {

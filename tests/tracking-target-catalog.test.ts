@@ -9,7 +9,8 @@ import { balancedShardStores, parseStore, parseTrackingConfig, planScan, shardSt
 
 const catalogPath = new URL('../deploy/tracking-targets/liya-90-v1.json', import.meta.url).pathname;
 const configPath = new URL('../deploy/tracking-targets/tracking.json', import.meta.url).pathname;
-const catalog = parseTargetCatalog(JSON.parse(await readFile(catalogPath, 'utf8')));
+const catalogRaw = JSON.parse(await readFile(catalogPath, 'utf8'));
+const catalog = parseTargetCatalog(catalogRaw);
 const config = withStores(parseTrackingConfig(JSON.parse(await readFile(configPath, 'utf8'))), catalog.stores);
 const first = catalog.stores[0]!;
 const fixed = first.fixedPoints![0]!;
@@ -81,10 +82,15 @@ describe('versioned nine-store report catalog', () => {
   it('rejects duplicate point identities, missing goal mappings and active keywords outside inventory', () => {
     const duplicate = structuredClone(first); duplicate.fixedPoints![1]!.id = duplicate.fixedPoints![0]!.id;
     expect(() => parseStore(duplicate)).toThrow(/unique fixed point/);
+    const asCatalog = (store: typeof first) => ({ ...structuredClone(catalogRaw), stores: [store, ...structuredClone(catalogRaw).stores.slice(1)] });
     const missing = structuredClone(first); missing.keywordTargets![0]!.pointTargets.pop();
-    expect(() => parseStore(missing)).toThrow(/target points/);
+    expect(() => parseTargetCatalog(asCatalog(missing))).toThrow(/every fixed point/);
+    expect(parseStore(missing).keywordTargets![0]!.pointTargets).toHaveLength(first.fixedPoints!.length - 1);
     const outside = structuredClone(first); outside.keywordTargets![0]!.keyword = 'not approved';
-    expect(() => parseStore(outside)).toThrow(/keyword inventory/);
+    expect(() => parseTargetCatalog(asCatalog(outside))).toThrow(/keyword inventory/);
+    expect(parseStore(outside).keywordTargets![0]!.keyword).toBe('not approved');
+    const stray = structuredClone(first); stray.keywordTargets![0]!.pointTargets[0]!.pointId = 'elsewhere';
+    expect(() => parseStore(stray)).toThrow(/not a fixed point|target points/);
   });
 
   it('reuses existing IDs by Place ID, retains old words, and repeated import leaves observations untouched', async () => {

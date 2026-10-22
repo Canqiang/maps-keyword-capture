@@ -33,12 +33,14 @@ const monitoringCatalogSchema = z.object({
   version: z.string().min(1),
   source: z.object({ path: z.string().min(1), sha256: z.string().regex(/^[a-f0-9]{64}$/u), documentDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/u), sectionId: z.string().min(1), sourceBaselineIsLive: z.literal(false) }).strict(),
 }).strict();
+/** A goal rank for one keyword at one fixed point. Report fields are kept when a catalog supplied them; targets set in the UI omit them. */
 const pointTargetSchema = z.object({
-  pointId: safeId, pointLabel: z.string().min(1), radiusKm: z.number().finite().min(0).max(50), targetRank: z.union([z.literal(3), z.literal(10)]),
-  targetText: z.string().min(1), historicalBaselineDisplay: z.string().min(1), historicalEvidenceRef: z.string().nullable(), sourceCellText: z.string().min(1),
+  pointId: safeId, pointLabel: z.string().min(1), radiusKm: z.number().finite().min(0).max(50), targetRank: z.number().int().min(1).max(20),
+  targetText: z.string().min(1), historicalBaselineDisplay: z.string().min(1).optional(), historicalEvidenceRef: z.string().nullable().optional(), sourceCellText: z.string().min(1).optional(),
 }).strict();
+/** A monitored keyword: scanned at every fixed point of its store. Point targets are optional. */
 const keywordTargetSchema = z.object({
-  keyword, sourceSearchVolumeText: z.string(), sourceRoleAndConditions: z.string(), pointTargets: z.array(pointTargetSchema).min(1),
+  keyword, sourceSearchVolumeText: z.string().max(300).default(''), sourceRoleAndConditions: z.string().max(1000).default(''), pointTargets: z.array(pointTargetSchema).default([]),
 }).strict();
 export const monitoringTargetSchema = z.object({ catalog: monitoringCatalogSchema, point: fixedPointSchema, target: pointTargetSchema }).strict();
 const storeSchema = z.object({
@@ -61,7 +63,22 @@ const storeSchema = z.object({
     longTail: z.array(keyword).max(60).default([]),
   }).strict(),
   active: z.boolean().default(true),
-}).strict();
+}).strict().superRefine((store, ctx) => {
+  const pointIds = new Set(store.fixedPoints?.map(p => p.id) ?? []);
+  if (pointIds.size !== (store.fixedPoints?.length ?? 0)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['fixedPoints'], message: 'needs unique fixed point IDs' });
+  const seen = new Set<string>();
+  for (const [index, target] of (store.keywordTargets ?? []).entries()) {
+    const key = keywordKey(target.keyword);
+    if (seen.has(key)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'keyword'], message: `monitored keyword repeated: ${target.keyword}` });
+    seen.add(key);
+    const targetPoints = new Set<string>();
+    for (const goal of target.pointTargets) {
+      if (!pointIds.has(goal.pointId)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'pointTargets'], message: `target point ${goal.pointId} is not a fixed point of this store` });
+      if (targetPoints.has(goal.pointId)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'pointTargets'], message: `target point ${goal.pointId} repeated for ${target.keyword}` });
+      targetPoints.add(goal.pointId);
+    }
+  }
+});
 const schema = z.object({
   schemaVersion: z.literal('tracking-config/v1'),
   /** The stores' local time: scan hours and the local date of every observation use it. */
@@ -154,12 +171,14 @@ function validateStores(stores: TrackingStore[]): void {
     if (new Set(all).size !== all.length) throw new ConfigError(`store ${store.storeId} repeats a keyword across core and long tail`);
     const points = store.fixedPoints;
     if (points && (new Set(points.map(p => p.id)).size !== points.length || points.some(p => /^r[+-]?\d+c[+-]?\d+$/u.test(p.id)))) throw new ConfigError(`store ${store.storeId} needs unique fixed point IDs distinct from grid IDs`);
-    if (store.keywordTargets || store.monitoringCatalog) {
-      if (!points || !store.keywordTargets || !store.monitoringCatalog) throw new ConfigError(`store ${store.storeId} needs fixedPoints, keywordTargets and monitoringCatalog together`);
-      if (new Set(store.keywordTargets.map(t => keywordKey(t.keyword))).size !== store.keywordTargets.length) throw new ConfigError(`store ${store.storeId} repeats a target keyword`);
+    // Monitored keywords are scanned at every fixed point. A catalog import also carries its provenance;
+    // keywords and targets edited in the UI do not need one. Targets may cover some points only.
+    if (store.monitoringCatalog && !store.keywordTargets) throw new ConfigError(`store ${store.storeId} has catalog provenance without monitored keywords`);
+    if (store.keywordTargets) {
+      if (!points) throw new ConfigError(`store ${store.storeId} needs fixedPoints for its monitored keywords`);
+      if (new Set(store.keywordTargets.map(t => keywordKey(t.keyword))).size !== store.keywordTargets.length) throw new ConfigError(`store ${store.storeId} repeats a monitored keyword`);
       for (const target of store.keywordTargets) {
-        if (!all.includes(keywordKey(target.keyword))) throw new ConfigError(`store ${store.storeId} target keyword is missing from its keyword inventory`);
-        if (target.pointTargets.length !== points.length || new Set(target.pointTargets.map(p => p.pointId)).size !== points.length || target.pointTargets.some(t => !points.some(p => p.id === t.pointId && p.label === t.pointLabel && p.distanceKm === t.radiusKm))) throw new ConfigError(`store ${store.storeId} target points must match its fixed point definitions`);
+        if (new Set(target.pointTargets.map(p => p.pointId)).size !== target.pointTargets.length || target.pointTargets.some(t => !points.some(p => p.id === t.pointId && p.label === t.pointLabel && p.distanceKm === t.radiusKm))) throw new ConfigError(`store ${store.storeId} target points must match its fixed point definitions`);
       }
     }
   }

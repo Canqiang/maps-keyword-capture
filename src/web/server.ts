@@ -17,7 +17,7 @@ import { createScanTrigger, inClusterKubeApi, parseScanTargets, ScanTriggerError
  * single-page UI, and a read-only proxy for screenshots in the private evidence container.
  */
 export interface EvidenceReader { get(key: string): Promise<Buffer> }
-export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; auth?: BasicAuth; scans?: ScanTrigger; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
+export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; auth?: BasicAuth; /** Recorded as the author of configuration changes (the signed-in account). */ actor?: string; scans?: ScanTrigger; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
 
 const EVIDENCE_KEY = /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u;
 const MAX_BODY = 256 * 1024;
@@ -174,7 +174,7 @@ export function createHandler(deps: ServerDeps) {
           return send(res, 200, stores.map((store, index) => ({ ...store, summary: byId.get(store.storeId) ?? null, rosterLatest: rosters[index] ?? null })));
         }
         if (req.method === 'POST') {
-          try { return send(res, 201, await deps.repo.saveStore(await readJson(req), now())); }
+          try { return send(res, 201, await deps.repo.saveStore(await readJson(req), now(), { by: deps.actor ?? null })); }
           catch (error) { if (error instanceof HttpError) throw error; throw new HttpError(400, error instanceof Error ? error.message : 'invalid store'); }
         }
       }
@@ -187,13 +187,16 @@ export function createHandler(deps: ServerDeps) {
           const body = await readJson(req) as Record<string, unknown>;
           if (body.storeId !== undefined && body.storeId !== storeId) throw new HttpError(400, 'storeId cannot change');
           const retained = Object.fromEntries(['expectedArea', 'fixedPoints', 'monitoringCatalog', 'keywordTargets'].filter(key => key in store).map(key => [key, (store as unknown as Record<string, unknown>)[key]]));
-          try { return send(res, 200, await deps.repo.saveStore({ ...retained, ...body, storeId }, now())); }
+          try { return send(res, 200, await deps.repo.saveStore({ ...retained, ...body, storeId }, now(), { by: deps.actor ?? null })); }
           catch (error) { throw new HttpError(400, error instanceof Error ? error.message : 'invalid store'); }
         }
         if (parts.length === 4 && parts[3] === 'active' && req.method === 'PUT') {
           const body = await readJson(req) as { active?: unknown };
           if (typeof body.active !== 'boolean') throw new HttpError(400, 'active must be boolean');
-          return send(res, 200, await deps.repo.setActive(storeId, body.active, now()));
+          return send(res, 200, await deps.repo.setActive(storeId, body.active, now(), deps.actor ?? null));
+        }
+        if (parts.length === 4 && parts[3] === 'changes' && req.method === 'GET') {
+          return send(res, 200, { storeId, changes: await deps.repo.storeChanges(storeId, 20) });
         }
         if (parts.length === 4 && parts[3] === 'timeline' && req.method === 'GET') {
           const options = timelineOptions(url, now(), deps.config.timezone, store.fixedPoints?.find(p => p.distanceKm === 0)?.id);
@@ -279,7 +282,7 @@ async function main(): Promise<void> {
   const cluster = targets.length ? await inClusterKubeApi() : undefined;
   if (targets.length && !cluster) throw new Error('TRACKING_SCAN_TARGETS is set but the in-cluster service account is unavailable');
   const scans = cluster ? createScanTrigger(targets, cluster.api, cluster.namespace) : undefined;
-  const server = startServer({ config, repo, ...(evidence ? { evidence } : {}), ...(auth ? { auth } : {}), ...(scans ? { scans } : {}), log }, port);
+  const server = startServer({ config, repo, ...(evidence ? { evidence } : {}), ...(auth ? { auth, actor: process.env.TRACKING_AUTH_USER! } : {}), ...(scans ? { scans } : {}), log }, port);
   log({ stage: 'listening', port, stores: config.storeSource.provider, evidence: Boolean(evidence), scanTargets: targets.map(t => t.cronJob) });
   const stop = () => { server.close(); void repo.close().finally(() => process.exit(0)); };
   process.once('SIGTERM', stop); process.once('SIGINT', stop);

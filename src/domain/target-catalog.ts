@@ -12,6 +12,14 @@ export function parseTargetCatalog(raw: unknown): TargetCatalog {
   const stores = catalog.stores.map(parseStore);
   if (new Set(stores.map(s => s.storeId)).size !== stores.length || new Set(stores.map(s => s.placeId)).size !== stores.length) throw new ConfigError('target catalog repeats a store identity');
   if (stores.some(s => !s.keywordTargets || !s.fixedPoints || s.monitoringCatalog?.version !== catalog.version)) throw new ConfigError('target catalog stores must carry matching version, points and targets');
+  // An approved report maps every monitored keyword to every fixed point and draws it from the store's inventory.
+  for (const store of stores) {
+    const inventory = new Set([...store.keywords.core, ...store.keywords.longTail].map(keywordKey));
+    for (const target of store.keywordTargets!) {
+      if (!inventory.has(keywordKey(target.keyword))) throw new ConfigError(`store ${store.storeId} target keyword is missing from its keyword inventory`);
+      if (target.pointTargets.length !== store.fixedPoints!.length) throw new ConfigError(`store ${store.storeId} target points must cover every fixed point in a catalog`);
+    }
+  }
   return { schemaVersion: 'tracking-target-catalog/v1', version: catalog.version, stores };
 }
 

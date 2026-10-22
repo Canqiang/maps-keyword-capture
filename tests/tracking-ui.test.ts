@@ -59,7 +59,7 @@ describe('tracking ui server', () => {
   async function start(observations: RankObservation[] = [], evidence?: { get(key: string): Promise<Buffer> }) {
     const repo = new MemoryTrackingRepository(observations);
     await repo.saveStore(keke);
-    const handler = createHandler({ config, repo, ...(evidence ? { evidence } : {}), now: () => new Date('2026-10-21T00:00:00Z') });
+    const handler = createHandler({ config, repo, actor: 'seo', ...(evidence ? { evidence } : {}), now: () => new Date('2026-10-21T00:00:00Z') });
     let received = 0;
     server = createServer((request, response) => { received++; void handler(request, response); });
     // Bind the same address family used by the client. An unspecified-host
@@ -116,6 +116,25 @@ describe('tracking ui server', () => {
     expect(response.body.expectedArea).toEqual(expectedArea);
     expect((await call('/api/stores/keke-flushing', { method: 'PUT', body: JSON.stringify({ ...keke, placeId: 'ChIJdifferent' }) })).status).toBe(400);
     expect((await repo.getStore('keke-flushing'))!.placeId).toBe(keke.placeId);
+  });
+  it('saves monitored keywords and targets edited in the UI and logs who changed what', async () => {
+    const { call } = await start();
+    const points = [{ id: 'keke-center', label: '中心', ...keke.center, distanceKm: 0, direction: '中心', sourceReference: '门店设置' },
+      { id: 'keke-3km', label: '3公里', latitude: keke.center.latitude, longitude: keke.center.longitude + 0.0355, distanceKm: 3, direction: '东 90°', sourceReference: '门店设置' }];
+    const keywordTargets = [{ keyword: 'braised food', sourceSearchVolumeText: '880 次/月 New York City · Google Search', pointTargets: [{ pointId: 'keke-3km', pointLabel: '3公里', radiusKm: 3, targetRank: 5, targetText: 'Top 5' }] },
+      { keyword: '卤味 near me', pointTargets: [] }];
+    const saved = await call('/api/stores/keke-flushing', { method: 'PUT', body: JSON.stringify({ ...keke, fixedPoints: points, keywordTargets }) });
+    expect(saved.status).toBe(200);
+    expect(saved.body.keywordTargets[1]).toEqual({ keyword: '卤味 near me', sourceSearchVolumeText: '', sourceRoleAndConditions: '', pointTargets: [] });
+    expect(saved.body.keywordTargets[0].pointTargets[0].targetRank).toBe(5);
+    const bad = (targets: unknown) => call('/api/stores/keke-flushing', { method: 'PUT', body: JSON.stringify({ ...keke, fixedPoints: points, keywordTargets: targets }) });
+    expect((await bad([{ keyword: 'x', pointTargets: [{ pointId: 'keke-9km', pointLabel: '9', radiusKm: 9, targetRank: 3, targetText: 'Top 3' }] }])).body.error).toMatch(/not a fixed point/);
+    expect((await bad([{ keyword: 'Braised  Food' }, { keyword: 'braised food' }])).body.error).toMatch(/repeated/);
+    expect((await bad([{ keyword: 'x', pointTargets: [{ pointId: 'keke-3km', pointLabel: '3', radiusKm: 3, targetRank: 21, targetText: 'Top 21' }] }])).status).toBe(400);
+    await call('/api/stores/keke-flushing/active', { method: 'PUT', body: JSON.stringify({ active: false }) });
+    const log = (await call('/api/stores/keke-flushing/changes')).body.changes;
+    expect(log.map((c: { action: string }) => c.action)).toEqual(['pause', 'update', 'create']);
+    expect(log[1]).toMatchObject({ by: 'seo', fields: ['fixedPoints', 'keywordTargets'], keywordsAdded: ['braised food', '卤味 near me'], keywordsRemoved: [] });
   });
   it('retains approved catalog metadata on ordinary edits and defaults history to the configured center', async () => {
     const point = { id: 'keke-center', label: '中心', ...keke.center, distanceKm: 0, direction: '中心', sourceReference: 'approved report' };

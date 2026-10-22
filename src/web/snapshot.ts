@@ -37,7 +37,7 @@ function safeKey(key:string):boolean { return SAFE_KEY.test(key) && !key.split('
 function localDate(instant:string,timeZone:string):string { const parts=new Intl.DateTimeFormat('en-CA',{timeZone,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(instant));const get=(type:string)=>parts.find(p=>p.type===type)!.value;return `${get('year')}-${get('month')}-${get('day')}`; }
 class ReadOnlyRepository extends MemoryTrackingRepository {
  override async saveStore(_raw:unknown,_now?:Date):Promise<StoredStore> { throw new Error('read-only snapshot'); }
- override async setActive(_storeId:string,_active:boolean,_now?:Date):Promise<StoredStore|null> { throw new Error('read-only snapshot'); }
+ override async setActive(_storeId:string,_active:boolean,_now?:Date,_by?:string|null):Promise<StoredStore|null> { throw new Error('read-only snapshot'); }
 }
 export async function loadSnapshot(file:string, options:{remote?:EvidenceReader}={}) {
  const parsed=snapshot.safeParse(JSON.parse(await readFile(file,'utf8')));
