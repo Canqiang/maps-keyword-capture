@@ -232,6 +232,17 @@ Candidate13 (listing method v16; `tests/android-candidate13-probe12.test.ts`, fi
 - a newest card whose name was not recognised gets the same up-to-three readings as a low-confidence name.
 Full replay of all fifteen probe-10..12 queries: the nine device-reliable queries replay identically; probe-12 hot pot replays as reliable without its duplicate; both 卤味 runs are pending (the query would continue).
 
+## Candidate13 checkpoint (probe 13)
+
+2026-10-22 08:11–08:32 UTC, run `run_20261022T081138Z_3d1b4c`, same Pod, source `…20261022d` (main `29d8ae7`, 156 files verified), same tasks. Original exit 2, all GPS matched. Independent check (`android-probe13-review/verify.py`; the single-stream `kubectl exec tar` download truncated at ~158 MB twice, so the output was fetched per query directory with byte counts compared to the Pod side): 823 receipts, 206 PNGs, 5 + 68 CSV rows. **Outcome: 3 of 5 complete reliable Top 20** — chinese food @ keke-3km (Keke not in Top 20), bubble tea near me @ onlybear-center (**Only Bear organic 1**, third run in a row), hot pot near me @ seejoy-5km (first complete run; SEE JOY not in Top 20).
+
+Progress across this Pod (same five queries): probe 9 0/5 → probe 10 2/5 → probe 11 3/5 → probe 12 2/5 → probe 13 3/5; no source-change refresh was needed after candidate10.
+
+Remaining failures (next candidate):
+- q0001 卤味: frame 24 was a valid next frame (the card read as `SR ERRe` in frame 23 read as `浮 香 居 傳統 次 發`, same 4.9 / 55 / 0.5 mi) but too few identical OCR lines gave no anchored movement, so it was treated as an overlap gap; two backward corrections overshot (frames 25-26 sit above frame 23) and their cards were appended again (rows 6-7 duplicate 3-4). Next: identify a trailing card by rating, reviews and distance in the frame after a forward gesture before declaring a gap, and place corrected frames by the same geometry instead of appending.
+- q0005 bakery: frame 3 is the scrolled form of probe-12 frame 2 (filter row off screen, one card with a complete Directions / Share / Save row above the photo module); the scrolled photo-module variants still require a scrolling action row. Next: use `closedStaticActionRow` in those variants as well.
+- The pilot Pod `maps-nine-android-verify-20261022` expires at 10:32 UTC by its deadline; outputs stay on the PVC (`…20261022a`–`d`). No Android CronJob exists; step 3 (scheduled Android scans reading the store settings) has not started.
+
 ## Operational read-only commands
 
 ```sh
