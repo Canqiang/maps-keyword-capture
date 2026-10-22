@@ -1,0 +1,61 @@
+{
+ "run": "run_20261022T074629Z_360bfb",
+ "source": "a24215d (candidate12)",
+ "note": "Byte-for-byte probe 12 artifacts copied for candidate13 regression tests",
+ "files": [
+  {
+   "fixture": "candidate12-q0004-25.ocr.json",
+   "original": "q0004/20261022T080331.790Z__hot-pot-near-me__25.ocr.json",
+   "bytes": 25619,
+   "sha256": "48dbfa44bd5111a47cf6923a7dfde0db80a083d0b3975084036477a1bf8ca8c1"
+  },
+  {
+   "fixture": "candidate12-q0004-25.xml",
+   "original": "q0004/20261022T080331.790Z__hot-pot-near-me__25.xml",
+   "bytes": 80358,
+   "sha256": "11b2bc0be9e6d6e77496a4330c4d430e3ceeec3f7963cc2da03f3691e7b3a50b"
+  },
+  {
+   "fixture": "candidate12-q0004-26.ocr.json",
+   "original": "q0004/20261022T080341.021Z__hot-pot-near-me__26.ocr.json",
+   "bytes": 18223,
+   "sha256": "a3249bf4154ba782e2fc6816813903c5dde5d75483c92d43e01fc4424a110ee8"
+  },
+  {
+   "fixture": "candidate12-q0004-26.xml",
+   "original": "q0004/20261022T080341.021Z__hot-pot-near-me__26.xml",
+   "bytes": 75136,
+   "sha256": "0ba480203aa63b40e602c9dbad2a8a4309c5146e00a140fc0d4bfcb2e661ba51"
+  },
+  {
+   "fixture": "candidate12-q0005-02.xml",
+   "original": "q0005/20261022T080409.884Z__bakery__02.xml",
+   "bytes": 79248,
+   "sha256": "85dd321dffd3a786d50d18317ba6de726e70ad3850560f8870011a0db6122b93"
+  },
+  {
+   "fixture": "candidate12-q0001-29.ocr.json",
+   "original": "q0001/20261022T074907.264Z__keyword__29.ocr.json",
+   "bytes": 12801,
+   "sha256": "2540566d9a7706c6235d239b379d4bd2a5b46860d37dbc3f9883dbc41ee9be25"
+  },
+  {
+   "fixture": "candidate12-q0001-29.xml",
+   "original": "q0001/20261022T074907.264Z__keyword__29.xml",
+   "bytes": 72779,
+   "sha256": "154f6bc5fb604cee2ac3dd47891ae0422d68de44984c6169e547469492457761"
+  },
+  {
+   "fixture": "candidate12-q0001-30.ocr.json",
+   "original": "q0001/20261022T074911.584Z__keyword__30.ocr.json",
+   "bytes": 17006,
+   "sha256": "634731538fb475eaeaa52bd31ec5962ef9e4eb281709add6770ef9378b027f4e"
+  },
+  {
+   "fixture": "candidate12-q0001-30.xml",
+   "original": "q0001/20261022T074911.584Z__keyword__30.xml",
+   "bytes": 82761,
+   "sha256": "aa15f4c2d6f0a65efd5d2f727ac143f9819cbf92e333f9c039dad69ad75cf305"
+  }
+ ]
+}

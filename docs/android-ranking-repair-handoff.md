@@ -222,6 +222,16 @@ Candidate12 (listing method v15; `tests/android-candidate12-probe11.test.ts`, fi
 - a low-confidence row may keep the query going while it is visible in the newest frame and has been read in at most three frames.
 Full replay of every probe-10/11 query: the six device-reliable queries replay identically (names and ranks); probe-10 bubble tea and bakery and probe-11 hot pot replay as reliable without their duplicates; probe-11 卤味 stays unreliable but pending.
 
+## Candidate12 checkpoint (probe 12) and candidate13
+
+2026-10-22 07:46–08:04 UTC, run `run_20261022T074629Z_360bfb`, same Pod, source `…20261022c` (main `a24215d`, 156 files verified), same tasks. Original exit 2, all GPS matched. Independent check: 723 receipts, 181 PNGs, 5 + 60 CSV rows. **Outcome: 2 of 5 complete reliable** (chinese food: Keke not in Top 20; bubble tea near me: **Only Bear organic 1** again). 卤味 read 7 merchants correctly (Keke 1 this time) and stopped on a newest card whose name was not recognised; hot pot raised `anchored_card_missing` 25 -> 26 because frame 25 read a bottom-edge rating line as 239 reviews (339 in full); bakery frame 2 (one card with a complete Directions / Share / Save row above the photo module) was outside the list whitelist.
+
+Candidate13 (listing method v16; `tests/android-candidate13-probe12.test.ts`, fixtures `candidate12-*`; 3 fail on candidate12, the guard passes on both; full suite 1,618):
+- a bottom-edge reading (rating line within 40 px of the list bottom) joins the next frame's card at the shifted position by name, and the full reading replaces rating, reviews and distance (`edge_reading_corrected_by_full_reading`); it is not required to reappear in the converse check;
+- the filters + merchant + photo-module list variant accepts a complete non-scrolling action row through `closedStaticActionRow`;
+- a newest card whose name was not recognised gets the same up-to-three readings as a low-confidence name.
+Full replay of all fifteen probe-10..12 queries: the nine device-reliable queries replay identically; probe-12 hot pot replays as reliable without its duplicate; both 卤味 runs are pending (the query would continue).
+
 ## Operational read-only commands
 
 ```sh

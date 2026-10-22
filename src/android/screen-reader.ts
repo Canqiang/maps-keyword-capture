@@ -363,9 +363,11 @@ export function onlyPendingLowConfidence(result: ScreenReconciliation, frames: S
     frames.some(frame => frame.warnings.includes('native_ad_evidence_unresolved'))) return false;
   const uncertain = result.listings.filter(row => row.resultType === 'unknown' || row.name === null || (row.nameConfidence ?? 0) < 40 ||
     row.warnings.some(warning => ['low_rating_confidence', 'native_ad_evidence_unresolved', 'sequence_unverified'].includes(warning)));
-  const benign = ['low_name_confidence', 'joined_by_anchored_geometry', 'name_joined_by_line_anchors'];
-  return uncertain.length > 0 && uncertain.every(row => row.name !== null && row.frameIds.includes(last.frameId) && row.frameIds.length <= 3 &&
-    row.warnings.includes('low_name_confidence') && row.warnings.every(warning => benign.includes(warning)));
+  // Probe 12 (q0001 frame 30): the newest card's name was not recognised at all; it gets the same chances.
+  const pending = ['low_name_confidence', 'name_not_recognized'];
+  const benign = [...pending, 'joined_by_anchored_geometry', 'name_joined_by_line_anchors', 'name_clipped_at_top'];
+  return uncertain.length > 0 && uncertain.every(row => row.frameIds.includes(last.frameId) && row.frameIds.length <= 3 &&
+    row.warnings.some(warning => pending.includes(warning)) && row.warnings.every(warning => benign.includes(warning)));
 }
 
 /** Identity is considered only at a verified overlap position, never globally within a screenshot. */
@@ -561,6 +563,7 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
     let resolved = new Set<number>();
     let joinRows = previousRows;
     const placed = new Map<number, RankedListing>();
+    const edgeCorrected = new Set<number>();
     if (previous) {
       let m = match(previous, previousRows, frame);
       if (!m.overlap && m.delta === null && frame.cards.length && !previous.cards.length && lastWithCards) {
@@ -578,7 +581,17 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
         frame.cards.forEach((card, i) => {
           if (!card.ratingBounds || !list) return;
           const expected = card.ratingBounds.top - m.delta!;
-          if (expected > list.bottom - 40) return;
+          if (expected > list.bottom - 40) {
+            // Probe 12 (q0004 frames 25-26): a rating line at the very bottom edge of the previous frame was
+            // read as 239 reviews, the full reading below shows 339. Such an edge reading identifies by
+            // position and name only; the complete reading replaces its metadata.
+            if (expected > list.bottom + 20 || card.name === null || (card.nameConfidence ?? 0) < 40) return;
+            const edge = before.cards.findIndex((a, k) => !used.has(k) && !!a.ratingBounds && a.ratingBounds.top > list.bottom - 40 &&
+              Math.abs(a.ratingBounds.top - expected) <= 12 && a.name !== null && (a.nameConfidence ?? 0) >= 40 &&
+              (nameKey(a.name) === nameKey(card.name!) || similarNames(a.name, card.name!)));
+            if (edge >= 0 && joinRows[edge]) { used.add(edge); placed.set(i, joinRows[edge]!); edgeCorrected.add(i); }
+            return;
+          }
           const geometric = ['low_name_confidence', 'name_clipped_at_top', 'card_header_clipped', 'status_line_clipped'];
           if (!card.warnings.every(warning => geometric.includes(warning))) { continuous = false; warnings.push(`anchored_card_unmatched: ${before.frameId} -> ${frame.frameId}`); return; }
           const at = before.cards.findIndex((a, k) => !used.has(k) && a.ratingBounds !== null && a.ratingBounds !== undefined &&
@@ -593,7 +606,8 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
         // The converse: a previous card whose rating line now lies well inside this viewport must be here.
         const now = frame.nativeListBounds;
         if (now) before.cards.forEach((a, k) => {
-          if (used.has(k) || !a.ratingBounds) return;
+          // An edge reading at the bottom of the previous frame is not evidence that a card must be here.
+          if (used.has(k) || !a.ratingBounds || (list && a.ratingBounds.top > list.bottom - 40)) return;
           const shifted = a.ratingBounds.top + m.delta!;
           if (shifted >= now.top + 40 && shifted <= now.bottom - 40) { continuous = false; warnings.push(`anchored_card_missing: ${before.frameId} -> ${frame.frameId}`); }
         });
@@ -609,6 +623,11 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
         if (card.name !== null && (card.nameConfidence ?? 0) > (existing.nameConfidence ?? 0)) { existing.name = card.name; existing.nameConfidence = card.nameConfidence; }
         if ((existing.nameConfidence ?? 0) >= 40 && existing.name !== null && existing.resultType !== 'unknown') existing.warnings = existing.warnings.filter(warning => warning !== 'low_name_confidence');
         if (!existing.warnings.includes('joined_by_anchored_geometry')) existing.warnings.push('joined_by_anchored_geometry');
+        if (edgeCorrected.has(i)) {
+          existing.rating = card.rating; existing.reviewCount = card.reviewCount;
+          if (card.distanceText !== null) { existing.distanceText = card.distanceText; existing.distanceMeters = card.distanceMeters; }
+          if (!existing.warnings.includes('edge_reading_corrected_by_full_reading')) existing.warnings.push('edge_reading_corrected_by_full_reading');
+        }
         rows.push(existing);
       } else if (i < overlap) {
         const existing = joinRows[joinRows.length - overlap + i]!;

@@ -655,7 +655,10 @@ function filteredPhotoModuleList(nodes: EvidenceNode[], list: EvidenceNode, exac
           return matches.length === 1 ? matches : [];
         }));
       return names.has('directions') && names.size >= 2;
-    })());
+    })()) ||
+    // Probe 12 (q0005 frame 2): a merchant with only Directions / Share / Save shows a complete,
+    // non-scrolling row; the same strict tree check as every other static row applies.
+    scope.some(row => row.parent === body && row.className === 'android.widget.HorizontalScrollView' && !row.scrollable && closedStaticActionRow(nodes, row, merchant));
 }
 
 /** Specific search-panel structures observed in the supplied Maps 26.41 captures. */
