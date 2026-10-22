@@ -250,6 +250,14 @@ Listing method v17; `tests/android-candidate14-probe13.test.ts` from byte-for-by
 - `residualFilterContainer`: after the filter row scrolls off, its container remains as a 1 px band at the list top; the scrolled photo-module variants ignore exactly that residue (full width, ≤ 2 px, filter recycler inside, only known chip labels) and accept a complete static action row. Probe 13 q0005 frame 3 is a result list.
 Full replay of the twenty probe-10..13 queries: all twelve device-reliable queries replay identically.
 
+## Candidate14 checkpoint (probe 14)
+
+2026-10-22 08:44–09:11 UTC, run `run_20261022T084417Z_cba25e`, same Pod, source `…20261022e` (main `c0641d4`, 156 files verified), same tasks. Original exit 2, all GPS matched. Independent check (per-query downloads; the bakery directory needed 60-file batches): 1,155 receipts, 289 PNGs, 5 + 90 CSV rows. **Outcome: 4 of 5 complete reliable Top 20** — chinese food (Keke not in Top 20), bubble tea near me (**Only Bear organic 1**, fourth run in a row), hot pot near me (SEE JOY not in Top 20), bakery (first complete run; target not in Top 20).
+
+Progress on this Pod: probe 9 0/5 → 10: 2/5 → 11: 3/5 → 12: 2/5 → 13: 3/5 → **14: 4/5**.
+
+Remaining: 卤味 read ten rows and stopped on `anchored_card_unmatched` / `anchored_card_missing` 35 -> 36 (line and card-pair movement both -78). The first card's header is clipped in frame 36; its readings `pd =) 36h tR Master of Braised Delicacies` (71) and `锣 常 门 猪 脚 饭 Master of Braised Delicacies` (84) differ only in the CJK part, and the clipped-header rule requires equal name keys. The refusal kept the ranking honest (no duplicate). Next: at a clipped header, also accept two confident names sharing a long Latin component (e.g. ≥ 12 characters).
+
 ## Operational read-only commands
 
 ```sh
