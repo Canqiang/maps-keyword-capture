@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/name: maps-keyword-capture
     app.kubernetes.io/component: targets-web
 # Enabled 2026-10-21 at every three hours (user decision, staged start); raise to every two hours after a clean day.
+# 2026-10-22: the single web scan for every store. Stores, monitored keywords, targets and points are read from
+# Mongo (tracking.json storeSource monitor-target-stores-v1) at the start of each run, i.e. what the UI settings page saves.
 spec:
   schedule: "15 */3 * * *"
   timeZone: America/New_York
@@ -22,10 +24,10 @@ spec:
       labels: *labels
     spec:
       completionMode: Indexed
-      completions: 2
-      parallelism: 2
+      completions: 3
+      parallelism: 3
       backoffLimitPerIndex: 0
-      maxFailedIndexes: 2
+      maxFailedIndexes: 3
       activeDeadlineSeconds: 6600
       # Delete the finished Job and its Pods 10 minutes after it ends (success or failure); results live in Azure/Mongo.
       ttlSecondsAfterFinished: 600
@@ -47,10 +49,6 @@ spec:
                 - scan
                 - --config
                 - /config/tracking.json
-                - --catalog
-                - /config/liya-90-v1.json
-                - --catalog-sha256
-                - 476d4c506730f165951e505ee59c9ed27e6157313d87728b75679678e940068c
                 - --surface
                 - web
                 - --tier
@@ -62,7 +60,7 @@ spec:
                 - --mongo-uri-env
                 - MAPS_TRACKING_MONGO_URI
                 - --shard-count
-                - "2"
+                - "3"
                 - --shard-strategy
                 - balanced
               env:

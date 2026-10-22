@@ -38,9 +38,13 @@ const pointTargetSchema = z.object({
   pointId: safeId, pointLabel: z.string().min(1), radiusKm: z.number().finite().min(0).max(50), targetRank: z.number().int().min(1).max(20),
   targetText: z.string().min(1), historicalBaselineDisplay: z.string().min(1).optional(), historicalEvidenceRef: z.string().nullable().optional(), sourceCellText: z.string().min(1).optional(),
 }).strict();
-/** A monitored keyword: scanned at every fixed point of its store. Point targets are optional. */
+/**
+ * A monitored keyword: scanned at every fixed point of its store, or only at `scanPoints`
+ * (e.g. city-named queries that Google recenters regardless of the map view). Point targets are optional.
+ */
 const keywordTargetSchema = z.object({
   keyword, sourceSearchVolumeText: z.string().max(300).default(''), sourceRoleAndConditions: z.string().max(1000).default(''), pointTargets: z.array(pointTargetSchema).default([]),
+  scanPoints: z.array(safeId).min(1).max(100).optional(),
 }).strict();
 export const monitoringTargetSchema = z.object({ catalog: monitoringCatalogSchema, point: fixedPointSchema, target: pointTargetSchema }).strict();
 const storeSchema = z.object({
@@ -71,8 +75,11 @@ const storeSchema = z.object({
     const key = keywordKey(target.keyword);
     if (seen.has(key)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'keyword'], message: `monitored keyword repeated: ${target.keyword}` });
     seen.add(key);
+    for (const pointId of target.scanPoints ?? []) if (!pointIds.has(pointId)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'scanPoints'], message: `scan point ${pointId} is not a fixed point of this store` });
+    if (target.scanPoints && new Set(target.scanPoints).size !== target.scanPoints.length) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'scanPoints'], message: `scan points repeated for ${target.keyword}` });
     const targetPoints = new Set<string>();
     for (const goal of target.pointTargets) {
+      if (target.scanPoints && !target.scanPoints.includes(goal.pointId)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'pointTargets'], message: `target point ${goal.pointId} is not scanned for ${target.keyword}` });
       if (!pointIds.has(goal.pointId)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'pointTargets'], message: `target point ${goal.pointId} is not a fixed point of this store` });
       if (targetPoints.has(goal.pointId)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'pointTargets'], message: `target point ${goal.pointId} repeated for ${target.keyword}` });
       targetPoints.add(goal.pointId);
@@ -219,7 +226,9 @@ export function planScan(config: TrackingConfig, selection: { surface: Surface; 
     const points = selection.tier === 'grid' ? generateGrid(storeGridSpec(config, store)) : storeFixedPoints(store);
     const selectedKeywords = store.keywordTargets?.map(t => t.keyword) ?? [...store.keywords.core, ...store.keywords.longTail];
     const keywords: Array<[string, KeywordTier]> = selectedKeywords.map((k): [string, KeywordTier] => [k, store.keywords.core.some(core => keywordKey(core) === keywordKey(k)) ? 'core' : 'longTail']).filter(([, tier]) => tierConfig.keywords === 'all' || tier === 'core');
+    const scanPoints = new Map((store.keywordTargets ?? []).filter(t => t.scanPoints).map(t => [keywordKey(t.keyword), new Set(t.scanPoints)]));
     for (const point of points) for (const [kw, keywordTier] of keywords) {
+      if (selection.tier === 'point' && scanPoints.get(keywordKey(kw))?.has(point.id) === false) continue;
       queries.push({ storeId: store.storeId, placeId: store.placeId, aliases: store.aliases, keyword: kw, keywordTier, point, zoom: config.defaults.zoom, ...(store.expectedArea ? { expectedArea: store.expectedArea } : {}) });
     }
   }

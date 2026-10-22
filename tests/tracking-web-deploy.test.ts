@@ -28,7 +28,8 @@ describe('two-hourly web tracking deployment', () => {
   it('schedules every two hours in store time, forbids overlap and runs the tracking scan on the uatops pool', () => {
     const cron = readYaml('cronjob.yaml');
     expect(cron).toMatchObject({ kind: 'CronJob', metadata: { name: 'maps-tracking-web-2h', namespace: 'uat' } });
-    expect(cron.spec).toMatchObject({ schedule: '0 */2 * * *', timeZone: 'America/New_York', concurrencyPolicy: 'Forbid', startingDeadlineSeconds: 1800, suspend: false });
+    // Suspended 2026-10-22: Keke's keywords are part of its store configuration, scanned by maps-targets-web-2h.
+    expect(cron.spec).toMatchObject({ schedule: '0 */2 * * *', timeZone: 'America/New_York', concurrencyPolicy: 'Forbid', startingDeadlineSeconds: 1800, suspend: true });
     const pod = cron.spec.jobTemplate.spec.template.spec;
     expect(cron.spec.jobTemplate.spec).toMatchObject({ completionMode: 'Indexed', completions: 2, parallelism: 2, backoffLimitPerIndex: 0, activeDeadlineSeconds: 6600 });
     expect(pod).toMatchObject({ restartPolicy: 'Never', automountServiceAccountToken: false, nodeSelector: { envpool: 'uatops' }, securityContext: { runAsNonRoot: true, runAsUser: 1001 } });

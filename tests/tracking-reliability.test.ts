@@ -227,6 +227,11 @@ describe('shipped UI behavior', () => {
     expect(moved.fixedPoints[1]).toMatchObject({ id:'k-3km', distanceKm:4, direction:'95°方位', sourceReference:'门店设置' });
     expect(moved.keywordTargets[1].pointTargets[0]).toMatchObject({ pointId:'k-3km', radiusKm:4 });
     expect(ui.run('changeSummary(s,draftBody(s,d)).lines')).toContain('采集点坐标变化：3公里，此后记录与之前不可比较');
+    ui.run('d.targets.push({keyword:"chinese food flushing",volume:"",scan:["k-center"],goals:{"k-center":3,"k-3km":2},original:null});');
+    const scoped = ui.run('draftBody(s,d)');
+    expect(scoped.keywordTargets[2]).toMatchObject({ keyword:'chinese food flushing', scanPoints:['k-center'], pointTargets:[{ pointId:'k-center', targetRank:3 }] });
+    expect(scoped.keywordTargets[2].pointTargets).toHaveLength(1);
+    expect(ui.run('changeSummary(s,draftBody(s,d)).queries')).toBe(5);
   });
   it('keeps a newer exact evidence selection when an older detail resolves last', async () => {
     let resolveOld!: (value: unknown) => void;

@@ -16,7 +16,8 @@ spec:
   startingDeadlineSeconds: 1800
   successfulJobsHistoryLimit: 12
   failedJobsHistoryLimit: 12
-  suspend: false
+  # Suspended 2026-10-22: Keke's keywords moved into its store configuration and the single targets scan covers them.
+  suspend: true
   jobTemplate:
     metadata:
       labels:
