@@ -76,15 +76,19 @@ export function observationId(o: Pick<RankObservation, 'surface' | 'storeId' | '
   return ['v2', o.surface, o.storeId, o.scanId, o.source?.attemptId ?? '', o.queryId, o.source?.queryAttemptId ?? ''].map(encodeURIComponent).join('|');
 }
 
-/** Number = qualified organic rank; null = confirmed organic absence; undefined = unknown. */
-export function organicRankForMetrics(o: RankObservation, organicLimit = 20): number | null | undefined {
+/** Results a verified capture must cover before a missing store counts as a confirmed absence (collector scope: top 15 displayed, ads included). */
+export const ABSENCE_RESULT_LIMIT = 15;
+
+/** Number = qualified organic rank; null = confirmed organic absence (not in the verified top `resultLimit` displayed results, or the list ended); undefined = unknown. */
+export function organicRankForMetrics(o: RankObservation, resultLimit = ABSENCE_RESULT_LIMIT): number | null | undefined {
   const q = o.quality;
   if (!q || q.rankingReliable !== true || q.sequenceVerified !== true || q.classificationComplete !== true
     || q.screenshotCoverageComplete !== true || q.identityResolved !== true) return undefined;
   if (q.geographicRelevance?.status === 'outside' || q.geographicRelevance?.status === 'mixed') return undefined;
   if (o.rank.status === 'ranked' && Number.isSafeInteger(o.rank.organicRank) && o.rank.organicRank! > 0) return o.rank.organicRank;
   if ((o.rank.status === 'not_found' || o.rank.status === 'ad_only')
-    && (q.endOfResults === true || (Number.isSafeInteger(q.organicCoverage) && q.organicCoverage! >= organicLimit))) return null;
+    && (q.endOfResults === true || (Number.isSafeInteger(q.organicCoverage) && q.organicCoverage! >= resultLimit)
+      || (Number.isSafeInteger(o.rank.listingsObserved) && o.rank.listingsObserved >= resultLimit))) return null;
   return undefined;
 }
 

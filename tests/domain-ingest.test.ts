@@ -124,11 +124,12 @@ describe('shared ranking eligibility and comparison cohort', () => {
     const r = result(); r.quality.screenshotCoverageComplete = false;
     expect(metrics(ingest(r))).toBeUndefined();
   });
-  it('uses organic coverage rather than twenty display positions for absence', () => {
-    const r = result(Array.from({ length: 20 }, (_, i) => listing(i + 1, i === 0 ? null : i, `ChIJother${i}`, i === 0)));
-    r.stopReason = 'limit_reached';
+  it('confirms absence once the verified capture covers the top fifteen displayed results, ads included', () => {
+    const r = result(Array.from({ length: 14 }, (_, i) => listing(i + 1, i === 0 ? null : i, `ChIJother${i}`, i === 0)));
+    r.stopReason = 'limit_reached'; r.quality.verifiedPrefixLength = 14;
     expect(metrics(ingest(r))).toBeUndefined();
-    r.listings.push(listing(21, 20, 'ChIJlast')); r.quality.verifiedPrefixLength = 21;
+    r.listings.push(listing(15, 14, 'ChIJlast')); r.quality.verifiedPrefixLength = 15;
+    expect(ingest(r).quality?.organicCoverage).toBe(14);
     expect(metrics(ingest(r))).toBeNull();
   });
   it('accepts a verified real list end while keeping a capped ad-only result distinct', () => {
