@@ -82,7 +82,8 @@ describe('candidate10: CJK name read below the confidence floor (probe 9 q0001 f
     expect(result.rankingReliable).toBe(false);
     expect(onlyPendingLowConfidence(result, [f19, later])).toBe(false);
   });
-  it('treats a confident but different reading with identical metadata and movement as the same occurrence (candidate11)', () => {
+  it('lets geometry identify the card when the earlier reading was below the confidence floor (candidate11/12)', () => {
+    // A low-confidence reading cannot contradict; rating, reviews, distance and the anchored movement identify it.
     const result = reconcileScreenFrames([kept(), next(card => { card.name = 'Another Deli'; })], 20);
     expect(result).toMatchObject({ rankingReliable: true, organicCount: 2 });
     expect(result.listings.at(-1)).toMatchObject({ name: 'Another Deli', warnings: ['name_joined_by_line_anchors'] });

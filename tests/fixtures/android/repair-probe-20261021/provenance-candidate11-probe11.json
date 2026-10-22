@@ -1,0 +1,55 @@
+{
+ "run": "run_20261022T071047Z_e8834f",
+ "source": "ed7ee0d (candidate11)",
+ "note": "Byte-for-byte probe 11 artifacts copied for candidate12 regression tests",
+ "files": [
+  {
+   "fixture": "candidate11-q0004-20.ocr.json",
+   "original": "q0004/20261022T072713.969Z__hot-pot-near-me__20.ocr.json",
+   "bytes": 28339,
+   "sha256": "9ae1f61f2c3943beaa44795fc6b9d8d38e0d62c2e1d14dc8537ad5af7f7bb792"
+  },
+  {
+   "fixture": "candidate11-q0004-20.xml",
+   "original": "q0004/20261022T072713.969Z__hot-pot-near-me__20.xml",
+   "bytes": 80823,
+   "sha256": "7f2a339431b019dc3132c281321a450fb2e22aae58e7e0b3207ee34e47b47faa"
+  },
+  {
+   "fixture": "candidate11-q0004-21.ocr.json",
+   "original": "q0004/20261022T072720.758Z__hot-pot-near-me__21.ocr.json",
+   "bytes": 25154,
+   "sha256": "ef4476b29ec8e02116204a1a9177a6a2d3ce91439d7eafc3f1ba6ece0d550725"
+  },
+  {
+   "fixture": "candidate11-q0004-21.xml",
+   "original": "q0004/20261022T072720.758Z__hot-pot-near-me__21.xml",
+   "bytes": 81561,
+   "sha256": "b727ccab041ade38b67ab8617593871cd651579d49203eeeeca5f161ec40147a"
+  },
+  {
+   "fixture": "candidate11-q0001-23.ocr.json",
+   "original": "q0001/20261022T071255.057Z__keyword__23.ocr.json",
+   "bytes": 23666,
+   "sha256": "67c0e96f0f85e782f8f375ecfec7f9a06a0bdc746410f60b43771c58375fffa1"
+  },
+  {
+   "fixture": "candidate11-q0001-23.xml",
+   "original": "q0001/20261022T071255.057Z__keyword__23.xml",
+   "bytes": 73557,
+   "sha256": "7b3cfeba88f5782b10c117dde1d26aced21ce299a39c102655c843e29164479d"
+  },
+  {
+   "fixture": "candidate11-q0001-24.ocr.json",
+   "original": "q0001/20261022T071259.772Z__keyword__24.ocr.json",
+   "bytes": 17131,
+   "sha256": "9942bf34b3869489c62dcd8a5f7118abde26520564919f6f33b70c3f96bcc5bd"
+  },
+  {
+   "fixture": "candidate11-q0001-24.xml",
+   "original": "q0001/20261022T071259.772Z__keyword__24.xml",
+   "bytes": 71173,
+   "sha256": "37958db0467a1f3addfa1e7aa6e2fd0d207a082f49dfba639fcdf69333a1d017"
+  }
+ ]
+}

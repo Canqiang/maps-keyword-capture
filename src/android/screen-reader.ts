@@ -336,28 +336,36 @@ function similarNames(a: string, b: string): boolean {
  *   which became four rows. The row keeps the most confident reading.
  * Only name-confidence uncertainty may be present; a known ad/organic disagreement refuses.
  */
+/** OCR names never contradict an identity proven by geometry (probe 11 q0003 frames 35-36: TIGER SUGAR
+ * read confidently as 'CER >UCAR TI'), except at a header partly under the sheet edge, where a truncated
+ * or extended reading of a different merchant is possible: there two confident names must have equal keys. */
+function compatibleNames(a: ScreenCard, b: ScreenCard): boolean {
+  if (a.name === null || b.name === null || (a.nameConfidence ?? 0) < 40 || (b.nameConfidence ?? 0) < 40) return true;
+  return ![a, b].some(card => card.warnings.includes('card_header_clipped')) || nameKey(a.name) === nameKey(b.name);
+}
+
 function anchoredIdentity(a: ScreenCard, b: ScreenCard, delta: number | null): boolean {
   const onlyName = (card: ScreenCard): boolean => card.warnings.every(warning => warning === 'low_name_confidence');
   if (delta === null || !onlyName(a) || !onlyName(b) || (a.resultType !== 'unknown' && b.resultType !== 'unknown' && a.resultType !== b.resultType) ||
-    a.name === null || b.name === null || Math.max(a.nameConfidence ?? 0, b.nameConfidence ?? 0) < 40 ||
+    a.name === null || b.name === null || Math.max(a.nameConfidence ?? 0, b.nameConfidence ?? 0) < 40 || !compatibleNames(a, b) ||
     a.rating === null || a.reviewCount === null || a.rating !== b.rating || a.reviewCount !== b.reviewCount ||
     (a.distanceText !== null && b.distanceText !== null && a.distanceText !== b.distanceText) ||
     !a.ratingBounds || !b.ratingBounds || Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 4 || Math.abs(b.ratingBounds.right - a.ratingBounds.right) > 4) return false;
   return Math.abs((b.ratingBounds.top - a.ratingBounds.top) - delta) <= 12;
 }
 
-/** A query may continue while the only uncertainty is a card first read in the latest frame
- * below the name-confidence floor; the next frame can resolve it (resolvesLowConfidence). */
+/** A query may continue while the only uncertainty is a card name read below the confidence floor
+ * that is still visible in the newest frame and has been read in at most three frames: later frames
+ * read it at other positions and can resolve it (anchoredIdentity / anchored geometry). */
 export function onlyPendingLowConfidence(result: ScreenReconciliation, frames: ScreenFrame[]): boolean {
   const last = frames.at(-1);
   if (!last || result.rankingReliable || !result.sequenceVerified || frames[0]?.topStateVerified !== true ||
     frames.some(frame => frame.warnings.includes('native_ad_evidence_unresolved'))) return false;
   const uncertain = result.listings.filter(row => row.resultType === 'unknown' || row.name === null || (row.nameConfidence ?? 0) < 40 ||
     row.warnings.some(warning => ['low_rating_confidence', 'native_ad_evidence_unresolved', 'sequence_unverified'].includes(warning)));
-  if (!uncertain.length) return false;
-  const first = result.listings.indexOf(uncertain[0]!);
-  return first === result.listings.length - uncertain.length && uncertain.every(row => row.name !== null && row.frameIds.length === 1 &&
-    row.frameIds[0] === last.frameId && row.warnings.length === 1 && row.warnings[0] === 'low_name_confidence');
+  const benign = ['low_name_confidence', 'joined_by_anchored_geometry', 'name_joined_by_line_anchors'];
+  return uncertain.length > 0 && uncertain.every(row => row.name !== null && row.frameIds.includes(last.frameId) && row.frameIds.length <= 3 &&
+    row.warnings.includes('low_name_confidence') && row.warnings.every(warning => benign.includes(warning)));
 }
 
 /** Identity is considered only at a verified overlap position, never globally within a screenshot. */
@@ -552,6 +560,7 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
     let clippedOverlap = false, driftOverlap = false, anchoredJoin = false, acrossEmpty = false;
     let resolved = new Set<number>();
     let joinRows = previousRows;
+    const placed = new Map<number, RankedListing>();
     if (previous) {
       let m = match(previous, previousRows, frame);
       if (!m.overlap && m.delta === null && frame.cards.length && !previous.cards.length && lastWithCards) {
@@ -560,11 +569,48 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
       }
       ({ overlap, resolved } = m); clippedOverlap = m.clipped; driftOverlap = m.drift; anchoredJoin = m.anchoredJoin;
       if (!overlap && m.delta === null && frame.cards.length) { continuous = false; warnings.push(`ordered_overlap_missing: ${previous.frameId} -> ${frame.frameId}`); }
+      // Candidate12 (probe 11 q0004 frames 20-21, q0001 23-24): with anchored movement known and no ordered
+      // overlap, every card whose rating line was already inside the previous viewport must be a card of that
+      // frame at the shifted position; it is never a new merchant. Only cards that were below it are new.
+      if (!overlap && m.delta !== null) {
+        const before = acrossEmpty ? lastWithCards!.frame : previous, list = before.nativeListBounds;
+        const used = new Set<number>();
+        frame.cards.forEach((card, i) => {
+          if (!card.ratingBounds || !list) return;
+          const expected = card.ratingBounds.top - m.delta!;
+          if (expected > list.bottom - 40) return;
+          const geometric = ['low_name_confidence', 'name_clipped_at_top', 'card_header_clipped', 'status_line_clipped'];
+          if (!card.warnings.every(warning => geometric.includes(warning))) { continuous = false; warnings.push(`anchored_card_unmatched: ${before.frameId} -> ${frame.frameId}`); return; }
+          const at = before.cards.findIndex((a, k) => !used.has(k) && a.ratingBounds !== null && a.ratingBounds !== undefined &&
+            a.warnings.every(warning => geometric.includes(warning)) && compatibleNames(a, card) &&
+            Math.abs(a.ratingBounds.top - expected) <= 12 && Math.abs(a.ratingBounds.left - card.ratingBounds!.left) <= 4 &&
+            a.rating !== null && a.reviewCount !== null && a.rating === card.rating && a.reviewCount === card.reviewCount &&
+            !(a.distanceText !== null && card.distanceText !== null && a.distanceText !== card.distanceText) &&
+            !(a.resultType !== 'unknown' && card.resultType !== 'unknown' && a.resultType !== card.resultType));
+          if (at < 0 || joinRows[at] === undefined) { continuous = false; warnings.push(`anchored_card_unmatched: ${before.frameId} -> ${frame.frameId}`); return; }
+          used.add(at); placed.set(i, joinRows[at]!);
+        });
+        // The converse: a previous card whose rating line now lies well inside this viewport must be here.
+        const now = frame.nativeListBounds;
+        if (now) before.cards.forEach((a, k) => {
+          if (used.has(k) || !a.ratingBounds) return;
+          const shifted = a.ratingBounds.top + m.delta!;
+          if (shifted >= now.top + 40 && shifted <= now.bottom - 40) { continuous = false; warnings.push(`anchored_card_missing: ${before.frameId} -> ${frame.frameId}`); }
+        });
+      }
     }
     const rows: RankedListing[] = [];
     for (let i = 0; i < frame.cards.length; i++) {
       const card = frame.cards[i]!;
-      if (i < overlap) {
+      if (placed.has(i)) {
+        const existing = placed.get(i)!;
+        if (!existing.frameIds.includes(frame.frameId)) existing.frameIds.push(frame.frameId);
+        if (existing.resultType === 'unknown' && card.resultType !== 'unknown' && card.name !== null && (card.nameConfidence ?? 0) >= 40) { existing.resultType = card.resultType; existing.adLabel = card.adLabel; }
+        if (card.name !== null && (card.nameConfidence ?? 0) > (existing.nameConfidence ?? 0)) { existing.name = card.name; existing.nameConfidence = card.nameConfidence; }
+        if ((existing.nameConfidence ?? 0) >= 40 && existing.name !== null && existing.resultType !== 'unknown') existing.warnings = existing.warnings.filter(warning => warning !== 'low_name_confidence');
+        if (!existing.warnings.includes('joined_by_anchored_geometry')) existing.warnings.push('joined_by_anchored_geometry');
+        rows.push(existing);
+      } else if (i < overlap) {
         const existing = joinRows[joinRows.length - overlap + i]!;
         if (acrossEmpty && !existing.warnings.includes('overlap_verified_across_cardless_frame')) existing.warnings.push('overlap_verified_across_cardless_frame');
         if (!existing.frameIds.includes(frame.frameId)) existing.frameIds.push(frame.frameId);
@@ -598,7 +644,9 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
   }
   const trimmed = listings.slice(0, maxDisplayedResults);
   let organic = 0, rankingReliable = frames.length > 0 && frames[0]?.topStateVerified === true &&
-    !frames.some(frame => frame.warnings.includes('native_ad_evidence_unresolved'));
+    !frames.some(frame => frame.warnings.includes('native_ad_evidence_unresolved')) &&
+    // A geometric contradiction (candidate12) leaves no new row to carry 'sequence_unverified'.
+    !warnings.some(warning => warning.startsWith('anchored_card_unmatched') || warning.startsWith('anchored_card_missing'));
   for (const listing of trimmed) {
     if (listing.resultType === 'unknown' || listing.name === null || (listing.nameConfidence ?? 0) < 40 ||
       listing.warnings.includes('low_rating_confidence') || listing.warnings.includes('native_ad_evidence_unresolved') || listing.warnings.includes('sequence_unverified')) rankingReliable = false;

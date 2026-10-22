@@ -207,6 +207,21 @@ Candidate11 (listing method v14), tests `tests/android-candidate11-probe10.test.
 - at an anchored overlap position, equal rating, review count and distance plus a rating line moved by the anchored amount identify the same occurrence whatever the OCR names (replaces the one-directional low-confidence resolver); the most confident reading names the row (`name_joined_by_line_anchors`);
 - when the previous frame shows no cards, a frame that does not join it is compared with the last frame that showed cards (`overlap_verified_across_cardless_frame`); a real gap is still reported.
 
+## Candidate11 checkpoint (probe 11) and candidate12
+
+2026-10-22 07:10–07:33 UTC, run `run_20261022T071047Z_e8834f`, same Pod, source `/runtime/nine-store-source-20261022b` (main `ed7ee0d`, 156 files verified), output `…20261022b`, same tasks. Original exit 2, all GPS matched. Independent check: 975 receipts, 244 PNGs, 5 + 77 CSV rows. **Outcome: 3 of 5 complete reliable Top 20**: chinese food @ keke-3km (Keke not in Top 20), bubble tea near me @ onlybear-center (**Only Bear display 2 / organic 1**, behind a Gong Cha ad), bakery @ uws-center (not in Top 20). No source-change refreshes.
+
+| Query | Screens / rows | Stop | What happened |
+|---|---:|---|---|
+| q0001 卤味 | 24 / 7 | `ranking_unreliable` | Er Hou 1, Keke 2, Braised Canaan 3, 一间小店 4 read correctly; a CJK name read as `SRE RRs` / `SRE` (both below the floor) in frames 23-24, and 一间小店's clipped header in frame 24 did not join, so both were appended as new rows. |
+| q0004 hot pot near me | 21 / 10 | `ranking_unreliable` | Frames 20-21: KPOT's header clipped in both; no ordered overlap matched, anchored continuity held (-78 px), so KPOT and Mt. ShooTao were appended again (rows 9-10 duplicate 7-8). |
+
+Candidate12 (listing method v15; `tests/android-candidate12-probe11.test.ts`, fixtures `candidate11-*`):
+- with anchored movement known and no ordered overlap, every card whose rating line was already inside the previous viewport is placed on the previous card at the shifted position (equal rating and review count, distance compatible, rating line within 12 px, only name/clipping/status warnings); it is never appended as a new merchant (`joined_by_anchored_geometry`). Conversely a previous card that should now be well inside the viewport must be present. Either contradiction (`anchored_card_unmatched`, `anchored_card_missing`) makes the ranking unreliable;
+- OCR names never contradict a geometric identity (probe 11 q0003 frames 35-36: TIGER SUGAR read confidently as `CER >UCAR TI`), except at a clipped header, where two confident names must have equal keys;
+- a low-confidence row may keep the query going while it is visible in the newest frame and has been read in at most three frames.
+Full replay of every probe-10/11 query: the six device-reliable queries replay identically (names and ranks); probe-10 bubble tea and bakery and probe-11 hot pot replay as reliable without their duplicates; probe-11 卤味 stays unreliable but pending.
+
 ## Operational read-only commands
 
 ```sh
