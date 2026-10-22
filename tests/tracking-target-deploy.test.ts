@@ -20,8 +20,8 @@ describe('isolated nine-store scheduler candidates',()=>{
   expect(cron.metadata).toMatchObject({name:surface==='web'?'maps-targets-web-2h':'maps-targets-android-daily',namespace:surface==='web'?'uat':'android-maps-pilot'});
   // Web every three hours; Android one daily pass (~4 minutes per native query on two emulator workers).
   expect(cron.spec).toMatchObject({schedule:surface==='web'?'15 */3 * * *':'0 21 * * *',timeZone:'America/New_York',concurrencyPolicy:'Forbid'});
-  // Android: the namespace quota admits one emulator Pod.
-  expect(job).toMatchObject({completionMode:'Indexed',completions:surface==='web'?3:1,parallelism:surface==='web'?3:1,backoffLimitPerIndex:0,activeDeadlineSeconds:surface==='web'?6600:64800});
+  // Android: the namespace quota admits two emulator Pods (android-quota.yaml).
+  expect(job).toMatchObject({completionMode:'Indexed',completions:surface==='web'?3:2,parallelism:surface==='web'?3:2,backoffLimitPerIndex:0,activeDeadlineSeconds:surface==='web'?6600:64800});
   // Both read stores from Mongo (what the settings page saves); no report catalog is pinned.
   expect(main.args).not.toContain('--catalog');expect(main.args).not.toContain('--catalog-sha256');
   expect((surface==='web'?settings:androidSettings).storeSource).toEqual({provider:'mongo',collection:'monitor-target-stores-v1'});
@@ -56,6 +56,14 @@ describe('isolated nine-store scheduler candidates',()=>{
   const docker=readFileSync(new URL('../deploy/android/Dockerfile',import.meta.url),'utf8');
   expect(docker).toContain('COPY deploy/android ./deploy/android');
   expect(readFileSync(new URL('../deploy/android/linux/screen_ocr.py',import.meta.url),'utf8')).toContain('tesseract');
+ });
+ it('admits exactly the two emulator Pods the CronJob runs',()=>{
+  const quota=parse(read('android-quota.yaml')),job=docs[1]!.cron.spec.jobTemplate.spec;
+  expect(quota.metadata).toMatchObject({name:'single-emulator',namespace:'android-maps-pilot'});
+  expect(Number(quota.spec.hard.pods)).toBe(job.parallelism);
+  const pod=job.template.spec,cpu=(v:string)=>v.endsWith('m')?Number(v.slice(0,-1))/1000:Number(v);
+  const requested=[...pod.initContainers,...pod.containers].filter((c:any)=>c.restartPolicy==='Always'||pod.containers.includes(c)).reduce((sum:number,c:any)=>sum+cpu(c.resources.requests.cpu),0);
+  expect(requested*job.parallelism).toBeLessThanOrEqual(cpu(quota.spec.hard['requests.cpu']));
  });
  it('keeps all image references obviously unrendered until a verified remote build is selected',()=>{
   for(const {cron} of docs){

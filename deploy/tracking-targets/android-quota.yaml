@@ -1,0 +1,16 @@
+# Namespace budget for the Android emulator workers (applied 2026-10-22; the name predates the second worker).
+# One worker Pod requests 1.65 CPU / 5.5 GiB; two fit the crawler node (Standard_F4as_v7: 3.86 CPU / 15 GiB allocatable).
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: single-emulator
+  namespace: android-maps-pilot
+spec:
+  hard:
+    pods: "2"
+    requests.cpu: "4"
+    requests.memory: 12Gi
+    limits.cpu: "6"
+    limits.memory: 16Gi
+    persistentvolumeclaims: "1"
+    requests.storage: 64Gi

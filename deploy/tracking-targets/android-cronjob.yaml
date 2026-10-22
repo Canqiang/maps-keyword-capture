@@ -9,8 +9,8 @@ metadata:
     app.kubernetes.io/name: maps-keyword-capture
     app.kubernetes.io/component: targets-android
 # 2026-10-22: one daily pass over every store in Mongo (the settings page), base keywords only. A native
-# query takes ~4 minutes (probes 10-14). The namespace ResourceQuota `single-emulator` admits one Pod
-# (requests 2 CPU / 6 GiB), so the scan runs on one emulator worker: ~4.3 minutes per query.
+# query takes ~4.4 minutes (first scheduled run). The namespace ResourceQuota (android-quota.yaml) admits two
+# emulator Pods on the crawler node, so the scan runs on two workers.
 spec:
   schedule: "0 21 * * *"
   timeZone: America/New_York
@@ -24,10 +24,10 @@ spec:
       labels: *labels
     spec:
       completionMode: Indexed
-      completions: 1
-      parallelism: 1
+      completions: 2
+      parallelism: 2
       backoffLimitPerIndex: 0
-      maxFailedIndexes: 1
+      maxFailedIndexes: 2
       activeDeadlineSeconds: 64800
       # Delete the finished Job and its Pods 10 minutes after it ends (success or failure); results live in Azure/Mongo.
       ttlSecondsAfterFinished: 600
@@ -105,7 +105,7 @@ spec:
                 - --mongo-uri-env
                 - MAPS_TRACKING_MONGO_URI
                 - --shard-count
-                - "1"
+                - "2"
                 - --shard-strategy
                 - balanced
               env:
