@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import type { AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, LocationEvidence, NativeScreen, NativeScrollEvidence, ObservationLocation } from './contracts.js';
-import { analyzeScreen, hasBlankNativeSearchWrapper, inspectNativeResultList, parseUiNodes, type NativeResultList } from './ui.js';
+import { analyzeScreen, hasBlankNativeSearchWrapper, inspectNativeResultList, nativeLayoutSignature, parseUiNodes, type NativeResultList } from './ui.js';
 
 export type AdbExecutor = (file: string, args: string[], options: { timeoutMs: number; signal: AbortSignal }) => Promise<{ stdout: Buffer; stderr: Buffer }>;
 export interface NativeMapsTransport { adb?: AdbExecutor; commandTimeoutMs?: number; signal?: AbortSignal }
@@ -69,7 +69,7 @@ function resultScrollPercent(xml: string, list: NativeResultList, evidence?: Nat
     bounds.right > bounds.left && bounds.bottom > bounds.top;
   const same = (left: NonNullable<NativeScrollEvidence['listBounds']>, right: NonNullable<NativeScrollEvidence['listBounds']>): boolean =>
     left.left === right.left && left.top === right.top && left.right === right.right && left.bottom === right.bottom;
-  if (evidence.sourceXml !== xml || !valid(evidence.listBounds) || !same(evidence.listBounds, list.bounds) || !Array.isArray(evidence.anchors)) {
+  if (nativeLayoutSignature(evidence.sourceXml) !== nativeLayoutSignature(xml) || !valid(evidence.listBounds) || !same(evidence.listBounds, list.bounds) || !Array.isArray(evidence.anchors)) {
     fail('UNKNOWN_SCROLL_LAYOUT', 'Persisted scroll geometry no longer matches the native result list');
   }
   const normalize = (text: string): string => text.normalize('NFKC').replace(/\s+/gu, ' ').trim();
@@ -80,7 +80,7 @@ function resultScrollPercent(xml: string, list: NativeResultList, evidence?: Nat
     /[\u0000-\u001f\u007f]/u.test(ocr.name) || !/[\p{L}\p{N}]/u.test(ocr.name) ||
     !Number.isFinite(ocr.nameConfidence) || ocr.nameConfidence < 40 || ocr.nameConfidence > 100 ||
     typeof ocr.imageSha256 !== 'string' || !/^[a-f0-9]{64}$/u.test(ocr.imageSha256) || !snapshot ||
-    snapshot.xml !== xml || snapshot.imageSha256 !== ocr.imageSha256 || list.bounds.right > snapshot.width || list.bounds.bottom > snapshot.height ||
+    nativeLayoutSignature(snapshot.xml) !== nativeLayoutSignature(xml) || snapshot.imageSha256 !== ocr.imageSha256 || list.bounds.right > snapshot.width || list.bounds.bottom > snapshot.height ||
     !valid(ocr.nameBounds) || !valid(ocr.ratingBounds) || !contains(list.bounds, ocr.nameBounds) || !contains(list.bounds, ocr.ratingBounds) ||
     ocr.nameBounds.bottom > ocr.ratingBounds.top || ocr.ratingBounds.top - ocr.nameBounds.bottom > 90)) {
     fail('UNKNOWN_SCROLL_LAYOUT', 'The OCR scroll anchor is not a bounded title from the latest paired snapshot');
@@ -757,7 +757,7 @@ export class NativeMapsDevice implements AndroidDevice {
     const xml = await this.nativeXml();
     // No gesture has been sent. A caller may capture and reconcile fresh
     // evidence within its existing budgets; never scroll using a stale frame.
-    if (evidence !== undefined && evidence.sourceXml !== xml) fail('SOURCE_CHANGED', 'Native source changed after the persisted frame; fresh evidence is required before scrolling');
+    if (evidence !== undefined && nativeLayoutSignature(evidence.sourceXml) !== nativeLayoutSignature(xml)) fail('SOURCE_CHANGED', 'Native source changed after the persisted frame; fresh evidence is required before scrolling');
     const list = inspectNativeResultList(xml, this.activeKeyword);
     if (!list || list.canScrollForward === null || list.canScrollBackward === null) fail('UNKNOWN_SCROLL_LAYOUT', 'No supported exact-query vertical native result list is visible');
     // A backward correction (probe 6/7: the list re-laid out by about a card height at a page
@@ -783,7 +783,7 @@ export class NativeMapsDevice implements AndroidDevice {
       fail('UNKNOWN_SCROLL_LAYOUT', 'Native list cannot contain the bounded touch movement');
     }
     await this.foreground();
-    if (await this.nativeXml() !== xml) fail('SOURCE_CHANGED', 'Native result list changed before the gesture; fresh evidence is required');
+    if (nativeLayoutSignature(await this.nativeXml()) !== nativeLayoutSignature(xml)) fail('SOURCE_CHANGED', 'Native result list changed before the gesture; fresh evidence is required');
     // Consume even if the transport outcome is ambiguous. Another enlarged
     // attempt requires a newly captured PNG/XML pair, even if XML stays equal.
     this.scrollSnapshotProof = undefined;

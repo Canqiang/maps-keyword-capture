@@ -326,6 +326,37 @@ function similarNames(a: string, b: string): boolean {
   const union = ba.size + bb.size - shared;
   return union > 0 && shared / union >= 0.5;
 }
+/**
+ * Probe 9 (q0001 frame 19): a fully visible card whose CJK name OCR'd below the confidence floor is
+ * 'unknown'. When the next frame shows the same card legibly at an anchored overlap position, the
+ * earlier reading is resolved: same rating, review count and distance (all present), a shared name
+ * prefix, and its rating line moved by the anchored amount. Nothing else may be uncertain.
+ */
+function resolvesLowConfidence(a: ScreenCard, b: ScreenCard, delta: number | null): boolean {
+  if (delta === null || a.resultType !== 'unknown' || a.warnings.length !== 1 || a.warnings[0] !== 'low_name_confidence' ||
+    a.name === null || b.name === null || (b.nameConfidence ?? 0) < 40 || b.resultType === 'unknown' || b.warnings.length ||
+    a.rating === null || a.reviewCount === null || a.distanceText === null || a.rating !== b.rating || a.reviewCount !== b.reviewCount || a.distanceText !== b.distanceText ||
+    !a.ratingBounds || !b.ratingBounds || Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 4) return false;
+  const ka = nameKey(a.name), kb = nameKey(b.name);
+  let prefix = 0; while (prefix < ka.length && prefix < kb.length && ka[prefix] === kb[prefix]) prefix++;
+  if (!(similarNames(a.name, b.name) || (prefix >= 6 && prefix >= Math.min(ka.length, kb.length) * 0.4))) return false;
+  return Math.abs((b.ratingBounds.top - a.ratingBounds.top) - delta) <= 12;
+}
+
+/** A query may continue while the only uncertainty is a card first read in the latest frame
+ * below the name-confidence floor; the next frame can resolve it (resolvesLowConfidence). */
+export function onlyPendingLowConfidence(result: ScreenReconciliation, frames: ScreenFrame[]): boolean {
+  const last = frames.at(-1);
+  if (!last || result.rankingReliable || !result.sequenceVerified || frames[0]?.topStateVerified !== true ||
+    frames.some(frame => frame.warnings.includes('native_ad_evidence_unresolved'))) return false;
+  const uncertain = result.listings.filter(row => row.resultType === 'unknown' || row.name === null || (row.nameConfidence ?? 0) < 40 ||
+    row.warnings.some(warning => ['low_rating_confidence', 'native_ad_evidence_unresolved', 'sequence_unverified'].includes(warning)));
+  if (!uncertain.length) return false;
+  const first = result.listings.indexOf(uncertain[0]!);
+  return first === result.listings.length - uncertain.length && uncertain.every(row => row.name !== null && row.frameIds.length === 1 &&
+    row.frameIds[0] === last.frameId && row.warnings.length === 1 && row.warnings[0] === 'low_name_confidence');
+}
+
 /** Identity is considered only at a verified overlap position, never globally within a screenshot. */
 function sameCard(a: ScreenCard, b: ScreenCard): boolean {
   if (a.resultType !== b.resultType) return false;
@@ -412,6 +443,15 @@ function measuredDriftOverlap(previous: ScreenFrame, frame: ScreenFrame, count: 
  * viewports was skipped. Returns that movement, or null. A pitch-sized jump that could
  * align one card's repeated chrome with the next card's is excluded by the bound.
  */
+/**
+ * Largest upward movement (share of the native list height) that line anchors may bridge. Probe 9
+ * (q0002 frames 50 -> 52): a forward gesture flung almost a full list height, the backward correction
+ * returned 45%, and the corrected frame sat 505 px (53% of 958 px) below the kept one, sharing two
+ * unique lines. Any movement smaller than the list height leaves a common band, so nothing is skipped;
+ * 70% keeps at least 30% of the list in common and still requires two unique, consistent anchors.
+ */
+const MAX_ANCHORED_ADVANCE = 0.7;
+
 export function anchoredContinuity(previous: ScreenFrame | undefined, frame: ScreenFrame): number | null {
   const before = previous?.nativeListBounds, after = frame.nativeListBounds;
   if (!previous || !before || !after || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
@@ -422,7 +462,7 @@ export function anchoredContinuity(previous: ScreenFrame | undefined, frame: Scr
   const texts = new Set<string>();
   for (const a of previous.anchors) {
     const candidates = frame.anchors.filter(b => b.text === a.text && Math.abs(b.bounds.left - a.bounds.left) <= 4 && Math.abs(b.bounds.right - a.bounds.right) <= 4 &&
-      b.bounds.top - a.bounds.top <= (frame.afterBackwardCorrection ? height * 0.5 : 2) && b.bounds.top - a.bounds.top >= -height * 0.5);
+      b.bounds.top - a.bounds.top <= (frame.afterBackwardCorrection ? height * 0.5 : 2) && b.bounds.top - a.bounds.top >= -height * MAX_ANCHORED_ADVANCE);
     // A text that appears twice in either frame cannot anchor anything.
     if (candidates.length !== 1 || previous.anchors.filter(other => other.text === a.text).length !== 1 || texts.has(a.text)) continue;
     texts.add(a.text); matches.push(candidates[0]!.bounds.top - a.bounds.top);
@@ -478,9 +518,15 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
     }
     let overlap = 0;
     let clippedOverlap = false, driftOverlap = false, anchoredJoin = false;
+    const resolved = new Set<number>();
     if (previous) {
+      const anchoredDelta = anchoredContinuity(previous, frame);
       for (let count = Math.min(previous.cards.length, frame.cards.length); count > 0; count--) {
-        if (frame.cards.slice(0, count).every((card, i) => sameCard(previous!.cards[previous!.cards.length - count + i]!, card))) { overlap = count; break; }
+        const pairs = frame.cards.slice(0, count).map((card, i) => [previous!.cards[previous!.cards.length - count + i]!, card] as const);
+        if (pairs.every(([a, b]) => sameCard(a, b))) { overlap = count; break; }
+        if (pairs.every(([a, b]) => sameCard(a, b) || resolvesLowConfidence(a, b, anchoredDelta))) {
+          overlap = count; pairs.forEach(([a, b], i) => { if (!sameCard(a, b)) resolved.add(i); }); break;
+        }
         if (clippedPrefixOverlap(previous, frame, count)) { overlap = count; clippedOverlap = true; break; }
         if (measuredDriftOverlap(previous, frame, count)) { overlap = count; driftOverlap = true; break; }
       }
@@ -499,6 +545,11 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
         if (clippedOverlap && i === 0) existing.warnings.push('clipped_prefix_verified_by_ordered_overlap');
         if (driftOverlap && !existing.warnings.includes('name_drift_joined_by_measured_overlap')) existing.warnings.push('name_drift_joined_by_measured_overlap');
         if (anchoredJoin && !existing.warnings.includes('clipped_prefix_verified_by_line_anchors')) existing.warnings.push('clipped_prefix_verified_by_line_anchors');
+        if (resolved.has(i)) {
+          existing.name = card.name; existing.nameConfidence = card.nameConfidence; existing.resultType = card.resultType; existing.adLabel = card.adLabel;
+          existing.warnings = existing.warnings.filter(warning => warning !== 'low_name_confidence');
+          if (!existing.warnings.includes('low_confidence_name_resolved_by_line_anchors')) existing.warnings.push('low_confidence_name_resolved_by_line_anchors');
+        }
         if ((card.nameConfidence ?? 0) > (existing.nameConfidence ?? 0)) { existing.name = card.name; existing.nameConfidence = card.nameConfidence; }
         if (existing.warnings.includes('status_line_clipped') && !card.warnings.includes('status_line_clipped')) {
           if (existing.distanceText === null && card.distanceText !== null) {

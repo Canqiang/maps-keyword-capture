@@ -1,0 +1,79 @@
+{
+ "run": "run_20261021T080153Z_05bdb7",
+ "source": "b3f05cf (candidate9)",
+ "note": "Byte-for-byte probe 9 artifacts copied for candidate10 regression tests",
+ "files": [
+  {
+   "fixture": "candidate9-q0001-19.ocr.json",
+   "original": "q0001/20261021T080342.300Z__keyword__19.ocr.json",
+   "bytes": 21568,
+   "sha256": "86041613fcb6869414ae62dad21bfe7c2e4e08c738fe52bfe78e7dcc0581e8dd"
+  },
+  {
+   "fixture": "candidate9-q0001-19.xml",
+   "original": "q0001/20261021T080342.300Z__keyword__19.xml",
+   "bytes": 76019,
+   "sha256": "a191ec7aa249962aea0859a28ea561d8b1045a06f91e095ae35c64314503ace2"
+  },
+  {
+   "fixture": "candidate9-q0002-50.ocr.json",
+   "original": "q0002/20261021T080821.919Z__chinese-food__50.ocr.json",
+   "bytes": 22167,
+   "sha256": "0df8a0be7060d6e40d2ea962e8825494b37a49d13f7f2fd33521fb4dc84785c5"
+  },
+  {
+   "fixture": "candidate9-q0002-50.xml",
+   "original": "q0002/20261021T080821.919Z__chinese-food__50.xml",
+   "bytes": 81210,
+   "sha256": "cc2f6f8376acf0faf9a7d1d69a341019a077d1e3e1697f265a509cc6bd88b052"
+  },
+  {
+   "fixture": "candidate9-q0002-52.ocr.json",
+   "original": "q0002/20261021T080832.135Z__chinese-food__52.ocr.json",
+   "bytes": 22945,
+   "sha256": "1d0f80d2338c502235a74245f0d71aaeb10499ad5dadedb850efdb08d2991f14"
+  },
+  {
+   "fixture": "candidate9-q0002-52.xml",
+   "original": "q0002/20261021T080832.135Z__chinese-food__52.xml",
+   "bytes": 72871,
+   "sha256": "364f082911aacc0aaf3721d3bbb306d09a9593e2f3ef006028efb04e1bfcd557"
+  },
+  {
+   "fixture": "candidate9-q0005-01.ocr.json",
+   "original": "q0005/20261021T081656.802Z__bakery__01.ocr.json",
+   "bytes": 23827,
+   "sha256": "fed3225be5d319b0a3a79a7c6e9697284a354126da29d545af0b78924109c189"
+  },
+  {
+   "fixture": "candidate9-q0005-01.xml",
+   "original": "q0005/20261021T081656.802Z__bakery__01.xml",
+   "bytes": 71759,
+   "sha256": "8586a3a2b7cfc5575bdb0b5ff29e966a132fa50d2de6c01cb06beb223f811c01"
+  },
+  {
+   "fixture": "candidate9-q0003-26.xml",
+   "original": "q0003/20261021T081056.772Z__bubble-tea-near-me__26.xml",
+   "bytes": 72095,
+   "sha256": "13e2e5c10f25d661ca88aa63607e25d79bb4c442c14ab74bd170806a68bd0515"
+  },
+  {
+   "fixture": "candidate9-q0003-27.xml",
+   "original": "q0003/20261021T081101.218Z__bubble-tea-near-me__27.xml",
+   "bytes": 72844,
+   "sha256": "5eea2b75d6078f863cfed3cd66ac251f89230df4ff91a3c9868c6d8c59699df0"
+  },
+  {
+   "fixture": "candidate9-q0004-10.xml",
+   "original": "q0004/20261021T081243.186Z__hot-pot-near-me__10.xml",
+   "bytes": 77105,
+   "sha256": "71ec2100826978ad3aac134d9a44dc9f3f767f9feaabaa265c4f801a7a8b6ef7"
+  },
+  {
+   "fixture": "candidate9-q0004-11.xml",
+   "original": "q0004/20261021T081247.903Z__hot-pot-near-me__11.xml",
+   "bytes": 68588,
+   "sha256": "c40d34b9c2179ada646cee1c4a14ba93270b18af34ce88ea166411065e9fb240"
+  }
+ ]
+}

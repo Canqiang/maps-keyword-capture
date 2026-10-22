@@ -467,20 +467,22 @@ describe('bounded native-source refresh before any gesture', () => {
     expect(r.manifest.queries[0]?.stopReason).toBe('source_changed'); expect(calls).toBe(2);
     expect(r.manifest.queries[0]?.screens).toHaveLength(2); expect(r.manifest.queries[0]?.listingQuality?.rankingReliable).toBe(false); expect(r.exitCode).toBe(2);
   });
-  it('allows another fresh frame after a sent gesture, never two in a row, and at most three per query (probe 5 q0003)', async () => {
+  it('allows one fresh frame per sent gesture and stops on two refusals in a row (probe 5 q0003, candidate10)', async () => {
     const source = await fixtureXml('results-en'); let calls = 0, shots = 0;
-    // Gestures 1, 3, 5 and 7 are refused before any action; 2, 4 and 6 are sent. Each snapshot is a new PNG.
+    // Gestures 1, 3, 5 and 7 are refused before any action; 2, 4 and 6 are sent; 8 is refused right after a refresh.
     const s = await setup({ snapshot: async () => ({ png: pngWith(++shots), xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
-      swipeResults: async () => { if (++calls % 2 === 1) throw Object.assign(new Error('source changed'), { code: 'SOURCE_CHANGED' }); } });
+      swipeResults: async () => { if (++calls % 2 === 1 || calls === 8) throw Object.assign(new Error('source changed'), { code: 'SOURCE_CHANGED' }); } });
     s.config.maxScreenshotsPerQuery = 12; s.config.maxScrolls = 12;
-    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('A'), cardScreen('A'), cardScreen('A', 'B'), cardScreen('A', 'B'), cardScreen('A', 'B', 'C'), cardScreen('A', 'B', 'C'), cardScreen('A', 'B', 'C', 'D')]) });
+    const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([cardScreen('A'), cardScreen('A'), cardScreen('A', 'B'), cardScreen('A', 'B'), cardScreen('A', 'B', 'C'), cardScreen('A', 'B', 'C'), cardScreen('A', 'B', 'C', 'D'), cardScreen('A', 'B', 'C', 'D')]) });
+    // A fourth refresh is allowed because three gestures were sent; the old fixed cap of three would have stopped here.
     expect(r.manifest.queries[0]?.nativeFrameRefreshes).toEqual([
       { reason: 'source_changed', afterFrameId: 'q0001:frame-001', refreshFrameId: 'q0001:frame-002' },
       { reason: 'source_changed', afterFrameId: 'q0001:frame-003', refreshFrameId: 'q0001:frame-004' },
       { reason: 'source_changed', afterFrameId: 'q0001:frame-005', refreshFrameId: 'q0001:frame-006' },
+      { reason: 'source_changed', afterFrameId: 'q0001:frame-007', refreshFrameId: 'q0001:frame-008' },
     ]);
-    expect(r.manifest.queries[0]?.stopReason).toBe('source_changed'); expect(calls).toBe(7);
-    expect(r.manifest.queries[0]?.screens).toHaveLength(7); expect(r.manifest.queries[0]?.listings.map(row => row.name)).toEqual(['A', 'B', 'C', 'D']);
+    expect(r.manifest.queries[0]?.stopReason).toBe('source_changed'); expect(calls).toBe(8);
+    expect(r.manifest.queries[0]?.screens).toHaveLength(8); expect(r.manifest.queries[0]?.listings.map(row => row.name)).toEqual(['A', 'B', 'C', 'D']);
   });
   // A frame whose content moved by about a card height: the card sits low, no filter chips, and
   // nothing shares a position with the previous frame (probe 6/7 page-boundary jump).

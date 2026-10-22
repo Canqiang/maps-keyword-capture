@@ -495,8 +495,11 @@ function closedScrolledFilters(nodes: EvidenceNode[], container: EvidenceNode, r
 }
 
 /** A fully fitting native action strip has no horizontal scroll action. Its
- * complete three-button tree, not arbitrary card or promotion text, proves it.
- * A bottom-clipped Directions/Save strip alone is deliberately insufficient.
+ * complete button tree, not arbitrary card or promotion text, proves it.
+ * Probe 9 (q0005 frame 1): a merchant without phone or website shows exactly
+ * Directions + Save, fully inside the card. Any complete row of 2-3 known
+ * controls led by Directions is accepted; a bottom-clipped strip still fails
+ * the strict containment checks below.
  */
 function closedStaticActionRow(nodes: EvidenceNode[], row: EvidenceNode, card: EvidenceNode): boolean {
   const children = (parent: EvidenceNode): EvidenceNode[] => nodes.filter(node => node.parent === parent);
@@ -512,8 +515,11 @@ function closedStaticActionRow(nodes: EvidenceNode[], row: EvidenceNode, card: E
   const [grid] = children(row);
   if (children(row).length !== 1 || !grid || grid.className !== 'android.view.ViewGroup' || grid.clickable || grid.scrollable ||
     labels(grid).length || !same(grid, row)) return false;
-  const buttons = children(grid), names = ['directions', 'call', 'website'];
-  if (buttons.length !== names.length) return false;
+  const buttons = children(grid);
+  const names = buttons.map(button => normalized(labels(button)[0] ?? ''));
+  const known = ['call', 'website', 'save', 'share', 'menu', 'order', 'reserve'];
+  if (buttons.length < 2 || buttons.length > 3 || names[0] !== 'directions' || new Set(names).size !== names.length ||
+    names.slice(1).some(name => !known.includes(name))) return false;
   return buttons.every((button, index) => {
     const [icon] = children(button);
     return button.className === 'android.view.ViewGroup' && button.clickable && !button.scrollable && button.actions?.includes('ACTION_CLICK') &&
@@ -893,6 +899,22 @@ export interface NativeResultList {
 }
 
 /** Exact-query gesture proof for the observed list; never includes the filter recycler. */
+/**
+ * Probe 9: every source_changed refusal was a merchant photo finishing loading after the
+ * snapshot (an empty ImageView inserted over its placeholder, same bounds). Such leaf images
+ * carry no text, description or ranking evidence. Comparisons that guard a gesture use this
+ * signature, so a real list movement (text bounds) or any labelled change still refuses.
+ */
+export function nativeLayoutSignature(xml: string): string {
+  return xml
+    .replace(/<android\.widget\.ImageView\b[^>]*>(?:\s*<\/android\.widget\.ImageView>)?/gu, tag => {
+      if (!tag.endsWith('/>') && !tag.includes('</')) return tag;
+      return /\btext="[^"]+"|\bcontent-desc="[^"]+"/u.test(tag) ? tag : '';
+    })
+    .replace(/ (?:index|drawing-order|screen-reader-drawing-order)="\d+"/gu, '')
+    .replace(/>\s+</gu, '><');
+}
+
 export function inspectNativeResultList(xml: string, exactKeyword: string): NativeResultList | null {
   if (analyzeScreen(xml, exactKeyword).kind !== 'results') return null;
   const nodes = parseEvidence(xml).filter(node => node.packageName === MAPS_PACKAGE);

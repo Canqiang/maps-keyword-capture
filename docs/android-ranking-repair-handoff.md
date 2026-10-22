@@ -177,6 +177,19 @@ Source `d53412f` (compiled files; commit later amended to `b3f05cf` with a test-
 
 Next action (candidate10): make the source-change refresh budget per *gesture* (one fresh capture after every sent gesture) instead of three per query — it now ends the two longest runs; inspect q0001's unknown card and q0002 frames 50–52; accept the q0005 first-frame layout. The verification Pod `maps-nine-android-verify-20261021b` expires at 11:11 UTC; all outputs stay on the PVC (`…h`, `…j`, `…k`).
 
+## Candidate10 (repairs from the probe-9 evidence; not yet run on a device)
+
+2026-10-22. Diagnosed from the downloaded probe-9 outputs (`run_20261021T080153Z_05bdb7`); the frames used by the tests are copied byte-for-byte under `tests/fixtures/android/repair-probe-20261021/candidate9-*` with `provenance-candidate9-probe9.json`. Listing method `v13`. Tests: `tests/android-candidate10-probe9.test.ts` (9 tests; 7 fail on the candidate9 code, the 2 refusal guards pass on both), full suite 1,602 tests, Python OCR tests 26.
+
+| Probe-9 failure | Cause found in the evidence | Repair |
+|---|---|---|
+| q0003, q0004 `source_changed` (and every one of the 8 refreshes in the run) | In all 8 refused/refreshed pairs the only XML difference is an empty leaf `ImageView` inserted over a photo placeholder with identical bounds, i.e. a merchant photo finished loading after the snapshot. q0003 died on the refusal right after a refresh, q0004 on the third-per-query cap. | Gesture guards compare `nativeLayoutSignature()` (empty unlabelled leaf ImageViews, sibling ordering attributes and inter-tag whitespace removed). Labelled images, text and bounds changes still refuse; consecutive frames after a real gesture still differ. The refresh budget is now one per sent gesture (still never two in a row). |
+| q0002 `ordered_overlap_missing 050 -> 052` | The forward gesture flung ~95% of the list; after the 45% backward correction the kept and corrected frames share two unique lines (`opens 11 am - 0.9 mi`, `and cooked with care."`) moved by -505 px, just beyond the half-list (-479 px) anchor bound. | Upward anchored movement may reach 70% of the list (two unique consistent anchors still required; downward bound unchanged). |
+| q0001 `unknown_cards_precede_organic_ranks` | Frame 19's last card, fully visible, OCR'd `Braised Canaan WIR db ipglk` at confidence 38.66 (< 40); the run stopped on that frame. | The query continues while the only uncertainty is a trailing card first read in the newest frame below the name floor (`onlyPendingLowConfidence`). At an anchored overlap a later legible reading resolves it when rating, review count and distance (all present) agree, the names share a prefix (or are similar), and the rating line moved by the anchored amount; the row gets `low_confidence_name_resolved_by_line_anchors`. Unresolved at the end, the ranking stays unreliable. |
+| q0005 `unknown_scroll_layout` on frame 1 | The half sheet's only card has a complete, non-scrolling Directions + Save row; the classifier accepted only Directions/Call/Website. | `closedStaticActionRow` accepts a complete row of 2-3 known controls led by Directions with the same strict containment checks; unknown controls or a clipped strip still fail. |
+
+Next action: probe 10 on a fresh verification Pod with these compiled files (same five queries, then the nine-store set), following the checklist below. Record the original exit code, counts and receipts here whatever the outcome.
+
 ## Operational read-only commands
 
 ```sh

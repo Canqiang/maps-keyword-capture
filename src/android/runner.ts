@@ -8,7 +8,7 @@ import type { CaptureError, StorageState } from '../contracts.js';
 import type { ArtifactStore, WrittenFile } from '../storage/types.js';
 import type { AndroidArtifact, AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, AndroidTask, LocationEvidence, NativeScreen, NativeScrollEvidence, ScreenAnalysis } from './contracts.js';
 import { analyzeScreen, hasBlankNativeSearchWrapper, inspectNativeResultList, parseUiNodes } from './ui.js';
-import { hasMeasuredScreenProgress, matchTarget, parseScreenFrame, reconcileScreenFrames, recognizeScreen, targetAliases, validateScreenOcr, type RankedListing, type ScreenFrame, type ScreenRecognizer, type TargetMatch } from './screen-reader.js';
+import { hasMeasuredScreenProgress, matchTarget, onlyPendingLowConfidence, parseScreenFrame, reconcileScreenFrames, recognizeScreen, targetAliases, validateScreenOcr, type RankedListing, type ScreenFrame, type ScreenRecognizer, type TargetMatch } from './screen-reader.js';
 
 export type AndroidManifestReceipt = StorageState & WrittenFile;
 export interface AndroidScreenEvidence {
@@ -87,8 +87,6 @@ export async function acquireDeviceLease(serial: string): Promise<() => Promise<
   };
 }
 
-/** Fresh captures a query may spend on pre-gesture native source changes. */
-const MAX_SOURCE_REFRESHES = 3;
 /** Backward corrections a query may spend when a forward gesture skipped content (probe 6/7 page-boundary jump). */
 const MAX_OVERLAP_CORRECTIONS = 2;
 const PNG_SIGNATURE = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
@@ -302,7 +300,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       locale: info.locale, timezone: info.timezone,
       ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v12', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v13', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -414,7 +412,8 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           if (!refreshedWithoutGesture || query.listings.length !== before || moved) {
             unchangedFrames = query.listings.length === before && !moved ? unchangedFrames + 1 : 0;
           }
-          if (!reconciled.rankingReliable) { query.stopReason = 'ranking_unreliable'; break; }
+          // Candidate10: a trailing card first read below the name-confidence floor may resolve in the next frame.
+          if (!reconciled.rankingReliable && !onlyPendingLowConfidence(reconciled, frames)) { query.stopReason = 'ranking_unreliable'; break; }
           if (query.listingQuality.endOfResults) { query.listingStatus = 'complete'; query.stopReason = 'list_end'; break; }
           if (query.listings.length >= config.maxDisplayedResults) { query.listingStatus = 'complete'; query.stopReason = 'target_reached'; break; }
           // A stalled viewport can be a failed swipe or a tall photo module; neither proves absence.
@@ -431,15 +430,17 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
             // and unknown action outcomes still take the fatal path below.
             const code = safeError(error, 'swipe_failed').code;
             if (!['unknown_scroll_layout', 'source_changed'].includes(code)) throw error;
-            if (code === 'source_changed' && !refreshedWithoutGesture && query.nativeFrameRefreshes!.length < MAX_SOURCE_REFRESHES) {
+            if (code === 'source_changed' && !refreshedWithoutGesture && query.nativeFrameRefreshes!.length <= swipes) {
               // The device guarantees this refusal occurred before /actions.
               // Capture a new PNG/XML/OCR/frame within the same loop budget,
               // then re-run every query, native, ad and ordered-overlap gate.
               // No blind gesture retry and no deadline/screenshot extension.
               // Probe 5 (q0003) lost a verified 17-frame sequence to a second
               // source change after a successful gesture: a fresh frame is
-              // allowed again after each sent gesture, never twice in a row,
-              // and at most MAX_SOURCE_REFRESHES times per query.
+              // allowed again after each sent gesture, never twice in a row.
+              // Candidate10: the budget is one per sent gesture (probe 9 q0004 lost
+              // its run to a fixed three-per-query cap); the screenshot budget and
+              // query deadline still bound the loop.
               query.nativeFrameRefreshes!.push({ reason: 'source_changed', afterFrameId: frameId, refreshFrameId: null });
               refreshPending = true; stage = 'snapshot'; continue;
             }
