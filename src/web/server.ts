@@ -9,6 +9,7 @@ import { loadTrackingConfig, type TrackingConfig } from '../domain/tracking-conf
 import { AzureBlobGateway, containerClientFromEnv } from '../storage/azure-gateway.js';
 import { UI_HTML } from './ui.js';
 import { createBasicAuth, type BasicAuth } from './auth.js';
+import { MongoSeoKeywordLibrary, type SeoKeywordLibrary } from './seo-library.js';
 import { loginPage } from './login.js';
 import { createScanTrigger, inClusterKubeApi, parseScanTargets, ScanTriggerError, type ScanTrigger } from './scan-trigger.js';
 
@@ -17,7 +18,7 @@ import { createScanTrigger, inClusterKubeApi, parseScanTargets, ScanTriggerError
  * single-page UI, and a read-only proxy for screenshots in the private evidence container.
  */
 export interface EvidenceReader { get(key: string): Promise<Buffer> }
-export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; auth?: BasicAuth; /** Recorded as the author of configuration changes (the signed-in account). */ actor?: string; scans?: ScanTrigger; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
+export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; auth?: BasicAuth; /** Recorded as the author of configuration changes (the signed-in account). */ actor?: string; /** Read-only SEO keyword library for imports. */ seo?: SeoKeywordLibrary; scans?: ScanTrigger; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
 
 const EVIDENCE_KEY = /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u;
 const MAX_BODY = 256 * 1024;
@@ -165,6 +166,18 @@ export function createHandler(deps: ServerDeps) {
           }
         } catch (error) { if (error instanceof ScanTriggerError) throw new HttpError(error.status, error.message); throw error; }
       }
+      if (parts[1] === 'seo' && parts[2] === 'stores' && req.method === 'GET') {
+        if (!deps.seo) throw new HttpError(404, 'SEO keyword library is not configured');
+        const tracked = new Map((await deps.repo.listStores({ includeInactive: true })).map(s => [s.placeId, s]));
+        if (parts.length === 3) return send(res, 200, (await deps.seo.stores()).map(s => ({ ...s, trackedStoreId: tracked.get(s.placeId)?.storeId ?? null })));
+        if (parts.length === 4) {
+          const library = await deps.seo.store(parts[3]!);
+          if (!library) throw new HttpError(404, 'store not found in the SEO keyword library');
+          const store = tracked.get(library.placeId);
+          const monitored = new Set((store?.keywordTargets ?? []).map(t => keywordKey(t.keyword)));
+          return send(res, 200, { ...library, trackedStoreId: store?.storeId ?? null, keywords: library.keywords.map(k => ({ ...k, monitored: monitored.has(keywordKey(k.keyword)) })) });
+        }
+      }
       if (parts[1] === 'stores' && parts.length === 2) {
         if (req.method === 'GET') {
           const [stores, summaries] = await Promise.all([deps.repo.listStores({ includeInactive: true }), deps.repo.summaries({ surface: surfaceOf(url.searchParams.get('surface')) })]);
@@ -282,7 +295,9 @@ async function main(): Promise<void> {
   const cluster = targets.length ? await inClusterKubeApi() : undefined;
   if (targets.length && !cluster) throw new Error('TRACKING_SCAN_TARGETS is set but the in-cluster service account is unavailable');
   const scans = cluster ? createScanTrigger(targets, cluster.api, cluster.namespace) : undefined;
-  const server = startServer({ config, repo, ...(evidence ? { evidence } : {}), ...(auth ? { auth, actor: process.env.TRACKING_AUTH_USER! } : {}), ...(scans ? { scans } : {}), log }, port);
+  const seoUri = process.env[uriEnv];
+  const seo = seoUri && process.env.TRACKING_SEO_LIBRARY !== 'off' ? new MongoSeoKeywordLibrary({ uri: seoUri, database: process.env.TRACKING_SEO_DATABASE ?? 'seo-integration', collection: process.env.TRACKING_SEO_COLLECTION ?? 'local_keywords' }) : undefined;
+  const server = startServer({ config, repo, ...(seo ? { seo } : {}), ...(evidence ? { evidence } : {}), ...(auth ? { auth, actor: process.env.TRACKING_AUTH_USER! } : {}), ...(scans ? { scans } : {}), log }, port);
   log({ stage: 'listening', port, stores: config.storeSource.provider, evidence: Boolean(evidence), scanTargets: targets.map(t => t.cronJob) });
   const stop = () => { server.close(); void repo.close().finally(() => process.exit(0)); };
   process.once('SIGTERM', stop); process.once('SIGINT', stop);
