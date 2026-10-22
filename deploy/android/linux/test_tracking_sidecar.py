@@ -1,8 +1,9 @@
+import os
 import unittest
 import json
 from pathlib import Path
 import tempfile
-from tracking_sidecar import current_boot_receipt, runtime_root, validate_clone, owned_emulator
+from tracking_sidecar import share_console_token, current_boot_receipt, runtime_root, validate_clone, owned_emulator
 
 
 class SidecarReadinessTests(unittest.TestCase):
@@ -43,6 +44,31 @@ class SidecarReadinessTests(unittest.TestCase):
             self.assertFalse(owned_emulator(99, 43, proc))
             (pid / 'cmdline').write_bytes(b'/usr/bin/sleep\0')
             self.assertFalse(owned_emulator(99, 42, proc))
+
+
+
+
+class ConsoleTokenTests(unittest.TestCase):
+    def test_token_in_shared_home_is_handed_to_collector(self):
+        with tempfile.TemporaryDirectory() as temp:
+            token = Path(temp) / '.emulator_console_auth_token'
+            token.write_text('secret'); token.chmod(0o600)
+            self.assertTrue(share_console_token([token], token, os.getuid()))
+            self.assertEqual(token.stat().st_mode & 0o777, 0o600)
+
+    def test_token_elsewhere_is_copied_privately(self):
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp) / 'user/.emulator_console_auth_token'; source.parent.mkdir()
+            source.write_text('secret')
+            target = Path(temp) / 'home/.emulator_console_auth_token'; target.parent.mkdir()
+            self.assertTrue(share_console_token([Path(temp) / 'missing', source], target, os.getuid()))
+            self.assertEqual(target.read_text(), 'secret'); self.assertEqual(target.stat().st_mode & 0o777, 0o600)
+
+    def test_symlinked_token_is_refused_and_absent_token_is_fine(self):
+        with tempfile.TemporaryDirectory() as temp:
+            link = Path(temp) / '.emulator_console_auth_token'; link.symlink_to('/etc/passwd')
+            with self.assertRaises(RuntimeError): share_console_token([link], link, os.getuid())
+            self.assertFalse(share_console_token([Path(temp) / 'none'], Path(temp) / 'out', os.getuid()))
 
 
 if __name__ == '__main__': unittest.main()

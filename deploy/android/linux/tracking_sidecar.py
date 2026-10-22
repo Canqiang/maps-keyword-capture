@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import stat
 import subprocess
 import time
 import urllib.request
@@ -45,6 +46,36 @@ def owned_emulator(pid, supervisor_pid, proc=Path('/proc')):
         return False
 
 
+CONSOLE_TOKEN = '.emulator_console_auth_token'
+
+
+def share_console_token(sources, target, uid):
+    """Hand the emulator console token to the non-root collector, whose `adb emu geo fix` needs it.
+
+    The emulator (root) writes the token mode 600; without it adb's console auth fails and
+    every GPS fix is rejected. Only the collector uid gets it, never other users.
+    """
+    target = Path(target)
+    for source in map(Path, sources):
+        try: info = os.lstat(source)
+        except FileNotFoundError: continue
+        if not stat.S_ISREG(info.st_mode): raise RuntimeError(f'console token is not a regular file: {source}')
+        if source == target:
+            os.chown(target, uid, -1, follow_symlinks=False)
+            os.chmod(target, 0o600)
+            return True
+        data = source.read_bytes()
+        staging = target.with_name(target.name + f'.{os.getpid()}')
+        fd = os.open(staging, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        try:
+            os.fchown(fd, uid, -1)
+            os.write(fd, data)
+        finally: os.close(fd)
+        os.replace(staging, target)
+        return True
+    return False
+
+
 def main():
     ready = Path('/tmp/android-ready')
     ready.unlink(missing_ok=True)
@@ -79,6 +110,9 @@ def main():
             if time.monotonic() > deadline: raise TimeoutError('fresh runtime readiness deadline')
             time.sleep(1)
         if stop: return
+        home = Path(env.get('HOME') or '/tmp')
+        share_console_token([home / CONSOLE_TOKEN, root / 'user' / CONSOLE_TOKEN], Path('/tmp') / CONSOLE_TOKEN,
+                            int(os.environ.get('MAPS_COLLECTOR_UID', '1001')))
         with Path('/tmp/appium.log').open('w') as log:
             appium = subprocess.Popen(['bash', str(script_dir / 'appium.sh'), 'start'], env=env, stdout=log, stderr=subprocess.STDOUT)
         children.append(appium)
