@@ -9,6 +9,7 @@ const read=(file:string)=>readFileSync(new URL(file,root),'utf8');
 const catalogBytes=readFileSync(new URL('liya-90-v1.json',root));
 const hash=createHash('sha256').update(catalogBytes).digest('hex');
 const settings=parseTrackingConfig(JSON.parse(read('tracking.json')));
+const androidSettings=parseTrackingConfig(JSON.parse(read('android-tracking.json')));
 const catalog=parseTargetCatalog(JSON.parse(catalogBytes.toString('utf8')));
 const docs=['web','android'].map(surface=>({surface,cron:parse(read(surface+'-cronjob.yaml'))}));
 const option=(args:string[],name:string)=>args[args.indexOf(name)+1];
@@ -16,19 +17,21 @@ const option=(args:string[],name:string)=>args[args.indexOf(name)+1];
 describe('isolated nine-store scheduler candidates',()=>{
  it.each(docs)('$surface runs the store configuration with balanced shards and keeps the legacy scheduler untouched',({surface,cron})=>{
   const job=cron.spec.jobTemplate.spec,pod=job.template.spec,main=pod.containers[0];
-  expect(cron.metadata).toMatchObject({name:`maps-targets-${surface}-2h`,namespace:surface==='web'?'uat':'android-maps-pilot'});
-  expect(cron.spec).toMatchObject({schedule:surface==='web'?'15 */3 * * *':'15 */2 * * *',timeZone:'America/New_York',suspend:surface!=='web',concurrencyPolicy:'Forbid'});
-  // Web reads stores from Mongo (what the settings page saves); the suspended Android candidate still pins the report catalog.
-  expect(job).toMatchObject({completionMode:'Indexed',completions:surface==='web'?3:2,parallelism:surface==='web'?3:2,backoffLimitPerIndex:0,activeDeadlineSeconds:6600});
-  if(surface==='web'){expect(main.args).not.toContain('--catalog');expect(main.args).not.toContain('--catalog-sha256');expect(settings.storeSource).toEqual({provider:'mongo',collection:'monitor-target-stores-v1'});}
-  else{expect(option(main.args,'--catalog-sha256')).toBe(hash);expect(option(main.args,'--catalog')).toBe('/config/liya-90-v1.json');}
+  expect(cron.metadata).toMatchObject({name:surface==='web'?'maps-targets-web-2h':'maps-targets-android-daily',namespace:surface==='web'?'uat':'android-maps-pilot'});
+  // Web every three hours; Android one daily pass (~4 minutes per native query on two emulator workers).
+  expect(cron.spec).toMatchObject({schedule:surface==='web'?'15 */3 * * *':'0 21 * * *',timeZone:'America/New_York',concurrencyPolicy:'Forbid'});
+  expect(job).toMatchObject({completionMode:'Indexed',completions:surface==='web'?3:2,parallelism:surface==='web'?3:2,backoffLimitPerIndex:0,activeDeadlineSeconds:surface==='web'?6600:64800});
+  // Both read stores from Mongo (what the settings page saves); no report catalog is pinned.
+  expect(main.args).not.toContain('--catalog');expect(main.args).not.toContain('--catalog-sha256');
+  expect((surface==='web'?settings:androidSettings).storeSource).toEqual({provider:'mongo',collection:'monitor-target-stores-v1'});
+  if(surface==='android')expect(androidSettings.surfaces.android.point).toMatchObject({everyHours:24,bestVariants:false});
   expect(option(main.args,'--surface')).toBe(surface);expect(option(main.args,'--shard-count')).toBe(String(job.completions));
   expect(option(main.args,'--shard-strategy')).toBe('balanced');expect(option(main.args,'--tier')).toBe('point');
-  expect(pod.volumes.find((v:any)=>v.name==='config').configMap.name).toBe('maps-targets-liya90-v1-'+hash.slice(0,8));
+  expect(pod.volumes.find((v:any)=>v.name==='config').configMap.name).toBe(surface==='web'?'maps-targets-liya90-v1-'+hash.slice(0,8):'maps-tracking-android-config');
   expect(pod).toMatchObject({automountServiceAccountToken:false,restartPolicy:'Never',terminationGracePeriodSeconds:300});
   expect(main.securityContext).toMatchObject({allowPrivilegeEscalation:false,readOnlyRootFilesystem:true});
   expect(main.securityContext.runAsNonRoot??pod.securityContext?.runAsNonRoot).toBe(true);
-  const config=withStores(settings,catalog.stores);
+  const config=withStores(surface==='web'?settings:androidSettings,catalog.stores);
   const queries=Array.from({length:job.completions},(_,index)=>index).flatMap(index=>planScan(withStores(config,balancedShardStores(config,{surface:surface as 'web'|'android',tier:'point'},index,job.completions)),{surface:surface as 'web'|'android',tier:'point'}).queries);
   expect(queries).toHaveLength(270);expect(new Set(queries.map(q=>`${q.storeId}/${q.point.id}/${q.keyword}`)).size).toBe(270);
  });

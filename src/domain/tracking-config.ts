@@ -17,6 +17,9 @@ const gridSchema = z.object({ radiusKm: z.number().finite().min(0.1).max(50), si
 const tierSchema = z.object({
   everyHours: z.number().int().min(1).max(168),
   keywords: z.enum(['core', 'all']),
+  /** Whether monitored keywords with bestVariant also search "best <keyword>" on this surface. Android
+   * leaves them out: one native query takes minutes and the variants would double a day-long pass. */
+  bestVariants: z.boolean().default(true),
 }).strict();
 const gridTierSchema = z.object({
   enabled: z.boolean(),
@@ -241,7 +244,7 @@ export function planScan(config: TrackingConfig, selection: { surface: Surface; 
     const selectedKeywords = store.keywordTargets?.map(t => t.keyword) ?? [...store.keywords.core, ...store.keywords.longTail];
     const keywords: Array<[string, KeywordTier]> = selectedKeywords.map((k): [string, KeywordTier] => [k, store.keywords.core.some(core => keywordKey(core) === keywordKey(k)) ? 'core' : 'longTail']).filter(([, tier]) => tierConfig.keywords === 'all' || tier === 'core');
     const scanPoints = new Map((store.keywordTargets ?? []).filter(t => t.scanPoints).map(t => [keywordKey(t.keyword), new Set(t.scanPoints)]));
-    const withBest = new Set((store.keywordTargets ?? []).filter(t => t.bestVariant).map(t => keywordKey(t.keyword)));
+    const withBest = new Set((selection.tier === 'point' && (tierConfig as { bestVariants?: boolean }).bestVariants !== false ? store.keywordTargets ?? [] : []).filter(t => t.bestVariant).map(t => keywordKey(t.keyword)));
     // A best variant follows its keyword's points and tier; it is a separate query and a separate series.
     const expanded = keywords.flatMap(([kw, tier]): Array<[string, KeywordTier, string]> => {
       const variant = withBest.has(keywordKey(kw)) && selection.tier === 'point' ? bestVariantOf(kw) : null;

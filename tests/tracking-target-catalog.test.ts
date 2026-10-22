@@ -73,7 +73,7 @@ describe('versioned nine-store report catalog', () => {
     expect(web.queries.every(q => !q.point.id.startsWith('r0c'))).toBe(true);
     expect(web.queries.some(q => q.keyword === 'chinese food flushing')).toBe(false);
     expect(planScan(config, { surface: 'web', tier: 'grid' }).queries).toEqual([]);
-    for (const surface of ['web', 'android'] as const) expect(config.surfaces[surface].point).toEqual({ everyHours: 2, keywords: 'all' });
+    for (const surface of ['web', 'android'] as const) expect(config.surfaces[surface].point).toEqual({ everyHours: 2, keywords: 'all', bestVariants: true });
     const shards = [0, 1].flatMap(i => planScan(withStores(config, shardStores(config.stores, i, 2)), { surface: 'web', tier: 'point' }).queries);
     expect(shards).toHaveLength(270);
     expect(new Set(shards.map(q => `${q.storeId}/${q.keyword}/${q.point.id}`)).size).toBe(270);

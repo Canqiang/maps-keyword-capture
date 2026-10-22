@@ -42,6 +42,13 @@ function delivered(output: AndroidCaptureOutput, store: ArtifactStore): boolean 
   return valid(receipt) && output.manifest.persistenceMode === store.mode && output.manifest.artifacts.every(valid);
 }
 
+/**
+ * The capture limits proven on the verification Pod (probes 10-14, 2026-10-22): Top 20, up to 90
+ * screenshots / 89 gestures / 10 minutes per query, OCR at scale 3 with a 30 s budget. Scheduled
+ * scans use exactly these so a verified listing method is never run with a different profile.
+ */
+export const VERIFIED_CAPTURE_PROFILE = { maxDisplayedResults: 20, maxScreenshotsPerQuery: 90, maxScrolls: 89, keywordTimeoutMs: 600_000, ocrScale: 3, ocrTimeoutMs: 30_000 } as const;
+
 /** Sequential, bounded device sessions. Review outcomes remain visible; operational faults stop the device. */
 export async function runAndroidScan(deps: AndroidScanDeps): Promise<AndroidScanSummary> {
   const env=deps.env??process.env, now=deps.now??(()=>new Date()), log=deps.log??(()=>{});
@@ -61,7 +68,7 @@ export async function runAndroidScan(deps: AndroidScanDeps): Promise<AndroidScan
     if(summary.status==='failed')break;
     if(deps.signal?.aborted){summary.status='cancelled';break;}
     const tasks=summary.catalogSnapshot?plannedTasks.map(task=>({...task,sourceReference:`${task.sourceReference}; catalog sha256:${summary.catalogSnapshot!.sha256}`})):plannedTasks;
-    const capture=parseAndroidConfig({schemaVersion:'android-maps-input/v1',serial:env.MAPS_ANDROID_SERIAL??'emulator-5554',adbPath:env.MAPS_ANDROID_ADB_PATH??'/runtime/sdk/platform-tools/adb',appiumUrl:env.MAPS_ANDROID_APPIUM_URL??'http://127.0.0.1:4723',timezone:deps.config.timezone,outputDirectory:deps.store.rootDirectory,maxDisplayedResults:20,tasks});
+    const capture=parseAndroidConfig({schemaVersion:'android-maps-input/v1',serial:env.MAPS_ANDROID_SERIAL??'emulator-5554',adbPath:env.MAPS_ANDROID_ADB_PATH??'/runtime/sdk/platform-tools/adb',appiumUrl:env.MAPS_ANDROID_APPIUM_URL??'http://127.0.0.1:4723',timezone:deps.config.timezone,outputDirectory:deps.store.rootDirectory,...VERIFIED_CAPTURE_PROFILE,tasks});
     const device=deps.deviceFactory?.(capture)??new NativeMapsDevice(capture,{...(deps.signal?{signal:deps.signal}:{})});
     summary.queries.dispatched+=tasks.length;
     let output:AndroidCaptureOutput;

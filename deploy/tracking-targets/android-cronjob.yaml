@@ -3,13 +3,15 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: maps-targets-android-2h
+  name: maps-targets-android-daily
   namespace: android-maps-pilot
   labels: &labels
     app.kubernetes.io/name: maps-keyword-capture
     app.kubernetes.io/component: targets-android
+# 2026-10-22: one daily pass over every store in Mongo (the settings page), base keywords only. A native
+# query takes ~4 minutes (probes 10-14), so 311 queries on two emulator workers take ~11 hours.
 spec:
-  schedule: "15 */2 * * *"
+  schedule: "0 21 * * *"
   timeZone: America/New_York
   concurrencyPolicy: Forbid
   startingDeadlineSeconds: 1800
@@ -25,7 +27,7 @@ spec:
       parallelism: 2
       backoffLimitPerIndex: 0
       maxFailedIndexes: 2
-      activeDeadlineSeconds: 6600
+      activeDeadlineSeconds: 64800
       # Delete the finished Job and its Pods 10 minutes after it ends (success or failure); results live in Azure/Mongo.
       ttlSecondsAfterFinished: 600
       template:
@@ -91,10 +93,6 @@ spec:
                 - scan
                 - --config
                 - /config/tracking.json
-                - --catalog
-                - /config/liya-90-v1.json
-                - --catalog-sha256
-                - 476d4c506730f165951e505ee59c9ed27e6157313d87728b75679678e940068c
                 - --surface
                 - android
                 - --tier
@@ -144,7 +142,7 @@ spec:
                 - { name: tmp, mountPath: /tmp }
           volumes:
             - name: config
-              configMap: { name: maps-targets-liya90-v1-476d4c50 }
+              configMap: { name: maps-tracking-android-config }
             - name: runtime
               persistentVolumeClaim: { claimName: android-runtime }
             - name: kvm

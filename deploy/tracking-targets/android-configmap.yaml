@@ -1,0 +1,57 @@
+# Android scan configuration: stores come from Mongo (the settings page); Android skips best variants.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: maps-tracking-android-config
+  namespace: android-maps-pilot
+  labels:
+    app.kubernetes.io/name: maps-keyword-capture
+    app.kubernetes.io/component: targets-android
+data:
+  tracking.json: |
+    {
+      "schemaVersion": "tracking-config/v1",
+      "timezone": "America/New_York",
+      "defaults": {
+        "grid": {
+          "radiusKm": 5,
+          "size": 5
+        },
+        "zoom": 15
+      },
+      "storeSource": {
+        "provider": "mongo",
+        "collection": "monitor-target-stores-v1"
+      },
+      "stores": [],
+      "surfaces": {
+        "web": {
+          "point": {
+            "everyHours": 2,
+            "keywords": "all"
+          },
+          "grid": {
+            "enabled": false,
+            "atHour": 2,
+            "keywords": "all"
+          }
+        },
+        "android": {
+          "point": {
+            "everyHours": 24,
+            "keywords": "all",
+            "bestVariants": false
+          },
+          "grid": {
+            "enabled": false,
+            "atHour": 2,
+            "keywords": "all"
+          }
+        }
+      },
+      "database": {
+        "provider": "mongo",
+        "database": "maps-rank-tracking",
+        "collection": "observations"
+      }
+    }

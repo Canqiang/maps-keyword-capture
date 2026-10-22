@@ -15,7 +15,7 @@ describe('two-hourly web tracking deployment', () => {
     // The seed file is what was imported into the stores collection.
     const config = withStores(settings, JSON.parse(readFileSync(new URL('../deploy/tracking-web/stores-seed.json', import.meta.url), 'utf8')).stores.map((s: unknown) => parseStore(s)));
     expect(config.timezone).toBe('America/New_York');
-    expect(config.surfaces.web.point).toEqual({ everyHours: 2, keywords: 'all' });
+    expect(config.surfaces.web.point).toEqual({ everyHours: 2, keywords: 'all', bestVariants: true });
     expect(config.surfaces.web.grid.enabled).toBe(false);
     expect(config.stores.map(s => s.storeId)).toEqual(['keke-flushing']);
     expect(config.stores[0]!.keywords.core).toHaveLength(5);

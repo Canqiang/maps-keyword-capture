@@ -1,6 +1,8 @@
 # Nine-store fixed-point monitoring deployment
 
-These are **suspended candidate templates**, not evidence of deployment or successful collection. They add `maps-targets-web-2h` in `uat` and `maps-targets-android-2h` in `android-maps-pilot`. Neither template changes `maps-tracking-web-2h`, the legacy daily monitor, shared SEO keywords, or existing observation documents.
+**2026-10-22:** `maps-targets-web-2h` (uat) runs every three hours and `maps-targets-android-daily` (android-maps-pilot) once a day; both read stores, monitored keywords and points from Mongo `monitor-target-stores-v1` (the UI settings page). Android uses `android-configmap.yaml` (`android-tracking.json`: Android skips best variants) and the Secrets `maps-targets-source` / `maps-targets-storage`, copied from the uat Secrets `maps-keyword-monitor-source` / `maps-keyword-monitor-storage`. Scheduled Android scans use the capture profile proven on the verification Pod (`VERIFIED_CAPTURE_PROFILE`: Top 20, 90 screenshots, 89 gestures, 10 min, OCR scale 3 / 30 s).
+
+Originally these were **suspended candidate templates**. They add `maps-targets-web-2h` in `uat` and `maps-targets-android-daily` (formerly `maps-targets-android-2h`) in `android-maps-pilot`. Neither template changes `maps-tracking-web-2h`, the legacy daily monitor, shared SEO keywords, or existing observation documents.
 
 The exact approved catalog is `liya-90-v1.json` (90 merchant/query pairs, 27 explicit center/3 km/5 km points). Each surface schedules 270 searches per round. Two balanced whole-store shards carry 138 and 132 searches. The fixed points are not radius coverage or a 25-point grid. Both candidates use `15 */2 * * *`, `America/New_York`, `Forbid`, and a 6,600-second active deadline. The 15-minute offset avoids starting at the same minute as the old Web collector. A two-hour schedule is not a throughput guarantee; live completion time and pending resources must be checked before unsuspending.
 

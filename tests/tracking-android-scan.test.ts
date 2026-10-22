@@ -2,8 +2,8 @@ import { mkdtemp, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { runAndroidScan } from '../src/domain/android-scan.js';
-import { parseTrackingConfig } from '../src/domain/tracking-config.js';
+import { runAndroidScan, VERIFIED_CAPTURE_PROFILE } from '../src/domain/android-scan.js';
+import { parseStore, parseTrackingConfig, planScan, withStores } from '../src/domain/tracking-config.js';
 import { MemoryObservationStore } from '../src/domain/observation-store.js';
 import { LocalArtifactStore } from '../src/storage/local.js';
 import type { AndroidCaptureConfig } from '../src/android/contracts.js';
@@ -29,6 +29,22 @@ function fakeRunner(options:{fatal?:boolean;unverified?:boolean;blocked?:boolean
 }
 async function deps(){const root=await mkdtemp(join(tmpdir(),'android-scan-'));return {config,tier:'point' as const,store:new LocalArtifactStore(root),observations:new MemoryObservationStore(),env:{MAPS_ANDROID_SERIAL:'emulator-5554',MAPS_ANDROID_ADB_PATH:'/sdk/adb'},deviceFactory:()=>({} as never)};}
 describe('scheduled Android scan',()=>{
+  it('captures with exactly the profile proven on the verification Pod',async()=>{
+    const d=await deps(),fake=fakeRunner(),seen:AndroidCaptureConfig[]=[];
+    await runAndroidScan({...d,batchRunner:async(c,device,store,o)=>{seen.push(c);return fake.runner(c,device,store);}});
+    expect(seen.length).toBeGreaterThan(0);
+    for(const c of seen) expect(c).toMatchObject({maxDisplayedResults:20,maxScreenshotsPerQuery:90,maxScrolls:89,keywordTimeoutMs:600000,ocrScale:3,ocrTimeoutMs:30000});
+    expect(VERIFIED_CAPTURE_PROFILE).toEqual({maxDisplayedResults:20,maxScreenshotsPerQuery:90,maxScrolls:89,keywordTimeoutMs:600000,ocrScale:3,ocrTimeoutMs:30000});
+  });
+  it('leaves best variants out of a surface that disables them while the web keeps them',()=>{
+    const store=parseStore({storeId:'s',name:'Store',placeId:'ChIJstore',aliases:['Store'],center:{latitude:40.7,longitude:-73.8},keywords:{core:['food'],longTail:[]},
+      fixedPoints:[{id:'s-center',label:'中心',latitude:40.7,longitude:-73.8,distanceKm:0,direction:'中心',sourceReference:'test'}],keywordTargets:[{keyword:'food',bestVariant:true}]});
+    const base=withStores(config,[store]);
+    const android=withStores(parseTrackingConfig({...JSON.parse(JSON.stringify(config)),stores:[],storeSource:{provider:'mongo'},surfaces:{...config.surfaces,android:{...config.surfaces.android,point:{...config.surfaces.android.point,bestVariants:false}}}}),[store]);
+    expect(planScan(base,{surface:'web',tier:'point'}).queries.map(q=>q.keyword)).toEqual(['food','best food']);
+    expect(planScan(base,{surface:'android',tier:'point'}).queries.map(q=>q.keyword)).toEqual(['food','best food']);
+    expect(planScan(android,{surface:'android',tier:'point'}).queries.map(q=>q.keyword)).toEqual(['food']);
+  });
   it('executes every bounded batch, ingests review evidence, and never calls it qualified',async()=>{
     const d=await deps(),fake=fakeRunner();const s=await runAndroidScan({...d,batchRunner:fake.runner});
     expect(fake.calls).toBe(2);expect(s).toMatchObject({exitCode:2,status:'partial',queries:{planned:25,dispatched:25,observed:25,ranked:0},observations:{inserted:25,notIngested:0}});
