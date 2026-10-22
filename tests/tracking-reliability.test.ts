@@ -200,6 +200,34 @@ describe('shipped UI behavior', () => {
     expect(open.match(/class="ov-detail"/g)).toHaveLength(1);
     expect(open).toContain('&quot;compact&quot;:true');
   });
+  it('builds the saved configuration from the settings editor without disturbing report points and targets', () => {
+    const ui = uiContext(async () => []);
+    const center = { latitude: 40.7658211, longitude: -73.8315243 };
+    const points = [{ id:'k-center', label:'中心', ...center, distanceKm:0, direction:'中心', sourceReference:'approved report' },
+      { id:'k-3km', label:'3公里', latitude:40.7634642, longitude:-73.796039, distanceKm:3, direction:'95°方位', sourceReference:'approved report' }];
+    const goal = { pointId:'k-center', pointLabel:'中心', radiusKm:0, targetRank:3, targetText:'Top3', historicalBaselineDisplay:'NR20', historicalEvidenceRef:null, sourceCellText:'Top3 / NR20' };
+    ui.context.s = { storeId:'k', name:'Keke', placeId:'ChIJk', active:true, aliases:['Keke'], center, keywords:{core:['卤味'],longTail:[]}, fixedPoints:points,
+      monitoringCatalog:{version:'v1'}, keywordTargets:[{ keyword:'卤味', sourceSearchVolumeText:'390 次/月 New York City · Google Search', sourceRoleAndConditions:'exact', pointTargets:[goal] }] };
+    for (const [id, value] of Object.entries({ storeId:'k', name:'Keke', placeId:'ChIJk', lat:String(center.latitude), lng:String(center.longitude), aliases:'Keke', core:'卤味', longTail:'', active:'true' })) ui.element(id).value = value;
+    ui.run('d=settingsDraft(s);');
+    expect(ui.run('d.points[1].bearing')).toBe(95);
+    expect(ui.run('JSON.stringify(draftBody(s,d).fixedPoints)')).toBe(JSON.stringify(points));
+    expect(ui.run('JSON.stringify(draftBody(s,d).keywordTargets[0].pointTargets[0])')).toBe(JSON.stringify(goal));
+    expect(ui.run('changeSummary(s,draftBody(s,d)).changed')).toBe(false);
+    ui.run('d.targets.push({keyword:"spicy duck neck",volume:"10 次/月 New York City",goals:{"k-3km":5},original:null}); d.targets[0].goals["k-center"]=1;');
+    const body = ui.run('draftBody(s,d)');
+    expect(body.keywordTargets[1]).toEqual({ keyword:'spicy duck neck', sourceSearchVolumeText:'10 次/月 New York City', sourceRoleAndConditions:'', pointTargets:[{ pointId:'k-3km', pointLabel:'3公里', radiusKm:3, targetRank:5, targetText:'Top 5' }] });
+    expect(body.keywordTargets[0].pointTargets[0]).toMatchObject({ targetRank:1, targetText:'Top 1', historicalBaselineDisplay:'NR20' });
+    expect(body.monitoringCatalog).toEqual({ version:'v1' });
+    const summary = ui.run('changeSummary(s,draftBody(s,d))');
+    expect(summary.lines).toEqual(['新增监控词 1 个：spicy duck neck', '目标名次变化：卤味']);
+    expect(summary.queries).toBe(4);
+    ui.run('d.points[1].distanceKm=4; const g=geoDestination(s.center,4,95); d.points[1].latitude=g.latitude; d.points[1].longitude=g.longitude;');
+    const moved = ui.run('draftBody(s,d)');
+    expect(moved.fixedPoints[1]).toMatchObject({ id:'k-3km', distanceKm:4, direction:'95°方位', sourceReference:'门店设置' });
+    expect(moved.keywordTargets[1].pointTargets[0]).toMatchObject({ pointId:'k-3km', radiusKm:4 });
+    expect(ui.run('changeSummary(s,draftBody(s,d)).lines')).toContain('采集点坐标变化：3公里，此后记录与之前不可比较');
+  });
   it('keeps a newer exact evidence selection when an older detail resolves last', async () => {
     let resolveOld!: (value: unknown) => void;
     const oldData = uiHistory('old','2026-10-19',2), newData = { ...uiHistory('new','2026-10-20',3), keyword:'new selected keyword' };
