@@ -72,6 +72,21 @@ export function createFrontendModel() {
     return { total: rows.length, qualified: ranks.length + absent, ranked: ranks.length, absent, unverified: rows.length - ranks.length - absent,
       best: ranks[0] ?? null, worst: ranks.at(-1) ?? null, median, top3: ranks.filter(n => n <= 3).length };
   };
+  /** Report search volume such as "1,500,000 次/月 New York City · Google Search"; unparseable text is kept verbatim. */
+  const volume = (text?: string | null): { value: number | null; market: string | null; text: string } | null => {
+    if (!text || !text.trim()) return null;
+    const match = /^\s*([\d,]+)\s*次\/月\s*(.*?)\s*(?:·.*)?$/u.exec(text);
+    if (!match) return { value: null, market: null, text: text.trim() };
+    return { value: Number(match[1]!.replace(/,/g, '')), market: match[2] || null, text: text.trim() };
+  };
+  /** Newest attempt of one keyword at one point, and the change since the earliest qualified rank of the same cohort. */
+  const movement = (rows: FrontendObservation[]): { latest: FrontendObservation | null; delta: number | null } => {
+    const sorted = [...rows].sort((a,b) => a.observedAt.localeCompare(b.observedAt) || a.observationId.localeCompare(b.observationId));
+    const latest = sorted.at(-1) ?? null;
+    if (!latest || !latest.eligible || latest.metricOrganicRank === null || !latest.cohortKey) return { latest, delta: null };
+    const base = sorted.find(o => o.eligible && o.metricOrganicRank !== null && o.cohortKey === latest.cohortKey)!;
+    return { latest, delta: base === latest ? null : base.metricOrganicRank! - latest.metricOrganicRank };
+  };
   const evidenceUrl = (s: string): string | null => /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u.test(s) && !s.split('/').some(x=>x==='' || x==='.' || x==='..') ? '/api/evidence?key='+encodeURIComponent(s) : null;
   const activeKeywords = (store: TargetStore): string[] => store.keywordTargets ? store.keywordTargets.map(t => t.keyword) : [...store.keywords.core, ...store.keywords.longTail];
   const targetFor = (store: TargetStore, keyword: string, pointId: string) => store.keywordTargets?.find(t => key(t.keyword) === key(keyword))?.pointTargets.find(t => t.pointId === pointId) ?? null;
@@ -82,5 +97,5 @@ export function createFrontendModel() {
     });
     return [...choices, ...observed.filter(o => !planned.some(p => p.id === o.pointId))];
   };
-  return { escape,key,daily,present,compare,days,segments,series,stats,evidenceUrl,activeKeywords,targetFor,pointChoices };
+  return { escape,key,daily,present,compare,days,segments,series,stats,volume,movement,evidenceUrl,activeKeywords,targetFor,pointChoices };
 }

@@ -172,6 +172,34 @@ describe('shipped UI behavior', () => {
     expect(html.match(/<path class="chart-line"/g)).toHaveLength(2);
     expect(html).not.toMatch(/<path class="chart-line" d="[^"]*L/);
   });
+  it('orders the keyword overview by report volume and shows each fixed point with its target', () => {
+    const ui = uiContext(async () => []);
+    const at = (id: string, keyword: string, iso: string, rank: number | null, extra: Record<string, unknown> = {}) => ({ ...uiHistory(id, iso.slice(0,10), rank), observedAt: iso, keyword, keywordKey: keyword, ...extra });
+    ui.context.c = {
+      r: { id:'keke', surface:'web', point:'keke-center', keyword:'', from:'2026-10-20', to:'2026-10-21', historical:false, mode:'' },
+      store: { storeId:'keke', center:{latitude:40,longitude:-73}, keywords:{core:[],longTail:['daily word']}, fixedPoints:[{id:'keke-center',label:'中心',latitude:40,longitude:-73,distanceKm:0},{id:'keke-3km',label:'3公里',latitude:40.01,longitude:-73,distanceKm:3}],
+        monitoringCatalog:{source:{documentDate:'2026-10-16'}},
+        keywordTargets:[{keyword:'small',sourceSearchVolumeText:'90 次/月 Mineola · Google Search',pointTargets:[{pointId:'keke-center',targetRank:3}]},{keyword:'big',sourceSearchVolumeText:'1,500,000 次/月 Mineola · Google Search',pointTargets:[{pointId:'keke-center',targetRank:3},{pointId:'keke-3km',targetRank:10}]},{keyword:'odd',sourceSearchVolumeText:'未返回数值 Mineola · Google Search',pointTargets:[]}] },
+      cols: [{id:'keke-center',label:'中心',distanceKm:0,latitude:40,longitude:-73},{id:'keke-3km',label:'3公里',distanceKm:3,latitude:40.01,longitude:-73}],
+      domains: new Map([['keke-center',[Date.parse('2026-10-20T00:00:00Z'),Date.parse('2026-10-22T00:00:00Z')]],['keke-3km',[Date.parse('2026-10-20T00:00:00Z'),Date.parse('2026-10-22T00:00:00Z')]]]),
+    };
+    ui.context.byPoint = new Map([['keke-center',[at('b1','big','2026-10-20T10:00:00Z',6),at('b2','big','2026-10-21T10:00:00Z',2)]],['keke-3km',[at('b3','big','2026-10-21T11:00:00Z',null,{eligible:false,rank:{status:'not_found',organicRank:null}})]]]);
+    ui.run('c.words=overviewRoster(c.store,byPoint,c.r);');
+    const html: string = ui.run('overviewTable(c)');
+    const order = [...html.matchAll(/data-keyword="([^"]+)"/g)].map(m => m[1]);
+    expect(order).toEqual(['big','small','odd','daily word']);
+    expect(html).toContain('1,500,000');
+    expect(html).toContain('报告无数值');
+    expect(html).toContain('<small class="block">Mineola</small>');
+    expect(html).toMatch(/class="ov-cell hit"><div class="ov-top"><a class="ov-rank green"[^>]*>2<\/a><span class="ov-delta up"[^>]*>↑4/);
+    expect(html).toContain('>未见*<');
+    expect(html).toContain('目标 Top 10 · 1 次');
+    expect(html).not.toContain('ov-detail');
+    ui.run('c.r.keyword="big";');
+    const open: string = ui.run('overviewTable(c)');
+    expect(open.match(/class="ov-detail"/g)).toHaveLength(1);
+    expect(open).toContain('&quot;compact&quot;:true');
+  });
   it('keeps a newer exact evidence selection when an older detail resolves last', async () => {
     let resolveOld!: (value: unknown) => void;
     const oldData = uiHistory('old','2026-10-19',2), newData = { ...uiHistory('new','2026-10-20',3), keyword:'new selected keyword' };

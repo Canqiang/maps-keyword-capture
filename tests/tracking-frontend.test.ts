@@ -35,6 +35,20 @@ describe('frontend history presentation', () => {
   expect(m.stats(rows)).toEqual({ total:5, qualified:4, ranked:3, absent:1, unverified:1, best:2, worst:12, median:3, top3:2 });
   expect(m.stats([])).toMatchObject({ total:0, qualified:0, best:null, median:null });
  });
+ it('parses report search volume and keeps unparseable text verbatim', () => {
+  expect(m.volume('1,500,000 次/月 New York City · Google Search')).toEqual({ value:1500000, market:'New York City', text:'1,500,000 次/月 New York City · Google Search' });
+  expect(m.volume('170 次/月 Mineola · Google Search')).toMatchObject({ value:170, market:'Mineola' });
+  expect(m.volume('报告 100')).toEqual({ value:null, market:null, text:'报告 100' });
+  expect(m.volume('')).toBeNull(); expect(m.volume(undefined)).toBeNull();
+ });
+ it('reports the newest attempt and a change only within the newest cohort', () => {
+  const at = (id: string, iso: string, rank: number | null, extra: Record<string, unknown> = {}) => ({ ...o(id, iso.slice(0,10), rank, extra), observedAt: iso });
+  const rows = [at('old','2026-10-18T10:00:00Z',3,{cohortKey:'legacy'}), at('a','2026-10-19T10:00:00Z',9), at('b','2026-10-20T10:00:00Z',null), at('c','2026-10-21T10:00:00Z',4)];
+  expect(m.movement(rows)).toMatchObject({ latest:{observationId:'c'}, delta:5 });
+  expect(m.movement([...rows, at('d','2026-10-21T12:00:00Z',4,{eligible:false,rank:{status:'failed',organicRank:null}})])).toMatchObject({ latest:{observationId:'d'}, delta:null });
+  expect(m.movement([rows[1]!])).toMatchObject({ latest:{observationId:'a'}, delta:null });
+  expect(m.movement([])).toEqual({ latest:null, delta:null });
+ });
  it('preserves evidence identity and safely encodes only supported evidence keys', () => {
   expect(m.evidenceUrl('tracking/web/past/a.png')).toBe('/api/evidence?key=tracking%2Fweb%2Fpast%2Fa.png');
   for(const key of ['/etc/secret.png','tracking/../secret.png','https://x/a.png','tracking/a.json','tracking/x.png?sig=secret']) expect(m.evidenceUrl(key)).toBeNull();
