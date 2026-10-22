@@ -1,0 +1,37 @@
+{
+ "run": "run_20261022T081138Z_3d1b4c",
+ "source": "29d8ae7 (candidate13)",
+ "note": "Byte-for-byte probe 13 artifacts copied for candidate14 regression tests",
+ "files": [
+  {
+   "fixture": "candidate13-q0001-23.ocr.json",
+   "original": "q0001/20261022T081343.394Z__keyword__23.ocr.json",
+   "bytes": 25784,
+   "sha256": "d22679871af4634cab1b53a3d6bc6a625b60890b73dd697486ec31b8f8510473"
+  },
+  {
+   "fixture": "candidate13-q0001-23.xml",
+   "original": "q0001/20261022T081343.394Z__keyword__23.xml",
+   "bytes": 75247,
+   "sha256": "a5f7e0b8501e8540e17305b3f6708cef52535927185ec12412f80bf4e8255757"
+  },
+  {
+   "fixture": "candidate13-q0001-24.ocr.json",
+   "original": "q0001/20261022T081348.285Z__keyword__24.ocr.json",
+   "bytes": 17426,
+   "sha256": "952c2278368946a5e699d5635f5a5d036b5dc83960014da0d7e2db09d436a7d9"
+  },
+  {
+   "fixture": "candidate13-q0001-24.xml",
+   "original": "q0001/20261022T081348.285Z__keyword__24.xml",
+   "bytes": 71181,
+   "sha256": "480f40b508d3355faeb5c05eac4dac85344aaa661622b637275eb7440f474047"
+  },
+  {
+   "fixture": "candidate13-q0005-03.xml",
+   "original": "q0005/20261022T083152.020Z__bakery__03.xml",
+   "bytes": 79978,
+   "sha256": "3d9c8aafa039fcba29606f10ac6eb228b42074a8ad02fcb0f2c217df190ef084"
+  }
+ ]
+}

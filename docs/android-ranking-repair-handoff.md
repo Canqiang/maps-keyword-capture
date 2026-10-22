@@ -243,6 +243,13 @@ Remaining failures (next candidate):
 - q0005 bakery: frame 3 is the scrolled form of probe-12 frame 2 (filter row off screen, one card with a complete Directions / Share / Save row above the photo module); the scrolled photo-module variants still require a scrolling action row. Next: use `closedStaticActionRow` in those variants as well.
 - The pilot Pod `maps-nine-android-verify-20261022` expires at 10:32 UTC by its deadline; outputs stay on the PVC (`…20261022a`–`d`). No Android CronJob exists; step 3 (scheduled Android scans reading the store settings) has not started.
 
+## Candidate14 (repairs for the probe-13 failures)
+
+Listing method v17; `tests/android-candidate14-probe13.test.ts` from byte-for-byte probe-13 fixtures (`candidate13-*`; 3 fail on candidate13, the residue guard passes on both); full suite 1,622.
+- `cardPairContinuity`: when too few OCR lines repeat exactly, two previous cards with unique rating + review counts in both frames, compatible distances and the same rating-line span that moved by one amount (±12 px, same bounds as line anchors) prove the movement. Probe 13 q0001 frames 23 -> 24 (394 -> 317, 990 -> 912) are then continuous, the unreadable card resolves to `浮 香 居 …`, and no backward correction is triggered; replaying frames 1-24 gives five reliable rows (Keke 1).
+- `residualFilterContainer`: after the filter row scrolls off, its container remains as a 1 px band at the list top; the scrolled photo-module variants ignore exactly that residue (full width, ≤ 2 px, filter recycler inside, only known chip labels) and accept a complete static action row. Probe 13 q0005 frame 3 is a result list.
+Full replay of the twenty probe-10..13 queries: all twelve device-reliable queries replay identically.
+
 ## Operational read-only commands
 
 ```sh

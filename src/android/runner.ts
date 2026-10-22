@@ -300,7 +300,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       locale: info.locale, timezone: info.timezone,
       ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v16', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v17', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();

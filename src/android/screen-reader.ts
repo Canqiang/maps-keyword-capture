@@ -486,6 +486,34 @@ export function anchoredContinuity(previous: ScreenFrame | undefined, frame: Scr
   return matches.every(moved => Math.abs(moved - delta) <= 12) ? delta : null;
 }
 
+/**
+ * Continuity from the cards themselves when too few OCR lines repeat exactly (probe 13 q0001 frames
+ * 23 -> 24: 一间小店 moved 394 -> 317 and the next card, read 'SR ERRe' then '浮 香 居 …', 990 -> 912).
+ * At least two previous cards, each with a unique rating + review count in both frames, a compatible
+ * distance and the same rating-line span, must move by one amount (±12 px) within the anchored bounds.
+ */
+export function cardPairContinuity(previous: ScreenFrame | undefined, frame: ScreenFrame): number | null {
+  const before = previous?.nativeListBounds, after = frame.nativeListBounds;
+  if (!previous || !before || !after || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
+    !previous.queryVisible || !frame.queryVisible || before.left !== after.left || before.right !== after.right || before.bottom !== after.bottom || Math.abs(before.top - after.top) > 2) return null;
+  const height = after.bottom - after.top;
+  const key = (card: ScreenCard): string | null => card.rating === null || card.reviewCount === null || !card.ratingBounds ? null : `${card.rating}/${card.reviewCount}`;
+  const unique = (cards: ScreenCard[], k: string): boolean => cards.filter(card => key(card) === k).length === 1;
+  const moves: number[] = [];
+  for (const a of previous.cards) {
+    const k = key(a);
+    if (k === null || !unique(previous.cards, k) || !unique(frame.cards, k)) continue;
+    const b = frame.cards.find(card => key(card) === k)!;
+    if ((a.distanceText !== null && b.distanceText !== null && a.distanceText !== b.distanceText) ||
+      Math.abs(b.ratingBounds!.left - a.ratingBounds!.left) > 4) continue;
+    const moved = b.ratingBounds!.top - a.ratingBounds!.top;
+    if (moved > (frame.afterBackwardCorrection ? height * 0.5 : 2) || moved < -height * MAX_ANCHORED_ADVANCE) continue;
+    moves.push(moved);
+  }
+  if (moves.length < 2) return null;
+  return moves.every(moved => Math.abs(moved - moves[0]!) <= 12) ? moves[0]! : null;
+}
+
 /** With anchored continuity, a first card whose name is hidden under the sheet header is
  * the previous frame's last card when its rating line kept the same geometry and moved by
  * the anchored amount, and its rating, review count and visible distance agree. */
@@ -540,7 +568,7 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
   let lastWithCards: { frame: ScreenFrame; rows: RankedListing[] } | undefined;
   let continuous = frames[0]?.topStateVerified === true;
   const match = (before: ScreenFrame, beforeRows: RankedListing[], frame: ScreenFrame) => {
-    const out = { overlap: 0, clipped: false, drift: false, anchoredJoin: false, resolved: new Set<number>(), delta: anchoredContinuity(before, frame) };
+    const out = { overlap: 0, clipped: false, drift: false, anchoredJoin: false, resolved: new Set<number>(), delta: anchoredContinuity(before, frame) ?? cardPairContinuity(before, frame) };
     for (let count = Math.min(before.cards.length, frame.cards.length); count > 0; count--) {
       const pairs = frame.cards.slice(0, count).map((card, i) => [before.cards[before.cards.length - count + i]!, card] as const);
       if (pairs.every(([a, b]) => sameCard(a, b))) { out.overlap = count; return out; }

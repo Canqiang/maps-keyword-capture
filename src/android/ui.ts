@@ -368,9 +368,26 @@ function nativePhotoMapTail(nodes: EvidenceNode[], card: EvidenceNode): boolean 
 }
 
 /** A query-specific photo module may be traversed only after native backward-scroll proof. */
+/**
+ * Probe 13 (q0005 frame 3): once the filter row scrolls off, its container stays in the tree as a
+ * 1 px band at the list top holding the filter RecyclerView and its chips. Only that exact residue is
+ * ignored: first child, full width, at most 2 px high, every descendant squashed inside it, a filter
+ * recycler present and no label other than the known filter chips.
+ */
+function residualFilterContainer(nodes: EvidenceNode[], node: EvidenceNode, list: EvidenceNode): boolean {
+  if (!node.bounds || !list.bounds || node.className !== 'android.widget.LinearLayout' || node.parent !== list ||
+    node.bounds.top !== list.bounds.top || node.bounds.left !== list.bounds.left || node.bounds.right !== list.bounds.right ||
+    node.bounds.bottom - node.bounds.top > 2 || labels(node).length) return false;
+  const inside = nodes.filter(inner => { for (let parent = inner.parent; parent; parent = parent.parent) if (parent === node) return true; return false; });
+  const chips = ['more filters', 'relevance', 'open now', 'price', 'top rated', 'find a table'];
+  return inside.some(inner => inner.resourceId === `${MAPS_PACKAGE}:id/recycler_view`) &&
+    inside.every(inner => !!inner.bounds && inner.bounds.top >= node.bounds!.top && inner.bounds.bottom <= node.bounds!.bottom &&
+      labels(inner).every(label => chips.includes(normalized(label))));
+}
+
 function scrolledPhotoModuleContinuation(nodes: EvidenceNode[], list: EvidenceNode, exactKeyword: string): boolean {
   if (!list.bounds || !list.actions?.includes('ACTION_SCROLL_TO_POSITION') || !list.actions.includes('ACTION_SCROLL_BACKWARD')) return false;
-  const cards = nodes.filter(node => node.parent === list);
+  const cards = nodes.filter(node => node.parent === list && !residualFilterContainer(nodes, node, list));
   if (!cards.length || cards.some(card => !card.enabled || card.className !== 'android.widget.FrameLayout' ||
     card.resourceId || labels(card).length || !card.bounds || card.bounds.left !== list.bounds!.left ||
     card.bounds.right !== list.bounds!.right || !insideBounds(card.bounds, list.bounds!))) return false;
@@ -386,7 +403,9 @@ function scrolledPhotoModuleContinuation(nodes: EvidenceNode[], list: EvidenceNo
         .flatMap(node => {
           const matches = [...new Set(labels(node).map(normalized).filter(label => ['directions', 'call', 'website', 'menu', 'share', 'save', 'reserve', 'order'].includes(label)))];
           return matches.length === 1 ? matches : [];
-        })).size >= 2);
+        })).size >= 2) ||
+      // Probe 13 (q0005 frame 3): the scrolled form of a merchant with a complete Directions / Share / Save row.
+      scope.some(row => row.className === 'android.widget.HorizontalScrollView' && !row.scrollable && closedStaticActionRow(nodes, row, card));
   }));
   const moduleTail = cards[0];
   if (moduleTail?.bounds?.top === list.bounds.top && cards[1] && merchants.has(cards[1]) && nativePhotoMapTail(nodes, moduleTail)) modules.add(moduleTail);
@@ -751,7 +770,7 @@ function cardsBesidePhotoModule(nodes: EvidenceNode[], list: EvidenceNode, query
   // (those partially visible module shapes keep their dedicated proofs).
   if (!query || !list.bounds || list.foreignDescendant || !list.actions?.includes('ACTION_SCROLL_TO_POSITION') ||
     !list.actions.includes('ACTION_SCROLL_BACKWARD') || !list.actions.includes('ACTION_SCROLL_FORWARD')) return false;
-  const direct = nodes.filter(node => node.parent === list);
+  const direct = nodes.filter(node => node.parent === list && !residualFilterContainer(nodes, node, list));
   const actionNames = ['directions', 'call', 'website', 'menu', 'share', 'save', 'order', 'reserve'];
   const within = (node: EvidenceNode, container: EvidenceNode): boolean => { for (let parent = node.parent; parent; parent = parent.parent) if (parent === container) return true; return false; };
   const full = (node: EvidenceNode): boolean => node.enabled && node.packageName === MAPS_PACKAGE && node.bounds !== null && node.className === 'android.widget.FrameLayout' &&
