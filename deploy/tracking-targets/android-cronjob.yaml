@@ -71,7 +71,8 @@ spec:
                   command: [python3, -c, "from pathlib import Path; raise SystemExit(0 if Path('/tmp/android-ready').is_file() else 1)"]
                 periodSeconds: 5
                 timeoutSeconds: 2
-                failureThreshold: 130
+                # 180 s stagger (worker 1) + 510 s boot + 240 s Appium < 1000 s.
+                failureThreshold: 200
               resources:
                 requests: { cpu: 1500m, memory: 5Gi, ephemeral-storage: 256Mi }
                 limits: { cpu: "2", memory: 6Gi, ephemeral-storage: 1Gi }

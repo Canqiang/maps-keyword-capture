@@ -3,10 +3,15 @@ import unittest
 import json
 from pathlib import Path
 import tempfile
-from tracking_sidecar import share_console_token, current_boot_receipt, runtime_root, validate_clone, owned_emulator
+from tracking_sidecar import start_delay, START_STAGGER_SECONDS, share_console_token, current_boot_receipt, runtime_root, validate_clone, owned_emulator
 
 
 class SidecarReadinessTests(unittest.TestCase):
+    def test_later_workers_start_later(self):
+        self.assertEqual(start_delay('0'), 0)
+        self.assertEqual(start_delay('1'), START_STAGGER_SECONDS)
+        self.assertEqual(start_delay(''), 0)
+
     def test_old_or_failed_receipt_is_not_readiness(self):
         self.assertFalse(current_boot_receipt({'status':'android_booted','startedAt':'2026-10-20T00:00:00Z','pid':99}, '2026-10-21T00:00:00Z'))
         self.assertFalse(current_boot_receipt({'status':'failed','startedAt':'2026-10-21T00:01:00Z','pid':99}, '2026-10-21T00:00:00Z'))

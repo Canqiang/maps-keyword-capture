@@ -47,6 +47,13 @@ def owned_emulator(pid, supervisor_pid, proc=Path('/proc')):
 
 
 CONSOLE_TOKEN = '.emulator_console_auth_token'
+# Two emulators cold-booting together saturate the 4-core crawler node, so later workers start later.
+START_STAGGER_SECONDS = 180
+APPIUM_READY_SECONDS = 240
+
+
+def start_delay(index, step=START_STAGGER_SECONDS):
+    return int(index) * step if str(index).isdigit() else 0
 
 
 def share_console_token(sources, target, uid):
@@ -79,7 +86,8 @@ def share_console_token(sources, target, uid):
 def main():
     ready = Path('/tmp/android-ready')
     ready.unlink(missing_ok=True)
-    root = runtime_root(os.environ.get('JOB_COMPLETION_INDEX', ''))
+    index = os.environ.get('JOB_COMPLETION_INDEX', '')
+    root = runtime_root(index)
     validate_clone(root)
     env = os.environ.copy()
     # This container must not receive database or Azure credentials.
@@ -96,6 +104,10 @@ def main():
     signal.signal(signal.SIGTERM, stopping)
     signal.signal(signal.SIGINT, stopping)
     try:
+        wait_until = time.monotonic() + start_delay(index)
+        while not stop and time.monotonic() < wait_until: time.sleep(1)
+        if stop: return
+        started = datetime.datetime.now(datetime.timezone.utc).isoformat()
         with Path('/tmp/runtime.log').open('w') as log:
             runtime = subprocess.Popen(['python3', str(script_dir / 'runtime.py'), '--root', str(root), '--boot-timeout', '480'], env=env, stdout=log, stderr=subprocess.STDOUT)
         children.append(runtime)
@@ -116,7 +128,7 @@ def main():
         with Path('/tmp/appium.log').open('w') as log:
             appium = subprocess.Popen(['bash', str(script_dir / 'appium.sh'), 'start'], env=env, stdout=log, stderr=subprocess.STDOUT)
         children.append(appium)
-        deadline = time.monotonic() + 90
+        deadline = time.monotonic() + APPIUM_READY_SECONDS
         while not stop:
             if any(child.poll() is not None for child in children): raise RuntimeError('owned service exited')
             try:

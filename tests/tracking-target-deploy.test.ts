@@ -41,6 +41,9 @@ describe('isolated nine-store scheduler candidates',()=>{
   const runtime=pod.initContainers.find((c:any)=>c.name==='android-runtime'),main=pod.containers[0],prepare=pod.initContainers[0];
   expect(runtime).toMatchObject({restartPolicy:'Always',command:['python3','/app/deploy/android/linux/tracking_sidecar.py'],securityContext:{privileged:true},resources:{requests:{cpu:'1500m',memory:'5Gi'},limits:{cpu:'2',memory:'6Gi'}}});
   expect(runtime.startupProbe.exec.command.join(' ')).toContain('/tmp/android-ready');
+  // Worker 1 waits 180 s, then boot (510 s) and Appium (240 s) must fit inside the probe window.
+  const job=docs[1]!.cron.spec.jobTemplate.spec;
+  expect(runtime.startupProbe.periodSeconds*runtime.startupProbe.failureThreshold).toBeGreaterThan(180*(job.parallelism-1)+510+240);
   expect(JSON.stringify(runtime)).not.toMatch(/secretKeyRef|envFrom|MONGO_URI|SAS_URL/);
   expect(JSON.stringify(prepare)).not.toMatch(/secretKeyRef|envFrom|mountPath.*runtime/);
   expect(pod.securityContext?.fsGroup).toBeUndefined();expect(pod.hostNetwork).not.toBe(true);
