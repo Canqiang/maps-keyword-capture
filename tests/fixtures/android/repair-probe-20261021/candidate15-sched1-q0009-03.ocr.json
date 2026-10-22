@@ -1,0 +1,1024 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "b4bd855f7b940ff658f1461dbaa5c1f8f0d2c91e8849a3094b1075edad0f8e31",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": ": | U Willets Rd",
+      "confidence": 57.59,
+      "bounds": {
+        "left": 150,
+        "top": 30.666666666666668,
+        "right": 704,
+        "bottom": 52.666666666666664
+      },
+      "words": [
+        {
+          "text": ":",
+          "confidence": 55.837624,
+          "bounds": {
+            "left": 150,
+            "top": 31,
+            "right": 155,
+            "bottom": 39
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 24.586044,
+          "bounds": {
+            "left": 580.6666666666666,
+            "top": 32.333333333333336,
+            "right": 583,
+            "bottom": 48.666666666666664
+          }
+        },
+        {
+          "text": "U",
+          "confidence": 24.586044,
+          "bounds": {
+            "left": 594,
+            "top": 32.333333333333336,
+            "right": 603,
+            "bottom": 49
+          }
+        },
+        {
+          "text": "Willets",
+          "confidence": 86.67067,
+          "bounds": {
+            "left": 609.6666666666666,
+            "top": 32,
+            "right": 704,
+            "bottom": 49.333333333333336
+          }
+        },
+        {
+          "text": "Rd",
+          "confidence": 96.251549,
+          "bounds": {
+            "left": 683.6666666666666,
+            "top": 30.666666666666668,
+            "right": 704,
+            "bottom": 52.666666666666664
+          }
+        }
+      ]
+    },
+    {
+      "text": "6:38 Sere VAD.",
+      "confidence": 39.92,
+      "bounds": {
+        "left": 72.66666666666667,
+        "top": 51,
+        "right": 706,
+        "bottom": 106.66666666666667
+      },
+      "words": [
+        {
+          "text": "6:38",
+          "confidence": 59.368622,
+          "bounds": {
+            "left": 72.66666666666667,
+            "top": 51,
+            "right": 118,
+            "bottom": 106.66666666666667
+          }
+        },
+        {
+          "text": "Sere",
+          "confidence": 35.837791,
+          "bounds": {
+            "left": 136,
+            "top": 55,
+            "right": 196.66666666666666,
+            "bottom": 95.33333333333333
+          }
+        },
+        {
+          "text": "VAD.",
+          "confidence": 24.565598,
+          "bounds": {
+            "left": 569,
+            "top": 55.333333333333336,
+            "right": 706,
+            "bottom": 82
+          }
+        }
+      ]
+    },
+    {
+      "text": "1",
+      "confidence": 40.91,
+      "bounds": {
+        "left": 683,
+        "top": 107,
+        "right": 689,
+        "bottom": 120
+      },
+      "words": [
+        {
+          "text": "1",
+          "confidence": 40.910114,
+          "bounds": {
+            "left": 683,
+            "top": 107,
+            "right": 689,
+            "bottom": 120
+          }
+        }
+      ]
+    },
+    {
+      "text": "ma cna latte Xx",
+      "confidence": 72.02,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 210,
+        "right": 659.6666666666666,
+        "bottom": 280
+      },
+      "words": [
+        {
+          "text": "ma",
+          "confidence": 59.536522,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 220,
+            "right": 100.66666666666667,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "cna",
+          "confidence": 56.176468,
+          "bounds": {
+            "left": 121.33333333333333,
+            "top": 211.33333333333334,
+            "right": 188.66666666666666,
+            "bottom": 280
+          }
+        },
+        {
+          "text": "latte",
+          "confidence": 96.837639,
+          "bounds": {
+            "left": 204.66666666666666,
+            "top": 210,
+            "right": 289.6666666666667,
+            "bottom": 249
+          }
+        },
+        {
+          "text": "Xx",
+          "confidence": 75.518349,
+          "bounds": {
+            "left": 633.6666666666666,
+            "top": 210,
+            "right": 659.6666666666666,
+            "bottom": 249
+          }
+        }
+      ]
+    },
+    {
+      "text": "一 三 一 一 一 一 一 一",
+      "confidence": 80.52,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 273.6666666666667,
+        "right": 157.33333333333334,
+        "bottom": 281.3333333333333
+      },
+      "words": [
+        {
+          "text": "一",
+          "confidence": 94.269867,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 273.6666666666667,
+            "right": 66.33333333333333,
+            "bottom": 281.3333333333333
+          }
+        },
+        {
+          "text": "三",
+          "confidence": 52.124474,
+          "bounds": {
+            "left": 71,
+            "top": 273.6666666666667,
+            "right": 76.33333333333333,
+            "bottom": 276.3333333333333
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 95.992905,
+          "bounds": {
+            "left": 83.66666666666667,
+            "top": 273.6666666666667,
+            "right": 86.33333333333333,
+            "bottom": 276
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 86.626274,
+          "bounds": {
+            "left": 91.66666666666667,
+            "top": 273.6666666666667,
+            "right": 103.33333333333333,
+            "bottom": 276.3333333333333
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 88.642044,
+          "bounds": {
+            "left": 111,
+            "top": 273.6666666666667,
+            "right": 116.33333333333333,
+            "bottom": 276.3333333333333
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 95.446335,
+          "bounds": {
+            "left": 123.66666666666667,
+            "top": 273.6666666666667,
+            "right": 126.33333333333333,
+            "bottom": 276
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 34.745132,
+          "bounds": {
+            "left": 134,
+            "top": 273.6666666666667,
+            "right": 142.66666666666666,
+            "bottom": 276.3333333333333
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 96.32399,
+          "bounds": {
+            "left": 150,
+            "top": 273.6666666666667,
+            "right": 157.33333333333334,
+            "bottom": 276.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "East Rock Coffee - Garden City",
+      "confidence": 93.78,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 273.6666666666667,
+        "right": 543,
+        "bottom": 339.6666666666667
+      },
+      "words": [
+        {
+          "text": "East",
+          "confidence": 88.116615,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 304,
+            "right": 106.66666666666667,
+            "bottom": 330.6666666666667
+          }
+        },
+        {
+          "text": "Rock",
+          "confidence": 95.705963,
+          "bounds": {
+            "left": 118.66666666666667,
+            "top": 273.6666666666667,
+            "right": 193.33333333333334,
+            "bottom": 330.6666666666667
+          }
+        },
+        {
+          "text": "Coffee",
+          "confidence": 93.104584,
+          "bounds": {
+            "left": 204.66666666666666,
+            "top": 303.6666666666667,
+            "right": 336.6666666666667,
+            "bottom": 330.6666666666667
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 92.763451,
+          "bounds": {
+            "left": 324.6666666666667,
+            "top": 302.3333333333333,
+            "right": 343.3333333333333,
+            "bottom": 339.6666666666667
+          }
+        },
+        {
+          "text": "Garden",
+          "confidence": 96.14344,
+          "bounds": {
+            "left": 348.6666666666667,
+            "top": 303.6666666666667,
+            "right": 467,
+            "bottom": 330.6666666666667
+          }
+        },
+        {
+          "text": "City",
+          "confidence": 96.819664,
+          "bounds": {
+            "left": 478.6666666666667,
+            "top": 303.6666666666667,
+            "right": 543,
+            "bottom": 338
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.8% (1041) - & - Coffee shop",
+      "confidence": 87.66,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 349.3333333333333,
+        "right": 420.6666666666667,
+        "bottom": 378
+      },
+      "words": [
+        {
+          "text": "4.8%",
+          "confidence": 81.254257,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 352,
+            "right": 97.66666666666667,
+            "bottom": 372
+          }
+        },
+        {
+          "text": "(1041)",
+          "confidence": 81.254257,
+          "bounds": {
+            "left": 112.33333333333333,
+            "top": 350,
+            "right": 185.33333333333334,
+            "bottom": 376
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 87.467865,
+          "bounds": {
+            "left": 201.66666666666666,
+            "top": 361.6666666666667,
+            "right": 202,
+            "bottom": 365
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 87.963135,
+          "bounds": {
+            "left": 228,
+            "top": 349.3333333333333,
+            "right": 239,
+            "bottom": 375.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 83.950821,
+          "bounds": {
+            "left": 254,
+            "top": 361.6666666666667,
+            "right": 257,
+            "bottom": 365
+          }
+        },
+        {
+          "text": "Coffee",
+          "confidence": 95.639557,
+          "bounds": {
+            "left": 268.3333333333333,
+            "top": 350,
+            "right": 350.3333333333333,
+            "bottom": 372.3333333333333
+          }
+        },
+        {
+          "text": "shop",
+          "confidence": 96.10791,
+          "bounds": {
+            "left": 360,
+            "top": 350.3333333333333,
+            "right": 420.6666666666667,
+            "bottom": 378
+          }
+        }
+      ]
+    },
+    {
+      "text": "Opens soon: 7AM: 1.7 mi",
+      "confidence": 79.17,
+      "bounds": {
+        "left": 41,
+        "top": 390.3333333333333,
+        "right": 368,
+        "bottom": 440.3333333333333
+      },
+      "words": [
+        {
+          "text": "Opens",
+          "confidence": 96.294319,
+          "bounds": {
+            "left": 41,
+            "top": 391.3333333333333,
+            "right": 121.66666666666667,
+            "bottom": 440.3333333333333
+          }
+        },
+        {
+          "text": "soon:",
+          "confidence": 69.488464,
+          "bounds": {
+            "left": 132,
+            "top": 396.6666666666667,
+            "right": 205,
+            "bottom": 412.6666666666667
+          }
+        },
+        {
+          "text": "7AM:",
+          "confidence": 58.558575,
+          "bounds": {
+            "left": 215,
+            "top": 392,
+            "right": 290,
+            "bottom": 412
+          }
+        },
+        {
+          "text": "1.7",
+          "confidence": 78.598831,
+          "bounds": {
+            "left": 302,
+            "top": 392,
+            "right": 332,
+            "bottom": 412
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 92.919014,
+          "bounds": {
+            "left": 342,
+            "top": 390.3333333333333,
+            "right": 368,
+            "bottom": 412
+          }
+        }
+      ]
+    },
+    {
+      "text": "Two Locations, One East Rock Experience",
+      "confidence": 96.29,
+      "bounds": {
+        "left": 72.66666666666667,
+        "top": 754,
+        "right": 597.6666666666666,
+        "bottom": 782.3333333333334
+      },
+      "words": [
+        {
+          "text": "Two",
+          "confidence": 96.685883,
+          "bounds": {
+            "left": 72.66666666666667,
+            "top": 756,
+            "right": 122.33333333333333,
+            "bottom": 776.3333333333334
+          }
+        },
+        {
+          "text": "Locations,",
+          "confidence": 96.752762,
+          "bounds": {
+            "left": 132,
+            "top": 754.3333333333334,
+            "right": 258,
+            "bottom": 779.6666666666666
+          }
+        },
+        {
+          "text": "One",
+          "confidence": 95.881668,
+          "bounds": {
+            "left": 268.3333333333333,
+            "top": 755.3333333333334,
+            "right": 318.6666666666667,
+            "bottom": 776.3333333333334
+          }
+        },
+        {
+          "text": "East",
+          "confidence": 95.881668,
+          "bounds": {
+            "left": 329,
+            "top": 756,
+            "right": 380,
+            "bottom": 776.3333333333334
+          }
+        },
+        {
+          "text": "Rock",
+          "confidence": 96.401024,
+          "bounds": {
+            "left": 390,
+            "top": 754,
+            "right": 449.3333333333333,
+            "bottom": 776.3333333333334
+          }
+        },
+        {
+          "text": "Experience",
+          "confidence": 96.163086,
+          "bounds": {
+            "left": 459,
+            "top": 754.3333333333334,
+            "right": 597.6666666666666,
+            "bottom": 782.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "We offer locally roasted coffee,",
+      "confidence": 96.45,
+      "bounds": {
+        "left": 72.66666666666667,
+        "top": 799,
+        "right": 402,
+        "bottom": 823
+      },
+      "words": [
+        {
+          "text": "We",
+          "confidence": 96.36454,
+          "bounds": {
+            "left": 72.66666666666667,
+            "top": 801,
+            "right": 105.33333333333333,
+            "bottom": 818.3333333333334
+          }
+        },
+        {
+          "text": "offer",
+          "confidence": 96.36454,
+          "bounds": {
+            "left": 113,
+            "top": 799,
+            "right": 162.33333333333334,
+            "bottom": 818.3333333333334
+          }
+        },
+        {
+          "text": "locally",
+          "confidence": 96.521355,
+          "bounds": {
+            "left": 170.66666666666666,
+            "top": 799.3333333333334,
+            "right": 235.66666666666666,
+            "bottom": 823
+          }
+        },
+        {
+          "text": "roasted",
+          "confidence": 96.551414,
+          "bounds": {
+            "left": 243.66666666666666,
+            "top": 799.3333333333334,
+            "right": 323.6666666666667,
+            "bottom": 818.3333333333334
+          }
+        },
+        {
+          "text": "coffee,",
+          "confidence": 96.428177,
+          "bounds": {
+            "left": 332,
+            "top": 799,
+            "right": 402,
+            "bottom": 821
+          }
+        }
+      ]
+    },
+    {
+      "text": "unique teas, delicious pastries, light ... Visit Site",
+      "confidence": 94.7,
+      "bounds": {
+        "left": 73.66666666666667,
+        "top": 815,
+        "right": 630,
+        "bottom": 855.3333333333334
+      },
+      "words": [
+        {
+          "text": "unique",
+          "confidence": 97.004723,
+          "bounds": {
+            "left": 73.66666666666667,
+            "top": 831.3333333333334,
+            "right": 145.33333333333334,
+            "bottom": 855
+          }
+        },
+        {
+          "text": "teas,",
+          "confidence": 96.839867,
+          "bounds": {
+            "left": 152.66666666666666,
+            "top": 834,
+            "right": 202,
+            "bottom": 853
+          }
+        },
+        {
+          "text": "delicious",
+          "confidence": 96.95858,
+          "bounds": {
+            "left": 211,
+            "top": 831.3333333333334,
+            "right": 304,
+            "bottom": 850.3333333333334
+          }
+        },
+        {
+          "text": "pastries,",
+          "confidence": 96.046738,
+          "bounds": {
+            "left": 312.6666666666667,
+            "top": 831.3333333333334,
+            "right": 402,
+            "bottom": 855
+          }
+        },
+        {
+          "text": "light",
+          "confidence": 93.00058,
+          "bounds": {
+            "left": 411.6666666666667,
+            "top": 831.3333333333334,
+            "right": 455.6666666666667,
+            "bottom": 855.3333333333334
+          }
+        },
+        {
+          "text": "...",
+          "confidence": 84.19503,
+          "bounds": {
+            "left": 464.6666666666667,
+            "top": 847,
+            "right": 479.3333333333333,
+            "bottom": 850
+          }
+        },
+        {
+          "text": "Visit",
+          "confidence": 96.957657,
+          "bounds": {
+            "left": 523,
+            "top": 815.6666666666666,
+            "right": 575.3333333333334,
+            "bottom": 837
+          }
+        },
+        {
+          "text": "Site",
+          "confidence": 96.6203,
+          "bounds": {
+            "left": 584,
+            "top": 815,
+            "right": 630,
+            "bottom": 837
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions XY Call © Website",
+      "confidence": 77.2,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 930.6666666666666,
+        "right": 640,
+        "bottom": 961.3333333333334
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 67.163239,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 930.6666666666666,
+            "right": 97.33333333333333,
+            "bottom": 961.3333333333334
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.766312,
+          "bounds": {
+            "left": 118,
+            "top": 934,
+            "right": 242,
+            "bottom": 956.6666666666666
+          }
+        },
+        {
+          "text": "XY",
+          "confidence": 28.450188,
+          "bounds": {
+            "left": 320,
+            "top": 932,
+            "right": 348,
+            "bottom": 960
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 92.696533,
+          "bounds": {
+            "left": 369,
+            "top": 934,
+            "right": 412.6666666666667,
+            "bottom": 956.6666666666666
+          }
+        },
+        {
+          "text": "©",
+          "confidence": 82.934723,
+          "bounds": {
+            "left": 489.6666666666667,
+            "top": 930.6666666666666,
+            "right": 520.3333333333334,
+            "bottom": 961.3333333333334
+          }
+        },
+        {
+          "text": "Website",
+          "confidence": 96.185852,
+          "bounds": {
+            "left": 539.3333333333334,
+            "top": 934,
+            "right": 640,
+            "bottom": 956.6666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "Sponsored 。",
+      "confidence": 82.5,
+      "bounds": {
+        "left": 41,
+        "top": 1056,
+        "right": 187,
+        "bottom": 1081.3333333333333
+      },
+      "words": [
+        {
+          "text": "Sponsored",
+          "confidence": 92.66066,
+          "bounds": {
+            "left": 41,
+            "top": 1056.6666666666667,
+            "right": 157.33333333333334,
+            "bottom": 1081.3333333333333
+          }
+        },
+        {
+          "text": "。",
+          "confidence": 72.333778,
+          "bounds": {
+            "left": 181,
+            "top": 1056,
+            "right": 187,
+            "bottom": 1080
+          }
+        }
+      ]
+    },
+    {
+      "text": "Starbucks",
+      "confidence": 95.06,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1103.6666666666667,
+        "right": 199,
+        "bottom": 1130.6666666666667
+      },
+      "words": [
+        {
+          "text": "Starbucks",
+          "confidence": 95.059929,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1103.6666666666667,
+            "right": 199,
+            "bottom": 1130.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.1% (447) - & - Coffee shop",
+      "confidence": 88.32,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1149.3333333333333,
+        "right": 402.6666666666667,
+        "bottom": 1178
+      },
+      "words": [
+        {
+          "text": "4.1%",
+          "confidence": 82.517395,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1150,
+            "right": 97.66666666666667,
+            "bottom": 1173
+          }
+        },
+        {
+          "text": "(447)",
+          "confidence": 82.517395,
+          "bounds": {
+            "left": 108.33333333333333,
+            "top": 1150,
+            "right": 168.33333333333334,
+            "bottom": 1176
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 84.473457,
+          "bounds": {
+            "left": 181,
+            "top": 1161.6666666666667,
+            "right": 184,
+            "bottom": 1165
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 88.214767,
+          "bounds": {
+            "left": 200.66666666666666,
+            "top": 1149.3333333333333,
+            "right": 221,
+            "bottom": 1175.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 88.214767,
+          "bounds": {
+            "left": 236,
+            "top": 1161.6666666666667,
+            "right": 239,
+            "bottom": 1165
+          }
+        },
+        {
+          "text": "Coffee",
+          "confidence": 96.462448,
+          "bounds": {
+            "left": 250.33333333333334,
+            "top": 1150,
+            "right": 332.3333333333333,
+            "bottom": 1172.3333333333333
+          }
+        },
+        {
+          "text": "shop",
+          "confidence": 95.830559,
+          "bounds": {
+            "left": 342,
+            "top": 1150.3333333333333,
+            "right": 402.6666666666667,
+            "bottom": 1178
+          }
+        }
+      ]
+    },
+    {
+      "text": "Open - Closes 10 PM - 249 ft",
+      "confidence": 89.38,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1190,
+        "right": 397,
+        "bottom": 1218
+      },
+      "words": [
+        {
+          "text": "Open",
+          "confidence": 90.013435,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1191.6666666666667,
+            "right": 108,
+            "bottom": 1218
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 64.667099,
+          "bounds": {
+            "left": 119,
+            "top": 1201.6666666666667,
+            "right": 122,
+            "bottom": 1205
+          }
+        },
+        {
+          "text": "Closes",
+          "confidence": 95.708244,
+          "bounds": {
+            "left": 132.33333333333334,
+            "top": 1190.3333333333333,
+            "right": 215.66666666666666,
+            "bottom": 1212.3333333333333
+          }
+        },
+        {
+          "text": "10",
+          "confidence": 95.708244,
+          "bounds": {
+            "left": 226,
+            "top": 1191.6666666666667,
+            "right": 253,
+            "bottom": 1212.3333333333333
+          }
+        },
+        {
+          "text": "PM",
+          "confidence": 93.232498,
+          "bounds": {
+            "left": 264.3333333333333,
+            "top": 1192,
+            "right": 300,
+            "bottom": 1212
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 83.149231,
+          "bounds": {
+            "left": 313,
+            "top": 1201.6666666666667,
+            "right": 316,
+            "bottom": 1205
+          }
+        },
+        {
+          "text": "249",
+          "confidence": 96.621262,
+          "bounds": {
+            "left": 327.3333333333333,
+            "top": 1191.6666666666667,
+            "right": 370.3333333333333,
+            "bottom": 1212
+          }
+        },
+        {
+          "text": "ft",
+          "confidence": 95.977943,
+          "bounds": {
+            "left": 380,
+            "top": 1190,
+            "right": 397,
+            "bottom": 1212
+          }
+        }
+      ]
+    }
+  ]
+}

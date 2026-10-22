@@ -1,0 +1,606 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "23d137bc79449892b323a0fd945c16c6ea35b7b29fa58ec33025518867201bee",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "Washington 還 ~~",
+      "confidence": 46.75,
+      "bounds": {
+        "left": 126.66666666666667,
+        "top": 0,
+        "right": 388.3333333333333,
+        "bottom": 85
+      },
+      "words": [
+        {
+          "text": "Washington",
+          "confidence": 96.352776,
+          "bounds": {
+            "left": 126.66666666666667,
+            "top": 0,
+            "right": 256,
+            "bottom": 40.333333333333336
+          }
+        },
+        {
+          "text": "還",
+          "confidence": 32.458603,
+          "bounds": {
+            "left": 286.6666666666667,
+            "top": 0,
+            "right": 345,
+            "bottom": 85
+          }
+        },
+        {
+          "text": "~~",
+          "confidence": 11.452324,
+          "bounds": {
+            "left": 357.6666666666667,
+            "top": 13.666666666666666,
+            "right": 388.3333333333333,
+            "bottom": 32.333333333333336
+          }
+        }
+      ]
+    },
+    {
+      "text": "fried chicken x",
+      "confidence": 86.55,
+      "bounds": {
+        "left": 41,
+        "top": 211,
+        "right": 660.6666666666666,
+        "bottom": 243.66666666666666
+      },
+      "words": [
+        {
+          "text": "fried",
+          "confidence": 96.506813,
+          "bounds": {
+            "left": 41,
+            "top": 211,
+            "right": 133.33333333333334,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "chicken",
+          "confidence": 96.606323,
+          "bounds": {
+            "left": 147.66666666666666,
+            "top": 211,
+            "right": 300,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 66.540024,
+          "bounds": {
+            "left": 635,
+            "top": 211.33333333333334,
+            "right": 660.6666666666666,
+            "bottom": 236.66666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "Discover through photos",
+      "confidence": 96.67,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 284.6666666666667,
+        "right": 452.3333333333333,
+        "bottom": 319.3333333333333
+      },
+      "words": [
+        {
+          "text": "Discover",
+          "confidence": 96.853455,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 284.6666666666667,
+            "right": 186.66666666666666,
+            "bottom": 311.6666666666667
+          }
+        },
+        {
+          "text": "through",
+          "confidence": 96.485779,
+          "bounds": {
+            "left": 196,
+            "top": 285,
+            "right": 327,
+            "bottom": 319.3333333333333
+          }
+        },
+        {
+          "text": "photos",
+          "confidence": 96.662834,
+          "bounds": {
+            "left": 339,
+            "top": 285,
+            "right": 452.3333333333333,
+            "bottom": 319
+          }
+        }
+      ]
+    },
+    {
+      "text": "oo —-",
+      "confidence": 31.76,
+      "bounds": {
+        "left": 114.66666666666667,
+        "top": 359,
+        "right": 668,
+        "bottom": 380.3333333333333
+      },
+      "words": [
+        {
+          "text": "oo",
+          "confidence": 41.173252,
+          "bounds": {
+            "left": 114.66666666666667,
+            "top": 359.6666666666667,
+            "right": 298.6666666666667,
+            "bottom": 380.3333333333333
+          }
+        },
+        {
+          "text": "—-",
+          "confidence": 22.338631,
+          "bounds": {
+            "left": 594,
+            "top": 359,
+            "right": 668,
+            "bottom": 375.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "oy",
+      "confidence": 35.43,
+      "bounds": {
+        "left": 86.33333333333333,
+        "top": 360,
+        "right": 118,
+        "bottom": 383
+      },
+      "words": [
+        {
+          "text": "oy",
+          "confidence": 35.432182,
+          "bounds": {
+            "left": 86.33333333333333,
+            "top": 360,
+            "right": 118,
+            "bottom": 383
+          }
+        }
+      ]
+    },
+    {
+      "text": "9 MarkS 属 |",
+      "confidence": 25.31,
+      "bounds": {
+        "left": 61.333333333333336,
+        "top": 386.3333333333333,
+        "right": 354.6666666666667,
+        "bottom": 421.3333333333333
+      },
+      "words": [
+        {
+          "text": "9",
+          "confidence": 50.86132,
+          "bounds": {
+            "left": 61.333333333333336,
+            "top": 387.3333333333333,
+            "right": 99,
+            "bottom": 421.3333333333333
+          }
+        },
+        {
+          "text": "MarkS",
+          "confidence": 22.501289,
+          "bounds": {
+            "left": 118,
+            "top": 392,
+            "right": 189.33333333333334,
+            "bottom": 411.6666666666667
+          }
+        },
+        {
+          "text": "属",
+          "confidence": 0,
+          "bounds": {
+            "left": 227.33333333333334,
+            "top": 386.3333333333333,
+            "right": 236.66666666666666,
+            "bottom": 392.3333333333333
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 27.87693,
+          "bounds": {
+            "left": 352.3333333333333,
+            "top": 399,
+            "right": 354.6666666666667,
+            "bottom": 402.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "Ast",
+      "confidence": 25.13,
+      "bounds": {
+        "left": 40.333333333333336,
+        "top": 797,
+        "right": 91.33333333333333,
+        "bottom": 825.3333333333334
+      },
+      "words": [
+        {
+          "text": "Ast",
+          "confidence": 25.128708,
+          "bounds": {
+            "left": 40.333333333333336,
+            "top": 797,
+            "right": 91.33333333333333,
+            "bottom": 825.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "aad 多",
+      "confidence": 28.98,
+      "bounds": {
+        "left": 40.333333333333336,
+        "top": 844,
+        "right": 148,
+        "bottom": 878.3333333333334
+      },
+      "words": [
+        {
+          "text": "aad",
+          "confidence": 16.107903,
+          "bounds": {
+            "left": 40.333333333333336,
+            "top": 844,
+            "right": 84.33333333333333,
+            "bottom": 870
+          }
+        },
+        {
+          "text": "多",
+          "confidence": 41.846508,
+          "bounds": {
+            "left": 124.66666666666667,
+            "top": 844.6666666666666,
+            "right": 148,
+            "bottom": 878.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "Kiko Ramen Sushi Garden",
+      "confidence": 96.46,
+      "bounds": {
+        "left": 66.33333333333333,
+        "top": 941,
+        "right": 694,
+        "bottom": 963.3333333333334
+      },
+      "words": [
+        {
+          "text": "Kiko",
+          "confidence": 96.27404,
+          "bounds": {
+            "left": 66.33333333333333,
+            "top": 941,
+            "right": 116,
+            "bottom": 963.3333333333334
+          }
+        },
+        {
+          "text": "Ramen",
+          "confidence": 96.918022,
+          "bounds": {
+            "left": 126.33333333333333,
+            "top": 943,
+            "right": 209,
+            "bottom": 963.3333333333334
+          }
+        },
+        {
+          "text": "Sushi",
+          "confidence": 96.361465,
+          "bounds": {
+            "left": 527.3333333333334,
+            "top": 941,
+            "right": 594,
+            "bottom": 963.3333333333334
+          }
+        },
+        {
+          "text": "Garden",
+          "confidence": 96.284492,
+          "bounds": {
+            "left": 603.3333333333334,
+            "top": 941.3333333333334,
+            "right": 694,
+            "bottom": 963.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "Ramen restaurant - 1.1 mi Sushi restaurant -",
+      "confidence": 92.83,
+      "bounds": {
+        "left": 66,
+        "top": 982.3333333333334,
+        "right": 716.3333333333334,
+        "bottom": 1001.3333333333334
+      },
+      "words": [
+        {
+          "text": "Ramen",
+          "confidence": 94.920868,
+          "bounds": {
+            "left": 66,
+            "top": 984,
+            "right": 137,
+            "bottom": 1001.3333333333334
+          }
+        },
+        {
+          "text": "restaurant",
+          "confidence": 93.159958,
+          "bounds": {
+            "left": 146.66666666666666,
+            "top": 985,
+            "right": 256.6666666666667,
+            "bottom": 1001.3333333333334
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 83.151367,
+          "bounds": {
+            "left": 268.6666666666667,
+            "top": 992,
+            "right": 271.3333333333333,
+            "bottom": 995
+          }
+        },
+        {
+          "text": "1.1",
+          "confidence": 96.300903,
+          "bounds": {
+            "left": 282.6666666666667,
+            "top": 984,
+            "right": 303,
+            "bottom": 1001
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.235619,
+          "bounds": {
+            "left": 313.6666666666667,
+            "top": 982.6666666666666,
+            "right": 336,
+            "bottom": 1001
+          }
+        },
+        {
+          "text": "Sushi",
+          "confidence": 96.147461,
+          "bounds": {
+            "left": 527,
+            "top": 982.3333333333334,
+            "right": 584,
+            "bottom": 1001.3333333333334
+          }
+        },
+        {
+          "text": "restaurant",
+          "confidence": 93.302132,
+          "bounds": {
+            "left": 592.6666666666666,
+            "top": 985,
+            "right": 702.6666666666666,
+            "bottom": 1001.3333333333334
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 89.437149,
+          "bounds": {
+            "left": 713.6666666666666,
+            "top": 992,
+            "right": 716.3333333333334,
+            "bottom": 995
+          }
+        }
+      ]
+    },
+    {
+      "text": "View photo map >",
+      "confidence": 95.09,
+      "bounds": {
+        "left": 236.33333333333334,
+        "top": 1085,
+        "right": 471,
+        "bottom": 1113.3333333333333
+      },
+      "words": [
+        {
+          "text": "View",
+          "confidence": 95.155457,
+          "bounds": {
+            "left": 236.33333333333334,
+            "top": 1085,
+            "right": 295,
+            "bottom": 1107.6666666666667
+          }
+        },
+        {
+          "text": "photo",
+          "confidence": 94.548439,
+          "bounds": {
+            "left": 305,
+            "top": 1085,
+            "right": 375.3333333333333,
+            "bottom": 1113.3333333333333
+          }
+        },
+        {
+          "text": "map",
+          "confidence": 94.548439,
+          "bounds": {
+            "left": 385,
+            "top": 1091.6666666666667,
+            "right": 436.6666666666667,
+            "bottom": 1113.3333333333333
+          }
+        },
+        {
+          "text": ">",
+          "confidence": 96.097504,
+          "bounds": {
+            "left": 460,
+            "top": 1088,
+            "right": 471,
+            "bottom": 1106
+          }
+        }
+      ]
+    },
+    {
+      "text": "— 41° ~~ e 由 oni e ‘ 和 Am",
+      "confidence": 39.52,
+      "bounds": {
+        "left": 40.666666666666664,
+        "top": 1225.3333333333333,
+        "right": 427,
+        "bottom": 1235.3333333333333
+      },
+      "words": [
+        {
+          "text": "—",
+          "confidence": 86.638695,
+          "bounds": {
+            "left": 40.666666666666664,
+            "top": 1227,
+            "right": 54.333333333333336,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "41°",
+          "confidence": 19.308731,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 1225.3333333333333,
+            "right": 81.33333333333333,
+            "bottom": 1235.3333333333333
+          }
+        },
+        {
+          "text": "~~",
+          "confidence": 0,
+          "bounds": {
+            "left": 107.33333333333333,
+            "top": 1225.6666666666667,
+            "right": 124,
+            "bottom": 1235
+          }
+        },
+        {
+          "text": "e",
+          "confidence": 57.671696,
+          "bounds": {
+            "left": 138.66666666666666,
+            "top": 1227,
+            "right": 143,
+            "bottom": 1231.3333333333333
+          }
+        },
+        {
+          "text": "由",
+          "confidence": 50.092178,
+          "bounds": {
+            "left": 181.33333333333334,
+            "top": 1227,
+            "right": 184.33333333333334,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "oni",
+          "confidence": 47.985123,
+          "bounds": {
+            "left": 198.33333333333334,
+            "top": 1225.3333333333333,
+            "right": 227.33333333333334,
+            "bottom": 1235.3333333333333
+          }
+        },
+        {
+          "text": "e",
+          "confidence": 57.671696,
+          "bounds": {
+            "left": 243.66666666666666,
+            "top": 1227,
+            "right": 248,
+            "bottom": 1231.3333333333333
+          }
+        },
+        {
+          "text": "‘",
+          "confidence": 0.297638,
+          "bounds": {
+            "left": 271,
+            "top": 1227,
+            "right": 274.3333333333333,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "和",
+          "confidence": 40.383396,
+          "bounds": {
+            "left": 389.3333333333333,
+            "top": 1227,
+            "right": 392.3333333333333,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Am",
+          "confidence": 35.119995,
+          "bounds": {
+            "left": 407.6666666666667,
+            "top": 1226.6666666666667,
+            "right": 427,
+            "bottom": 1232
+          }
+        }
+      ]
+    }
+  ]
+}

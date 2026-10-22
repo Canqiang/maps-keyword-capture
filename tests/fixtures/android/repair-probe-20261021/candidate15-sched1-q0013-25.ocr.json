@@ -1,0 +1,1116 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "3252a931ba562e5debae70362f88b247eb4b97140d770f5072f9863ef02dd342",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "二 一 人",
+      "confidence": 28.73,
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 133,
+        "bottom": 68
+      },
+      "words": [
+        {
+          "text": "二",
+          "confidence": 50.588844,
+          "bounds": {
+            "left": 0,
+            "top": 23.333333333333332,
+            "right": 16.666666666666668,
+            "bottom": 34.666666666666664
+          }
+        },
+        {
+          "text": "一",
+          "confidence": 33.928894,
+          "bounds": {
+            "left": 68,
+            "top": 0,
+            "right": 98,
+            "bottom": 68
+          }
+        },
+        {
+          "text": "人",
+          "confidence": 1.683624,
+          "bounds": {
+            "left": 103.66666666666667,
+            "top": 0,
+            "right": 133,
+            "bottom": 47.666666666666664
+          }
+        }
+      ]
+    },
+    {
+      "text": "Great Neg 9 = a = \\ Vee",
+      "confidence": 64.99,
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 594.3333333333334,
+        "bottom": 93
+      },
+      "words": [
+        {
+          "text": "Great",
+          "confidence": 96.801559,
+          "bounds": {
+            "left": 0,
+            "top": 45.666666666666664,
+            "right": 61.666666666666664,
+            "bottom": 71
+          }
+        },
+        {
+          "text": "Neg",
+          "confidence": 33.842033,
+          "bounds": {
+            "left": 70,
+            "top": 44.666666666666664,
+            "right": 129,
+            "bottom": 78.33333333333333
+          }
+        },
+        {
+          "text": "9",
+          "confidence": 91.549637,
+          "bounds": {
+            "left": 136.66666666666666,
+            "top": 55,
+            "right": 159,
+            "bottom": 83
+          }
+        },
+        {
+          "text": "=",
+          "confidence": 88.873917,
+          "bounds": {
+            "left": 293.6666666666667,
+            "top": 0,
+            "right": 362.3333333333333,
+            "bottom": 72.66666666666667
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 47.326195,
+          "bounds": {
+            "left": 299.6666666666667,
+            "top": 0,
+            "right": 354,
+            "bottom": 93
+          }
+        },
+        {
+          "text": "=",
+          "confidence": 32.520226,
+          "bounds": {
+            "left": 392.3333333333333,
+            "top": 64.33333333333333,
+            "right": 414.6666666666667,
+            "bottom": 79
+          }
+        },
+        {
+          "text": "\\",
+          "confidence": 50.574436,
+          "bounds": {
+            "left": 400.3333333333333,
+            "top": 0,
+            "right": 439.3333333333333,
+            "bottom": 50.666666666666664
+          }
+        },
+        {
+          "text": "Vee",
+          "confidence": 78.410088,
+          "bounds": {
+            "left": 477.6666666666667,
+            "top": 0,
+            "right": 594.3333333333334,
+            "bottom": 91.66666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "A | .",
+      "confidence": 37.3,
+      "bounds": {
+        "left": 156,
+        "top": 0,
+        "right": 237.66666666666666,
+        "bottom": 13
+      },
+      "words": [
+        {
+          "text": "A",
+          "confidence": 4.756165,
+          "bounds": {
+            "left": 156,
+            "top": 0,
+            "right": 165,
+            "bottom": 8
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 85.610718,
+          "bounds": {
+            "left": 174.66666666666666,
+            "top": 0,
+            "right": 177.66666666666666,
+            "bottom": 13
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 21.522835,
+          "bounds": {
+            "left": 233.33333333333334,
+            "top": 0,
+            "right": 237.66666666666666,
+            "bottom": 12.333333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "a8 Old wy",
+      "confidence": 62.66,
+      "bounds": {
+        "left": 75,
+        "top": 5,
+        "right": 599,
+        "bottom": 153.33333333333334
+      },
+      "words": [
+        {
+          "text": "a8",
+          "confidence": 43.851982,
+          "bounds": {
+            "left": 75,
+            "top": 5,
+            "right": 174,
+            "bottom": 153.33333333333334
+          }
+        },
+        {
+          "text": "Old",
+          "confidence": 95.396194,
+          "bounds": {
+            "left": 432.6666666666667,
+            "top": 98.66666666666667,
+            "right": 467,
+            "bottom": 117.33333333333333
+          }
+        },
+        {
+          "text": "wy",
+          "confidence": 48.739243,
+          "bounds": {
+            "left": 475.3333333333333,
+            "top": 55.333333333333336,
+            "right": 599,
+            "bottom": 122.33333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "| ( — nN | 4 =",
+      "confidence": 51.62,
+      "bounds": {
+        "left": 0,
+        "top": 132,
+        "right": 660,
+        "bottom": 152
+      },
+      "words": [
+        {
+          "text": "|",
+          "confidence": 46.277786,
+          "bounds": {
+            "left": 0,
+            "top": 132,
+            "right": 2,
+            "bottom": 144
+          }
+        },
+        {
+          "text": "(",
+          "confidence": 0,
+          "bounds": {
+            "left": 50.333333333333336,
+            "top": 149,
+            "right": 52.333333333333336,
+            "bottom": 151.66666666666666
+          }
+        },
+        {
+          "text": "—",
+          "confidence": 48.991539,
+          "bounds": {
+            "left": 108,
+            "top": 141.33333333333334,
+            "right": 151.33333333333334,
+            "bottom": 151.66666666666666
+          }
+        },
+        {
+          "text": "nN",
+          "confidence": 56.085529,
+          "bounds": {
+            "left": 210.66666666666666,
+            "top": 147,
+            "right": 250,
+            "bottom": 152
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 85.476654,
+          "bounds": {
+            "left": 330.3333333333333,
+            "top": 148,
+            "right": 332.6666666666667,
+            "bottom": 151.66666666666666
+          }
+        },
+        {
+          "text": "4",
+          "confidence": 64.423111,
+          "bounds": {
+            "left": 529.3333333333334,
+            "top": 148.33333333333334,
+            "right": 532,
+            "bottom": 151.66666666666666
+          }
+        },
+        {
+          "text": "=",
+          "confidence": 60.066788,
+          "bounds": {
+            "left": 655.6666666666666,
+            "top": 148.33333333333334,
+            "right": 660,
+            "bottom": 151.66666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "/",
+      "confidence": 74.43,
+      "bounds": {
+        "left": 695.6666666666666,
+        "top": 136.66666666666666,
+        "right": 720,
+        "bottom": 165
+      },
+      "words": [
+        {
+          "text": "/",
+          "confidence": 74.429764,
+          "bounds": {
+            "left": 695.6666666666666,
+            "top": 136.66666666666666,
+            "right": 720,
+            "bottom": 165
+          }
+        }
+      ]
+    },
+    {
+      "text": "|",
+      "confidence": 93.81,
+      "bounds": {
+        "left": 0,
+        "top": 179.33333333333334,
+        "right": 3.3333333333333335,
+        "bottom": 198.66666666666666
+      },
+      "words": [
+        {
+          "text": "|",
+          "confidence": 93.809929,
+          "bounds": {
+            "left": 0,
+            "top": 179.33333333333334,
+            "right": 3.3333333333333335,
+            "bottom": 198.66666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "fried chicken near me x",
+      "confidence": 91.56,
+      "bounds": {
+        "left": 41,
+        "top": 211,
+        "right": 661,
+        "bottom": 243.66666666666666
+      },
+      "words": [
+        {
+          "text": "fried",
+          "confidence": 96.738136,
+          "bounds": {
+            "left": 41,
+            "top": 211,
+            "right": 133.33333333333334,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "chicken",
+          "confidence": 96.464828,
+          "bounds": {
+            "left": 147.66666666666666,
+            "top": 211,
+            "right": 300,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "near",
+          "confidence": 95.472816,
+          "bounds": {
+            "left": 314.6666666666667,
+            "top": 219.66666666666666,
+            "right": 403,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "me",
+          "confidence": 96.252884,
+          "bounds": {
+            "left": 415.6666666666667,
+            "top": 219.66666666666666,
+            "right": 475.6666666666667,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 72.883728,
+          "bounds": {
+            "left": 635,
+            "top": 211,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "Kennedy's nck & Sandwiches",
+      "confidence": 70.22,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 292,
+        "right": 576,
+        "bottom": 364
+      },
+      "words": [
+        {
+          "text": "Kennedy's",
+          "confidence": 91.775246,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 292,
+            "right": 205,
+            "bottom": 329.3333333333333
+          }
+        },
+        {
+          "text": "nck",
+          "confidence": 0,
+          "bounds": {
+            "left": 215.66666666666666,
+            "top": 293.6666666666667,
+            "right": 342.3333333333333,
+            "bottom": 364
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 92.730278,
+          "bounds": {
+            "left": 355.6666666666667,
+            "top": 293.6666666666667,
+            "right": 375.3333333333333,
+            "bottom": 320.6666666666667
+          }
+        },
+        {
+          "text": "Sandwiches",
+          "confidence": 96.391235,
+          "bounds": {
+            "left": 385.3333333333333,
+            "top": 293.6666666666667,
+            "right": 576,
+            "bottom": 320.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "3.6 %& (186) - $10-20 - & - Chicken",
+      "confidence": 72.55,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 337.6666666666667,
+        "right": 474,
+        "bottom": 367.3333333333333
+      },
+      "words": [
+        {
+          "text": "3.6",
+          "confidence": 91.163231,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 341.3333333333333,
+            "right": 76.33333333333333,
+            "bottom": 362.3333333333333
+          }
+        },
+        {
+          "text": "%&",
+          "confidence": 19.892258,
+          "bounds": {
+            "left": 89.33333333333333,
+            "top": 337.6666666666667,
+            "right": 99.33333333333333,
+            "bottom": 367.3333333333333
+          }
+        },
+        {
+          "text": "(186)",
+          "confidence": 93.013069,
+          "bounds": {
+            "left": 112.33333333333333,
+            "top": 340,
+            "right": 186.33333333333334,
+            "bottom": 366
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 56.155701,
+          "bounds": {
+            "left": 185.66666666666666,
+            "top": 337.6666666666667,
+            "right": 196,
+            "bottom": 367.3333333333333
+          }
+        },
+        {
+          "text": "$10-20",
+          "confidence": 56.155701,
+          "bounds": {
+            "left": 197.33333333333334,
+            "top": 339,
+            "right": 308.3333333333333,
+            "bottom": 365
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 71.880943,
+          "bounds": {
+            "left": 304.3333333333333,
+            "top": 337.6666666666667,
+            "right": 317,
+            "bottom": 367.3333333333333
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 92.356552,
+          "bounds": {
+            "left": 331.6666666666667,
+            "top": 337.6666666666667,
+            "right": 344.3333333333333,
+            "bottom": 367.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 76.087029,
+          "bounds": {
+            "left": 360,
+            "top": 351.6666666666667,
+            "right": 363.3333333333333,
+            "bottom": 355
+          }
+        },
+        {
+          "text": "Chicken",
+          "confidence": 96.251457,
+          "bounds": {
+            "left": 374.3333333333333,
+            "top": 340,
+            "right": 474,
+            "bottom": 362.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closed . Opens 10 AM . 由 ml",
+      "confidence": 78.05,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 345,
+        "right": 409,
+        "bottom": 408
+      },
+      "words": [
+        {
+          "text": "Closed",
+          "confidence": 93.194092,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 380,
+            "right": 127,
+            "bottom": 402.3333333333333
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 87.85672,
+          "bounds": {
+            "left": 141.33333333333334,
+            "top": 391.6666666666667,
+            "right": 141.66666666666666,
+            "bottom": 395
+          }
+        },
+        {
+          "text": "Opens",
+          "confidence": 96.078796,
+          "bounds": {
+            "left": 151.33333333333334,
+            "top": 381.6666666666667,
+            "right": 232.66666666666666,
+            "bottom": 408
+          }
+        },
+        {
+          "text": "10",
+          "confidence": 96.078796,
+          "bounds": {
+            "left": 243,
+            "top": 381.6666666666667,
+            "right": 270,
+            "bottom": 402.3333333333333
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 85.256989,
+          "bounds": {
+            "left": 279.6666666666667,
+            "top": 382,
+            "right": 312.6666666666667,
+            "bottom": 402
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 70.858337,
+          "bounds": {
+            "left": 326,
+            "top": 352,
+            "right": 337,
+            "bottom": 395
+          }
+        },
+        {
+          "text": "由",
+          "confidence": 0,
+          "bounds": {
+            "left": 329,
+            "top": 345,
+            "right": 369,
+            "bottom": 402
+          }
+        },
+        {
+          "text": "ml",
+          "confidence": 95.054634,
+          "bounds": {
+            "left": 383,
+            "top": 380.3333333333333,
+            "right": 409,
+            "bottom": 402
+          }
+        }
+      ]
+    },
+    {
+      "text": "@ ‘Good fried chicken...delicious flavor and not",
+      "confidence": 90.69,
+      "bounds": {
+        "left": 50,
+        "top": 720,
+        "right": 658,
+        "bottom": 753.3333333333334
+      },
+      "words": [
+        {
+          "text": "@",
+          "confidence": 90.362785,
+          "bounds": {
+            "left": 50,
+            "top": 736.6666666666666,
+            "right": 66,
+            "bottom": 753.3333333333334
+          }
+        },
+        {
+          "text": "‘Good",
+          "confidence": 69.496048,
+          "bounds": {
+            "left": 94,
+            "top": 721.3333333333334,
+            "right": 171.66666666666666,
+            "bottom": 743.3333333333334
+          }
+        },
+        {
+          "text": "fried",
+          "confidence": 93.254608,
+          "bounds": {
+            "left": 182,
+            "top": 720,
+            "right": 238.66666666666666,
+            "bottom": 743.3333333333334
+          }
+        },
+        {
+          "text": "chicken...delicious",
+          "confidence": 92.043037,
+          "bounds": {
+            "left": 248,
+            "top": 720.3333333333334,
+            "right": 475.6666666666667,
+            "bottom": 743.3333333333334
+          }
+        },
+        {
+          "text": "flavor",
+          "confidence": 95.920296,
+          "bounds": {
+            "left": 485,
+            "top": 721.3333333333334,
+            "right": 554.6666666666666,
+            "bottom": 743.3333333333334
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 96.791985,
+          "bounds": {
+            "left": 563.3333333333334,
+            "top": 721.3333333333334,
+            "right": 607.6666666666666,
+            "bottom": 743.3333333333334
+          }
+        },
+        {
+          "text": "not",
+          "confidence": 96.969261,
+          "bounds": {
+            "left": 619,
+            "top": 724,
+            "right": 658,
+            "bottom": 743.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "™@ too much dough on...\"",
+      "confidence": 77.99,
+      "bounds": {
+        "left": 43.666666666666664,
+        "top": 755.3333333333334,
+        "right": 374.3333333333333,
+        "bottom": 784.3333333333334
+      },
+      "words": [
+        {
+          "text": "™@",
+          "confidence": 31.189163,
+          "bounds": {
+            "left": 43.666666666666664,
+            "top": 755.3333333333334,
+            "right": 72.33333333333333,
+            "bottom": 768
+          }
+        },
+        {
+          "text": "too",
+          "confidence": 90.455154,
+          "bounds": {
+            "left": 93,
+            "top": 759,
+            "right": 132,
+            "bottom": 778.3333333333334
+          }
+        },
+        {
+          "text": "much",
+          "confidence": 90.455154,
+          "bounds": {
+            "left": 142,
+            "top": 756,
+            "right": 208,
+            "bottom": 778.3333333333334
+          }
+        },
+        {
+          "text": "dough",
+          "confidence": 95.278923,
+          "bounds": {
+            "left": 218,
+            "top": 756,
+            "right": 297,
+            "bottom": 784.3333333333334
+          }
+        },
+        {
+          "text": "on...\"",
+          "confidence": 82.577515,
+          "bounds": {
+            "left": 307,
+            "top": 758,
+            "right": 374.3333333333333,
+            "bottom": 778.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions 4 Order M2) Menu",
+      "confidence": 69.03,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 845.6666666666666,
+        "right": 636.3333333333334,
+        "bottom": 876.3333333333334
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 67.163239,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 845.6666666666666,
+            "right": 97.33333333333333,
+            "bottom": 876.3333333333334
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.766312,
+          "bounds": {
+            "left": 118,
+            "top": 849,
+            "right": 242,
+            "bottom": 871.6666666666666
+          }
+        },
+        {
+          "text": "4",
+          "confidence": 0,
+          "bounds": {
+            "left": 320,
+            "top": 845.6666666666666,
+            "right": 348,
+            "bottom": 876.3333333333334
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 89.432022,
+          "bounds": {
+            "left": 369,
+            "top": 849,
+            "right": 441,
+            "bottom": 871.6666666666666
+          }
+        },
+        {
+          "text": "M2)",
+          "confidence": 65.858978,
+          "bounds": {
+            "left": 515,
+            "top": 849.6666666666666,
+            "right": 549,
+            "bottom": 875.3333333333334
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 95.967056,
+          "bounds": {
+            "left": 568,
+            "top": 850.6666666666666,
+            "right": 636.3333333333334,
+            "bottom": 871.6666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "ATL Wing Spot",
+      "confidence": 95.25,
+      "bounds": {
+        "left": 40.666666666666664,
+        "top": 982.6666666666666,
+        "right": 272,
+        "bottom": 1017.3333333333334
+      },
+      "words": [
+        {
+          "text": "ATL",
+          "confidence": 96.457535,
+          "bounds": {
+            "left": 40.666666666666664,
+            "top": 983,
+            "right": 98.33333333333333,
+            "bottom": 1009
+          }
+        },
+        {
+          "text": "Wing",
+          "confidence": 92.61145,
+          "bounds": {
+            "left": 107.66666666666667,
+            "top": 983,
+            "right": 188.33333333333334,
+            "bottom": 1017.3333333333334
+          }
+        },
+        {
+          "text": "Spot",
+          "confidence": 96.676384,
+          "bounds": {
+            "left": 199.33333333333334,
+            "top": 982.6666666666666,
+            "right": 272,
+            "bottom": 1017
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.5% (110) - $10-20 - & - Chicken Wings",
+      "confidence": 68.5,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1028,
+        "right": 560.6666666666666,
+        "bottom": 1057.3333333333333
+      },
+      "words": [
+        {
+          "text": "4.5%",
+          "confidence": 76.981392,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1029,
+            "right": 101.33333333333333,
+            "bottom": 1052
+          }
+        },
+        {
+          "text": "(110)",
+          "confidence": 76.981392,
+          "bounds": {
+            "left": 113.33333333333333,
+            "top": 1029,
+            "right": 171.66666666666666,
+            "bottom": 1055
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 43.125046,
+          "bounds": {
+            "left": 186.66666666666666,
+            "top": 1040.6666666666667,
+            "right": 187.33333333333334,
+            "bottom": 1044
+          }
+        },
+        {
+          "text": "$10-20",
+          "confidence": 26.728172,
+          "bounds": {
+            "left": 198.33333333333334,
+            "top": 1028,
+            "right": 294,
+            "bottom": 1054
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 26.728172,
+          "bounds": {
+            "left": 306,
+            "top": 1040.6666666666667,
+            "right": 309.3333333333333,
+            "bottom": 1044
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 89.526054,
+          "bounds": {
+            "left": 325.6666666666667,
+            "top": 1028,
+            "right": 346,
+            "bottom": 1054.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 83.577789,
+          "bounds": {
+            "left": 361,
+            "top": 1040.6666666666667,
+            "right": 364.3333333333333,
+            "bottom": 1044
+          }
+        },
+        {
+          "text": "Chicken",
+          "confidence": 96.828491,
+          "bounds": {
+            "left": 375.3333333333333,
+            "top": 1029,
+            "right": 475,
+            "bottom": 1051.3333333333333
+          }
+        },
+        {
+          "text": "Wings",
+          "confidence": 96.052834,
+          "bounds": {
+            "left": 484.6666666666667,
+            "top": 1029.3333333333333,
+            "right": 560.6666666666666,
+            "bottom": 1057.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closed - Opens 10:30 AM - 1.8 mi",
+      "confidence": 88.23,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1067.6666666666667,
+        "right": 454,
+        "bottom": 1098.3333333333333
+      },
+      "words": [
+        {
+          "text": "Closed",
+          "confidence": 93.067062,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1069,
+            "right": 127,
+            "bottom": 1091.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 74.325111,
+          "bounds": {
+            "left": 138,
+            "top": 1080.6666666666667,
+            "right": 141.33333333333334,
+            "bottom": 1084
+          }
+        },
+        {
+          "text": "Opens",
+          "confidence": 96.069023,
+          "bounds": {
+            "left": 151.33333333333334,
+            "top": 1070.6666666666667,
+            "right": 232.66666666666666,
+            "bottom": 1097
+          }
+        },
+        {
+          "text": "10:30",
+          "confidence": 95.447067,
+          "bounds": {
+            "left": 243,
+            "top": 1070.6666666666667,
+            "right": 311,
+            "bottom": 1091.3333333333333
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 93.286133,
+          "bounds": {
+            "left": 320.6666666666667,
+            "top": 1071,
+            "right": 359.3333333333333,
+            "bottom": 1091
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 60.339577,
+          "bounds": {
+            "left": 362,
+            "top": 1067.6666666666667,
+            "right": 372.3333333333333,
+            "bottom": 1098.3333333333333
+          }
+        },
+        {
+          "text": "1.8",
+          "confidence": 96.89164,
+          "bounds": {
+            "left": 387,
+            "top": 1070.6666666666667,
+            "right": 418,
+            "bottom": 1091.3333333333333
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.402924,
+          "bounds": {
+            "left": 428,
+            "top": 1069.3333333333333,
+            "right": 454,
+            "bottom": 1091
+          }
+        }
+      ]
+    }
+  ]
+}

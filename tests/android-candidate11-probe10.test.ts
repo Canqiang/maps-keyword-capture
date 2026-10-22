@@ -46,19 +46,21 @@ describe('candidate11: one card read as Maman / miamian / maman / Maman (probe 1
 describe('candidate11: a frame whose only card name was not recognised (probe 10 q0003 frames 41-44)', () => {
   it('joins the next frame to the last frame that showed cards', () => {
     const f = [41, 42, 43].map(n => frame('q0003', n, 'bubble tea near me')); f[0]!.topStateVerified = true;
-    expect(f[1]!.cards).toEqual([]);
+    // Candidate15 reads frame 42's split rating line ('3.9' beside '(217) …') as Gong Cha; the
+    // cardless reading the device produced is kept here to exercise the bridge.
+    expect(f[1]!.cards.map(card => card.name)).toEqual(['Gong Cha']); f[1]!.cards = [];
     const result = reconcileScreenFrames(f, 20);
     expect(result.warnings).toEqual([]);
     expect(result.listings.map(row => [row.name, row.frameIds])).toEqual([['Jericho Toke Food Court', ['q0003:frame-041']], ['Gong Cha', ['q0003:frame-041', 'q0003:frame-043']]]);
   });
   it('joins the corrected frame back without duplicating its cards', () => {
-    const f = [41, 42, 44].map(n => frame('q0003', n, 'bubble tea near me')); f[0]!.topStateVerified = true; f[2]!.afterBackwardCorrection = true;
+    const f = [41, 42, 44].map(n => frame('q0003', n, 'bubble tea near me')); f[0]!.topStateVerified = true; f[2]!.afterBackwardCorrection = true; f[1]!.cards = [];
     const result = reconcileScreenFrames(f, 20);
     expect(result).toMatchObject({ sequenceVerified: true, rankingReliable: true, organicCount: 2 });
   });
   it('still reports a gap when the following cards do not overlap the last card frame', () => {
     const f = [41, 42, 43].map(n => frame('q0003', n, 'bubble tea near me')); f[0]!.topStateVerified = true;
-    f[2]!.cards[0]!.name = 'Another Tea'; f[2]!.cards[0]!.reviewCount = 5;
+    f[1]!.cards = []; f[2]!.cards[0]!.name = 'Another Tea'; f[2]!.cards[0]!.reviewCount = 5;
     const result = reconcileScreenFrames(f, 20);
     expect(result.warnings).toContain('ordered_overlap_missing: q0003:frame-042 -> q0003:frame-043');
     expect(result.rankingReliable).toBe(false);

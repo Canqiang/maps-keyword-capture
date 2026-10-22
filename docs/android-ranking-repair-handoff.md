@@ -1,6 +1,6 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-21 12:20 Asia/Shanghai. **Work in progress; Android recurring collection is not accepted or enabled.** Latest candidate: candidate9 (probe 9 checkpoint below). Update this document after each candidate replay, device run, deployment, or change to the acceptance criteria.
+Last updated: 2026-10-22 20:10 Asia/Shanghai. **Work in progress; the Android CronJob exists but stays suspended.** Latest candidate: candidate15 (scheduled-run checkpoint below). Update this document after each candidate replay, device run, deployment, or change to the acceptance criteria.
 
 ## Objective and scope
 
@@ -257,6 +257,23 @@ Full replay of the twenty probe-10..13 queries: all twelve device-reliable queri
 Progress on this Pod: probe 9 0/5 → 10: 2/5 → 11: 3/5 → 12: 2/5 → 13: 3/5 → **14: 4/5**.
 
 Remaining: 卤味 read ten rows and stopped on `anchored_card_unmatched` / `anchored_card_missing` 35 -> 36 (line and card-pair movement both -78). The first card's header is clipped in frame 36; its readings `pd =) 36h tR Master of Braised Delicacies` (71) and `锣 常 门 猪 脚 饭 Master of Braised Delicacies` (84) differ only in the CJK part, and the clipped-header rule requires equal name keys. The refusal kept the ranking honest (no duplicate). Next: at a clipped header, also accept two confident names sharing a long Latin component (e.g. ≥ 12 characters).
+
+## Step 3: first scheduled-job run (Only Bear, 2026-10-22)
+
+CronJob `maps-targets-android-daily` (ns `android-maps-pilot`, suspended) reads the stores from Mongo with the verified capture profile. Manual Jobs are created from it with `--store-id only-bear` (27 queries: 9 keywords x center/3km/5km).
+- First Job (image from f2b99df) stopped at q0001: `GPS_INJECTION_REJECTED`. Cause: the root sidecar's emulator writes `/tmp/.emulator_console_auth_token` mode 600; the uid-1001 collector's `adb emu geo fix` could not authenticate. Fix 91d3ece: the sidecar hands the token to the collector uid (`share_console_token`).
+- Second Job `maps-targets-android-manual-202610220956` (image sha256:57f90c7a…, ACR ch159f): all 27 queries located and observed in 1 h 57 min (~4.4 min/query), 27 observations inserted, 938 screenshots; exit 2 = partial. Batch 1 (`run_20261022T095919Z_83d94f`): 10 captured / 10 needs review; batch 2 (`run_20261022T112504Z_83b35b`): 1 / 6. Every needs-review query stopped on the reader, not on the device.
+
+## Candidate15 (repairs for the scheduled-run failures)
+
+Listing method v18; `tests/android-candidate15-scheduled1.test.ts` from byte-for-byte fixtures (`candidate15-*`, provenance JSON); full suite 1,637.
+- `joinSplitRatingLines`: a rating read as its own OCR line (`4.6`, or `45` with the dot lost) beside `(39) · …` on the same row is joined (batch 1 q0001 f49, q0004 f36; also probe-10 q0003 f42).
+- RATING accepts a spaced `x` as the star (`5.0 x (1)`, q0018 f19).
+- Geometric placement treats `native_ad_label_confirmed` as evidence (q0005 f8-9) and `name_not_recognized` as pending (probe 14 卤味 f35-36); a rating line cut by the list top is measured from its bottom (q0012 f5-6); a "No reviews" card needs its exact confident name (batch 2 q0001 f36-37).
+- `clippedNamesAgree`: at a clipped header two confident names may differ in a garbled part when the shared start + end is ≥ 12 characters and ≥ 60 % of the shorter key, but never when one only extends the other (`Kennedy's nck & Sandwiches`, q0013 f25; probe 14 卤味 now PENDING instead of stopping).
+- Photo-module continuation: a trailing merchant without photos may be up to 320 px tall (q0003 f13); the icon may read `Wheelchair not accessible` (q0015 f18).
+- Ads: a trailing owner showing only its 2 px `About this ad` button is a pending header (batch 2 q0003 f8); clipped `Sponsored` markers at the list top belong to the one nameless card below them (q0009 f3).
+Replay: batch 1 10/10 needs-review queries now continue (all 10 captured identical); batch 2 (held out while designing the first eight rules) 5/6, all captured identical; probes 10-14 device-reliable queries identical. Remaining: batch 2 q0002 frames 48 -> 50 (an ad's sitelink box: one shared OCR line across a 590 px move), and two device-side stops (`stalled_same_frame`, `unknown_scroll_layout`) whose frames replay reliable.
 
 ## Operational read-only commands
 

@@ -1,0 +1,732 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "200fd9ef951062d33b190c15ba302cfab3d0f6953f9e5893393af91a66ccc02a",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "AN",
+      "confidence": 53.84,
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 38.666666666666664,
+        "bottom": 25.333333333333332
+      },
+      "words": [
+        {
+          "text": "AN",
+          "confidence": 53.839546,
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 38.666666666666664,
+            "bottom": 25.333333333333332
+          }
+        }
+      ]
+    },
+    {
+      "text": "SONS",
+      "confidence": 11.53,
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 500.6666666666667,
+        "bottom": 102.33333333333333
+      },
+      "words": [
+        {
+          "text": "SONS",
+          "confidence": 11.532814,
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 500.6666666666667,
+            "bottom": 102.33333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "Cafe 四 ssh -",
+      "confidence": 58.36,
+      "bounds": {
+        "left": 450.6666666666667,
+        "top": 0,
+        "right": 620.3333333333334,
+        "bottom": 53.333333333333336
+      },
+      "words": [
+        {
+          "text": "Cafe",
+          "confidence": 94.507851,
+          "bounds": {
+            "left": 450.6666666666667,
+            "top": 0,
+            "right": 508.6666666666667,
+            "bottom": 26.666666666666668
+          }
+        },
+        {
+          "text": "四",
+          "confidence": 51.077534,
+          "bounds": {
+            "left": 502.3333333333333,
+            "top": 6,
+            "right": 532,
+            "bottom": 44.666666666666664
+          }
+        },
+        {
+          "text": "ssh",
+          "confidence": 0,
+          "bounds": {
+            "left": 532.6666666666666,
+            "top": 0,
+            "right": 605.3333333333334,
+            "bottom": 53.333333333333336
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 87.84317,
+          "bounds": {
+            "left": 613,
+            "top": 16.666666666666668,
+            "right": 620.3333333333334,
+            "bottom": 19.333333333333332
+          }
+        }
+      ]
+    },
+    {
+      "text": "Mineol",
+      "confidence": 89.87,
+      "bounds": {
+        "left": 451.6666666666667,
+        "top": 26,
+        "right": 532.6666666666666,
+        "bottom": 64
+      },
+      "words": [
+        {
+          "text": "Mineol",
+          "confidence": 89.866112,
+          "bounds": {
+            "left": 451.6666666666667,
+            "top": 26,
+            "right": 532.6666666666666,
+            "bottom": 64
+          }
+        }
+      ]
+    },
+    {
+      "text": "一 oo Menu sang latte",
+      "confidence": 64.01,
+      "bounds": {
+        "left": 412.6666666666667,
+        "top": 29.333333333333332,
+        "right": 718.6666666666666,
+        "bottom": 150.33333333333334
+      },
+      "words": [
+        {
+          "text": "一",
+          "confidence": 94.146347,
+          "bounds": {
+            "left": 412.6666666666667,
+            "top": 60,
+            "right": 440,
+            "bottom": 80
+          }
+        },
+        {
+          "text": "oo",
+          "confidence": 32.612122,
+          "bounds": {
+            "left": 456,
+            "top": 29.333333333333332,
+            "right": 576,
+            "bottom": 150.33333333333334
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 90.274216,
+          "bounds": {
+            "left": 456.6666666666667,
+            "top": 72.66666666666667,
+            "right": 504,
+            "bottom": 106
+          }
+        },
+        {
+          "text": "sang",
+          "confidence": 10.941612,
+          "bounds": {
+            "left": 554.6666666666666,
+            "top": 29.333333333333332,
+            "right": 718.3333333333334,
+            "bottom": 150.33333333333334
+          }
+        },
+        {
+          "text": "latte",
+          "confidence": 92.074753,
+          "bounds": {
+            "left": 682.3333333333334,
+            "top": 70.66666666666667,
+            "right": 718.6666666666666,
+            "bottom": 95.66666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "a 2",
+      "confidence": 40.1,
+      "bounds": {
+        "left": 1.6666666666666667,
+        "top": 51.666666666666664,
+        "right": 502.6666666666667,
+        "bottom": 171.66666666666666
+      },
+      "words": [
+        {
+          "text": "a",
+          "confidence": 16.293671,
+          "bounds": {
+            "left": 1.6666666666666667,
+            "top": 60,
+            "right": 219.66666666666666,
+            "bottom": 171.66666666666666
+          }
+        },
+        {
+          "text": "2",
+          "confidence": 63.911777,
+          "bounds": {
+            "left": 223.33333333333334,
+            "top": 51.666666666666664,
+            "right": 502.6666666666667,
+            "bottom": 150.33333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "7",
+      "confidence": 75.88,
+      "bounds": {
+        "left": 0,
+        "top": 179.33333333333334,
+        "right": 7,
+        "bottom": 192.66666666666666
+      },
+      "words": [
+        {
+          "text": "7",
+          "confidence": 75.87706,
+          "bounds": {
+            "left": 0,
+            "top": 179.33333333333334,
+            "right": 7,
+            "bottom": 192.66666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "matcha latte x",
+      "confidence": 91.23,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 211,
+        "right": 661,
+        "bottom": 244
+      },
+      "words": [
+        {
+          "text": "matcha",
+          "confidence": 92.278694,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 211.33333333333334,
+            "right": 189.66666666666666,
+            "bottom": 244
+          }
+        },
+        {
+          "text": "latte",
+          "confidence": 96.384689,
+          "bounds": {
+            "left": 204.66666666666666,
+            "top": 211.33333333333334,
+            "right": 290,
+            "bottom": 244
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 85.039917,
+          "bounds": {
+            "left": 635,
+            "top": 211,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "Youta Ramen Kunst Coffee Hi",
+      "confidence": 84.4,
+      "bounds": {
+        "left": 64.66666666666667,
+        "top": 767.6666666666666,
+        "right": 720,
+        "bottom": 790.6666666666666
+      },
+      "words": [
+        {
+          "text": "Youta",
+          "confidence": 93.078613,
+          "bounds": {
+            "left": 64.66666666666667,
+            "top": 769.6666666666666,
+            "right": 132.66666666666666,
+            "bottom": 790.6666666666666
+          }
+        },
+        {
+          "text": "Ramen",
+          "confidence": 96.625488,
+          "bounds": {
+            "left": 143,
+            "top": 769.6666666666666,
+            "right": 226,
+            "bottom": 790.6666666666666
+          }
+        },
+        {
+          "text": "Kunst",
+          "confidence": 96.686226,
+          "bounds": {
+            "left": 528,
+            "top": 769.6666666666666,
+            "right": 597,
+            "bottom": 790.6666666666666
+          }
+        },
+        {
+          "text": "Coffee",
+          "confidence": 95.891479,
+          "bounds": {
+            "left": 606,
+            "top": 767.6666666666666,
+            "right": 688.6666666666666,
+            "bottom": 790.6666666666666
+          }
+        },
+        {
+          "text": "Hi",
+          "confidence": 39.69698,
+          "bounds": {
+            "left": 699,
+            "top": 769.6666666666666,
+            "right": 720,
+            "bottom": 790.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "Ramen restaurant - 1.4 mi Brunch restaurant",
+      "confidence": 93.11,
+      "bounds": {
+        "left": 66,
+        "top": 809.3333333333334,
+        "right": 720,
+        "bottom": 828.3333333333334
+      },
+      "words": [
+        {
+          "text": "Ramen",
+          "confidence": 96.502258,
+          "bounds": {
+            "left": 66,
+            "top": 810.6666666666666,
+            "right": 137,
+            "bottom": 828.3333333333334
+          }
+        },
+        {
+          "text": "restaurant",
+          "confidence": 93.266388,
+          "bounds": {
+            "left": 146.66666666666666,
+            "top": 812,
+            "right": 257,
+            "bottom": 828.3333333333334
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 81.044426,
+          "bounds": {
+            "left": 268.6666666666667,
+            "top": 819,
+            "right": 271.6666666666667,
+            "bottom": 822
+          }
+        },
+        {
+          "text": "1.4",
+          "confidence": 96.460381,
+          "bounds": {
+            "left": 282.3333333333333,
+            "top": 810.6666666666666,
+            "right": 310,
+            "bottom": 828
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.460381,
+          "bounds": {
+            "left": 318.6666666666667,
+            "top": 809.3333333333334,
+            "right": 341.3333333333333,
+            "bottom": 828
+          }
+        },
+        {
+          "text": "Brunch",
+          "confidence": 96.268021,
+          "bounds": {
+            "left": 528,
+            "top": 809.3333333333334,
+            "right": 603.3333333333334,
+            "bottom": 828.3333333333334
+          }
+        },
+        {
+          "text": "restaurant",
+          "confidence": 91.771523,
+          "bounds": {
+            "left": 612.6666666666666,
+            "top": 812,
+            "right": 720,
+            "bottom": 828.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "View photo map >",
+      "confidence": 95.73,
+      "bounds": {
+        "left": 236.33333333333334,
+        "top": 911.6666666666666,
+        "right": 471,
+        "bottom": 940.3333333333334
+      },
+      "words": [
+        {
+          "text": "View",
+          "confidence": 96.416702,
+          "bounds": {
+            "left": 236.33333333333334,
+            "top": 912,
+            "right": 295.3333333333333,
+            "bottom": 934.6666666666666
+          }
+        },
+        {
+          "text": "photo",
+          "confidence": 96.320656,
+          "bounds": {
+            "left": 304.6666666666667,
+            "top": 911.6666666666666,
+            "right": 375.3333333333333,
+            "bottom": 940.3333333333334
+          }
+        },
+        {
+          "text": "map",
+          "confidence": 95.082809,
+          "bounds": {
+            "left": 384.6666666666667,
+            "top": 918.6666666666666,
+            "right": 437,
+            "bottom": 940.3333333333334
+          }
+        },
+        {
+          "text": ">",
+          "confidence": 95.082809,
+          "bounds": {
+            "left": 459.6666666666667,
+            "top": 915,
+            "right": 471,
+            "bottom": 933
+          }
+        }
+      ]
+    },
+    {
+      "text": "Aoko Matcha - Garden City",
+      "confidence": 93.96,
+      "bounds": {
+        "left": 40.666666666666664,
+        "top": 1053.6666666666667,
+        "right": 479,
+        "bottom": 1088
+      },
+      "words": [
+        {
+          "text": "Aoko",
+          "confidence": 93.226364,
+          "bounds": {
+            "left": 40.666666666666664,
+            "top": 1054,
+            "right": 122.33333333333333,
+            "bottom": 1080.6666666666667
+          }
+        },
+        {
+          "text": "Matcha",
+          "confidence": 93.240097,
+          "bounds": {
+            "left": 133.66666666666666,
+            "top": 1054,
+            "right": 249.33333333333334,
+            "bottom": 1080.6666666666667
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 91.083511,
+          "bounds": {
+            "left": 261,
+            "top": 1067.3333333333333,
+            "right": 273,
+            "bottom": 1070.3333333333333
+          }
+        },
+        {
+          "text": "Garden",
+          "confidence": 96.132889,
+          "bounds": {
+            "left": 284.3333333333333,
+            "top": 1053.6666666666667,
+            "right": 403.3333333333333,
+            "bottom": 1080.6666666666667
+          }
+        },
+        {
+          "text": "City",
+          "confidence": 96.132889,
+          "bounds": {
+            "left": 414.3333333333333,
+            "top": 1053.6666666666667,
+            "right": 479,
+            "bottom": 1088
+          }
+        }
+      ]
+    },
+    {
+      "text": "5.0 x (1) - Dessert shop - 0.6 mi",
+      "confidence": 86.88,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1098.3333333333333,
+        "right": 439,
+        "bottom": 1129.3333333333333
+      },
+      "words": [
+        {
+          "text": "5.0",
+          "confidence": 94.613823,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1101.3333333333333,
+            "right": 80.33333333333333,
+            "bottom": 1122.6666666666667
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 52.73241,
+          "bounds": {
+            "left": 89,
+            "top": 1098.3333333333333,
+            "right": 102,
+            "bottom": 1129.3333333333333
+          }
+        },
+        {
+          "text": "(1)",
+          "confidence": 92.801964,
+          "bounds": {
+            "left": 116,
+            "top": 1099.6666666666667,
+            "right": 143.66666666666666,
+            "bottom": 1126.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 78.208588,
+          "bounds": {
+            "left": 158.66666666666666,
+            "top": 1111.6666666666667,
+            "right": 159.33333333333334,
+            "bottom": 1115
+          }
+        },
+        {
+          "text": "Dessert",
+          "confidence": 96.586319,
+          "bounds": {
+            "left": 171,
+            "top": 1102,
+            "right": 267,
+            "bottom": 1122.6666666666667
+          }
+        },
+        {
+          "text": "shop",
+          "confidence": 93.246193,
+          "bounds": {
+            "left": 276,
+            "top": 1100,
+            "right": 336.6666666666667,
+            "bottom": 1128
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 82.578766,
+          "bounds": {
+            "left": 348.6666666666667,
+            "top": 1111.6666666666667,
+            "right": 352.3333333333333,
+            "bottom": 1115
+          }
+        },
+        {
+          "text": "0.6",
+          "confidence": 95.587929,
+          "bounds": {
+            "left": 363.3333333333333,
+            "top": 1101.3333333333333,
+            "right": 402.6666666666667,
+            "bottom": 1122.3333333333333
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 95.587929,
+          "bounds": {
+            "left": 413,
+            "top": 1100,
+            "right": 439,
+            "bottom": 1122
+          }
+        }
+      ]
+    },
+    {
+      "text": "‘Opens 11 AM",
+      "confidence": 63.19,
+      "bounds": {
+        "left": 137.66666666666666,
+        "top": 1141.3333333333333,
+        "right": 311.3333333333333,
+        "bottom": 1168
+      },
+      "words": [
+        {
+          "text": "‘Opens",
+          "confidence": 0,
+          "bounds": {
+            "left": 137.66666666666666,
+            "top": 1141.3333333333333,
+            "right": 233,
+            "bottom": 1168
+          }
+        },
+        {
+          "text": "11",
+          "confidence": 94.785652,
+          "bounds": {
+            "left": 242.66666666666666,
+            "top": 1142,
+            "right": 261.6666666666667,
+            "bottom": 1162
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 94.785652,
+          "bounds": {
+            "left": 272.3333333333333,
+            "top": 1142,
+            "right": 311.3333333333333,
+            "bottom": 1162
+          }
+        }
+      ]
+    },
+    {
+      "text": "4 Nis =",
+      "confidence": 32.92,
+      "bounds": {
+        "left": 158.33333333333334,
+        "top": 1188,
+        "right": 720,
+        "bottom": 1232.3333333333333
+      },
+      "words": [
+        {
+          "text": "4",
+          "confidence": 30.562424,
+          "bounds": {
+            "left": 158.33333333333334,
+            "top": 1188,
+            "right": 270.6666666666667,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Nis",
+          "confidence": 6.12085,
+          "bounds": {
+            "left": 379,
+            "top": 1188,
+            "right": 575.6666666666666,
+            "bottom": 1232.3333333333333
+          }
+        },
+        {
+          "text": "=",
+          "confidence": 62.068424,
+          "bounds": {
+            "left": 681,
+            "top": 1188,
+            "right": 720,
+            "bottom": 1213
+          }
+        }
+      ]
+    }
+  ]
+}

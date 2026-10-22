@@ -2,6 +2,8 @@ import { XMLParser, XMLValidator } from 'fast-xml-parser';
 import type { ScreenAnalysis, ScreenKind, UiNode } from './contracts.js';
 
 const MAPS_PACKAGE = 'com.google.android.apps.maps';
+// Candidate15 (scheduled run q0015 frame 18): the icon also reads 'Wheelchair not accessible'.
+const ACCESSIBILITY_ICONS = ['wheelchair accessible', 'wheelchair not accessible'];
 const MAX_XML_BYTES = 2 * 1024 * 1024;
 const MAX_NODES = 10_000;
 const MAX_DEPTH = 128;
@@ -270,10 +272,12 @@ function populatedClippedNativeHeader(nodes: EvidenceNode[], card: EvidenceNode)
   if (metadata.length < 2 || metadata.some(group => group.className !== 'android.view.ViewGroup' || group.clickable || group.scrollable || labels(group).length ||
     group.bounds!.top <= card.bounds!.top || group.bounds!.bottom > (row?.bounds?.top ?? card.bounds!.bottom) || children(group).length > 1 ||
     children(group).some(icon => icon.className !== 'android.widget.ImageView' || icon.clickable || icon.scrollable || children(icon).length > 0 ||
-      labels(icon).some(label => normalized(label) !== 'wheelchair accessible')))) return false;
+      labels(icon).some(label => !ACCESSIBILITY_ICONS.includes(normalized(label)))))) return false;
   // At the bottom edge only the drawn header metadata may have entered the
   // viewport. It remains incomplete to the OCR reader until its photo row appears.
-  if (!row) return card.bounds.bottom - card.bounds.top <= 260;
+  // Candidate15 (scheduled run q0003 frame 13): a merchant without photos shows its
+  // review quote right below the address, so the clipped header can reach 268 px.
+  if (!row) return card.bounds.bottom - card.bounds.top <= 320;
   const maxGap = Math.min(16, Math.floor((card.bounds.right - card.bounds.left) * 16 / 720));
   if (!row.bounds || !row.clickable || !row.scrollable || labels(row).length ||
     !row.actions?.includes('ACTION_SCROLL_RIGHT') || !row.actions.includes('ACTION_SCROLL_FORWARD') ||
@@ -637,7 +641,7 @@ function filteredStaticActionList(nodes: EvidenceNode[], list: EvidenceNode): bo
   const buttons = children(children(row)[0]!);
   // An unrelated label anywhere else in this card cannot borrow the action row.
   return scope.every(node => !labels(node).length || node === marker || node === disclosure || buttons.includes(node) ||
-    (node.className === 'android.widget.ImageView' && labels(node).every(label => normalized(label) === 'wheelchair accessible')));
+    (node.className === 'android.widget.ImageView' && labels(node).every(label => ACCESSIBILITY_ICONS.includes(normalized(label)))));
 }
 
 /** Observed ordered native filters, one merchant card, then an embedded photo module. */

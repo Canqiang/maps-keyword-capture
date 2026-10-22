@@ -1,0 +1,239 @@
+{
+ "scheduled": {
+  "run": "run_20261022T095919Z_83d94f",
+  "job": "maps-targets-android-manual-202610220956",
+  "image": "sha256:57f90c7ad45eeebdd7550237eaa352364126001933bd2dabe0e182c0f00954b3",
+  "source": "91d3ece",
+  "container": "fbrdevstorage/maps-keyword-capture-uat"
+ },
+ "probe14": {
+  "run": "run_20261022T084417Z_cba25e",
+  "source": "c0641d4"
+ },
+ "files": [
+  {
+   "fixture": "candidate15-sched1-q0001-49.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0001/20261022T100555.952Z__bubble-tea-near-me__49.xml",
+   "sha256": "f1d17f9614ad1ddb16d5935536ba0449df2541e0da965d0d4b2d5ba8d356f134"
+  },
+  {
+   "fixture": "candidate15-sched1-q0001-49.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0001/20261022T100555.952Z__bubble-tea-near-me__49.ocr.json",
+   "sha256": "80af04f544bf1ae0fb0aa72ec1718f94f5130a38543843b4c4fcd511486fe938"
+  },
+  {
+   "fixture": "candidate15-sched1-q0001-50.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0001/20261022T100602.352Z__bubble-tea-near-me__50.xml",
+   "sha256": "161e9426286c50d686918d1454875152fbea88aaf90060fa1f866cc501226d75"
+  },
+  {
+   "fixture": "candidate15-sched1-q0001-50.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0001/20261022T100602.352Z__bubble-tea-near-me__50.ocr.json",
+   "sha256": "462e83e1511b422208f0cf63856731a71a20d98af01ebab9f0c01de2d7d77531"
+  },
+  {
+   "fixture": "candidate15-sched1-q0003-12.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0003/20261022T101416.931Z__bubble-tea__12.xml",
+   "sha256": "3d1671b27b77f9a2b232dcbf38fc87ddd7189fa42196067ef011bca8750e5d32"
+  },
+  {
+   "fixture": "candidate15-sched1-q0003-12.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0003/20261022T101416.931Z__bubble-tea__12.ocr.json",
+   "sha256": "c01880910ae4568c49204d47e3e503692309612693ed612dfcee777c955fee83"
+  },
+  {
+   "fixture": "candidate15-sched1-q0003-13.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0003/20261022T101421.741Z__bubble-tea__13.xml",
+   "sha256": "8ff334c5ce8686192a1f664ab4ec05d9ca9c120b6685a84846b380501c9580c1"
+  },
+  {
+   "fixture": "candidate15-sched1-q0003-13.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0003/20261022T101421.741Z__bubble-tea__13.ocr.json",
+   "sha256": "24ce91fdae9734bb8f3841b5f4bb8b51696ebc0f1cdd563642aab1cdf9d2addc"
+  },
+  {
+   "fixture": "candidate15-sched1-q0005-08.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0005/20261022T102052.945Z__boba-shops-near-me__08.xml",
+   "sha256": "d1c7945e9797198e5f46b5d3fa80d46fcbec4c9d75ab2cb7761e5ab271bf477a"
+  },
+  {
+   "fixture": "candidate15-sched1-q0005-08.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0005/20261022T102052.945Z__boba-shops-near-me__08.ocr.json",
+   "sha256": "7b481d34047f3b9024c87c248f4546b96a1dc38c66a85b4ef696084e14c24b91"
+  },
+  {
+   "fixture": "candidate15-sched1-q0005-09.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0005/20261022T102100.962Z__boba-shops-near-me__09.xml",
+   "sha256": "a802a90ee321039de962037b653b9fd7532c621f3a862cefe96c4c858bcbf08b"
+  },
+  {
+   "fixture": "candidate15-sched1-q0005-09.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0005/20261022T102100.962Z__boba-shops-near-me__09.ocr.json",
+   "sha256": "66e45e11ac48eceb6a4938bce2057daef55137d4a9b6d9c0bdc073fbe06acdb1"
+  },
+  {
+   "fixture": "candidate15-sched1-q0012-05.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0012/20261022T104532.902Z__bubble-tea__05.xml",
+   "sha256": "9245da53ff94ff36e97800608ba1d5b4723dcc641f716fe70938986945a3aee6"
+  },
+  {
+   "fixture": "candidate15-sched1-q0012-05.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0012/20261022T104532.902Z__bubble-tea__05.ocr.json",
+   "sha256": "67bdff482ef244da97c44d9e09ab5c158b0066a2422481d4474d00365eed6cc4"
+  },
+  {
+   "fixture": "candidate15-sched1-q0012-06.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0012/20261022T104539.460Z__bubble-tea__06.xml",
+   "sha256": "cb6f73cece325e343da34d730a40d81ca16f67e996877ad649f7b75cc577826e"
+  },
+  {
+   "fixture": "candidate15-sched1-q0012-06.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0012/20261022T104539.460Z__bubble-tea__06.ocr.json",
+   "sha256": "9ae7e5db22823a90e3549f6d7234fd1f67cdf24eecea770952c3eae0f7b2cc03"
+  },
+  {
+   "fixture": "candidate15-sched1-q0013-24.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0013/20261022T104842.433Z__fried-chicken-near-me__24.xml",
+   "sha256": "63ef2e6eef00cff027a7eda96cbeccf1b3758f68f18b3c8c6c532b997f87a91a"
+  },
+  {
+   "fixture": "candidate15-sched1-q0013-24.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0013/20261022T104842.433Z__fried-chicken-near-me__24.ocr.json",
+   "sha256": "b1b5806622d18fb25fc3f046ae32d1b35c1085277687d7c6468959a4d84ebba7"
+  },
+  {
+   "fixture": "candidate15-sched1-q0013-25.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0013/20261022T104850.384Z__fried-chicken-near-me__25.xml",
+   "sha256": "bd6343dbc1fcae48bae1e2c7643a67b5eb1c2fabb1e06370d0be88118e52ed72"
+  },
+  {
+   "fixture": "candidate15-sched1-q0013-25.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0013/20261022T104850.384Z__fried-chicken-near-me__25.ocr.json",
+   "sha256": "920080a0e199cfd0b4b87ae3f47162b58d108999e3fe73e3a60d4e13fab9d93d"
+  },
+  {
+   "fixture": "candidate15-sched1-q0015-17.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0015/20261022T105425.491Z__fried-chicken__17.xml",
+   "sha256": "f69b4a6237f0ac6079b05404304b1aa52b9ec9af42876d5905b7d1068b0fdf59"
+  },
+  {
+   "fixture": "candidate15-sched1-q0015-17.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0015/20261022T105425.491Z__fried-chicken__17.ocr.json",
+   "sha256": "67389173ce9a7b6e5578b448ff93e6f74fd7bfcbeb4d291da17d1d9f78b9717d"
+  },
+  {
+   "fixture": "candidate15-sched1-q0015-18.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0015/20261022T105431.371Z__fried-chicken__18.xml",
+   "sha256": "b5cc8f0be5e1fa944b2a7d1179867c3faecdddd2361faecc137a29a2f52c33d9"
+  },
+  {
+   "fixture": "candidate15-sched1-q0015-18.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0015/20261022T105431.371Z__fried-chicken__18.ocr.json",
+   "sha256": "757342b68acecc5abc7364049889ef771565682616193274ab94ff02f9d82f13"
+  },
+  {
+   "fixture": "candidate15-sched1-q0018-18.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0018/20261022T111306.745Z__matcha-latte__18.xml",
+   "sha256": "a22611b372dc12412b7e29a33c9f9cc8a64c5684299cb817b659561595081293"
+  },
+  {
+   "fixture": "candidate15-sched1-q0018-18.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0018/20261022T111306.745Z__matcha-latte__18.ocr.json",
+   "sha256": "501d2a26d1e728e8f927a0ac57d02f2aed440d0472f592da46d281c304dc64fc"
+  },
+  {
+   "fixture": "candidate15-sched1-q0018-19.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0018/20261022T111312.858Z__matcha-latte__19.xml",
+   "sha256": "2699a899cfe6e6d65955dee1db60a20899d9c8b4c4d1c141ed50d6fd5d2c1b37"
+  },
+  {
+   "fixture": "candidate15-sched1-q0018-19.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0018/20261022T111312.858Z__matcha-latte__19.ocr.json",
+   "sha256": "679dcb86d210dada495671d2ddc955fea73f6a9aaf8f1059639c393cc76ec86b"
+  },
+  {
+   "fixture": "candidate15-probe14-q0001-35.xml",
+   "source": "20261022T084721.858Z__keyword__35.xml",
+   "sha256": "7d7e36abc1c33642adeaf3d37aa5033228bcfba35b3acb47a619b262addaaa71"
+  },
+  {
+   "fixture": "candidate15-probe14-q0001-35.ocr.json",
+   "source": "20261022T084721.858Z__keyword__35.ocr.json",
+   "sha256": "0a350e9d71cc3029b7e9b80f31895c49efb4a5c6533a8319e0f308e6587737ba"
+  },
+  {
+   "fixture": "candidate15-probe14-q0001-36.xml",
+   "source": "20261022T084726.468Z__keyword__36.xml",
+   "sha256": "64ab84588adb01c8b57fc30d2524e264d520450733e473e23462de402efd703c"
+  },
+  {
+   "fixture": "candidate15-probe14-q0001-36.ocr.json",
+   "source": "20261022T084726.468Z__keyword__36.ocr.json",
+   "sha256": "f6b4f81f758eedf357a155dd035268287b4c40e042e5f11324a596e21f0cfb75"
+  },
+  {
+   "fixture": "candidate15-sched1-q0009-02.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0009/20261022T103818.628Z__matcha-latte__02.xml",
+   "sha256": "19ec3b55d85befd0ec2f1190f7b9a7e1b8e3eb66918ccd83391bea2fee2d5c55"
+  },
+  {
+   "fixture": "candidate15-sched1-q0009-02.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0009/20261022T103818.628Z__matcha-latte__02.ocr.json",
+   "sha256": "cc44891da4228be5250cf66ddccc53857dfee8d33b3096d4adda6a32015925bf"
+  },
+  {
+   "fixture": "candidate15-sched1-q0009-03.xml",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0009/20261022T103824.491Z__matcha-latte__03.xml",
+   "sha256": "a92aa3b84a055317ad7c18535ba6f878aa9fb9d5645b0a9d6f7a80bf4b82974d"
+  },
+  {
+   "fixture": "candidate15-sched1-q0009-03.ocr.json",
+   "source": "2026-10-22/run_20261022T095919Z_83d94f/q0009/20261022T103824.491Z__matcha-latte__03.ocr.json",
+   "sha256": "4fa2b579ad4f40037eeebbc7ffed07e2de54773719f4f10fc80b7a0141928d6f"
+  },
+  {
+   "fixture": "candidate15-sched2-q0001-36.xml",
+   "source": "2026-10-22/run_20261022T112504Z_83b35b/q0001/20261022T112909.558Z__bubble-tea__36.xml",
+   "sha256": "0af74356d90d686f84ff25981b456291f767cde6fe7d689e4165898540f1cbfc"
+  },
+  {
+   "fixture": "candidate15-sched2-q0001-36.ocr.json",
+   "source": "2026-10-22/run_20261022T112504Z_83b35b/q0001/20261022T112909.558Z__bubble-tea__36.ocr.json",
+   "sha256": "f59d6c1e00f30cfaa2e92d7f01af25566c578d05fb0ea87cde9d9ba291f43c6d"
+  },
+  {
+   "fixture": "candidate15-sched2-q0001-37.xml",
+   "source": "2026-10-22/run_20261022T112504Z_83b35b/q0001/20261022T112915.091Z__bubble-tea__37.xml",
+   "sha256": "aba061a92b1867da9f2cb7b91dbad2a85b883936d0d1b7be4bb9b60fd234cd6b"
+  },
+  {
+   "fixture": "candidate15-sched2-q0001-37.ocr.json",
+   "source": "2026-10-22/run_20261022T112504Z_83b35b/q0001/20261022T112915.091Z__bubble-tea__37.ocr.json",
+   "sha256": "22325aa8063b65da4cb758b5d362d97bd1059e7944e9a03cd5abeefca0f6aa46"
+  },
+  {
+   "fixture": "candidate15-sched2-q0003-07.xml",
+   "source": "2026-10-22/run_20261022T112504Z_83b35b/q0003/20261022T113621.867Z__boba-shops-near-me__07.xml",
+   "sha256": "45f03958400a943946e38790e8285c2291f5c162fdf3a743d9b0c427c9caca5a"
+  },
+  {
+   "fixture": "candidate15-sched2-q0003-07.ocr.json",
+   "source": "2026-10-22/run_20261022T112504Z_83b35b/q0003/20261022T113621.867Z__boba-shops-near-me__07.ocr.json",
+   "sha256": "e5641c0f0cb2607199fdd3f792ceb0ea649652bf80bf2f1b377164e6b62ac414"
+  },
+  {
+   "fixture": "candidate15-sched2-q0003-08.xml",
+   "source": "2026-10-22/run_20261022T112504Z_83b35b/q0003/20261022T113627.902Z__boba-shops-near-me__08.xml",
+   "sha256": "770a1fefc86370761890730927ef21c1e89be5ddbaab5e1376ca8f52c88117b7"
+  },
+  {
+   "fixture": "candidate15-sched2-q0003-08.ocr.json",
+   "source": "2026-10-22/run_20261022T112504Z_83b35b/q0003/20261022T113627.902Z__boba-shops-near-me__08.ocr.json",
+   "sha256": "5880d1fe099b0090af73fe9aeaa795378b092afd7b24b38168c2bdfc4efa1d00"
+  }
+ ],
+ "scheduled2": {
+  "run": "run_20261022T112504Z_83b35b",
+  "job": "maps-targets-android-manual-202610220956"
+ }
+}

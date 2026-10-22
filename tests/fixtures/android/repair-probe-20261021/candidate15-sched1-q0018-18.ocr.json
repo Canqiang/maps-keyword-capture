@@ -1,0 +1,668 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "af4cabaf5f5c3a47bcf7a191432fde8bbc8df8aacd859899c2d529adc1e84977",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": ". Cafe Blessing - T",
+      "confidence": 86.39,
+      "bounds": {
+        "left": 425,
+        "top": 0,
+        "right": 718,
+        "bottom": 49.333333333333336
+      },
+      "words": [
+        {
+          "text": ".",
+          "confidence": 55.870773,
+          "bounds": {
+            "left": 425,
+            "top": 0,
+            "right": 435,
+            "bottom": 14
+          }
+        },
+        {
+          "text": "Cafe",
+          "confidence": 96.965225,
+          "bounds": {
+            "left": 451,
+            "top": 0,
+            "right": 503.3333333333333,
+            "bottom": 26.333333333333332
+          }
+        },
+        {
+          "text": "Blessing",
+          "confidence": 93.306,
+          "bounds": {
+            "left": 511.6666666666667,
+            "top": 6,
+            "right": 605.3333333333334,
+            "bottom": 31.666666666666668
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 92.94767,
+          "bounds": {
+            "left": 613,
+            "top": 17,
+            "right": 620,
+            "bottom": 19.333333333333332
+          }
+        },
+        {
+          "text": "T",
+          "confidence": 92.883499,
+          "bounds": {
+            "left": 694,
+            "top": 0,
+            "right": 718,
+            "bottom": 49.333333333333336
+          }
+        }
+      ]
+    },
+    {
+      "text": "PAB latt",
+      "confidence": 45.74,
+      "bounds": {
+        "left": 552.3333333333334,
+        "top": 32.666666666666664,
+        "right": 718,
+        "bottom": 126.66666666666667
+      },
+      "words": [
+        {
+          "text": "PAB",
+          "confidence": 13.842163,
+          "bounds": {
+            "left": 552.3333333333334,
+            "top": 32.666666666666664,
+            "right": 709.6666666666666,
+            "bottom": 126.66666666666667
+          }
+        },
+        {
+          "text": "latt",
+          "confidence": 77.638214,
+          "bounds": {
+            "left": 682.3333333333334,
+            "top": 62.333333333333336,
+            "right": 718,
+            "bottom": 109
+          }
+        }
+      ]
+    },
+    {
+      "text": "/ Mineola,",
+      "confidence": 91.21,
+      "bounds": {
+        "left": 432,
+        "top": 40,
+        "right": 551.6666666666666,
+        "bottom": 63
+      },
+      "words": [
+        {
+          "text": "/",
+          "confidence": 88.081749,
+          "bounds": {
+            "left": 432,
+            "top": 57.666666666666664,
+            "right": 433.3333333333333,
+            "bottom": 59
+          }
+        },
+        {
+          "text": "Mineola,",
+          "confidence": 94.3451,
+          "bounds": {
+            "left": 451.6666666666667,
+            "top": 40,
+            "right": 551.6666666666666,
+            "bottom": 63
+          }
+        }
+      ]
+    },
+    {
+      "text": "aa",
+      "confidence": 37.97,
+      "bounds": {
+        "left": 457,
+        "top": 62.333333333333336,
+        "right": 500,
+        "bottom": 74
+      },
+      "words": [
+        {
+          "text": "aa",
+          "confidence": 37.968307,
+          "bounds": {
+            "left": 457,
+            "top": 62.333333333333336,
+            "right": 500,
+            "bottom": 74
+          }
+        }
+      ]
+    },
+    {
+      "text": "Menu hi",
+      "confidence": 96.89,
+      "bounds": {
+        "left": 451.6666666666667,
+        "top": 63.666666666666664,
+        "right": 526,
+        "bottom": 104
+      },
+      "words": [
+        {
+          "text": "Menu",
+          "confidence": 96.779007,
+          "bounds": {
+            "left": 451.6666666666667,
+            "top": 63.666666666666664,
+            "right": 504,
+            "bottom": 104
+          }
+        },
+        {
+          "text": "hi",
+          "confidence": 97.005241,
+          "bounds": {
+            "left": 511,
+            "top": 72.33333333333333,
+            "right": 526,
+            "bottom": 89.33333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "matcha latte x",
+      "confidence": 90.88,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 211,
+        "right": 661,
+        "bottom": 244
+      },
+      "words": [
+        {
+          "text": "matcha",
+          "confidence": 91.585159,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 211.33333333333334,
+            "right": 189.66666666666666,
+            "bottom": 244
+          }
+        },
+        {
+          "text": "latte",
+          "confidence": 96.00032,
+          "bounds": {
+            "left": 204.66666666666666,
+            "top": 211.33333333333334,
+            "right": 289.6666666666667,
+            "bottom": 244
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 85.039917,
+          "bounds": {
+            "left": 635,
+            "top": 211,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "a are",
+      "confidence": 24.31,
+      "bounds": {
+        "left": 159,
+        "top": 274,
+        "right": 266,
+        "bottom": 284.6666666666667
+      },
+      "words": [
+        {
+          "text": "a",
+          "confidence": 30.286682,
+          "bounds": {
+            "left": 159,
+            "top": 274,
+            "right": 187.66666666666666,
+            "bottom": 277
+          }
+        },
+        {
+          "text": "are",
+          "confidence": 18.341133,
+          "bounds": {
+            "left": 203.66666666666666,
+            "top": 274.3333333333333,
+            "right": 266,
+            "bottom": 284.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "Youta Ramen Kunst Coffee Hi",
+      "confidence": 85.21,
+      "bounds": {
+        "left": 64.66666666666667,
+        "top": 843.6666666666666,
+        "right": 720,
+        "bottom": 866.6666666666666
+      },
+      "words": [
+        {
+          "text": "Youta",
+          "confidence": 93.081001,
+          "bounds": {
+            "left": 64.66666666666667,
+            "top": 845.6666666666666,
+            "right": 132.66666666666666,
+            "bottom": 866.6666666666666
+          }
+        },
+        {
+          "text": "Ramen",
+          "confidence": 96.652832,
+          "bounds": {
+            "left": 143,
+            "top": 845.6666666666666,
+            "right": 226,
+            "bottom": 866.6666666666666
+          }
+        },
+        {
+          "text": "Kunst",
+          "confidence": 96.006676,
+          "bounds": {
+            "left": 528,
+            "top": 845.6666666666666,
+            "right": 597,
+            "bottom": 866.6666666666666
+          }
+        },
+        {
+          "text": "Coffee",
+          "confidence": 96.415558,
+          "bounds": {
+            "left": 606.3333333333334,
+            "top": 843.6666666666666,
+            "right": 688.6666666666666,
+            "bottom": 866.6666666666666
+          }
+        },
+        {
+          "text": "Hi",
+          "confidence": 43.89967,
+          "bounds": {
+            "left": 699,
+            "top": 845.6666666666666,
+            "right": 720,
+            "bottom": 866.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "Ramen restaurant . 1.4 mi Brunch restaurant",
+      "confidence": 93.89,
+      "bounds": {
+        "left": 66,
+        "top": 885.3333333333334,
+        "right": 720,
+        "bottom": 904.3333333333334
+      },
+      "words": [
+        {
+          "text": "Ramen",
+          "confidence": 96.664116,
+          "bounds": {
+            "left": 66,
+            "top": 886.6666666666666,
+            "right": 137,
+            "bottom": 904.3333333333334
+          }
+        },
+        {
+          "text": "restaurant",
+          "confidence": 93.268463,
+          "bounds": {
+            "left": 146.66666666666666,
+            "top": 888,
+            "right": 256.6666666666667,
+            "bottom": 904.3333333333334
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 85.658524,
+          "bounds": {
+            "left": 268.6666666666667,
+            "top": 895,
+            "right": 271.6666666666667,
+            "bottom": 898
+          }
+        },
+        {
+          "text": "1.4",
+          "confidence": 94.238495,
+          "bounds": {
+            "left": 282.3333333333333,
+            "top": 886.6666666666666,
+            "right": 309.6666666666667,
+            "bottom": 904
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 95.566269,
+          "bounds": {
+            "left": 318.6666666666667,
+            "top": 885.3333333333334,
+            "right": 341,
+            "bottom": 904
+          }
+        },
+        {
+          "text": "Brunch",
+          "confidence": 96.040222,
+          "bounds": {
+            "left": 528,
+            "top": 885.3333333333334,
+            "right": 603.3333333333334,
+            "bottom": 904.3333333333334
+          }
+        },
+        {
+          "text": "restaurant",
+          "confidence": 95.801666,
+          "bounds": {
+            "left": 612.6666666666666,
+            "top": 888,
+            "right": 720,
+            "bottom": 904.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "View photo map >",
+      "confidence": 90.36,
+      "bounds": {
+        "left": 236.33333333333334,
+        "top": 988,
+        "right": 471,
+        "bottom": 1016.3333333333334
+      },
+      "words": [
+        {
+          "text": "View",
+          "confidence": 95.33535,
+          "bounds": {
+            "left": 236.33333333333334,
+            "top": 988,
+            "right": 295.3333333333333,
+            "bottom": 1010.6666666666666
+          }
+        },
+        {
+          "text": "photo",
+          "confidence": 84.830246,
+          "bounds": {
+            "left": 304.6666666666667,
+            "top": 988,
+            "right": 375.3333333333333,
+            "bottom": 1016.3333333333334
+          }
+        },
+        {
+          "text": "map",
+          "confidence": 84.830246,
+          "bounds": {
+            "left": 384.6666666666667,
+            "top": 994.6666666666666,
+            "right": 437,
+            "bottom": 1016.3333333333334
+          }
+        },
+        {
+          "text": ">",
+          "confidence": 96.436012,
+          "bounds": {
+            "left": 460,
+            "top": 991,
+            "right": 471,
+            "bottom": 1009
+          }
+        }
+      ]
+    },
+    {
+      "text": "Aoko Matcha - Garden City",
+      "confidence": 93.84,
+      "bounds": {
+        "left": 40.666666666666664,
+        "top": 1129.6666666666667,
+        "right": 479,
+        "bottom": 1164
+      },
+      "words": [
+        {
+          "text": "Aoko",
+          "confidence": 92.769226,
+          "bounds": {
+            "left": 40.666666666666664,
+            "top": 1130,
+            "right": 122.33333333333333,
+            "bottom": 1156.6666666666667
+          }
+        },
+        {
+          "text": "Matcha",
+          "confidence": 93.266945,
+          "bounds": {
+            "left": 133.66666666666666,
+            "top": 1130,
+            "right": 249.33333333333334,
+            "bottom": 1156.6666666666667
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 90.628235,
+          "bounds": {
+            "left": 261,
+            "top": 1143.3333333333333,
+            "right": 273,
+            "bottom": 1146.3333333333333
+          }
+        },
+        {
+          "text": "Garden",
+          "confidence": 96.272453,
+          "bounds": {
+            "left": 284.6666666666667,
+            "top": 1129.6666666666667,
+            "right": 403.3333333333333,
+            "bottom": 1156.6666666666667
+          }
+        },
+        {
+          "text": "City",
+          "confidence": 96.272453,
+          "bounds": {
+            "left": 414.6666666666667,
+            "top": 1129.6666666666667,
+            "right": 479,
+            "bottom": 1164
+          }
+        }
+      ]
+    },
+    {
+      "text": "5.0 ¥% (1) - Dessert shop - 0.6 mi",
+      "confidence": 84.7,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1174.6666666666667,
+        "right": 439,
+        "bottom": 1205.6666666666667
+      },
+      "words": [
+        {
+          "text": "5.0",
+          "confidence": 89.115944,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1177.3333333333333,
+            "right": 80.33333333333333,
+            "bottom": 1198.6666666666667
+          }
+        },
+        {
+          "text": "¥%",
+          "confidence": 41.376186,
+          "bounds": {
+            "left": 91.66666666666667,
+            "top": 1174.6666666666667,
+            "right": 102,
+            "bottom": 1205.6666666666667
+          }
+        },
+        {
+          "text": "(1)",
+          "confidence": 93.16095,
+          "bounds": {
+            "left": 116.33333333333333,
+            "top": 1176,
+            "right": 143.66666666666666,
+            "bottom": 1202
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 85.062164,
+          "bounds": {
+            "left": 158.66666666666666,
+            "top": 1187.6666666666667,
+            "right": 159.33333333333334,
+            "bottom": 1191
+          }
+        },
+        {
+          "text": "Dessert",
+          "confidence": 96.290909,
+          "bounds": {
+            "left": 171,
+            "top": 1178,
+            "right": 267,
+            "bottom": 1198.3333333333333
+          }
+        },
+        {
+          "text": "shop",
+          "confidence": 93.268448,
+          "bounds": {
+            "left": 276,
+            "top": 1176,
+            "right": 336.6666666666667,
+            "bottom": 1204
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 72.581619,
+          "bounds": {
+            "left": 349,
+            "top": 1187.6666666666667,
+            "right": 352.3333333333333,
+            "bottom": 1191
+          }
+        },
+        {
+          "text": "0.6",
+          "confidence": 95.806999,
+          "bounds": {
+            "left": 363.6666666666667,
+            "top": 1177.6666666666667,
+            "right": 402.3333333333333,
+            "bottom": 1198.3333333333333
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 95.601166,
+          "bounds": {
+            "left": 413,
+            "top": 1176.3333333333333,
+            "right": 439,
+            "bottom": 1198
+          }
+        }
+      ]
+    },
+    {
+      "text": "~Onanc 11 ANA",
+      "confidence": 76.36,
+      "bounds": {
+        "left": 138,
+        "top": 1217.6666666666667,
+        "right": 311.3333333333333,
+        "bottom": 1232
+      },
+      "words": [
+        {
+          "text": "~Onanc",
+          "confidence": 40.059547,
+          "bounds": {
+            "left": 138,
+            "top": 1217.6666666666667,
+            "right": 232,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "11",
+          "confidence": 95.217659,
+          "bounds": {
+            "left": 242.66666666666666,
+            "top": 1218,
+            "right": 261.3333333333333,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "ANA",
+          "confidence": 93.808838,
+          "bounds": {
+            "left": 274.6666666666667,
+            "top": 1218,
+            "right": 311.3333333333333,
+            "bottom": 1232
+          }
+        }
+      ]
+    }
+  ]
+}

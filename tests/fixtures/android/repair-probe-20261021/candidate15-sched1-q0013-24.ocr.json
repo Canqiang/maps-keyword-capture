@@ -1,0 +1,968 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "36b7621fdbdf4983f5f04ef8fd3fdcf2e30fbb3298e335a056eb90aa50a25b32",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "te 4",
+      "confidence": 51.09,
+      "bounds": {
+        "left": 154.66666666666666,
+        "top": 0,
+        "right": 177.66666666666666,
+        "bottom": 12.666666666666666
+      },
+      "words": [
+        {
+          "text": "te",
+          "confidence": 13.472321,
+          "bounds": {
+            "left": 154.66666666666666,
+            "top": 0,
+            "right": 165,
+            "bottom": 11.333333333333334
+          }
+        },
+        {
+          "text": "4",
+          "confidence": 88.702217,
+          "bounds": {
+            "left": 168.66666666666666,
+            "top": 0,
+            "right": 177.66666666666666,
+            "bottom": 12.666666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "好",
+      "confidence": 8.38,
+      "bounds": {
+        "left": 10.666666666666666,
+        "top": 6,
+        "right": 13.666666666666666,
+        "bottom": 10.666666666666666
+      },
+      "words": [
+        {
+          "text": "好",
+          "confidence": 8.384491,
+          "bounds": {
+            "left": 10.666666666666666,
+            "top": 6,
+            "right": 13.666666666666666,
+            "bottom": 10.666666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "了",
+      "confidence": 43.11,
+      "bounds": {
+        "left": 4,
+        "top": 11,
+        "right": 10.666666666666666,
+        "bottom": 14.666666666666666
+      },
+      "words": [
+        {
+          "text": "了",
+          "confidence": 43.107643,
+          "bounds": {
+            "left": 4,
+            "top": 11,
+            "right": 10.666666666666666,
+            "bottom": 14.666666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "~",
+      "confidence": 59.7,
+      "bounds": {
+        "left": 467.3333333333333,
+        "top": 27.333333333333332,
+        "right": 506.6666666666667,
+        "bottom": 60
+      },
+      "words": [
+        {
+          "text": "~",
+          "confidence": 59.699894,
+          "bounds": {
+            "left": 467.3333333333333,
+            "top": 27.333333333333332,
+            "right": 506.6666666666667,
+            "bottom": 60
+          }
+        }
+      ]
+    },
+    {
+      "text": "Great lb 路 9",
+      "confidence": 46.46,
+      "bounds": {
+        "left": 0,
+        "top": 31.333333333333332,
+        "right": 159.66666666666666,
+        "bottom": 94.66666666666667
+      },
+      "words": [
+        {
+          "text": "Great",
+          "confidence": 93.026108,
+          "bounds": {
+            "left": 0,
+            "top": 32.666666666666664,
+            "right": 61.666666666666664,
+            "bottom": 71
+          }
+        },
+        {
+          "text": "lb",
+          "confidence": 0,
+          "bounds": {
+            "left": 70,
+            "top": 44.666666666666664,
+            "right": 129,
+            "bottom": 78.33333333333333
+          }
+        },
+        {
+          "text": "路",
+          "confidence": 16.065659,
+          "bounds": {
+            "left": 102.66666666666667,
+            "top": 31.333333333333332,
+            "right": 126.66666666666667,
+            "bottom": 94.66666666666667
+          }
+        },
+        {
+          "text": "9",
+          "confidence": 76.758865,
+          "bounds": {
+            "left": 136.66666666666666,
+            "top": 55,
+            "right": 159.66666666666666,
+            "bottom": 83
+          }
+        }
+      ]
+    },
+    {
+      "text": "Old Westbury =",
+      "confidence": 55.32,
+      "bounds": {
+        "left": 432.6666666666667,
+        "top": 92,
+        "right": 666.6666666666666,
+        "bottom": 122.33333333333333
+      },
+      "words": [
+        {
+          "text": "Old",
+          "confidence": 79.92408,
+          "bounds": {
+            "left": 432.6666666666667,
+            "top": 98.66666666666667,
+            "right": 467,
+            "bottom": 117.33333333333333
+          }
+        },
+        {
+          "text": "Westbury",
+          "confidence": 73.765594,
+          "bounds": {
+            "left": 475.3333333333333,
+            "top": 93.33333333333333,
+            "right": 592.3333333333334,
+            "bottom": 122.33333333333333
+          }
+        },
+        {
+          "text": "=",
+          "confidence": 12.259689,
+          "bounds": {
+            "left": 661,
+            "top": 92,
+            "right": 666.6666666666666,
+            "bottom": 103.66666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "rg",
+      "confidence": 45.31,
+      "bounds": {
+        "left": 144.66666666666666,
+        "top": 115.33333333333333,
+        "right": 155.66666666666666,
+        "bottom": 126.66666666666667
+      },
+      "words": [
+        {
+          "text": "rg",
+          "confidence": 45.313564,
+          "bounds": {
+            "left": 144.66666666666666,
+            "top": 115.33333333333333,
+            "right": 155.66666666666666,
+            "bottom": 126.66666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "fried chicken near me x",
+      "confidence": 91.41,
+      "bounds": {
+        "left": 41,
+        "top": 211,
+        "right": 661,
+        "bottom": 243.66666666666666
+      },
+      "words": [
+        {
+          "text": "fried",
+          "confidence": 96.738136,
+          "bounds": {
+            "left": 41,
+            "top": 211,
+            "right": 133.33333333333334,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "chicken",
+          "confidence": 96.464828,
+          "bounds": {
+            "left": 147.66666666666666,
+            "top": 211,
+            "right": 300,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "near",
+          "confidence": 95.472816,
+          "bounds": {
+            "left": 314.6666666666667,
+            "top": 220,
+            "right": 403,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "me",
+          "confidence": 95.472816,
+          "bounds": {
+            "left": 415.6666666666667,
+            "top": 220,
+            "right": 475.6666666666667,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 72.883728,
+          "bounds": {
+            "left": 635,
+            "top": 211,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "= =",
+      "confidence": 42.13,
+      "bounds": {
+        "left": 175,
+        "top": 274,
+        "right": 292,
+        "bottom": 278.3333333333333
+      },
+      "words": [
+        {
+          "text": "=",
+          "confidence": 39.334877,
+          "bounds": {
+            "left": 175,
+            "top": 274,
+            "right": 187,
+            "bottom": 278.3333333333333
+          }
+        },
+        {
+          "text": "=",
+          "confidence": 44.92638,
+          "bounds": {
+            "left": 280,
+            "top": 274,
+            "right": 292,
+            "bottom": 278.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions 4 Order M2) Menu",
+      "confidence": 69.01,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 339.6666666666667,
+        "right": 636.3333333333334,
+        "bottom": 370.3333333333333
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 68.945786,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 339.6666666666667,
+            "right": 97.33333333333333,
+            "bottom": 370.3333333333333
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.705986,
+          "bounds": {
+            "left": 118,
+            "top": 343,
+            "right": 242,
+            "bottom": 365.6666666666667
+          }
+        },
+        {
+          "text": "4",
+          "confidence": 0,
+          "bounds": {
+            "left": 320,
+            "top": 339.6666666666667,
+            "right": 348,
+            "bottom": 370.3333333333333
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 89.446014,
+          "bounds": {
+            "left": 369,
+            "top": 343,
+            "right": 441,
+            "bottom": 365.6666666666667
+          }
+        },
+        {
+          "text": "M2)",
+          "confidence": 64.476471,
+          "bounds": {
+            "left": 515,
+            "top": 343.6666666666667,
+            "right": 549,
+            "bottom": 369.3333333333333
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 95.513588,
+          "bounds": {
+            "left": 568,
+            "top": 344.6666666666667,
+            "right": 636.3333333333334,
+            "bottom": 365.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "Kennedy's Chicken & Sandwiches",
+      "confidence": 89.81,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 476.6666666666667,
+        "right": 576,
+        "bottom": 511
+      },
+      "words": [
+        {
+          "text": "Kennedy's",
+          "confidence": 76.954941,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 477,
+            "right": 205,
+            "bottom": 511
+          }
+        },
+        {
+          "text": "Chicken",
+          "confidence": 93.27449,
+          "bounds": {
+            "left": 215.66666666666666,
+            "top": 476.6666666666667,
+            "right": 344,
+            "bottom": 503.6666666666667
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 92.560661,
+          "bounds": {
+            "left": 355.6666666666667,
+            "top": 476.6666666666667,
+            "right": 375.3333333333333,
+            "bottom": 503.6666666666667
+          }
+        },
+        {
+          "text": "Sandwiches",
+          "confidence": 96.438049,
+          "bounds": {
+            "left": 385.3333333333333,
+            "top": 476.6666666666667,
+            "right": 576,
+            "bottom": 503.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "3.6 %& (186) - $10-20 - & - Chicken",
+      "confidence": 72.24,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 520.6666666666666,
+        "right": 474,
+        "bottom": 550.3333333333334
+      },
+      "words": [
+        {
+          "text": "3.6",
+          "confidence": 91.177399,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 523,
+            "right": 170.66666666666666,
+            "bottom": 549
+          }
+        },
+        {
+          "text": "%&",
+          "confidence": 19.621132,
+          "bounds": {
+            "left": 89.33333333333333,
+            "top": 520.6666666666666,
+            "right": 99.33333333333333,
+            "bottom": 550.3333333333334
+          }
+        },
+        {
+          "text": "(186)",
+          "confidence": 93.090576,
+          "bounds": {
+            "left": 111.66666666666667,
+            "top": 523,
+            "right": 170.66666666666666,
+            "bottom": 549
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 55.751602,
+          "bounds": {
+            "left": 185.66666666666666,
+            "top": 534.6666666666666,
+            "right": 186.33333333333334,
+            "bottom": 538
+          }
+        },
+        {
+          "text": "$10-20",
+          "confidence": 55.751602,
+          "bounds": {
+            "left": 197.33333333333334,
+            "top": 522,
+            "right": 293,
+            "bottom": 547.6666666666666
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 74.062294,
+          "bounds": {
+            "left": 305,
+            "top": 534.6666666666666,
+            "right": 308.3333333333333,
+            "bottom": 538
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 92.461243,
+          "bounds": {
+            "left": 324.6666666666667,
+            "top": 522,
+            "right": 345,
+            "bottom": 548.3333333333334
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 72.082458,
+          "bounds": {
+            "left": 360,
+            "top": 534.6666666666666,
+            "right": 363.3333333333333,
+            "bottom": 538
+          }
+        },
+        {
+          "text": "Chicken",
+          "confidence": 96.126762,
+          "bounds": {
+            "left": 374.3333333333333,
+            "top": 523.3333333333334,
+            "right": 474,
+            "bottom": 545.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closed - Opens 10 AM - 1.1 mi",
+      "confidence": 89.97,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 561.6666666666666,
+        "right": 409,
+        "bottom": 592.3333333333334
+      },
+      "words": [
+        {
+          "text": "Closed",
+          "confidence": 88.857483,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 563,
+            "right": 127,
+            "bottom": 585.3333333333334
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 76.790413,
+          "bounds": {
+            "left": 138,
+            "top": 574.6666666666666,
+            "right": 141.33333333333334,
+            "bottom": 578
+          }
+        },
+        {
+          "text": "Opens",
+          "confidence": 96.205566,
+          "bounds": {
+            "left": 151.33333333333334,
+            "top": 564.6666666666666,
+            "right": 232.66666666666666,
+            "bottom": 591
+          }
+        },
+        {
+          "text": "10",
+          "confidence": 95.894287,
+          "bounds": {
+            "left": 243,
+            "top": 564.6666666666666,
+            "right": 270,
+            "bottom": 585.3333333333334
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 92.736046,
+          "bounds": {
+            "left": 279.6666666666667,
+            "top": 565,
+            "right": 318.3333333333333,
+            "bottom": 585
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 77.08091,
+          "bounds": {
+            "left": 318.3333333333333,
+            "top": 561.6666666666666,
+            "right": 329,
+            "bottom": 592.3333333333334
+          }
+        },
+        {
+          "text": "1.1",
+          "confidence": 96.186256,
+          "bounds": {
+            "left": 346,
+            "top": 565,
+            "right": 370.3333333333333,
+            "bottom": 585
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.020271,
+          "bounds": {
+            "left": 383,
+            "top": 563.3333333333334,
+            "right": 409,
+            "bottom": 585
+          }
+        }
+      ]
+    },
+    {
+      "text": "\"Good fried chicken...delicious flavor and not",
+      "confidence": 93.81,
+      "bounds": {
+        "left": 94.33333333333333,
+        "top": 903,
+        "right": 658,
+        "bottom": 926.3333333333334
+      },
+      "words": [
+        {
+          "text": "\"Good",
+          "confidence": 89.477402,
+          "bounds": {
+            "left": 94.33333333333333,
+            "top": 904.3333333333334,
+            "right": 171.66666666666666,
+            "bottom": 926.3333333333334
+          }
+        },
+        {
+          "text": "fried",
+          "confidence": 91.895714,
+          "bounds": {
+            "left": 182,
+            "top": 903,
+            "right": 238.66666666666666,
+            "bottom": 926.3333333333334
+          }
+        },
+        {
+          "text": "chicken...delicious",
+          "confidence": 91.724243,
+          "bounds": {
+            "left": 248,
+            "top": 903.3333333333334,
+            "right": 475.6666666666667,
+            "bottom": 926.3333333333334
+          }
+        },
+        {
+          "text": "flavor",
+          "confidence": 96.892166,
+          "bounds": {
+            "left": 485,
+            "top": 904.3333333333334,
+            "right": 554.6666666666666,
+            "bottom": 926.3333333333334
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 96.105843,
+          "bounds": {
+            "left": 563.3333333333334,
+            "top": 904.3333333333334,
+            "right": 607.6666666666666,
+            "bottom": 926.3333333333334
+          }
+        },
+        {
+          "text": "not",
+          "confidence": 96.782349,
+          "bounds": {
+            "left": 619,
+            "top": 907.3333333333334,
+            "right": 658,
+            "bottom": 926.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "™@ too much dough on...\"",
+      "confidence": 76.82,
+      "bounds": {
+        "left": 43.666666666666664,
+        "top": 938.3333333333334,
+        "right": 374.3333333333333,
+        "bottom": 967.3333333333334
+      },
+      "words": [
+        {
+          "text": "™@",
+          "confidence": 21.470367,
+          "bounds": {
+            "left": 43.666666666666664,
+            "top": 938.3333333333334,
+            "right": 72.33333333333333,
+            "bottom": 951
+          }
+        },
+        {
+          "text": "too",
+          "confidence": 91.761993,
+          "bounds": {
+            "left": 93,
+            "top": 942.3333333333334,
+            "right": 132,
+            "bottom": 961.3333333333334
+          }
+        },
+        {
+          "text": "much",
+          "confidence": 91.761993,
+          "bounds": {
+            "left": 142,
+            "top": 939.3333333333334,
+            "right": 208,
+            "bottom": 961.3333333333334
+          }
+        },
+        {
+          "text": "dough",
+          "confidence": 94.872154,
+          "bounds": {
+            "left": 218.33333333333334,
+            "top": 939.3333333333334,
+            "right": 297,
+            "bottom": 967.3333333333334
+          }
+        },
+        {
+          "text": "on...\"",
+          "confidence": 84.225067,
+          "bounds": {
+            "left": 307.3333333333333,
+            "top": 941,
+            "right": 374.3333333333333,
+            "bottom": 961.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions 4 Order M2) Menu",
+      "confidence": 68.69,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 1028.6666666666667,
+        "right": 636.3333333333334,
+        "bottom": 1059.3333333333333
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 56.184296,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 1028.6666666666667,
+            "right": 97.33333333333333,
+            "bottom": 1059.3333333333333
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.910858,
+          "bounds": {
+            "left": 118,
+            "top": 1032,
+            "right": 242,
+            "bottom": 1054.6666666666667
+          }
+        },
+        {
+          "text": "4",
+          "confidence": 0,
+          "bounds": {
+            "left": 320,
+            "top": 1028.6666666666667,
+            "right": 348,
+            "bottom": 1059.3333333333333
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 90.560051,
+          "bounds": {
+            "left": 369,
+            "top": 1032,
+            "right": 441,
+            "bottom": 1054.6666666666667
+          }
+        },
+        {
+          "text": "M2)",
+          "confidence": 73.438568,
+          "bounds": {
+            "left": 515,
+            "top": 1032.6666666666667,
+            "right": 549,
+            "bottom": 1058.3333333333333
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 96.066292,
+          "bounds": {
+            "left": 568,
+            "top": 1033.6666666666667,
+            "right": 636.3333333333334,
+            "bottom": 1054.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "ATL Wing Spot",
+      "confidence": 95.39,
+      "bounds": {
+        "left": 40.666666666666664,
+        "top": 1165.6666666666667,
+        "right": 272,
+        "bottom": 1200.3333333333333
+      },
+      "words": [
+        {
+          "text": "ATL",
+          "confidence": 96.372086,
+          "bounds": {
+            "left": 40.666666666666664,
+            "top": 1166,
+            "right": 98.33333333333333,
+            "bottom": 1192
+          }
+        },
+        {
+          "text": "Wing",
+          "confidence": 93.197258,
+          "bounds": {
+            "left": 108,
+            "top": 1166,
+            "right": 188.33333333333334,
+            "bottom": 1200.3333333333333
+          }
+        },
+        {
+          "text": "Spot",
+          "confidence": 96.601151,
+          "bounds": {
+            "left": 199.33333333333334,
+            "top": 1165.6666666666667,
+            "right": 272,
+            "bottom": 1200
+          }
+        }
+      ]
+    },
+    {
+      "text": "45% (110) -$10-20- 4 - Chicken Winas",
+      "confidence": 60.53,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1211,
+        "right": 560.6666666666666,
+        "bottom": 1232.3333333333333
+      },
+      "words": [
+        {
+          "text": "45%",
+          "confidence": 7.054222,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1212,
+            "right": 101,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "(110)",
+          "confidence": 7.054222,
+          "bounds": {
+            "left": 113.33333333333333,
+            "top": 1212,
+            "right": 171.66666666666666,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "-$10-20-",
+          "confidence": 66.70977,
+          "bounds": {
+            "left": 184,
+            "top": 1211,
+            "right": 309.3333333333333,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "4",
+          "confidence": 68.367386,
+          "bounds": {
+            "left": 325.6666666666667,
+            "top": 1211,
+            "right": 346,
+            "bottom": 1232.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 89.511581,
+          "bounds": {
+            "left": 361,
+            "top": 1223.6666666666667,
+            "right": 364.3333333333333,
+            "bottom": 1227
+          }
+        },
+        {
+          "text": "Chicken",
+          "confidence": 93.19593,
+          "bounds": {
+            "left": 375.3333333333333,
+            "top": 1212.3333333333333,
+            "right": 475,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "Winas",
+          "confidence": 91.825844,
+          "bounds": {
+            "left": 484.6666666666667,
+            "top": 1212.3333333333333,
+            "right": 560.6666666666666,
+            "bottom": 1232
+          }
+        }
+      ]
+    }
+  ]
+}

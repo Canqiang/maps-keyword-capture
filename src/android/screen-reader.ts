@@ -78,9 +78,10 @@ const CHROME_WORDS = new Set(['directions', 'order', 'menu', 'call', 'website', 
   'relevance', 'results', 'filters', 'opennow', 'rating', 'hours', 'book', 'online', 'join', 'waitlist', 'table', 'find']);
 // Receipt-verified Maps/Tesseract frames misread the star as 玄, 計 or 丙 (probe 5,
 // q0004 frame 15). The slot between a leading 1.0–5.0 rating and its parenthesised
-// count is only ever the star glyph, so accept at most one CJK glyph among the
+// count is only ever the star glyph, so accept at most one CJK glyph (or a spaced 'x', scheduled run
+// q0018 frame 19: '5.0 x (1)') among the
 // punctuation there; two or more CJK characters (3.9 公里 (1256)) remain prose.
-const RATING = /^\s*([1-4](?:[.,]\d)?|5(?:[.,]0)?)\s*(?:[^\da-z一-鿿(]{0,4}|[^\da-z一-鿿(]{0,2}[一-鿿][^\da-z一-鿿(]{0,2})\s*\(\s*(\d[\d,.]*)\s*([km])?\s*\)/iu;
+const RATING = /^\s*([1-4](?:[.,]\d)?|5(?:[.,]0)?)\s*(?:[^\da-z一-鿿(]{0,4}|[^\da-z一-鿿(]{0,2}[一-鿿][^\da-z一-鿿(]{0,2}|\s[x×]\s)\s*\(\s*(\d[\d,.]*)\s*([km])?\s*\)/iu;
 const NO_REVIEWS = /^\s*no reviews\b/iu;
 const DISTANCE = /(\d+(?:[.,]\d+)?)\s*(mi|ft|km|m)\b/iu;
 const OPEN_STATUS = /\b(temporarily closed|permanently closed|open 24 hours|closed|opens?|closes)\b/iu;
@@ -131,6 +132,29 @@ function parsePrice(token: string): string | null {
   return null;
 }
 
+// Candidate15 (scheduled run 2026-10-22 q0001 frame 49, q0004 frame 36): Tesseract sometimes reads the rating
+// number as its own line ('4.6', or '45' with the dot lost) beside '(39) · $10–20 · …' on the same row.
+const RATING_FRAGMENT = /^\s*([1-4])[.,]?(\d)\s*[^\da-z一-鿿(]{0,2}\s*$|^\s*(5)[.,]?(0)\s*[^\da-z一-鿿(]{0,2}\s*$/iu;
+const COUNT_HEAD = /^\s*\(\s*\d[\d,.]*\s*[km]?\s*\)/iu;
+/** Join a lone rating number with the review-count line directly to its right on the same row. */
+export function joinSplitRatingLines(input: OcrLine[]): OcrLine[] {
+  const lines = [...input], used = new Set<number>(), out: OcrLine[] = [];
+  lines.forEach((count, i) => {
+    if (used.has(i) || !COUNT_HEAD.test(count.text)) return;
+    const centre = (count.bounds.top + count.bounds.bottom) / 2;
+    const k = lines.findIndex((part, j) => j !== i && !used.has(j) && RATING_FRAGMENT.test(part.text) &&
+      part.bounds.right <= count.bounds.left + 2 && count.bounds.left - part.bounds.right <= 60 &&
+      Math.abs((part.bounds.top + part.bounds.bottom) / 2 - centre) <= 10);
+    if (k < 0) return;
+    const part = lines[k]!, m = RATING_FRAGMENT.exec(part.text)!;
+    const rating = m[1] ? `${m[1]}.${m[2]}` : `${m[3]}.${m[4]}`;
+    used.add(i); used.add(k);
+    out.push({ text: `${rating} ★ ${count.text.trim()}`, confidence: Math.min(part.confidence, count.confidence),
+      bounds: { left: part.bounds.left, top: Math.min(part.bounds.top, count.bounds.top), right: count.bounds.right, bottom: Math.max(part.bounds.bottom, count.bounds.bottom) } });
+  });
+  return [...lines.filter((_, i) => !used.has(i)), ...out];
+}
+
 /** Parse one OCR'd screenshot into the result cards visible inside the result sheet. */
 export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: string, capturedAt: string, sourceXml?: string): ScreenFrame {
   const frame: ScreenFrame = { frameId, capturedAt, imageSha256: ocr.imageSha256, queryVisible: false, sheetTop: null, topStateVerified: false, endOfResults: false, cards: [], warnings: [] };
@@ -140,7 +164,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
   // a supported, settled list. Unknown/photo layouts receive no positive proof.
   const native = inspected && inspected.bounds.left >= 0 && inspected.bounds.top >= 0 &&
     inspected.bounds.right <= ocr.imageWidth && inspected.bounds.bottom <= ocr.imageHeight ? inspected : null;
-  const lines = [...ocr.lines].sort((a, b) => a.bounds.top - b.bounds.top || a.bounds.left - b.bounds.left);
+  const lines = joinSplitRatingLines(ocr.lines).sort((a, b) => a.bounds.top - b.bounds.top || a.bounds.left - b.bounds.left);
   const query = normalizeText(keyword);
   // The result sheet starts at its own copy of the query. Map labels above it are never results.
   const headers = lines.filter(line => {
@@ -266,8 +290,23 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
       // Keep capturing it, rather than invalidating the complete prefix above.
       const lastCard = frame.cards.at(-1);
       if (sameList && candidates.length === 0 && lastCard && owner.bottom === native.bounds.bottom && owner.top > lastCard.bounds.bottom &&
-        group.some(marker => marker.kind === 'sponsored') && group.every(marker => marker.kind !== 'ambiguous' && marker.bounds && contains(owner, marker.bounds))) {
+        // Candidate15 (scheduled run batch 2 q0003 frame 8): the entering card may show only its 2 px 'About this ad' button.
+        group.some(marker => marker.kind === 'sponsored' || marker.kind === 'disclosure') && group.every(marker => marker.kind !== 'ambiguous' && marker.bounds && contains(owner, marker.bounds))) {
         frame.warnings.push('native_trailing_ad_header_pending');
+        continue;
+      }
+      // Candidate15 (scheduled run q0009 frame 3): an ad card scrolled under the list top keeps its clipped
+      // 'Sponsored' / 'About this ad' markers at the list edge and its rating line, but no readable name. The
+      // label belongs to that one nameless card; its identity still has to come from the previous frame.
+      const clippedHeader = sameList && native && owner.top === native.bounds.top && candidates.length === 0 &&
+        group.every(marker => marker.kind !== 'ambiguous' && marker.bounds && marker.bounds.top === native.bounds.top && contains(owner, marker.bounds)) &&
+        group.some(marker => marker.kind === 'sponsored');
+      const nameless = clippedHeader ? frame.cards.flatMap((card, index) => card.name === null && card.warnings.includes('name_clipped_at_top') &&
+        contains(owner, cardHeaders[index]!.rating) ? [index] : []) : [];
+      if (nameless.length === 1 && frame.cards.filter(card => contains(owner, card.bounds)).length === 1) {
+        const card = frame.cards[nameless[0]!]!;
+        card.resultType = 'ad'; card.adLabel ??= group.find(marker => marker.kind === 'sponsored')!.label;
+        card.warnings.push('native_ad_label_confirmed');
         continue;
       }
       // The exact native result list establishes only this association's scope.
@@ -341,7 +380,23 @@ function similarNames(a: string, b: string): boolean {
  * or extended reading of a different merchant is possible: there two confident names must have equal keys. */
 function compatibleNames(a: ScreenCard, b: ScreenCard): boolean {
   if (a.name === null || b.name === null || (a.nameConfidence ?? 0) < 40 || (b.nameConfidence ?? 0) < 40) return true;
-  return ![a, b].some(card => card.warnings.includes('card_header_clipped')) || nameKey(a.name) === nameKey(b.name);
+  return ![a, b].some(card => card.warnings.includes('card_header_clipped')) || clippedNamesAgree(nameKey(a.name), nameKey(b.name));
+}
+/** Candidate15: at a clipped header, two confident readings of one merchant may differ in a garbled
+ * middle (scheduled run q0013 frame 25: `Kennedy's nck & Sandwiches`; probe 14 卤味 frame 36: a misread
+ * CJK prefix before `Master of Braised Delicacies`). The shared start and end must cover at least 12
+ * characters and 60 % of the shorter key, and both keys must differ there (no pure extension); geometry,
+ * rating and reviews are checked by the caller. */
+export function clippedNamesAgree(a: string, b: string): boolean {
+  if (a === b) return true;
+  // A key that only extends the other is a possibly different merchant ('Hwa Lung Kitchen' / '… II').
+  if (a.startsWith(b) || b.startsWith(a) || a.endsWith(b) || b.endsWith(a)) return false;
+  let prefix = 0;
+  while (prefix < a.length && prefix < b.length && a[prefix] === b[prefix]) prefix++;
+  let suffix = 0;
+  while (suffix < a.length - prefix && suffix < b.length - prefix && a[a.length - 1 - suffix] === b[b.length - 1 - suffix]) suffix++;
+  const shared = prefix + suffix;
+  return shared >= 12 && shared >= 0.6 * Math.min(a.length, b.length);
 }
 
 function anchoredIdentity(a: ScreenCard, b: ScreenCard, delta: number | null): boolean {
@@ -620,12 +675,20 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
             if (edge >= 0 && joinRows[edge]) { used.add(edge); placed.set(i, joinRows[edge]!); edgeCorrected.add(i); }
             return;
           }
-          const geometric = ['low_name_confidence', 'name_clipped_at_top', 'card_header_clipped', 'status_line_clipped'];
+          // A confirmed native ad label is evidence, not uncertainty (scheduled run q0005 frames 8-9).
+          const geometric = ['low_name_confidence', 'name_not_recognized', 'name_clipped_at_top', 'card_header_clipped', 'status_line_clipped', 'native_ad_label_confirmed'];
           if (!card.warnings.every(warning => geometric.includes(warning))) { continuous = false; warnings.push(`anchored_card_unmatched: ${before.frameId} -> ${frame.frameId}`); return; }
+          // Candidate15 (scheduled run q0012 frame 6): a rating line cut by the list top keeps only its bottom edge.
+          const topClipped = !!frame.nativeListBounds && card.ratingBounds.top <= frame.nativeListBounds.top + 2;
           const at = before.cards.findIndex((a, k) => !used.has(k) && a.ratingBounds !== null && a.ratingBounds !== undefined &&
             a.warnings.every(warning => geometric.includes(warning)) && compatibleNames(a, card) &&
-            Math.abs(a.ratingBounds.top - expected) <= 12 && Math.abs(a.ratingBounds.left - card.ratingBounds!.left) <= 4 &&
-            a.rating !== null && a.reviewCount !== null && a.rating === card.rating && a.reviewCount === card.reviewCount &&
+            (Math.abs(a.ratingBounds.top - expected) <= 12 || (topClipped && Math.abs(a.ratingBounds.bottom - (card.ratingBounds!.bottom - m.delta!)) <= 12)) &&
+            Math.abs(a.ratingBounds.left - card.ratingBounds!.left) <= 4 &&
+            ((a.rating !== null && a.reviewCount !== null && a.rating === card.rating && a.reviewCount === card.reviewCount) ||
+              // Candidate15 (scheduled run batch 2 q0001 frames 36-37): a 'No reviews' card has no rating to compare;
+              // it needs the same confident name instead.
+              (a.rating === null && card.rating === null && a.reviewCount === 0 && card.reviewCount === 0 && a.name !== null && card.name !== null &&
+                (a.nameConfidence ?? 0) >= 40 && (card.nameConfidence ?? 0) >= 40 && nameKey(a.name) === nameKey(card.name))) &&
             !(a.distanceText !== null && card.distanceText !== null && a.distanceText !== card.distanceText) &&
             !(a.resultType !== 'unknown' && card.resultType !== 'unknown' && a.resultType !== card.resultType));
           if (at < 0 || joinRows[at] === undefined) { continuous = false; warnings.push(`anchored_card_unmatched: ${before.frameId} -> ${frame.frameId}`); return; }
