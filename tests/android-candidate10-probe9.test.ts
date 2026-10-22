@@ -73,15 +73,19 @@ describe('candidate10: CJK name read below the confidence floor (probe 9 q0001 f
     const result = reconcileScreenFrames([kept(), next()], 20);
     expect(result).toMatchObject({ sequenceVerified: true, rankingReliable: true, unknownCount: 0 });
     expect(result.listings.at(-1)).toMatchObject({ name: 'Braised Canaan 迦 南 地 滷 味', resultType: 'organic', organicRank: 2 });
-    expect(result.listings.at(-1)?.warnings).toEqual(['low_confidence_name_resolved_by_line_anchors']);
+    expect(result.listings.at(-1)?.warnings).toEqual(['name_joined_by_line_anchors']);
   });
   it('refuses the resolution when the metadata or the movement disagrees, and stops once the card is no longer the newest', () => {
-    expect(reconcileScreenFrames([kept(), next(card => { card.reviewCount = 76; })], 20).rankingReliable).toBe(false);
     expect(reconcileScreenFrames([kept(), next(card => { card.ratingBounds!.top += 40; })], 20).rankingReliable).toBe(false);
-    const f19 = kept(), later = next(card => { card.name = 'Another Deli'; });
+    const f19 = kept(), later = next(card => { card.reviewCount = 76; });
     const result = reconcileScreenFrames([f19, later], 20);
     expect(result.rankingReliable).toBe(false);
     expect(onlyPendingLowConfidence(result, [f19, later])).toBe(false);
+  });
+  it('treats a confident but different reading with identical metadata and movement as the same occurrence (candidate11)', () => {
+    const result = reconcileScreenFrames([kept(), next(card => { card.name = 'Another Deli'; })], 20);
+    expect(result).toMatchObject({ rankingReliable: true, organicCount: 2 });
+    expect(result.listings.at(-1)).toMatchObject({ name: 'Another Deli', warnings: ['name_joined_by_line_anchors'] });
   });
 });
 

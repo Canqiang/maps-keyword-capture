@@ -190,6 +190,23 @@ Next action (candidate10): make the source-change refresh budget per *gesture* (
 
 Next action: probe 10 on a fresh verification Pod with these compiled files (same five queries, then the nine-store set), following the checklist below. Record the original exit code, counts and receipts here whatever the outcome.
 
+## Candidate10 checkpoint (probe 10) and candidate11
+
+2026-10-22 06:39–07:00 UTC, run `run_20261022T063939Z_3f8f10`, new Pod `maps-nine-android-verify-20261022` (UID `d7d6489f…`, 4-hour deadline from 06:32Z; the expired `…20261021b` Pod was deleted, PVC kept; emulator started from `runtime.py`, booted 06:36Z; Appium 3.8.0 started from `appium.sh`), source `/runtime/nine-store-source-20261022a` (main `2944c8d`, 156 files SHA-256 verified in the Pod), output `/runtime/nine-store-verification-20261022a`, same five tasks and limits as probe 9. Original exit 2, `needs_review`, all five GPS fixes matched. Independent check (`android-probe10-review/verify.py`): 891 artifact receipts verified, 223 PNGs decoded, 5 + 72 CSV rows matched. **Outcome: 2 of 5 complete reliable Top 20 for the first time; 0 source-change refreshes were needed.**
+
+| Query | Screens / rows | Stop | What happened |
+|---|---:|---|---|
+| q0001 卤味 @ keke-center | 7 / 1 | `stalled_no_new_cards` | Google listed Er Hou Roast Chicken first this time (Keke was first in probe 9). Inside the tall photo-discovery module only one OCR line repeated exactly between frames, so measured progress was false three times and the query stalled. |
+| q0002 chinese food @ keke-3km | 69 / 20 | `target_reached` | Complete, reliable; Keke not in the Top 20. Two corrections used and both rejoined. |
+| q0003 bubble tea near me @ onlybear-center | 44 / 18 | `ranking_unreliable` | Frame 42's only card name was not recognised (no cards); frames 43 and the corrected 44 were compared with that empty frame only, so the gap was reported and 44's two cards were appended again (rows 17-18 duplicate 15-16). |
+| q0004 hot pot near me @ seejoy-5km | 55 / 20 | `target_reached` | Complete, reliable; SEE JOY not in the Top 20. |
+| q0005 bakery @ uws-center | 43 / 13 | `ranking_unreliable` | One card (4.3, 985 reviews, 0.2 mi) read as Maman / miamian / maman / Maman (last below the floor) in frames 40-43 became four rows; anchored continuity held, so the duplicates were silently appended before the low-confidence reading stopped the query. |
+
+Candidate11 (listing method v14), tests `tests/android-candidate11-probe10.test.ts` from byte-for-byte probe-10 fixtures (`candidate10-*`, `provenance-candidate10-probe10.json`; 4 fail on candidate10, the 3 guards pass on both), full suite 1,610 tests:
+- one unique OCR line of at least 16 characters moving up within 70% of the list counts as progress (stall counter only);
+- at an anchored overlap position, equal rating, review count and distance plus a rating line moved by the anchored amount identify the same occurrence whatever the OCR names (replaces the one-directional low-confidence resolver); the most confident reading names the row (`name_joined_by_line_anchors`);
+- when the previous frame shows no cards, a frame that does not join it is compared with the last frame that showed cards (`overlap_verified_across_cardless_frame`); a real gap is still reported.
+
 ## Operational read-only commands
 
 ```sh

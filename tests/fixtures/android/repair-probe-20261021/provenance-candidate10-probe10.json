@@ -1,0 +1,151 @@
+{
+ "run": "run_20261022T063939Z_3f8f10",
+ "source": "2944c8d (candidate10)",
+ "note": "Byte-for-byte probe 10 artifacts copied for candidate11 regression tests",
+ "files": [
+  {
+   "fixture": "candidate10-q0001-04.ocr.json",
+   "original": "q0001/20261022T064022.148Z__keyword__04.ocr.json",
+   "bytes": 13226,
+   "sha256": "d5103e927d2abe83c2fcaf6dd5bac756c8cf62bea1ddcf7cc28037c01c23bc8f"
+  },
+  {
+   "fixture": "candidate10-q0001-04.xml",
+   "original": "q0001/20261022T064022.148Z__keyword__04.xml",
+   "bytes": 69810,
+   "sha256": "c906e4dd23858618b96b6ad636665c5b11abb9977173b817f7f951a6768be86b"
+  },
+  {
+   "fixture": "candidate10-q0001-05.ocr.json",
+   "original": "q0001/20261022T064026.261Z__keyword__05.ocr.json",
+   "bytes": 6817,
+   "sha256": "1fd117000c90b0d28fbac9a2b3f76e446124049c61d888e1afa1576165a19c35"
+  },
+  {
+   "fixture": "candidate10-q0001-05.xml",
+   "original": "q0001/20261022T064026.261Z__keyword__05.xml",
+   "bytes": 66805,
+   "sha256": "3e063439602b5470ce9c3b97067cb63af0fbaf8bbaa22365fb7aefc07c1aed44"
+  },
+  {
+   "fixture": "candidate10-q0001-06.ocr.json",
+   "original": "q0001/20261022T064030.380Z__keyword__06.ocr.json",
+   "bytes": 5554,
+   "sha256": "75b7508c6aefeb766f80f29b4cf0fe6a02199ef8fc3d0cb958c91b0827a87f0a"
+  },
+  {
+   "fixture": "candidate10-q0001-06.xml",
+   "original": "q0001/20261022T064030.380Z__keyword__06.xml",
+   "bytes": 66805,
+   "sha256": "3a768e739d8998a5fba0176677a884e9f2a4bfe7da06f72cef0a895e0573d965"
+  },
+  {
+   "fixture": "candidate10-q0001-07.ocr.json",
+   "original": "q0001/20261022T064034.579Z__keyword__07.ocr.json",
+   "bytes": 7245,
+   "sha256": "3b168d8b39f8253ee2e3896879393f01730021876e067fa299a3b24138a53ba8"
+  },
+  {
+   "fixture": "candidate10-q0001-07.xml",
+   "original": "q0001/20261022T064034.579Z__keyword__07.xml",
+   "bytes": 66805,
+   "sha256": "ea36c3671bffe5dc62ba6bab2759124a98311a5a53fad8b15c8bbd6bb1dc38cf"
+  },
+  {
+   "fixture": "candidate10-q0005-40.ocr.json",
+   "original": "q0005/20261022T070017.385Z__bakery__40.ocr.json",
+   "bytes": 19547,
+   "sha256": "e4b4719dd703bd67bdc0a48a3eb316d632e885adf7647f16560f35ddf8628fcd"
+  },
+  {
+   "fixture": "candidate10-q0005-40.xml",
+   "original": "q0005/20261022T070017.385Z__bakery__40.xml",
+   "bytes": 80063,
+   "sha256": "ee6539af61d4df9c83c80da6fa94fdf8d3b164d5da7a3f5c88ccb3fe66db0ab0"
+  },
+  {
+   "fixture": "candidate10-q0005-41.ocr.json",
+   "original": "q0005/20261022T070022.251Z__bakery__41.ocr.json",
+   "bytes": 20555,
+   "sha256": "259c2d21c93fa09419543dcad705c5f1c631bdc615bbf4bfdbba9ccad4229c65"
+  },
+  {
+   "fixture": "candidate10-q0005-41.xml",
+   "original": "q0005/20261022T070022.251Z__bakery__41.xml",
+   "bytes": 83567,
+   "sha256": "7af8b0329bda9c97da8c0e598bba06819bbbf0572a0b2b0a5aaeef418829c7a0"
+  },
+  {
+   "fixture": "candidate10-q0005-42.ocr.json",
+   "original": "q0005/20261022T070027.081Z__bakery__42.ocr.json",
+   "bytes": 23160,
+   "sha256": "0d3e892d20047092039be167be72cd28999310ce33084f1831fa37a921c3a0ae"
+  },
+  {
+   "fixture": "candidate10-q0005-42.xml",
+   "original": "q0005/20261022T070027.081Z__bakery__42.xml",
+   "bytes": 82817,
+   "sha256": "167b13d664e253f87db191f36cfe8b6ae4bd5efefba479245471583b356cd538"
+  },
+  {
+   "fixture": "candidate10-q0005-43.ocr.json",
+   "original": "q0005/20261022T070034.314Z__bakery__43.ocr.json",
+   "bytes": 22465,
+   "sha256": "e0216dd839ad2269caca50cbeb67bd0ed60c7a63fde6939865b7fa9041aa5b76"
+  },
+  {
+   "fixture": "candidate10-q0005-43.xml",
+   "original": "q0005/20261022T070034.314Z__bakery__43.xml",
+   "bytes": 81547,
+   "sha256": "34f8ab250dd1578e47fe4637da0dae0e8b6b72f295322c1fef30742a41fe85e8"
+  },
+  {
+   "fixture": "candidate10-q0003-41.ocr.json",
+   "original": "q0003/20261022T065106.105Z__bubble-tea-near-me__41.ocr.json",
+   "bytes": 22370,
+   "sha256": "abe6b066a7616f6daf55acad75401b879a14fd284990d2544389239f4760db2f"
+  },
+  {
+   "fixture": "candidate10-q0003-41.xml",
+   "original": "q0003/20261022T065106.105Z__bubble-tea-near-me__41.xml",
+   "bytes": 87045,
+   "sha256": "4d3f2accf00f7138b5c9c4fafeb6338ea5e0535311ecdb62e67a60a92ea3a44d"
+  },
+  {
+   "fixture": "candidate10-q0003-42.ocr.json",
+   "original": "q0003/20261022T065110.429Z__bubble-tea-near-me__42.ocr.json",
+   "bytes": 20427,
+   "sha256": "ef48c8c3f11002c19ded5ccc7a6eec806476d753b8d9ead39711a9786f6318bc"
+  },
+  {
+   "fixture": "candidate10-q0003-42.xml",
+   "original": "q0003/20261022T065110.429Z__bubble-tea-near-me__42.xml",
+   "bytes": 82214,
+   "sha256": "cd9bebbbe4ec1cdc8d6cba036853e5419425737e7ebf41d5f6cc476be4253b8e"
+  },
+  {
+   "fixture": "candidate10-q0003-43.ocr.json",
+   "original": "q0003/20261022T065115.303Z__bubble-tea-near-me__43.ocr.json",
+   "bytes": 22274,
+   "sha256": "078ede01d684f05656512fdbd8068bb6b075aa32b50f17cbf47c37eb4c72969d"
+  },
+  {
+   "fixture": "candidate10-q0003-43.xml",
+   "original": "q0003/20261022T065115.303Z__bubble-tea-near-me__43.xml",
+   "bytes": 83841,
+   "sha256": "92028adecec25ea3d54a514467b1ce7f59d384aa025b5a186769a8eab828853a"
+  },
+  {
+   "fixture": "candidate10-q0003-44.ocr.json",
+   "original": "q0003/20261022T065123.611Z__bubble-tea-near-me__44.ocr.json",
+   "bytes": 26059,
+   "sha256": "aea9ef62e32c85f13e94867028063858d2827fd7f0dde77144c4e6a590616886"
+  },
+  {
+   "fixture": "candidate10-q0003-44.xml",
+   "original": "q0003/20261022T065123.611Z__bubble-tea-near-me__44.xml",
+   "bytes": 87045,
+   "sha256": "d12d6cff64b53d97cbf759dfaf600d29b4f6a4e6bfd59030933a3b72ad9e20d4"
+  }
+ ]
+}

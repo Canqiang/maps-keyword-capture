@@ -327,19 +327,22 @@ function similarNames(a: string, b: string): boolean {
   return union > 0 && shared / union >= 0.5;
 }
 /**
- * Probe 9 (q0001 frame 19): a fully visible card whose CJK name OCR'd below the confidence floor is
- * 'unknown'. When the next frame shows the same card legibly at an anchored overlap position, the
- * earlier reading is resolved: same rating, review count and distance (all present), a shared name
- * prefix, and its rating line moved by the anchored amount. Nothing else may be uncertain.
+ * Identity proven by geometry when the text is not (candidate10). At an anchored overlap position
+ * the previous frame's card and this frame's card are the same occurrence when rating and review
+ * count are present and equal, distances agree when both are visible, the rating line keeps its
+ * horizontal span and moved by the anchored amount. Names may then disagree:
+ * - probe 9 q0001 frame 19: a CJK name read below the confidence floor ('unknown');
+ * - probe 10 q0005 frames 40-43: 'Maman' read as 'miamian', 'maman' and a low-confidence 'Maman',
+ *   which became four rows. The row keeps the most confident reading.
+ * Only name-confidence uncertainty may be present; a known ad/organic disagreement refuses.
  */
-function resolvesLowConfidence(a: ScreenCard, b: ScreenCard, delta: number | null): boolean {
-  if (delta === null || a.resultType !== 'unknown' || a.warnings.length !== 1 || a.warnings[0] !== 'low_name_confidence' ||
-    a.name === null || b.name === null || (b.nameConfidence ?? 0) < 40 || b.resultType === 'unknown' || b.warnings.length ||
-    a.rating === null || a.reviewCount === null || a.distanceText === null || a.rating !== b.rating || a.reviewCount !== b.reviewCount || a.distanceText !== b.distanceText ||
-    !a.ratingBounds || !b.ratingBounds || Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 4) return false;
-  const ka = nameKey(a.name), kb = nameKey(b.name);
-  let prefix = 0; while (prefix < ka.length && prefix < kb.length && ka[prefix] === kb[prefix]) prefix++;
-  if (!(similarNames(a.name, b.name) || (prefix >= 6 && prefix >= Math.min(ka.length, kb.length) * 0.4))) return false;
+function anchoredIdentity(a: ScreenCard, b: ScreenCard, delta: number | null): boolean {
+  const onlyName = (card: ScreenCard): boolean => card.warnings.every(warning => warning === 'low_name_confidence');
+  if (delta === null || !onlyName(a) || !onlyName(b) || (a.resultType !== 'unknown' && b.resultType !== 'unknown' && a.resultType !== b.resultType) ||
+    a.name === null || b.name === null || Math.max(a.nameConfidence ?? 0, b.nameConfidence ?? 0) < 40 ||
+    a.rating === null || a.reviewCount === null || a.rating !== b.rating || a.reviewCount !== b.reviewCount ||
+    (a.distanceText !== null && b.distanceText !== null && a.distanceText !== b.distanceText) ||
+    !a.ratingBounds || !b.ratingBounds || Math.abs(b.ratingBounds.left - a.ratingBounds.left) > 4 || Math.abs(b.ratingBounds.right - a.ratingBounds.right) > 4) return false;
   return Math.abs((b.ratingBounds.top - a.ratingBounds.top) - delta) <= 12;
 }
 
@@ -498,6 +501,18 @@ export function hasMeasuredScreenProgress(previous: ScreenFrame | undefined, fra
     !previous.queryVisible || !frame.queryVisible || before.left !== after.left || before.right !== after.right || before.bottom !== after.bottom || Math.abs(before.top - after.top) > 2) return false;
   const anchored = anchoredContinuity(previous, frame);
   if (anchored !== null && anchored <= -2) return true;
+  // Probe 10 (q0001 frames 4-7): inside the tall photo-discovery module only one OCR line
+  // ("discover through photos") reads identically between frames, so the two-anchor rule
+  // cannot see the steady upward movement and the query stalled. This check only feeds the
+  // stall counter; ranking continuity still needs card overlap or two anchors. One unique
+  // line of at least 16 characters, same horizontal span, moving up by less than 70% of the
+  // list counts as progress.
+  const height = after.bottom - after.top;
+  if ((previous.anchors ?? []).some(a => a.text.length >= 16 && previous.anchors!.filter(o => o.text === a.text).length === 1 && (() => {
+    const same = (frame.anchors ?? []).filter(b => b.text === a.text);
+    return same.length === 1 && Math.abs(same[0]!.bounds.left - a.bounds.left) <= 4 && Math.abs(same[0]!.bounds.right - a.bounds.right) <= 4 &&
+      same[0]!.bounds.top < a.bounds.top - 2 && same[0]!.bounds.top > a.bounds.top - height * MAX_ANCHORED_ADVANCE;
+  })())) return true;
   return previous.cards.some(card => card.name !== null && card.ratingBounds && frame.cards.some(next =>
     next.name !== null && next.ratingBounds && sameCard(card, next) && nameKey(card.name!) === nameKey(next.name) &&
     next.ratingBounds.top < card.ratingBounds!.top - 2 && next.ratingBounds.top > card.ratingBounds!.top - (after.bottom - after.top) * 0.5 &&
@@ -510,45 +525,57 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
   const warnings: string[] = [];
   let previous: ScreenFrame | undefined;
   let previousRows: RankedListing[] = [];
+  // The last frame that showed cards, with its rows (probe 10 q0003: a frame whose only card name
+  // was not recognised leaves no cards; the next frames still overlap the frame before it).
+  let lastWithCards: { frame: ScreenFrame; rows: RankedListing[] } | undefined;
   let continuous = frames[0]?.topStateVerified === true;
+  const match = (before: ScreenFrame, beforeRows: RankedListing[], frame: ScreenFrame) => {
+    const out = { overlap: 0, clipped: false, drift: false, anchoredJoin: false, resolved: new Set<number>(), delta: anchoredContinuity(before, frame) };
+    for (let count = Math.min(before.cards.length, frame.cards.length); count > 0; count--) {
+      const pairs = frame.cards.slice(0, count).map((card, i) => [before.cards[before.cards.length - count + i]!, card] as const);
+      if (pairs.every(([a, b]) => sameCard(a, b))) { out.overlap = count; return out; }
+      if (pairs.every(([a, b]) => sameCard(a, b) || anchoredIdentity(a, b, out.delta))) {
+        out.overlap = count; pairs.forEach(([a, b], i) => { if (!sameCard(a, b)) out.resolved.add(i); }); return out;
+      }
+      if (clippedPrefixOverlap(before, frame, count)) { out.overlap = count; out.clipped = true; return out; }
+      if (measuredDriftOverlap(before, frame, count)) { out.overlap = count; out.drift = true; return out; }
+    }
+    if (out.delta !== null && anchoredClippedJoin(before, beforeRows.at(-1), frame, out.delta)) { out.overlap = 1; out.anchoredJoin = true; }
+    return out;
+  };
   if (frames.length && !continuous) warnings.push('list_top_unverified');
   for (const frame of frames) {
     if (frame.warnings.includes('native_ad_evidence_unresolved')) {
       continuous = false; warnings.push('native_ad_evidence_unresolved');
     }
     let overlap = 0;
-    let clippedOverlap = false, driftOverlap = false, anchoredJoin = false;
-    const resolved = new Set<number>();
+    let clippedOverlap = false, driftOverlap = false, anchoredJoin = false, acrossEmpty = false;
+    let resolved = new Set<number>();
+    let joinRows = previousRows;
     if (previous) {
-      const anchoredDelta = anchoredContinuity(previous, frame);
-      for (let count = Math.min(previous.cards.length, frame.cards.length); count > 0; count--) {
-        const pairs = frame.cards.slice(0, count).map((card, i) => [previous!.cards[previous!.cards.length - count + i]!, card] as const);
-        if (pairs.every(([a, b]) => sameCard(a, b))) { overlap = count; break; }
-        if (pairs.every(([a, b]) => sameCard(a, b) || resolvesLowConfidence(a, b, anchoredDelta))) {
-          overlap = count; pairs.forEach(([a, b], i) => { if (!sameCard(a, b)) resolved.add(i); }); break;
-        }
-        if (clippedPrefixOverlap(previous, frame, count)) { overlap = count; clippedOverlap = true; break; }
-        if (measuredDriftOverlap(previous, frame, count)) { overlap = count; driftOverlap = true; break; }
+      let m = match(previous, previousRows, frame);
+      if (!m.overlap && m.delta === null && frame.cards.length && !previous.cards.length && lastWithCards) {
+        const fallback = match(lastWithCards.frame, lastWithCards.rows, frame);
+        if (fallback.overlap) { m = fallback; joinRows = lastWithCards.rows; acrossEmpty = true; }
       }
-      if (!overlap) {
-        const delta = anchoredContinuity(previous, frame);
-        if (delta !== null && anchoredClippedJoin(previous, previousRows.at(-1), frame, delta)) { overlap = 1; anchoredJoin = true; }
-        else if (delta === null && frame.cards.length) { continuous = false; warnings.push(`ordered_overlap_missing: ${previous.frameId} -> ${frame.frameId}`); }
-      }
+      ({ overlap, resolved } = m); clippedOverlap = m.clipped; driftOverlap = m.drift; anchoredJoin = m.anchoredJoin;
+      if (!overlap && m.delta === null && frame.cards.length) { continuous = false; warnings.push(`ordered_overlap_missing: ${previous.frameId} -> ${frame.frameId}`); }
     }
     const rows: RankedListing[] = [];
     for (let i = 0; i < frame.cards.length; i++) {
       const card = frame.cards[i]!;
       if (i < overlap) {
-        const existing = previousRows[previousRows.length - overlap + i]!;
+        const existing = joinRows[joinRows.length - overlap + i]!;
+        if (acrossEmpty && !existing.warnings.includes('overlap_verified_across_cardless_frame')) existing.warnings.push('overlap_verified_across_cardless_frame');
         if (!existing.frameIds.includes(frame.frameId)) existing.frameIds.push(frame.frameId);
         if (clippedOverlap && i === 0) existing.warnings.push('clipped_prefix_verified_by_ordered_overlap');
         if (driftOverlap && !existing.warnings.includes('name_drift_joined_by_measured_overlap')) existing.warnings.push('name_drift_joined_by_measured_overlap');
         if (anchoredJoin && !existing.warnings.includes('clipped_prefix_verified_by_line_anchors')) existing.warnings.push('clipped_prefix_verified_by_line_anchors');
         if (resolved.has(i)) {
-          existing.name = card.name; existing.nameConfidence = card.nameConfidence; existing.resultType = card.resultType; existing.adLabel = card.adLabel;
-          existing.warnings = existing.warnings.filter(warning => warning !== 'low_name_confidence');
-          if (!existing.warnings.includes('low_confidence_name_resolved_by_line_anchors')) existing.warnings.push('low_confidence_name_resolved_by_line_anchors');
+          if (existing.resultType === 'unknown' && card.resultType !== 'unknown') { existing.resultType = card.resultType; existing.adLabel = card.adLabel; }
+          if ((card.nameConfidence ?? 0) > (existing.nameConfidence ?? 0)) { existing.name = card.name; existing.nameConfidence = card.nameConfidence; }
+          if ((existing.nameConfidence ?? 0) >= 40) existing.warnings = existing.warnings.filter(warning => warning !== 'low_name_confidence');
+          if (!existing.warnings.includes('name_joined_by_line_anchors')) existing.warnings.push('name_joined_by_line_anchors');
         }
         if ((card.nameConfidence ?? 0) > (existing.nameConfidence ?? 0)) { existing.name = card.name; existing.nameConfidence = card.nameConfidence; }
         if (existing.warnings.includes('status_line_clipped') && !card.warnings.includes('status_line_clipped')) {
@@ -567,6 +594,7 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
     }
     // Empty photo-module frames do not prove a connection across the next swipe.
     previous = frame; previousRows = rows;
+    if (frame.cards.length) lastWithCards = { frame, rows };
   }
   const trimmed = listings.slice(0, maxDisplayedResults);
   let organic = 0, rankingReliable = frames.length > 0 && frames[0]?.topStateVerified === true &&

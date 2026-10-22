@@ -1,0 +1,924 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "48f1352323b0095864af8e3362a99fbe88605f24052775f499f1cede76583d5d",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "Le Bain Quotidien 40)",
+      "confidence": 79.55,
+      "bounds": {
+        "left": 123,
+        "top": 0,
+        "right": 716.3333333333334,
+        "bottom": 49
+      },
+      "words": [
+        {
+          "text": "Le",
+          "confidence": 96.590469,
+          "bounds": {
+            "left": 123,
+            "top": 8.333333333333334,
+            "right": 147.66666666666666,
+            "bottom": 27.333333333333332
+          }
+        },
+        {
+          "text": "Bain",
+          "confidence": 72.801865,
+          "bounds": {
+            "left": 155,
+            "top": 0,
+            "right": 204,
+            "bottom": 44.333333333333336
+          }
+        },
+        {
+          "text": "Quotidien",
+          "confidence": 89.926849,
+          "bounds": {
+            "left": 212.33333333333334,
+            "top": 3,
+            "right": 321,
+            "bottom": 37.333333333333336
+          }
+        },
+        {
+          "text": "40)",
+          "confidence": 58.883701,
+          "bounds": {
+            "left": 615.3333333333334,
+            "top": 0,
+            "right": 716.3333333333334,
+            "bottom": 49
+          }
+        }
+      ]
+    },
+    {
+      "text": "“Their pastries were O25)",
+      "confidence": 79.05,
+      "bounds": {
+        "left": 132.33333333333334,
+        "top": 13.333333333333334,
+        "right": 434.3333333333333,
+        "bottom": 72.33333333333333
+      },
+      "words": [
+        {
+          "text": "“Their",
+          "confidence": 71.834801,
+          "bounds": {
+            "left": 132.33333333333334,
+            "top": 39.333333333333336,
+            "right": 187.33333333333334,
+            "bottom": 56.333333333333336
+          }
+        },
+        {
+          "text": "pastries",
+          "confidence": 96.665016,
+          "bounds": {
+            "left": 193.33333333333334,
+            "top": 40,
+            "right": 268.3333333333333,
+            "bottom": 60.666666666666664
+          }
+        },
+        {
+          "text": "were",
+          "confidence": 96.495331,
+          "bounds": {
+            "left": 274.6666666666667,
+            "top": 44,
+            "right": 321.3333333333333,
+            "bottom": 56.333333333333336
+          }
+        },
+        {
+          "text": "O25)",
+          "confidence": 51.197693,
+          "bounds": {
+            "left": 335.6666666666667,
+            "top": 13.333333333333334,
+            "right": 434.3333333333333,
+            "bottom": 72.33333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "3:00 Astesh & delicious!\" o GVA",
+      "confidence": 57.77,
+      "bounds": {
+        "left": 72,
+        "top": 55.333333333333336,
+        "right": 627.3333333333334,
+        "bottom": 82.33333333333333
+      },
+      "words": [
+        {
+          "text": "3:00",
+          "confidence": 93.294243,
+          "bounds": {
+            "left": 72,
+            "top": 57.666666666666664,
+            "right": 124.33333333333333,
+            "bottom": 78.66666666666667
+          }
+        },
+        {
+          "text": "Astesh",
+          "confidence": 2.070839,
+          "bounds": {
+            "left": 164,
+            "top": 65.33333333333333,
+            "right": 197,
+            "bottom": 82.33333333333333
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 91.647469,
+          "bounds": {
+            "left": 204,
+            "top": 66,
+            "right": 216.33333333333334,
+            "bottom": 82.33333333333333
+          }
+        },
+        {
+          "text": "delicious!\"",
+          "confidence": 79.270309,
+          "bounds": {
+            "left": 223,
+            "top": 65.33333333333333,
+            "right": 321.3333333333333,
+            "bottom": 82.33333333333333
+          }
+        },
+        {
+          "text": "o",
+          "confidence": 18.057716,
+          "bounds": {
+            "left": 534,
+            "top": 58.333333333333336,
+            "right": 546,
+            "bottom": 75.66666666666667
+          }
+        },
+        {
+          "text": "GVA",
+          "confidence": 62.262665,
+          "bounds": {
+            "left": 569,
+            "top": 55.333333333333336,
+            "right": 627.3333333333334,
+            "bottom": 81
+          }
+        }
+      ]
+    },
+    {
+      "text": "bakery x",
+      "confidence": 91.32,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 211,
+        "right": 661,
+        "bottom": 252.66666666666666
+      },
+      "words": [
+        {
+          "text": "bakery",
+          "confidence": 96.823013,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 211.33333333333334,
+            "right": 179.33333333333334,
+            "bottom": 252.66666666666666
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 85.810547,
+          "bounds": {
+            "left": 635,
+            "top": 211,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "Maman",
+      "confidence": 15.93,
+      "bounds": {
+        "left": 42,
+        "top": 314,
+        "right": 158,
+        "bottom": 333.6666666666667
+      },
+      "words": [
+        {
+          "text": "Maman",
+          "confidence": 15.93219,
+          "bounds": {
+            "left": 42,
+            "top": 314,
+            "right": 158,
+            "bottom": 333.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.3% (985) - $20-30- & - Coffee shop",
+      "confidence": 73.4,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 352,
+        "right": 533.6666666666666,
+        "bottom": 381
+      },
+      "words": [
+        {
+          "text": "4.3%",
+          "confidence": 66.171265,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 354.6666666666667,
+            "right": 76.66666666666667,
+            "bottom": 375.3333333333333
+          }
+        },
+        {
+          "text": "(985)",
+          "confidence": 92.901985,
+          "bounds": {
+            "left": 112.33333333333333,
+            "top": 353,
+            "right": 174.66666666666666,
+            "bottom": 379
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 28.099869,
+          "bounds": {
+            "left": 189.66666666666666,
+            "top": 364.6666666666667,
+            "right": 190.33333333333334,
+            "bottom": 368
+          }
+        },
+        {
+          "text": "$20-30-",
+          "confidence": 28.099869,
+          "bounds": {
+            "left": 201.33333333333334,
+            "top": 352,
+            "right": 315.3333333333333,
+            "bottom": 377.6666666666667
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 90.636566,
+          "bounds": {
+            "left": 332,
+            "top": 352.3333333333333,
+            "right": 351.6666666666667,
+            "bottom": 378
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 88.504234,
+          "bounds": {
+            "left": 367,
+            "top": 364.6666666666667,
+            "right": 370.3333333333333,
+            "bottom": 368
+          }
+        },
+        {
+          "text": "Coffee",
+          "confidence": 96.064171,
+          "bounds": {
+            "left": 381.3333333333333,
+            "top": 353,
+            "right": 463.3333333333333,
+            "bottom": 375.3333333333333
+          }
+        },
+        {
+          "text": "shop",
+          "confidence": 96.710938,
+          "bounds": {
+            "left": 473,
+            "top": 353.3333333333333,
+            "right": 533.6666666666666,
+            "bottom": 381
+          }
+        }
+      ]
+    },
+    {
+      "text": "‘",
+      "confidence": 7.16,
+      "bounds": {
+        "left": 61.333333333333336,
+        "top": 674.3333333333334,
+        "right": 63.333333333333336,
+        "bottom": 677
+      },
+      "words": [
+        {
+          "text": "‘",
+          "confidence": 7.162674,
+          "bounds": {
+            "left": 61.333333333333336,
+            "top": 674.3333333333334,
+            "right": 63.333333333333336,
+            "bottom": 677
+          }
+        }
+      ]
+    },
+    {
+      "text": "¥ i ate",
+      "confidence": 47.47,
+      "bounds": {
+        "left": 59.333333333333336,
+        "top": 683.3333333333334,
+        "right": 168.33333333333334,
+        "bottom": 691
+      },
+      "words": [
+        {
+          "text": "¥",
+          "confidence": 77.690735,
+          "bounds": {
+            "left": 59.333333333333336,
+            "top": 688,
+            "right": 62.333333333333336,
+            "bottom": 690.3333333333334
+          }
+        },
+        {
+          "text": "i",
+          "confidence": 21.669479,
+          "bounds": {
+            "left": 145.33333333333334,
+            "top": 686.6666666666666,
+            "right": 149.33333333333334,
+            "bottom": 691
+          }
+        },
+        {
+          "text": "ate",
+          "confidence": 43.040447,
+          "bounds": {
+            "left": 154.33333333333334,
+            "top": 683.3333333333334,
+            "right": 168.33333333333334,
+            "bottom": 690
+          }
+        }
+      ]
+    },
+    {
+      "text": "SERIES > ay",
+      "confidence": 28.04,
+      "bounds": {
+        "left": 56.333333333333336,
+        "top": 689.6666666666666,
+        "right": 183.66666666666666,
+        "bottom": 706.3333333333334
+      },
+      "words": [
+        {
+          "text": "SERIES",
+          "confidence": 14.297981,
+          "bounds": {
+            "left": 56.333333333333336,
+            "top": 693,
+            "right": 146.33333333333334,
+            "bottom": 706.3333333333334
+          }
+        },
+        {
+          "text": ">",
+          "confidence": 31.333824,
+          "bounds": {
+            "left": 152,
+            "top": 689.6666666666666,
+            "right": 173.66666666666666,
+            "bottom": 704
+          }
+        },
+        {
+          "text": "ay",
+          "confidence": 38.498772,
+          "bounds": {
+            "left": 169,
+            "top": 696.3333333333334,
+            "right": 183.66666666666666,
+            "bottom": 706
+          }
+        }
+      ]
+    },
+    {
+      "text": "Ten gba, 也",
+      "confidence": 14.35,
+      "bounds": {
+        "left": 57,
+        "top": 697,
+        "right": 112.66666666666667,
+        "bottom": 713
+      },
+      "words": [
+        {
+          "text": "Ten",
+          "confidence": 13.342171,
+          "bounds": {
+            "left": 57,
+            "top": 698.3333333333334,
+            "right": 63.333333333333336,
+            "bottom": 704
+          }
+        },
+        {
+          "text": "gba,",
+          "confidence": 13.342171,
+          "bounds": {
+            "left": 81,
+            "top": 698.6666666666666,
+            "right": 111.66666666666667,
+            "bottom": 708
+          }
+        },
+        {
+          "text": "也",
+          "confidence": 16.379433,
+          "bounds": {
+            "left": 105.66666666666667,
+            "top": 697,
+            "right": 112.66666666666667,
+            "bottom": 713
+          }
+        }
+      ]
+    },
+    {
+      "text": "@ ‘Beautiful flaky, buttery pastries, plus the",
+      "confidence": 84.19,
+      "bounds": {
+        "left": 50.666666666666664,
+        "top": 734,
+        "right": 611.3333333333334,
+        "bottom": 765.3333333333334
+      },
+      "words": [
+        {
+          "text": "@",
+          "confidence": 60.240841,
+          "bounds": {
+            "left": 50.666666666666664,
+            "top": 751,
+            "right": 65.33333333333333,
+            "bottom": 765.3333333333334
+          }
+        },
+        {
+          "text": "‘Beautiful",
+          "confidence": 46.850243,
+          "bounds": {
+            "left": 94,
+            "top": 734,
+            "right": 215.33333333333334,
+            "bottom": 756.3333333333334
+          }
+        },
+        {
+          "text": "flaky,",
+          "confidence": 96.209656,
+          "bounds": {
+            "left": 225,
+            "top": 734.3333333333334,
+            "right": 288,
+            "bottom": 762
+          }
+        },
+        {
+          "text": "buttery",
+          "confidence": 96.36721,
+          "bounds": {
+            "left": 299,
+            "top": 734.3333333333334,
+            "right": 387.6666666666667,
+            "bottom": 762
+          }
+        },
+        {
+          "text": "pastries,",
+          "confidence": 96.606018,
+          "bounds": {
+            "left": 397,
+            "top": 734.3333333333334,
+            "right": 502,
+            "bottom": 762
+          }
+        },
+        {
+          "text": "plus",
+          "confidence": 96.503136,
+          "bounds": {
+            "left": 513,
+            "top": 734.3333333333334,
+            "right": 562.6666666666666,
+            "bottom": 762
+          }
+        },
+        {
+          "text": "the",
+          "confidence": 96.580536,
+          "bounds": {
+            "left": 572,
+            "top": 734.3333333333334,
+            "right": 611.3333333333334,
+            "bottom": 756.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "“atmosphere is something special.\"",
+      "confidence": 80.85,
+      "bounds": {
+        "left": 44.666666666666664,
+        "top": 769.3333333333334,
+        "right": 522.3333333333334,
+        "bottom": 797.3333333333334
+      },
+      "words": [
+        {
+          "text": "“atmosphere",
+          "confidence": 44.164047,
+          "bounds": {
+            "left": 44.666666666666664,
+            "top": 769.3333333333334,
+            "right": 242.33333333333334,
+            "bottom": 797
+          }
+        },
+        {
+          "text": "is",
+          "confidence": 96.138474,
+          "bounds": {
+            "left": 252.66666666666666,
+            "top": 769.3333333333334,
+            "right": 269.6666666666667,
+            "bottom": 791.3333333333334
+          }
+        },
+        {
+          "text": "something",
+          "confidence": 96.491997,
+          "bounds": {
+            "left": 279,
+            "top": 769.3333333333334,
+            "right": 409.3333333333333,
+            "bottom": 797.3333333333334
+          }
+        },
+        {
+          "text": "special.\"",
+          "confidence": 86.624413,
+          "bounds": {
+            "left": 420,
+            "top": 769.3333333333334,
+            "right": 522.3333333333334,
+            "bottom": 797
+          }
+        }
+      ]
+    },
+    {
+      "text": "@ Directions M2) Menu % Call <",
+      "confidence": 60.19,
+      "bounds": {
+        "left": 67,
+        "top": 859,
+        "right": 714.6666666666666,
+        "bottom": 889
+      },
+      "words": [
+        {
+          "text": "@",
+          "confidence": 21.738708,
+          "bounds": {
+            "left": 67,
+            "top": 859,
+            "right": 97,
+            "bottom": 889
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 96.02829,
+          "bounds": {
+            "left": 118.33333333333333,
+            "top": 862.3333333333334,
+            "right": 241.66666666666666,
+            "bottom": 884.3333333333334
+          }
+        },
+        {
+          "text": "M2)",
+          "confidence": 48.367195,
+          "bounds": {
+            "left": 317.3333333333333,
+            "top": 863,
+            "right": 350.6666666666667,
+            "bottom": 888
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 95.318726,
+          "bounds": {
+            "left": 370.3333333333333,
+            "top": 864,
+            "right": 438,
+            "bottom": 884.3333333333334
+          }
+        },
+        {
+          "text": "%",
+          "confidence": 0,
+          "bounds": {
+            "left": 516.3333333333334,
+            "top": 860.3333333333334,
+            "right": 543.3333333333334,
+            "bottom": 887.6666666666666
+          }
+        },
+        {
+          "text": "Call",
+          "confidence": 91.375961,
+          "bounds": {
+            "left": 565.3333333333334,
+            "top": 862,
+            "right": 608.3333333333334,
+            "bottom": 884.3333333333334
+          }
+        },
+        {
+          "text": "<",
+          "confidence": 68.489037,
+          "bounds": {
+            "left": 687.3333333333334,
+            "top": 859,
+            "right": 714.6666666666666,
+            "bottom": 889
+          }
+        }
+      ]
+    },
+    {
+      "text": "Mille-feuille Bakery Cafe",
+      "confidence": 95.13,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 995.6666666666666,
+        "right": 429,
+        "bottom": 1030
+      },
+      "words": [
+        {
+          "text": "Mille-feuille",
+          "confidence": 92.311295,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 996,
+            "right": 226,
+            "bottom": 1022.6666666666666
+          }
+        },
+        {
+          "text": "Bakery",
+          "confidence": 96.47982,
+          "bounds": {
+            "left": 237.66666666666666,
+            "top": 996,
+            "right": 345,
+            "bottom": 1030
+          }
+        },
+        {
+          "text": "Cafe",
+          "confidence": 96.609924,
+          "bounds": {
+            "left": 354.6666666666667,
+            "top": 995.6666666666666,
+            "right": 429,
+            "bottom": 1022.6666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.7% (1718) - $10-20 . & - Bakery",
+      "confidence": 77.67,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1033.6666666666667,
+        "right": 468.6666666666667,
+        "bottom": 1071.3333333333333
+      },
+      "words": [
+        {
+          "text": "4.7%",
+          "confidence": 55.862305,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1043.6666666666667,
+            "right": 76.33333333333333,
+            "bottom": 1064
+          }
+        },
+        {
+          "text": "(1718)",
+          "confidence": 89.842484,
+          "bounds": {
+            "left": 111.33333333333333,
+            "top": 1042,
+            "right": 179.66666666666666,
+            "bottom": 1068
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 66.088623,
+          "bounds": {
+            "left": 193.66666666666666,
+            "top": 1053.6666666666667,
+            "right": 195.33333333333334,
+            "bottom": 1057
+          }
+        },
+        {
+          "text": "$10-20",
+          "confidence": 51.383305,
+          "bounds": {
+            "left": 206.33333333333334,
+            "top": 1041,
+            "right": 317.3333333333333,
+            "bottom": 1066.6666666666667
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 80.179886,
+          "bounds": {
+            "left": 313,
+            "top": 1033.6666666666667,
+            "right": 322.6666666666667,
+            "bottom": 1071.3333333333333
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 91.535896,
+          "bounds": {
+            "left": 334,
+            "top": 1041.3333333333333,
+            "right": 353.6666666666667,
+            "bottom": 1067
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 89.461967,
+          "bounds": {
+            "left": 369,
+            "top": 1053.6666666666667,
+            "right": 372.3333333333333,
+            "bottom": 1057
+          }
+        },
+        {
+          "text": "Bakery",
+          "confidence": 96.979843,
+          "bounds": {
+            "left": 384.3333333333333,
+            "top": 1042.3333333333333,
+            "right": 468.6666666666667,
+            "bottom": 1070
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closed - Opens 7 AM - 0.4 mi",
+      "confidence": 89.39,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1082,
+        "right": 404,
+        "bottom": 1110
+      },
+      "words": [
+        {
+          "text": "Closed",
+          "confidence": 90.822151,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1082,
+            "right": 127,
+            "bottom": 1104.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 78.906296,
+          "bounds": {
+            "left": 138,
+            "top": 1093.6666666666667,
+            "right": 141.33333333333334,
+            "bottom": 1097
+          }
+        },
+        {
+          "text": "Opens",
+          "confidence": 94.077995,
+          "bounds": {
+            "left": 151.33333333333334,
+            "top": 1083.6666666666667,
+            "right": 232.66666666666666,
+            "bottom": 1110
+          }
+        },
+        {
+          "text": "7",
+          "confidence": 95.926064,
+          "bounds": {
+            "left": 242,
+            "top": 1084,
+            "right": 254,
+            "bottom": 1104
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 93.181229,
+          "bounds": {
+            "left": 262.6666666666667,
+            "top": 1084,
+            "right": 301.3333333333333,
+            "bottom": 1104
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 70.828178,
+          "bounds": {
+            "left": 314,
+            "top": 1093.6666666666667,
+            "right": 317.3333333333333,
+            "bottom": 1097
+          }
+        },
+        {
+          "text": "0.4",
+          "confidence": 95.67453,
+          "bounds": {
+            "left": 328.6666666666667,
+            "top": 1083.6666666666667,
+            "right": 367.6666666666667,
+            "bottom": 1104.3333333333333
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 95.67453,
+          "bounds": {
+            "left": 378,
+            "top": 1082.3333333333333,
+            "right": 404,
+            "bottom": 1104
+          }
+        }
+      ]
+    }
+  ]
+}
