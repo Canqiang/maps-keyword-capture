@@ -196,6 +196,10 @@ describe('shipped UI behavior', () => {
     expect(html).toContain('>未见*<');
     expect(html).toContain('目标 Top 10 · 1 次');
     expect(html).not.toContain('ov-detail');
+    ui.run('c.store.keywordTargets[1].bestVariant=true; byPoint.get("keke-center").push({...byPoint.get("keke-center")[0], observationId:"v1", keyword:"best big", keywordKey:"best big"}); c.words=overviewRoster(c.store,byPoint,c.r);');
+    const withVariant: string = ui.run('overviewTable(c)');
+    expect([...withVariant.matchAll(/data-keyword="([^"]+)"/g)].map(m => m[1])).toEqual(['big','best big','small','odd','daily word']);
+    expect(withVariant).toContain('ov-row variant');
     ui.run('c.r.keyword="big";');
     const open: string = ui.run('overviewTable(c)');
     expect(open.match(/class="ov-detail"/g)).toHaveLength(1);
@@ -233,6 +237,12 @@ describe('shipped UI behavior', () => {
     expect(scoped.keywordTargets[2]).toMatchObject({ keyword:'chinese food flushing', scanPoints:['k-center'], pointTargets:[{ pointId:'k-center', targetRank:3 }] });
     expect(scoped.keywordTargets[2].pointTargets).toHaveLength(1);
     expect(ui.run('changeSummary(s,draftBody(s,d)).queries')).toBe(5);
+    ui.run('d.targets[0].best=true;');
+    expect(ui.run('draftBody(s,d).keywordTargets[0].bestVariant')).toBe(true);
+    expect(ui.run('changeSummary(s,draftBody(s,d)).queries')).toBe(7);
+    expect(ui.run('changeSummary(s,draftBody(s,d)).lines')).toContain('best 版本：开启 卤味');
+    ui.run('d.targets.push({keyword:"best deli",volume:"",scan:null,best:true,goals:{},original:null});');
+    expect(ui.run('draftBody(s,d).keywordTargets.at(-1).bestVariant')).toBeUndefined();
   });
   it('keeps a newer exact evidence selection when an older detail resolves last', async () => {
     let resolveOld!: (value: unknown) => void;

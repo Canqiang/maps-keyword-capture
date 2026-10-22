@@ -136,6 +136,11 @@ describe('tracking ui server', () => {
     const centerOnly = [...keywordTargets, { keyword: 'chinese food flushing', scanPoints: ['keke-center'] }];
     const plan = planScan(withStores(config, [parseStore({ ...keke, fixedPoints: points, keywordTargets: centerOnly })]), { surface: 'web', tier: 'point' });
     expect(plan.queries.map(q => q.keyword + '@' + q.point.id).sort()).toEqual(['braised food@keke-3km', 'braised food@keke-center', 'chinese food flushing@keke-center', '卤味 near me@keke-3km', '卤味 near me@keke-center']);
+    const withBest = [{ keyword: 'braised food', bestVariant: true }, { keyword: 'chinese food flushing', scanPoints: ['keke-center'], bestVariant: true }];
+    const bestPlan = planScan(withStores(config, [parseStore({ ...keke, fixedPoints: points, keywordTargets: withBest })]), { surface: 'web', tier: 'point' });
+    expect(bestPlan.queries.map(q => q.keyword + '@' + q.point.id).sort()).toEqual(['best braised food@keke-3km', 'best braised food@keke-center', 'best chinese food flushing@keke-center', 'braised food@keke-3km', 'braised food@keke-center', 'chinese food flushing@keke-center']);
+    expect((await bad([{ keyword: 'Best Chinese food', bestVariant: true }])).body.error).toMatch(/already starts with best/);
+    expect((await bad([{ keyword: 'deli', bestVariant: true }, { keyword: 'best  deli' }])).body.error).toMatch(/already a monitored keyword/);
     await call('/api/stores/keke-flushing/active', { method: 'PUT', body: JSON.stringify({ active: false }) });
     const log = (await call('/api/stores/keke-flushing/changes')).body.changes;
     expect(log.map((c: { action: string }) => c.action)).toEqual(['pause', 'update', 'create']);

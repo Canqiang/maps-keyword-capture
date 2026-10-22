@@ -45,7 +45,15 @@ const pointTargetSchema = z.object({
 const keywordTargetSchema = z.object({
   keyword, sourceSearchVolumeText: z.string().max(300).default(''), sourceRoleAndConditions: z.string().max(1000).default(''), pointTargets: z.array(pointTargetSchema).default([]),
   scanPoints: z.array(safeId).min(1).max(100).optional(),
+  /** Also search "best <keyword>" at the same points; it is recorded as its own keyword. */
+  bestVariant: z.boolean().optional(),
 }).strict();
+
+/** The "best" form of a monitored keyword, or null when the keyword already starts with "best". */
+export function bestVariantOf(keyword: string): string | null {
+  const trimmed = keyword.trim().replace(/\s+/gu, ' ');
+  return /^best\b/iu.test(trimmed) ? null : `best ${trimmed}`;
+}
 export const monitoringTargetSchema = z.object({ catalog: monitoringCatalogSchema, point: fixedPointSchema, target: pointTargetSchema }).strict();
 const storeSchema = z.object({
   storeId: safeId,
@@ -71,7 +79,13 @@ const storeSchema = z.object({
   const pointIds = new Set(store.fixedPoints?.map(p => p.id) ?? []);
   if (pointIds.size !== (store.fixedPoints?.length ?? 0)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['fixedPoints'], message: 'needs unique fixed point IDs' });
   const seen = new Set<string>();
+  const monitored = new Set((store.keywordTargets ?? []).map(t => keywordKey(t.keyword)));
   for (const [index, target] of (store.keywordTargets ?? []).entries()) {
+    if (target.bestVariant) {
+      const variant = bestVariantOf(target.keyword);
+      if (!variant) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'bestVariant'], message: `${target.keyword} already starts with best` });
+      else if (monitored.has(keywordKey(variant))) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'bestVariant'], message: `${variant} is already a monitored keyword` });
+    }
     const key = keywordKey(target.keyword);
     if (seen.has(key)) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['keywordTargets', index, 'keyword'], message: `monitored keyword repeated: ${target.keyword}` });
     seen.add(key);
@@ -227,8 +241,14 @@ export function planScan(config: TrackingConfig, selection: { surface: Surface; 
     const selectedKeywords = store.keywordTargets?.map(t => t.keyword) ?? [...store.keywords.core, ...store.keywords.longTail];
     const keywords: Array<[string, KeywordTier]> = selectedKeywords.map((k): [string, KeywordTier] => [k, store.keywords.core.some(core => keywordKey(core) === keywordKey(k)) ? 'core' : 'longTail']).filter(([, tier]) => tierConfig.keywords === 'all' || tier === 'core');
     const scanPoints = new Map((store.keywordTargets ?? []).filter(t => t.scanPoints).map(t => [keywordKey(t.keyword), new Set(t.scanPoints)]));
-    for (const point of points) for (const [kw, keywordTier] of keywords) {
-      if (selection.tier === 'point' && scanPoints.get(keywordKey(kw))?.has(point.id) === false) continue;
+    const withBest = new Set((store.keywordTargets ?? []).filter(t => t.bestVariant).map(t => keywordKey(t.keyword)));
+    // A best variant follows its keyword's points and tier; it is a separate query and a separate series.
+    const expanded = keywords.flatMap(([kw, tier]): Array<[string, KeywordTier, string]> => {
+      const variant = withBest.has(keywordKey(kw)) && selection.tier === 'point' ? bestVariantOf(kw) : null;
+      return variant ? [[kw, tier, keywordKey(kw)], [variant, tier, keywordKey(kw)]] : [[kw, tier, keywordKey(kw)]];
+    });
+    for (const point of points) for (const [kw, keywordTier, base] of expanded) {
+      if (selection.tier === 'point' && scanPoints.get(base)?.has(point.id) === false) continue;
       queries.push({ storeId: store.storeId, placeId: store.placeId, aliases: store.aliases, keyword: kw, keywordTier, point, zoom: config.defaults.zoom, ...(store.expectedArea ? { expectedArea: store.expectedArea } : {}) });
     }
   }

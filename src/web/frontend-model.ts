@@ -87,6 +87,8 @@ export function createFrontendModel() {
     const base = sorted.find(o => o.eligible && o.metricOrganicRank !== null && o.cohortKey === latest.cohortKey)!;
     return { latest, delta: base === latest ? null : base.metricOrganicRank! - latest.metricOrganicRank };
   };
+  /** Same rule as the scan planner's bestVariantOf. */
+  const bestVariant = (keyword: string): string | null => { const t = keyword.trim().replace(/\s+/gu, ' '); return /^best\b/iu.test(t) ? null : 'best ' + t; };
   const evidenceUrl = (s: string): string | null => /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u.test(s) && !s.split('/').some(x=>x==='' || x==='.' || x==='..') ? '/api/evidence?key='+encodeURIComponent(s) : null;
   const activeKeywords = (store: TargetStore): string[] => store.keywordTargets ? store.keywordTargets.map(t => t.keyword) : [...store.keywords.core, ...store.keywords.longTail];
   const targetFor = (store: TargetStore, keyword: string, pointId: string) => store.keywordTargets?.find(t => key(t.keyword) === key(keyword))?.pointTargets.find(t => t.pointId === pointId) ?? null;
@@ -97,5 +99,5 @@ export function createFrontendModel() {
     });
     return [...choices, ...observed.filter(o => !planned.some(p => p.id === o.pointId))];
   };
-  return { escape,key,daily,present,compare,days,segments,series,stats,volume,movement,evidenceUrl,activeKeywords,targetFor,pointChoices };
+  return { escape,key,daily,present,compare,days,segments,series,stats,volume,movement,bestVariant,evidenceUrl,activeKeywords,targetFor,pointChoices };
 }

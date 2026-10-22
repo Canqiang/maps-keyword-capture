@@ -2,6 +2,8 @@
 
 > **2026-10-22 起，门店配置以 Mongo `monitor-target-stores-v1` 为准，在页面“门店设置”里维护。** Web 采集任务 `maps-targets-web-2h` 每轮开始时从这个集合读取所有启用门店、监控关键词、目标名次和采集点，不再读取本目录文件，也不再校验目录哈希。新商家在页面上新增门店、填写监控关键词即可进入下一轮采集。每次保存都记入 `monitor-target-stores-v1-changes`（修改人、时间、改动字段、增删的监控词）。本目录文件仅作为 10 月 16 日报告的原始记录和首次导入来源；Android 候选任务（挂起中）仍使用它。
 >
+> **best 版本**：监控词可开启 `bestVariant`，在同样的采集点再搜一次“best + 原词”，作为独立关键词和独立曲线记录（总览里紧跟在原词下方）。已以 best 开头的词不能开启；生成的 best 版本与另一个监控词重名会被拒绝。目标名次和搜索量只属于原词；门店列表的统计只算原词。每个开启的词使每轮搜索次数翻倍，保存前的变更摘要会显示新的次数。
+>
 > **从 SEO 词库导入**：设置页“从 SEO 词库导入”按 Place ID 只读读取 `seo-integration.local_keywords`（与日监控相同的 Mongo 连接，整表按 `_id` 读取，因为 UAT Mongo 拒绝无索引的过滤查询），按 P0–P3 列出该店的词并标出已在监控的，勾选后加入监控词表、经变更摘要保存。新增门店可直接从 SEO 门店选择，自动填入名称、Place ID 和 Merchant ID；门店列表会提示 SEO 词库里尚未加入的门店。多条记录争同一个 Place ID 的门店不能导入。环境变量 `TRACKING_SEO_LIBRARY=off` 可关闭，`TRACKING_SEO_DATABASE` / `TRACKING_SEO_COLLECTION` 可改来源。
 >
 > 监控关键词默认在门店的每个采集点各搜一次；`scanPoints` 可把某个词限定在部分采集点（例如带城市名的词，Google 会忽略地图位置把结果拉回该城市）。Keke 原两小时任务的 41 个词已按“仅中心点”并入 Keke 的配置，`maps-tracking-web-2h` 已挂起。Web 任务分 3 片并行。
