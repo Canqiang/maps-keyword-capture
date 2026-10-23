@@ -1,0 +1,69 @@
+{
+  "status": "failed_acceptance",
+  "sameSourceAndDigest": true,
+  "frozenCatalogSha256": "c5b191ee6a89d39c8713fe61cefe7e1b3b5125025c565c5606008fa8d9aef7b6",
+  "uniqueStoreAssignment": true,
+  "workers": [
+    {
+      "index": 0,
+      "pod": "maps-android-stale-v24-20261023-0-h5pzt",
+      "podIP": "10.0.66.127",
+      "tracking": {
+        "containerID": "containerd://a2cb2865fe7920ce067720ac36a638f05a6660d91e3e3934df1a19a77fa4a5f0",
+        "exitCode": 1,
+        "finishedAt": "2026-10-23T07:57:35Z",
+        "reason": "Error",
+        "startedAt": "2026-10-23T07:49:43Z"
+      },
+      "root": "/runtime/monitor-workers/0",
+      "emulatorStartedAt": "2026-10-23T07:47:31.499476+00:00",
+      "emulatorReadyAt": "2026-10-23T07:49:38.593766+00:00"
+    },
+    {
+      "index": 1,
+      "pod": "maps-android-stale-v24-20261023-1-nv4dp",
+      "podIP": "10.0.66.115",
+      "tracking": {
+        "containerID": "containerd://5be7ff03265ad897d4676938a3596a900338c3a8281a126da393086b55479919",
+        "exitCode": 1,
+        "finishedAt": "2026-10-23T07:57:34Z",
+        "reason": "Error",
+        "startedAt": "2026-10-23T07:52:23Z"
+      },
+      "root": "/runtime/monitor-workers/1",
+      "emulatorStartedAt": "2026-10-23T07:50:31.516122+00:00",
+      "emulatorReadyAt": "2026-10-23T07:52:22.646285+00:00"
+    }
+  ],
+  "trackingProcessOverlapSeconds": 311.0,
+  "simultaneousSearchValidated": false,
+  "note": "Tracking overlap alone is insufficient; inspect independently derived search/capture overlap below.",
+  "observedNodeSamplePeaks": {
+    "cpuMilli": 2950,
+    "memoryMi": 11357,
+    "sampleCount": 31,
+    "scope": "sampled node metrics only; not actual peak or full concurrent capacity proof"
+  },
+  "searchCaptureIntervals": [
+    {
+      "worker": 0,
+      "submissionAt": "2026-10-23T07:50:21.851Z",
+      "lastRankingCaptureAt": "2026-10-23T07:56:53.389000+00:00",
+      "submissions": 1,
+      "commandFailures": []
+    },
+    {
+      "worker": 1,
+      "submissionAt": "2026-10-23T07:53:03.394Z",
+      "lastRankingCaptureAt": "2026-10-23T07:56:44.146000+00:00",
+      "submissions": 1,
+      "commandFailures": []
+    }
+  ],
+  "searchCaptureOverlapSeconds": 220.752,
+  "simultaneousSearchObserved": true,
+  "completeRankedQueries": [
+    false,
+    false
+  ]
+}

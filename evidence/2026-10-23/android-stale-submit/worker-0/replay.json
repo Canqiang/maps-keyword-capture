@@ -1,0 +1,34 @@
+{
+  "scope": "Same-source parse/reconcile of all selected OCR/XML; not fresh OCR or full visual QA",
+  "selectedFrames": 30,
+  "exactListingEquality": true,
+  "sequenceVerified": true,
+  "rankingReliable": true,
+  "warnings": [],
+  "rows": 13,
+  "lastEndOfResults": false,
+  "changedFrames": [
+    {
+      "frameId": "q0001:frame-027",
+      "withReread": [
+        {
+          "name": "Longjiang Pork Feet Rice",
+          "rating": 4.1,
+          "reviewCount": 18
+        }
+      ],
+      "withoutReread": []
+    }
+  ],
+  "withoutNativeControls": {
+    "sequenceVerified": true,
+    "rankingReliable": true,
+    "warnings": [],
+    "rows": 13
+  },
+  "withoutReread": {
+    "sequenceVerified": true,
+    "warnings": [],
+    "rows": 13
+  }
+}

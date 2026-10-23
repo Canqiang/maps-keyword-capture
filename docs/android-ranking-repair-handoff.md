@@ -1,8 +1,21 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-23. **Same-version OnlyBear acceptance passed; two-worker acceptance failed; production Android remains suspended.** The new failure is a confirmed post-submit stale search-field read, with durable Appium evidence. Current v23 still preserves the historical ad/display/natural-rank contract, but the new runs contained no positive ad sample. No runtime code, production image or schedule was changed in this follow-up.
+Last updated: 2026-10-23. **Post-submit stale-read recovery is implemented (v24); dual-worker complete collection still fails at OCR. Production Android remains suspended.** No duplicate search submission occurred. The latest failures must not be reported as complete rankings or as another Appium stale failure.
 
-## Latest verified checkpoint (2026-10-23, two-worker run ended15:29:39 Asia/Shanghai)
+## Latest checkpoint (2026-10-23, dual run ended15:57:35 Asia/Shanghai)
+
+- **Fix:** source`bfa6976db59cb1aef239d20c2b918f66a5481fc3`, ACR`ch15ag`, image`sha256:bc2e2b9275211679cf5c44d18a0ca31c2eb615c739a97285ca5a0fab3cc80ce8`, listing method v24. Only exact HTTP404 W3C stale-element GET errors inside the post-submit read loop may trigger at most three fresh acquisitions, within the existing deadline. Input/submission mutations and generic errors are never retried.
+- **Tests:** regression red→green;214 device tests,94 files/1,803 full-suite tests, typecheck/contracts/build and independent review pass.
+- **Actual concurrency:** KEKE and OnlyBear had220.752 seconds of overlapping search/capture and311 seconds of tracking-process overlap. All1,231 device-journal commands recovered (1,137 Appium HTTP +94 ADB); zero failures; each search submitted exactly once. No live stale event occurred: recovery branch proof is the targeted regression, not a claimed live replay.
+- **Remaining failure:** both original tracking exits1, `screen_ocr_failed`. KEKE retained33 query PNGs/13 diagnostic organic rows; OnlyBear14 query PNGs/10 rows; two additional location PNGs. Both lists partial and final target ranks null. No fresh positive ad case.
+- **Cause boundary:** valid terminal PNG/XML, but no terminal OCR result. Timing is compatible with the30s OCR budget; actual child exit/stderr was not retained, so CPU/timeout/OOM cannot yet be asserted. Persist structured OCR diagnostics and replay the two immutable PNGs before selecting the next fix. Do not resubmit search or blindly raise timeout.
+- **Previous rating fix exercised:** KEKE frame27 full-screen OCR4.19%/18 was reread twice as4.1%/18; resulting4.1/18 matches the PNG.
+- **Readback:**222 Azure objects/220 exact writer receipts plus two service-length-only scan roots;49 PNGs,49 XML,120 JSON, four CSVs/23 prefix rows verified. Seven PNGs visually sampled. Both database records match failed/null-rank manifests.92 protected workload/config checks unchanged. Maps location remains unverified.
+- **Isolation:** new Job/database`maps-android-stale-v24-20261023`, dedicated crawler and separate worker roots; no current collector promotion, schedule/catalog/history change or old-gate deletion. Failed verification gate retained. Code committed locally; no push/merge.
+
+See [v24 fix, final evidence and next-owner steps](../evidence/2026-10-23/android-stale-submit/README.md). Full logs/screenshots are in the durable `android-stale-submit-2026-10-23` visualization directory linked there.
+
+## Historical v23 checkpoint (2026-10-23, two-worker run ended15:29:39 Asia/Shanghai)
 
 Same runtime source `bd894e7f9c6e69f98bd06f40bba7eeb2b56d7f09`, ACR `ch15ad`, digest `sha256:8220c787f89e9c370122e73e42a17945dc09e3d5e8ac3e90a26a43c1b138df53`, listing method v23. Local branch `codex/android-search-scroll-20261023`; no new runtime build or promotion.
 

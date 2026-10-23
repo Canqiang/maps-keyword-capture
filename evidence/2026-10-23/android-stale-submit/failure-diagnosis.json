@@ -1,0 +1,114 @@
+{
+  "status": "failed_concurrent_complete_collection_acceptance",
+  "confirmed": "Both searches submitted once and progressed through native screenshots; both stopped in screen_ocr with retained terminal PNG/XML but no terminal OCR result. All device-journal command sequences recovered without errors.",
+  "notEstablished": "The OCR process stderr/exit reason was converted into generic screen_ocr_failed and not durably retained. Approximately 30 seconds from terminal screenshots to termination is compatible with OCR deadline, not conclusive proof of timeout, CPU starvation, OOM or parser failure. Node metrics are samples only.",
+  "staleRecoveryNativeBranch": "No stale read occurred in this new run; bounded recovery is proven by red-green HTTP fixture tests, not a live recovery event.",
+  "workers": [
+    {
+      "worker": 0,
+      "runId": "run_20261023T074944Z_3e872e",
+      "keyword": "braised food flushing",
+      "counts": {
+        "total": 1,
+        "captured": 0,
+        "needsReview": 0,
+        "failed": 1,
+        "skipped": 0,
+        "screenshots": 33,
+        "locationScreenshots": 1,
+        "completeListingQueries": 0,
+        "partialListingQueries": 1,
+        "rankedQueries": 0,
+        "listings": 13,
+        "ads": 0,
+        "organic": 13,
+        "unknown": 0
+      },
+      "error": {
+        "code": "screen_ocr_failed",
+        "message": "Android capture stopped: screen_ocr_failed. Inspect local device or storage logs for details."
+      },
+      "listingStatus": "partial",
+      "targetRank": {
+        "displayPosition": null,
+        "organicRank": null
+      },
+      "terminalScreenshot": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-23/run_20261023T074944Z_3e872e/q0001/20261023T075705.247Z__braised-food-flushing__33.png",
+        "bytes": 448115,
+        "sha256": "b646e6c374873d7f2826289b259d1a406a160ace4aaa20cd4618b6e3260d26ae",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T074944Z_3e872e/q0001/20261023T075705.247Z__braised-food-flushing__33.png",
+        "verifiedAt": "2026-10-23T07:57:05.319Z",
+        "storageError": null
+      },
+      "terminalScreenshotCapturedAt": "2026-10-23T07:57:05.247Z",
+      "manifestFinishedAt": "2026-10-23T07:57:35.766Z",
+      "ocrTimeoutMs": 30000,
+      "keywordTimeoutMs": 600000,
+      "mapsLocationStatus": "unverified",
+      "completeDeviceCommandSequence": true,
+      "deviceCommands": 813,
+      "appiumHttpCommands": 767,
+      "adbCommands": 46,
+      "deviceCommandFailures": []
+    },
+    {
+      "worker": 1,
+      "runId": "run_20261023T075224Z_d95b73",
+      "keyword": "bubble tea garden city",
+      "counts": {
+        "total": 1,
+        "captured": 0,
+        "needsReview": 0,
+        "failed": 1,
+        "skipped": 0,
+        "screenshots": 14,
+        "locationScreenshots": 1,
+        "completeListingQueries": 0,
+        "partialListingQueries": 1,
+        "rankedQueries": 0,
+        "listings": 10,
+        "ads": 0,
+        "organic": 10,
+        "unknown": 0
+      },
+      "error": {
+        "code": "screen_ocr_failed",
+        "message": "Android capture stopped: screen_ocr_failed. Inspect local device or storage logs for details."
+      },
+      "listingStatus": "partial",
+      "targetRank": {
+        "displayPosition": null,
+        "organicRank": null
+      },
+      "terminalScreenshot": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/20261023T075703.804Z__bubble-tea-garden-city__14.png",
+        "bytes": 165460,
+        "sha256": "07b5f6812c1a21d8115105e7f7d2b8604d73b5a7d4196902fa32484c808139f4",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/20261023T075703.804Z__bubble-tea-garden-city__14.png",
+        "verifiedAt": "2026-10-23T07:57:04.000Z",
+        "storageError": null
+      },
+      "terminalScreenshotCapturedAt": "2026-10-23T07:57:03.804Z",
+      "manifestFinishedAt": "2026-10-23T07:57:34.217Z",
+      "ocrTimeoutMs": 30000,
+      "keywordTimeoutMs": 600000,
+      "mapsLocationStatus": "unverified",
+      "completeDeviceCommandSequence": true,
+      "deviceCommands": 418,
+      "appiumHttpCommands": 370,
+      "adbCommands": 48,
+      "deviceCommandFailures": []
+    }
+  ],
+  "nextSteps": [
+    "Persist allowlisted structured OCR child exit/signal/timeout/stage/duration and bounded sanitized stderr, including startup/version/full-screen/rating-reread stages; retain PNG/XML before OCR.",
+    "Replay both exact terminal PNGs offline with the same Linux image, OCR languages/scale and one-versus-two process concurrency; collect actual timing and throttling/process diagnostics. Do not resubmit Maps searches.",
+    "Only after identifying the failure, choose a bounded resource/process/deadline fix, add regression tests and repeat isolated dual validation. Do not blindly increase timeout or promote current candidate.",
+    "Require both queries complete, full command sequences and single submissions, positive capture overlap, exact artifact readback and protected workload/config equality."
+  ]
+}

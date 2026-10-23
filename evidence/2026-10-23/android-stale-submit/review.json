@@ -1,0 +1,18 @@
+{
+  "reviewer": "review_search_scroll",
+  "codeBlockingFindings": 0,
+  "focusedTestsPassed": 7,
+  "verificationFindings": [
+    "Require complete/ranking-reliable queries, not executionStatus alone",
+    "Require complete consistent command sequences before counting submissions"
+  ],
+  "resolved": [
+    "Require complete listingStatus, rankingReliable, sequenceVerified, classificationComplete, screenshotCoverageComplete, captured evidence, valid end/max20 condition",
+    "Require fullRunSequenceRecovered and reject conflicting duplicate command sequences"
+  ],
+  "finalEvidenceReview": {
+    "blockingFindings": 0,
+    "correction": "1,231 device commands = 1,137 Appium HTTP +94 ADB; terminology corrected",
+    "conclusion": "Failed complete-collection acceptance and OCR uncertainty accurately retained"
+  }
+}

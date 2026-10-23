@@ -1,0 +1,79 @@
+{
+  "checkpoints": [
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/commands-0001-started.json",
+      "bytes": 5656,
+      "sha256": "2ffe4c0ce15d94a23ef73bb0407be084687c414978e54395fa7fcb045e124357",
+      "total": 29,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/commands-0007-closed.json",
+      "bytes": 63041,
+      "sha256": "b5050e446d73b81ea9ffa1a5cc8216e33a5b511266bed9ec82c1d1d8db70a0f3",
+      "total": 418,
+      "droppedRecent": 162,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/commands-0002-located.json",
+      "bytes": 15797,
+      "sha256": "260828c3abaa11805dba7269164623aab347d68f62542b6f78f3c02331203a4e",
+      "total": 74,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/commands-0003-searched.json",
+      "bytes": 31273,
+      "sha256": "92f0dccc0a798072ed843a093dd5664211dc104876eb42ec08d9d449197c5da5",
+      "total": 137,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/commands-0004-frames.json",
+      "bytes": 58786,
+      "sha256": "7175d9696e53cd5476cc72fc385646a778e1b816b3c3c15cc70fe0d2dfc7c2a4",
+      "total": 249,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/commands-0005-frames.json",
+      "bytes": 62991,
+      "sha256": "d79702df4eacf0ceb5d4e9b3ee82f5b3f14a7c8dd4b5cce9871eb82f2beba55c",
+      "total": 354,
+      "droppedRecent": 98,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/commands-0006-query-final.json",
+      "bytes": 63041,
+      "sha256": "98d63d4496f0df25e7c0d63fccf76d1ef592dc9302cefc3cf7cf500d6dc35eb9",
+      "total": 417,
+      "droppedRecent": 161,
+      "droppedFailures": 0
+    }
+  ],
+  "uniqueCommands": 418,
+  "total": 418,
+  "fullRunSequenceRecovered": true,
+  "failedCommands": [],
+  "phaseCounts": {
+    "preflight": 26,
+    "start": 3,
+    "snapshot": 105,
+    "scroll": 182,
+    "close": 1,
+    "location": 38,
+    "search": 24,
+    "search.prepare-ime": 14,
+    "search.submit": 1,
+    "search.results": 11,
+    "search.expand": 11,
+    "search.restore-ime": 2
+  },
+  "xmlParsed": 15
+}

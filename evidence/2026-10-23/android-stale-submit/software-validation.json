@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-23T07:45:55.291673+00:00",
+  "baseline": "a889517",
+  "candidate": "bfa6976db59cb1aef239d20c2b918f66a5481fc3",
+  "regressionRed": {
+    "tests": 7,
+    "failed": 5,
+    "passed": 2,
+    "cause": "Existing implementation aborts at first stale read; expected recovery and bounded repeated-stale assertions failed"
+  },
+  "focusedGreen": {
+    "files": 1,
+    "tests": 214,
+    "passed": 214
+  },
+  "independentReview": {
+    "reviewer": "review_search_scroll",
+    "blockingFindings": 0,
+    "independentFocusedTests": 7
+  },
+  "typecheck": "passed",
+  "contracts": "passed",
+  "build": "passed",
+  "fullSuite": {
+    "files": 94,
+    "tests": 1803,
+    "passed": 1803
+  },
+  "scope": "Only read-only post-submit element observations may be reacquired; exact HTTP404 W3C stale; three retries, original query deadline; no submission/mutation retry"
+}

@@ -1,0 +1,53 @@
+{
+  "status": "matched",
+  "scope": "Read-only database observation/gate check, including exact terminal records",
+  "checks": [
+    {
+      "database": "maps-android-stale-v24-20261023",
+      "storeId": "keke-flushing",
+      "observationId": "v2|android|keke-flushing|run_20261023T074944Z_3e872e||q0001|",
+      "manifestRunId": "run_20261023T074944Z_3e872e",
+      "rank": {
+        "status": "failed",
+        "displayPosition": null,
+        "organicRank": null,
+        "targetOccurrences": [
+          {
+            "displayPosition": 1,
+            "organicRank": 1,
+            "resultType": "organic"
+          }
+        ],
+        "adDisplayPositions": [],
+        "listingsObserved": 13,
+        "listingStatus": "partial",
+        "stopReason": "screen_ocr_failed"
+      },
+      "evidenceLinksMatch": true
+    },
+    {
+      "database": "maps-android-stale-v24-20261023",
+      "storeId": "only-bear",
+      "observationId": "v2|android|only-bear|run_20261023T075224Z_d95b73||q0001|",
+      "manifestRunId": "run_20261023T075224Z_d95b73",
+      "rank": {
+        "status": "failed",
+        "displayPosition": null,
+        "organicRank": null,
+        "targetOccurrences": [
+          {
+            "displayPosition": 2,
+            "organicRank": 2,
+            "resultType": "organic"
+          }
+        ],
+        "adDisplayPositions": [],
+        "listingsObserved": 10,
+        "listingStatus": "partial",
+        "stopReason": "screen_ocr_failed"
+      },
+      "evidenceLinksMatch": true
+    }
+  ],
+  "isolatedDualGateCompleted": false
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "key": "android-maps/2026-10-23/run_20261023T074944Z_3e872e/q0001/20261023T075538.310Z__braised-food-flushing__27.ocr.json",
+    "sha256": "7642ba3419ae67e6a14ce234aa85ecc8ec443b90859ad26f471cf485bcc11139",
+    "rereads": [
+      {
+        "lineIndex": 7,
+        "original": "4.19% (18) - $10-20 - Chinese",
+        "passes": [
+          {
+            "psm": 7,
+            "text": [
+              "4.1% (18) - $10-20 - Chinese"
+            ]
+          },
+          {
+            "psm": 13,
+            "text": [
+              "4.1% (18) - $10-20 - Chinese"
+            ]
+          }
+        ],
+        "error": null
+      }
+    ]
+  }
+]

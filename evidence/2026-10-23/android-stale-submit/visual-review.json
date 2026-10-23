@@ -1,0 +1,85 @@
+{
+  "scope": "Seven actual native PNGs visually inspected: both first result screens, last selected ranking screens, both OCR-failure terminal screenshots and KEKE rating reread frame27. This is sampling, separate from all49 PNG structure checks and all220 writer receipt checks.",
+  "samples": [
+    {
+      "worker": 0,
+      "keyword": "braised food flushing",
+      "frameId": "q0001:frame-001",
+      "capturedAt": "2026-10-23T07:50:29.040Z",
+      "key": "android-maps/2026-10-23/run_20261023T074944Z_3e872e/q0001/20261023T075029.040Z__braised-food-flushing__01.png",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-stale-submit-2026-10-23/readback/504918df0857ca18ac8f4398eaf8e50f686d0056ea57f607cd5eb5ca7074c315",
+      "sha256": "504918df0857ca18ac8f4398eaf8e50f686d0056ea57f607cd5eb5ca7074c315",
+      "diagnosticOCRFailure": false
+    },
+    {
+      "worker": 0,
+      "keyword": "braised food flushing",
+      "frameId": "q0001:frame-032",
+      "capturedAt": "2026-10-23T07:56:53.389Z",
+      "key": "android-maps/2026-10-23/run_20261023T074944Z_3e872e/q0001/20261023T075653.389Z__braised-food-flushing__32.png",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-stale-submit-2026-10-23/readback/1876453c2e9872244fcf6464d954c9e5dc45c7694dcf446edaeeb6b8fa31a1d9",
+      "sha256": "1876453c2e9872244fcf6464d954c9e5dc45c7694dcf446edaeeb6b8fa31a1d9",
+      "diagnosticOCRFailure": false
+    },
+    {
+      "worker": 0,
+      "keyword": "braised food flushing",
+      "frameId": null,
+      "capturedAt": "2026-10-23T07:57:05.247Z",
+      "key": "android-maps/2026-10-23/run_20261023T074944Z_3e872e/q0001/20261023T075705.247Z__braised-food-flushing__33.png",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-stale-submit-2026-10-23/readback/b646e6c374873d7f2826289b259d1a406a160ace4aaa20cd4618b6e3260d26ae",
+      "sha256": "b646e6c374873d7f2826289b259d1a406a160ace4aaa20cd4618b6e3260d26ae",
+      "diagnosticOCRFailure": true
+    },
+    {
+      "worker": 0,
+      "keyword": "braised food flushing",
+      "frameId": "q0001:frame-027",
+      "capturedAt": "2026-10-23T07:55:38.310Z",
+      "key": "android-maps/2026-10-23/run_20261023T074944Z_3e872e/q0001/20261023T075538.310Z__braised-food-flushing__27.png",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-stale-submit-2026-10-23/readback/528df4ab7ed1671e6bf46d6a63e6be13b701f99ef4104c2054bcbfe1f57d6d02",
+      "sha256": "528df4ab7ed1671e6bf46d6a63e6be13b701f99ef4104c2054bcbfe1f57d6d02",
+      "diagnosticOCRFailure": false
+    },
+    {
+      "worker": 1,
+      "keyword": "bubble tea garden city",
+      "frameId": "q0001:frame-001",
+      "capturedAt": "2026-10-23T07:53:08.860Z",
+      "key": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/20261023T075308.860Z__bubble-tea-garden-city__01.png",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-stale-submit-2026-10-23/readback/5c274bfa7f2997e6a9ea3b5c4592f068e3cccc30abc0e1bee59e48b9dc199ed5",
+      "sha256": "5c274bfa7f2997e6a9ea3b5c4592f068e3cccc30abc0e1bee59e48b9dc199ed5",
+      "diagnosticOCRFailure": false
+    },
+    {
+      "worker": 1,
+      "keyword": "bubble tea garden city",
+      "frameId": "q0001:frame-013",
+      "capturedAt": "2026-10-23T07:56:44.146Z",
+      "key": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/20261023T075644.146Z__bubble-tea-garden-city__13.png",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-stale-submit-2026-10-23/readback/e6692046e2f564a449841ba8faf48253c07b896fc5f80e9ed9d481a591458c30",
+      "sha256": "e6692046e2f564a449841ba8faf48253c07b896fc5f80e9ed9d481a591458c30",
+      "diagnosticOCRFailure": false
+    },
+    {
+      "worker": 1,
+      "keyword": "bubble tea garden city",
+      "frameId": null,
+      "capturedAt": "2026-10-23T07:57:03.804Z",
+      "key": "android-maps/2026-10-23/run_20261023T075224Z_d95b73/q0001/20261023T075703.804Z__bubble-tea-garden-city__14.png",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-stale-submit-2026-10-23/readback/07b5f6812c1a21d8115105e7f7d2b8604d73b5a7d4196902fa32484c808139f4",
+      "sha256": "07b5f6812c1a21d8115105e7f7d2b8604d73b5a7d4196902fa32484c808139f4",
+      "diagnosticOCRFailure": true
+    }
+  ],
+  "findings": [
+    "Exact keyword visible on all7 inspected screens; no suggestions, consent or CAPTCHA visible.",
+    "First KEKE screen shows KEKE4.6/9 followed by Nong Geng Ji4.6/547. First OnlyBear screen shows Smo Tea4.9/491 followed by OnlyBear4.7/102. These prefix positions are not final accepted target ranks.",
+    "KEKE frame27 visibly shows Longjiang4.1/18; original OCR4.19% was corrected by two recorded same-image rereads to4.1, preserving18.",
+    "KEKE last selected and terminal screens overlap Nan Xiang4.5/7300; terminal screen additionally shows partial next card.",
+    "OnlyBear last selected and terminal screens overlap Tea Magic4.5/55; terminal additionally shows Heirloom Boba4.9/414. No end marker appears.",
+    "No positive advertisement label in these sampled PNGs. No fresh positive-ad acceptance; historical ad regression replay remains separate.",
+    "Both terminal screenshots are legible result lists, not blank screenshots. Their OCR subprocess error cause remains undetermined."
+  ],
+  "geography": "Maps location unverified; no new customer-local rank claim."
+}

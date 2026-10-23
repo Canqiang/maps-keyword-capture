@@ -1,0 +1,48 @@
+{
+  "containers": [
+    {
+      "name": "tracking",
+      "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture-android@sha256:bc2e2b9275211679cf5c44d18a0ca31c2eb615c739a97285ca5a0fab3cc80ce8",
+      "restartCount": 0,
+      "state": {
+        "terminated": {
+          "containerID": "containerd://5be7ff03265ad897d4676938a3596a900338c3a8281a126da393086b55479919",
+          "exitCode": 1,
+          "finishedAt": "2026-10-23T07:57:34Z",
+          "reason": "Error",
+          "startedAt": "2026-10-23T07:52:23Z"
+        }
+      }
+    },
+    {
+      "name": "prepare-work",
+      "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture-android@sha256:bc2e2b9275211679cf5c44d18a0ca31c2eb615c739a97285ca5a0fab3cc80ce8",
+      "restartCount": 0,
+      "state": {
+        "terminated": {
+          "containerID": "containerd://2c58c85683b9db132bacf8e7e07fd94a4db4527ed99833f7be673607ecb5d419",
+          "exitCode": 0,
+          "finishedAt": "2026-10-23T07:47:25Z",
+          "reason": "Completed",
+          "startedAt": "2026-10-23T07:47:25Z"
+        }
+      }
+    },
+    {
+      "name": "android-runtime",
+      "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture-android@sha256:bc2e2b9275211679cf5c44d18a0ca31c2eb615c739a97285ca5a0fab3cc80ce8",
+      "restartCount": 0,
+      "state": {
+        "terminated": {
+          "containerID": "containerd://796f6ce0172d337efd2969938f7db0ec1fc657cc3760f4e3b76a10cd8416febb",
+          "exitCode": 0,
+          "finishedAt": "2026-10-23T07:57:36Z",
+          "reason": "Completed",
+          "startedAt": "2026-10-23T07:47:31Z"
+        }
+      }
+    }
+  ],
+  "expectedDigest": "sha256:bc2e2b9275211679cf5c44d18a0ca31c2eb615c739a97285ca5a0fab3cc80ce8",
+  "sourceCommit": "bfa6976db59cb1aef239d20c2b918f66a5481fc3"
+}
