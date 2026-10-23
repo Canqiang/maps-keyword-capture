@@ -22,3 +22,12 @@ Regression tests cover wall timeout, cancellation, process exit, malformed outpu
 The native probe uses a fresh Job/database, KEKE and OnlyBear original centers, and one full keyword list per worker. A verification-only barrier waits until both emulators are ready while retaining the existing staggered startup. Acceptance requires actual overlapping search/capture intervals, both complete lists and original exits 0, one search submission each, independent artifact/database readback, and unchanged protected workloads/configuration. This is not a 270-search production capacity test. Production Android remains suspended; no promotion or existing collector changes are authorized by this repair.
 
 Native verification: pending candidate build/run. This checkpoint is not a passing runtime verdict.
+
+## First native v25 attempt and additional bounded startup change
+
+Source `b5f4776c2a0e62c5d4c8c89edabbea5e697cae28`, ACR `ch15ah`, image `sha256:b8e711061cfdea7bd9fcf25b6c1def98141acab1eab7f8d527754faa8f755006`, Job/database `maps-android-ocr-v25-20261023`.
+
+- KEKE completed 31 OCR attempts without process failure or timeout (median 1,846ms; maximum 2,162ms), with every immutable diagnostic linked to its PNG. It ended partial/exit2 at frame30→31 ordered-overlap failure, retaining 13 diagnostic rows and null target rank. Two earlier bounded backward corrections were exhausted. Actual screenshots show different visible merchant headers across the last boundary; do not invent continuity.
+- OnlyBear exited1 before search/OCR: `POST /session` exceeded the generic 30s client deadline. Outcome-unknown quarantine was retained; no second session/search request was sent. The raw Appium tail ends before the timeout and cannot prove the eventual server outcome, exact slow stage or resource causality.
+- Independent Azure-login readback:187 objects,185 exact writer receipts plus two service-size-only scan roots;32 PNGs decoded,119 JSON,32 XML and four CSVs/13 rows checked. This first run did not pass complete concurrency acceptance.
+- A separate startup budget now gives only `POST /session` up to90s (validated upper bound120s), retaining cancellation, no retry and outcome-unknown quarantine. Ordinary commands retain30s, query deadlines and OCR deadlines are unchanged. This is a bounded cold-start experiment, not a proven diagnosis of the Appium server's slow stage. Targeted red→green tests and independent review passed; another fresh dual native probe is required.

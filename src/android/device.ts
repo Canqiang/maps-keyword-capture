@@ -5,7 +5,7 @@ import type { AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, LocationEv
 import { analyzeScreen, hasBlankNativeSearchWrapper, inspectNativeResultList, nativeLayoutSignature, parseUiNodes, type NativeResultList } from './ui.js';
 
 export type AdbExecutor = (file: string, args: string[], options: { timeoutMs: number; signal: AbortSignal }) => Promise<{ stdout: Buffer; stderr: Buffer }>;
-export interface NativeMapsTransport { adb?: AdbExecutor; commandTimeoutMs?: number; signal?: AbortSignal }
+export interface NativeMapsTransport { adb?: AdbExecutor; commandTimeoutMs?: number; sessionStartTimeoutMs?: number; signal?: AbortSignal }
 
 const MAPS = 'com.google.android.apps.maps';
 const ELEMENT = 'element-6066-11e4-a52e-4f735466cecf';
@@ -130,6 +130,7 @@ export class NativeMapsDevice implements AndroidDevice {
   private readonly baseUrl: string;
   private readonly execute: AdbExecutor;
   private readonly commandTimeoutMs: number;
+  private readonly sessionStartTimeoutMs: number;
   private readonly cancellationSignal: AbortSignal | undefined;
   private closing = false;
   private sessionId: string | undefined;
@@ -156,19 +157,21 @@ export class NativeMapsDevice implements AndroidDevice {
     if (!Number.isFinite(config.keywordTimeoutMs) || config.keywordTimeoutMs <= 0 || config.keywordTimeoutMs > 600_000) fail('INVALID_TIMEOUT', 'A bounded keyword timeout is required');
     this.commandTimeoutMs = transport.commandTimeoutMs ?? 30_000;
     if (!Number.isFinite(this.commandTimeoutMs) || this.commandTimeoutMs <= 0 || this.commandTimeoutMs > 60_000) fail('INVALID_TIMEOUT', 'Command timeout must be between 1 and 60000 ms');
+    this.sessionStartTimeoutMs = transport.sessionStartTimeoutMs ?? 90_000;
+    if (!Number.isFinite(this.sessionStartTimeoutMs) || this.sessionStartTimeoutMs <= 0 || this.sessionStartTimeoutMs > 120_000) fail('INVALID_TIMEOUT', 'Session startup timeout must be between 1 and 120000 ms');
     this.config = { ...config };
     this.cancellationSignal = transport.signal;
     this.baseUrl = endpoint.href.replace(/\/$/, '');
     this.execute = transport.adb ?? executeAdb;
   }
 
-  private async bounded<T>(operation: (signal: AbortSignal, timeoutMs: number) => Promise<T>): Promise<T> {
+  private async bounded<T>(operation: (signal: AbortSignal, timeoutMs: number) => Promise<T>, budgetMs = this.commandTimeoutMs): Promise<T> {
     const cancellation = this.closing ? undefined : this.cancellationSignal;
     if (cancellation?.aborted) fail('CANCELLED', 'Native Maps capture was cancelled');
     const remaining = this.queryDeadline === undefined ? Infinity : this.queryDeadline - Date.now();
     if (remaining <= 0) fail('QUERY_TIMEOUT', 'Native Maps query deadline expired');
-    const timeoutMs = Math.max(1, Math.min(this.commandTimeoutMs, remaining));
-    const queryLimited = remaining <= this.commandTimeoutMs;
+    const timeoutMs = Math.max(1, Math.min(budgetMs, remaining));
+    const queryLimited = remaining <= budgetMs;
     const controller = new AbortController();
     let onAbort: (() => void) | undefined;
     const cancelled = new Promise<never>((_, reject) => {
@@ -237,7 +240,7 @@ export class NativeMapsDevice implements AndroidDevice {
         if (error instanceof AndroidDeviceError) throw error;
         reason??='transport_error';fail('APPIUM_PROTOCOL_ERROR', 'Appium transport or response failed; inspect the command log');
       }
-    }); } catch(error) { failure=error; throw error; }
+    }, method === 'POST' && path === '/session' ? this.sessionStartTimeoutMs : this.commandTimeoutMs); } catch(error) { failure=error; throw error; }
     finally { this.journal.record({stage,command,durationMs:performance.now()-began,outcome:failure?'failed':'ok',...(httpStatus===undefined?{}:{httpStatus}),...(w3cError?{w3cError}:{}),...(responseType?{responseType}:{}),...(reason?{reason}:{}),...(failure?{errorCode:failure instanceof AndroidDeviceError?failure.code:'APPIUM_PROTOCOL_ERROR'}:{})}); }
   }
 

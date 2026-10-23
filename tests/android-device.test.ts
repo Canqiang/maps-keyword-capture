@@ -80,7 +80,7 @@ function adbFixture(overrides: Record<string, string> = {}) {
   return { adb, calls, helperBound: () => helperBound };
 }
 
-async function appiumFixture(options: { foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string; editorActionTypesLiteral?: boolean | (() => boolean); inputAfterTyping?: { text?: string; focused?: boolean; enabled?: boolean; displayed?: boolean; packageName?: string; foreground?: string }; submitOutcome?: 'timeout' | 'http-error'; queryAfterSubmit?: string; elementFault?: { suffix: string; remaining: number; error?: string; beforeSubmit?: boolean } } = {}) {
+async function appiumFixture(options: { sessionDelayMs?: number; stallSettings?: boolean; foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string; editorActionTypesLiteral?: boolean | (() => boolean); inputAfterTyping?: { text?: string; focused?: boolean; enabled?: boolean; displayed?: boolean; packageName?: string; foreground?: string }; submitOutcome?: 'timeout' | 'http-error'; queryAfterSubmit?: string; elementFault?: { suffix: string; remaining: number; error?: string; beforeSubmit?: boolean } } = {}) {
   const calls: { method: string; path: string; body: any }[] = [];
   let typed = options.initialQuery ?? '';
   let following = options.initiallyFollowing ?? false;
@@ -95,6 +95,8 @@ async function appiumFixture(options: { foreground?: string; missingField?: bool
     const body = chunks.length ? JSON.parse(Buffer.concat(chunks).toString()) : undefined;
     const path = req.url!;
     calls.push({ method: req.method!, path, body });
+    if (path === '/session' && req.method === 'POST' && options.sessionDelayMs) await new Promise(r=>setTimeout(r,options.sessionDelayMs));
+    if (options.stallSettings && path.endsWith('/appium/settings')) return;
     if (options.stallRecenterClick && path.endsWith('/recenter-parent/click')) return;
     if (options.stall || (path.endsWith('/actions') && options.actionOutcome === 'timeout')) return;
     if (path.endsWith('/actions') && options.actionOutcome === 'http-error') { res.writeHead(500, { 'content-type': 'application/json' }).end(JSON.stringify({ value: { error: 'unknown error', message: 'unknown action outcome' } })); return; }
@@ -437,16 +439,40 @@ describe('NativeMapsDevice native W3C session', () => {
   });
   it('bounds a stalled HTTP command and refuses redirects outside loopback', async () => {
     const stalled = await appiumFixture({ stall: true });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: stalled.url }, { adb: adbFixture().adb, commandTimeoutMs: 80 });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: stalled.url }, { adb: adbFixture().adb, commandTimeoutMs: 80, sessionStartTimeoutMs: 80 });
     const started = Date.now();
     await expect(device.start()).rejects.toMatchObject({ code: 'COMMAND_TIMEOUT' });
     expect(Date.now() - started).toBeLessThan(1500);
     const redirected = await appiumFixture({ redirect: 'http://example.com' });
     await expect(new NativeMapsDevice({ ...config, appiumUrl: redirected.url }, { adb: adbFixture().adb }).start()).rejects.toMatchObject({ code: 'APPIUM_PROTOCOL_ERROR' });
   });
+  it('allows bounded cold session startup beyond ordinary command budget without retrying', async()=>{
+    const appium=await appiumFixture({sessionDelayMs:350});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url},{adb:adbFixture().adb,commandTimeoutMs:200,sessionStartTimeoutMs:1500});
+    await device.start();await device.close();
+    expect(appium.calls.filter(c=>c.method==='POST'&&c.path==='/session')).toHaveLength(1);
+  });
+  it('keeps ordinary settings timeout separate from the longer startup budget',async()=>{
+    const appium=await appiumFixture({stallSettings:true});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url},{adb:adbFixture().adb,commandTimeoutMs:100,sessionStartTimeoutMs:1500});
+    const began=performance.now();await expect(device.start()).rejects.toMatchObject({code:'COMMAND_TIMEOUT'});
+    expect(performance.now()-began).toBeLessThan(1000);await device.close();
+  });
+  it('cancels extended session startup without resubmitting or deleting an unknown session',async()=>{
+    const appium=await appiumFixture({stall:true});const signal=new AbortController();
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url},{adb:adbFixture().adb,commandTimeoutMs:100,sessionStartTimeoutMs:1500,signal:signal.signal});
+    const call=device.start();setTimeout(()=>signal.abort(),150);await expect(call).rejects.toMatchObject({code:'CANCELLED'});
+    await expect(device.close()).rejects.toMatchObject({code:'SESSION_OUTCOME_UNKNOWN'});
+    await expect(device.start()).rejects.toMatchObject({code:'SESSION_OUTCOME_UNKNOWN'});
+    expect(appium.calls.filter(c=>c.method==='POST'&&c.path==='/session')).toHaveLength(1);
+    expect(appium.calls.filter(c=>c.method==='DELETE')).toHaveLength(0);
+  });
+  it.each([0,NaN,120001])('rejects an invalid session startup budget %s',sessionStartTimeoutMs=>{
+    expect(()=>new NativeMapsDevice(config,{sessionStartTimeoutMs})).toThrow();
+  });
   it('keeps uncertain session creation quarantined after timeout and refuses a second creation', async () => {
     const appium = await appiumFixture({ stall: true });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb, commandTimeoutMs: 80 });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb, commandTimeoutMs: 80, sessionStartTimeoutMs: 80 });
     await expect(device.start()).rejects.toMatchObject({ code: 'COMMAND_TIMEOUT' });
     await expect(device.close()).rejects.toMatchObject({ code: 'SESSION_OUTCOME_UNKNOWN' });
     await expect(device.start()).rejects.toMatchObject({ code: 'SESSION_OUTCOME_UNKNOWN' });
