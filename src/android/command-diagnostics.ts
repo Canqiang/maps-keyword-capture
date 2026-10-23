@@ -1,6 +1,6 @@
 /** Bounded, allowlisted metadata only. Never retain request/response bodies or server messages. */
 const stages = new Set(['setup','preflight','start','location','search','search.prepare-ime','search.submit','search.results','search.expand','search.restore-ime','snapshot','scroll','close']);
-const paths = ['session','source','screenshot','elements','element/click','element/clear','element/value','element/text','element/rect','element/displayed','actions',...['focused','enabled','package','resource-id','className','scrollable'].map(x=>`element/attribute/${x}`)];
+const paths = ['session','appium/settings','source','screenshot','elements','element/elements','element/click','element/clear','element/value','element/text','element/rect','element/displayed','actions',...['focused','enabled','clickable','content-desc','package','resource-id','className','scrollable'].map(x=>`element/attribute/${x}`)];
 const mobiles = ['getCurrentPackage','performEditorAction','dragGesture'];
 const adbLabels = ['shell am','shell settings','shell input','shell ime','shell dumpsys','shell getprop','shell wm','emu geo','get-state','devices','other'];
 const commands = new Set([...paths.flatMap(p=>['GET','POST','DELETE'].map(m=>`${m} ${p}`)),...mobiles.map(x=>`mobile:${x}`),...adbLabels.map(x=>`adb:${x}`)]);

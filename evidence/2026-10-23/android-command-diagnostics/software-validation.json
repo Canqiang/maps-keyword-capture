@@ -1,0 +1,62 @@
+{
+  "tests": {
+    "typescriptTests": 1702,
+    "pythonRuntimeTests": 30,
+    "typecheck": "passed",
+    "contracts": "passed",
+    "build": "passed",
+    "labelFollowupTests": 2,
+    "labelFollowupLiveScope": "Missing fixed route labels covered by local regression only; not present in this probe image."
+  },
+  "logs": [
+    {
+      "name": "tests.log",
+      "bytes": 1526,
+      "sha256": "ecc5e78e3f602c78b2e43b72ce9ad09ec50ba78fae2cc1e67dc179d484c3a515",
+      "durablePath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-command-diagnostics-2026-10-23/diagnostic-probe/tests.log"
+    },
+    {
+      "name": "device.log",
+      "bytes": 172,
+      "sha256": "8060dc8d0d54f223aa742ca7baa0cdeb688c7f82691dc38141c51e185e347e11",
+      "durablePath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-command-diagnostics-2026-10-23/diagnostic-probe/device.log"
+    },
+    {
+      "name": "python-tests.log",
+      "bytes": 129,
+      "sha256": "b1221df90b699a89608347bf7ddffb0ba96e3a7871a7a872f40f0a0b88e8ac23",
+      "durablePath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-command-diagnostics-2026-10-23/diagnostic-probe/python-tests.log"
+    },
+    {
+      "name": "final-typecheck.log",
+      "bytes": 56,
+      "sha256": "2fb8a356cc8f2b96ed4995e0e0becaedd52e4906c93577eb0d36d89dd8591895",
+      "durablePath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-command-diagnostics-2026-10-23/diagnostic-probe/final-typecheck.log"
+    },
+    {
+      "name": "final-contracts.log",
+      "bytes": 93,
+      "sha256": "88d12e0dbb3028e42a7914875f1103c58652e8381959492c6b03dbffb57b0437",
+      "durablePath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-command-diagnostics-2026-10-23/diagnostic-probe/final-contracts.log"
+    },
+    {
+      "name": "final-build.log",
+      "bytes": 66,
+      "sha256": "65002ab640b0283ca90925a2e0ad8e9f0436c9d052d8e0c826fcf5d0c24f9e07",
+      "durablePath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-command-diagnostics-2026-10-23/diagnostic-probe/final-build.log"
+    },
+    {
+      "name": "routes-red.log",
+      "bytes": 1430,
+      "sha256": "21dda17f40770aa40cd49526452b0b1cd1c50969b07ac87ed52e756cf78e4b89",
+      "durablePath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-command-diagnostics-2026-10-23/diagnostic-probe/routes-red.log"
+    },
+    {
+      "name": "routes-green.log",
+      "bytes": 204,
+      "sha256": "f010539e767d9cb66f6d5fa8f17f6de8eb9354a03021f2fd1da2468487b9fd85",
+      "durablePath": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-command-diagnostics-2026-10-23/diagnostic-probe/routes-green.log"
+    }
+  ],
+  "review": "Independent reviewer found no remaining blockers in diagnostics or fixed route-label follow-up."
+}

@@ -13,5 +13,7 @@ describe('bounded command diagnostics',()=>{
   expect(commandLabel('GET','/session/private/element/private/text')).toBe('GET element/text');
   expect(commandLabel('POST','/session/private/execute/sync',{script:'mobile: performEditorAction',args:[{text:'secret'}]})).toBe('mobile:performEditorAction');
   expect(commandLabel('GET','/unknown?sig=secret')).toBe('other');
+  for(const route of ['attribute/clickable','attribute/content-desc','elements']) expect(commandLabel('GET','/session/private/element/private/'+route)).toBe('GET element/'+route);
+  expect(commandLabel('POST','/session/private/appium/settings')).toBe('POST appium/settings');
  });
 });

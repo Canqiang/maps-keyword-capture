@@ -1,0 +1,47 @@
+{
+  "account": "fbrdevstorage",
+  "container": "maps-keyword-capture-uat",
+  "artifacts": [
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045656.743Z__braised-food-flushing__31.frame.json",
+      "bytes": 4214,
+      "sha256": "59352600d628fd557d1c9db53638b6b47ddf064f4962ad20c2b3b05ce7636c51"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045656.743Z__braised-food-flushing__31.ocr.json",
+      "bytes": 23749,
+      "sha256": "658fe6e0f1f7fd0e35ea5d11201b91580bcacb6e32930d9df8c113f144a5dad5"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045656.743Z__braised-food-flushing__31.png",
+      "bytes": 600185,
+      "sha256": "323be4418a34b260ab5eea89896dab5c4ddca8596274c04e67458e4a5923528e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045656.743Z__braised-food-flushing__31.xml",
+      "bytes": 86718,
+      "sha256": "c38ec6da0d827d095574cd67aaf537cd98ced96af18871c717a513ebf3aaaaa2"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045704.471Z__braised-food-flushing__32.frame.json",
+      "bytes": 2497,
+      "sha256": "4ca5e3ba54c9982e9b5d8c75bc98ec84431e69aa34ee668e3e8cb852037dac79"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045704.471Z__braised-food-flushing__32.ocr.json",
+      "bytes": 15936,
+      "sha256": "435640021344530b157ffbc9d7a28af65e4efd1f2a81b652bf6a64cf94f1f69d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045704.471Z__braised-food-flushing__32.png",
+      "bytes": 829255,
+      "sha256": "904f2db4eeddaf78c0a5579d3cbec2142175d9062f715f3d5ae87d23b9e73eda"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045704.471Z__braised-food-flushing__32.xml",
+      "bytes": 74393,
+      "sha256": "d57f6ae475ceb61bea755b9f95cbf108785da442280420e01b9d70b1904b601b"
+    }
+  ],
+  "reason": "ordered_overlap_missing; no broad fuzzy identity merge is justified by the matching rating/count alone"
+}

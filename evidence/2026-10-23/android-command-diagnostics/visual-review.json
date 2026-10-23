@@ -1,0 +1,25 @@
+{
+  "scope": "3 actually viewed PNGs: initial target, frame31 and frame32. This is distinct from all-object byte/hash verification and all-PNG structural decoding. No ad occurrences were observed in this query; this run does not certify ad recognition.",
+  "samples": [
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045250.504Z__braised-food-flushing__01.png",
+      "bytes": 850099,
+      "sha256": "9f0b3fe4ba92f8dcd3aa707c8b85ffc19613d7f4439e6997941dc9d9bf062faf"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045656.743Z__braised-food-flushing__31.png",
+      "bytes": 600185,
+      "sha256": "323be4418a34b260ab5eea89896dab5c4ddca8596274c04e67458e4a5923528e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045704.471Z__braised-food-flushing__32.png",
+      "bytes": 829255,
+      "sha256": "904f2db4eeddaf78c0a5579d3cbec2142175d9062f715f3d5ae87d23b9e73eda"
+    }
+  ],
+  "findings": [
+    "Initial original screenshot shows KEKE BRAISED DELI,4.6/9 as first visible result; final query rank is withheld because later sequence is unreliable.",
+    "Frames31/32 visually show the same Braised Canaan merchant moving upward; its OCR name changes from Braised Canaan 迦 南 地 涉 味 to Braised Canaan Wma steal. The status anchor also loses Closed.",
+    "Native exact query persists, device GPS matched and viewport was following. Google backend geography remains unverified."
+  ]
+}

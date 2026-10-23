@@ -1,0 +1,166 @@
+{
+  "checkpoints": [
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/commands-0001-started.json",
+      "bytes": 5636,
+      "sha256": "3c23edad9787790c98c506784fd48258b40f7072cc85e43d651597d86f7ea13f",
+      "total": 29,
+      "droppedRecent": 0,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/commands-0011-closed.json",
+      "bytes": 63028,
+      "sha256": "f8964bb3393668f02ae6a8dfeb32bda391bbc0aa28cd8d5475030d7793813867",
+      "total": 794,
+      "droppedRecent": 538,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/commands-0002-located.json",
+      "bytes": 13793,
+      "sha256": "a0dab6bc1ce4dc2078c9f94d060e7f3e06dec66098a80e0457e7d82bef747325",
+      "total": 64,
+      "droppedRecent": 0,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/commands-0003-searched.json",
+      "bytes": 31032,
+      "sha256": "06b714cf5e61a54438cea83bf7bfdabd3ac4ac043a6b027179343ccea8c7b601",
+      "total": 135,
+      "droppedRecent": 0,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/commands-0004-frames.json",
+      "bytes": 53377,
+      "sha256": "f7360ea5779f5a2194d0f3cc60c13610678dbe28ef5889a41b25055124a8575f",
+      "total": 226,
+      "droppedRecent": 0,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/commands-0005-frames.json",
+      "bytes": 62842,
+      "sha256": "733c86dcad08febbf6e52f8b75fbcbde660b85f3445643bbaed300a1eb690804",
+      "total": 331,
+      "droppedRecent": 75,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/commands-0006-frames.json",
+      "bytes": 63028,
+      "sha256": "92e98915a31f3767ede5ae3009d0f491376b1d7c3c1cbed395468d79ba1b3f25",
+      "total": 436,
+      "droppedRecent": 180,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/commands-0007-frames.json",
+      "bytes": 63026,
+      "sha256": "86a97ad7a0bb20ac29e2b2271ad24acc3eebf7eb3d64d0f9c63c78c2161b9ee2",
+      "total": 541,
+      "droppedRecent": 285,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/commands-0008-frames.json",
+      "bytes": 63032,
+      "sha256": "39454b060442111f0c1f848bc6fc5a9f9e387301cf3c2ccb5c9df0af15a9a0cf",
+      "total": 646,
+      "droppedRecent": 390,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/commands-0009-frames.json",
+      "bytes": 63029,
+      "sha256": "ef6b87a8153a89132a1a930f042149d3646e45a5c60677d1d2d4afe05a5115cc",
+      "total": 793,
+      "droppedRecent": 537,
+      "droppedFailures": 0,
+      "failures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/commands-0010-query-final.json",
+      "bytes": 63029,
+      "sha256": "ef6b87a8153a89132a1a930f042149d3646e45a5c60677d1d2d4afe05a5115cc",
+      "total": 793,
+      "droppedRecent": 537,
+      "droppedFailures": 0,
+      "failures": 0
+    }
+  ],
+  "uniqueCommands": 794,
+  "maximumSequence": 794,
+  "fullRunSequenceRecovered": true,
+  "conflicts": [],
+  "failedCommands": [],
+  "phaseCounts": {
+    "preflight": 26,
+    "start": 3,
+    "snapshot": 231,
+    "scroll": 434,
+    "close": 1,
+    "location": 28,
+    "search": 24,
+    "search.prepare-ime": 22,
+    "search.submit": 1,
+    "search.results": 11,
+    "search.expand": 11,
+    "search.restore-ime": 2
+  },
+  "otherLabels": [
+    {
+      "sequence": 28,
+      "at": "2026-10-23T04:52:25.314Z",
+      "stage": "start",
+      "command": "other",
+      "durationMs": 103,
+      "outcome": "ok",
+      "httpStatus": 200,
+      "responseType": "null"
+    },
+    {
+      "sequence": 57,
+      "at": "2026-10-23T04:52:36.192Z",
+      "stage": "location",
+      "command": "other",
+      "durationMs": 5,
+      "outcome": "ok",
+      "httpStatus": 200,
+      "responseType": "string"
+    },
+    {
+      "sequence": 74,
+      "at": "2026-10-23T04:52:39.702Z",
+      "stage": "search",
+      "command": "other",
+      "durationMs": 6,
+      "outcome": "ok",
+      "httpStatus": 200,
+      "responseType": "array"
+    },
+    {
+      "sequence": 118,
+      "at": "2026-10-23T04:52:47.090Z",
+      "stage": "search.results",
+      "command": "other",
+      "durationMs": 175,
+      "outcome": "ok",
+      "httpStatus": 200,
+      "responseType": "string"
+    }
+  ],
+  "xmlParsed": 33,
+  "scope": "Exact writer receipts independently verified by readback-report.json; checkpoint union for this run only. Other command labels are bounded/redacted; expanded fixed route labels locally tested separately."
+}
