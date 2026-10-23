@@ -1,0 +1,612 @@
+[
+  {
+    "probe": 25,
+    "archive": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-ocr-concurrency-2026-10-23/first-v25",
+    "ocr-diagnostics-audit": {
+      "status": "passed",
+      "linkedOcrAttempts": 31,
+      "fullObjectHashScope": "See independent readback-report.json",
+      "workers": [
+        {
+          "worker": 0,
+          "keyword": "braised food flushing",
+          "attempts": 31,
+          "maxDurationMs": 2162,
+          "medianDurationMs": 1846,
+          "optionalTimeouts": 0
+        },
+        {
+          "worker": 1,
+          "keyword": "bubble tea garden city",
+          "attempts": 0,
+          "maxDurationMs": null,
+          "medianDurationMs": null,
+          "optionalTimeouts": 0
+        }
+      ],
+      "primaryTimeouts": 0,
+      "processFailures": 0,
+      "note": "Optional reread timeouts are separately counted; success classification requires primary exit 0 and complete OCR/frame evidence."
+    }
+  },
+  {
+    "probe": 26,
+    "archive": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-ocr-concurrency-2026-10-23/second-v26",
+    "ocr-diagnostics-audit": {
+      "status": "passed",
+      "linkedOcrAttempts": 52,
+      "fullObjectHashScope": "See independent readback-report.json",
+      "workers": [
+        {
+          "worker": 0,
+          "keyword": "braised food flushing",
+          "attempts": 35,
+          "maxDurationMs": 3736,
+          "medianDurationMs": 2316,
+          "optionalTimeouts": 0
+        },
+        {
+          "worker": 1,
+          "keyword": "bubble tea garden city",
+          "attempts": 17,
+          "maxDurationMs": 2045,
+          "medianDurationMs": 1869,
+          "optionalTimeouts": 0
+        }
+      ],
+      "primaryTimeouts": 0,
+      "processFailures": 0,
+      "note": "Optional reread timeouts are separately counted; success classification requires primary exit 0 and complete OCR/frame evidence."
+    },
+    "outcome-audit": {
+      "status": "failed_complete_ranking_acceptance",
+      "workers": [
+        {
+          "worker": 0,
+          "storeId": "keke-flushing",
+          "runId": "run_20261023T085308Z_8c652b",
+          "originalExit": 2,
+          "startedAt": "2026-10-23T08:51:31Z",
+          "finishedAt": "2026-10-23T08:57:34Z",
+          "executionStatus": "needs_review",
+          "listingStatus": "partial",
+          "stopReason": "ranking_unreliable",
+          "quality": {
+            "adCount": 0,
+            "organicCount": 15,
+            "unknownCount": 0,
+            "rankingReliable": false,
+            "frames": 33,
+            "warnings": [
+              "ordered_overlap_missing: q0001:frame-034 -> q0001:frame-035"
+            ],
+            "sequenceVerified": false,
+            "classificationComplete": true,
+            "screenshotCoverageComplete": true,
+            "organicCoverage": 14,
+            "truncatedCount": 0,
+            "endOfResults": false
+          },
+          "organicRank": null,
+          "displayPosition": null,
+          "rows": 15,
+          "counts": {
+            "total": 1,
+            "captured": 0,
+            "needsReview": 1,
+            "failed": 0,
+            "skipped": 0,
+            "screenshots": 35,
+            "locationScreenshots": 1,
+            "completeListingQueries": 0,
+            "partialListingQueries": 1,
+            "rankedQueries": 0,
+            "listings": 15,
+            "ads": 0,
+            "organic": 15,
+            "unknown": 0
+          },
+          "queryPng": 35,
+          "ocrAttempts": 35,
+          "commands": 859,
+          "appiumHttpCommands": 811,
+          "commandFailures": [],
+          "sessionCreates": [
+            {
+              "sequence": 27,
+              "at": "2026-10-23T08:53:36.121Z",
+              "stage": "start",
+              "command": "POST session",
+              "durationMs": 24569,
+              "outcome": "ok",
+              "httpStatus": 200,
+              "responseType": "object"
+            }
+          ],
+          "searchSubmissions": 1,
+          "completeRankingAcceptance": false,
+          "databaseEvidenceMatched": true
+        },
+        {
+          "worker": 1,
+          "storeId": "only-bear",
+          "runId": "run_20261023T085308Z_cd29f5",
+          "originalExit": 0,
+          "startedAt": "2026-10-23T08:53:06Z",
+          "finishedAt": "2026-10-23T08:55:48Z",
+          "executionStatus": "completed",
+          "listingStatus": "complete",
+          "stopReason": "list_end",
+          "quality": {
+            "adCount": 0,
+            "organicCount": 12,
+            "unknownCount": 0,
+            "rankingReliable": true,
+            "frames": 16,
+            "warnings": [],
+            "sequenceVerified": true,
+            "classificationComplete": true,
+            "screenshotCoverageComplete": true,
+            "organicCoverage": 12,
+            "truncatedCount": 0,
+            "endOfResults": true
+          },
+          "organicRank": 2,
+          "displayPosition": 2,
+          "rows": 12,
+          "counts": {
+            "total": 1,
+            "captured": 1,
+            "needsReview": 0,
+            "failed": 0,
+            "skipped": 0,
+            "screenshots": 17,
+            "locationScreenshots": 1,
+            "completeListingQueries": 1,
+            "partialListingQueries": 0,
+            "rankedQueries": 1,
+            "listings": 12,
+            "ads": 0,
+            "organic": 12,
+            "unknown": 0
+          },
+          "queryPng": 17,
+          "ocrAttempts": 17,
+          "commands": 472,
+          "appiumHttpCommands": 434,
+          "commandFailures": [],
+          "sessionCreates": [
+            {
+              "sequence": 27,
+              "at": "2026-10-23T08:53:37.649Z",
+              "stage": "start",
+              "command": "POST session",
+              "durationMs": 29146,
+              "outcome": "ok",
+              "httpStatus": 200,
+              "responseType": "object"
+            }
+          ],
+          "searchSubmissions": 1,
+          "completeRankingAcceptance": true,
+          "databaseEvidenceMatched": true
+        }
+      ],
+      "searchCaptureIntervals": [
+        {
+          "worker": 0,
+          "submitAt": "2026-10-23T08:53:58.612Z",
+          "lastCaptureAt": "2026-10-23T08:57:30.627000+00:00"
+        },
+        {
+          "worker": 1,
+          "submitAt": "2026-10-23T08:54:09.306Z",
+          "lastCaptureAt": "2026-10-23T08:55:45.405000+00:00"
+        }
+      ],
+      "searchCaptureOverlapSeconds": 96.099,
+      "simultaneousSearchValidated": true,
+      "gate": {
+        "_id": "android-maps-pilot/maps-android-ocr-v26-20261023",
+        "roundId": "e70bf652-1f1f-4b8d-9606-fd6f617d804c",
+        "shardCount": 2,
+        "finished": [
+          0,
+          1
+        ],
+        "active": false
+      },
+      "allDatabaseEvidenceMatched": true,
+      "geography": "unverified",
+      "fullCatalogAcceptance": false
+    }
+  },
+  {
+    "probe": 27,
+    "archive": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-ocr-concurrency-2026-10-23/third-v27",
+    "ocr-diagnostics-audit": {
+      "status": "passed",
+      "linkedOcrAttempts": 55,
+      "fullObjectHashScope": "See independent readback-report.json",
+      "workers": [
+        {
+          "worker": 0,
+          "keyword": "braised food flushing",
+          "attempts": 38,
+          "maxDurationMs": 3354,
+          "medianDurationMs": 1928.0,
+          "optionalTimeouts": 0
+        },
+        {
+          "worker": 1,
+          "keyword": "bubble tea garden city",
+          "attempts": 17,
+          "maxDurationMs": 2484,
+          "medianDurationMs": 1772,
+          "optionalTimeouts": 0
+        }
+      ],
+      "primaryTimeouts": 0,
+      "processFailures": 0,
+      "note": "Optional reread timeouts are separately counted; success classification requires primary exit 0 and complete OCR/frame evidence."
+    },
+    "outcome-audit": {
+      "status": "failed_complete_ranking_acceptance",
+      "workers": [
+        {
+          "worker": 0,
+          "storeId": "keke-flushing",
+          "runId": "run_20261023T091839Z_8e8720",
+          "originalExit": 2,
+          "startedAt": "2026-10-23T09:16:48Z",
+          "finishedAt": "2026-10-23T09:23:03Z",
+          "executionStatus": "needs_review",
+          "listingStatus": "partial",
+          "stopReason": "ranking_unreliable",
+          "quality": {
+            "adCount": 0,
+            "organicCount": 15,
+            "unknownCount": 1,
+            "rankingReliable": false,
+            "frames": 36,
+            "warnings": [
+              "ordered_overlap_missing: q0001:frame-037 -> q0001:frame-038",
+              "unknown_cards_precede_organic_ranks"
+            ],
+            "sequenceVerified": false,
+            "classificationComplete": false,
+            "screenshotCoverageComplete": true,
+            "organicCoverage": 14,
+            "truncatedCount": 0,
+            "endOfResults": false
+          },
+          "organicRank": null,
+          "displayPosition": null,
+          "rows": 16,
+          "counts": {
+            "total": 1,
+            "captured": 0,
+            "needsReview": 1,
+            "failed": 0,
+            "skipped": 0,
+            "screenshots": 38,
+            "locationScreenshots": 1,
+            "completeListingQueries": 0,
+            "partialListingQueries": 1,
+            "rankedQueries": 0,
+            "listings": 16,
+            "ads": 0,
+            "organic": 15,
+            "unknown": 1
+          },
+          "queryPng": 38,
+          "ocrAttempts": 38,
+          "commands": 921,
+          "appiumHttpCommands": 881,
+          "commandFailures": [],
+          "fullRunSequenceRecovered": true,
+          "totalCommands": 921,
+          "sessionCreates": [
+            {
+              "sequence": 27,
+              "at": "2026-10-23T09:19:08.873Z",
+              "stage": "start",
+              "command": "POST session",
+              "durationMs": 25714,
+              "outcome": "ok",
+              "httpStatus": 200,
+              "responseType": "object"
+            }
+          ],
+          "searchSubmissions": 1,
+          "completeRankingAcceptance": false,
+          "databaseEvidenceMatched": true
+        },
+        {
+          "worker": 1,
+          "storeId": "only-bear",
+          "runId": "run_20261023T091839Z_6049f4",
+          "originalExit": 0,
+          "startedAt": "2026-10-23T09:18:38Z",
+          "finishedAt": "2026-10-23T09:21:17Z",
+          "executionStatus": "completed",
+          "listingStatus": "complete",
+          "stopReason": "list_end",
+          "quality": {
+            "adCount": 0,
+            "organicCount": 12,
+            "unknownCount": 0,
+            "rankingReliable": true,
+            "frames": 16,
+            "warnings": [],
+            "sequenceVerified": true,
+            "classificationComplete": true,
+            "screenshotCoverageComplete": true,
+            "organicCoverage": 12,
+            "truncatedCount": 0,
+            "endOfResults": true
+          },
+          "organicRank": 2,
+          "displayPosition": 2,
+          "rows": 12,
+          "counts": {
+            "total": 1,
+            "captured": 1,
+            "needsReview": 0,
+            "failed": 0,
+            "skipped": 0,
+            "screenshots": 17,
+            "locationScreenshots": 1,
+            "completeListingQueries": 1,
+            "partialListingQueries": 0,
+            "rankedQueries": 1,
+            "listings": 12,
+            "ads": 0,
+            "organic": 12,
+            "unknown": 0
+          },
+          "queryPng": 17,
+          "ocrAttempts": 17,
+          "commands": 692,
+          "appiumHttpCommands": 421,
+          "commandFailures": [],
+          "fullRunSequenceRecovered": false,
+          "totalCommands": 712,
+          "sessionCreates": [
+            {
+              "sequence": 27,
+              "at": "2026-10-23T09:19:03.678Z",
+              "stage": "start",
+              "command": "POST session",
+              "durationMs": 23452,
+              "outcome": "ok",
+              "httpStatus": 200,
+              "responseType": "object"
+            }
+          ],
+          "searchSubmissions": 1,
+          "completeRankingAcceptance": true,
+          "databaseEvidenceMatched": true
+        }
+      ],
+      "searchCaptureIntervals": [
+        {
+          "worker": 0,
+          "submitAt": "2026-10-23T09:19:33.716Z",
+          "lastCaptureAt": "2026-10-23T09:23:00.758000+00:00"
+        },
+        {
+          "worker": 1,
+          "submitAt": "2026-10-23T09:19:47.482Z",
+          "lastCaptureAt": "2026-10-23T09:21:15.282000+00:00"
+        }
+      ],
+      "searchCaptureOverlapSeconds": 87.8,
+      "simultaneousSearchValidated": true,
+      "gate": {
+        "_id": "android-maps-pilot/maps-android-ocr-v27-20261023",
+        "roundId": "e0acca58-53f1-41b1-aae5-7cbbaf1fe9b5",
+        "shardCount": 2,
+        "finished": [
+          0,
+          1
+        ],
+        "active": false
+      },
+      "allDatabaseEvidenceMatched": true,
+      "geography": "unverified",
+      "fullCatalogAcceptance": false
+    }
+  },
+  {
+    "probe": 28,
+    "archive": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-ocr-concurrency-2026-10-23/final-v28",
+    "ocr-diagnostics-audit": {
+      "status": "passed",
+      "linkedOcrAttempts": 24,
+      "fullObjectHashScope": "See independent readback-report.json",
+      "workers": [
+        {
+          "worker": 0,
+          "keyword": "braised food flushing",
+          "attempts": 24,
+          "maxDurationMs": 4750,
+          "medianDurationMs": 1788.0,
+          "optionalTimeouts": 0
+        },
+        {
+          "worker": 1,
+          "keyword": "bubble tea garden city",
+          "attempts": 0,
+          "maxDurationMs": null,
+          "medianDurationMs": null,
+          "optionalTimeouts": 0
+        }
+      ],
+      "primaryTimeouts": 0,
+      "processFailures": 0,
+      "note": "Optional reread timeouts are separately counted; success classification requires primary exit 0 and complete OCR/frame evidence."
+    },
+    "outcome-audit": {
+      "status": "failed_complete_ranking_acceptance",
+      "workers": [
+        {
+          "worker": 0,
+          "storeId": "keke-flushing",
+          "runId": "run_20261023T093932Z_e0f859",
+          "originalExit": 2,
+          "startedAt": "2026-10-23T09:37:55Z",
+          "finishedAt": "2026-10-23T09:42:42Z",
+          "executionStatus": "needs_review",
+          "listingStatus": "partial",
+          "stopReason": "ranking_unreliable",
+          "quality": {
+            "adCount": 0,
+            "organicCount": 11,
+            "unknownCount": 1,
+            "rankingReliable": false,
+            "frames": 24,
+            "warnings": [
+              "anchored_card_unmatched: q0001:frame-023 -> q0001:frame-024",
+              "anchored_card_missing: q0001:frame-023 -> q0001:frame-024",
+              "unknown_cards_precede_organic_ranks"
+            ],
+            "sequenceVerified": false,
+            "classificationComplete": false,
+            "screenshotCoverageComplete": true,
+            "organicCoverage": 0,
+            "truncatedCount": 0,
+            "endOfResults": false
+          },
+          "organicRank": null,
+          "displayPosition": null,
+          "rows": 12,
+          "counts": {
+            "total": 1,
+            "captured": 0,
+            "needsReview": 1,
+            "failed": 0,
+            "skipped": 0,
+            "screenshots": 24,
+            "locationScreenshots": 1,
+            "completeListingQueries": 0,
+            "partialListingQueries": 1,
+            "rankedQueries": 0,
+            "listings": 12,
+            "ads": 0,
+            "organic": 11,
+            "unknown": 1
+          },
+          "queryPng": 24,
+          "ocrAttempts": 24,
+          "commands": 643,
+          "appiumHttpCommands": 589,
+          "commandFailures": [],
+          "sessionCreates": [
+            {
+              "sequence": 27,
+              "at": "2026-10-23T09:40:08.009Z",
+              "stage": "start",
+              "command": "POST session",
+              "durationMs": 33457,
+              "outcome": "ok",
+              "httpStatus": 200,
+              "responseType": "object"
+            }
+          ],
+          "searchSubmissions": 1,
+          "completeRankingAcceptance": false,
+          "databaseEvidenceMatched": true
+        },
+        {
+          "worker": 1,
+          "storeId": "only-bear",
+          "runId": "run_20261023T093932Z_058350",
+          "originalExit": 1,
+          "startedAt": "2026-10-23T09:39:30Z",
+          "finishedAt": "2026-10-23T09:40:49Z",
+          "executionStatus": "failed",
+          "listingStatus": "not_evaluated",
+          "stopReason": "unknown_search_layout",
+          "quality": {},
+          "organicRank": null,
+          "displayPosition": null,
+          "rows": 0,
+          "counts": {
+            "total": 1,
+            "captured": 0,
+            "needsReview": 0,
+            "failed": 1,
+            "skipped": 0,
+            "screenshots": 1,
+            "locationScreenshots": 1,
+            "completeListingQueries": 0,
+            "partialListingQueries": 0,
+            "rankedQueries": 0,
+            "listings": 0,
+            "ads": 0,
+            "organic": 0,
+            "unknown": 0
+          },
+          "queryPng": 1,
+          "ocrAttempts": 0,
+          "commands": 101,
+          "appiumHttpCommands": 46,
+          "commandFailures": [
+            {
+              "sequence": 93,
+              "at": "2026-10-23T09:40:42.320Z",
+              "stage": "search",
+              "command": "POST elements",
+              "durationMs": 4988,
+              "outcome": "failed",
+              "errorCode": "QUERY_TIMEOUT",
+              "reason": "transport_error"
+            }
+          ],
+          "sessionCreates": [
+            {
+              "sequence": 27,
+              "at": "2026-10-23T09:40:04.948Z",
+              "stage": "start",
+              "command": "POST session",
+              "durationMs": 32186,
+              "outcome": "ok",
+              "httpStatus": 200,
+              "responseType": "object"
+            }
+          ],
+          "searchSubmissions": 0,
+          "completeRankingAcceptance": false,
+          "databaseEvidenceMatched": true
+        }
+      ],
+      "searchCaptureIntervals": [
+        {
+          "worker": 0,
+          "submitAt": "2026-10-23T09:40:32.729Z",
+          "lastCaptureAt": "2026-10-23T09:42:40.715000+00:00"
+        },
+        {
+          "worker": 1,
+          "submitAt": null,
+          "lastCaptureAt": null
+        }
+      ],
+      "searchCaptureOverlapSeconds": 0,
+      "simultaneousSearchValidated": false,
+      "gate": {
+        "_id": "android-maps-pilot/maps-android-ocr-v28-20261023",
+        "roundId": "221d19ac-1167-48c2-a221-c95729aa1c6a",
+        "shardCount": 2,
+        "finished": [
+          0
+        ],
+        "active": true
+      },
+      "allDatabaseEvidenceMatched": true,
+      "geography": "unverified",
+      "fullCatalogAcceptance": false
+    }
+  }
+]

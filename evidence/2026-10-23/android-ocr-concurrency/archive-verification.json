@@ -1,0 +1,30 @@
+[
+  {
+    "directory": "first-v25",
+    "objects": 187,
+    "exactWriterReceipts": 185,
+    "copiedBlobHashesVerified": 187,
+    "readbackReportSha256": "6905c99157a376be648279b95284f1038dbc9f5a3bd1895e6d4d3edbec97e81d"
+  },
+  {
+    "directory": "second-v26",
+    "objects": 299,
+    "exactWriterReceipts": 297,
+    "copiedBlobHashesVerified": 299,
+    "readbackReportSha256": "d66569c86dec5220104135b1d979d1a78e8aaf88f31fbc3885fecbda38eb5e3c"
+  },
+  {
+    "directory": "third-v27",
+    "objects": 315,
+    "exactWriterReceipts": 313,
+    "copiedBlobHashesVerified": 315,
+    "readbackReportSha256": "c2579a55fdda38fbb6e001d754ee4e79a90a19fcad3f8aaea1fef1d4cbf6e4cf"
+  },
+  {
+    "directory": "final-v28",
+    "objects": 155,
+    "exactWriterReceipts": 153,
+    "copiedBlobHashesVerified": 155,
+    "readbackReportSha256": "f3a4c07425de928738ae23d740d7f10948ea4b665d793b162dd1bce04c19d7a1"
+  }
+]

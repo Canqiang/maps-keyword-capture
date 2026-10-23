@@ -1,0 +1,23 @@
+{
+  "status": "failed_complete_ranking_acceptance",
+  "runtimeSource": "3b4bfd4b90b0b548b445d46a7cd26b54d06a586b",
+  "issues": [
+    {
+      "store": "keke-flushing",
+      "boundary": "frame023 -> frame024",
+      "observed": "江湖 烤 涮 酒 坊 -> 江湖 烤 测 酒 坊; same4.8/273 rating; -219px motion",
+      "evidence": "Short CJK title plus conservative card_header_clipped fails existing name continuity; low-confidence 涮39.372627 becomes 测72.259399.",
+      "requiredBehavior": "Use exact original OCR/XML/PNG regression and independent geometry plus character uncertainty; reject confident different names, branches, duplicate cards, ad/unknown conflicts and inconsistent motion. Never globally relax short-name matching.",
+      "result": "partial;12 diagnostic rows; target rank null;exit2"
+    },
+    {
+      "store": "only-bear",
+      "command": 93,
+      "observed": "POST elements, search,4988ms,QUERY_TIMEOUT/transport_error after successful entry click;0 submissions;0 OCR",
+      "code": "src/android/device.ts awaitSearchInput: five-second local focus budget converts QUERY_TIMEOUT to UNKNOWN_SEARCH_LAYOUT",
+      "requiredBehavior": "Investigate input readiness and bounded pre-submit observation deadline; preserve timeout provenance. No repeated entry click, typing, search submit or uncertain mutation. Cover slow read then readiness, exhausted budget, global deadline, ambiguous focus and cancellation.",
+      "result": "failed before submit;exit1; not an OCR failure or post-submit stale event"
+    }
+  ],
+  "acceptance": "Require both complete representative lists and actual overlapping search/capture with one submit each, complete immutable diagnostics, independent artifact/database readback and unchanged protected services. Current run does not meet this gate."
+}

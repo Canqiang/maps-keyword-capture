@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "linkedOcrAttempts": 24,
+  "fullObjectHashScope": "See independent readback-report.json",
+  "workers": [
+    {
+      "worker": 0,
+      "keyword": "braised food flushing",
+      "attempts": 24,
+      "maxDurationMs": 4750,
+      "medianDurationMs": 1788.0,
+      "optionalTimeouts": 0
+    },
+    {
+      "worker": 1,
+      "keyword": "bubble tea garden city",
+      "attempts": 0,
+      "maxDurationMs": null,
+      "medianDurationMs": null,
+      "optionalTimeouts": 0
+    }
+  ],
+  "primaryTimeouts": 0,
+  "processFailures": 0,
+  "note": "Optional reread timeouts are separately counted; success classification requires primary exit 0 and complete OCR/frame evidence."
+}

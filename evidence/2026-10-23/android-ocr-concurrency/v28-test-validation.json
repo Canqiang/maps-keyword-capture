@@ -1,0 +1,13 @@
+{
+  "source": "3b4bfd4b90b0b548b445d46a7cd26b54d06a586b",
+  "typescriptFiles": 96,
+  "typescriptTests": 1848,
+  "contracts": true,
+  "typecheck": true,
+  "build": true,
+  "clippedRatingTargeted": 13,
+  "diagnosticsTargeted": 3,
+  "pythonUnchangedSinceV25": 34,
+  "redBefore": "expected -381 but null; missing command sequences30-49",
+  "greenAfter": true
+}

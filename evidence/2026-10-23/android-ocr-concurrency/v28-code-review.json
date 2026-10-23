@@ -1,0 +1,7 @@
+{
+  "reviewer": "review_search_scroll",
+  "status": "no_blockers",
+  "continuityFocusedTests": 65,
+  "diagnosticFocusedTests": 3,
+  "scope": "Source changes and actual fixture/negative tests; runtime acceptance separate"
+}

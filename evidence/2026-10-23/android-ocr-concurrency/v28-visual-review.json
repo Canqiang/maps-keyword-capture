@@ -1,0 +1,31 @@
+{
+  "scope": "Three original PNGs visually inspected; all 27 PNGs separately structurally decoded. Visual sampling does not establish all labels or geographic relevance.",
+  "samples": [
+    {
+      "label": "KEKE frame 23",
+      "key": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094236.174Z__braised-food-flushing__23.png",
+      "serviceBytes": 520714,
+      "bytes": 520714,
+      "sha256": "341bbcc4ca2b69e8877f9847aeb78d2f4c503f59607d3447400730cd7a06cdb6"
+    },
+    {
+      "label": "KEKE frame 24",
+      "key": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094240.715Z__braised-food-flushing__24.png",
+      "serviceBytes": 702099,
+      "bytes": 702099,
+      "sha256": "7d20af01cc82b23918dba871ebbbde4cb5822a33df1310a4f29207e51cb2a7eb"
+    },
+    {
+      "label": "OnlyBear pre-submit diagnostic",
+      "key": "android-maps/2026-10-23/run_20261023T093932Z_058350/q0001/20261023T094046.898Z__bubble-tea-garden-city__01.png",
+      "serviceBytes": 74195,
+      "bytes": 74195,
+      "sha256": "6615c1925e2c85524c9f98285adcd6ef0528aa8a49dab0f60f15e4a50f03517e"
+    }
+  ],
+  "findings": [
+    "KEKE frames23/24 visibly retain the same Jianghu merchant with rating4.8 and273 reviews; OCR differs at the short Chinese title.",
+    "OnlyBear shows an empty Search here field and recent searches, not the current submitted result list.",
+    "No fresh positive advertisement or verified customer-local ranking is claimed."
+  ]
+}
