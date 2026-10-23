@@ -64,6 +64,9 @@ spec:
                 - --shard-strategy
                 - balanced
               env:
+                - { name: TRACKING_SCAN_GROUP, value: uat/maps-targets-web-2h }
+                - name: JOB_UID
+                  valueFrom: { fieldRef: { fieldPath: "metadata.labels['batch.kubernetes.io/controller-uid']" } }
                 - { name: IMAGE_DIGEST, value: "sha256:REPLACE_DIGEST_WEB" }
                 - { name: EGRESS_PROFILE_ID, value: aks-fbrdev-eastus2-uatops }
                 - { name: AZURE_STORAGE_CONTAINER, value: maps-keyword-capture-uat }

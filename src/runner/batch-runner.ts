@@ -50,11 +50,11 @@ export function batchDeadlineMs(config: CaptureConfig): number {
   return (60 + n * (config.keywordTimeoutMs / 1000 + 30) + 60) * 1000;
 }
 
-export async function closeWithin(browser: Pick<Browser, 'close'>, timeoutMs: number): Promise<'closed' | 'timed_out'> {
+export async function closeWithin(browser: Pick<Browser, 'close'>, timeoutMs: number): Promise<'closed' | 'timed_out' | 'failed'> {
   let timer: NodeJS.Timeout | undefined;
   const timeout = new Promise<'timed_out'>((resolve) => { timer = setTimeout(() => resolve('timed_out'), timeoutMs); });
   try {
-    return await Promise.race([browser.close().then(() => 'closed' as const, () => 'closed' as const), timeout]);
+    return await Promise.race([browser.close().then(() => 'closed' as const, () => 'failed' as const), timeout]);
   } finally {
     if (timer) clearTimeout(timer);
   }
@@ -219,7 +219,8 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
   } catch (cause) {
     failure = { cause };
   } finally {
-    if (await closeWithin(browser, BROWSER_CLOSE_TIMEOUT_MS) === 'timed_out') log({ stage: 'browser_close_timeout', runId, attemptId });
+    const cleanup = await closeWithin(browser, BROWSER_CLOSE_TIMEOUT_MS);
+    if (cleanup !== 'closed') log({ stage: cleanup === 'timed_out' ? 'browser_close_timeout' : 'browser_close_failed', runId, attemptId });
     output = await finish();
   }
   if (!output) throw new Error('batch finished without publishing a manifest');

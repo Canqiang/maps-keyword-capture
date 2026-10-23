@@ -1,0 +1,16 @@
+import {readFileSync} from 'node:fs';
+import {parseScreenFrame,reconcileScreenFrames} from '../../src/android/screen-reader.ts';
+import {loadTrackingConfig,withStores,balancedShardStores} from '../../src/domain/tracking-config.ts';
+import {parseTargetCatalog} from '../../src/domain/target-catalog.ts';
+import {createScanTrigger} from '../../src/web/scan-trigger.ts';
+async function main(){
+const root=new URL('../../',import.meta.url).pathname;
+const frames=[25,26].map(i=>{const p=root+'tests/fixtures/android/repair-probe-20261021/candidate12-q0004-'+i;return parseScreenFrame(JSON.parse(readFileSync(p+'.ocr.json','utf8')),'hot pot near me','f'+i,'2026-10-23',readFileSync(p+'.xml','utf8'));});
+frames[0].topStateVerified=true;frames[1].cards[0].resultType='ad';frames[1].cards[0].adLabel='Sponsored';frames[1].cards[0].warnings.push('native_ad_label_confirmed');
+const r=reconcileScreenFrames(frames,20);console.log('ad_conflict',JSON.stringify({reliable:r.rankingReliable,rows:r.listings.map(l=>({name:l.name,type:l.resultType,rank:l.organicRank,frames:l.frameIds})),warnings:r.warnings}));
+const config=await loadTrackingConfig(root+'deploy/tracking-targets/android-tracking.json');const cat=parseTargetCatalog(JSON.parse(readFileSync(root+'deploy/tracking-targets/liya-90-v1.json','utf8')));
+const stores=cat.stores.slice(0,3).map((s,i)=>({...s,storeId:['a','b','c'][i],keywordTargets:undefined,monitoringCatalog:undefined,keywords:{core:Array.from({length:[10,9,8][i]},(_,j)=>'word '+j),longTail:[]}}));
+const before=withStores(config,stores),after=withStores(config,stores.map((s,i)=>i? s:{...s,keywords:{core:s.keywords.core.slice(0,8),longTail:[]}}));const selection={surface:'android' as const,tier:'point' as const};
+console.log('shards',JSON.stringify({worker0:balancedShardStores(before,selection,0,2).map(s=>s.storeId),worker1:balancedShardStores(after,selection,1,2).map(s=>s.storeId)}));
+const posts:any[]=[];const trigger=createScanTrigger([{id:'web',title:'web',cronJob:'maps-targets-web-2h'}],{get:async(path)=>path.includes('/jobs?')?{items:[]}:{spec:{jobTemplate:{spec:{completions:2}}}},post:async(path,body)=>{posts.push(body);return body}},'uat');await Promise.all([trigger.trigger('web'),trigger.trigger('web')]);console.log('parallel_manual_jobs',posts.length);
+}main();

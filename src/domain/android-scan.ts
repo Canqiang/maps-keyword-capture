@@ -61,7 +61,7 @@ export async function runAndroidScan(deps: AndroidScanDeps): Promise<AndroidScan
     batches:{planned:runs.length,run:0,failed:0,partial:0,deliveryFailed:0},queries:{planned:plan.queries.length,dispatched:0,observed:0,ranked:0,notFound:0,needsReview:0,failed:0,skipped:0},observations:{inserted:0,updated:0,notIngested:0},manifests:[],summaryReceipt:null};
   log({stage:'android_scan_start',scanId,queries:plan.queries.length,batches:runs.length});
   if(deps.catalogSnapshot){
-    try {summary.catalogSnapshot=await persistScanCatalog(deps.catalogSnapshot,deps.config,deps.store,prefix);}
+    try {summary.catalogSnapshot=await persistScanCatalog(deps.catalogSnapshot,deps.config,deps.store,prefix,{surface:'android',tier:deps.tier,...(deps.storeIds?{storeIds:deps.storeIds}:{})});}
     catch {summary.status='failed';log({stage:'android_scan_catalog_failed',scanId});}
   }
   for(const plannedTasks of runs){

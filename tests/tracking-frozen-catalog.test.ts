@@ -1,3 +1,5 @@
+import * as gate from '../src/domain/scan-gate.js';
+import { MongoRoundRepository, type RoundRecord } from '../src/domain/scan-round.js';
 import { createHash } from 'node:crypto';
 import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -22,8 +24,8 @@ afterEach(() => vi.restoreAllMocks());
 describe('pinned per-round catalog', () => {
   it.each(['web','android'] as const)('executes both %s shards from pinned bytes without a live Mongo catalog read', async surface => {
     const calls: Array<web.WebScanDeps | android.AndroidScanDeps> = [];
-    if (surface === 'web') vi.spyOn(web, 'runWebScan').mockImplementation(async deps => { calls.push(deps); return { exitCode: 0 } as web.WebScanSummary; });
-    else vi.spyOn(android, 'runAndroidScan').mockImplementation(async deps => { calls.push(deps); return { exitCode: 0 } as android.AndroidScanSummary; });
+    if (surface === 'web') vi.spyOn(web, 'runWebScan').mockImplementation(async deps => { calls.push(deps); return { exitCode: 0, batches: { failed: 0 } } as web.WebScanSummary; });
+    else vi.spyOn(android, 'runAndroidScan').mockImplementation(async deps => { calls.push(deps); return { exitCode: 0, batches: { failed: 0 } } as android.AndroidScanSummary; });
     const list = vi.spyOn(MongoTrackingRepository.prototype, 'listStores').mockRejectedValue(new Error('mutable catalog must not be read'));
     vi.spyOn(MongoObservationStore.prototype, 'close').mockResolvedValue();
     vi.spyOn(console,'log').mockImplementation(()=>{}); vi.spyOn(console,'error').mockImplementation(()=>{});
@@ -37,6 +39,41 @@ describe('pinned per-round catalog', () => {
       expect(call.catalogSnapshot?.version).toBe(catalog.version);
       expect(call.catalogSnapshot?.bytes.equals(bytes)).toBe(true);
     }
+  });
+  it.each(['web', 'android'] as const)('freezes a live Mongo catalog across the actual %s CLI workers', async surface => {
+    const calls: Array<web.WebScanDeps | android.AndroidScanDeps> = [];
+    if (surface === 'web') vi.spyOn(web, 'runWebScan').mockImplementation(async deps => { calls.push(deps); return { exitCode: 0, batches: { failed: 0 } } as web.WebScanSummary; });
+    else vi.spyOn(android, 'runAndroidScan').mockImplementation(async deps => { calls.push(deps); return { exitCode: 0, batches: { failed: 0 } } as android.AndroidScanSummary; });
+    const leave = vi.fn(async () => {}); vi.spyOn(gate, 'enterScanGate').mockResolvedValue(leave);
+    vi.spyOn(gate.MongoGateRepository.prototype, 'close').mockResolvedValue();
+    vi.spyOn(MongoObservationStore.prototype, 'close').mockResolvedValue();
+    vi.spyOn(MongoRoundRepository.prototype, 'close').mockResolvedValue();
+    const records = new Map<string, RoundRecord>();
+    vi.spyOn(MongoRoundRepository.prototype, 'claim').mockImplementation(async record => { if (records.has(record._id)) return false; records.set(record._id, record); return true; });
+    vi.spyOn(MongoRoundRepository.prototype, 'get').mockImplementation(async id => records.get(id) ?? null);
+    vi.spyOn(MongoRoundRepository.prototype, 'publish').mockImplementation(async (id, json, sha256) => { Object.assign(records.get(id)!, { state: 'ready', json, sha256 }); });
+    const list = vi.spyOn(MongoTrackingRepository.prototype, 'listStores').mockResolvedValue(catalog.stores as never);
+    vi.spyOn(MongoTrackingRepository.prototype, 'close').mockResolvedValue();
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+    const root = await mkdtemp(join(tmpdir(), 'round-cli-'));
+    const args = ['scan', '--config', configPath, '--surface', surface, '--tier', 'point', '--output-dir', root, '--shard-count', '2', '--shard-strategy', 'balanced', '--mongo-uri-env', 'TEST_MONGO'];
+    for (const index of [0, 1]) {
+      expect(await main([...args, '--shard-index', String(index)], { JOB_UID: 'job-uid', TRACKING_SCAN_GROUP: 'test-target', TEST_MONGO: 'mongodb://localhost:1' })).toBe(0);
+      list.mockResolvedValue([]); // A concurrent settings edit must not change the second worker.
+    }
+    expect(list).toHaveBeenCalledTimes(1); expect(leave).toHaveBeenCalledTimes(2);
+    const planned = calls.flatMap(d => planScan(d.config, { surface, tier: 'point' }).queries);
+    expect(planned).toHaveLength(270); expect(new Set(planned.map(q => `${q.storeId}/${q.point.id}/${q.keyword}`)).size).toBe(270);
+    expect(calls[0]!.catalogSnapshot!.sha256).toBe(calls[1]!.catalogSnapshot!.sha256);
+    const artifact = new LocalArtifactStore(root);
+    const receipt = await web.persistScanCatalog(calls[0]!.catalogSnapshot!, calls[0]!.config, artifact, 'test-round', { surface, tier: 'point' });
+    expect(JSON.parse(await readFile(artifact.absolutePath(receipt.relativePath), 'utf8')).schemaVersion).toBe('tracking-scan-round/v1');
+    for (const bad of [ { ...calls[0]!.config, timezone: 'UTC' }, { ...calls[0]!.config, stores: calls[0]!.config.stores.slice(1) } ]) {
+      await expect(web.persistScanCatalog(calls[0]!.catalogSnapshot!, bad, artifact, 'bad', { surface, tier: 'point' })).rejects.toThrow('configuration or shard');
+    }
+    await expect(web.persistScanCatalog(calls[0]!.catalogSnapshot!, calls[0]!.config, artifact, 'bad', { surface: surface === 'web' ? 'android' : 'web', tier: 'point' })).rejects.toThrow('configuration or shard');
+    const edited = structuredClone(calls[0]!.config); edited.stores[0]!.aliases.push('changed');
+    await expect(web.persistScanCatalog(calls[0]!.catalogSnapshot!, edited, artifact, 'bad-round', { surface, tier: 'point' })).rejects.toThrow('do not match');
   });
   it.each(['missing','wrong','changed'] as const)('rejects %s catalog pin before dispatch', async mode=>{
     const dispatch=vi.spyOn(web,'runWebScan').mockResolvedValue({exitCode:0} as web.WebScanSummary);
@@ -81,5 +118,33 @@ describe('pinned per-round catalog', () => {
     const runner=vi.fn(async()=>{throw new Error('must not dispatch');});
     const summary=await web.runWebScan({config:withStores(base,[selected]),tier:'point',store,observations:new MemoryObservationStore(),catalogSnapshot:mode==='mutated_bytes'?{...frozen,bytes:Buffer.concat([bytes,Buffer.from('\n')])}:frozen,batchRunner:runner});
     expect(runner).not.toHaveBeenCalled();expect(summary.status).toBe('failed');expect(summary.queries.skipped).toBe(30);
+  });
+});
+
+describe('CLI execution gate cleanup boundary', () => {
+  it.each(['success', 'partial', 'failed', 'throw', 'timeout', 'close_failed', 'cancelled'] as const)('handles %s without releasing an uncertain runtime', async mode => {
+    const leave = vi.fn(async () => {});
+    vi.spyOn(gate, 'enterScanGate').mockResolvedValue(leave); vi.spyOn(gate.MongoGateRepository.prototype, 'close').mockResolvedValue();
+    vi.spyOn(MongoObservationStore.prototype, 'close').mockResolvedValue();
+    vi.spyOn(console, 'log').mockImplementation(() => {}); vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(web, 'runWebScan').mockImplementation(async deps => {
+      if (mode === 'throw') throw new Error('runtime exception');
+      if (mode === 'timeout') deps.log?.({ stage: 'browser_close_timeout' });
+      if (mode === 'close_failed') deps.log?.({ stage: 'browser_close_failed' });
+      if (mode === 'cancelled') process.emit('SIGTERM');
+      return { exitCode: mode === 'failed' ? 1 : mode === 'partial' ? 2 : 0, batches: { failed: mode === 'failed' ? 1 : 0 } } as web.WebScanSummary;
+    });
+    const root = await mkdtemp(join(tmpdir(), 'gate-cli-'));
+    const code = await main(['scan', '--config', configPath, '--catalog', catalogPath, '--catalog-sha256', sha256, '--surface', 'web', '--tier', 'point', '--output-dir', root, '--mongo-uri-env', 'TEST_MONGO'],
+      { JOB_UID: 'job-test', TRACKING_SCAN_GROUP: 'test-group', TEST_MONGO: 'mongodb://localhost:1' });
+    expect(code).toBe(['throw', 'failed', 'timeout', 'close_failed', 'cancelled'].includes(mode) ? 1 : mode === 'partial' ? 2 : 0);
+    expect(leave).toHaveBeenCalledTimes(mode === 'success' || mode === 'partial' ? 1 : 0);
+  });
+  it('releases a pre-capture validation failure without invoking a collector', async () => {
+    const leave = vi.fn(async () => {}); vi.spyOn(gate, 'enterScanGate').mockResolvedValue(leave); vi.spyOn(gate.MongoGateRepository.prototype, 'close').mockResolvedValue();
+    const dispatch = vi.spyOn(web, 'runWebScan'); vi.spyOn(console, 'error').mockImplementation(() => {});
+    expect(await main(['scan', '--config', configPath, '--catalog', catalogPath, '--catalog-sha256', '0'.repeat(64), '--surface', 'web', '--tier', 'point', '--mongo-uri-env', 'TEST_MONGO'],
+      { JOB_UID: 'job-test', TRACKING_SCAN_GROUP: 'test-group', TEST_MONGO: 'mongodb://localhost:1' })).toBe(64);
+    expect(dispatch).not.toHaveBeenCalled(); expect(leave).toHaveBeenCalledTimes(1);
   });
 });

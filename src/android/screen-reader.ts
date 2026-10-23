@@ -707,7 +707,13 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
     const rows: RankedListing[] = [];
     for (let i = 0; i < frame.cards.length; i++) {
       const card = frame.cards[i]!;
-      if (placed.has(i)) {
+      const candidate = placed.get(i) ?? (i < overlap ? joinRows[joinRows.length - overlap + i] : undefined);
+      const conflict = candidate && candidate.resultType !== 'unknown' && card.resultType !== 'unknown' && candidate.resultType !== card.resultType;
+      if (conflict) {
+        continuous = false;
+        warnings.push(`${edgeCorrected.has(i) ? 'edge' : 'card'}_classification_conflict: ${frame.frameId}`);
+      }
+      if (!conflict && placed.has(i)) {
         const existing = placed.get(i)!;
         if (!existing.frameIds.includes(frame.frameId)) existing.frameIds.push(frame.frameId);
         if (existing.resultType === 'unknown' && card.resultType !== 'unknown' && card.name !== null && (card.nameConfidence ?? 0) >= 40) { existing.resultType = card.resultType; existing.adLabel = card.adLabel; }
@@ -720,7 +726,7 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
           if (!existing.warnings.includes('edge_reading_corrected_by_full_reading')) existing.warnings.push('edge_reading_corrected_by_full_reading');
         }
         rows.push(existing);
-      } else if (i < overlap) {
+      } else if (!conflict && i < overlap) {
         const existing = joinRows[joinRows.length - overlap + i]!;
         if (acrossEmpty && !existing.warnings.includes('overlap_verified_across_cardless_frame')) existing.warnings.push('overlap_verified_across_cardless_frame');
         if (!existing.frameIds.includes(frame.frameId)) existing.frameIds.push(frame.frameId);
@@ -756,7 +762,7 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
   let organic = 0, rankingReliable = frames.length > 0 && frames[0]?.topStateVerified === true &&
     !frames.some(frame => frame.warnings.includes('native_ad_evidence_unresolved')) &&
     // A geometric contradiction (candidate12) leaves no new row to carry 'sequence_unverified'.
-    !warnings.some(warning => warning.startsWith('anchored_card_unmatched') || warning.startsWith('anchored_card_missing'));
+    !warnings.some(warning => warning.startsWith('edge_classification_conflict') || warning.startsWith('card_classification_conflict') || warning.startsWith('anchored_card_unmatched') || warning.startsWith('anchored_card_missing'));
   for (const listing of trimmed) {
     if (listing.resultType === 'unknown' || listing.name === null || (listing.nameConfidence ?? 0) < 40 ||
       listing.warnings.includes('low_rating_confidence') || listing.warnings.includes('native_ad_evidence_unresolved') || listing.warnings.includes('sequence_unverified')) rankingReliable = false;

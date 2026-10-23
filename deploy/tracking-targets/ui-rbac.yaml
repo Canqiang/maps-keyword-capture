@@ -1,5 +1,5 @@
 # "Collect now" button: the UI creates one-off Jobs from the existing CronJob templates.
-# It can read CronJobs and read/create Jobs in uat; nothing else.
+# It reads CronJobs, reads/creates Jobs, and reserves manual triggers with namespace-scoped Leases.
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -19,6 +19,9 @@ metadata:
     app.kubernetes.io/name: maps-keyword-capture
     app.kubernetes.io/component: tracking-ui
 rules:
+  - apiGroups: [coordination.k8s.io]
+    resources: [leases]
+    verbs: [get, create, update]
   - apiGroups: [batch]
     resources: [cronjobs]
     verbs: [get, list]

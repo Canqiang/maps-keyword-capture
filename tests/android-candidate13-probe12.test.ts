@@ -23,6 +23,25 @@ describe('candidate13: a rating line read at the bottom edge (probe 12 q0004 fra
     expect(result.listings.map(row => [row.name, row.reviewCount, row.frameIds.length])).toEqual([['Mt. ShooTao Hot Pot 蜀 道 山 火锅', 1174, 1], ['Zhang Liang Spicy Hot Pot', 339, 2]]);
     expect(result.listings[1]?.warnings).toContain('edge_reading_corrected_by_full_reading');
   });
+  it.each([['organic', 'ad'], ['ad', 'organic']] as const)('rejects contradictory edge classifications %s -> %s', (before, after) => {
+    const f = pair();
+    f[0]!.cards.at(-1)!.resultType = before;
+    f[1]!.cards[0]!.resultType = after;
+    const result = reconcileScreenFrames(f, 20);
+    expect(result.sequenceVerified).toBe(false);
+    expect(result.rankingReliable).toBe(false);
+    expect(result.warnings.some(w => w.startsWith('edge_classification_conflict'))).toBe(true);
+    expect(result.listings.every(row => row.organicRank === null)).toBe(true);
+    expect(result.listings.filter(row => row.name === 'Zhang Liang Spicy Hot Pot').map(row => row.resultType)).toEqual([before, after]);
+  });
+  it.each([['organic', 'ad'], ['ad', 'organic']] as const)('does not lose %s evidence through an intermediate unknown before %s', (before, after) => {
+    const f = pair(); f[0]!.cards.at(-1)!.resultType = before;
+    const middle = structuredClone(f[0]!); middle.frameId = 'middle'; middle.cards.at(-1)!.resultType = 'unknown'; middle.cards.at(-1)!.warnings = ['low_name_confidence'];
+    f[1]!.cards[0]!.resultType = after;
+    const result = reconcileScreenFrames([f[0]!, middle, f[1]!], 20);
+    expect(result.rankingReliable).toBe(false); expect(result.sequenceVerified).toBe(false);
+    expect(result.listings.every(row => row.organicRank === null)).toBe(true);
+  });
   it('does not join an edge reading to a different name', () => {
     const f = pair(); f[1]!.cards[0]!.name = 'Little Sheep Hot Pot';
     expect(reconcileScreenFrames(f, 20).listings.map(row => row.name)).toEqual(['Mt. ShooTao Hot Pot 蜀 道 山 火锅', 'Zhang Liang Spicy Hot Pot', 'Little Sheep Hot Pot']);
