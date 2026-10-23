@@ -72,6 +72,8 @@ export interface NativeScrollEvidence {
   };
 }
 export interface AndroidDevice {
+  /** Bounded metadata only; reading this performs no device command. */
+  commandDiagnostics?(): import('./command-diagnostics.js').CommandReport;
   preflight(): Promise<AndroidDeviceInfo>;
   start(): Promise<void>;
   setLocation(location: ObservationLocation): Promise<LocationEvidence>;
@@ -97,5 +99,5 @@ export interface ScreenAnalysis {
 }
 export type AndroidArtifact = StorageState & {
   relativePath: string; bytes: number; sha256: string;
-  kind: 'png' | 'ui_xml' | 'query_json' | 'csv' | 'input' | 'device' | 'ocr_json' | 'screen_frame';
+  kind: 'png' | 'ui_xml' | 'query_json' | 'csv' | 'input' | 'device' | 'ocr_json' | 'screen_frame' | 'command_log';
 };

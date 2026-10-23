@@ -364,3 +364,14 @@ Before another behavioral patch:
 4. Require KEKE end-to-end ordered capture and both original exit codes0 before promoting the Android template. Then separately test concurrent workers and full target-catalog capacity. Web and existing collectors must remain unchanged.
 
 After several candidates exposed separate state/OCR/transport failure layers, further broadening of OCR thresholds is not justified. Preserve current failure evidence and improve native state/transport diagnosis first.
+
+
+## 2026-10-23 — Follow-up: durable command diagnostics (verification in progress)
+
+User authorized continuing the KEKE Appium investigation with durable evidence before another behavior fix. The collector now records allowlisted command metadata: phase, command category, monotonically increasing sequence, timestamp/duration, HTTP status, W3C error class and response **type** (never value). It does not serialize request bodies, query text, native element/session IDs, server messages, stack traces, Appium URLs, environment variables or credentials.
+
+The journal is cumulative for the device session: last256 commands plus first32 failures; counters expose omitted history. Checkpoints are immutable `command_log` JSON artifacts at session start, location/search completion, every5 selected frames, query-final and after cleanup, with normal bytes/SHA-256/storage receipts. This retains failure metadata before normal sidecar teardown, including separate restoration/cleanup failures. It does not guarantee delivery after SIGKILL/node loss, and it cannot recover a pre-existing run's missing logs. The last successful checkpoint bounds crash evidence.
+
+Storage failure remains fail-closed: a failed final checkpoint cannot start a later query or change its location. Original search failure remains primary when diagnostic persistence also fails. Reading the journal executes no device commands, including after cancellation. The checkpoint files are cumulative; sequence/timestamps and checkpoint query path establish context, not a claim that all recorded commands belong only to that query.
+
+Regression tests include HTTP500 editor-action failure metadata with query/session redaction, journal bounds and hostile fields, startup phase, query-final/cleanup persistence, original-error preservation and a two-query storage-failure stop. Independent code review found the initial second-query storage continuation bug; its failing test was reproduced, then fixed. No collection behavior or promotion has been changed in this instrumentation checkpoint.

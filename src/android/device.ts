@@ -1,3 +1,4 @@
+import { CommandJournal, commandLabel, adbLabel, type CommandReport } from './command-diagnostics.js';
 import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import type { AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, LocationEvidence, NativeScreen, NativeScrollEvidence, ObservationLocation } from './contracts.js';
@@ -119,6 +120,9 @@ function resultScrollPercent(xml: string, list: NativeResultList, evidence?: Nat
 }
 
 export class NativeMapsDevice implements AndroidDevice {
+  private readonly journal = new CommandJournal();
+  private phase = 'setup';
+  commandDiagnostics(): CommandReport { return this.journal.snapshot(); }
   private readonly config: AndroidCaptureConfig;
   private readonly baseUrl: string;
   private readonly execute: AdbExecutor;
@@ -183,41 +187,51 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   private async adb(args: string[]): Promise<string> {
+    const began = performance.now(), stage = this.phase;
+    let failure: unknown;
     try {
       const result = await this.bounded((signal, timeoutMs) => this.execute(this.config.adbPath, ['-H', '127.0.0.1', '-P', '5037', '-s', this.config.serial, ...args], { signal, timeoutMs }));
       return result.stdout.toString('utf8').trim();
     } catch (error) {
+      failure = error;
       if (error instanceof AndroidDeviceError) throw error;
-      fail('ADB_COMMAND_FAILED', 'ADB command failed; verify the configured local SDK and dedicated emulator');
-    }
+      throw new AndroidDeviceError('ADB_COMMAND_FAILED', 'ADB command failed; verify the configured local SDK and dedicated emulator');
+    } finally { this.journal.record({ stage, command: adbLabel(args), durationMs: performance.now() - began, outcome: failure ? 'failed' : 'ok', ...(failure ? {errorCode: failure instanceof AndroidDeviceError ? failure.code : 'ADB_COMMAND_FAILED'} : {}) }); }
   }
 
   private async http(method: string, path: string, body?: unknown): Promise<unknown> {
-    return this.bounded(async (signal) => {
+    const began=performance.now(), stage=this.phase, command=commandLabel(method,path,body);
+    let httpStatus:number|undefined, w3cError:string|undefined, reason:string|undefined, responseType:string|undefined, failure:unknown;
+    try { return await this.bounded(async (signal) => {
       try {
         const response = await fetch(`${this.baseUrl}${path}`, { method, signal, redirect: 'error', headers: { 'content-type': 'application/json' }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
+        httpStatus=response.status;
         const reader = response.body?.getReader();
-        if (!reader) fail('APPIUM_PROTOCOL_ERROR', 'Appium returned no response body');
-        const chunks: Buffer[] = [];
-        let size = 0;
+        if (!reader) {reason='missing_body';fail('APPIUM_PROTOCOL_ERROR', 'Appium returned no response body');}
+        const chunks: Buffer[] = []; let size = 0;
         while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
+          const { done, value } = await reader.read(); if (done) break;
           size += value.length;
-          if (size > 16 * 1024 * 1024) { await reader.cancel(); fail('APPIUM_PROTOCOL_ERROR', 'Appium response exceeded the size limit'); }
+          if (size > 16 * 1024 * 1024) { await reader.cancel(); reason='oversized_body';fail('APPIUM_PROTOCOL_ERROR', 'Appium response exceeded the size limit'); }
           chunks.push(Buffer.from(value));
         }
-        const payload = object(JSON.parse(Buffer.concat(chunks).toString('utf8')) as unknown);
+        reason='invalid_json';
+        const payload = object(JSON.parse(Buffer.concat(chunks).toString('utf8')) as unknown);reason=undefined;
         if (method === 'DELETE' && response.status === 404 && object(payload.value).error === 'invalid session id') return null;
-        if (!response.ok || !Object.hasOwn(payload, 'value') || typeof object(payload.value).error === 'string') {
-          fail('APPIUM_PROTOCOL_ERROR', `Appium command failed (HTTP ${response.status}); inspect the local Appium log`);
+        responseType=payload.value===null?'null':Array.isArray(payload.value)?'array':typeof payload.value;
+        const serverError=object(payload.value).error;
+        if (typeof serverError==='string')w3cError=serverError;
+        if (!response.ok || !Object.hasOwn(payload, 'value') || typeof serverError === 'string') {
+          reason=!response.ok?'http_error':typeof serverError==='string'?'w3c_error':'missing_value';
+          fail('APPIUM_PROTOCOL_ERROR', `Appium command failed (HTTP ${response.status}); inspect the command log`);
         }
         return payload.value;
       } catch (error) {
         if (error instanceof AndroidDeviceError) throw error;
-        fail('APPIUM_PROTOCOL_ERROR', 'Appium transport or response failed; inspect the local Appium log');
+        reason??='transport_error';fail('APPIUM_PROTOCOL_ERROR', 'Appium transport or response failed; inspect the command log');
       }
-    });
+    }); } catch(error) { failure=error; throw error; }
+    finally { this.journal.record({stage,command,durationMs:performance.now()-began,outcome:failure?'failed':'ok',...(httpStatus===undefined?{}:{httpStatus}),...(w3cError?{w3cError}:{}),...(responseType?{responseType}:{}),...(reason?{reason}:{}),...(failure?{errorCode:failure instanceof AndroidDeviceError?failure.code:'APPIUM_PROTOCOL_ERROR'}:{})}); }
   }
 
   private command(method: string, path: string, body?: unknown): Promise<unknown> {
@@ -232,6 +246,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async preflight(): Promise<AndroidDeviceInfo> {
+    this.phase = 'preflight';
     if (await this.adb(['get-state']) !== 'device' || await this.adb(['shell', 'getprop', 'sys.boot_completed']) !== '1') fail('DEVICE_NOT_READY', 'The selected emulator is offline or has not completed boot');
     if (await this.adb(['shell', 'getprop', 'ro.kernel.qemu']) !== '1') fail('NOT_EMULATOR', 'The selected Android device is not a verified emulator');
     const locale = (await this.adb(['shell', 'getprop', 'persist.sys.locale']) || await this.adb(['shell', 'getprop', 'ro.product.locale'])).replaceAll('_', '-');
@@ -257,9 +272,11 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async start(): Promise<void> {
+    this.phase = 'start';
     if (this.sessionId) { await this.foreground(); return; }
     if (this.creationOutcomeUnknown) fail('SESSION_OUTCOME_UNKNOWN', 'Earlier session creation is unconfirmed; inspect the dedicated local Appium server before retrying');
     await this.preflight();
+    this.phase = 'start';
     this.creationOutcomeUnknown = true;
     const value = object(await this.http('POST', '/session', { capabilities: { alwaysMatch: {
       platformName: 'Android', 'appium:automationName': 'UiAutomator2', 'appium:udid': this.config.serial,
@@ -286,6 +303,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async setLocation(location: ObservationLocation): Promise<LocationEvidence> {
+    this.phase = 'location';
     if (!Number.isFinite(location.latitude) || Math.abs(location.latitude) > 90 || !Number.isFinite(location.longitude) || Math.abs(location.longitude) > 180
       || !Number.isFinite(location.toleranceMeters) || location.toleranceMeters <= 0) fail('INVALID_LOCATION', 'Invalid observation coordinates or tolerance');
     // A new observation must not inherit an expired query deadline or stale query
@@ -615,6 +633,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async search(keyword: string): Promise<void> {
+    this.phase = 'search';
     if (!keyword.trim() || keyword.length > 300 || /[\u0000-\u001f\u007f]/.test(keyword)) fail('INVALID_QUERY', 'Search keyword must be bounded printable text');
     this.queryDeadline = Date.now() + this.config.keywordTimeoutMs;
     this.scrollSnapshotProof = undefined;
@@ -638,11 +657,14 @@ export class NativeMapsDevice implements AndroidDevice {
       // Switching IMEs without observing the binding injected literal /search/.
       // Bind first, then recheck the exact focused Maps input immediately before
       // the single IME_ACTION_SEARCH. Never retry an uncertain submission.
+      this.phase = 'search.prepare-ime';
       await this.prepareEditorAction();
       await this.foreground();
       if (!await this.usableSearchInput(field, true)) fail('UNKNOWN_SEARCH_LAYOUT', 'Maps input lost focus while preparing its editor action');
       if (await this.command('GET', `${path}/text`) !== keyword) fail('QUERY_NOT_VISIBLE', 'Query changed while preparing its editor action');
+      this.phase = 'search.submit';
       await this.mobile('performEditorAction', { action: 3 });
+      this.phase = 'search.results';
       await this.foreground();
       field = await this.searchField();
       if (!await this.searchQueryMatches(field, keyword)) fail('QUERY_NOT_VISIBLE', 'The exact submitted keyword is not visible in the native Maps search field');
@@ -659,6 +681,7 @@ export class NativeMapsDevice implements AndroidDevice {
       this.diagnosticPending = true;
       throw error;
     } finally {
+      this.phase = 'search.restore-ime';
       try { await this.restoreInputMethod(); }
       catch (error) {
         this.searchFailed = true; this.diagnosticPending = true;
@@ -735,6 +758,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async snapshot(): Promise<NativeScreen> {
+    this.phase = 'snapshot';
     this.scrollSnapshotProof = undefined;
     const diagnostic = this.searchFailed;
     if (diagnostic && !this.diagnosticPending) fail('DIAGNOSTIC_CAPTURE_EXHAUSTED', 'The bounded diagnostic capture after this failed search has already been attempted');
@@ -763,6 +787,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async prepareResults(): Promise<void> {
+    this.phase = 'search.expand';
     this.scrollSnapshotProof = undefined;
     if (!this.activeKeyword || this.searchFailed) fail('UNKNOWN_SCROLL_LAYOUT', 'A verified native query is required before preparing results');
     try {
@@ -817,6 +842,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async scroll(evidence?: NativeScrollEvidence, direction: 'forward' | 'backward' = 'forward'): Promise<boolean> {
+    this.phase = 'scroll';
     await this.foreground();
     if (!this.activeKeyword || this.searchFailed) fail('UNKNOWN_SCROLL_LAYOUT', 'A verified native query is required before scrolling');
     const xml = await this.nativeXml();
@@ -880,6 +906,7 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   async close(): Promise<void> {
+    this.phase = 'close';
     this.scrollSnapshotProof = undefined;
     this.queryDeadline = undefined;
     this.closing = true;

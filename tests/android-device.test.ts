@@ -180,6 +180,20 @@ async function appiumFixture(options: { foreground?: string; missingField?: bool
 }
 
 describe('NativeMapsDevice exact native search submission', () => {
+  it('retains the failed editor command status and phase without query, session or response bodies', async () => {
+    const appium = await appiumFixture({ submitOutcome: 'http-error' });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start();
+    await expect(device.search('secret-query-do-not-log')).rejects.toMatchObject({code:'APPIUM_PROTOCOL_ERROR'});
+    await device.close();
+    const report = device.commandDiagnostics();
+    expect(report.recent.find(e=>e.command==='POST session')).toMatchObject({stage:'start'});
+    expect(report.failures).toEqual(expect.arrayContaining([expect.objectContaining({command:'mobile:performEditorAction',stage:'search.submit',httpStatus:500,w3cError:'unknown error',outcome:'failed'})]));
+    expect(report.recent.at(-1)).toMatchObject({stage:'close',outcome:'ok'});
+    expect(JSON.stringify(report)).not.toContain('secret-query-do-not-log');
+    expect(JSON.stringify(report)).not.toContain('/session/');
+  });
+
   // Catches the observed editor-action text injection without bypassing the
   // production query guard. Typed text drives HTTP element reads and native XML.
   it.each(['braised food', '法拉盛 卤味'])('binds the Appium IME before submitting exactly %s without literal action text', async (keyword) => {

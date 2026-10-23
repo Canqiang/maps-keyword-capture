@@ -1,3 +1,4 @@
+import { diagnosticsJson } from './command-diagnostics.js';
 import { mkdir, readFile, rmdir, stat, unlink, writeFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { tmpdir } from 'node:os';
@@ -253,6 +254,12 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
     if (!delivered(artifact, store.mode)) { storageBroken = true; throw new CaptureFailure('storage_unverified'); }
     return artifact;
   };
+  let commandCheckpoint=0;
+  const saveCommands = async (checkpoint:string,query?:AndroidQueryEvidence):Promise<void> => {
+    if(!device.commandDiagnostics || storageBroken)return;
+    const report=device.commandDiagnostics();
+    await saveArtifact('command_log',`${prefix}/${query?query.queryId+'/':''}commands-${String(++commandCheckpoint).padStart(4,'0')}-${checkpoint}.json`,diagnosticsJson(report));
+  };
   const saveScreen = async (query: AndroidQueryEvidence, screen: NativeScreen, role: AndroidScreenEvidence['role']): Promise<AndroidScreenEvidence> => {
     if (screen.packageName !== 'com.google.android.apps.maps') throw new CaptureFailure('wrong_foreground');
     const dimensions = pngDimensions(screen.png);
@@ -305,8 +312,10 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
     await device.start();
+    await saveCommands('started');
     for (const query of manifest.queries) {
       checkActive();
+      if (storageBroken) throw new CaptureFailure('storage_unavailable');
       query.evidenceStatus = 'failed'; query.stopReason = null;
       let stage = 'location';
       let snapshotAttempted = false;
@@ -324,10 +333,12 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
         const locationScreen = await saveScreen(query, locationSource, 'location');
         if (!locationScreenFollowsDevice(locationSource.xml, locationScreen.analysis)) throw new CaptureFailure('location_screen_unverified');
         checkActive();
+        await saveCommands('located',query);
         stage = 'search';
         const deadline = Date.now() + config.keywordTimeoutMs;
         const checkQuery = (): void => { checkActive(); if (Date.now() >= deadline) throw new CaptureFailure('query_timeout'); };
         await device.search(query.keyword);
+        await saveCommands('searched',query);
         checkQuery();
         stage = 'snapshot';
         let swipes = 0, unchangedFrames = 0, refreshPending = false, correctionPending = false;
@@ -367,6 +378,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           evidence.cardsRecognized = frame.cards.length;
           const before = reconcileScreenFrames(frames, config.maxDisplayedResults).listings.length;
           frames.push(frame);
+          if(frames.length % 5 === 0)await saveCommands('frames',query);
           const reconciled = reconcileScreenFrames(frames, config.maxDisplayedResults);
           query.listings = reconciled.listings;
           query.listingQuality = { adCount: reconciled.adCount, organicCount: reconciled.organicCount, unknownCount: reconciled.unknownCount, rankingReliable: reconciled.rankingReliable, frames: frames.length, warnings: reconciled.warnings,
@@ -471,6 +483,9 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
         }
         manifest.errors.push(query.error);
         break;
+      } finally {
+        try { await saveCommands('query-final',query); }
+        catch(error) { manifest.errors.push(safeError(error,'command_log_failed')); }
       }
     }
   } catch (error) { manifest.errors.push(safeError(error, 'device_setup_failed')); }
@@ -487,6 +502,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       }
     }
   }
+  try { await saveCommands('closed'); } catch(error) { manifest.errors.push(safeError(error,'command_log_failed')); }
   if (options.signal?.aborted && !manifest.errors.some((error) => error.code === 'cancelled')) manifest.errors.push(safeError(new CaptureFailure('cancelled'), 'cancelled'));
   for (const query of manifest.queries) if (query.evidenceStatus === 'skipped') query.stopReason = 'run_stopped';
   if (!storageBroken) {

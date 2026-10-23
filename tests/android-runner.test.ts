@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import zlib from 'node:zlib';
 import { parseAndroidConfig } from '../src/android/config.js';
+import { CommandJournal } from '../src/android/command-diagnostics.js';
 import { runAndroidCapture, acquireDeviceLease } from '../src/android/runner.js';
 import { LocalArtifactStore } from '../src/storage/local.js';
 import { ingestAndroidManifest } from '../src/domain/ingest.js';
@@ -54,6 +55,42 @@ const emptyScreen=()=>(png:Buffer)=>({schemaVersion:'android-screen-ocr/v1' as c
 const recognizerFor=(screens:Array<(png:Buffer)=>any>)=>{let i=0;return async(request:{png:Buffer})=>screens[Math.min(i++,screens.length-1)]!(request.png);};
 
 describe('native screenshot evidence runner',()=>{
+ it('never starts a second query after the first final command checkpoint fails',async()=>{
+  const journal=new CommandJournal();let locations=0;
+  const s=await setup({commandDiagnostics:()=>journal.snapshot(),setLocation:async requested=>{locations++;return preparedLocation(requested);}});
+  s.config.tasks.push({...s.config.tasks[0]!,keyword:'second'});
+  const local=new LocalArtifactStore(s.root);
+  const store:ArtifactStore={mode:'local_only',rootDirectory:s.root,absolutePath:p=>local.absolutePath(p),writeFile:async(p,b)=>{if(p.endsWith('-query-final.json'))throw new Error('test persistence failure');return local.writeFile(p,b);},persist:(f,o)=>local.persist(f,o)};
+  const r=await runAndroidCapture(s.config,s.device,store,{screenRecognizer:recognizerFor([emptyScreen()])});
+  expect(locations).toBe(1);expect(r.manifest.queries[1]!.evidenceStatus).toBe('skipped');expect(r.exitCode).toBe(2);
+ });
+ it('preserves the primary error when command-log storage fails',async()=>{
+  const journal=new CommandJournal();
+  const s=await setup({commandDiagnostics:()=>journal.snapshot(),search:async()=>{throw Object.assign(new Error('private'),{code:'APPIUM_PROTOCOL_ERROR'});}});
+  const local=new LocalArtifactStore(s.root);
+  const store:ArtifactStore={...local,mode:'local_only',rootDirectory:s.root,absolutePath:p=>local.absolutePath(p),writeFile:async(p,b)=>{if(p.endsWith('-query-final.json'))throw new Error('private storage');return local.writeFile(p,b);},persist:(f,o)=>local.persist(f,o)};
+  const r=await runAndroidCapture(s.config,s.device,store);
+  expect(r.manifest.queries[0]!.stopReason).toBe('appium_protocol_error');
+  expect(r.manifest.errors.some(e=>e.code==='storage_unverified')).toBe(true);expect(r.exitCode).toBe(2);
+  expect(JSON.stringify(r)).not.toContain('private');
+ });
+ it('persists failure and cleanup command checkpoints even when search throws',async()=>{
+  const journal=new CommandJournal();
+  const s=await setup({commandDiagnostics:()=>journal.snapshot(),search:async()=>{
+   journal.record({stage:'search.submit',command:'mobile:performEditorAction',outcome:'failed',httpStatus:500,w3cError:'unknown error',durationMs:10});
+   throw Object.assign(new Error('private server details'),{code:'APPIUM_PROTOCOL_ERROR'});
+  },close:async()=>{journal.record({stage:'close',command:'DELETE session',outcome:'ok',durationMs:1});}});
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root));
+  const logs=r.manifest.artifacts.filter(a=>a.kind==='command_log');expect(logs.length).toBeGreaterThanOrEqual(2);
+  const queryLog=logs.find(a=>a.relativePath.endsWith('-query-final.json'))!;
+  const q=JSON.parse(await readFile(join(s.root,queryLog.relativePath),'utf8'));
+  expect(q.failures[0]).toMatchObject({command:'mobile:performEditorAction',httpStatus:500});
+  const final=JSON.parse(await readFile(join(s.root,logs.at(-1)!.relativePath),'utf8'));
+  expect(final.recent.at(-1)).toMatchObject({stage:'close',outcome:'ok'});
+  expect(r.manifest.queries[0]!.stopReason).toBe('appium_protocol_error');
+  expect(JSON.stringify(r)).not.toContain('private server details');
+ });
+
  it('persists source images and UI trees with independently verifiable receipts and no invented ranks',async()=>{
   const s=await setup();const result=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:recognizerFor([emptyScreen()])});
   expect(s.closed()).toBe(1);expect(result.manifest.queries[0]?.rankingStatus).toBe('not_evaluated');expect(result.manifest.queries[0]?.organicRank).toBeNull();
