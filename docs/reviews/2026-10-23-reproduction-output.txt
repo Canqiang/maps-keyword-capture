@@ -1,0 +1,3 @@
+ad_conflict {"reliable":true,"rows":[{"name":"Mt. ShooTao Hot Pot 蜀 道 山 火锅","type":"organic","rank":1,"frames":["f25"]},{"name":"Zhang Liang Spicy Hot Pot","type":"organic","rank":2,"frames":["f25","f26"]}],"warnings":[]}
+shards {"worker0":["a"],"worker1":["a","c"]}
+parallel_manual_jobs 2

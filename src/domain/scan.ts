@@ -1,3 +1,4 @@
+import { parseRoundSnapshot, roundConfigHash } from './scan-round.js';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parseConfig } from '../config.js';
@@ -37,13 +38,27 @@ export interface WebScanDeps {
   /** Exact pinned catalog bytes loaded once by the CLI, before shard assignment. */
   catalogSnapshot?: FrozenCatalog;
 }
-export interface FrozenCatalog { version: string; sha256: string; bytes: Buffer }
-export type ScanCatalogReceipt = WrittenFile & StorageState & { version: string; storeIds: string[] };
+export interface RoundExecution { surface: 'web' | 'android'; tier: ScanTier; shardIndex: number; shardCount: number; storeId: string | null }
+export interface FrozenCatalog { version: string; sha256: string; bytes: Buffer; execution?: RoundExecution }
+export type ScanCatalogReceipt = WrittenFile & StorageState & { version: string; storeIds: string[]; execution?: RoundExecution };
 
 /** Publish the exact approved catalog before any browser/device operation. */
-export async function persistScanCatalog(snapshot: FrozenCatalog, config: TrackingConfig, store: ArtifactStore, prefix: string): Promise<ScanCatalogReceipt> {
+export async function persistScanCatalog(snapshot: FrozenCatalog, config: TrackingConfig, store: ArtifactStore, prefix: string, actual?: { surface: 'web' | 'android'; tier: ScanTier; storeIds?: string[] }): Promise<ScanCatalogReceipt> {
   if (sha256Hex(snapshot.bytes) !== snapshot.sha256) throw new Error('frozen catalog bytes changed');
-  const catalog = parseTargetCatalog(JSON.parse(snapshot.bytes.toString('utf8')));
+  const raw = JSON.parse(snapshot.bytes.toString('utf8')) as { schemaVersion?: string };
+  const round = raw.schemaVersion === 'tracking-scan-round/v1' ? parseRoundSnapshot(raw) : null;
+  const catalog = round ? { version: round.version, stores: round.config.stores } : parseTargetCatalog(raw);
+  if (round) {
+    const execution = snapshot.execution;
+    if (!execution || !actual || execution.surface !== actual.surface || execution.tier !== actual.tier ||
+        execution.surface !== round.request.surface || execution.tier !== round.request.tier || execution.shardCount !== round.request.shardCount ||
+        execution.storeId !== round.request.storeId || JSON.stringify(actual.storeIds ?? []) !== JSON.stringify(execution.storeId ? [execution.storeId] : []) ||
+        !Number.isInteger(execution.shardIndex) || execution.shardIndex < 0 || execution.shardIndex >= execution.shardCount ||
+        roundConfigHash(config) !== round.request.configHash ||
+        JSON.stringify(config.stores.map(s => s.storeId)) !== JSON.stringify(round.assignments[execution.shardIndex])) {
+      throw new Error('execution does not match frozen round configuration or shard assignment');
+    }
+  }
   if (catalog.version !== snapshot.version || config.stores.some(selected => {
     const expected = catalog.stores.find(candidate => candidate.storeId === selected.storeId);
     return !expected || hashJson(expected) !== hashJson(selected);
@@ -52,7 +67,7 @@ export async function persistScanCatalog(snapshot: FrozenCatalog, config: Tracki
   if (written.bytes !== snapshot.bytes.length || written.sha256 !== snapshot.sha256) throw new Error('catalog write receipt mismatch');
   const receipt = await store.persist(written);
   if (store.mode === 'azure_blob' ? receipt.storageStatus !== 'verified' || !receipt.objectKey || !receipt.verifiedAt || receipt.storageError !== null : receipt.storageStatus !== 'local_only') throw new Error('catalog delivery unverified');
-  return { ...written, ...receipt, version: snapshot.version, storeIds: config.stores.map(s => s.storeId) };
+  return { ...written, ...receipt, version: snapshot.version, storeIds: config.stores.map(s => s.storeId), ...(snapshot.execution ? { execution: snapshot.execution } : {}) };
 }
 export interface WebScanSummary {
   scanId: string; tier: ScanTier; prefix: string; startedAt: string; finishedAt: string;
@@ -90,7 +105,7 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
     batches: { planned: batches.length, run: 0, blocked: 0, failed: 0, partial: 0, deliveryFailed: 0 }, queries: { planned: plan.queries.length, dispatched: 0, observed: 0, ranked: 0, notFound: 0, blocked: 0, failed: 0, captured: 0, nonRanking: 0, partial: 0, skipped: 0, unresolved: 0 }, summaryReceipt: null, observations: { inserted: 0, updated: 0, notIngested: 0 }, exitCode: 0 };
   log({ stage: 'scan_start', scanId, tier: deps.tier, batches: batches.length, queries: plan.queries.length, prefix });
   if (deps.catalogSnapshot) {
-    try { summary.catalogSnapshot = await persistScanCatalog(deps.catalogSnapshot, deps.config, deps.store, prefix); }
+    try { summary.catalogSnapshot = await persistScanCatalog(deps.catalogSnapshot, deps.config, deps.store, prefix, { surface: 'web', tier: deps.tier, ...(deps.storeIds ? { storeIds: deps.storeIds } : {}) }); }
     catch { summary.status = 'failed'; log({ stage: 'scan_catalog_failed', scanId }); }
   }
   const runner = deps.batchRunner ?? runBatch;

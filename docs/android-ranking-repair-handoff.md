@@ -294,3 +294,9 @@ See also `docs/ci-images.md` for ACR builds and `deploy/tracking-targets/` for c
 - Freeze compiled files and configuration with SHA-256 under a fresh candidate directory on the owned PVC; verify the uploaded bytes before executing. Use approved original keywords and coordinates, max20 displayed rows /60screens /600seconds per query.
 - Save all outputs and verify them independently before changing a profile, stopping the pilot, or planning a deployment.
 - Terraform drift is tracked separately in `fbr-env-project/azure/infra/env/04-aks.tf`: local reconciliation sets count1 and the Android taint. Do not assume it has been committed/pushed/applied; check that repository separately.
+
+## 2026-10-23 — Classification and scan consistency repairs (local, not deployed)
+
+The latest source review found an edge-join classification contradiction, independently mutable worker catalogs, and concurrent manual Job creation. Implementation, expected behavior, isolated rollout requirements and orphan-lock recovery are recorded in [scan-consistency-handoff.md](scan-consistency-handoff.md). Android listing method advances from v18 to v19: accumulated ad/organic contradictions (including an intermediate unknown frame) invalidate natural ranking without erasing the original frame evidence.
+
+This source repair does not replace earlier live probe findings or imply candidate15/v19 full-device acceptance. No active collectors, source keywords, observations, screenshots, schedules or cloud images were changed. Review the new shared snapshot/gate contract before deploying; old and new collector versions must not run together on the same target.

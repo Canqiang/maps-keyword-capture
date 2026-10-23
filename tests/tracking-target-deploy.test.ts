@@ -17,6 +17,8 @@ const option=(args:string[],name:string)=>args[args.indexOf(name)+1];
 describe('isolated nine-store scheduler candidates',()=>{
  it.each(docs)('$surface runs the store configuration with balanced shards and keeps the legacy scheduler untouched',({surface,cron})=>{
   const job=cron.spec.jobTemplate.spec,pod=job.template.spec,main=pod.containers[0];
+  expect(main.env).toContainEqual({name:'JOB_UID',valueFrom:{fieldRef:{fieldPath:"metadata.labels['batch.kubernetes.io/controller-uid']"}}});
+  expect(main.env.find((e:any)=>e.name==='TRACKING_SCAN_GROUP')?.value).toBe(`${cron.metadata.namespace}/${cron.metadata.name}`);
   expect(cron.metadata).toMatchObject({name:surface==='web'?'maps-targets-web-2h':'maps-targets-android-daily',namespace:surface==='web'?'uat':'android-maps-pilot'});
   // Web every three hours; Android one daily pass (~4 minutes per native query on two emulator workers).
   expect(cron.spec).toMatchObject({schedule:surface==='web'?'15 */3 * * *':'0 21 * * *',timeZone:'America/New_York',concurrencyPolicy:'Forbid'});

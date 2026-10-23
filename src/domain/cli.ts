@@ -16,6 +16,8 @@ import { azureBlobSource, dateRange, ingestDailyMonitor, recentBeijingDates } fr
 import { containerClientFromEnv } from '../storage/azure-gateway.js';
 import { balancedShardStores, loadTrackingConfig, parseStore, planScan, shardStores, trackingIngestContext, toAndroidRuns, toWebBatches, withStores, type TrackingConfig, type ScanTier, type Surface } from './tracking-config.js';
 import { MongoTrackingRepository } from './repository.js';
+import { enterScanGate, MongoGateRepository } from './scan-gate.js';
+import { MongoRoundRepository, resolveScanRound, roundConfigHash } from './scan-round.js';
 import { parseTargetCatalog, reconcileTargetStores } from './target-catalog.js';
 
 const USAGE = [
@@ -207,29 +209,66 @@ export async function main(args = process.argv.slice(2), env = process.env): Pro
       if (tier !== 'point' && tier !== 'grid') throw new Error('--tier must be point or grid');
       const storage = options.get('--storage') ?? 'local';
       if (storage !== 'local' && storage !== 'azure') throw new Error('--storage must be local or azure');
-      const frozen = await frozenScanCatalog(config, options);
-      const { store } = createStore(storage, options.get('--output-dir') ?? './outputs', env);
-      const scanConfig = applyShard(frozen?.config ?? await resolveStores(config, options, env), options, env, { surface, tier });
-      const { store: observations, sink } = await openStore(config, options, env);
-      const controller = new AbortController();
-      const stop = () => controller.abort();
-      process.once('SIGINT', stop); process.once('SIGTERM', stop);
-      const log = (event: Record<string, unknown>) => process.stdout.write(`${JSON.stringify({ ts: new Date().toISOString(), ...event })}\n`);
+      let releaseAllowed = true, cleanupUnconfirmed = false;
+      let gate: MongoGateRepository | undefined, leave: (() => Promise<void>) | undefined;
       try {
-        const storeId = options.get('--store-id');
-        log({ stage: 'scan_stores', stores: scanConfig.stores.length, shard: options.get('--shard-count') ? `${shardIndex(options, env)}/${options.get('--shard-count')}` : null });
-        const common = { config: scanConfig, tier: tier as ScanTier, store, observations, log, signal: controller.signal, ...(storeId ? { storeIds: [storeId] } : {}), ...(frozen ? { catalogSnapshot: frozen.snapshot } : {}) };
-        const summary = surface === 'android'
-          ? await (await import('./android-scan.js')).runAndroidScan({ ...common, env })
-          : await runWebScan({ ...common,
-            launch: () => chromium.launch({ channel: 'chromium', headless: true, chromiumSandbox: true, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false, env: monitorBrowserEnv(env) }) });
-        console.log(JSON.stringify({ event: 'tracking_scan_finished', sink, ...summary }));
-        return summary.exitCode;
-      } catch (error) {
-        // Operational failures are exit 1; 64 stays reserved for invalid input.
-        console.error(error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 300) : 'tracking scan failed');
-        return 1;
-      } finally { process.off('SIGINT', stop); process.off('SIGTERM', stop); await observations.close(); }
+        if (env.TRACKING_SCAN_GROUP) {
+          const roundId = options.get('--round-id') ?? env.JOB_UID;
+          const uri = env[need(options, '--mongo-uri-env')];
+          if (!roundId || !uri) throw new Error('scan gate requires JOB_UID/--round-id and Mongo credentials');
+          gate = new MongoGateRepository(uri, config.database.database);
+          leave = await enterScanGate(gate, env.TRACKING_SCAN_GROUP, roundId, Number(options.get('--shard-count') ?? '1'), options.has('--shard-count') ? shardIndex(options, env) : 0);
+        } else if (!options.has('--catalog') && config.storeSource.provider === 'mongo' && options.has('--shard-count')) {
+          throw new Error('Mongo sharded scans require TRACKING_SCAN_GROUP shared by scheduled and manual Jobs');
+        }
+        let frozen = await frozenScanCatalog(config, options);
+        if (!frozen && config.storeSource.provider === 'mongo' && options.has('--shard-count')) {
+          // All Indexed Job workers share the Job controller UID, never the Pod UID or a timestamp.
+          const roundId = options.get('--round-id') ?? env.JOB_UID;
+          if (!roundId) throw new Error('Mongo sharded scans require JOB_UID or --round-id shared by all workers');
+          const envName = need(options, '--mongo-uri-env'), uri = env[envName];
+          if (!uri) throw new Error(`${envName} is not set`);
+          const strategy = options.get('--shard-strategy') ?? 'hash';
+          if (strategy !== 'hash' && strategy !== 'balanced') throw new Error('invalid shard strategy');
+          // Validate this worker before creating the shared initialization record.
+          applyShard(config, options, env, { surface, tier });
+          const rounds = new MongoRoundRepository(uri, config.database.database);
+          try {
+            frozen = await resolveScanRound(rounds, { roundId, configHash: roundConfigHash(config), surface, tier,
+              shardCount: Number(options.get('--shard-count')), strategy, storeId: options.get('--store-id') ?? null },
+            () => resolveStores(config, options, env));
+            frozen.snapshot.execution = { surface, tier, shardIndex: shardIndex(options, env), shardCount: Number(options.get('--shard-count')), storeId: options.get('--store-id') ?? null };
+          } finally { await rounds.close(); }
+        }
+        const { store } = createStore(storage, options.get('--output-dir') ?? './outputs', env);
+        const scanConfig = applyShard(frozen?.config ?? await resolveStores(config, options, env), options, env, { surface, tier });
+        const { store: observations, sink } = await openStore(config, options, env);
+        const controller = new AbortController();
+        const stop = () => controller.abort();
+        process.once('SIGINT', stop); process.once('SIGTERM', stop);
+        const log = (event: Record<string, unknown>) => {
+          if (event.stage === 'browser_close_timeout' || event.stage === 'browser_close_failed') cleanupUnconfirmed = true;
+          process.stdout.write(`${JSON.stringify({ ts: new Date().toISOString(), ...event })}\n`);
+        };
+        try {
+          const storeId = options.get('--store-id');
+          log({ stage: 'scan_stores', stores: scanConfig.stores.length, shard: options.get('--shard-count') ? `${shardIndex(options, env)}/${options.get('--shard-count')}` : null });
+          const common = { config: scanConfig, tier: tier as ScanTier, store, observations, log, signal: controller.signal, ...(storeId ? { storeIds: [storeId] } : {}), ...(frozen ? { catalogSnapshot: frozen.snapshot } : {}) };
+          releaseAllowed = false; // Unexpected runtime/cleanup failures quarantine this target.
+          const summary = surface === 'android'
+            ? await (await import('./android-scan.js')).runAndroidScan({ ...common, env })
+            : await runWebScan({ ...common,
+              launch: () => chromium.launch({ channel: 'chromium', headless: true, chromiumSandbox: true, handleSIGINT: false, handleSIGTERM: false, handleSIGHUP: false, env: monitorBrowserEnv(env) }) });
+          releaseAllowed = (summary.exitCode === 0 || summary.exitCode === 2) && summary.batches.failed === 0 && !cleanupUnconfirmed && !controller.signal.aborted;
+          const exitCode = cleanupUnconfirmed || controller.signal.aborted ? 1 : summary.exitCode;
+          console.log(JSON.stringify({ event: 'tracking_scan_finished', sink, ...summary, exitCode, gateStatus: gate ? (releaseAllowed ? 'worker_finished' : 'retained') : 'disabled' }));
+          return exitCode;
+        } catch (error) {
+          // Operational failures are exit 1; 64 stays reserved for invalid input.
+          console.error(error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 300) : 'tracking scan failed');
+          return 1;
+        } finally { process.off('SIGINT', stop); process.off('SIGTERM', stop); await observations.close(); }
+      } finally { try { if (releaseAllowed) await leave?.(); else if (leave) console.error('scan gate retained: runtime cleanup/completion requires operator verification'); } finally { await gate?.close(); } }
     }
     if (command === 'stores') {
       if (['--list', '--import', '--import-catalog'].filter(flag => options.has(flag)).length > 1) throw new Error('--list, --import and --import-catalog are mutually exclusive');
