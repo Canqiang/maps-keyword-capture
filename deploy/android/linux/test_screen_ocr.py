@@ -86,5 +86,43 @@ class RecognizeTest(unittest.TestCase):
             self.assertIn(b'OCR failed', result.stderr)
 
 
+class RatingRereadTest(unittest.TestCase):
+    def setUp(self):
+        from PIL import Image
+        self.image = Image.new('RGB', (720, 1280), 'white')
+        self.line = {'text': '4.19% (18) - Chinese', 'bounds': {'left': 40, 'top': 520, 'right': 400, 'bottom': 550}}
+
+    def test_reads_same_bounded_crop_with_two_modes_and_keeps_primary(self):
+        from unittest.mock import patch
+        import copy, time
+        lines = [copy.deepcopy(self.line)]
+        raw = '\n'.join([HEADER, word(1, 1, 1, 18, 18, 240, 60, 90, '4.1%'), word(1, 1, 1, 270, 18, 120, 60, 90, '(18)')])
+        with tempfile.TemporaryDirectory() as d, patch.object(screen_ocr, 'run_engine', return_value=raw) as engine:
+            result = screen_ocr.reread_ratings(self.image, lines, 3, Path(d), time.monotonic()+10)
+        self.assertEqual(lines, [self.line])
+        self.assertEqual([p['psm'] for p in result[0]['passes']], [7, 13])
+        self.assertEqual(result[0]['passes'][0]['lines'][0]['text'], '4.1% (18)')
+        self.assertEqual(result[0]['passes'][0]['lines'][0]['bounds']['left'], 40)
+        self.assertEqual(engine.call_count, 2)
+
+    def test_limits_candidates_and_does_not_reread_valid_ratings_or_prose(self):
+        from unittest.mock import patch
+        import time
+        lines = [{'text': text, 'bounds': self.line['bounds']} for text in ['4.1% (18)', '4.1 stars (18)', 'open at 4.19', '4.19% (18)', '49% (55)', '3.88% (20)']]
+        with tempfile.TemporaryDirectory() as d, patch.object(screen_ocr, 'run_engine', return_value=HEADER) as engine:
+            result = screen_ocr.reread_ratings(self.image, lines, 3, Path(d), time.monotonic()+10)
+        self.assertEqual([r['lineIndex'] for r in result], [3, 4])
+        self.assertEqual(engine.call_count, 4)
+
+    def test_optional_timeout_keeps_primary_and_records_bounded_failure(self):
+        from unittest.mock import patch
+        import time
+        with tempfile.TemporaryDirectory() as d, patch.object(screen_ocr, 'run_engine', side_effect=subprocess.TimeoutExpired('private-command', 1)):
+            result = screen_ocr.reread_ratings(self.image, [self.line], 3, Path(d), time.monotonic()+10)
+        self.assertEqual(result[0]['error'], 'TimeoutExpired')
+        self.assertNotIn('private-command', json.dumps(result))
+        self.assertEqual(result[0]['passes'], [])
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,662 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "91fa2daa2213045d37bd8e057a9e89379fb809d18a7435ad08aaedd74b42689c",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "braised food flushing x",
+      "confidence": 92.82,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 211,
+        "right": 661,
+        "bottom": 253.33333333333334
+      },
+      "words": [
+        {
+          "text": "braised",
+          "confidence": 96.57048,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 211,
+            "right": 187.33333333333334,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "food",
+          "confidence": 96.534859,
+          "bounds": {
+            "left": 201,
+            "top": 211,
+            "right": 294.3333333333333,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "flushing",
+          "confidence": 96.588524,
+          "bounds": {
+            "left": 308,
+            "top": 211,
+            "right": 465,
+            "bottom": 253.33333333333334
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 81.6054,
+          "bounds": {
+            "left": 635,
+            "top": 211,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions 名 Reserve Ya Order",
+      "confidence": 73.07,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 340.6666666666667,
+        "right": 668,
+        "bottom": 371.3333333333333
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 57.098343,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 340.6666666666667,
+            "right": 97.33333333333333,
+            "bottom": 371.3333333333333
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 96.132919,
+          "bounds": {
+            "left": 117.66666666666667,
+            "top": 343.6666666666667,
+            "right": 242,
+            "bottom": 367
+          }
+        },
+        {
+          "text": "名",
+          "confidence": 46.066231,
+          "bounds": {
+            "left": 320,
+            "top": 340.6666666666667,
+            "right": 348,
+            "bottom": 371.3333333333333
+          }
+        },
+        {
+          "text": "Reserve",
+          "confidence": 95.69606,
+          "bounds": {
+            "left": 369.6666666666667,
+            "top": 345.6666666666667,
+            "right": 470,
+            "bottom": 367
+          }
+        },
+        {
+          "text": "Ya",
+          "confidence": 55.240513,
+          "bounds": {
+            "left": 547,
+            "top": 340.6666666666667,
+            "right": 575,
+            "bottom": 371.3333333333333
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 88.19899,
+          "bounds": {
+            "left": 596,
+            "top": 343.6666666666667,
+            "right": 668,
+            "bottom": 367
+          }
+        }
+      ]
+    },
+    {
+      "text": "Longjiang Pork Feet Rice",
+      "confidence": 94.9,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 477.6666666666667,
+        "right": 430,
+        "bottom": 512.3333333333334
+      },
+      "words": [
+        {
+          "text": "Longjiang",
+          "confidence": 92.511917,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 477.6666666666667,
+            "right": 194.33333333333334,
+            "bottom": 512.3333333333334
+          }
+        },
+        {
+          "text": "Pork",
+          "confidence": 96.386162,
+          "bounds": {
+            "left": 206.66666666666666,
+            "top": 478,
+            "right": 276,
+            "bottom": 504.6666666666667
+          }
+        },
+        {
+          "text": "Feet",
+          "confidence": 95.34333,
+          "bounds": {
+            "left": 286.6666666666667,
+            "top": 478,
+            "right": 354,
+            "bottom": 504.6666666666667
+          }
+        },
+        {
+          "text": "Rice",
+          "confidence": 95.34333,
+          "bounds": {
+            "left": 365.6666666666667,
+            "top": 477.6666666666667,
+            "right": 430,
+            "bottom": 504.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.19% (18) - $10-20 - Chinese",
+      "confidence": 87.97,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 523,
+        "right": 400.6666666666667,
+        "bottom": 550
+      },
+      "words": [
+        {
+          "text": "4.19%",
+          "confidence": 68.453163,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 525.6666666666666,
+            "right": 70.33333333333333,
+            "bottom": 546.3333333333334
+          }
+        },
+        {
+          "text": "(18)",
+          "confidence": 91.781921,
+          "bounds": {
+            "left": 78,
+            "top": 524,
+            "right": 150.66666666666666,
+            "bottom": 550
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 90.493835,
+          "bounds": {
+            "left": 165.33333333333334,
+            "top": 535.6666666666666,
+            "right": 166.33333333333334,
+            "bottom": 539
+          }
+        },
+        {
+          "text": "$10-20",
+          "confidence": 90.031624,
+          "bounds": {
+            "left": 177.33333333333334,
+            "top": 523,
+            "right": 273,
+            "bottom": 549
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 90.222626,
+          "bounds": {
+            "left": 285,
+            "top": 535.6666666666666,
+            "right": 288.3333333333333,
+            "bottom": 539
+          }
+        },
+        {
+          "text": "Chinese",
+          "confidence": 96.863091,
+          "bounds": {
+            "left": 299.3333333333333,
+            "top": 524,
+            "right": 400.6666666666667,
+            "bottom": 546.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "0.3 mi",
+      "confidence": 91.27,
+      "bounds": {
+        "left": 41.666666666666664,
+        "top": 564.3333333333334,
+        "right": 116,
+        "bottom": 586.3333333333334
+      },
+      "words": [
+        {
+          "text": "0.3",
+          "confidence": 94.955223,
+          "bounds": {
+            "left": 41.666666666666664,
+            "top": 565.6666666666666,
+            "right": 79.66666666666667,
+            "bottom": 586.3333333333334
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 87.584534,
+          "bounds": {
+            "left": 90,
+            "top": 564.3333333333334,
+            "right": 116,
+            "bottom": 586
+          }
+        }
+      ]
+    },
+    {
+      "text": "\"We were craving for some braised pork",
+      "confidence": 94.52,
+      "bounds": {
+        "left": 94,
+        "top": 904.3333333333334,
+        "right": 595.3333333333334,
+        "bottom": 933.3333333333334
+      },
+      "words": [
+        {
+          "text": "\"We",
+          "confidence": 88.826569,
+          "bounds": {
+            "left": 94,
+            "top": 907,
+            "right": 142.66666666666666,
+            "bottom": 927.3333333333334
+          }
+        },
+        {
+          "text": "were",
+          "confidence": 95.966629,
+          "bounds": {
+            "left": 151.66666666666666,
+            "top": 912,
+            "right": 211.66666666666666,
+            "bottom": 927.3333333333334
+          }
+        },
+        {
+          "text": "craving",
+          "confidence": 95.966629,
+          "bounds": {
+            "left": 221,
+            "top": 905.3333333333334,
+            "right": 309.3333333333333,
+            "bottom": 933.3333333333334
+          }
+        },
+        {
+          "text": "for",
+          "confidence": 94.840759,
+          "bounds": {
+            "left": 320,
+            "top": 905,
+            "right": 354.6666666666667,
+            "bottom": 927.3333333333334
+          }
+        },
+        {
+          "text": "some",
+          "confidence": 94.840759,
+          "bounds": {
+            "left": 363,
+            "top": 912,
+            "right": 429.6666666666667,
+            "bottom": 927.3333333333334
+          }
+        },
+        {
+          "text": "braised",
+          "confidence": 95.601402,
+          "bounds": {
+            "left": 440,
+            "top": 904.3333333333334,
+            "right": 530.6666666666666,
+            "bottom": 927.3333333333334
+          }
+        },
+        {
+          "text": "pork",
+          "confidence": 95.601402,
+          "bounds": {
+            "left": 541,
+            "top": 905,
+            "right": 595.3333333333334,
+            "bottom": 933
+          }
+        }
+      ]
+    },
+    {
+      "text": "@ knuckle and this place nailed it.\"",
+      "confidence": 87.06,
+      "bounds": {
+        "left": 43.666666666666664,
+        "top": 939,
+        "right": 493.6666666666667,
+        "bottom": 968
+      },
+      "words": [
+        {
+          "text": "@",
+          "confidence": 35.625694,
+          "bounds": {
+            "left": 43.666666666666664,
+            "top": 939,
+            "right": 72.33333333333333,
+            "bottom": 952
+          }
+        },
+        {
+          "text": "knuckle",
+          "confidence": 95.803352,
+          "bounds": {
+            "left": 94,
+            "top": 940,
+            "right": 187.66666666666666,
+            "bottom": 962.3333333333334
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 96.313492,
+          "bounds": {
+            "left": 197.33333333333334,
+            "top": 940.3333333333334,
+            "right": 241.66666666666666,
+            "bottom": 962.3333333333334
+          }
+        },
+        {
+          "text": "this",
+          "confidence": 95.917328,
+          "bounds": {
+            "left": 252,
+            "top": 940,
+            "right": 295.6666666666667,
+            "bottom": 962.3333333333334
+          }
+        },
+        {
+          "text": "place",
+          "confidence": 96.049393,
+          "bounds": {
+            "left": 306,
+            "top": 940,
+            "right": 371.6666666666667,
+            "bottom": 968
+          }
+        },
+        {
+          "text": "nailed",
+          "confidence": 96.420425,
+          "bounds": {
+            "left": 382,
+            "top": 940,
+            "right": 453.6666666666667,
+            "bottom": 962.3333333333334
+          }
+        },
+        {
+          "text": "it.\"",
+          "confidence": 93.272568,
+          "bounds": {
+            "left": 464.6666666666667,
+            "top": 940.3333333333334,
+            "right": 493.6666666666667,
+            "bottom": 962
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions 4 Order M2) Menu",
+      "confidence": 64.85,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 1029.6666666666667,
+        "right": 636.3333333333334,
+        "bottom": 1060.3333333333333
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 40.073196,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 1029.6666666666667,
+            "right": 97.33333333333333,
+            "bottom": 1060.3333333333333
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.927765,
+          "bounds": {
+            "left": 117.66666666666667,
+            "top": 1033,
+            "right": 242,
+            "bottom": 1056
+          }
+        },
+        {
+          "text": "4",
+          "confidence": 0,
+          "bounds": {
+            "left": 320,
+            "top": 1029.6666666666667,
+            "right": 348,
+            "bottom": 1060.3333333333333
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 89.446014,
+          "bounds": {
+            "left": 369,
+            "top": 1032.6666666666667,
+            "right": 441,
+            "bottom": 1056
+          }
+        },
+        {
+          "text": "M2)",
+          "confidence": 67.105988,
+          "bounds": {
+            "left": 515,
+            "top": 1033.3333333333333,
+            "right": 549,
+            "bottom": 1059.3333333333333
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 96.531982,
+          "bounds": {
+            "left": 568,
+            "top": 1034.6666666666667,
+            "right": 636.3333333333334,
+            "bottom": 1056
+          }
+        }
+      ]
+    },
+    {
+      "text": "2B E124 Sachun xiang ju",
+      "confidence": 56.42,
+      "bounds": {
+        "left": 41.666666666666664,
+        "top": 1162.3333333333333,
+        "right": 498,
+        "bottom": 1205.6666666666667
+      },
+      "words": [
+        {
+          "text": "2B",
+          "confidence": 52.611656,
+          "bounds": {
+            "left": 41.666666666666664,
+            "top": 1163.6666666666667,
+            "right": 98.33333333333333,
+            "bottom": 1198.3333333333333
+          }
+        },
+        {
+          "text": "E124",
+          "confidence": 37.141247,
+          "bounds": {
+            "left": 123.33333333333333,
+            "top": 1163.6666666666667,
+            "right": 218.66666666666666,
+            "bottom": 1198.3333333333333
+          }
+        },
+        {
+          "text": "Sachun",
+          "confidence": 0,
+          "bounds": {
+            "left": 264,
+            "top": 1162.3333333333333,
+            "right": 349,
+            "bottom": 1205.6666666666667
+          }
+        },
+        {
+          "text": "xiang",
+          "confidence": 95.460815,
+          "bounds": {
+            "left": 379.6666666666667,
+            "top": 1168.6666666666667,
+            "right": 462.3333333333333,
+            "bottom": 1203.3333333333333
+          }
+        },
+        {
+          "text": "ju",
+          "confidence": 96.87635,
+          "bounds": {
+            "left": 470.6666666666667,
+            "top": 1168.6666666666667,
+            "right": 498,
+            "bottom": 1203.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "49% (55) - $10-90 - Chinese",
+      "confidence": 65.26,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 1212,
+        "right": 409.6666666666667,
+        "bottom": 1232
+      },
+      "words": [
+        {
+          "text": "49%",
+          "confidence": 27.315292,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 1214.6666666666667,
+            "right": 99.33333333333333,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "(55)",
+          "confidence": 36.760159,
+          "bounds": {
+            "left": 112.33333333333333,
+            "top": 1213,
+            "right": 159.66666666666666,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 70.526154,
+          "bounds": {
+            "left": 173.66666666666666,
+            "top": 1224.6666666666667,
+            "right": 175.33333333333334,
+            "bottom": 1228
+          }
+        },
+        {
+          "text": "$10-90",
+          "confidence": 70.526154,
+          "bounds": {
+            "left": 186.33333333333334,
+            "top": 1212,
+            "right": 282,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 90.455811,
+          "bounds": {
+            "left": 294,
+            "top": 1224.6666666666667,
+            "right": 297.3333333333333,
+            "bottom": 1228
+          }
+        },
+        {
+          "text": "Chinese",
+          "confidence": 95.966049,
+          "bounds": {
+            "left": 308.3333333333333,
+            "top": 1213,
+            "right": 409.6666666666667,
+            "bottom": 1232
+          }
+        }
+      ]
+    }
+  ]
+}

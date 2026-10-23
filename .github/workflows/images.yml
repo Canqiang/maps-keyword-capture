@@ -35,6 +35,10 @@ jobs:
       # Keep the collector sandbox enabled; allow only this exact CI binary.
       - name: Verify sandboxed Chromium
         run: node --import tsx .github/scripts/browser-preflight.mjs
+      - name: Android OCR test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y python3-pil
       - run: npm run typecheck
       - run: npm run test:contracts
       - run: npm run test:unit -- --maxWorkers=2
@@ -42,8 +46,6 @@ jobs:
       - run: npm run build
       - name: Android Python contracts
         run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y python3-pil
           /usr/bin/python3 -m unittest discover -s deploy/android/linux -p 'test_*.py'
 
   publish:

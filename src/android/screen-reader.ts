@@ -19,6 +19,7 @@ export interface ScreenOcr {
   imageWidth: number; imageHeight: number;
   engine: string; engineVersion: string; languages: string; scale: number;
   lines: OcrLine[];
+  ratingRereads?: Array<{lineIndex: number; crop: Rect; languages: string; scale: number; error?: string; passes: Array<{psm: number; lines: OcrLine[]}>}>;
 }
 export interface ScreenRecognizeRequest { png: Buffer; timeoutMs: number; languages: string; scale?: number; signal?: AbortSignal }
 export type ScreenRecognizer = (request: ScreenRecognizeRequest) => Promise<ScreenOcr>;
@@ -174,6 +175,35 @@ function withoutRatingScrollbar(line: OcrLine, width: number): OcrLine {
       top: Math.min(...words.map(w=>w.bounds.top)), bottom: Math.max(...words.map(w=>w.bounds.bottom)) } };
 }
 
+/** Two bounded same-PNG engine passes may repair a malformed numeric rating.
+ * Keep primary OCR immutable. Never truncate/round digits or replace valid ratings. */
+function withRatingRereads(ocr: ScreenOcr, native: Rect | null): OcrLine[] {
+  const rereads = ocr.ratingRereads;
+  if (!native || !Array.isArray(rereads) || rereads.length > 2) return ocr.lines;
+  const valid = (b: Rect | undefined): b is Rect => !!b && [b.left,b.top,b.right,b.bottom].every(Number.isFinite) &&
+    b.left >= 0 && b.top >= 0 && b.right <= ocr.imageWidth && b.bottom <= ocr.imageHeight && b.right > b.left && b.bottom > b.top;
+  const inside = (a: Rect, b: Rect): boolean => b.left >= a.left && b.right <= a.right && b.top >= a.top && b.bottom <= a.bottom;
+  return ocr.lines.map((line,index) => {
+    if (RATING.test(line.text) || !/^\s*[1-5][\d.,]*[^\da-z一-鿿(]{0,4}\s*\(\s*\d/iu.test(line.text)) return line;
+    const candidates = rereads.filter(r => r && r.lineIndex === index);
+    if (candidates.length !== 1 || !valid(line.bounds) || !inside(native,line.bounds)) return line;
+    const r = candidates[0]!;
+    if (r.error || r.languages !== 'eng' || r.scale !== ocr.scale || !valid(r.crop) || !inside(r.crop,line.bounds) ||
+      line.bounds.bottom-line.bounds.top > 60 || line.bounds.right-line.bounds.left < 40 ||
+      line.bounds.left-r.crop.left > 7 || r.crop.right-line.bounds.right > 7 || line.bounds.top-r.crop.top > 7 || r.crop.bottom-line.bounds.bottom > 7 ||
+      !Array.isArray(r.passes) || r.passes.length !== 2 || r.passes[0]?.psm !== 7 || r.passes[1]?.psm !== 13) return line;
+    const readings = r.passes.map(p => Array.isArray(p.lines) && p.lines.length === 1 ? p.lines[0] : undefined);
+    if (!readings.every((l): l is OcrLine => !!l && typeof l.text === 'string' && Number.isFinite(l.confidence) && l.confidence >= 60 && l.confidence <= 100 &&
+      valid(l.bounds) && inside(r.crop,l.bounds) && Math.abs(l.bounds.top-line.bounds.top) <= 6 && Math.abs(l.bounds.bottom-line.bounds.bottom) <= 6 &&
+      Math.abs(l.bounds.left-line.bounds.left) <= 6 && Math.abs(l.bounds.right-line.bounds.right) <= 6 && RATING.test(l.text))) return line;
+    const [a,b] = readings as [OcrLine,OcrLine];
+    // Entire reread agrees; the original count and all remaining words/numbers agree too.
+    const tail = (text: string): string => normalizeText(text.slice(text.indexOf('(')));
+    if (normalizeText(a.text) !== normalizeText(b.text) || tail(line.text) !== tail(a.text)) return line;
+    return {bounds:line.bounds,text:a.text,confidence:Math.min(line.confidence,a.confidence,b.confidence)};
+  });
+}
+
 /** Parse one OCR'd screenshot into the result cards visible inside the result sheet. */
 export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: string, capturedAt: string, sourceXml?: string): ScreenFrame {
   const frame: ScreenFrame = { frameId, capturedAt, imageSha256: ocr.imageSha256, queryVisible: false, sheetTop: null, topStateVerified: false, endOfResults: false, cards: [], warnings: [] };
@@ -183,7 +213,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
   // a supported, settled list. Unknown/photo layouts receive no positive proof.
   const native = inspected && inspected.bounds.left >= 0 && inspected.bounds.top >= 0 &&
     inspected.bounds.right <= ocr.imageWidth && inspected.bounds.bottom <= ocr.imageHeight ? inspected : null;
-  const lines = joinSplitRatingLines(ocr.lines.map(line => withoutRatingScrollbar(line, ocr.imageWidth))).sort((a, b) => a.bounds.top - b.bounds.top || a.bounds.left - b.bounds.left);
+  const lines = joinSplitRatingLines(withRatingRereads(ocr, native?.bounds ?? null).map(line => withoutRatingScrollbar(line, ocr.imageWidth))).sort((a, b) => a.bounds.top - b.bounds.top || a.bounds.left - b.bounds.left);
   const query = normalizeText(keyword);
   // The result sheet starts at its own copy of the query. Map labels above it are never results.
   const headers = lines.filter(line => {
@@ -889,6 +919,7 @@ export function matchTarget(listings: RankedListing[], aliases: string[]): { mat
 
 /** Local bounded process: Tesseract over the whole screenshot; no shell, no remote OCR. */
 export const recognizeScreen: ScreenRecognizer = request => new Promise((resolve, reject) => {
+  const deadlineEpochMs = Date.now() + request.timeoutMs - 500; // account for startup; reserve output/exit headroom
   const child = execFile('python3', [fileURLToPath(new URL('../../deploy/android/linux/screen_ocr.py', import.meta.url))], {
     timeout: request.timeoutMs, maxBuffer: 16 * 1024 * 1024, killSignal: 'SIGKILL', ...(request.signal ? { signal: request.signal } : {}),
   }, (error, stdout, stderr) => {
@@ -896,7 +927,7 @@ export const recognizeScreen: ScreenRecognizer = request => new Promise((resolve
     try { resolve(JSON.parse(stdout) as ScreenOcr); } catch { reject(new Error('OCR process returned invalid JSON')); }
   });
   child.stdin?.on('error', error => reject(error));
-  child.stdin?.end(JSON.stringify({ pngBase64: request.png.toString('base64'), timeoutMs: request.timeoutMs, languages: request.languages, scale: request.scale ?? 2 }));
+  child.stdin?.end(JSON.stringify({ pngBase64: request.png.toString('base64'), timeoutMs: request.timeoutMs, deadlineEpochMs, languages: request.languages, scale: request.scale ?? 2 }));
 });
 
 export function validateScreenOcr(value: unknown): asserts value is ScreenOcr {

@@ -1,0 +1,51 @@
+{
+  "account": "fbrdevstorage",
+  "container": "maps-keyword-capture-uat",
+  "artifacts": [
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052432.636Z__braised-food-flushing__35.frame.json",
+      "bytes": 2912,
+      "sha256": "8a1aee9fff5e5f5e3034f3c966346b058430af786ee342f549d932b4e77ca475"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052432.636Z__braised-food-flushing__35.ocr.json",
+      "bytes": 17879,
+      "sha256": "6dae794a644683edd53fbc9f84b1c6e9848df7ca6191055f83e5bebfc7c36305"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052432.636Z__braised-food-flushing__35.png",
+      "bytes": 567555,
+      "sha256": "82840553e71c120c82e62fc98f7cdc772249f3dcb9f0ce8c5ad2e651ab5cb777"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052432.636Z__braised-food-flushing__35.xml",
+      "bytes": 78765,
+      "sha256": "e6d4f295927e4956e823030075c7c4a09221dc6d61bcd6ecaf6f6d30ebf2c050"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052438.689Z__braised-food-flushing__36.frame.json",
+      "bytes": 2244,
+      "sha256": "dc400608dd421cee3fd47726cf9b98f6755e4fff2213325866c187d289274536"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052438.689Z__braised-food-flushing__36.ocr.json",
+      "bytes": 16187,
+      "sha256": "4a4dfd38f988b31158f4386038ddca15044a9a9592e9749e119f24cbc991deaa"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052438.689Z__braised-food-flushing__36.png",
+      "bytes": 439861,
+      "sha256": "91fa2daa2213045d37bd8e057a9e89379fb809d18a7435ad08aaedd74b42689c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052438.689Z__braised-food-flushing__36.xml",
+      "bytes": 77093,
+      "sha256": "d586357789bbfe0bd922b73e24d78104638e57216aef4ec0e56efbb8d47b3f95"
+    }
+  ],
+  "nextStep": "Create exact raw OCR/XML/PNG regression. Investigate bounded OCR reread or evidence-backed missing-card handling; never blindly round4.19 to4.1 or treat no parsed cards as list end.",
+  "reread": {
+    "source": "Same original PNG in isolated CPU-only Pod using pinned prior image Tesseract5.3.0; eng,scale3,PSM7+13; recorded pixel crop and raw lines. Not a second native capture.",
+    "sha256": "f535272945e9646156f751d03d8552e80768627afa6d2e2e43138beee36ba3c3"
+  }
+}

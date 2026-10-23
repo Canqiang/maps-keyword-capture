@@ -77,11 +77,61 @@ def run_engine(args, deadline):
     return result.stdout
 
 
+
+# Deliberately only malformed numeric heads followed by a parenthesized count.
+# Never change a digit here: record independent pixel rereads for the reader.
+SUSPECT_RATING = re.compile(r'^\s*([1-5][\d.,]*)[^\da-z一-鿿(]{0,4}\s*\(\s*\d[\d,.]*\s*[km]?\s*\)', re.I)
+VALID_RATING_NUMBER = re.compile(r'(?:[1-4](?:[.,]\d)?|5(?:[.,]0)?)$')
+
+
+def reread_ratings(image, lines, scale, directory, deadline):
+    deadline = min(deadline - 0.5, time.monotonic() + 2)
+    evidence = []
+    for index, line in enumerate(lines):
+        match = SUSPECT_RATING.match(line['text'])
+        if not match or VALID_RATING_NUMBER.fullmatch(match[1]):
+            continue
+        if len(evidence) >= 2 or time.monotonic() >= deadline - 0.1:
+            break
+        b = line['bounds']
+        if b['bottom'] - b['top'] > 60 or b['right'] - b['left'] < 40:
+            continue
+        box = (max(0, math.floor(b['left']) - 6), max(0, math.floor(b['top']) - 6),
+               min(image.width, math.ceil(b['right']) + 6), min(image.height, math.ceil(b['bottom']) + 6))
+        width, height = box[2] - box[0], box[3] - box[1]
+        record = {'lineIndex': index, 'crop': dict(zip(['left', 'top', 'right', 'bottom'], box)),
+                  'languages': 'eng', 'scale': scale, 'passes': []}
+        evidence.append(record)
+        try:
+            path = directory / f'rating-{index}.png'
+            image.crop(box).resize((width * scale, height * scale), Image.Resampling.LANCZOS).save(path)
+            for psm in (7, 13):
+                raw = run_engine(['tesseract', str(path), 'stdout', '-l', 'eng', '--psm', str(psm), 'tsv'], deadline)
+                result = group_lines(parse_words(raw, scale, width, height))
+                for item in result:
+                    for part in [item] + item['words']:
+                        for key in ('left', 'right'):
+                            part['bounds'][key] += box[0]
+                        for key in ('top', 'bottom'):
+                            part['bounds'][key] += box[1]
+                record['passes'].append({'psm': psm, 'lines': result})
+        except (subprocess.SubprocessError, TimeoutError, ValueError, OSError) as error:
+            # Optional reread never erases the primary OCR or exposes engine messages.
+            record['error'] = type(error).__name__
+            break
+    return evidence
+
+
 def recognize(request):
     timeout_ms = request.get('timeoutMs', 20_000)
     if isinstance(timeout_ms, bool) or not isinstance(timeout_ms, (int, float)) or not math.isfinite(timeout_ms) or not 1 <= timeout_ms <= 120_000:
         raise ValueError('Invalid OCR deadline')
     deadline = time.monotonic() + timeout_ms / 1000
+    caller_deadline = request.get('deadlineEpochMs')
+    if caller_deadline is not None:
+        if isinstance(caller_deadline, bool) or not isinstance(caller_deadline, (int, float)) or not math.isfinite(caller_deadline):
+            raise ValueError('Invalid caller OCR deadline')
+        deadline = min(deadline, time.monotonic() + caller_deadline / 1000 - time.time())
     scale = request.get('scale', DEFAULT_SCALE)
     if isinstance(scale, bool) or type(scale) is not int or not 1 <= scale <= 3:
         raise ValueError('Invalid OCR scale')
@@ -111,10 +161,11 @@ def recognize(request):
         image.save(path)
         # psm 4: one column of text with lines of varying size, matching the result sheet.
         raw = run_engine(['tesseract', str(path), 'stdout', '-l', languages, '--psm', '4', 'tsv'], deadline)
-    lines = group_lines(parse_words(raw, scale, width, height))
+        lines = group_lines(parse_words(raw, scale, width, height))
+        rereads = reread_ratings(original.convert('RGB'), lines, scale, Path(directory), deadline)
     result = {'schemaVersion': 'android-screen-ocr/v1', 'imageSha256': hashlib.sha256(png).hexdigest(),
               'imageWidth': width, 'imageHeight': height, 'engine': 'tesseract', 'engineVersion': version,
-              'languages': languages, 'scale': scale, 'lines': lines}
+              'languages': languages, 'scale': scale, 'lines': lines, 'ratingRereads': rereads}
     if len(json.dumps(result).encode()) > MAX_OUTPUT:
         raise ValueError('OCR response budget exceeded')
     return result
