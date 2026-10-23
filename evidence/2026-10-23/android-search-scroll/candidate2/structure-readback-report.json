@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "scope": {
+    "pngDecoded": 29,
+    "jsonParsed": 64,
+    "csvFiles": 4,
+    "androidQueriesCompared": 2,
+    "listingRowsCompared": 18
+  },
+  "notes": "All downloaded PNGs fully decoded; Android query JSON and CSV selected fields compared against manifests. Android-only verification."
+}

@@ -2,6 +2,16 @@
 
 Last updated: 2026-10-23. **Work in progress; Android remains suspended.** Latest work is the search-submission / late-scroll candidate at the end of this document; its software and device acceptance are recorded separately. Historical probe descriptions below are retained as historical evidence, not current deployment inventory. Update this document after each candidate replay, device run, deployment, or change to acceptance criteria.
 
+## Latest verified checkpoint (2026-10-23, 12:08 Asia/Shanghai)
+
+Source fixes: `24bd4b7` → `40f081d` → `0dabee3`; branch `codex/android-search-scroll-20261023`. Latest candidate image ACR `ch159w`, `sha256:e3f7dccbf9e8392836e6f99c6282898d7775d41a93c10641439e516d55fcf824`. Local source commits only; no production promotion or push/merge in this follow-up.
+
+- **OnlyBear repaired and sample accepted:** the exact `bubble tea garden city` query leaves suggestions, captures a complete list and recognizes the native footer. Exit0;13 occurrences (1 ad +12 organic), target display3 / organic2,17 continuous selected frames, no unresolved ad types. One bounded backward correction retained the discarded original frame. This is one query/point, not fleet acceptance.
+- **KEKE known scroll defects repaired in regression/replay, live acceptance blocked:** initial collapsed sheet, separator OCR and far-right scrollbar geometry cases have tests. Latest original exit1 was `appium_protocol_error` before the first ranking frame, so this run does not validate end-to-end KEKE ranking. Exact query and fresh GPS are retained in diagnostic evidence. Underlying failed Appium command is not yet known.
+- **Validation:**1,696 TypeScript tests +30 Python runtime tests, typecheck/contracts/build passed; independent code review has no remaining blocker. Azure-login readback:94 objects,92 exact writer receipts all matched,21 PNGs decoded; JSON/CSV consistency and full selected OnlyBear frame replay passed. Four PNGs visually reviewed. Full scope and limitations are in [final verification evidence](../evidence/2026-10-23/android-search-scroll/README.md).
+- **Protected services unchanged:**7 workload specs and15 ConfigMap hashes match preflight. Android remains suspended on the prior production image; Web/UI and shared SEO keywords unchanged. All test workers terminated. No gate deletion or automatic retry.
+- **Next action:** add durable, sanitized command-level Appium/OCR error evidence and investigate the native state/transport failure before another behavioral patch. Require a successful KEKE end-to-end run before promotion, then separate parallel/full-catalog capacity validation. See the final section below.
+
 ## Objective and scope
 
 Run official Google Maps Android App collection alongside the existing Web collector. Capture exact keywords at explicit observation points, automatically scroll a bounded result list, and retain original screenshots and UI XML. Extract business name, rating, review count, advertisement evidence, display position including ads, and organic rank excluding ads. All fields and rankings must be traceable to original artifacts. Unknown ad classification and incomplete ordering must stay explicit.
@@ -26,7 +36,7 @@ The approved target catalog is `deploy/tracking-targets/liya-90-v1.json`: 9 stor
 | A2 | Candidate3 SEE JOY frame5: a status line touches native sheet bottom at y=1232; clipped `3.3 mi` is read as `22 mi`, conflicting with the next full frame. | Keep raw OCR; withhold cropped status/distance values. Fill missing values only after the same merchant passes existing ordered overlap. Do not guess a corrected number. | Local regression passing; probe 5 (candidate5) showed no recurrence. |
 | A3 | Candidate3 small-frame OCR loses a rating decimal and varies CJK names; candidate4 large canvas still varies the same merchant name across frames. | Test explicit higher OCR resolution on the immutable source PNGs; record scale in input, artifact and profile hash. Keep exact occurrence/overlap checks; do not infer identity from rating/review/distance alone. | PSM4 ×3 improves six offline samples reproducibly, but probe 5 at scale 3 still drifted (q0001 f2 name, q0004 star glyph 丙). Candidate introduces opt-in `ocrScale: 3`; default remains 2. |
 | A4 | Ad labels can be incomplete or attached to partially visible native owners; the same merchant can appear as ad and organic. | Positive visible Sponsored/native ownership evidence yields `ad`; ambiguous association yields `unknown`. Keep separate displayed occurrences, do not consume an organic rank for an ad, and withhold reliable downstream ranks after unresolved classification. | Existing regression coverage; must recheck on the next real ad sample. |
-| A5 | Photo-discovery modules interrupt native result cards. Forward/backward actions remain available at observed stopping points. | Do not interpret a short/stationary/photo viewport as list end. Preserve partial output and stop reason unless explicit supported terminal evidence exists. | **Now the main blocker** (probe 6: q0001, q0002, q0005 end at the module). Candidate7 plan in the probe-6 checkpoint. |
+| A5 | Photo-discovery modules interrupt native result cards. Forward/backward actions remain available at observed stopping points. | Do not interpret a short/stationary/photo viewport as list end. Preserve partial output and stop reason unless explicit supported terminal evidence exists. | **Historical probe-6 blocker** (q0001, q0002, q0005 end at the module). Candidate7 plan in the probe-6 checkpoint. |
 | A6 | Short partial probes exit early, so elapsed time understates complete-list cost. One verification Pod retains ~7 GiB working set. | Validate memory/CPU, artifact staging volume, and complete-list throughput before enabling two workers. Keep crawler 4 CPU/16 GiB for pilot; no direct 8 GiB downsize. | Full two-worker capacity pending. |
 
 ## Expected data and user-visible behavior
@@ -43,7 +53,7 @@ The approved target catalog is `deploy/tracking-targets/liya-90-v1.json`: 9 stor
 
 Example: a verified sequence `Sponsored A → B → C` yields display positions1/2/3, with organic ranks null/1/2. If the first occurrence is `unknown`, it must not silently become organic rank1, and downstream target ranks must follow the reliability gate. Both surfaces may legitimately disagree at the same keyword/point/time; retain their independent evidence.
 
-## Latest candidate and evidence
+## Historical candidate5 and evidence
 
 Working branch: `codex/fix-tracking-review-20261020`; active checkout is a managed sibling worktree. Last committed display metadata change: `93db1892b3ce75c9368ce0c8f1af6d80135b6346`; documentation receipt commit: `36a1a00`. Candidate5 repairs and this handoff were committed as `af0bc7f8b301e88cc79951a42171acb03108ae8f`. No candidate5 ACR image has been built or deployed.
 
@@ -317,7 +327,7 @@ Follow-up to the two isolated release failures above, on branch `codex/android-s
 - **Expected acceptance:** both exact original queries leave the editor, capture the expanded list from the top, retain continuous ordered screenshots to the configured limit or a verified list end, and preserve distinct display/organic ranks. GPS receipt and storage checks are independent of ranking acceptance. Backend search locality remains unverified.
 - **Isolation:** retain all historical runs. Use a new verification database and Job, only KEKE/OnlyBear center points, the dedicated crawler workers, and a candidate image. Keep production CronJobs, Web/UI images, shared keyword collections and Android suspension unchanged.
 
-Real-device verification is pending. This checkpoint is not a claim that the App issues are resolved or Android scheduling is accepted.
+At this checkpoint real-device verification was pending. Later checkpoints below record the failed first retest and subsequent candidates; this checkpoint does not establish Android scheduling acceptance.
 
 ## 2026-10-23 — First isolated retest and second candidate
 
@@ -328,7 +338,7 @@ Second-candidate changes:
 - KEKE frames 36/37 visibly show the same card moving about 304 px. Its rating row changed only separator OCR (`4.8% (273) - $40-50 - barbecue` versus `4.8% (273) .$40-50.barbecue`). Normalize separators only on recognized rating anchors, retaining numeric tokens, price ranges, currency and category. Keep exact-anchor decisions first. This fallback only applies to one card in each viewport with equal non-null rating/count and a second independent exact non-rating anchor, consistent motion, global anchor uniqueness, identical native viewport and all existing card/ad contradiction guards.
 - New real-frame positive and negative regressions cover changed facts, missing anchors, inconsistent movement and conflicting ad classification. IME regressions cover unavailable/binding-timeout/focus-loss/ambiguous submission/cancellation/restoration failure.
 
-Second-candidate real-device acceptance remains pending below. Keep the Android production schedule suspended until acceptance; do not replace historical failures with replay results.
+At this checkpoint second-candidate real-device acceptance was pending. Its actual outcomes are recorded below. Keep the Android production schedule suspended until acceptance; do not replace historical failures with replay results.
 
 ## 2026-10-23 — Third bounded candidate: scrollbar geometry and terminal footer
 
@@ -338,4 +348,19 @@ A same-image, single-worker KEKE retest preserved three frames and stopped on a 
 
 The third candidate derives rating geometry without only a thin/tall `|` at the far right edge, with all other words well inside the content area. Raw PNG/OCR remain immutable. Near-top card classification stays unknown locally; prior-frame geometric/identity proof is still required to restore it. No ad text is excluded. The new terminal-footer route requires the exact native query, supported native list, no forward action, same-list enabled title and missing-place button, and matching OCR title below the final card. Stationary screenshots alone remain insufficient. Regression tests cover missing/scrollable/wrong-query/absent-OCR footer and interior/text/wide-bar negatives.
 
-See [verification evidence](../evidence/2026-10-23/android-search-scroll/README.md) for each immutable run and limits. This checkpoint is source evidence only until the final candidate's real App validation is recorded.
+See [verification evidence](../evidence/2026-10-23/android-search-scroll/README.md) for each immutable run and limits. The latest verified checkpoint above records the final real App outcome and remaining blocker.
+
+
+### Candidate3 remaining execution blocker and next investigation
+
+The isolated serial KEKE worker (source `0dabee3`, Job `maps-android-search-scroll-v3-20261023`, index0) exited1 at2026-10-23 11:59:20 Asia/Shanghai before producing a ranking frame. The immutable query reports `appium_protocol_error`; its diagnostic screenshot/native XML shows the exact submitted result query, and fresh GPS matched. It cannot validate the new scroll fix. No automatic rerun or gate clearing was performed.
+
+The generic collector error omits the failed Appium command, HTTP status/response and original cause. Sidecar Appium logs are written to Pod-local `/tmp/appium.log`, not durable storage or container stdout, and the sidecar terminates immediately with the collector. Therefore the original command failure cannot be recovered through normal completed-Pod logs. This is a diagnosed observability gap; stale native handles, Appium transport failure or result-state timing are **unconfirmed hypotheses**. The prior candidate2 OCR timeout also remains unexplained; serial execution removes overlapping emulator startup from this run but does not establish the earlier cause.
+
+Before another behavioral patch:
+1. Retain bounded, sanitized command-level failure diagnostics (stage, command name, HTTP status, W3C error code and timing) alongside the query, without credentials, console tokens or full screenshot bodies.
+2. Persist Appium/OCR error tails on the same owned run before sidecar teardown; retain the primary error and separate cleanup outcomes. Do not log arbitrary shell environment or private key files.
+3. Reproduce the exact two queries/points on a fresh isolated database with the same pinned image/profile. Fix a specific evidenced state transition, with replay/regression tests and one bounded native acceptance run. Never automatically repeat uncertain search submission.
+4. Require KEKE end-to-end ordered capture and both original exit codes0 before promoting the Android template. Then separately test concurrent workers and full target-catalog capacity. Web and existing collectors must remain unchanged.
+
+After several candidates exposed separate state/OCR/transport failure layers, further broadening of OCR thresholds is not justified. Preserve current failure evidence and improve native state/transport diagnosis first.

@@ -1,0 +1,14 @@
+{
+  "scope": "Three actual PNGs, OnlyBear frames 001,002,017; limited visual sample, separate from full hash validation",
+  "findings": [
+    "Exact bubble tea garden city query appears in results header; no typed suggestions",
+    "Frame001 visibly Sponsored Gong Cha, then Smo Tea; frame002 shows overlapping Smo Tea then Only Bear Chicken & Boba, 4.7 stars/102 reviews, validating displayed3/organic2 in this observed prefix",
+    "Frame017 Kiko Ramen then Looking for someplace else? and Add a missing place; existing parser does not accept this marker as verified list end, so stalled_same_frame stays partial",
+    "No claim of comprehensive ad-classifier validation or backend-locality proof"
+  ],
+  "paths": [
+    "7306f829edb67928bcbdabe1a5e64d2edecddc39776dea4172eff6d5060fd1e9",
+    "a30e22086d0cf85909ae2082ab2a70649b8a8d89637e214dbfd042b4e5589389",
+    "afa02523e70049f7aff566fd45139c6b0e4d06ce1ca013b8d4e074b29e7cfdd0"
+  ]
+}

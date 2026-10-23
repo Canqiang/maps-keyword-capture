@@ -1,0 +1,53 @@
+{
+  "sourceCommit": "0dabee3a679a468b047ba31dbf6a6d08121ec4e9",
+  "imageDigest": "sha256:e3f7dccbf9e8392836e6f99c6282898d7775d41a93c10641439e516d55fcf824",
+  "job": "maps-android-search-scroll-v3-20261023",
+  "parallelism": 1,
+  "originalWorkerExits": [
+    1,
+    0
+  ],
+  "overallAcceptance": "not_accepted",
+  "onlyBear": {
+    "status": "complete",
+    "query": "bubble tea garden city",
+    "displayPosition": 3,
+    "organicRank": 2,
+    "ads": 1,
+    "organicListings": 12,
+    "unknown": 0,
+    "framesSelected": 17,
+    "screensRetained": 18,
+    "boundedBackwardCorrections": 1,
+    "stopReason": "list_end",
+    "runId": "run_20261023T040540Z_de9155"
+  },
+  "keke": {
+    "status": "failed_before_rank_frames",
+    "query": "braised food flushing",
+    "error": "appium_protocol_error",
+    "runId": "run_20261023T035839Z_994316",
+    "cause": "not yet established; command-level failure log missing"
+  },
+  "independentReadback": {
+    "objects": 94,
+    "writerReceipts": 92,
+    "errors": [],
+    "structural": {
+      "pngDecoded": 21,
+      "jsonParsed": 48,
+      "csvFiles": 4,
+      "androidQueriesCompared": 2,
+      "listingRowsCompared": 13
+    },
+    "xmlsParsed": 21
+  },
+  "protected": true,
+  "productionAndroidSchedule": "unchanged/suspended",
+  "limits": [
+    "Original KEKE scroll failures pass offline regression/replay but latest live run did not reach them.",
+    "Serial run does not establish parallel capacity or90-keyword acceptance.",
+    "No production rollout; no push or merge in this follow-up.",
+    "GPS matches device, not verified Google backend locality."
+  ]
+}

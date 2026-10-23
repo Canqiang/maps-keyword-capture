@@ -1,0 +1,19 @@
+{
+  "sourceCommit": "0dabee3a679a468b047ba31dbf6a6d08121ec4e9",
+  "typecheck": "passed",
+  "contracts": "passed",
+  "typescriptTests": {
+    "nonDevice": 1495,
+    "device": 201,
+    "total": 1696,
+    "execution": "separate serial invocations to avoid test-harness timing contention"
+  },
+  "pythonRuntimeTests": 30,
+  "build": "passed",
+  "independentReview": {
+    "reviewer": "review_search_scroll",
+    "status": "no blockers",
+    "fixedFinding": "Decline scrollbar geometry normalization when optional OCR word confidence, bounds or reconstruction are invalid."
+  },
+  "priorTestFailure": "The initial candidate3 suite included a stale assertion expecting an individual clipped card to be organic; it must stay unknown until overlap proof. Corrected assertion and all final tests passed."
+}

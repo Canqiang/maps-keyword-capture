@@ -1,0 +1,40 @@
+{
+  "scope": "Four actual PNGs visually inspected: KEKE diagnostic plus OnlyBear first/target/end. This is separate from full94 object readback and all21 PNG structural decoding.",
+  "samples": [
+    {
+      "label": "onlybear-ad",
+      "objectKey": "android-maps/2026-10-23/run_20261023T040540Z_de9155/q0001/20261023T040629.394Z__bubble-tea-garden-city__01.png",
+      "sha256": "edcb77dfaf4410bc8144f7f7fb3f0c0b356b9c78c7e784ac84422b674dcbd6cf",
+      "findings": [
+        "Exact query; Sponsored Gong Cha3.9/217 followed by Smo Tea4.9/491; ad marker visually present."
+      ]
+    },
+    {
+      "label": "onlybear-target",
+      "objectKey": "android-maps/2026-10-23/run_20261023T040540Z_de9155/q0001/20261023T040635.857Z__bubble-tea-garden-city__02.png",
+      "sha256": "da5de22cfe6076d459b6542858408b4886a506f51047900d2e2a43a4fa28ef30",
+      "findings": [
+        "Smo Tea then Only Bear Chicken & Boba4.7/102, Mineola NY; matches display3/organic2."
+      ]
+    },
+    {
+      "label": "onlybear-end",
+      "objectKey": "android-maps/2026-10-23/run_20261023T040540Z_de9155/q0001/20261023T040817.629Z__bubble-tea-garden-city__18.png",
+      "sha256": "0751bc956f3be898bf167b4dbdab4d0fe47a0a7d5b48aaad7ff43766014c4f74",
+      "findings": [
+        "Last Kiko Ramen4.7/597 followed by Looking for someplace else? and Add a missing place; confirmed native non-forward footer."
+      ]
+    },
+    {
+      "scope": "One actual diagnostic PNG, not a ranked capture or full visual audit",
+      "sha256": "6d3dde7363bfd08ad6554ec5b8d61b05b712ad708bfb731a13b84033d3c254ba",
+      "findings": [
+        "Exact braised food flushing query visible; result sheet shows KEKE 4.6/9 then Woodam4.8/1465.",
+        "Native list has not reached fully expanded state; no rank accepted because search failed before ordered frames."
+      ],
+      "limitation": "Image does not expose failed Appium command; do not infer the transport cause or a qualified rank."
+    }
+  ],
+  "geography": "Fresh device GPS matched for both; Google search backend locality unverified.",
+  "limits": "One visually verified ad does not certify all possible ad layouts. Raw OCR case/name imperfections remain (e.g. smo Tea and Cong Cha); no semantic name correction is invented."
+}

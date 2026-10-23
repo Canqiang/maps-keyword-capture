@@ -1,0 +1,22 @@
+{
+  "sourceCommit": "40f081d6b2104e812e5caeef8c80e1d05bfe5b61",
+  "contracts": "passed",
+  "typecheck": "passed",
+  "build": "passed",
+  "pythonRuntimeTests": 30,
+  "vitest": {
+    "total": 1687,
+    "parallelPassed": 1686,
+    "parallelFailure": "Existing 1-second blank-home viewport preparation test timed out under concurrent load",
+    "isolatedDeviceFileRerun": {
+      "passed": 201,
+      "failed": 0
+    },
+    "newScrollRegressions": 12
+  },
+  "review": "No blockers; uniqueness/null/multi-card/exact-motion hardening incorporated",
+  "builtImage": {
+    "digest": "sha256:6538c3f42f171236a27cc103c0be327b676fef3aa250492545bb265684ff4efc",
+    "name": "sha-40f081d6b2104e812e5caeef8c80e1d05bfe5b61-ch159u"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "scope": "Independent reparse of all selected original OCR/XML frames, followed by same-source deterministic reconciliation; not independent OCR or full visual review.",
+  "sourceCommit": "0dabee3a679a468b047ba31dbf6a6d08121ec4e9",
+  "selectedFrames": 17,
+  "discardedFrames": [
+    "q0001:frame-004"
+  ],
+  "rows": 13,
+  "exactListingEquality": true,
+  "sequenceVerified": true,
+  "rankingReliable": true,
+  "endOfResults": true,
+  "warnings": []
+}
