@@ -80,7 +80,7 @@ function adbFixture(overrides: Record<string, string> = {}) {
   return { adb, calls, helperBound: () => helperBound };
 }
 
-async function appiumFixture(options: { foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string; editorActionTypesLiteral?: boolean | (() => boolean); inputAfterTyping?: { text?: string; focused?: boolean; enabled?: boolean; displayed?: boolean; packageName?: string; foreground?: string }; submitOutcome?: 'timeout' | 'http-error'; queryAfterSubmit?: string } = {}) {
+async function appiumFixture(options: { foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string; editorActionTypesLiteral?: boolean | (() => boolean); inputAfterTyping?: { text?: string; focused?: boolean; enabled?: boolean; displayed?: boolean; packageName?: string; foreground?: string }; submitOutcome?: 'timeout' | 'http-error'; queryAfterSubmit?: string; elementFault?: { suffix: string; remaining: number; error?: string; beforeSubmit?: boolean } } = {}) {
   const calls: { method: string; path: string; body: any }[] = [];
   let typed = options.initialQuery ?? '';
   let following = options.initiallyFollowing ?? false;
@@ -100,6 +100,11 @@ async function appiumFixture(options: { foreground?: string; missingField?: bool
     if (path.endsWith('/actions') && options.actionOutcome === 'http-error') { res.writeHead(500, { 'content-type': 'application/json' }).end(JSON.stringify({ value: { error: 'unknown error', message: 'unknown action outcome' } })); return; }
     if (options.stallFocusedAttribute && path.endsWith('/attribute/focused')) return;
     if (options.redirect) { res.writeHead(302, { location: options.redirect }).end(); return; }
+    const fault = options.elementFault;
+    if (fault && (submitted || fault.beforeSubmit) && req.method === 'GET' && path.includes('/element/') && path.endsWith(fault.suffix) && fault.remaining-- > 0) {
+      res.writeHead(404, { 'content-type': 'application/json' }).end(JSON.stringify({ value: { error: fault.error ?? 'stale element reference', message: 'cached handle replaced' } }));
+      return;
+    }
     let value: unknown = null;
     if (req.method === 'DELETE' && options.sessionAlreadyGone) {
       res.writeHead(404, { 'content-type': 'application/json' }).end(JSON.stringify({ value: { error: 'invalid session id', message: 'Session already ended', stacktrace: '' } }));
@@ -180,6 +185,35 @@ async function appiumFixture(options: { foreground?: string; missingField?: bool
 }
 
 describe('NativeMapsDevice exact native search submission', () => {
+  it.each(['/displayed', '/text', '/attribute/package'])('reacquires post-submit stale %s without repeating search', async suffix => {
+    const appium = await appiumFixture({ elementFault: { suffix, remaining: 1 } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start();
+    await expect(device.search('braised food flushing')).resolves.toBeUndefined();
+    expect(appium.submittedQueries).toEqual(['braised food flushing']);
+    const submit = appium.calls.findIndex(c => c.body?.script === 'mobile: performEditorAction');
+    const after = appium.calls.slice(submit + 1);
+    expect(after.filter(c => c.path.endsWith('/elements')).length).toBeGreaterThanOrEqual(2);
+    expect(after.some(c => /\/(?:click|clear|value)$/.test(c.path))).toBe(false);
+    expect(device.commandDiagnostics().failures).toEqual(expect.arrayContaining([expect.objectContaining({ stage: 'search.results', w3cError: 'stale element reference' })]));
+    await device.close();
+  });
+
+  it.each([
+    ['repeated stale', { suffix: '/displayed', remaining: 100 }, undefined, 'APPIUM_PROTOCOL_ERROR', 1, 4],
+    ['unrelated protocol error', { suffix: '/displayed', remaining: 1, error: 'invalid session id' }, undefined, 'APPIUM_PROTOCOL_ERROR', 1, 1],
+    ['pre-submit stale', { suffix: '/displayed', remaining: 1, beforeSubmit: true }, undefined, 'APPIUM_PROTOCOL_ERROR', 0, 1],
+    ['changed query after recovery', { suffix: '/displayed', remaining: 1 }, 'other query', 'QUERY_NOT_VISIBLE', 1, 1],
+  ] as const)('fails honestly on %s without resubmitting', async (_label, fault, queryAfterSubmit, code, submissions, failures) => {
+    const appium = await appiumFixture({ elementFault: { ...fault }, ...(queryAfterSubmit ? { queryAfterSubmit } : {}) });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start();
+    await expect(device.search('braised food flushing')).rejects.toMatchObject({ code });
+    expect(appium.submittedQueries).toHaveLength(submissions);
+    expect(device.commandDiagnostics().failures).toHaveLength(failures);
+    await device.close();
+  });
+
   it('retains the failed editor command status and phase without query, session or response bodies', async () => {
     const appium = await appiumFixture({ submitOutcome: 'http-error' });
     const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });

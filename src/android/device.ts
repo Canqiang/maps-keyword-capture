@@ -37,6 +37,9 @@ const executeAdb: AdbExecutor = (file, args, options) => new Promise((resolve, r
   });
 });
 
+// Internal marker: only a confirmed W3C stale response to an element read.
+class StaleElementReadError extends AndroidDeviceError {}
+
 function fail(code: string, message: string): never { throw new AndroidDeviceError(code, message); }
 function object(value: unknown): Record<string, unknown> { return value !== null && typeof value === 'object' ? value as Record<string, unknown> : {}; }
 
@@ -223,6 +226,10 @@ export class NativeMapsDevice implements AndroidDevice {
         if (typeof serverError==='string')w3cError=serverError;
         if (!response.ok || !Object.hasOwn(payload, 'value') || typeof serverError === 'string') {
           reason=!response.ok?'http_error':typeof serverError==='string'?'w3c_error':'missing_value';
+          if (response.status === 404 && serverError === 'stale element reference' && method === 'GET' &&
+            /^\/session\/[^/]+\/element\/[^/]+\/(?:displayed|text|attribute\/[^/]+)$/.test(path)) {
+            throw new StaleElementReadError('APPIUM_PROTOCOL_ERROR', 'Appium element read became stale; inspect the command log');
+          }
           fail('APPIUM_PROTOCOL_ERROR', `Appium command failed (HTTP ${response.status}); inspect the command log`);
         }
         return payload.value;
@@ -632,6 +639,23 @@ export class NativeMapsDevice implements AndroidDevice {
     } finally { this.queryDeadline = previous; this.closing = wasClosing; }
   }
 
+  private async observeSubmittedQuery(keyword: string): Promise<void> {
+    // Maps can replace its omnibox after accepting the single editor action.
+    // Discard stale handles and repeat only these reads, at most three times
+    // within the existing query deadline. Never replay input or submission.
+    for (let recovery = 0; ; recovery += 1) {
+      try {
+        await this.foreground();
+        const field = await this.searchField();
+        if (!await this.searchQueryMatches(field, keyword)) fail('QUERY_NOT_VISIBLE', 'The exact submitted keyword is not visible in the native Maps search field');
+        return;
+      } catch (error) {
+        if (!(error instanceof StaleElementReadError) || recovery >= 3) throw error;
+        await this.observationPause();
+      }
+    }
+  }
+
   async search(keyword: string): Promise<void> {
     this.phase = 'search';
     if (!keyword.trim() || keyword.length > 300 || /[\u0000-\u001f\u007f]/.test(keyword)) fail('INVALID_QUERY', 'Search keyword must be bounded printable text');
@@ -665,9 +689,7 @@ export class NativeMapsDevice implements AndroidDevice {
       this.phase = 'search.submit';
       await this.mobile('performEditorAction', { action: 3 });
       this.phase = 'search.results';
-      await this.foreground();
-      field = await this.searchField();
-      if (!await this.searchQueryMatches(field, keyword)) fail('QUERY_NOT_VISIBLE', 'The exact submitted keyword is not visible in the native Maps search field');
+      await this.observeSubmittedQuery(keyword);
       // v4: a settled layout the native analyzer does not recognize is still evidence; the
       // screen reader decides from the screenshot. Loading, blocked and consent states still wait or fail.
       const settled = await this.stableNativeXml(false, true);
