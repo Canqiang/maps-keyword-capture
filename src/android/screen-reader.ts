@@ -520,25 +520,47 @@ function measuredDriftOverlap(previous: ScreenFrame, frame: ScreenFrame, count: 
  */
 const MAX_ANCHORED_ADVANCE = 0.7;
 
+// Only rating rows may normalize separators. Keep numeric tokens (including
+// decimals/ranges), currencies and category words intact; other anchors stay exact.
+function anchorKey(text: string): string {
+  const rating = RATING.exec(text);
+  if (!rating) return `text:${text}`;
+  const tail = text.slice(rating[0].length).replace(/(?<![0-9])[.·•]|[.·•](?![0-9])/gu, ' ')
+    .replace(/\s+[-–—]\s+/gu, ' ').replace(/\s+/gu, ' ').trim();
+  return `rating:${rating[1]}|${rating[2]}|${rating[3] ?? ''}|${tail}`;
+}
+
 export function anchoredContinuity(previous: ScreenFrame | undefined, frame: ScreenFrame): number | null {
   const before = previous?.nativeListBounds, after = frame.nativeListBounds;
   if (!previous || !before || !after || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
     !previous.queryVisible || !frame.queryVisible || before.left !== after.left || before.right !== after.right || before.bottom !== after.bottom || Math.abs(before.top - after.top) > 2 ||
     !previous.anchors?.length || !frame.anchors?.length) return null;
   const height = after.bottom - after.top;
-  const matches: number[] = [];
-  const texts = new Set<string>();
-  for (const a of previous.anchors) {
-    const candidates = frame.anchors.filter(b => b.text === a.text && Math.abs(b.bounds.left - a.bounds.left) <= 4 && Math.abs(b.bounds.right - a.bounds.right) <= 4 &&
-      b.bounds.top - a.bounds.top <= (frame.afterBackwardCorrection ? height * 0.5 : 2) && b.bounds.top - a.bounds.top >= -height * MAX_ANCHORED_ADVANCE);
-    // A text that appears twice in either frame cannot anchor anything.
-    if (candidates.length !== 1 || previous.anchors.filter(other => other.text === a.text).length !== 1 || texts.has(a.text)) continue;
-    texts.add(a.text); matches.push(candidates[0]!.bounds.top - a.bounds.top);
-  }
-  if (matches.length < 2) return null;
-  const delta = matches[0]!;
-  // RecyclerView items re-measure independently by a few pixels (probe 8: 86 vs 90 px).
-  return matches.every(moved => Math.abs(moved - delta) <= 12) ? delta : null;
+  const measure = (normalized: boolean): { count: number; delta: number | null; independent: boolean } => {
+    const matches: number[] = [], texts = new Set<string>();
+    let independent = false;
+    const keyOf = normalized ? anchorKey : (text: string) => text;
+    for (const a of previous.anchors!) {
+      const key = keyOf(a.text);
+      const candidates = frame.anchors!.filter(b => keyOf(b.text) === key && Math.abs(b.bounds.left - a.bounds.left) <= 4 && Math.abs(b.bounds.right - a.bounds.right) <= 4 &&
+        b.bounds.top - a.bounds.top <= (frame.afterBackwardCorrection ? height * 0.5 : 2) && b.bounds.top - a.bounds.top >= -height * MAX_ANCHORED_ADVANCE);
+      // Uniqueness is global in both viewports, before geometric filtering.
+      if (candidates.length !== 1 || frame.anchors!.filter(other => keyOf(other.text) === key).length !== 1 || previous.anchors!.filter(other => keyOf(other.text) === key).length !== 1 || texts.has(key)) continue;
+      texts.add(key); matches.push(candidates[0]!.bounds.top - a.bounds.top);
+      if (!RATING.test(a.text) && candidates[0]!.text === a.text) independent = true;
+    }
+    const delta = matches[0] ?? null;
+    return { count: matches.length, independent, delta: matches.length >= 2 && matches.every(moved => Math.abs(moved - delta!) <= 12) ? delta : null };
+  };
+  // Preserve exact-anchor evidence and its rejection of conflicting motion.
+  // Separator tolerance is only a fallback with an exact non-rating anchor;
+  // two similar rating rows alone cannot establish this additional proof.
+  const exact = measure(false);
+  if (exact.count >= 2) return exact.delta;
+  // This recovery concerns one visible merchant, not empty modules or multi-card placement.
+  if (previous.cards.length !== 1 || frame.cards.length !== 1 || previous.cards[0]!.rating === null || previous.cards[0]!.reviewCount === null || previous.cards[0]!.rating !== frame.cards[0]!.rating || previous.cards[0]!.reviewCount !== frame.cards[0]!.reviewCount) return null;
+  const tolerant = measure(true);
+  return tolerant.independent ? tolerant.delta : null;
 }
 
 /**

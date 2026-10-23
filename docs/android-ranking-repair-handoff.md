@@ -1,6 +1,6 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-22 20:10 Asia/Shanghai. **Work in progress; the Android CronJob exists but stays suspended.** Latest candidate: candidate15 (scheduled-run checkpoint below). Update this document after each candidate replay, device run, deployment, or change to the acceptance criteria.
+Last updated: 2026-10-23. **Work in progress; Android remains suspended.** Latest work is the search-submission / late-scroll candidate at the end of this document; its software and device acceptance are recorded separately. Historical probe descriptions below are retained as historical evidence, not current deployment inventory. Update this document after each candidate replay, device run, deployment, or change to acceptance criteria.
 
 ## Objective and scope
 
@@ -8,7 +8,7 @@ Run official Google Maps Android App collection alongside the existing Web colle
 
 The approved target catalog is `deploy/tracking-targets/liya-90-v1.json`: 9 stores, 90 store-keyword pairs, three explicit points per store (center/3 km/5 km), **270 searches per surface per round**. The eventual requirement is both surfaces every two hours. These three observations are not radius coverage or a 25-point grid. Preserve historical records, the shared SEO keyword library, and the established daily/Web workloads.
 
-## Current operational boundary
+## Historical operational boundary (2026-10-22; see dated follow-ups)
 
 - AKS context `FBRDevAKSCluster`; Android pilot namespace `android-maps-pilot`; dedicated crawler user pool, currently one `Standard_F4as_v7` (4 CPU/16 GiB), with `maps-capture=android:NoSchedule`.
 - Isolated verification Pod: `maps-nine-android-verify-20261021`. Worker0 runs the official app; its runtime and original evidence are on the retained `android-runtime` PVC. Its current active deadline is finite: check live state before reusing it.
@@ -318,3 +318,14 @@ Follow-up to the two isolated release failures above, on branch `codex/android-s
 - **Isolation:** retain all historical runs. Use a new verification database and Job, only KEKE/OnlyBear center points, the dedicated crawler workers, and a candidate image. Keep production CronJobs, Web/UI images, shared keyword collections and Android suspension unchanged.
 
 Real-device verification is pending. This checkpoint is not a claim that the App issues are resolved or Android scheduling is accepted.
+
+## 2026-10-23 — First isolated retest and second candidate
+
+The preceding ENTER-with-flags hypothesis did **not** fix actual OnlyBear submission. Candidate 24bd4b7 / ACR ch159p ran in a fresh two-store verification DB and an isolated indexed Job; production templates and schedules were unchanged. KEKE expanded successfully and reached 14 continuous organic rows, then stopped on a late overlap mismatch (exit 2). OnlyBear remained in suggestions and correctly timed out (exit 1). No qualified ranking acceptance is claimed. Independent Azure login readback verified 174 objects and 172 exact writer receipts; all 41 PNGs decoded, 88 JSON files parsed, and both query CSVs / 16 listing rows matched the JSON artifacts.
+
+Second-candidate changes:
+- Appium's installed editor-action helper types a control sequence through `io.appium.settings/.AppiumIME`. Wait for this already-enabled IME to be selected and bound before exactly one numeric IME_ACTION_SEARCH (3); recheck the focused exact Maps query immediately before submission. Restore the original IME with a bounded cleanup, including cancellation. Preserve a primary failure if restoration also fails, and retry restoration during close before releasing the device. No keyboard installation, suggestion selection, query rewriting or uncertain resubmission.
+- KEKE frames 36/37 visibly show the same card moving about 304 px. Its rating row changed only separator OCR (`4.8% (273) - $40-50 - barbecue` versus `4.8% (273) .$40-50.barbecue`). Normalize separators only on recognized rating anchors, retaining numeric tokens, price ranges, currency and category. Keep exact-anchor decisions first. This fallback only applies to one card in each viewport with equal non-null rating/count and a second independent exact non-rating anchor, consistent motion, global anchor uniqueness, identical native viewport and all existing card/ad contradiction guards.
+- New real-frame positive and negative regressions cover changed facts, missing anchors, inconsistent movement and conflicting ad classification. IME regressions cover unavailable/binding-timeout/focus-loss/ambiguous submission/cancellation/restoration failure.
+
+Second-candidate real-device acceptance remains pending below. Keep the Android production schedule suspended until acceptance; do not replace historical failures with replay results.

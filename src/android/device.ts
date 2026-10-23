@@ -21,6 +21,7 @@ const RECENTER = 'Re-center map to your location';
 const FOLLOWING = 'Enter compass mode';
 
 export class AndroidDeviceError extends Error {
+  cleanupError?: unknown;
   constructor(readonly code: string, message: string) { super(message); this.name = 'AndroidDeviceError'; }
 }
 
@@ -129,6 +130,7 @@ export class NativeMapsDevice implements AndroidDevice {
   private queryDeadline: number | undefined;
   private activeKeyword: string | undefined;
   private searchFailed = false;
+  private restoreIme: string | undefined;
   private diagnosticPending = false;
   private locationProofExpected = false;
   private checked = false;
@@ -573,6 +575,45 @@ export class NativeMapsDevice implements AndroidDevice {
     return matching.length === 1;
   }
 
+  private async prepareEditorAction(): Promise<void> {
+    const helper = 'io.appium.settings/.AppiumIME';
+    const original = await this.adb(['shell', 'settings', 'get', 'secure', 'default_input_method']);
+    if (!/^[a-zA-Z0-9_.]+\/[a-zA-Z0-9_.$]+$/.test(original)) fail('IME_UNAVAILABLE', 'Cannot verify the original input method');
+    const enabled = await this.adb(['shell', 'ime', 'list', '-s']);
+    if (!enabled.split(/\r?\n/).includes(helper)) fail('IME_UNAVAILABLE', 'The Appium editor-action input method is not enabled');
+    if (original !== helper) {
+      // Remember before dispatch, including uncertain command outcomes. Cleanup
+      // restores this exact device setting; no IME installation or enabling.
+      this.restoreIme = original;
+      await this.adb(['shell', 'ime', 'set', helper]);
+    }
+    const previous = this.queryDeadline;
+    this.queryDeadline = Math.min(previous ?? Infinity, Date.now() + 10_000);
+    try {
+      while (true) {
+        await this.foreground();
+        const dump = await this.adb(['shell', 'dumpsys', 'input_method']);
+        const selected = /^\s*mCurMethodId=(\S+)\s*$/m.exec(dump)?.[1];
+        const binding = /^\s*mCurId=(\S+)[^\r\n]*mHaveConnection=true[^\r\n]*mBoundToMethod=true/m.exec(dump)?.[1];
+        if (selected === helper && binding === helper) return;
+        await this.observationPause();
+      }
+    } finally { this.queryDeadline = previous; }
+  }
+
+  private async restoreInputMethod(): Promise<void> {
+    const original = this.restoreIme;
+    if (!original) return;
+    const previous = this.queryDeadline, wasClosing = this.closing;
+    this.closing = true; // bounded restoration must also run after cancellation
+    this.queryDeadline = Date.now() + 10_000;
+    try {
+      await this.adb(['shell', 'ime', 'set', original]);
+      while (await this.adb(['shell', 'settings', 'get', 'secure', 'default_input_method']) !== original) await this.observationPause();
+      this.restoreIme = undefined;
+    } finally { this.queryDeadline = previous; this.closing = wasClosing; }
+  }
+
   async search(keyword: string): Promise<void> {
     if (!keyword.trim() || keyword.length > 300 || /[\u0000-\u001f\u007f]/.test(keyword)) fail('INVALID_QUERY', 'Search keyword must be bounded printable text');
     this.queryDeadline = Date.now() + this.config.keywordTimeoutMs;
@@ -581,6 +622,7 @@ export class NativeMapsDevice implements AndroidDevice {
     this.locationProofExpected = false;
     this.searchFailed = false;
     this.diagnosticPending = false;
+    let primaryError: unknown;
     try {
       await this.foreground();
       let field = await this.searchField();
@@ -592,10 +634,15 @@ export class NativeMapsDevice implements AndroidDevice {
       await this.foreground();
       if (!await this.usableSearchInput(field, true)) fail('UNKNOWN_SEARCH_LAYOUT', 'Maps search input lost visibility, ownership or focus before submission');
       if (await this.command('GET', `${path}/text`) !== keyword) fail('QUERY_NOT_VISIBLE', 'The exact keyword is not present in the native input before submission');
-      // Appium's editor-action IME injected "/search" into this Maps build.
-      // FLAG_EDITOR_ACTION marks ENTER as the IME action on the verified input.
-      // A completed transport is not a completed search; never retry an uncertain submission.
-      await this.mobile('pressKey', { keycode: 66, flags: 16 });
+      // Appium implements editor actions by typing /<action>/ through its IME.
+      // Switching IMEs without observing the binding injected literal /search/.
+      // Bind first, then recheck the exact focused Maps input immediately before
+      // the single IME_ACTION_SEARCH. Never retry an uncertain submission.
+      await this.prepareEditorAction();
+      await this.foreground();
+      if (!await this.usableSearchInput(field, true)) fail('UNKNOWN_SEARCH_LAYOUT', 'Maps input lost focus while preparing its editor action');
+      if (await this.command('GET', `${path}/text`) !== keyword) fail('QUERY_NOT_VISIBLE', 'Query changed while preparing its editor action');
+      await this.mobile('performEditorAction', { action: 3 });
       await this.foreground();
       field = await this.searchField();
       if (!await this.searchQueryMatches(field, keyword)) fail('QUERY_NOT_VISIBLE', 'The exact submitted keyword is not visible in the native Maps search field');
@@ -607,9 +654,17 @@ export class NativeMapsDevice implements AndroidDevice {
       // list swipe moves the sheet as well as cards, destroying ordered overlap.
       if (list?.sheetHandleBounds && list.canScrollBackward === false) await this.prepareResults();
     } catch (error) {
+      primaryError = error;
       this.searchFailed = true;
       this.diagnosticPending = true;
       throw error;
+    } finally {
+      try { await this.restoreInputMethod(); }
+      catch (error) {
+        this.searchFailed = true; this.diagnosticPending = true;
+        if (primaryError instanceof Error) Object.assign(primaryError, { cleanupError: error });
+        else if (primaryError === undefined) throw error;
+      }
     }
   }
 
@@ -829,6 +884,7 @@ export class NativeMapsDevice implements AndroidDevice {
     this.queryDeadline = undefined;
     this.closing = true;
     try {
+      await this.restoreInputMethod();
       const session = this.sessionId;
       this.checked = false;
       if (!session && this.creationOutcomeUnknown) fail('SESSION_OUTCOME_UNKNOWN', 'Session creation outcome is unconfirmed; retain the device lease and inspect the dedicated local Appium server');

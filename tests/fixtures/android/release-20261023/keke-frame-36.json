@@ -1,0 +1,104 @@
+{
+  "frameId": "q0001:frame-036",
+  "capturedAt": "2026-10-23T03:08:06.901Z",
+  "imageSha256": "2fcfb65d9d0492cf50c4d899e2bc803893743eca163f10f330361d78ab5f8836",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0001:frame-036",
+      "name": "江湖 烤 测 酒 坊",
+      "nameConfidence": 71.62,
+      "rating": 4.8,
+      "reviewCount": 273,
+      "priceText": "$40–50",
+      "category": "barbecue",
+      "distanceText": null,
+      "distanceMeters": null,
+      "openText": null,
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 834.3333333333334,
+        "right": 445.3333333333333,
+        "bottom": 911
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 884,
+        "right": 445.3333333333333,
+        "bottom": 911
+      },
+      "ratingLineText": "4.8% (273) - $40-50 - Barbecue",
+      "warnings": [],
+      "nameBounds": {
+        "left": 41.666666666666664,
+        "top": 834.3333333333334,
+        "right": 279,
+        "bottom": 882.6666666666666
+      }
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "anchors": [
+    {
+      "text": "@ braised pork liver is the most delicious | have",
+      "bounds": {
+        "left": 50,
+        "top": 576.6666666666666,
+        "right": 666.3333333333334,
+        "bottom": 609.3333333333334
+      }
+    },
+    {
+      "text": "tm@ ever eaten.\"",
+      "bounds": {
+        "left": 43.666666666666664,
+        "top": 611.3333333333334,
+        "right": 240.33333333333334,
+        "bottom": 634.3333333333334
+      }
+    },
+    {
+      "text": "® directions ya order me) menu",
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 701.6666666666666,
+        "right": 636.3333333333334,
+        "bottom": 732.3333333333334
+      }
+    },
+    {
+      "text": "江湖 烤 测 酒 坊",
+      "bounds": {
+        "left": 41.666666666666664,
+        "top": 834.3333333333334,
+        "right": 279,
+        "bottom": 882.6666666666666
+      }
+    },
+    {
+      "text": "4.8% (273) - $40-50 - barbecue",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 884,
+        "right": 445.3333333333333,
+        "bottom": 911
+      }
+    }
+  ],
+  "topStateSource": null
+}

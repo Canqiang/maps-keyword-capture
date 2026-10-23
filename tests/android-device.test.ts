@@ -49,11 +49,18 @@ function homeXml(following = false): string {
 function adbFixture(overrides: Record<string, string> = {}) {
   const calls: string[][] = [];
   let injected = false;
+  let ime = 'com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME';
+  let helperBound = false;
   const adb: AdbExecutor = async (_file, args) => {
     calls.push([...args]);
     const command = args.slice(args.indexOf('-s') + 2).join(' ');
     if (command.startsWith('emu geo fix')) injected = true;
+    if (command.startsWith('shell ime set ')) ime = command.slice('shell ime set '.length);
     const responses: Record<string, string> = {
+      'shell settings get secure default_input_method': ime,
+      'shell ime list -s': 'io.appium.settings/.AppiumIME\ncom.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME',
+      'shell dumpsys input_method': `mCurMethodId=${ime}\n  mCurId=${ime} mHaveConnection=true mBoundToMethod=true`,
+      [`shell ime set ${ime}`]: 'Input method selected',
       'get-state': 'device', 'shell getprop sys.boot_completed': '1', 'shell getprop ro.kernel.qemu': '1',
       'shell getprop ro.build.version.release': '15', 'shell getprop persist.sys.locale': 'en-US',
       'shell getprop persist.sys.timezone': 'America/New_York',
@@ -66,13 +73,14 @@ function adbFixture(overrides: Record<string, string> = {}) {
       'emu geo fix -80 35': 'OK',
     };
     const stdout = overrides[command] ?? responses[command];
+    if (command === 'shell dumpsys input_method' && ime === 'io.appium.settings/.AppiumIME' && stdout?.includes('mBoundToMethod=true')) helperBound = true;
     if (stdout === undefined) throw new Error(`Unexpected ADB command: ${command}`);
     return { stdout: Buffer.from(stdout), stderr: Buffer.alloc(0) };
   };
-  return { adb, calls };
+  return { adb, calls, helperBound: () => helperBound };
 }
 
-async function appiumFixture(options: { foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string; editorActionTypesLiteral?: boolean; inputAfterTyping?: { text?: string; focused?: boolean; enabled?: boolean; displayed?: boolean; packageName?: string; foreground?: string }; submitOutcome?: 'timeout' | 'http-error'; queryAfterSubmit?: string } = {}) {
+async function appiumFixture(options: { foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string; editorActionTypesLiteral?: boolean | (() => boolean); inputAfterTyping?: { text?: string; focused?: boolean; enabled?: boolean; displayed?: boolean; packageName?: string; foreground?: string }; submitOutcome?: 'timeout' | 'http-error'; queryAfterSubmit?: string } = {}) {
   const calls: { method: string; path: string; body: any }[] = [];
   let typed = options.initialQuery ?? '';
   let following = options.initiallyFollowing ?? false;
@@ -114,7 +122,7 @@ async function appiumFixture(options: { foreground?: string; missingField?: bool
         }
         // Real Android 15 / Maps 26.41 evidence: Appium's editor-action IME
         // injected "/search" into the field instead of submitting its contents.
-        if (body.script === 'mobile: performEditorAction' && options.editorActionTypesLiteral) typed += '/search';
+        if (body.script === 'mobile: performEditorAction' && (typeof options.editorActionTypesLiteral === 'function' ? options.editorActionTypesLiteral() : options.editorActionTypesLiteral)) typed += '/search';
         submittedQueries.push(typed);
         submitted = true;
         if (options.queryAfterSubmit !== undefined) typed = options.queryAfterSubmit;
@@ -174,9 +182,10 @@ async function appiumFixture(options: { foreground?: string; missingField?: bool
 describe('NativeMapsDevice exact native search submission', () => {
   // Catches the observed editor-action text injection without bypassing the
   // production query guard. Typed text drives HTTP element reads and native XML.
-  it.each(['braised food', '法拉盛 卤味'])('submits exactly %s despite the broken Appium editor-action IME', async (keyword) => {
-    const appium = await appiumFixture({ nestedInput: true, queryInDescription: true, editorActionTypesLiteral: true });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+  it.each(['braised food', '法拉盛 卤味'])('binds the Appium IME before submitting exactly %s without literal action text', async (keyword) => {
+    const adb = adbFixture();
+    const appium = await appiumFixture({ nestedInput: true, queryInDescription: true, editorActionTypesLiteral: () => !adb.helperBound() });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adb.adb });
     await device.start();
     await expect(device.search(keyword)).resolves.toBeUndefined();
     const frame = await device.snapshot();
@@ -234,7 +243,7 @@ describe('NativeMapsDevice exact native search submission', () => {
     ['http-error', 'APPIUM_PROTOCOL_ERROR'],
   ] as const)('never repeats an uncertain native submission after %s', async (submitOutcome, code) => {
     const appium = await appiumFixture({ nestedInput: true, submitOutcome });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb, commandTimeoutMs: 100 });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb, commandTimeoutMs: 1000 });
     await device.start();
     await expect(device.search('braised food')).rejects.toMatchObject({ code });
     const frame = await device.snapshot();
@@ -582,8 +591,9 @@ describe('NativeMapsDevice native readiness and screenshot pairing', () => {
     await device.close();
   });
   it('never accepts continuously changing terminal observations', async () => {
-    const appium = await appiumFixture({ source: (read, keyword) => resultsXml(keyword, `Result ${read}`) });
-    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 200 }, { adb: adbFixture().adb });
+    const clock = queryClock();
+    const appium = await appiumFixture({ source: (read, keyword) => { if (read >= 3) clock.expire(); return resultsXml(keyword, `Result ${read}`); } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url, keywordTimeoutMs: 5000 }, { adb: adbFixture().adb });
     await device.start();
     await expect(device.search('new query')).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });
     await device.close();
@@ -626,10 +636,92 @@ describe('release 20261023 search and sheet regressions', () => {
     const appium = await appiumFixture({ nestedInput: true, source: (read, keyword) => read < 4 ? captured('onlybear-suggestions') : resultsXml(keyword) });
     const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
     await device.start(); await device.search('bubble tea garden city');
-    const submissions = appium.calls.filter(c => c.body?.script === 'mobile: pressKey');
-    expect(submissions.map(c => c.body.args[0])).toEqual([{ keycode: 66, flags: 16 }]);
+    const submissions = appium.calls.filter(c => c.body?.script === 'mobile: performEditorAction');
+    expect(submissions.map(c => c.body.args[0])).toEqual([{ action: 3 }]);
     expect(appium.submittedQueries).toEqual(['bubble tea garden city']);
     expect((await device.snapshot()).xml).not.toContain('typed_suggest_container');
+    await device.close();
+  });
+  it('waits for the helper IME binding, sends one editor action and restores the original IME', async () => {
+    const adb = adbFixture();
+    const appium = await appiumFixture();
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adb.adb });
+    await device.start(); await device.search('bubble tea garden city');
+    expect(adb.calls.filter(a => a.includes('set')).map(a => a.at(-1))).toEqual([
+      'io.appium.settings/.AppiumIME', 'com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME',
+    ]);
+    expect(adb.calls.some(a => a.includes('input_method'))).toBe(true);
+    expect(appium.calls.filter(c => ['mobile: pressKey','mobile: performEditorAction'].includes(c.body?.script)).map(c => c.body)).toEqual([
+      { script: 'mobile: performEditorAction', args: [{ action: 3 }] },
+    ]);
+    await device.close();
+  });
+  it('does not submit when the helper IME is unavailable', async () => {
+    const adb = adbFixture({ 'shell ime list -s': 'com.example/.Keyboard' });
+    const appium = await appiumFixture();
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adb.adb });
+    await device.start(); await expect(device.search('tea')).rejects.toMatchObject({ code: 'IME_UNAVAILABLE' });
+    expect(appium.submittedQueries).toEqual([]);
+    expect(adb.calls.some(a => a.includes('set'))).toBe(false);
+    await device.close();
+  });
+  it('restores the original IME after an unconfirmed submission without retrying it', async () => {
+    const adb = adbFixture(); const appium = await appiumFixture({ submitOutcome: 'http-error' });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adb.adb });
+    await device.start(); await expect(device.search('tea')).rejects.toMatchObject({ code: 'APPIUM_PROTOCOL_ERROR' });
+    expect(appium.submittedQueries).toEqual(['tea']);
+    expect(adb.calls.filter(a => a.includes('set')).at(-1)?.at(-1)).toBe('com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME');
+    await device.close();
+  });
+  it('keeps the primary submission error when restoration fails and retries restoration at close', async () => {
+    const base = adbFixture(); let failures = 0;
+    const adb: AdbExecutor = async (file, args, options) => {
+      if (args.includes('set') && args.at(-1)?.startsWith('com.google.android.inputmethod') && failures++ === 0) throw new Error('restore unavailable');
+      return base.adb(file, args, options);
+    };
+    const appium = await appiumFixture({ submitOutcome: 'http-error' });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb });
+    await device.start();
+    await expect(device.search('tea')).rejects.toMatchObject({ code: 'APPIUM_PROTOCOL_ERROR', cleanupError: expect.any(Error) });
+    await device.close();
+    expect(failures).toBe(2); expect(appium.submittedQueries).toEqual(['tea']);
+  });
+  it('restores the IME after cancellation during helper binding without submitting', async () => {
+    const base = adbFixture(), controller = new AbortController();
+    const adb: AdbExecutor = async (file,args,options) => {
+      const result = await base.adb(file,args,options);
+      if (args.includes('set') && args.at(-1) === 'io.appium.settings/.AppiumIME') controller.abort();
+      return result;
+    };
+    const appium = await appiumFixture();
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb, signal: controller.signal });
+    await device.start(); await expect(device.search('tea')).rejects.toThrow();
+    expect(appium.submittedQueries).toEqual([]);
+    expect(base.calls.filter(a=>a.includes('set')).at(-1)?.at(-1)).toBe('com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME');
+    await device.close();
+  });
+  it('does not submit until IME binding is proven and restores after its bounded timeout', async () => {
+    const clock = queryClock(); const base = adbFixture(); let reads = 0;
+    const adb: AdbExecutor = async (file, args, options) => {
+      if (args.at(-1) === 'input_method') {
+        if (++reads >= 3) clock.expire();
+        return { stdout: Buffer.from('mCurMethodId=io.appium.settings/.AppiumIME\nmCurId=old/.IME mHaveConnection=true mBoundToMethod=false'), stderr: Buffer.alloc(0) };
+      }
+      return base.adb(file, args, options);
+    };
+    const appium = await appiumFixture();
+    const device = new NativeMapsDevice({ ...config, keywordTimeoutMs: 5000, appiumUrl: appium.url }, { adb });
+    await device.start(); await expect(device.search('tea')).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });
+    expect(appium.submittedQueries).toEqual([]);
+    expect(base.calls.filter(a => a.includes('set')).at(-1)?.at(-1)).toBe('com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME');
+    await device.close();
+  });
+  it('rechecks Maps input focus after IME binding and restores without submitting to another field', async () => {
+    const adb = adbFixture(); const appium = await appiumFixture({ nestedInput: true, inputFocused: () => !adb.helperBound() });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adb.adb });
+    await device.start(); await expect(device.search('tea')).rejects.toMatchObject({ code: 'UNKNOWN_SEARCH_LAYOUT' });
+    expect(appium.submittedQueries).toEqual([]);
+    expect(adb.calls.filter(a => a.includes('set')).at(-1)?.at(-1)).toBe('com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME');
     await device.close();
   });
   it('expands the real KEKE sheet before returning search readiness, without scrolling its list', async () => {
