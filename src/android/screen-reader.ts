@@ -554,6 +554,58 @@ function anchorKey(text: string): string {
   return `rating:${rating[1]}|${rating[2]}|${rating[3] ?? ''}|${tail}`;
 }
 
+/** A long quoted review snippet above a trailing card can independently measure its
+ * movement when the name/status OCR drifts (KEKE command probe frames31/32). Only
+ * quote glyphs are canonicalized; words, numbers, punctuation and the avatar OCR
+ * prefix remain exact. Rating text keeps the existing fact-preserving separator key.
+ * This is a suffix/prefix position proof, not fuzzy merchant-name matching. */
+function quotedSnippetContinuity(previous: ScreenFrame, frame: ScreenFrame): number | null {
+  const a = previous.cards.at(-1), b = frame.cards[0], viewport = frame.nativeListBounds!;
+  if (!a || !b || previous.warnings.includes('native_ad_evidence_unresolved') || frame.warnings.includes('native_ad_evidence_unresolved') ||
+    a.resultType === 'unknown' || a.resultType !== b.resultType || a.warnings.length || b.warnings.length ||
+    !a.nameBounds || !b.nameBounds || !a.ratingBounds || !b.ratingBounds || a.rating === null || a.reviewCount === null ||
+    a.rating !== b.rating || a.reviewCount !== b.reviewCount || a.category === null || a.category !== b.category ||
+    a.distanceText === null || a.distanceText !== b.distanceText ||
+    (a.priceText !== null && b.priceText !== null && a.priceText !== b.priceText)) return null;
+  const uniqueCard = (f: ScreenFrame): boolean => f.cards.filter(c => c.rating === a.rating && c.reviewCount === a.reviewCount).length === 1;
+  if (!uniqueCard(previous) || !uniqueCard(frame)) return null;
+  const contained = (r: Rect): boolean => Object.values(r).every(Number.isFinite) && r.left >= viewport.left && r.right <= viewport.right &&
+    r.top >= viewport.top && r.bottom <= viewport.bottom && r.right > r.left && r.bottom > r.top;
+  const aligned = (x: Rect, y: Rect): boolean => contained(x) && contained(y) && Math.abs(x.left-y.left) <= 4 && Math.abs(x.right-y.right) <= 4 && Math.abs((x.bottom-x.top)-(y.bottom-y.top)) <= 4;
+  if (!contained(a.nameBounds) || !contained(b.nameBounds) || a.nameBounds.bottom > a.ratingBounds.top || b.nameBounds.bottom > b.ratingBounds.top || !aligned(a.ratingBounds,b.ratingBounds)) return null;
+  const delta = b.ratingBounds.top-a.ratingBounds.top, height = viewport.bottom-viewport.top;
+  if (delta > (frame.afterBackwardCorrection ? height*0.5 : 2) || delta < -height*MAX_ANCHORED_ADVANCE) return null;
+  const ratingKey = anchorKey(a.ratingLineText.toLowerCase());
+  if (!ratingKey.startsWith('rating:') || ratingKey !== anchorKey(b.ratingLineText.toLowerCase())) return null;
+  for (const [f,c] of [[previous,a],[frame,b]] as const) {
+    const anchors = f.anchors!.filter(x => anchorKey(x.text) === ratingKey);
+    if (anchors.length !== 1 || !aligned(anchors[0]!.bounds,c.ratingBounds!) || Math.abs(anchors[0]!.bounds.top-c.ratingBounds!.top)>4) return null;
+  }
+  const quoteKey = (text: string): string | null => {
+    if (!/^[^"'‘’“”]{0,3}["‘“][^"'‘’“”]{24,}["’”]$/u.test(text) || text.split(/\s+/u).length < 5) return null;
+    return text.replace(/[‘’“”]/gu,'"');
+  };
+  let quoted = 0;
+  for (const x of previous.anchors!) {
+    const key = quoteKey(x.text); if (key === null) continue;
+    const matches = frame.anchors!.filter(y => quoteKey(y.text) === key);
+    if (matches.length !== 1 || previous.anchors!.filter(y => quoteKey(y.text) === key).length !== 1) continue;
+    const y = matches[0]!;
+    if (!aligned(x.bounds,y.bounds) || x.bounds.bottom >= a.nameBounds.top || y.bounds.bottom >= b.nameBounds.top) continue;
+    if (Math.abs(y.bounds.top-x.bounds.top-delta)>12) return null;
+    quoted++;
+  }
+  if (!quoted) return null;
+  // Even one exact unique line with contradictory bounded motion vetoes this fallback.
+  for (const x of previous.anchors!) {
+    const matches = frame.anchors!.filter(y=>y.text===x.text);
+    if (matches.length!==1 || previous.anchors!.filter(y=>y.text===x.text).length!==1) continue;
+    const y=matches[0]!, moved=y.bounds.top-x.bounds.top;
+    if (aligned(x.bounds,y.bounds) && moved >= -height*MAX_ANCHORED_ADVANCE && moved <= (frame.afterBackwardCorrection ? height*0.5 : 2) && Math.abs(moved-delta)>12) return null;
+  }
+  return delta;
+}
+
 export function anchoredContinuity(previous: ScreenFrame | undefined, frame: ScreenFrame): number | null {
   const before = previous?.nativeListBounds, after = frame.nativeListBounds;
   if (!previous || !before || !after || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
@@ -582,9 +634,9 @@ export function anchoredContinuity(previous: ScreenFrame | undefined, frame: Scr
   const exact = measure(false);
   if (exact.count >= 2) return exact.delta;
   // This recovery concerns one visible merchant, not empty modules or multi-card placement.
-  if (previous.cards.length !== 1 || frame.cards.length !== 1 || previous.cards[0]!.rating === null || previous.cards[0]!.reviewCount === null || previous.cards[0]!.rating !== frame.cards[0]!.rating || previous.cards[0]!.reviewCount !== frame.cards[0]!.reviewCount) return null;
+  if (previous.cards.length !== 1 || frame.cards.length !== 1 || previous.cards[0]!.rating === null || previous.cards[0]!.reviewCount === null || previous.cards[0]!.rating !== frame.cards[0]!.rating || previous.cards[0]!.reviewCount !== frame.cards[0]!.reviewCount) return quotedSnippetContinuity(previous, frame);
   const tolerant = measure(true);
-  return tolerant.independent ? tolerant.delta : null;
+  return tolerant.independent && tolerant.delta !== null ? tolerant.delta : quotedSnippetContinuity(previous, frame);
 }
 
 /**

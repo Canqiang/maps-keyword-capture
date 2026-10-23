@@ -1,0 +1,104 @@
+{
+  "frameId": "q0001:frame-032",
+  "capturedAt": "2026-10-23T04:57:04.471Z",
+  "imageSha256": "904f2db4eeddaf78c0a5579d3cbec2142175d9062f715f3d5ae87d23b9e73eda",
+  "queryVisible": true,
+  "sheetTop": 274,
+  "topStateVerified": false,
+  "endOfResults": false,
+  "cards": [
+    {
+      "cardIndex": 0,
+      "frameId": "q0001:frame-032",
+      "name": "Braised Canaan Wma steal",
+      "nameConfidence": 53.45,
+      "rating": 4.8,
+      "reviewCount": 75,
+      "priceText": "$10–20",
+      "category": "chinese",
+      "distanceText": "0.5 mi",
+      "distanceMeters": 805,
+      "openText": "opens 8 am",
+      "resultType": "organic",
+      "adLabel": null,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 751.3333333333334,
+        "right": 407.3333333333333,
+        "bottom": 872
+      },
+      "ratingBounds": {
+        "left": 41.333333333333336,
+        "top": 802,
+        "right": 407.3333333333333,
+        "bottom": 832.6666666666666
+      },
+      "ratingLineText": "4.8 % (75) - $10-20 - Chinese",
+      "warnings": [],
+      "nameBounds": {
+        "left": 42.666666666666664,
+        "top": 751.3333333333334,
+        "right": 477,
+        "bottom": 798
+      }
+    }
+  ],
+  "warnings": [
+    "native_list_top_contradicted"
+  ],
+  "sheetBoundarySource": "native_result_list",
+  "nativeListBounds": {
+    "left": 0,
+    "top": 274,
+    "right": 720,
+    "bottom": 1232
+  },
+  "anchors": [
+    {
+      "text": "s \"tastes great, self-service and affordable”",
+      "bounds": {
+        "left": 43.666666666666664,
+        "top": 530,
+        "right": 624.3333333333334,
+        "bottom": 561
+      }
+    },
+    {
+      "text": "人 directions ya order me) menu",
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 620.6666666666666,
+        "right": 636,
+        "bottom": 651.3333333333334
+      }
+    },
+    {
+      "text": "4.8 % (75) - $10-20 - chinese",
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 802,
+        "right": 407.3333333333333,
+        "bottom": 832.6666666666666
+      }
+    },
+    {
+      "text": "-opens 8 am - 0.5 mi",
+      "bounds": {
+        "left": 138,
+        "top": 844.3333333333334,
+        "right": 405,
+        "bottom": 872
+      }
+    },
+    {
+      "text": "° \"the meats are braised low and slow, so",
+      "bounds": {
+        "left": 50,
+        "top": 1184.6666666666667,
+        "right": 595,
+        "bottom": 1217.3333333333333
+      }
+    }
+  ],
+  "topStateSource": null
+}

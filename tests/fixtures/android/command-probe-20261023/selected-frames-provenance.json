@@ -1,0 +1,155 @@
+{
+  "scope": "30 selected original frame JSON artifacts, excluding persisted corrections26 and30; selected-frames.json is their ordered decoded array. Original OCR/XML reparse separately covered for31/32.",
+  "receipts": [
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045250.504Z__braised-food-flushing__01.frame.json",
+      "bytes": 3624,
+      "sha256": "34cf2ab8c9a2697a4265bac34f6f2c1582189412af1dea5328818fd4be2fe290"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045259.154Z__braised-food-flushing__02.frame.json",
+      "bytes": 2446,
+      "sha256": "42e647dbfd37bb61958dec61a9dd029a3b29b26620a0689c696a3f4351208d71"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045308.324Z__braised-food-flushing__03.frame.json",
+      "bytes": 3953,
+      "sha256": "6b62e1d68d63ba5ff751a50533a694766ef0148807f21ecb78e85f4690cb37c3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045316.266Z__braised-food-flushing__04.frame.json",
+      "bytes": 4103,
+      "sha256": "813d34480a173a08044570bcc9e28fa1c433b7b30137147ff05ecdd2c5d2c01c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045324.603Z__braised-food-flushing__05.frame.json",
+      "bytes": 4898,
+      "sha256": "a34f8d9aca3d97af301ce744ab3b8f24e299bfbefa4eb12cc8916c10919b4d41"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045334.920Z__braised-food-flushing__06.frame.json",
+      "bytes": 2736,
+      "sha256": "e2ff468eadadae76ee803e7794e56cc7c8196316d8cfad9b54cc434e0fc97486"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045342.199Z__braised-food-flushing__07.frame.json",
+      "bytes": 3415,
+      "sha256": "23412f9d51ad80dfab8965d72a2b02c276c8aa4a0ea150b273e0280913466bd6"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045349.168Z__braised-food-flushing__08.frame.json",
+      "bytes": 4140,
+      "sha256": "0a677015e76a85cb01ce62fb4ff9ba334212fc134a89ad1b0ae2e06f4ee542b2"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045356.156Z__braised-food-flushing__09.frame.json",
+      "bytes": 3240,
+      "sha256": "0b6c166be0d12778affbdb42561e9c5d0e2020c370261d816761927d8c802dc9"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045404.131Z__braised-food-flushing__10.frame.json",
+      "bytes": 3451,
+      "sha256": "3428dd0d37b48680c39691d85e7a7ffea3371be2ba98352d07243ca98f868f5f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045414.282Z__braised-food-flushing__11.frame.json",
+      "bytes": 4377,
+      "sha256": "ec211ee90b267b9edae10d62e6e45a62bccd9bc94c5876b828a1f0c98ff6129a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045420.987Z__braised-food-flushing__12.frame.json",
+      "bytes": 3194,
+      "sha256": "4fbc4acfa1ae0aa96a328fe61988b1456d1058d0e8fb481840b1f2ac701c653c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045427.850Z__braised-food-flushing__13.frame.json",
+      "bytes": 4503,
+      "sha256": "178abdc5700a1ab69b37e5e245a0e07693fab1465f4f0ab54e50692cae4da440"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045437.423Z__braised-food-flushing__14.frame.json",
+      "bytes": 2901,
+      "sha256": "206486baf89d058c600303c9186e1eee248a702c6349f26d6b4b747aee5df14d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045445.299Z__braised-food-flushing__15.frame.json",
+      "bytes": 2909,
+      "sha256": "1252c37d89d721447b8e3d4b79e454a3f1bed2d8f7b17e7359a1de7c2e83b560"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045457.191Z__braised-food-flushing__16.frame.json",
+      "bytes": 4025,
+      "sha256": "ce413e0ac86ca4623099cfd82cfdfeb7320471649ce634fb3203fc9b29733699"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045504.932Z__braised-food-flushing__17.frame.json",
+      "bytes": 2490,
+      "sha256": "ae38c7e891492ffb0be120afb5a110454f29e51102999df07559a6f5e80fcdfb"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045512.101Z__braised-food-flushing__18.frame.json",
+      "bytes": 4074,
+      "sha256": "db16fc0a5a8cb9ba3c210e6b6d8b265b4c2e85bb5862d2b7b0a18d02e17aa664"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045518.496Z__braised-food-flushing__19.frame.json",
+      "bytes": 2818,
+      "sha256": "b59c77b07b1cb4e579464caa058f74ec141e835c6c8452474ea39c48631004a1"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045526.097Z__braised-food-flushing__20.frame.json",
+      "bytes": 3037,
+      "sha256": "57f1bd302f669146371cf850588bd0d9946c169d6bbf951932817f195ddb7d2f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045537.706Z__braised-food-flushing__21.frame.json",
+      "bytes": 4214,
+      "sha256": "665d9c28b3d19828408dbcd03c7da60f03ab22b1f6cfbcd74d90c2c387536fef"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045544.262Z__braised-food-flushing__22.frame.json",
+      "bytes": 2919,
+      "sha256": "b180d04f0a5a346fcdf869fcddfd062c6cdfc49711f974fdf80ec5783de567fb"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045552.344Z__braised-food-flushing__23.frame.json",
+      "bytes": 3343,
+      "sha256": "3ad951d6c84e6123b5930db9fc5f11393fd91637722b610a2adff3ec7e18d460"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045601.448Z__braised-food-flushing__24.frame.json",
+      "bytes": 4031,
+      "sha256": "dffdb764900f4c9ecdf78d7ecbed468403a39af955ec89d3f82d622b8d12e6c4"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045609.899Z__braised-food-flushing__25.frame.json",
+      "bytes": 2458,
+      "sha256": "dcc1d293ad986334663664fe5aca7a43da3338a31d45bb6bc0fbfdfbb9332955"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045626.218Z__braised-food-flushing__27.frame.json",
+      "bytes": 2271,
+      "sha256": "7fdce2c9e951e1e7174adc97221825a9a06cca72f1ea1f33c54b0bab78c48e01"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045633.442Z__braised-food-flushing__28.frame.json",
+      "bytes": 3242,
+      "sha256": "30adbb14dbe74f9f641c11152a84115c8d6120db92a8d8cdfba90e8a0bdcf1c3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045640.815Z__braised-food-flushing__29.frame.json",
+      "bytes": 3866,
+      "sha256": "65851c69f32846a737ea27f6accc57c9291eab2315ebfa73963068f81932e1bf"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045656.743Z__braised-food-flushing__31.frame.json",
+      "bytes": 4214,
+      "sha256": "59352600d628fd557d1c9db53638b6b47ddf064f4962ad20c2b3b05ce7636c51"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T045212Z_cabf64/q0001/20261023T045704.471Z__braised-food-flushing__32.frame.json",
+      "bytes": 2497,
+      "sha256": "4ca5e3ba54c9982e9b5d8c75bc98ec84431e69aa34ee668e3e8cb852037dac79"
+    }
+  ]
+}

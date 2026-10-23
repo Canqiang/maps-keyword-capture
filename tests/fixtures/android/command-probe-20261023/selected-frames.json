@@ -1,0 +1,4259 @@
+[
+  {
+    "frameId": "q0001:frame-001",
+    "capturedAt": "2026-10-23T04:52:50.504Z",
+    "imageSha256": "9f0b3fe4ba92f8dcd3aa707c8b85ffc19613d7f4439e6997941dc9d9bf062faf",
+    "queryVisible": true,
+    "sheetTop": 272,
+    "topStateVerified": true,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-001",
+        "name": "可 可 小 鹵 KEKE BRAISED DELI",
+        "nameConfidence": 84.65,
+        "rating": 4.6,
+        "reviewCount": 9,
+        "priceText": null,
+        "category": "chinese",
+        "distanceText": "0 mi",
+        "distanceMeters": 0,
+        "openText": "opens 9:30 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 40.666666666666664,
+          "top": 301,
+          "right": 445,
+          "bottom": 420.6666666666667
+        },
+        "ratingBounds": {
+          "left": 40.666666666666664,
+          "top": 351,
+          "right": 445,
+          "bottom": 381
+        },
+        "ratingLineText": "4.6% (9) -$10-20- & - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42,
+          "top": 301,
+          "right": 513.3333333333334,
+          "bottom": 342
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-001",
+        "name": "Woodam",
+        "nameConfidence": 90.07,
+        "rating": 4.8,
+        "reviewCount": 1465,
+        "priceText": null,
+        "category": "korean",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": "open - closes 2 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 902,
+          "right": 480,
+          "bottom": 1016
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 947,
+          "right": 480,
+          "bottom": 974
+        },
+        "ratingLineText": "4.8% (1465) - $20-30- & - Korean",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41,
+          "top": 902,
+          "right": 185.33333333333334,
+          "bottom": 928.6666666666666
+        }
+      }
+    ],
+    "warnings": [],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 272,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "可 可 小 鹵 keke braised deli",
+        "bounds": {
+          "left": 42,
+          "top": 301,
+          "right": 513.3333333333334,
+          "bottom": 342
+        }
+      },
+      {
+        "text": "4.6% (9) -$10-20- & - chinese",
+        "bounds": {
+          "left": 40.666666666666664,
+          "top": 351,
+          "right": 445,
+          "bottom": 381
+        }
+      },
+      {
+        "text": "‘opens 9:30 am - 0 mi",
+        "bounds": {
+          "left": 135,
+          "top": 395,
+          "right": 413,
+          "bottom": 420.6666666666667
+        }
+      },
+      {
+        "text": "= ramen +asianbim sum",
+        "bounds": {
+          "left": 343.6666666666667,
+          "top": 555,
+          "right": 518.6666666666666,
+          "bottom": 586.6666666666666
+        }
+      },
+      {
+        "text": "® directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 764.6666666666666,
+          "right": 636.3333333333334,
+          "bottom": 795.3333333333334
+        }
+      },
+      {
+        "text": "4.8% (1465) - $20-30- & - korean",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 947,
+          "right": 480,
+          "bottom": 974
+        }
+      },
+      {
+        "text": "open - closes 2 am - 0.3 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 988.3333333333334,
+          "right": 387,
+          "bottom": 1016
+        }
+      }
+    ],
+    "topStateSource": "native_scroll_actions"
+  },
+  {
+    "frameId": "q0001:frame-002",
+    "capturedAt": "2026-10-23T04:52:59.154Z",
+    "imageSha256": "c7731b9720785bbc11812ad01cd3c48a432ff80df405167591167180952dbbe8",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-002",
+        "name": "Woodam",
+        "nameConfidence": 91.47,
+        "rating": 4.8,
+        "reviewCount": 1465,
+        "priceText": null,
+        "category": "korean",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 596,
+          "right": 480,
+          "bottom": 668
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 641,
+          "right": 480,
+          "bottom": 668
+        },
+        "ratingLineText": "4.8% (1465) - $20-30- & - Korean",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41,
+          "top": 596,
+          "right": 185.33333333333334,
+          "bottom": 622.6666666666666
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 458.6666666666667,
+          "right": 636.3333333333334,
+          "bottom": 489.3333333333333
+        }
+      },
+      {
+        "text": "4.8% (1465) - $20-30- & - korean",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 641,
+          "right": 480,
+          "bottom": 668
+        }
+      },
+      {
+        "text": "“the broth was clear and flavorful, with",
+        "bounds": {
+          "left": 94.33333333333333,
+          "top": 1023,
+          "right": 583,
+          "bottom": 1048.3333333333333
+        }
+      },
+      {
+        "text": "@ perfectly tender beef\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 1057.3333333333333,
+          "right": 372.3333333333333,
+          "bottom": 1086
+        }
+      },
+      {
+        "text": "® directions ya order m2) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1147.6666666666667,
+          "right": 636.3333333333334,
+          "bottom": 1178.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-003",
+    "capturedAt": "2026-10-23T04:53:08.324Z",
+    "imageSha256": "d1f55cfa07cd86a6d011a9a7b6cf3f5fae19b02b5c9158f10dd47dfc7144cf05",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-003",
+        "name": "Woodam",
+        "nameConfidence": 91.3,
+        "rating": 4.8,
+        "reviewCount": 1465,
+        "priceText": null,
+        "category": "korean",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": "open - closes 2 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 313,
+          "right": 480,
+          "bottom": 427
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 356.6666666666667,
+          "right": 480,
+          "bottom": 387
+        },
+        "ratingLineText": "4.8% (1465) -$20-30- & - Korean",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41,
+          "top": 313,
+          "right": 185.33333333333334,
+          "bottom": 339.6666666666667
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-003",
+        "name": "Nong Geng Ji fic - 湖南 菜",
+        "nameConfidence": 78.47,
+        "rating": 4.6,
+        "reviewCount": 547,
+        "priceText": "$30–40",
+        "category": "chinese",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": "closed . opens 11:30 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 996,
+          "right": 428.3333333333333,
+          "bottom": 1116
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1046,
+          "right": 428.3333333333333,
+          "bottom": 1078
+        },
+        "ratingLineText": "4.6 % (547) - $30-40 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 996,
+          "right": 508.3333333333333,
+          "bottom": 1041
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "4.8% (1465) -$20-30- & - korean",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 356.6666666666667,
+          "right": 480,
+          "bottom": 387
+        }
+      },
+      {
+        "text": "open - closes 2 am - 0.3 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 399.3333333333333,
+          "right": 387,
+          "bottom": 427
+        }
+      },
+      {
+        "text": "° “the broth was clear and flavorful, with",
+        "bounds": {
+          "left": 50,
+          "top": 740,
+          "right": 583,
+          "bottom": 772.3333333333334
+        }
+      },
+      {
+        "text": "@ perfectly tender beef\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 774.3333333333334,
+          "right": 372.3333333333333,
+          "bottom": 803
+        }
+      },
+      {
+        "text": "® directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 864.6666666666666,
+          "right": 636,
+          "bottom": 895.3333333333334
+        }
+      },
+      {
+        "text": "nong geng ji fic - 湖南 菜",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 996,
+          "right": 508.3333333333333,
+          "bottom": 1041
+        }
+      },
+      {
+        "text": "4.6 % (547) - $30-40 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1046,
+          "right": 428.3333333333333,
+          "bottom": 1078
+        }
+      },
+      {
+        "text": "closed . opens 11:30 am - 0.3 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1088,
+          "right": 454,
+          "bottom": 1116
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-004",
+    "capturedAt": "2026-10-23T04:53:16.266Z",
+    "imageSha256": "b591af265c86b3f7898dee9e10ad3a8af9b5e63860873085856ea7fcd3177c60",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-004",
+        "name": "Nong Geng Ji 农耕 记 - 湖南 菜",
+        "nameConfidence": 78.94,
+        "rating": 4.6,
+        "reviewCount": 547,
+        "priceText": "$30–40",
+        "category": "chinese",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": "closed . opens 11:30 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 625,
+          "right": 428.3333333333333,
+          "bottom": 745
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 675,
+          "right": 428.3333333333333,
+          "bottom": 707
+        },
+        "ratingLineText": "4.6 % (547) - $30-40 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 625,
+          "right": 508.3333333333333,
+          "bottom": 670
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "“the broth was clear and flavorful, with",
+        "bounds": {
+          "left": 94.33333333333333,
+          "top": 369,
+          "right": 583,
+          "bottom": 394.3333333333333
+        }
+      },
+      {
+        "text": "@ perfectly tender beef\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 403.3333333333333,
+          "right": 372.3333333333333,
+          "bottom": 432
+        }
+      },
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 493.6666666666667,
+          "right": 636,
+          "bottom": 524.3333333333334
+        }
+      },
+      {
+        "text": "nong geng ji 农耕 记 - 湖南 菜",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 625,
+          "right": 508.3333333333333,
+          "bottom": 670
+        }
+      },
+      {
+        "text": "4.6 % (547) - $30-40 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 675,
+          "right": 428.3333333333333,
+          "bottom": 707
+        }
+      },
+      {
+        "text": "closed . opens 11:30 am - 0.3 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 717,
+          "right": 454,
+          "bottom": 745
+        }
+      },
+      {
+        "text": "nong geng ji",
+        "bounds": {
+          "left": 426.3333333333333,
+          "top": 862.3333333333334,
+          "right": 534.6666666666666,
+          "bottom": 883
+        }
+      },
+      {
+        "text": "农耕 记 .湖南 荣 f",
+        "bounds": {
+          "left": 427,
+          "top": 880.6666666666666,
+          "right": 564,
+          "bottom": 905.3333333333334
+        }
+      },
+      {
+        "text": "¢ flushing",
+        "bounds": {
+          "left": 436.6666666666667,
+          "top": 900.3333333333334,
+          "right": 532,
+          "bottom": 920
+        }
+      },
+      {
+        "text": "$500 for 18 dishes :",
+        "bounds": {
+          "left": 405,
+          "top": 922,
+          "right": 584,
+          "bottom": 942.6666666666666
+        }
+      },
+      {
+        "text": "° “the dishes were flavorful and rich, and so is",
+        "bounds": {
+          "left": 50,
+          "top": 1058,
+          "right": 654.6666666666666,
+          "bottom": 1090.3333333333333
+        }
+      },
+      {
+        "text": "@ the environment.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 1092.3333333333333,
+          "right": 313.3333333333333,
+          "bottom": 1115.3333333333333
+        }
+      },
+      {
+        "text": "人 directions 名 reserve ya order",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1182.6666666666667,
+          "right": 668,
+          "bottom": 1213.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-005",
+    "capturedAt": "2026-10-23T04:53:24.603Z",
+    "imageSha256": "e486d6decfed1f264fe208d37acdc735b809d84e01797c119d4a07593a37e299",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-005",
+        "name": "Nong Geng Ji 农耕 记 - 湖南 菜",
+        "nameConfidence": 74.78,
+        "rating": 4.6,
+        "reviewCount": 547,
+        "priceText": "$30–40",
+        "category": "chinese",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": "closed . opens 11:30 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 463,
+          "right": 428.3333333333333,
+          "bottom": 583
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 512.6666666666666,
+          "right": 428.3333333333333,
+          "bottom": 545
+        },
+        "ratingLineText": "4.6 % (547) - $30-40 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 463,
+          "right": 508.3333333333333,
+          "bottom": 508
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-005",
+        "name": "Er Hou Roast Chicken",
+        "nameConfidence": 96.08,
+        "rating": 4.6,
+        "reviewCount": 62,
+        "priceText": "$20–30",
+        "category": "chinese",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1157.6666666666667,
+          "right": 412.3333333333333,
+          "bottom": 1230
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1203,
+          "right": 412.3333333333333,
+          "bottom": 1230
+        },
+        "ratingLineText": "4.6% (62) - $20-30 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 1157.6666666666667,
+          "right": 383,
+          "bottom": 1184.6666666666667
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "® directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 331.6666666666667,
+          "right": 636,
+          "bottom": 362.3333333333333
+        }
+      },
+      {
+        "text": "nong geng ji 农耕 记 - 湖南 菜",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 463,
+          "right": 508.3333333333333,
+          "bottom": 508
+        }
+      },
+      {
+        "text": "4.6 % (547) - $30-40 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 512.6666666666666,
+          "right": 428.3333333333333,
+          "bottom": 545
+        }
+      },
+      {
+        "text": "closed . opens 11:30 am - 0.3 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 555,
+          "right": 454,
+          "bottom": 583
+        }
+      },
+      {
+        "text": "nong geng ji",
+        "bounds": {
+          "left": 426,
+          "top": 700.3333333333334,
+          "right": 534.3333333333334,
+          "bottom": 720.3333333333334
+        }
+      },
+      {
+        "text": "¥ flushing",
+        "bounds": {
+          "left": 436.3333333333333,
+          "top": 738.3333333333334,
+          "right": 532,
+          "bottom": 757.6666666666666
+        }
+      },
+      {
+        "text": "$500 for 18 dishes",
+        "bounds": {
+          "left": 405.6666666666667,
+          "top": 759.6666666666666,
+          "right": 558.3333333333334,
+          "bottom": 773.3333333333334
+        }
+      },
+      {
+        "text": "° “the dishes were flavorful and rich, and so is",
+        "bounds": {
+          "left": 50,
+          "top": 896,
+          "right": 654.6666666666666,
+          "bottom": 928.3333333333334
+        }
+      },
+      {
+        "text": "@ the environment.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 930.3333333333334,
+          "right": 313.3333333333333,
+          "bottom": 953.3333333333334
+        }
+      },
+      {
+        "text": "人 directions 名 reserve ya order",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1020.6666666666666,
+          "right": 668,
+          "bottom": 1051.3333333333333
+        }
+      },
+      {
+        "text": "er hou roast chicken",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 1157.6666666666667,
+          "right": 383,
+          "bottom": 1184.6666666666667
+        }
+      },
+      {
+        "text": "4.6% (62) - $20-30 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1203,
+          "right": 412.3333333333333,
+          "bottom": 1230
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-006",
+    "capturedAt": "2026-10-23T04:53:34.920Z",
+    "imageSha256": "136abbda4c2fcd3118f8cdcdd5dbc75809aa887dde3312862d02824a497dcc1a",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-006",
+        "name": "Er Hou Roast Chicken",
+        "nameConfidence": 95.26,
+        "rating": 4.6,
+        "reviewCount": 62,
+        "priceText": "$20–30",
+        "category": "chinese",
+        "distanceText": "0.2 mi",
+        "distanceMeters": 322,
+        "openText": "opens 10 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 851.6666666666666,
+          "right": 412.3333333333333,
+          "bottom": 966
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 897.3333333333334,
+          "right": 412.3333333333333,
+          "bottom": 924
+        },
+        "ratingLineText": "4.6% (62) - $20-30 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 851.6666666666666,
+          "right": 383,
+          "bottom": 878.6666666666666
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "° “the dishes were flavorful and rich, and so is",
+        "bounds": {
+          "left": 50,
+          "top": 590,
+          "right": 654.6666666666666,
+          "bottom": 622.3333333333334
+        }
+      },
+      {
+        "text": "@ the environment.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 624.3333333333334,
+          "right": 313.3333333333333,
+          "bottom": 647.3333333333334
+        }
+      },
+      {
+        "text": "® directions 名 reserve ya order",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 714.6666666666666,
+          "right": 668,
+          "bottom": 745.3333333333334
+        }
+      },
+      {
+        "text": "er hou roast chicken",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 851.6666666666666,
+          "right": 383,
+          "bottom": 878.6666666666666
+        }
+      },
+      {
+        "text": "4.6% (62) - $20-30 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 897.3333333333334,
+          "right": 412.3333333333333,
+          "bottom": 924
+        }
+      },
+      {
+        "text": "‘opens 10 am - 0.2 mi",
+        "bounds": {
+          "left": 138,
+          "top": 938.3333333333334,
+          "right": 419.6666666666667,
+          "bottom": 966
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-007",
+    "capturedAt": "2026-10-23T04:53:42.199Z",
+    "imageSha256": "9bf05352d006daa362ff4a4f108557ce76ddf9ee86ed86ddb9824945324300a4",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-007",
+        "name": "Er Hou Roast Chicken",
+        "nameConfidence": 96.39,
+        "rating": 4.6,
+        "reviewCount": 62,
+        "priceText": "$20–30",
+        "category": "chinese",
+        "distanceText": "0.2 mi",
+        "distanceMeters": 322,
+        "openText": "closed - opens 10 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 544.6666666666666,
+          "right": 412.3333333333333,
+          "bottom": 659
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 588.3333333333334,
+          "right": 412.3333333333333,
+          "bottom": 620.6666666666666
+        },
+        "ratingLineText": "4.6 % (62) - $20-30 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 544.6666666666666,
+          "right": 383,
+          "bottom": 571.6666666666666
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "° “the dishes were flavorful and rich, and so is",
+        "bounds": {
+          "left": 50,
+          "top": 283,
+          "right": 654.6666666666666,
+          "bottom": 315.3333333333333
+        }
+      },
+      {
+        "text": "@ the environment.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 317.3333333333333,
+          "right": 313.3333333333333,
+          "bottom": 340.3333333333333
+        }
+      },
+      {
+        "text": "人 directions 名 reserve ya order",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 407.6666666666667,
+          "right": 668,
+          "bottom": 438.3333333333333
+        }
+      },
+      {
+        "text": "er hou roast chicken",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 544.6666666666666,
+          "right": 383,
+          "bottom": 571.6666666666666
+        }
+      },
+      {
+        "text": "4.6 % (62) - $20-30 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 588.3333333333334,
+          "right": 412.3333333333333,
+          "bottom": 620.6666666666666
+        }
+      },
+      {
+        "text": "closed - opens 10 am - 0.2 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 631,
+          "right": 420,
+          "bottom": 659
+        }
+      },
+      {
+        "text": "° \"small take out shop with various braised",
+        "bounds": {
+          "left": 50,
+          "top": 972.3333333333334,
+          "right": 606,
+          "bottom": 1004.3333333333334
+        }
+      },
+      {
+        "text": "@ snacks.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 1006.3333333333334,
+          "right": 194.33333333333334,
+          "bottom": 1029.3333333333333
+        }
+      },
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1096.6666666666667,
+          "right": 636,
+          "bottom": 1127.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-008",
+    "capturedAt": "2026-10-23T04:53:49.168Z",
+    "imageSha256": "d81e5a8bd8a3ba622f398d53fe1af8c574a16ae8d77a12eb9fa17bf45afb5bab",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-008",
+        "name": "Er Hou Roast Chicken",
+        "nameConfidence": 96.33,
+        "rating": 4.6,
+        "reviewCount": 62,
+        "priceText": "$20–30",
+        "category": "chinese",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": null,
+        "resultType": "unknown",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 299.6666666666667,
+          "right": 412.3333333333333,
+          "bottom": 374
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 344,
+          "right": 412.3333333333333,
+          "bottom": 374
+        },
+        "ratingLineText": "4.6 ¥% (62) - $20-30 - Chinese",
+        "warnings": [
+          "card_header_clipped"
+        ],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 299.6666666666667,
+          "right": 383,
+          "bottom": 326.6666666666667
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-008",
+        "name": "湘 當 有 料 Young and Rich NY",
+        "nameConfidence": 90.42,
+        "rating": 4.5,
+        "reviewCount": 967,
+        "priceText": null,
+        "category": "chinese",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": "opens 11 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 981.3333333333334,
+          "right": 482.3333333333333,
+          "bottom": 1103
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1032.6666666666667,
+          "right": 482.3333333333333,
+          "bottom": 1063
+        },
+        "ratingLineText": "4.5 % (967) - $30-40- & - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.333333333333336,
+          "top": 981.3333333333334,
+          "right": 482.3333333333333,
+          "bottom": 1026.6666666666667
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "er hou roast chicken",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 299.6666666666667,
+          "right": 383,
+          "bottom": 326.6666666666667
+        }
+      },
+      {
+        "text": "4.6 ¥% (62) - $20-30 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 344,
+          "right": 412.3333333333333,
+          "bottom": 374
+        }
+      },
+      {
+        "text": "° \"small take out shop with various braised",
+        "bounds": {
+          "left": 50,
+          "top": 727.3333333333334,
+          "right": 606,
+          "bottom": 759.3333333333334
+        }
+      },
+      {
+        "text": "@ snacks.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 761.3333333333334,
+          "right": 194.33333333333334,
+          "bottom": 784.3333333333334
+        }
+      },
+      {
+        "text": "® directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 851.6666666666666,
+          "right": 636,
+          "bottom": 882.3333333333334
+        }
+      },
+      {
+        "text": "湘 當 有 料 young and rich ny",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 981.3333333333334,
+          "right": 482.3333333333333,
+          "bottom": 1026.6666666666667
+        }
+      },
+      {
+        "text": "4.5 % (967) - $30-40- & - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1032.6666666666667,
+          "right": 482.3333333333333,
+          "bottom": 1063
+        }
+      },
+      {
+        "text": "‘opens 11 am - 0.3 mi",
+        "bounds": {
+          "left": 138,
+          "top": 1075.3333333333333,
+          "right": 413,
+          "bottom": 1103
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-009",
+    "capturedAt": "2026-10-23T04:53:56.156Z",
+    "imageSha256": "caa299172cedd9322afc9bf21cb634a6e7e0c12aef60a1c6f5701b3935db55ca",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-009",
+        "name": "湘 當 有 料 Young and Rich NY",
+        "nameConfidence": 90.94,
+        "rating": 4.5,
+        "reviewCount": 967,
+        "priceText": "$30–40",
+        "category": "chinese",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": "closed - opens 11 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 667.3333333333334,
+          "right": 482.3333333333333,
+          "bottom": 789
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 720,
+          "right": 482.3333333333333,
+          "bottom": 747
+        },
+        "ratingLineText": "4.5% (967) - $30-40 - & - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.333333333333336,
+          "top": 667.3333333333334,
+          "right": 482.3333333333333,
+          "bottom": 712.6666666666666
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "° \"small take out shop with various braised",
+        "bounds": {
+          "left": 50,
+          "top": 413.3333333333333,
+          "right": 606,
+          "bottom": 445.3333333333333
+        }
+      },
+      {
+        "text": "@ snacks.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 447.3333333333333,
+          "right": 194.33333333333334,
+          "bottom": 470.3333333333333
+        }
+      },
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 537.6666666666666,
+          "right": 636.3333333333334,
+          "bottom": 568.3333333333334
+        }
+      },
+      {
+        "text": "湘 當 有 料 young and rich ny",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 667.3333333333334,
+          "right": 482.3333333333333,
+          "bottom": 712.6666666666666
+        }
+      },
+      {
+        "text": "4.5% (967) - $30-40 - & - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 720,
+          "right": 482.3333333333333,
+          "bottom": 747
+        }
+      },
+      {
+        "text": "closed - opens 11 am - 0.3 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 761,
+          "right": 413,
+          "bottom": 789
+        }
+      },
+      {
+        "text": "\"recommended the braised tofu with salted",
+        "bounds": {
+          "left": 94.33333333333333,
+          "top": 1101.6666666666667,
+          "right": 646.6666666666666,
+          "bottom": 1124.3333333333333
+        }
+      },
+      {
+        "text": "@ yolk egg & crab roe.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 1136.3333333333333,
+          "right": 351.3333333333333,
+          "bottom": 1165.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-010",
+    "capturedAt": "2026-10-23T04:54:04.131Z",
+    "imageSha256": "345bd70ce990de77e586b32f5469b2fa15657f7e37f609b8759c07d4580db1b5",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-010",
+        "name": "湘 當 有 料 Young and Rich NY |",
+        "nameConfidence": 90.8,
+        "rating": 4.5,
+        "reviewCount": 967,
+        "priceText": "$30–40",
+        "category": "chinese",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": "closed - opens 11 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 437.3333333333333,
+          "right": 482.6666666666667,
+          "bottom": 593
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 524,
+          "right": 482.6666666666667,
+          "bottom": 551
+        },
+        "ratingLineText": "4.5% (967) - $30-40 - & - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.333333333333336,
+          "top": 437.3333333333333,
+          "right": 717.6666666666666,
+          "bottom": 516.6666666666666
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "® directions ya order m2) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 341.6666666666667,
+          "right": 636.3333333333334,
+          "bottom": 372.3333333333333
+        }
+      },
+      {
+        "text": "湘 當 有 料 young and rich ny |",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 437.3333333333333,
+          "right": 717.6666666666666,
+          "bottom": 516.6666666666666
+        }
+      },
+      {
+        "text": "4.5% (967) - $30-40 - & - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 524,
+          "right": 482.6666666666667,
+          "bottom": 551
+        }
+      },
+      {
+        "text": "closed - opens 11 am - 0.3 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 565,
+          "right": 413,
+          "bottom": 593
+        }
+      },
+      {
+        "text": "@ ‘recommended the braised tofu with salted",
+        "bounds": {
+          "left": 50,
+          "top": 905.3333333333334,
+          "right": 646.6666666666666,
+          "bottom": 938.3333333333334
+        }
+      },
+      {
+        "text": "@ yolk egg & crab roe.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 940.3333333333334,
+          "right": 351.3333333333333,
+          "bottom": 969.3333333333334
+        }
+      },
+      {
+        "text": "® directions 4 order m2) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1030.6666666666667,
+          "right": 636.3333333333334,
+          "bottom": 1061.3333333333333
+        }
+      },
+      {
+        "text": "cheli flushing",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 1167.6666666666667,
+          "right": 313.6666666666667,
+          "bottom": 1194.6666666666667
+        }
+      },
+      {
+        "text": "a 7% (1880) - $£20-an - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1213,
+          "right": 441.6666666666667,
+          "bottom": 1232
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-011",
+    "capturedAt": "2026-10-23T04:54:14.282Z",
+    "imageSha256": "04f5fa7fac652eb143f23788ad9fdc0f91c8967dca77ac35cd2124139ebf16c3",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-011",
+        "name": "湘 當 有 料 Young and Rich NY",
+        "nameConfidence": 90.94,
+        "rating": 4.5,
+        "reviewCount": 967,
+        "priceText": "$30–40",
+        "category": "chinese",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": "closed - opens 11 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 347.3333333333333,
+          "right": 482.3333333333333,
+          "bottom": 469
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 400,
+          "right": 482.3333333333333,
+          "bottom": 427
+        },
+        "ratingLineText": "4.5% (967) - $30-40 - & - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.333333333333336,
+          "top": 347.3333333333333,
+          "right": 482.3333333333333,
+          "bottom": 392.6666666666667
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-011",
+        "name": "CHELI FLUSHING",
+        "nameConfidence": 93.3,
+        "rating": 4.7,
+        "reviewCount": 1880,
+        "priceText": "$30–60",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "closed - opens 11 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1043.6666666666667,
+          "right": 441.3333333333333,
+          "bottom": 1158
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1089.3333333333333,
+          "right": 441.3333333333333,
+          "bottom": 1116
+        },
+        "ratingLineText": "4.7% (1880) . $30-60 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 1043.6666666666667,
+          "right": 313.6666666666667,
+          "bottom": 1070.6666666666667
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "湘 當 有 料 young and rich ny",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 347.3333333333333,
+          "right": 482.3333333333333,
+          "bottom": 392.6666666666667
+        }
+      },
+      {
+        "text": "4.5% (967) - $30-40 - & - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 400,
+          "right": 482.3333333333333,
+          "bottom": 427
+        }
+      },
+      {
+        "text": "closed - opens 11 am - 0.3 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 441,
+          "right": 413,
+          "bottom": 469
+        }
+      },
+      {
+        "text": "@ |‘recommended the braised tofu with salted",
+        "bounds": {
+          "left": 50,
+          "top": 781.6666666666666,
+          "right": 646.6666666666666,
+          "bottom": 814.3333333333334
+        }
+      },
+      {
+        "text": "@ yolk egg & crab roe.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 816.3333333333334,
+          "right": 351.3333333333333,
+          "bottom": 845.3333333333334
+        }
+      },
+      {
+        "text": "® directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 906.6666666666666,
+          "right": 636,
+          "bottom": 937.3333333333334
+        }
+      },
+      {
+        "text": "cheli flushing",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 1043.6666666666667,
+          "right": 313.6666666666667,
+          "bottom": 1070.6666666666667
+        }
+      },
+      {
+        "text": "4.7% (1880) . $30-60 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1089.3333333333333,
+          "right": 441.3333333333333,
+          "bottom": 1116
+        }
+      },
+      {
+        "text": "closed - opens 11 am - 0.4 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1130,
+          "right": 414,
+          "bottom": 1158
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-012",
+    "capturedAt": "2026-10-23T04:54:20.987Z",
+    "imageSha256": "9ce96a28548fb66483edcc4134e5fad828c0f6dd8ebbeef602fe2987b1d7da2e",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-012",
+        "name": "CHELI FLUSHING",
+        "nameConfidence": 93.44,
+        "rating": 4.7,
+        "reviewCount": 1880,
+        "priceText": "$30–60",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "opens 11 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 730.6666666666666,
+          "right": 441.3333333333333,
+          "bottom": 845
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 776.3333333333334,
+          "right": 441.3333333333333,
+          "bottom": 803
+        },
+        "ratingLineText": "4.7% (1880) - $30-60 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 730.6666666666666,
+          "right": 313.6666666666667,
+          "bottom": 757.6666666666666
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "@ ‘recommended the braised tofu with salted",
+        "bounds": {
+          "left": 50,
+          "top": 468.6666666666667,
+          "right": 646.6666666666666,
+          "bottom": 501.3333333333333
+        }
+      },
+      {
+        "text": "@ yolk egg & crab roe.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 503.3333333333333,
+          "right": 351.3333333333333,
+          "bottom": 532.3333333333334
+        }
+      },
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 593.6666666666666,
+          "right": 636,
+          "bottom": 624.3333333333334
+        }
+      },
+      {
+        "text": "cheli flushing",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 730.6666666666666,
+          "right": 313.6666666666667,
+          "bottom": 757.6666666666666
+        }
+      },
+      {
+        "text": "4.7% (1880) - $30-60 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 776.3333333333334,
+          "right": 441.3333333333333,
+          "bottom": 803
+        }
+      },
+      {
+        "text": "-opens 11 am . 0.4 mi",
+        "bounds": {
+          "left": 138,
+          "top": 817.3333333333334,
+          "right": 414,
+          "bottom": 845
+        }
+      },
+      {
+        "text": "@ | their braised pork was delicious and the food",
+        "bounds": {
+          "left": 50,
+          "top": 1157,
+          "right": 677.3333333333334,
+          "bottom": 1190.3333333333333
+        }
+      },
+      {
+        "text": "人 was authentic.”",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 1192.3333333333333,
+          "right": 283.3333333333333,
+          "bottom": 1215.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-013",
+    "capturedAt": "2026-10-23T04:54:27.850Z",
+    "imageSha256": "b48e21c76202048b204d24e69c0d0352a06f93134e51cc5b328ef2294b45b67a",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-013",
+        "name": "CHELI FLUSHING",
+        "nameConfidence": 93.44,
+        "rating": 4.7,
+        "reviewCount": 1880,
+        "priceText": "$30–60",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "closed - opens 11 am -  :",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 440.6666666666667,
+          "right": 441.3333333333333,
+          "bottom": 555
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 484.6666666666667,
+          "right": 441.3333333333333,
+          "bottom": 517
+        },
+        "ratingLineText": "4.7 % (1880) - $30-60 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 440.6666666666667,
+          "right": 313.6666666666667,
+          "bottom": 467.6666666666667
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-013",
+        "name": "Jiang Nan Flushing",
+        "nameConfidence": 96.61,
+        "rating": 4.8,
+        "reviewCount": 2964,
+        "priceText": "$30–70",
+        "category": "chinese",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1130,
+          "right": 497.3333333333333,
+          "bottom": 1202
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1175,
+          "right": 497.3333333333333,
+          "bottom": 1202
+        },
+        "ratingLineText": "4.8% (2964) - $30-70 - & - Chinese",
+        "warnings": [
+          "status_line_clipped"
+        ],
+        "nameBounds": {
+          "left": 41,
+          "top": 1130,
+          "right": 338.3333333333333,
+          "bottom": 1164.3333333333333
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 303.6666666666667,
+          "right": 636,
+          "bottom": 334.3333333333333
+        }
+      },
+      {
+        "text": "cheli flushing",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 440.6666666666667,
+          "right": 313.6666666666667,
+          "bottom": 467.6666666666667
+        }
+      },
+      {
+        "text": "4.7 % (1880) - $30-60 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 484.6666666666667,
+          "right": 441.3333333333333,
+          "bottom": 517
+        }
+      },
+      {
+        "text": "closed - opens 11 am - 0.4 mi :",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 527,
+          "right": 720,
+          "bottom": 555
+        }
+      },
+      {
+        "text": "favoritelsou",
+        "bounds": {
+          "left": 407,
+          "top": 671.3333333333334,
+          "right": 543.3333333333334,
+          "bottom": 687
+        }
+      },
+      {
+        "text": "@ “their braised pork was delicious and the food",
+        "bounds": {
+          "left": 50,
+          "top": 867,
+          "right": 677.6666666666666,
+          "bottom": 900.3333333333334
+        }
+      },
+      {
+        "text": "“@ was authentic.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 902.3333333333334,
+          "right": 283.3333333333333,
+          "bottom": 925.3333333333334
+        }
+      },
+      {
+        "text": "® directions fe) reserve m2) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 992.6666666666666,
+          "right": 665,
+          "bottom": 1023.3333333333334
+        }
+      },
+      {
+        "text": "jiang nan flushing",
+        "bounds": {
+          "left": 41,
+          "top": 1130,
+          "right": 338.3333333333333,
+          "bottom": 1164.3333333333333
+        }
+      },
+      {
+        "text": "4.8% (2964) - $30-70 - & - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1175,
+          "right": 497.3333333333333,
+          "bottom": 1202
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-014",
+    "capturedAt": "2026-10-23T04:54:37.423Z",
+    "imageSha256": "6843a1441e5231a21fd5d5dec359f1d01467afd0ef50b52ca435482b46249eb6",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-014",
+        "name": "Jiang Nan Flushing",
+        "nameConfidence": 96.61,
+        "rating": 4.8,
+        "reviewCount": 2964,
+        "priceText": "$30–70",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "closes soon: 1:30 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 760,
+          "right": 497.3333333333333,
+          "bottom": 868.3333333333334
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 805,
+          "right": 497.3333333333333,
+          "bottom": 832
+        },
+        "ratingLineText": "4.8% (2964) - $30-70 . & - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41,
+          "top": 760,
+          "right": 338.3333333333333,
+          "bottom": 794.3333333333334
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "@ | their braised pork was delicious and the food,",
+        "bounds": {
+          "left": 50,
+          "top": 497,
+          "right": 720,
+          "bottom": 530.3333333333334
+        }
+      },
+      {
+        "text": "人 was authentic.”",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 532.3333333333334,
+          "right": 283.3333333333333,
+          "bottom": 555.3333333333334
+        }
+      },
+      {
+        "text": "® directions fe) reserve m2) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 622.6666666666666,
+          "right": 665,
+          "bottom": 653.3333333333334
+        }
+      },
+      {
+        "text": "jiang nan flushing",
+        "bounds": {
+          "left": 41,
+          "top": 760,
+          "right": 338.3333333333333,
+          "bottom": 794.3333333333334
+        }
+      },
+      {
+        "text": "4.8% (2964) - $30-70 . & - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 805,
+          "right": 497.3333333333333,
+          "bottom": 832
+        }
+      },
+      {
+        "text": "closes soon: 1:30 am . 0.4 mi",
+        "bounds": {
+          "left": 42,
+          "top": 846.3333333333334,
+          "right": 418,
+          "bottom": 868.3333333333334
+        }
+      },
+      {
+        "text": "° “loved the osmanthus lotus and hawthorn",
+        "bounds": {
+          "left": 50,
+          "top": 1187.3333333333333,
+          "right": 624,
+          "bottom": 1219.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-015",
+    "capturedAt": "2026-10-23T04:54:45.299Z",
+    "imageSha256": "97fb306ddf140b9cb11336540378be486becbf18fe6e6f6ca6e5ccd56144512c",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-015",
+        "name": "Jiang Nan Flushing",
+        "nameConfidence": 96.18,
+        "rating": 4.8,
+        "reviewCount": 2964,
+        "priceText": "$30–70",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "closes soon: 1:30 am -  l",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 483,
+          "right": 497.3333333333333,
+          "bottom": 591.6666666666666
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 528,
+          "right": 497.3333333333333,
+          "bottom": 555
+        },
+        "ratingLineText": "4.8% (2964) - $30-70 . & - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41,
+          "top": 483,
+          "right": 338.3333333333333,
+          "bottom": 517.3333333333334
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "® directions fe) reserve m2) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 345.6666666666667,
+          "right": 665.3333333333334,
+          "bottom": 376.3333333333333
+        }
+      },
+      {
+        "text": "jiang nan flushing",
+        "bounds": {
+          "left": 41,
+          "top": 483,
+          "right": 338.3333333333333,
+          "bottom": 517.3333333333334
+        }
+      },
+      {
+        "text": "4.8% (2964) - $30-70 . & - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 528,
+          "right": 497.3333333333333,
+          "bottom": 555
+        }
+      },
+      {
+        "text": "closes soon: 1:30 am - 0.4 mi l",
+        "bounds": {
+          "left": 41,
+          "top": 569,
+          "right": 720,
+          "bottom": 591.6666666666666
+        }
+      },
+      {
+        "text": "° “loved the osmanthus lotus and hawthorn",
+        "bounds": {
+          "left": 50,
+          "top": 910.3333333333334,
+          "right": 624,
+          "bottom": 942.3333333333334
+        }
+      },
+      {
+        "text": "@ braised pork belly.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 944.3333333333334,
+          "right": 329.3333333333333,
+          "bottom": 973
+        }
+      },
+      {
+        "text": "® directions 名 reserve ya order",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1034.6666666666667,
+          "right": 668,
+          "bottom": 1065.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-016",
+    "capturedAt": "2026-10-23T04:54:57.191Z",
+    "imageSha256": "99a7487d3d155037efe50a12580b2023eb8f07542bc84b12e63d930bfaa00ca6",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-016",
+        "name": "Jiang Nan Flushing",
+        "nameConfidence": 96.54,
+        "rating": 4.8,
+        "reviewCount": 2964,
+        "priceText": "$30–70",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "closes soon: 1:30 am",
+        "resultType": "unknown",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 302,
+          "right": 497.3333333333333,
+          "bottom": 410.3333333333333
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 347,
+          "right": 497.3333333333333,
+          "bottom": 374
+        },
+        "ratingLineText": "4.8% (2964) - $30-70 . & - Chinese",
+        "warnings": [
+          "card_header_clipped"
+        ],
+        "nameBounds": {
+          "left": 41,
+          "top": 302,
+          "right": 338.3333333333333,
+          "bottom": 336.3333333333333
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-016",
+        "name": "一 间 小 店",
+        "nameConfidence": 91.35,
+        "rating": 4.9,
+        "reviewCount": 41,
+        "priceText": null,
+        "category": "butcher shop deli",
+        "distanceText": "0.6 mi",
+        "distanceMeters": 966,
+        "openText": "closed - opens 10 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 988,
+          "right": 503,
+          "bottom": 1105
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1037,
+          "right": 503,
+          "bottom": 1065
+        },
+        "ratingLineText": "4.9% (41) - Butcher shop deli - 0.6 mi",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.333333333333336,
+          "top": 988,
+          "right": 182.33333333333334,
+          "bottom": 1022.3333333333334
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "jiang nan flushing",
+        "bounds": {
+          "left": 41,
+          "top": 302,
+          "right": 338.3333333333333,
+          "bottom": 336.3333333333333
+        }
+      },
+      {
+        "text": "4.8% (2964) - $30-70 . & - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 347,
+          "right": 497.3333333333333,
+          "bottom": 374
+        }
+      },
+      {
+        "text": "closes soon: 1:30 am - 0.4 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 388.3333333333333,
+          "right": 418,
+          "bottom": 410.3333333333333
+        }
+      },
+      {
+        "text": "° “loved the osmanthus lotus and hawthorn",
+        "bounds": {
+          "left": 50,
+          "top": 729.3333333333334,
+          "right": 624,
+          "bottom": 761.3333333333334
+        }
+      },
+      {
+        "text": "@ braised pork belly.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 763.3333333333334,
+          "right": 329.3333333333333,
+          "bottom": 792
+        }
+      },
+      {
+        "text": "人 directions 名 reserve ya order",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 853.6666666666666,
+          "right": 668,
+          "bottom": 884.3333333333334
+        }
+      },
+      {
+        "text": "4.9% (41) - butcher shop deli - 0.6 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1037,
+          "right": 503,
+          "bottom": 1065
+        }
+      },
+      {
+        "text": "closed - opens 10 am",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1077,
+          "right": 318,
+          "bottom": 1105
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-017",
+    "capturedAt": "2026-10-23T04:55:04.932Z",
+    "imageSha256": "a9bbd2751d3ecaff6acb25a031e27d76a17fcc9119a9fa686d6f89ad1ddbf40a",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-017",
+        "name": "一 间 小 店",
+        "nameConfidence": 91.43,
+        "rating": 4.9,
+        "reviewCount": 41,
+        "priceText": null,
+        "category": "butcher shop deli",
+        "distanceText": "0.6 mi",
+        "distanceMeters": 966,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 682,
+          "right": 503,
+          "bottom": 759
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 731,
+          "right": 503,
+          "bottom": 759
+        },
+        "ratingLineText": "4.9% (41) - Butcher shop deli - 0.6 mi",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.333333333333336,
+          "top": 682,
+          "right": 182.33333333333334,
+          "bottom": 716.3333333333334
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "“loved the osmanthus lotus and hawthorn",
+        "bounds": {
+          "left": 94.33333333333333,
+          "top": 423.3333333333333,
+          "right": 624,
+          "bottom": 445.3333333333333
+        }
+      },
+      {
+        "text": "@ braised pork belly.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 457.3333333333333,
+          "right": 329.3333333333333,
+          "bottom": 486
+        }
+      },
+      {
+        "text": "人 directions 名 reserve ya order",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 547.6666666666666,
+          "right": 668,
+          "bottom": 578.3333333333334
+        }
+      },
+      {
+        "text": "4.9% (41) - butcher shop deli - 0.6 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 731,
+          "right": 503,
+          "bottom": 759
+        }
+      },
+      {
+        "text": "@ flavorful, and delicious.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 1146.3333333333333,
+          "right": 390.3333333333333,
+          "bottom": 1172.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-018",
+    "capturedAt": "2026-10-23T04:55:12.101Z",
+    "imageSha256": "0dc5a214fa40466c86e323a3a91e7cc6f57f2e9b2bbe732fc605aa35e097d677",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-018",
+        "name": "一 间 小 店",
+        "nameConfidence": 92.37,
+        "rating": 4.9,
+        "reviewCount": 41,
+        "priceText": null,
+        "category": "butcher shop deli",
+        "distanceText": "0.6 mi",
+        "distanceMeters": 966,
+        "openText": "closed - opens 10 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 454,
+          "right": 503,
+          "bottom": 571
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 503,
+          "right": 503,
+          "bottom": 531
+        },
+        "ratingLineText": "4.9% (41) - Butcher shop deli - 0.6 mi",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.333333333333336,
+          "top": 454,
+          "right": 181.66666666666666,
+          "bottom": 488.3333333333333
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-018",
+        "name": "Crown One 御 庭 酒楼",
+        "nameConfidence": 92.43,
+        "rating": 4,
+        "reviewCount": 429,
+        "priceText": null,
+        "category": "cantonese",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1142.6666666666667,
+          "right": 519.3333333333334,
+          "bottom": 1218
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1191,
+          "right": 519.3333333333334,
+          "bottom": 1218
+        },
+        "ratingLineText": "4.0% (429) -$20-30- & - Cantonese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 1142.6666666666667,
+          "right": 376.3333333333333,
+          "bottom": 1177.3333333333333
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "® directions 名 reserve ya order",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 319.6666666666667,
+          "right": 668,
+          "bottom": 350.3333333333333
+        }
+      },
+      {
+        "text": "4.9% (41) - butcher shop deli - 0.6 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 503,
+          "right": 503,
+          "bottom": 531
+        }
+      },
+      {
+        "text": "closed - opens 10 am",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 543,
+          "right": 318,
+          "bottom": 571
+        }
+      },
+      {
+        "text": "@ “the braised duck and vegetables were fresh,",
+        "bounds": {
+          "left": 50,
+          "top": 883.6666666666666,
+          "right": 670.6666666666666,
+          "bottom": 916.3333333333334
+        }
+      },
+      {
+        "text": "@ flavorful, and delicious.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 918.3333333333334,
+          "right": 390.3333333333333,
+          "bottom": 944.3333333333334
+        }
+      },
+      {
+        "text": "® directions xy call < share 只",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1008.6666666666666,
+          "right": 714,
+          "bottom": 1039.3333333333333
+        }
+      },
+      {
+        "text": "crown one 御 庭 酒楼",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 1142.6666666666667,
+          "right": 376.3333333333333,
+          "bottom": 1177.3333333333333
+        }
+      },
+      {
+        "text": "4.0% (429) -$20-30- & - cantonese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1191,
+          "right": 519.3333333333334,
+          "bottom": 1218
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-019",
+    "capturedAt": "2026-10-23T04:55:18.496Z",
+    "imageSha256": "e0233a2b05913ff9bef0dbf02841350afd6852c5aa3e9759c2ca13d9f49106eb",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-019",
+        "name": "Crown One 御 庭 酒楼",
+        "nameConfidence": 92.66,
+        "rating": 4,
+        "reviewCount": 429,
+        "priceText": null,
+        "category": "cantonese",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": "opens 9:30 am: o mi",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 836.6666666666666,
+          "right": 519.3333333333334,
+          "bottom": 954
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 883.6666666666666,
+          "right": 519.3333333333334,
+          "bottom": 913.3333333333334
+        },
+        "ratingLineText": "4.0 % (429) -$20-30- & - Cantonese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 836.6666666666666,
+          "right": 376.3333333333333,
+          "bottom": 871.3333333333334
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "2 \"the braised duck and vegetables were fresh,",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 577.6666666666666,
+          "right": 670.6666666666666,
+          "bottom": 625
+        }
+      },
+      {
+        "text": "® flavorful, and delicious.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 612.3333333333334,
+          "right": 390.3333333333333,
+          "bottom": 638.3333333333334
+        }
+      },
+      {
+        "text": "® directions xy call < share 只",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 702.6666666666666,
+          "right": 714,
+          "bottom": 733.3333333333334
+        }
+      },
+      {
+        "text": "crown one 御 庭 酒楼",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 836.6666666666666,
+          "right": 376.3333333333333,
+          "bottom": 871.3333333333334
+        }
+      },
+      {
+        "text": "4.0 % (429) -$20-30- & - cantonese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 883.6666666666666,
+          "right": 519.3333333333334,
+          "bottom": 913.3333333333334
+        }
+      },
+      {
+        "text": "‘opens 9:30 am: o mi",
+        "bounds": {
+          "left": 138,
+          "top": 926.3333333333334,
+          "right": 424,
+          "bottom": 954
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-020",
+    "capturedAt": "2026-10-23T04:55:26.097Z",
+    "imageSha256": "7c246163733864fa245bc0809417f8f4cf95cf07a509edfeac3d1c3babced918",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-020",
+        "name": "Crown One 御 庭 酒楼",
+        "nameConfidence": 93.02,
+        "rating": 4,
+        "reviewCount": 429,
+        "priceText": null,
+        "category": "cantonese",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": "closed . opens 9:30 am - o mi",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 531.6666666666666,
+          "right": 519.3333333333334,
+          "bottom": 649
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 578.6666666666666,
+          "right": 519.3333333333334,
+          "bottom": 608.3333333333334
+        },
+        "ratingLineText": "4.0 % (429) -$20-30- & - Cantonese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 531.6666666666666,
+          "right": 376.3333333333333,
+          "bottom": 566.3333333333334
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "tm flavorful, and delicious.\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 307.3333333333333,
+          "right": 390.3333333333333,
+          "bottom": 333.3333333333333
+        }
+      },
+      {
+        "text": "® directions xy call < share 只",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 397.6666666666667,
+          "right": 714,
+          "bottom": 428.3333333333333
+        }
+      },
+      {
+        "text": "crown one 御 庭 酒楼",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 531.6666666666666,
+          "right": 376.3333333333333,
+          "bottom": 566.3333333333334
+        }
+      },
+      {
+        "text": "4.0 % (429) -$20-30- & - cantonese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 578.6666666666666,
+          "right": 519.3333333333334,
+          "bottom": 608.3333333333334
+        }
+      },
+      {
+        "text": "closed . opens 9:30 am - o mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 621,
+          "right": 424,
+          "bottom": 649
+        }
+      },
+      {
+        "text": "@ ‘highly recommend it if you like cantonese",
+        "bounds": {
+          "left": 50,
+          "top": 962,
+          "right": 630.3333333333334,
+          "bottom": 994.3333333333334
+        }
+      },
+      {
+        "text": "® directions ya order xy call <",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1086.6666666666667,
+          "right": 717,
+          "bottom": 1117.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-021",
+    "capturedAt": "2026-10-23T04:55:37.706Z",
+    "imageSha256": "21939929c490b0797401204a37d3f504bceb7bf4bbc58a834ea059eaa67e535f",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-021",
+        "name": "Crown One 御 庭 酒楼",
+        "nameConfidence": 91.31,
+        "rating": 4,
+        "reviewCount": 429,
+        "priceText": null,
+        "category": "cantonese",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": "closed . opens 9:30 am - o mi",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 315.6666666666667,
+          "right": 519.3333333333334,
+          "bottom": 433
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 362.6666666666667,
+          "right": 519.3333333333334,
+          "bottom": 392.3333333333333
+        },
+        "ratingLineText": "4.0 % (429) .$20-30. & - Cantonese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 315.6666666666667,
+          "right": 376.3333333333333,
+          "bottom": 350.3333333333333
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-021",
+        "name": "Coco Hotpot 皇 椰 鸡",
+        "nameConfidence": 81.15,
+        "rating": 4.6,
+        "reviewCount": 482,
+        "priceText": "$20–60",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "open : closes 6 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1001.3333333333334,
+          "right": 428.3333333333333,
+          "bottom": 1122
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1051,
+          "right": 428.3333333333333,
+          "bottom": 1083.6666666666667
+        },
+        "ratingLineText": "4.6 %& (482) . $20-60 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 1001.3333333333334,
+          "right": 362.6666666666667,
+          "bottom": 1045.3333333333333
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "crown one 御 庭 酒楼",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 315.6666666666667,
+          "right": 376.3333333333333,
+          "bottom": 350.3333333333333
+        }
+      },
+      {
+        "text": "4.0 % (429) .$20-30. & - cantonese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 362.6666666666667,
+          "right": 519.3333333333334,
+          "bottom": 392.3333333333333
+        }
+      },
+      {
+        "text": "closed . opens 9:30 am - o mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 405,
+          "right": 424,
+          "bottom": 433
+        }
+      },
+      {
+        "text": "@ “highly recommend it if you like cantonese",
+        "bounds": {
+          "left": 50,
+          "top": 746,
+          "right": 630.3333333333334,
+          "bottom": 778.3333333333334
+        }
+      },
+      {
+        "text": "人 directions ya order x\\ call ae",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 870.6666666666666,
+          "right": 717,
+          "bottom": 901.3333333333334
+        }
+      },
+      {
+        "text": "coco hotpot 皇 椰 鸡",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 1001.3333333333334,
+          "right": 362.6666666666667,
+          "bottom": 1045.3333333333333
+        }
+      },
+      {
+        "text": "4.6 %& (482) . $20-60 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1051,
+          "right": 428.3333333333333,
+          "bottom": 1083.6666666666667
+        }
+      },
+      {
+        "text": "open : closes 6 am - 0.4 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1094.3333333333333,
+          "right": 389,
+          "bottom": 1122
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-022",
+    "capturedAt": "2026-10-23T04:55:44.262Z",
+    "imageSha256": "d9d94f85bfb807c53a3d562a97de1c6e0a0c3e6b47639ae2456353f72c8653d8",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-022",
+        "name": "Coco Hotpot 皇 椰 雞",
+        "nameConfidence": 81.96,
+        "rating": 4.6,
+        "reviewCount": 482,
+        "priceText": "$20–60",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "open : closes 6 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 692,
+          "right": 428.3333333333333,
+          "bottom": 809
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 738.6666666666666,
+          "right": 428.3333333333333,
+          "bottom": 771
+        },
+        "ratingLineText": "4.6 % (482) - $20-60 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 692,
+          "right": 362.3333333333333,
+          "bottom": 731
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "@ ‘highly recommend it if you like cantonese",
+        "bounds": {
+          "left": 50,
+          "top": 433,
+          "right": 630.3333333333334,
+          "bottom": 465.3333333333333
+        }
+      },
+      {
+        "text": "人 directions ya order xy call <",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 557.6666666666666,
+          "right": 717,
+          "bottom": 588.3333333333334
+        }
+      },
+      {
+        "text": "coco hotpot 皇 椰 雞",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 692,
+          "right": 362.3333333333333,
+          "bottom": 731
+        }
+      },
+      {
+        "text": "4.6 % (482) - $20-60 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 738.6666666666666,
+          "right": 428.3333333333333,
+          "bottom": 771
+        }
+      },
+      {
+        "text": "open : closes 6 am . 0.4 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 781.3333333333334,
+          "right": 389,
+          "bottom": 809
+        }
+      },
+      {
+        "text": "@ definitely try the crab roe stewed egg",
+        "bounds": {
+          "left": 50,
+          "top": 1122,
+          "right": 594.3333333333334,
+          "bottom": 1154.3333333333333
+        }
+      },
+      {
+        "text": "他 noodles!\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 1156.3333333333333,
+          "right": 213.33333333333334,
+          "bottom": 1179.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-023",
+    "capturedAt": "2026-10-23T04:55:52.344Z",
+    "imageSha256": "2d047abc80dab44b77853d5945d7aa676e69873f6670d65752d9d3c6b0772f6c",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-023",
+        "name": "Coco Hotpot 皇 椰 鸡",
+        "nameConfidence": 84.21,
+        "rating": 4.6,
+        "reviewCount": 482,
+        "priceText": "$20–60",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "open : closes 6 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 472,
+          "right": 428.3333333333333,
+          "bottom": 592
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 523,
+          "right": 428.3333333333333,
+          "bottom": 550
+        },
+        "ratingLineText": "4.6% (482) - $20-60 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 472,
+          "right": 362.6666666666667,
+          "bottom": 515.3333333333334
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "人 directions ya order x\\ call ae",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 340.6666666666667,
+          "right": 717,
+          "bottom": 371.3333333333333
+        }
+      },
+      {
+        "text": "coco hotpot 皇 椰 鸡",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 472,
+          "right": 362.6666666666667,
+          "bottom": 515.3333333333334
+        }
+      },
+      {
+        "text": "4.6% (482) - $20-60 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 523,
+          "right": 428.3333333333333,
+          "bottom": 550
+        }
+      },
+      {
+        "text": "open : closes 6 am - 0.4 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 564.3333333333334,
+          "right": 389,
+          "bottom": 592
+        }
+      },
+      {
+        "text": "@ definitely try the crab roe stewed egg",
+        "bounds": {
+          "left": 50,
+          "top": 905,
+          "right": 594.3333333333334,
+          "bottom": 937.3333333333334
+        }
+      },
+      {
+        "text": "人 noodles!\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 939.3333333333334,
+          "right": 213.33333333333334,
+          "bottom": 962.3333333333334
+        }
+      },
+      {
+        "text": "® directions 4 order m2) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1029.6666666666667,
+          "right": 636,
+          "bottom": 1060.3333333333333
+        }
+      },
+      {
+        "text": "江湖 烤 涮 酒 坊",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 1163.6666666666667,
+          "right": 278.6666666666667,
+          "bottom": 1198.3333333333333
+        }
+      },
+      {
+        "text": "a &% (973) -$40-s50 - rarheciie",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1212,
+          "right": 445.3333333333333,
+          "bottom": 1232
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-024",
+    "capturedAt": "2026-10-23T04:56:01.448Z",
+    "imageSha256": "41916072147960557b313a8cff7c66da19784d9786bb2f6c314821fb34261389",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-024",
+        "name": "Coco Hotpot 皇 椰 鸡",
+        "nameConfidence": 88.98,
+        "rating": 4.6,
+        "reviewCount": 482,
+        "priceText": "$20–60",
+        "category": "chinese",
+        "distanceText": "0.4 mi",
+        "distanceMeters": 644,
+        "openText": "open : closes 6 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 312,
+          "right": 428.3333333333333,
+          "bottom": 429
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 359,
+          "right": 428.3333333333333,
+          "bottom": 391
+        },
+        "ratingLineText": "4.6 % (482) - $20-60 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 312,
+          "right": 362.6666666666667,
+          "bottom": 351
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-024",
+        "name": "江湖 烤 测 酒 坊",
+        "nameConfidence": 71.62,
+        "rating": 4.8,
+        "reviewCount": 273,
+        "priceText": null,
+        "category": "barbecue",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 999.3333333333334,
+          "right": 445.3333333333333,
+          "bottom": 1076
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1049.3333333333333,
+          "right": 445.3333333333333,
+          "bottom": 1076
+        },
+        "ratingLineText": "4.8% (273) .$40-50 - Barbecue",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 999.3333333333334,
+          "right": 279,
+          "bottom": 1047.6666666666667
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "coco hotpot 皇 椰 鸡",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 312,
+          "right": 362.6666666666667,
+          "bottom": 351
+        }
+      },
+      {
+        "text": "4.6 % (482) - $20-60 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 359,
+          "right": 428.3333333333333,
+          "bottom": 391
+        }
+      },
+      {
+        "text": "open : closes 6 am . 0.4 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 401.3333333333333,
+          "right": 389,
+          "bottom": 429
+        }
+      },
+      {
+        "text": "@ definitely try the crab roe stewed egg",
+        "bounds": {
+          "left": 50,
+          "top": 742,
+          "right": 594.3333333333334,
+          "bottom": 774.3333333333334
+        }
+      },
+      {
+        "text": "他 noodles!\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 776.3333333333334,
+          "right": 213.33333333333334,
+          "bottom": 799.3333333333334
+        }
+      },
+      {
+        "text": "® directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 866.6666666666666,
+          "right": 636,
+          "bottom": 897.3333333333334
+        }
+      },
+      {
+        "text": "江湖 烤 测 酒 坊",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 999.3333333333334,
+          "right": 279,
+          "bottom": 1047.6666666666667
+        }
+      },
+      {
+        "text": "4.8% (273) .$40-50 - barbecue",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1049.3333333333333,
+          "right": 445.3333333333333,
+          "bottom": 1076
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-025",
+    "capturedAt": "2026-10-23T04:56:09.899Z",
+    "imageSha256": "c3f2be716d299f66e4a5f7d3d5baa0be51094fc2ba63ee9c6590e790e0bf96d3",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-025",
+        "name": "江湖 烤 涮 酒 坊",
+        "nameConfidence": 82.88,
+        "rating": 4.8,
+        "reviewCount": 273,
+        "priceText": null,
+        "category": "barbecue",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 694.6666666666666,
+          "right": 445.3333333333333,
+          "bottom": 770
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 743.3333333333334,
+          "right": 445.3333333333333,
+          "bottom": 770
+        },
+        "ratingLineText": "4.8% (273) .$40-50.Barbecue",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42,
+          "top": 694.6666666666666,
+          "right": 277.6666666666667,
+          "bottom": 729
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "@ ‘definitely try the crab roe stewed egg",
+        "bounds": {
+          "left": 50,
+          "top": 436,
+          "right": 594.3333333333334,
+          "bottom": 468
+        }
+      },
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 560.6666666666666,
+          "right": 636,
+          "bottom": 591.3333333333334
+        }
+      },
+      {
+        "text": "江湖 烤 涮 酒 坊",
+        "bounds": {
+          "left": 42,
+          "top": 694.6666666666666,
+          "right": 277.6666666666667,
+          "bottom": 729
+        }
+      },
+      {
+        "text": "4.8% (273) .$40-50.barbecue",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 743.3333333333334,
+          "right": 445.3333333333333,
+          "bottom": 770
+        }
+      },
+      {
+        "text": "s \"tastes great, self-service and affordable\"",
+        "bounds": {
+          "left": 44,
+          "top": 1124,
+          "right": 624.3333333333334,
+          "bottom": 1155
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-027",
+    "capturedAt": "2026-10-23T04:56:26.218Z",
+    "imageSha256": "8a9c2bbf22cb88f1757007ae0415a3f12977c1156c8f1856cb47ecb059c755ab",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-027",
+        "name": "江湖 烤 涮 酒 坊",
+        "nameConfidence": 68.27,
+        "rating": 4.8,
+        "reviewCount": 273,
+        "priceText": null,
+        "category": "barbecue",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 863.6666666666666,
+          "right": 445.3333333333333,
+          "bottom": 939
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 912.3333333333334,
+          "right": 445.3333333333333,
+          "bottom": 939
+        },
+        "ratingLineText": "4.8% (273) .$40-50.Barbecue",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42,
+          "top": 863.6666666666666,
+          "right": 277.6666666666667,
+          "bottom": 898
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "@ definitely try the crab roe stewed egg",
+        "bounds": {
+          "left": 50,
+          "top": 605,
+          "right": 594.3333333333334,
+          "bottom": 637
+        }
+      },
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 67,
+          "top": 729.6666666666666,
+          "right": 636,
+          "bottom": 760.3333333333334
+        }
+      },
+      {
+        "text": "江湖 烤 涮 酒 坊",
+        "bounds": {
+          "left": 42,
+          "top": 863.6666666666666,
+          "right": 277.6666666666667,
+          "bottom": 898
+        }
+      },
+      {
+        "text": "4.8% (273) .$40-50.barbecue",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 912.3333333333334,
+          "right": 445.3333333333333,
+          "bottom": 939
+        }
+      }
+    ],
+    "topStateSource": null,
+    "afterBackwardCorrection": true
+  },
+  {
+    "frameId": "q0001:frame-028",
+    "capturedAt": "2026-10-23T04:56:33.442Z",
+    "imageSha256": "0515c32bd8f03fa7ecb6a0d2d1e3b76bde11d0d7a6c93ab24a49daa56a542ccc",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-028",
+        "name": "江湖 烤 涮 酒 坊",
+        "nameConfidence": 80.38,
+        "rating": 4.8,
+        "reviewCount": 273,
+        "priceText": null,
+        "category": "barbecue",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 532.6666666666666,
+          "right": 445.3333333333333,
+          "bottom": 644.3333333333334
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 581,
+          "right": 445.3333333333333,
+          "bottom": 608
+        },
+        "ratingLineText": "4.8% (273) .$40-50.Barbecue",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 532.6666666666666,
+          "right": 278.6666666666667,
+          "bottom": 567.3333333333334
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "@ definitely try the crab roe stewed egg",
+        "bounds": {
+          "left": 50,
+          "top": 274,
+          "right": 594.3333333333334,
+          "bottom": 306.3333333333333
+        }
+      },
+      {
+        "text": "他 noodles!\"",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 308.3333333333333,
+          "right": 213.33333333333334,
+          "bottom": 331.3333333333333
+        }
+      },
+      {
+        "text": "® directions ¥4 order m2) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 398.6666666666667,
+          "right": 636.3333333333334,
+          "bottom": 429.3333333333333
+        }
+      },
+      {
+        "text": "江湖 烤 涮 酒 坊",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 532.6666666666666,
+          "right": 278.6666666666667,
+          "bottom": 567.3333333333334
+        }
+      },
+      {
+        "text": "4.8% (273) .$40-50.barbecue",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 581,
+          "right": 445.3333333333333,
+          "bottom": 608
+        }
+      },
+      {
+        "text": "s ‘tastes great, self-service and affordable”",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 961.6666666666666,
+          "right": 624.3333333333334,
+          "bottom": 993
+        }
+      },
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 1052.6666666666667,
+          "right": 636.3333333333334,
+          "bottom": 1083.3333333333333
+        }
+      },
+      {
+        "text": "braised canaan 迴 南 地 滷味",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 1186.6666666666667,
+          "right": 478.3333333333333,
+          "bottom": 1221.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-029",
+    "capturedAt": "2026-10-23T04:56:40.815Z",
+    "imageSha256": "cb7e62ccebbbeb170af463b72a77147077cf5698b42bb587762656d1a971a8b6",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-029",
+        "name": "江湖 烤 测 酒 坊",
+        "nameConfidence": 77.32,
+        "rating": 4.8,
+        "reviewCount": 273,
+        "priceText": "$40–50",
+        "category": "barbecue",
+        "distanceText": null,
+        "distanceMeters": null,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 315.3333333333333,
+          "right": 445.3333333333333,
+          "bottom": 392
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 365,
+          "right": 445.3333333333333,
+          "bottom": 392
+        },
+        "ratingLineText": "4.8% (273) - $40-50 - Barbecue",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 315.3333333333333,
+          "right": 280,
+          "bottom": 362.6666666666667
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-029",
+        "name": "Braised Canaan 迴 南 地 滷味",
+        "nameConfidence": 80.04,
+        "rating": 4.8,
+        "reviewCount": 75,
+        "priceText": null,
+        "category": "chinese",
+        "distanceText": "0.5 mi",
+        "distanceMeters": 805,
+        "openText": "opens 8 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 970.6666666666666,
+          "right": 407.3333333333333,
+          "bottom": 1088
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1019,
+          "right": 407.3333333333333,
+          "bottom": 1046
+        },
+        "ratingLineText": "4.8% (75) .$10-20.Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 970.6666666666666,
+          "right": 478.3333333333333,
+          "bottom": 1005.3333333333334
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "江湖 烤 测 酒 坊",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 315.3333333333333,
+          "right": 280,
+          "bottom": 362.6666666666667
+        }
+      },
+      {
+        "text": "4.8% (273) - $40-50 - barbecue",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 365,
+          "right": 445.3333333333333,
+          "bottom": 392
+        }
+      },
+      {
+        "text": "s \"tastes great, self-service and affordable”",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 745.6666666666666,
+          "right": 624.3333333333334,
+          "bottom": 777
+        }
+      },
+      {
+        "text": "® directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 836.6666666666666,
+          "right": 636,
+          "bottom": 867.3333333333334
+        }
+      },
+      {
+        "text": "braised canaan 迴 南 地 滷味",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 970.6666666666666,
+          "right": 478.3333333333333,
+          "bottom": 1005.3333333333334
+        }
+      },
+      {
+        "text": "4.8% (75) .$10-20.chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1019,
+          "right": 407.3333333333333,
+          "bottom": 1046
+        }
+      },
+      {
+        "text": "-opens 8 am - 0.5 mi",
+        "bounds": {
+          "left": 138,
+          "top": 1060.3333333333333,
+          "right": 405,
+          "bottom": 1088
+        }
+      }
+    ],
+    "topStateSource": null
+  },
+  {
+    "frameId": "q0001:frame-031",
+    "capturedAt": "2026-10-23T04:56:56.743Z",
+    "imageSha256": "323be4418a34b260ab5eea89896dab5c4ddca8596274c04e67458e4a5923528e",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-031",
+        "name": "江湖 烤 涮 酒 坊",
+        "nameConfidence": 80.42,
+        "rating": 4.8,
+        "reviewCount": 273,
+        "priceText": null,
+        "category": "barbecue",
+        "distanceText": "0.3 mi",
+        "distanceMeters": 483,
+        "openText": null,
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 411.6666666666667,
+          "right": 445.3333333333333,
+          "bottom": 523.3333333333334
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 460,
+          "right": 445.3333333333333,
+          "bottom": 487
+        },
+        "ratingLineText": "4.8% (273) .$40-50.Barbecue",
+        "warnings": [],
+        "nameBounds": {
+          "left": 41.666666666666664,
+          "top": 411.6666666666667,
+          "right": 278.6666666666667,
+          "bottom": 446.3333333333333
+        }
+      },
+      {
+        "cardIndex": 1,
+        "frameId": "q0001:frame-031",
+        "name": "Braised Canaan 迦 南 地 涉 味",
+        "nameConfidence": 64.43,
+        "rating": 4.8,
+        "reviewCount": 75,
+        "priceText": "$10–20",
+        "category": "chinese",
+        "distanceText": "0.5 mi",
+        "distanceMeters": 805,
+        "openText": "closed - opens 8 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1065.6666666666667,
+          "right": 407.3333333333333,
+          "bottom": 1183
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 1114,
+          "right": 407.3333333333333,
+          "bottom": 1141
+        },
+        "ratingLineText": "4.8% (75) - $10-20 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 1065.6666666666667,
+          "right": 478.3333333333333,
+          "bottom": 1100.3333333333333
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 277.6666666666667,
+          "right": 636.3333333333334,
+          "bottom": 308.3333333333333
+        }
+      },
+      {
+        "text": "江湖 烤 涮 酒 坊",
+        "bounds": {
+          "left": 41.666666666666664,
+          "top": 411.6666666666667,
+          "right": 278.6666666666667,
+          "bottom": 446.3333333333333
+        }
+      },
+      {
+        "text": "4.8% (273) .$40-50.barbecue",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 460,
+          "right": 445.3333333333333,
+          "bottom": 487
+        }
+      },
+      {
+        "text": "s ‘tastes great, self-service and affordable”",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 840.6666666666666,
+          "right": 624.3333333333334,
+          "bottom": 872
+        }
+      },
+      {
+        "text": "® directions ya order m2) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 931.6666666666666,
+          "right": 636.3333333333334,
+          "bottom": 962.3333333333334
+        }
+      },
+      {
+        "text": "braised canaan 迦 南 地 涉 味",
+        "bounds": {
+          "left": 42.666666666666664,
+          "top": 1065.6666666666667,
+          "right": 478.3333333333333,
+          "bottom": 1100.3333333333333
+        }
+      },
+      {
+        "text": "4.8% (75) - $10-20 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1114,
+          "right": 407.3333333333333,
+          "bottom": 1141
+        }
+      },
+      {
+        "text": "closed - opens 8 am - 0.5 mi",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 1155,
+          "right": 405,
+          "bottom": 1183
+        }
+      }
+    ],
+    "topStateSource": null,
+    "afterBackwardCorrection": true
+  },
+  {
+    "frameId": "q0001:frame-032",
+    "capturedAt": "2026-10-23T04:57:04.471Z",
+    "imageSha256": "904f2db4eeddaf78c0a5579d3cbec2142175d9062f715f3d5ae87d23b9e73eda",
+    "queryVisible": true,
+    "sheetTop": 274,
+    "topStateVerified": false,
+    "endOfResults": false,
+    "cards": [
+      {
+        "cardIndex": 0,
+        "frameId": "q0001:frame-032",
+        "name": "Braised Canaan Wma steal",
+        "nameConfidence": 53.45,
+        "rating": 4.8,
+        "reviewCount": 75,
+        "priceText": "$10–20",
+        "category": "chinese",
+        "distanceText": "0.5 mi",
+        "distanceMeters": 805,
+        "openText": "opens 8 am",
+        "resultType": "organic",
+        "adLabel": null,
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 751.3333333333334,
+          "right": 407.3333333333333,
+          "bottom": 872
+        },
+        "ratingBounds": {
+          "left": 41.333333333333336,
+          "top": 802,
+          "right": 407.3333333333333,
+          "bottom": 832.6666666666666
+        },
+        "ratingLineText": "4.8 % (75) - $10-20 - Chinese",
+        "warnings": [],
+        "nameBounds": {
+          "left": 42.666666666666664,
+          "top": 751.3333333333334,
+          "right": 477,
+          "bottom": 798
+        }
+      }
+    ],
+    "warnings": [
+      "native_list_top_contradicted"
+    ],
+    "sheetBoundarySource": "native_result_list",
+    "nativeListBounds": {
+      "left": 0,
+      "top": 274,
+      "right": 720,
+      "bottom": 1232
+    },
+    "anchors": [
+      {
+        "text": "s \"tastes great, self-service and affordable”",
+        "bounds": {
+          "left": 43.666666666666664,
+          "top": 530,
+          "right": 624.3333333333334,
+          "bottom": 561
+        }
+      },
+      {
+        "text": "人 directions ya order me) menu",
+        "bounds": {
+          "left": 66.66666666666667,
+          "top": 620.6666666666666,
+          "right": 636,
+          "bottom": 651.3333333333334
+        }
+      },
+      {
+        "text": "4.8 % (75) - $10-20 - chinese",
+        "bounds": {
+          "left": 41.333333333333336,
+          "top": 802,
+          "right": 407.3333333333333,
+          "bottom": 832.6666666666666
+        }
+      },
+      {
+        "text": "-opens 8 am - 0.5 mi",
+        "bounds": {
+          "left": 138,
+          "top": 844.3333333333334,
+          "right": 405,
+          "bottom": 872
+        }
+      },
+      {
+        "text": "° \"the meats are braised low and slow, so",
+        "bounds": {
+          "left": 50,
+          "top": 1184.6666666666667,
+          "right": 595,
+          "bottom": 1217.3333333333333
+        }
+      }
+    ],
+    "topStateSource": null
+  }
+]
