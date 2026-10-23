@@ -1,0 +1,433 @@
+{
+  "runtimeSource": "c48f94f4c4bbfd77496060e96982f3f3ff31d8c8",
+  "mergeCommit": "009673c82642395dd1699875f86424bc548c4845",
+  "pullRequest": "https://github.com/Canqiang/maps-keyword-capture/pull/5",
+  "scope": {
+    "stores": 2,
+    "queriesPerSurface": 2,
+    "surfaces": [
+      "web",
+      "android"
+    ],
+    "database": "maps-rank-tracking-verify-20261023"
+  },
+  "workerResults": [
+    {
+      "surface": "web",
+      "scanId": "scan_20261023T023225Z_915136",
+      "status": "completed",
+      "exitCode": 0,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 1,
+        "notFound": 0,
+        "blocked": 0,
+        "failed": 0,
+        "captured": 1,
+        "nonRanking": 0,
+        "partial": 0,
+        "skipped": 0,
+        "unresolved": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/web/2026-10-22/point/scan_20261023T023225Z_915136/catalog.json",
+        "bytes": 2305,
+        "sha256": "a112a59369e21797dea2fc5d902bc2dc86698ef5523244b7fc9d6309fe6cc35c",
+        "storageStatus": "verified",
+        "objectKey": "tracking/web/2026-10-22/point/scan_20261023T023225Z_915136/catalog.json",
+        "verifiedAt": "2026-10-23T02:32:25.590Z",
+        "storageError": null,
+        "version": "4842363d-848e-4c2c-92a8-c6e8a3c2bc8a",
+        "storeIds": [
+          "keke-flushing"
+        ],
+        "execution": {
+          "surface": "web",
+          "tier": "point",
+          "shardIndex": 0,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "worker_finished"
+    },
+    {
+      "surface": "web",
+      "scanId": "scan_20261023T023355Z_2c2359",
+      "status": "completed",
+      "exitCode": 0,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 1,
+        "notFound": 0,
+        "blocked": 0,
+        "failed": 0,
+        "captured": 1,
+        "nonRanking": 0,
+        "partial": 0,
+        "skipped": 0,
+        "unresolved": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/web/2026-10-22/point/scan_20261023T023355Z_2c2359/catalog.json",
+        "bytes": 2305,
+        "sha256": "a112a59369e21797dea2fc5d902bc2dc86698ef5523244b7fc9d6309fe6cc35c",
+        "storageStatus": "verified",
+        "objectKey": "tracking/web/2026-10-22/point/scan_20261023T023355Z_2c2359/catalog.json",
+        "verifiedAt": "2026-10-23T02:33:55.438Z",
+        "storageError": null,
+        "version": "4842363d-848e-4c2c-92a8-c6e8a3c2bc8a",
+        "storeIds": [
+          "only-bear"
+        ],
+        "execution": {
+          "surface": "web",
+          "tier": "point",
+          "shardIndex": 1,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "worker_finished"
+    },
+    {
+      "surface": "android",
+      "scanId": "android_scan_20261023T021605Z_d2fe82",
+      "status": "partial",
+      "exitCode": 2,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 0,
+        "notFound": 0,
+        "needsReview": 1,
+        "failed": 0,
+        "skipped": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/android/2026-10-22/point/android_scan_20261023T021605Z_d2fe82/catalog.json",
+        "bytes": 2317,
+        "sha256": "c66060af108e06203d3911c79d8b3ee80263c3dd00a4bdef577b596c1c4ae776",
+        "storageStatus": "verified",
+        "objectKey": "tracking/android/2026-10-22/point/android_scan_20261023T021605Z_d2fe82/catalog.json",
+        "verifiedAt": "2026-10-23T02:16:06.014Z",
+        "storageError": null,
+        "version": "8c327148-70bf-470d-938a-d2679006194b",
+        "storeIds": [
+          "keke-flushing"
+        ],
+        "execution": {
+          "surface": "android",
+          "tier": "point",
+          "shardIndex": 0,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "worker_finished"
+    },
+    {
+      "surface": "android",
+      "scanId": "android_scan_20261023T021842Z_28f188",
+      "status": "partial",
+      "exitCode": 2,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 0,
+        "notFound": 0,
+        "needsReview": 1,
+        "failed": 0,
+        "skipped": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/android/2026-10-22/point/android_scan_20261023T021842Z_28f188/catalog.json",
+        "bytes": 2317,
+        "sha256": "c66060af108e06203d3911c79d8b3ee80263c3dd00a4bdef577b596c1c4ae776",
+        "storageStatus": "verified",
+        "objectKey": "tracking/android/2026-10-22/point/android_scan_20261023T021842Z_28f188/catalog.json",
+        "verifiedAt": "2026-10-23T02:18:42.552Z",
+        "storageError": null,
+        "version": "8c327148-70bf-470d-938a-d2679006194b",
+        "storeIds": [
+          "only-bear"
+        ],
+        "execution": {
+          "surface": "android",
+          "tier": "point",
+          "shardIndex": 1,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "worker_finished"
+    }
+  ],
+  "independentAzureReadback": {
+    "objects": 73,
+    "receiptSizesAndHashesVerified": 67,
+    "errors": [],
+    "authentication": "Azure CLI identity; not collector SAS"
+  },
+  "structure": {
+    "status": "passed",
+    "scope": {
+      "pngDecoded": 18,
+      "jsonParsed": 38,
+      "csvFiles": 6,
+      "androidQueriesCompared": 2,
+      "listingRowsCompared": 4
+    },
+    "notes": "All downloaded PNGs fully decoded; Android query JSON and CSV selected fields compared against manifests. Web semantic check recorded separately."
+  },
+  "webCsvRowsCompared": 28,
+  "mongoGates": [
+    {
+      "_id": "android-maps-pilot/maps-release-android-20261023",
+      "revision": 3,
+      "roundId": "8c327148-70bf-470d-938a-d2679006194b",
+      "shardCount": 2,
+      "finished": [
+        0,
+        1
+      ],
+      "active": false
+    },
+    {
+      "_id": "uat/maps-release-web-20261023",
+      "revision": 3,
+      "roundId": "4842363d-848e-4c2c-92a8-c6e8a3c2bc8a",
+      "shardCount": 2,
+      "finished": [
+        0,
+        1
+      ],
+      "active": false
+    }
+  ],
+  "snapshotMutation": {
+    "event": "isolated_settings_changed",
+    "at": "2026-10-23T02:32:25.701Z",
+    "roundId": "4842363d-848e-4c2c-92a8-c6e8a3c2bc8a",
+    "snapshotSha256": "a112a59369e21797dea2fc5d902bc2dc86698ef5523244b7fc9d6309fe6cc35c",
+    "storeId": "only-bear",
+    "frozenKeyword": "bubble tea garden city",
+    "mutableKeyword": "bubble tea mineola",
+    "modified": 1,
+    "worker1AdmittedBeforeEdit": false
+  },
+  "observations": [
+    {
+      "surface": "android",
+      "storeId": "keke-flushing",
+      "keyword": "braised food flushing",
+      "rank": {
+        "status": "unreliable",
+        "displayPosition": null,
+        "organicRank": null,
+        "targetOccurrences": [
+          {
+            "displayPosition": 1,
+            "organicRank": 1,
+            "resultType": "organic"
+          }
+        ],
+        "adDisplayPositions": [],
+        "listingsObserved": 4,
+        "listingStatus": "partial",
+        "stopReason": "ranking_unreliable"
+      },
+      "quality": {
+        "rankingReliable": false,
+        "sequenceVerified": false,
+        "classificationComplete": false,
+        "screenshotCoverageComplete": true,
+        "identityResolved": true,
+        "organicCoverage": null,
+        "endOfResults": false,
+        "resultSurface": "results_list",
+        "geographicRelevance": null,
+        "locationEvidence": {
+          "injectionStatus": "sent",
+          "deviceLocationStatus": "matched",
+          "mapsLocationStatus": "unverified"
+        },
+        "warnings": [
+          "ordered_overlap_missing: q0001:frame-005 -> q0001:frame-006",
+          "unknown_cards_precede_organic_ranks"
+        ]
+      },
+      "evidence": {
+        "manifestKey": "android-maps/2026-10-23/run_20261023T021606Z_de9623/manifest.json",
+        "resultKey": null,
+        "screenshotKeys": [
+          "android-maps/2026-10-23/run_20261023T021606Z_de9623/q0001/20261023T021655.042Z__braised-food-flushing__01.png",
+          "android-maps/2026-10-23/run_20261023T021606Z_de9623/q0001/20261023T021705.845Z__braised-food-flushing__02.png",
+          "android-maps/2026-10-23/run_20261023T021606Z_de9623/q0001/20261023T021713.757Z__braised-food-flushing__03.png",
+          "android-maps/2026-10-23/run_20261023T021606Z_de9623/q0001/20261023T021739.151Z__braised-food-flushing__04.png",
+          "android-maps/2026-10-23/run_20261023T021606Z_de9623/q0001/20261023T021747.090Z__braised-food-flushing__05.png",
+          "android-maps/2026-10-23/run_20261023T021606Z_de9623/q0001/20261023T021756.625Z__braised-food-flushing__06.png"
+        ]
+      }
+    },
+    {
+      "surface": "android",
+      "storeId": "only-bear",
+      "keyword": "bubble tea garden city",
+      "rank": {
+        "status": "unreliable",
+        "displayPosition": null,
+        "organicRank": null,
+        "targetOccurrences": [],
+        "adDisplayPositions": [],
+        "listingsObserved": 0,
+        "listingStatus": "not_evaluated",
+        "stopReason": "no_cards_recognized"
+      },
+      "quality": {
+        "rankingReliable": false,
+        "sequenceVerified": false,
+        "classificationComplete": true,
+        "screenshotCoverageComplete": true,
+        "identityResolved": true,
+        "organicCoverage": null,
+        "endOfResults": false,
+        "resultSurface": null,
+        "geographicRelevance": null,
+        "locationEvidence": {
+          "injectionStatus": "sent",
+          "deviceLocationStatus": "matched",
+          "mapsLocationStatus": "unverified"
+        },
+        "warnings": [
+          "list_top_unverified"
+        ]
+      },
+      "evidence": {
+        "manifestKey": "android-maps/2026-10-23/run_20261023T021842Z_33ab33/manifest.json",
+        "resultKey": null,
+        "screenshotKeys": [
+          "android-maps/2026-10-23/run_20261023T021842Z_33ab33/q0001/20261023T021917.893Z__bubble-tea-garden-city__01.png"
+        ]
+      }
+    },
+    {
+      "surface": "web",
+      "storeId": "keke-flushing",
+      "keyword": "braised food flushing",
+      "rank": {
+        "status": "ranked",
+        "displayPosition": 14,
+        "organicRank": 14,
+        "targetOccurrences": [
+          {
+            "displayPosition": 14,
+            "organicRank": 14,
+            "resultType": "organic",
+            "occurrenceId": "occ_a3e12994e1880a57"
+          }
+        ],
+        "adDisplayPositions": [],
+        "listingsObserved": 15,
+        "listingStatus": "captured",
+        "stopReason": "limit_reached"
+      },
+      "quality": {
+        "rankingReliable": true,
+        "sequenceVerified": true,
+        "classificationComplete": true,
+        "screenshotCoverageComplete": true,
+        "identityResolved": true,
+        "organicCoverage": 15,
+        "endOfResults": false,
+        "resultSurface": "results_list",
+        "geographicRelevance": {
+          "status": "unverified",
+          "expectedArea": null,
+          "scope": "observed_listings",
+          "checkedCount": 15,
+          "insideCount": 0,
+          "outsideCount": 0,
+          "unknownCount": 0,
+          "reason": "expected_area_not_configured"
+        },
+        "warnings": [
+          "geography_unverified: Geographic relevance is unverified: expected_area_not_configured; capture completeness does not establish local relevance"
+        ]
+      },
+      "evidence": {
+        "manifestKey": "tracking/web/2026-10-22/point/scan_20261023T023225Z_915136/keke-flushing/kekemcenter/001/run_20261023T023225Z_41a4ad/att_c93df15c/manifest.json",
+        "resultKey": "tracking/web/2026-10-22/point/scan_20261023T023225Z_915136/keke-flushing/kekemcenter/001/run_20261023T023225Z_41a4ad/att_c93df15c/q0001/qa01/20261023T103225.999+0800__braised-food-flushing__q0001.json",
+        "screenshotKeys": [
+          "tracking/web/2026-10-22/point/scan_20261023T023225Z_915136/keke-flushing/kekemcenter/001/run_20261023T023225Z_41a4ad/att_c93df15c/q0001/qa01/20261023T103225.999+0800__braised-food-flushing__q0001__01.png",
+          "tracking/web/2026-10-22/point/scan_20261023T023225Z_915136/keke-flushing/kekemcenter/001/run_20261023T023225Z_41a4ad/att_c93df15c/q0001/qa01/20261023T103225.999+0800__braised-food-flushing__q0001__02.png",
+          "tracking/web/2026-10-22/point/scan_20261023T023225Z_915136/keke-flushing/kekemcenter/001/run_20261023T023225Z_41a4ad/att_c93df15c/q0001/qa01/20261023T103225.999+0800__braised-food-flushing__q0001__03.png",
+          "tracking/web/2026-10-22/point/scan_20261023T023225Z_915136/keke-flushing/kekemcenter/001/run_20261023T023225Z_41a4ad/att_c93df15c/q0001/qa01/20261023T103225.999+0800__braised-food-flushing__q0001__04.png",
+          "tracking/web/2026-10-22/point/scan_20261023T023225Z_915136/keke-flushing/kekemcenter/001/run_20261023T023225Z_41a4ad/att_c93df15c/q0001/qa01/20261023T103225.999+0800__braised-food-flushing__q0001__05.png"
+        ]
+      }
+    },
+    {
+      "surface": "web",
+      "storeId": "only-bear",
+      "keyword": "bubble tea garden city",
+      "rank": {
+        "status": "ranked",
+        "displayPosition": 2,
+        "organicRank": 2,
+        "targetOccurrences": [
+          {
+            "displayPosition": 2,
+            "organicRank": 2,
+            "resultType": "organic",
+            "occurrenceId": "occ_931528e26c63f8e6"
+          }
+        ],
+        "adDisplayPositions": [],
+        "listingsObserved": 13,
+        "listingStatus": "captured",
+        "stopReason": "end_of_results"
+      },
+      "quality": {
+        "rankingReliable": true,
+        "sequenceVerified": true,
+        "classificationComplete": true,
+        "screenshotCoverageComplete": true,
+        "identityResolved": true,
+        "organicCoverage": 13,
+        "endOfResults": true,
+        "resultSurface": "results_list",
+        "geographicRelevance": {
+          "status": "unverified",
+          "expectedArea": null,
+          "scope": "observed_listings",
+          "checkedCount": 13,
+          "insideCount": 0,
+          "outsideCount": 0,
+          "unknownCount": 0,
+          "reason": "expected_area_not_configured"
+        },
+        "warnings": [
+          "geography_unverified: Geographic relevance is unverified: expected_area_not_configured; capture completeness does not establish local relevance"
+        ]
+      },
+      "evidence": {
+        "manifestKey": "tracking/web/2026-10-22/point/scan_20261023T023355Z_2c2359/only-bear/onlybearmcenter/001/run_20261023T023355Z_cb054b/att_d94e27ee/manifest.json",
+        "resultKey": "tracking/web/2026-10-22/point/scan_20261023T023355Z_2c2359/only-bear/onlybearmcenter/001/run_20261023T023355Z_cb054b/att_d94e27ee/q0001/qa01/20261023T103355.745+0800__bubble-tea-garden-city__q0001.json",
+        "screenshotKeys": [
+          "tracking/web/2026-10-22/point/scan_20261023T023355Z_2c2359/only-bear/onlybearmcenter/001/run_20261023T023355Z_cb054b/att_d94e27ee/q0001/qa01/20261023T103355.745+0800__bubble-tea-garden-city__q0001__01.png",
+          "tracking/web/2026-10-22/point/scan_20261023T023355Z_2c2359/only-bear/onlybearmcenter/001/run_20261023T023355Z_cb054b/att_d94e27ee/q0001/qa01/20261023T103355.745+0800__bubble-tea-garden-city__q0001__02.png",
+          "tracking/web/2026-10-22/point/scan_20261023T023355Z_2c2359/only-bear/onlybearmcenter/001/run_20261023T023355Z_cb054b/att_d94e27ee/q0001/qa01/20261023T103355.745+0800__bubble-tea-garden-city__q0001__03.png",
+          "tracking/web/2026-10-22/point/scan_20261023T023355Z_2c2359/only-bear/onlybearmcenter/001/run_20261023T023355Z_cb054b/att_d94e27ee/q0001/qa01/20261023T103355.745+0800__bubble-tea-garden-city__q0001__04.png"
+        ]
+      }
+    }
+  ],
+  "runtimeScope": "Original Pod exit codes 0/0 Web, 2/2 Android; zero restarts; exact pinned imageIDs. Two Android outcomes remain unreliable, not qualified rankings."
+}

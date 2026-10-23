@@ -1,5 +1,7 @@
 # Scan consistency repairs — 2026-10-23
 
+> Deployment update: see the [2026-10-23 UAT release and bounded verification](../evidence/2026-10-23/uat-scan-consistency/README.md). Web and coordination checks passed; Android live rankings remain unqualified and its schedule stays suspended. The source-repair record below describes the earlier local-only stage.
+
 ## Status and scope
 
 Base: `2841b33c7fc4bd47f0a3b92c4401f0de8590d086`. These are local source/template repairs, not a deployed release or live collection acceptance. No AKS, Azure, Mongo, shared SEO library, historical observations, schedules, or image digests were changed remotely. Build, push, rollout, real-device verification and cloud readback are separate steps.

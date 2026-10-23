@@ -295,8 +295,13 @@ See also `docs/ci-images.md` for ACR builds and `deploy/tracking-targets/` for c
 - Save all outputs and verify them independently before changing a profile, stopping the pilot, or planning a deployment.
 - Terraform drift is tracked separately in `fbr-env-project/azure/infra/env/04-aks.tf`: local reconciliation sets count1 and the Android taint. Do not assume it has been committed/pushed/applied; check that repository separately.
 
-## 2026-10-23 — Classification and scan consistency repairs (local, not deployed)
+## 2026-10-23 — Source-repair stage (before deployment)
 
 The latest source review found an edge-join classification contradiction, independently mutable worker catalogs, and concurrent manual Job creation. Implementation, expected behavior, isolated rollout requirements and orphan-lock recovery are recorded in [scan-consistency-handoff.md](scan-consistency-handoff.md). Android listing method advances from v18 to v19: accumulated ad/organic contradictions (including an intermediate unknown frame) invalidate natural ranking without erasing the original frame evidence.
 
-This source repair does not replace earlier live probe findings or imply candidate15/v19 full-device acceptance. No active collectors, source keywords, observations, screenshots, schedules or cloud images were changed. Review the new shared snapshot/gate contract before deploying; old and new collector versions must not run together on the same target.
+This source repair does not replace earlier live probe findings or imply candidate15/v19 full-device acceptance. At this source-repair stage, no active collectors, source keywords, observations, screenshots, schedules or cloud images were changed. See the later release follow-up below for deployed state. Review the new shared snapshot/gate contract before deploying; old and new collector versions must not run together on the same target.
+
+
+## 2026-10-23 UAT release follow-up
+
+See [the merged release verification](../evidence/2026-10-23/uat-scan-consistency/README.md). The v19 image is deployed to the suspended Android template. Both real App queries returned review outcomes (KEKE overlap/clipped card; OnlyBear still in autocomplete). GPS and independent artifact delivery passed; qualified rankings did not. Preserve suspension until the documented result-state and scrolling cases are repaired and verified.
