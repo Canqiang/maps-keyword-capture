@@ -610,6 +610,42 @@ describe('NativeMapsDevice native readiness and screenshot pairing', () => {
   });
 });
 
+describe('release 20261023 search and sheet regressions', () => {
+  const captured = (name: string) => readFileSync(new URL(`./fixtures/android/release-20261023/${name}.xml`, import.meta.url), 'utf8');
+  it('does not mistake the real OnlyBear suggestion page for completed search', async () => {
+    const clock = queryClock();
+    const appium = await appiumFixture({ nestedInput: true, source: read => { if (read >= 3) clock.expire(); return captured('onlybear-suggestions'); } });
+    const device = new NativeMapsDevice({ ...config, keywordTimeoutMs: 5000, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start();
+    await expect(device.search('bubble tea garden city')).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });
+    expect((await device.snapshot()).xml).toContain('typed_suggest_container');
+    expect(appium.submittedQueries).toEqual(['bubble tea garden city']);
+    await device.close();
+  });
+  it('submits exactly once with IME semantics and waits through transient suggestions', async () => {
+    const appium = await appiumFixture({ nestedInput: true, source: (read, keyword) => read < 4 ? captured('onlybear-suggestions') : resultsXml(keyword) });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start(); await device.search('bubble tea garden city');
+    const submissions = appium.calls.filter(c => c.body?.script === 'mobile: pressKey');
+    expect(submissions.map(c => c.body.args[0])).toEqual([{ keycode: 66, flags: 16 }]);
+    expect(appium.submittedQueries).toEqual(['bubble tea garden city']);
+    expect((await device.snapshot()).xml).not.toContain('typed_suggest_container');
+    await device.close();
+  });
+  it('expands the real KEKE sheet before returning search readiness, without scrolling its list', async () => {
+    let expanded = false;
+    const initial = captured('keke-collapsed');
+    const final = rankingFixture('04-expanded-sheet').replaceAll('hot pot near me', 'braised food flushing');
+    const appium = await appiumFixture({ source: () => expanded ? final : initial, onDrag: () => { expanded = true; } });
+    const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
+    await device.start(); await device.search('braised food flushing');
+    expect((await device.snapshot()).xml).toBe(final);
+    expect(appium.calls.filter(c => c.body?.script === 'mobile: dragGesture')).toHaveLength(1);
+    expect(appium.calls.some(c => c.path.endsWith('/actions'))).toBe(false);
+    await device.close();
+  });
+});
+
 describe('NativeMapsDevice observed Maps editable input', () => {
   it('verifies the exact query in the known result wrapper description after the editable child disappears', async () => {
     const appium = await appiumFixture({ nestedInput: true, queryInDescription: true });
@@ -1301,8 +1337,7 @@ describe('NativeMapsDevice bounded native result list gestures', () => {
     const appium = await appiumFixture({ source: () => xml });
     const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
     await device.start();
-    await device.search('hot pot near me');
-    await expect(device.prepareResults()).rejects.toMatchObject({ code: 'RESULT_SHEET_NOT_EXPANDED' });
+    await expect(device.search('hot pot near me')).rejects.toMatchObject({ code: 'RESULT_SHEET_NOT_EXPANDED' });
     expect(appium.calls.filter(call => call.body?.script === 'mobile: dragGesture')).toHaveLength(1);
     expect((await device.snapshot()).xml).toBe(xml);
     await expect(device.snapshot()).rejects.toMatchObject({ code: 'DIAGNOSTIC_CAPTURE_EXHAUSTED' });

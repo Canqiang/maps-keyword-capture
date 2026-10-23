@@ -305,3 +305,16 @@ This source repair does not replace earlier live probe findings or imply candida
 ## 2026-10-23 UAT release follow-up
 
 See [the merged release verification](../evidence/2026-10-23/uat-scan-consistency/README.md). The v19 image is deployed to the suspended Android template. Both real App queries returned review outcomes (KEKE overlap/clipped card; OnlyBear still in autocomplete). GPS and independent artifact delivery passed; qualified rankings did not. Preserve suspension until the documented result-state and scrolling cases are repaired and verified.
+
+
+## 2026-10-23 — Search submission and initial sheet preparation
+
+Follow-up to the two isolated release failures above, on branch `codex/android-search-scroll-20261023`.
+
+- **KEKE root cause:** the production runner calls `search()` but never calls the existing `prepareResults()` helper. Its first capture therefore retained the collapsed bottom sheet. Subsequent result-list gestures changed sheet geometry and repeatedly failed ordered overlap. Search now invokes the existing bounded expansion only for a recognized native sheet with proven list top. Exact-query, before/after XML, expanded geometry and post-expansion list-top guards are retained. No overlap, identity or ad-classification threshold is relaxed.
+- **OnlyBear root cause:** an unchanged exact-query autocomplete screen was accepted under the settled-unknown-layout evidence route. Visible Maps-owned `typed_suggest_container` now blocks readiness. ENTER is submitted once with Android `FLAG_EDITOR_ACTION` (16); transport completion alone is never readiness. There is no suggestion selection, query rewrite or uncertain submission retry. Persistent suggestions time out and retain a bounded diagnostic.
+- **Regression evidence:** unmodified native XML from both failed runs is in `tests/fixtures/android/release-20261023/`. Both regressions failed on the old code and passed after the change. The test expansion transition is synthetic; actual App acceptance requires the isolated validation below.
+- **Expected acceptance:** both exact original queries leave the editor, capture the expanded list from the top, retain continuous ordered screenshots to the configured limit or a verified list end, and preserve distinct display/organic ranks. GPS receipt and storage checks are independent of ranking acceptance. Backend search locality remains unverified.
+- **Isolation:** retain all historical runs. Use a new verification database and Job, only KEKE/OnlyBear center points, the dedicated crawler workers, and a candidate image. Keep production CronJobs, Web/UI images, shared keyword collections and Android suspension unchanged.
+
+Real-device verification is pending. This checkpoint is not a claim that the App issues are resolved or Android scheduling is accepted.

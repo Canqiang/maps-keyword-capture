@@ -593,14 +593,19 @@ export class NativeMapsDevice implements AndroidDevice {
       if (!await this.usableSearchInput(field, true)) fail('UNKNOWN_SEARCH_LAYOUT', 'Maps search input lost visibility, ownership or focus before submission');
       if (await this.command('GET', `${path}/text`) !== keyword) fail('QUERY_NOT_VISIBLE', 'The exact keyword is not present in the native input before submission');
       // Appium's editor-action IME injected "/search" into this Maps build.
-      // Native ENTER submits the verified focused input; never retry an uncertain submission.
-      await this.mobile('pressKey', { keycode: 66 });
+      // FLAG_EDITOR_ACTION marks ENTER as the IME action on the verified input.
+      // A completed transport is not a completed search; never retry an uncertain submission.
+      await this.mobile('pressKey', { keycode: 66, flags: 16 });
       await this.foreground();
       field = await this.searchField();
       if (!await this.searchQueryMatches(field, keyword)) fail('QUERY_NOT_VISIBLE', 'The exact submitted keyword is not visible in the native Maps search field');
       // v4: a settled layout the native analyzer does not recognize is still evidence; the
       // screen reader decides from the screenshot. Loading, blocked and consent states still wait or fail.
-      await this.stableNativeXml(false, true);
+      const settled = await this.stableNativeXml(false, true);
+      const list = inspectNativeResultList(settled, keyword);
+      // Expand the known sheet before any OCR/ranking frame. Otherwise the first
+      // list swipe moves the sheet as well as cards, destroying ordered overlap.
+      if (list?.sheetHandleBounds && list.canScrollBackward === false) await this.prepareResults();
     } catch (error) {
       this.searchFailed = true;
       this.diagnosticPending = true;
@@ -630,6 +635,11 @@ export class NativeMapsDevice implements AndroidDevice {
       return node.text === this.activeKeyword && (knownWrapper || node.resourceId === SEARCH_INPUT_ID ||
         (node.className === 'android.widget.EditText' && ['Search here', 'Search Google Maps'].includes(node.description)));
     });
+    // Maps may leave ENTER on a focused autocomplete page. Exact text and a
+    // stable hierarchy there prove typing only, never completed search.
+    const suggestions = nodes.some(node => node.packageName === MAPS &&
+      node.resourceId === `${MAPS}:id/typed_suggest_container`);
+    if (suggestions) return false;
     const visibleLoading = nodes.some(node => /(?:ProgressBar|CircularProgressIndicator|LinearProgressIndicator)$/.test(node.className) ||
       (/(?:^|\/)(?:loading|loading_text|loading_indicator|progress_indicator|search_progress)$/.test(node.resourceId) &&
         [node.text, node.description].some(label => /^(?:loading(?: results)?|searching)(?:\.{3}|…)?$/.test(label.normalize('NFKC').replace(/\s+/gu, ' ').trim().toLowerCase()))));
