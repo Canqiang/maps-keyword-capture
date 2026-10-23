@@ -1,8 +1,19 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-23. **Post-submit stale-read recovery is implemented (v24); dual-worker complete collection still fails at OCR. Production Android remains suspended.** No duplicate search submission occurred. The latest failures must not be reported as complete rankings or as another Appium stale failure.
+Last updated: 2026-10-23. **OCR subprocess diagnostics and bounded single-thread execution are implemented. A real dual-worker probe completed52 OCR attempts without failure; OnlyBear completed, while KEKE exposed a separate mixed-script identity boundary. v27 fixed that evidenced boundary; its next run exposed clipped-title continuity and a bounded command-log gap. v28 addresses those two evidenced cases and awaits fresh isolated acceptance. Production Android remains suspended.** No full-fleet or new positive live advertisement acceptance is claimed.
 
-## Latest checkpoint (2026-10-23, dual run ended15:57:35 Asia/Shanghai)
+## Current OCR repair checkpoint
+
+See [OCR diagnosis, changes, tests and native evidence](../evidence/2026-10-23/android-ocr-concurrency/README.md). Runtime candidate source`68be32230091909582f46a3cd7cc6eddcba82280`, ACR`ch15an`, image`sha256:666f52a117e068c32a3f4e193550d3eda1b148a5a595ab65d89aed209e88d69f`, listing method v27; fresh Job/database`maps-android-ocr-v27-20261023`. This v27 probe ended partial; see the evidence report for its precise outcome and v28 follow-up.
+
+- **Diagnosis:** original v24 exits/stderr were missing, so timeout versus signal is unknown. Same-image A/B/A/B replay proves excess OpenMP CPU-quota overhead (12.8–20.7s versus1.70–1.89s), preserving identical OCR output per PNG. It does not retrospectively prove the old failure subtype.
+- **Implemented behavior:** one Tesseract thread; one immutable `ocr_process_log` per attempted PNG with exit/signal, wall and optional stage timeout distinction, duration, safe typed stages and stderr hash/length. Owned descendants are cleaned on all terminal paths. Failed diagnostic persistence prevents acceptance. Search is never resubmitted as OCR recovery.
+- **Separate startup budget:** only session creation gets a bounded90s default/120s maximum; ordinary command deadlines are unchanged. The later two sessions both finished below30s, so tests cover the longer branch; no unsupported live causality claim.
+- **Remaining v26 boundary fixed locally:** exact original Bob’s Noodle frames34/35 corroborated by two native buttons, stable metadata and high-confidence English word positions. CJK differences require character-specific uncertainty or explicit script equivalents; branch/number/ad/geometry ambiguity remains rejected. Historical data is not rewritten.
+- **Software checks:**95 TypeScript files/1,834 tests, typecheck/contracts/build passed;34 Python tests passed for the unchanged OCR implementation. Independent continuity review ran65 focused tests without blockers.
+- **Acceptance required:** both complete bounded keyword lists, original exits0, actual simultaneous search/capture, one submission each, matching database results, independent all-artifact readback and unchanged protected workloads. Two full keywords are not acceptance of270 searches every two hours. Preserve failed rounds and all artifacts.
+
+## Historical v24 checkpoint (2026-10-23, dual run ended15:57:35 Asia/Shanghai)
 
 - **Fix:** source`bfa6976db59cb1aef239d20c2b918f66a5481fc3`, ACR`ch15ag`, image`sha256:bc2e2b9275211679cf5c44d18a0ca31c2eb615c739a97285ca5a0fab3cc80ce8`, listing method v24. Only exact HTTP404 W3C stale-element GET errors inside the post-submit read loop may trigger at most three fresh acquisitions, within the existing deadline. Input/submission mutations and generic errors are never retried.
 - **Tests:** regression red→green;214 device tests,94 files/1,803 full-suite tests, typecheck/contracts/build and independent review pass.

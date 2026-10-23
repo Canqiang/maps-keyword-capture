@@ -757,6 +757,45 @@ function nativeActionContinuity(previous: ScreenFrame, frame: ScreenFrame, heigh
   return ratingProof ? delta : null;
 }
 
+/** A title can leave the shared band while its complete rating and a long
+ * exact review line still prove motion. An incoming card must have been entirely
+ * below the old viewport; it cannot serve as an identity anchor for the old one. */
+function clippedRatingContinuity(previous: ScreenFrame, frame: ScreenFrame, delta: number): boolean {
+  if (previous.cards.length!==1 || frame.cards.length!==2 ||
+    [previous,frame].some(f=>f.warnings.includes('native_ad_evidence_unresolved'))) return false;
+  const a=previous.cards[0]!, b=frame.cards[0]!, incoming=frame.cards[1]!, list=frame.nativeListBounds!;
+  const contained=(r:Rect)=>Object.values(r).every(Number.isFinite) && r.right>r.left && r.bottom>r.top &&
+    r.left>=list.left && r.right<=list.right && r.top>=list.top && r.bottom<=list.bottom;
+  if (a.resultType!=='organic' || a.warnings.length || !a.nameBounds || (a.nameConfidence??0)<40 ||
+    b.name!==null || b.resultType!=='unknown' || b.warnings.length!==1 || b.warnings[0]!=='name_clipped_at_top' ||
+    !a.ratingBounds || !b.ratingBounds || !contained(a.nameBounds) || !contained(a.ratingBounds) || !contained(b.ratingBounds) ||
+    a.nameBounds.bottom>a.ratingBounds.top || a.nameBounds.bottom+delta>list.top ||
+    b.ratingBounds.top>list.top+6 || delta>=-2 ||
+    a.rating===null || a.reviewCount===null || a.rating!==b.rating || a.reviewCount!==b.reviewCount ||
+    a.category===null || a.category!==b.category || a.priceText!==b.priceText || a.distanceText===null || a.distanceText!==b.distanceText ||
+    frame.cards.filter(c=>c.rating===a.rating && c.reviewCount===a.reviewCount).length!==1 ||
+    incoming.resultType!=='organic' || incoming.warnings.length || !incoming.nameBounds || !incoming.ratingBounds ||
+    (incoming.nameConfidence??0)<40 || !contained(incoming.nameBounds) || !contained(incoming.ratingBounds) ||
+    incoming.nameBounds.bottom>incoming.ratingBounds.top || incoming.nameBounds.top-delta<=list.bottom) return false;
+  const aligned=(x:Rect,y:Rect)=>contained(x)&&contained(y)&&Math.abs(x.left-y.left)<=4 && Math.abs(x.right-y.right)<=4 &&
+    Math.abs((y.top-x.top)-delta)<=4 && Math.abs((y.bottom-x.bottom)-delta)<=4;
+  if (!aligned(a.ratingBounds,b.ratingBounds)) return false;
+  const key=anchorKey(a.ratingLineText.toLowerCase());
+  if (!key.startsWith('rating:') || key!==anchorKey(b.ratingLineText.toLowerCase())) return false;
+  // Require the normalized rating anchors themselves to coincide with the two
+  // parsed ratings. A different matching rating elsewhere is not evidence.
+  for (const [f,c] of [[previous,a],[frame,b]] as const) {
+    const anchors=f.anchors!.filter(v=>anchorKey(v.text)===key);
+    if (anchors.length!==1 || Math.abs(anchors[0]!.bounds.top-c.ratingBounds!.top)>2 ||
+      Math.abs(anchors[0]!.bounds.left-c.ratingBounds!.left)>2 || Math.abs(anchors[0]!.bounds.right-c.ratingBounds!.right)>2) return false;
+  }
+  return previous.anchors!.some(x=>/^["“][a-z]/iu.test(x.text) && x.text.length>=30 && x.text.split(/\s+/u).length>=6 &&
+    x.bounds.top>a.ratingBounds!.bottom+40 && previous.anchors!.filter(v=>v.text===x.text).length===1 && (()=>{
+      const matches=frame.anchors!.filter(y=>y.text===x.text);if(matches.length!==1)return false;
+      const y=matches[0]!;return y.bounds.top>b.ratingBounds!.bottom+40 && y.bounds.bottom<incoming.nameBounds!.top && aligned(x.bounds,y.bounds);
+    })());
+}
+
 export function anchoredContinuity(previous: ScreenFrame | undefined, frame: ScreenFrame): number | null {
   const before = previous?.nativeListBounds, after = frame.nativeListBounds;
   if (!previous || !before || !after || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
@@ -786,6 +825,8 @@ export function anchoredContinuity(previous: ScreenFrame | undefined, frame: Scr
   if (exact.count >= 2) return exact.delta;
   const nativeDelta = nativeActionContinuity(previous, frame, height);
   if (nativeDelta !== null) return nativeDelta;
+  const clippedMeasure = measure(true);
+  if (clippedMeasure.independent && clippedMeasure.delta!==null && clippedRatingContinuity(previous,frame,clippedMeasure.delta)) return clippedMeasure.delta;
   // This recovery concerns one visible merchant, not empty modules or multi-card placement.
   if (previous.cards.length !== 1 || frame.cards.length !== 1 || previous.cards[0]!.rating === null || previous.cards[0]!.reviewCount === null || previous.cards[0]!.rating !== frame.cards[0]!.rating || previous.cards[0]!.reviewCount !== frame.cards[0]!.reviewCount) return quotedSnippetContinuity(previous, frame);
   const tolerant = measure(true);

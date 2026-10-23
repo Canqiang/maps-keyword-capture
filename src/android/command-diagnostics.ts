@@ -28,16 +28,19 @@ export function commandLabel(method:string,path:string,body?:unknown):string {
 export function adbLabel(args:string[]):string {
  const label=adbLabels.find(x=>x!=='other'&&args.slice(0,x.split(' ').length).join(' ')===x);return `adb:${label??'other'}`;
 }
+// The observed location phase spans276 commands between checkpoints. Keep a
+// bounded512-event window; longer phases still report dropped counts explicitly.
+const RECENT_LIMIT=512;
 export class CommandJournal {
  private recent:CommandEvent[]=[];private failures:CommandEvent[]=[];private total=0;private failureCount=0;
  record(input:CommandEventInput):void {
   const e=clean({...input,sequence:++this.total,at:new Date().toISOString()});
-  this.recent.push(e);if(this.recent.length>256)this.recent.shift();
+  this.recent.push(e);if(this.recent.length>RECENT_LIMIT)this.recent.shift();
   if(e.outcome==='failed'){this.failureCount++;if(this.failures.length<32)this.failures.push(e);}
  }
  snapshot():CommandReport {return {schemaVersion:'android-command-log/v1',total:this.total,droppedRecent:Math.max(0,this.total-this.recent.length),droppedFailures:Math.max(0,this.failureCount-this.failures.length),recent:this.recent.map(e=>({...e})),failures:this.failures.map(e=>({...e}))};}
 }
 /** Project fields again at the artifact boundary, including for injected device implementations. */
 export function diagnosticsJson(report:CommandReport):string {
- return JSON.stringify({schemaVersion:'android-command-log/v1',total:integer(report.total),droppedRecent:integer(report.droppedRecent),droppedFailures:integer(report.droppedFailures),recent:report.recent.slice(-256).map(clean),failures:report.failures.slice(0,32).map(clean)},null,2);
+ return JSON.stringify({schemaVersion:'android-command-log/v1',total:integer(report.total),droppedRecent:integer(report.droppedRecent),droppedFailures:integer(report.droppedFailures),recent:report.recent.slice(-RECENT_LIMIT).map(clean),failures:report.failures.slice(0,32).map(clean)},null,2);
 }
