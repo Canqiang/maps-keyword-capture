@@ -1,0 +1,24 @@
+{
+  "typecheck": "passed",
+  "contractTests": "passed",
+  "build": "passed",
+  "vitest": {
+    "files": 93,
+    "tests": 1783,
+    "passed": 1783,
+    "log": "full-tests.log"
+  },
+  "python": {
+    "tests": 33,
+    "passed": 33,
+    "log": "python-tests.log"
+  },
+  "ciGuards": {
+    "tests": 9,
+    "passed": 9,
+    "log": "ci-tests.log"
+  },
+  "independentReview": "review.json",
+  "historicalNegativeRegression": "initial full suite rejected broad continuity; final gates preserve all historical cases",
+  "fixtureBytes": "fixture-provenance.json"
+}

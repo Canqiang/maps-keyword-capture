@@ -1,0 +1,11 @@
+{
+  "typescriptTests": 1796,
+  "testFiles": 94,
+  "typecheck": "passed",
+  "contracts": "passed",
+  "build": "passed",
+  "focusedNoReviewCases": 13,
+  "review": "Independent existing reviewer review_search_scroll found no blockers; native v23 outcome pending",
+  "previousCandidatePythonTests": 33,
+  "previousCandidateCiGuardTests": 9
+}

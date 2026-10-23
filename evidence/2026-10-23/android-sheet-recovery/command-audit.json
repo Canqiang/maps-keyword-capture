@@ -1,0 +1,127 @@
+{
+  "checkpoints": [
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/commands-0001-started.json",
+      "bytes": 5653,
+      "sha256": "9d738450e798ba652662a03d0d8f68ce5ed008ee45daebcb25456cdcdac63e24",
+      "total": 29,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/commands-0013-closed.json",
+      "bytes": 63121,
+      "sha256": "f67d1f8ece865c5d8e9c5918323e6331d9084cc27df6190a0153022262deefd1",
+      "total": 1097,
+      "droppedRecent": 841,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0002-located.json",
+      "bytes": 15659,
+      "sha256": "ddb8f9a05939ac571585acab660d6951462080fb167793d74bb864c65d17a707",
+      "total": 74,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0003-searched.json",
+      "bytes": 31122,
+      "sha256": "fcaa716d35305504ac1c98c6eb8937a870f3aaaacf12fb4b89e5ba88ccda9fdc",
+      "total": 137,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0005-frames.json",
+      "bytes": 63030,
+      "sha256": "8945cdfbf2ae17b7db459e4d5481f9d4505e33ddc9be97b2bfa9be23cd6160f5",
+      "total": 333,
+      "droppedRecent": 77,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0004-frames.json",
+      "bytes": 53470,
+      "sha256": "a76194a03b21b4979f8f27ba4aeb7ba0e895b8891453f2c8cbf792daa00b0f14",
+      "total": 228,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0006-frames.json",
+      "bytes": 63040,
+      "sha256": "aab3a42bd2f7595f00049515c09b0b3d84764c69114ae9c12149c63b784135d0",
+      "total": 438,
+      "droppedRecent": 182,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0007-frames.json",
+      "bytes": 63051,
+      "sha256": "128ecc340f6d65760f94c4d685f4c0317890cb0fd4ef55d621114653e14e695f",
+      "total": 550,
+      "droppedRecent": 294,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0008-frames.json",
+      "bytes": 63045,
+      "sha256": "c09bf1ac46bd4b00a3d49e56dc605e5bfa173dcf45d88d697560b3640932a056",
+      "total": 655,
+      "droppedRecent": 399,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0009-frames.json",
+      "bytes": 63033,
+      "sha256": "7dd7521007708f7f566bd988abcd62f262e9ab6d51b07f665569587e0f4719bb",
+      "total": 802,
+      "droppedRecent": 546,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0010-frames.json",
+      "bytes": 63033,
+      "sha256": "48bce06d3c45f8fd1b8e7c0d3df9f2045657d50b4f478f7de0ca4d3fe34f926d",
+      "total": 907,
+      "droppedRecent": 651,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0011-frames.json",
+      "bytes": 63043,
+      "sha256": "67358fe492ecbc3d77b2c333880718c175600e6b292573e5c1679795c3925dfe",
+      "total": 1012,
+      "droppedRecent": 756,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T064015Z_16019e/q0001/commands-0012-query-final.json",
+      "bytes": 63120,
+      "sha256": "b294b56e63727a134779a14b9197a2725c91a47d59697bea8e9540de53020baf",
+      "total": 1096,
+      "droppedRecent": 840,
+      "droppedFailures": 0
+    }
+  ],
+  "uniqueCommands": 1097,
+  "total": 1097,
+  "fullRunSequenceRecovered": true,
+  "failedCommands": [],
+  "phaseCounts": {
+    "preflight": 26,
+    "start": 3,
+    "snapshot": 336,
+    "scroll": 630,
+    "close": 1,
+    "location": 38,
+    "search": 24,
+    "search.prepare-ime": 14,
+    "search.submit": 1,
+    "search.results": 11,
+    "search.expand": 11,
+    "search.restore-ime": 2
+  },
+  "xmlParsed": 47
+}

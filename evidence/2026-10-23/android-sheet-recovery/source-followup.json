@@ -1,0 +1,11 @@
+{
+  "runtimeSourceCommit": "88379ee4fc3bf5e9a34aa26a3aee00ada4bfb60c",
+  "localHead": "9134a04591eb140a09ab196d745298d3577b667c",
+  "postBuildChanges": [
+    "tests/fixtures/android/sheet-recovery-20261023/keke-1.xml",
+    "tests/fixtures/android/sheet-recovery-20261023/keke-2.xml",
+    "tests/fixtures/android/sheet-recovery-20261023/keke-3.xml"
+  ],
+  "runtimeCodeUnchanged": true,
+  "reason": "Preserve receipt-verified XML line endings in Git; fixtures are excluded from runtime build"
+}

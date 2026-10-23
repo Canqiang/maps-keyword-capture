@@ -1,8 +1,22 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-23. **Work in progress; Android remains suspended.** Latest work repairs the historical KEKE frame35/36 rating OCR error and retains durable command diagnostics; software validation and native acceptance are recorded separately. The old Appium fault remains unconfirmed, and current KEKE acceptance is partial. Historical probe descriptions below are retained as historical evidence, not current deployment inventory. Update this document after each candidate replay, device run, deployment, or change to acceptance criteria.
+Last updated: 2026-10-23. **KEKE single-query Top20 acceptance now passed; production Android remains suspended.** Panel-state/native-motion safeguards and the explicit no-review clipped-header fix are implemented. Full evidence readback and native acceptance are recorded separately from branch-specific fixture coverage. No fleet promotion or push/merge was performed. Historical failures below remain immutable evidence.
 
-## Latest verified checkpoint (2026-10-23, isolated run finished13:58:59 Asia/Shanghai)
+## Latest verified checkpoint (2026-10-23, finished15:04:17 Asia/Shanghai)
+
+Runtime source `bd894e7f9c6e69f98bd06f40bba7eeb2b56d7f09`, ACR `ch15ad`, digest `sha256:8220c787f89e9c370122e73e42a17945dc09e3d5e8ac3e90a26a43c1b138df53`, listing method v23. Local branch `codex/android-search-scroll-20261023`; no push/merge or production promotion.
+
+- **Complete bounded native capture:** isolated KEKE `braised food flushing`, original center point, one worker. Original exit0,20 organic results,0 ads/unknown; sequence/classification/screenshot coverage verified. KEKE display1 / organic1. The configured20-result target was reached; the entire Google list was not exhausted.
+- **Screens and corrections:**48 ranking PNGs +1 location PNG;46 selected frames and two retained backward-correction frames25/26. Longjiang4.1/18 was correctly captured at33; Ji You explicit no-review card at43. Some raw Chinese name OCR remains noisy.
+- **Coverage limits:** no native-top sheet restart or rating reread was invoked. Ji You's no-review line fully left frame44, so the new clipped no-review branch is covered by original-fixture tests, not this fresh run. This is one point/keyword, not fleet acceptance or new positive ad-case verification. Maps location remains unverified.
+- **Evidence:**218 objects independently downloaded with Azure login,217 exact bytes/SHA receipts plus service-length scan-root check.49 PNGs decoded,49 XML and118 JSON parsed; CSV1 query/20 rows checked. Selected-frame replay exactly reproduces accepted20. Eight actual PNGs visually sampled.1,148 command sequences fully recovered from16 durable checkpoints, zero failures; historical intermittent Appium cause remains unconfirmed.
+- **Software:**94 files /1,796 TypeScript tests plus typecheck/contracts/build passed; independent focused review passed. Earlier v22 validation included33 Python and9 CI guards; unchanged by v23.
+- **Protection:**7 Maps workload specs and81 pre-existing ConfigMap data hashes unchanged. Separate database/output prefixes; Web/UI/daily collectors, source keyword library and past observations untouched. Production Android stays suspended.
+- **Next gate:** same-candidate OnlyBear/ad-case and concurrent-worker validation, then full target-catalog/capacity acceptance before any production promotion.
+
+See [v23 full verification and handoff](../evidence/2026-10-23/android-unrated-continuity/README.md) and [v22 partial checkpoint](../evidence/2026-10-23/android-sheet-recovery/README.md). The earlier three-frame partial result below is historical.
+
+## Historical rating checkpoint (2026-10-23, isolated run finished13:58:59 Asia/Shanghai)
 
 Source `d03fa2a19dde775c91a4be7b4c82ed32ea4d4b66`, ACR `ch15a2`, digest `sha256:0f0d1825f1d9ee35c984969aa97e82c88c28c2bc8d560fcb6b23975eb7e9ac08`, listing method v21. Local branch `codex/android-search-scroll-20261023`; no push/merge or production promotion.
 
@@ -448,7 +462,7 @@ The candidate addresses both transitions, without changing the shared keyword ca
 - Recovery and backward correction consume existing screenshot, movement and deadline budgets; they cannot send a gesture when no follow-up screenshot budget remains. Uncertain Appium/transport outcomes are not retried. Command checkpoints remain durable before/after recovery and at query/cleanup boundaries.
 - Listing method changes to `full_screen_ocr_native_context_ordered_overlap/v22`. Historical artifacts are not rewritten.
 
-Expected acceptance is an isolated KEKE `braised food flushing` center-point capture reaching20 reliable displayed occurrences or an independently recognized list end, with ad/display/natural ranks kept distinct. Full independent artifact readback, original exit code and command-journal coverage must be recorded before claiming native completion. Real fixture replay alone does not satisfy this gate. Candidate runtime validation is pending in this section until the final evidence update below.
+Expected acceptance is an isolated KEKE `braised food flushing` center-point capture reaching20 reliable displayed occurrences or an independently recognized list end, with ad/display/natural ranks kept distinct. Full independent artifact readback, original exit code and command-journal coverage must be recorded before claiming native completion. Real fixture replay alone does not satisfy this gate. The dated v22 checkpoint below records its partial native outcome; the latest v23 checkpoint records the subsequent complete bounded KEKE result.
 
 ### v22 native checkpoint — 2026-10-23 14:40–14:46 Asia/Shanghai
 

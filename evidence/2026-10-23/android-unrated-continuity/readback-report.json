@@ -1,0 +1,1578 @@
+{
+  "at": "2026-10-23T07:06:03.288Z",
+  "authentication": "Azure CLI identity; not collector SAS",
+  "finals": [
+    {
+      "surface": "android",
+      "scanId": "android_scan_20261023T065827Z_a4d4b4",
+      "status": "completed",
+      "exitCode": 0,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 1,
+        "notFound": 0,
+        "needsReview": 0,
+        "failed": 0,
+        "skipped": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/android/2026-10-23/point/android_scan_20261023T065827Z_a4d4b4/catalog.json",
+        "bytes": 1627,
+        "sha256": "673cf165eec5c4f74e9863a731dffeaed3702c297e7f8521e4d66a408ab069a7",
+        "storageStatus": "verified",
+        "objectKey": "tracking/android/2026-10-23/point/android_scan_20261023T065827Z_a4d4b4/catalog.json",
+        "verifiedAt": "2026-10-23T06:58:27.482Z",
+        "storageError": null,
+        "version": "adb925d1-2034-4066-848a-63181aab5b5d",
+        "storeIds": [
+          "keke-flushing"
+        ],
+        "execution": {
+          "surface": "android",
+          "tier": "point",
+          "shardIndex": 0,
+          "shardCount": 1,
+          "storeId": null
+        }
+      },
+      "gateStatus": "worker_finished"
+    }
+  ],
+  "prefixes": [
+    "tracking/android/2026-10-23/point/android_scan_20261023T065827Z_a4d4b4",
+    "android-maps/2026-10-23/run_20261023T065827Z_319040"
+  ],
+  "objects": 218,
+  "receiptsVerified": 217,
+  "errors": [],
+  "inventory": [
+    {
+      "key": "tracking/android/2026-10-23/point/android_scan_20261023T065827Z_a4d4b4/scan.json",
+      "serviceBytes": 1758,
+      "bytes": 1758,
+      "sha256": "9571d52ab4bf78907c127348ae0e36b42c38f774364c3f76d63ca29dd81d19af",
+      "local": "/tmp/maps-android-unrated-20261023/readback/9571d52ab4bf78907c127348ae0e36b42c38f774364c3f76d63ca29dd81d19af"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/input.json",
+      "serviceBytes": 1296,
+      "bytes": 1296,
+      "sha256": "5307f60fe1bdd5a36cc6be01a4cf9b9403fbf6e688cf50e7e48bfbc337960d96",
+      "local": "/tmp/maps-android-unrated-20261023/readback/5307f60fe1bdd5a36cc6be01a4cf9b9403fbf6e688cf50e7e48bfbc337960d96"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/commands-0001-started.json",
+      "serviceBytes": 5654,
+      "bytes": 5654,
+      "sha256": "ebae4e0cd7689a5d2722cd61770083e05f9d4716ed14e15cf8fa9b08d8162be2",
+      "local": "/tmp/maps-android-unrated-20261023/readback/ebae4e0cd7689a5d2722cd61770083e05f9d4716ed14e15cf8fa9b08d8162be2"
+    },
+    {
+      "key": "tracking/android/2026-10-23/point/android_scan_20261023T065827Z_a4d4b4/catalog.json",
+      "serviceBytes": 1627,
+      "bytes": 1627,
+      "sha256": "673cf165eec5c4f74e9863a731dffeaed3702c297e7f8521e4d66a408ab069a7",
+      "local": "/tmp/maps-android-unrated-20261023/readback/673cf165eec5c4f74e9863a731dffeaed3702c297e7f8521e4d66a408ab069a7"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/device.json",
+      "serviceBytes": 330,
+      "bytes": 330,
+      "sha256": "a3546a029fb76913733b97f4b80d6994362d142188e171abff121cee0ccfc935",
+      "local": "/tmp/maps-android-unrated-20261023/readback/a3546a029fb76913733b97f4b80d6994362d142188e171abff121cee0ccfc935"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/commands-0016-closed.json",
+      "serviceBytes": 63169,
+      "bytes": 63169,
+      "sha256": "796f7ec606622d40652c83af897a0f980605099c358a502e02974ab8b6c3c567",
+      "local": "/tmp/maps-android-unrated-20261023/readback/796f7ec606622d40652c83af897a0f980605099c358a502e02974ab8b6c3c567"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/listings.csv",
+      "serviceBytes": 5507,
+      "bytes": 5507,
+      "sha256": "5d85ea7afb041e8c4c074c54138bcf89caa1b55be3f071b072b7de7314eba049",
+      "local": "/tmp/maps-android-unrated-20261023/readback/5d85ea7afb041e8c4c074c54138bcf89caa1b55be3f071b072b7de7314eba049"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065905.438Z__braised-food-flushing__01.frame.json",
+      "serviceBytes": 7871,
+      "bytes": 7871,
+      "sha256": "725758323cd07e996683321802a86e6190110d2ef3a379466e819368332b6daf",
+      "local": "/tmp/maps-android-unrated-20261023/readback/725758323cd07e996683321802a86e6190110d2ef3a379466e819368332b6daf"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065853.037Z__braised-food-flushing__location.png",
+      "serviceBytes": 431302,
+      "bytes": 431302,
+      "sha256": "f991c57f24b55f084e46f5c68b0e8ff79650cc1be45d6217415d17823956d704",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f991c57f24b55f084e46f5c68b0e8ff79650cc1be45d6217415d17823956d704"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065905.438Z__braised-food-flushing__01.ocr.json",
+      "serviceBytes": 19540,
+      "bytes": 19540,
+      "sha256": "80e1f213e87f2ca81aaf45155c7e17569217175bb1823cb4e7158edcd7b987ef",
+      "local": "/tmp/maps-android-unrated-20261023/readback/80e1f213e87f2ca81aaf45155c7e17569217175bb1823cb4e7158edcd7b987ef"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065853.037Z__braised-food-flushing__location.xml",
+      "serviceBytes": 107705,
+      "bytes": 107705,
+      "sha256": "294c4928cb65345790ac19688463bafd68eae11d64a490a9a2098b47b23b3bbc",
+      "local": "/tmp/maps-android-unrated-20261023/readback/294c4928cb65345790ac19688463bafd68eae11d64a490a9a2098b47b23b3bbc"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065911.841Z__braised-food-flushing__02.frame.json",
+      "serviceBytes": 5749,
+      "bytes": 5749,
+      "sha256": "6c0f77dcdfe7ba472b3eea898b1f166c5b5482780d5513ce7d64bf4bf2c2fcdb",
+      "local": "/tmp/maps-android-unrated-20261023/readback/6c0f77dcdfe7ba472b3eea898b1f166c5b5482780d5513ce7d64bf4bf2c2fcdb"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/manifest.json",
+      "serviceBytes": 302728,
+      "bytes": 302728,
+      "sha256": "8fe149f4b7d86e234ba96d63ac4644e2b63be23cc4c484444d39814fd59d335b",
+      "local": "/tmp/maps-android-unrated-20261023/readback/8fe149f4b7d86e234ba96d63ac4644e2b63be23cc4c484444d39814fd59d335b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065911.841Z__braised-food-flushing__02.ocr.json",
+      "serviceBytes": 17471,
+      "bytes": 17471,
+      "sha256": "20d08be095403a70cb73f20fba3773415fc4a71a0846dd16c8ca9f71d946992d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/20d08be095403a70cb73f20fba3773415fc4a71a0846dd16c8ca9f71d946992d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065905.438Z__braised-food-flushing__01.xml",
+      "serviceBytes": 84001,
+      "bytes": 84001,
+      "sha256": "d6b98b8cafb2e67b8c2b647fa7135bae23e4a812c4ecc750f0e006308686f1db",
+      "local": "/tmp/maps-android-unrated-20261023/readback/d6b98b8cafb2e67b8c2b647fa7135bae23e4a812c4ecc750f0e006308686f1db"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065905.438Z__braised-food-flushing__01.png",
+      "serviceBytes": 671216,
+      "bytes": 671216,
+      "sha256": "e4045092b57cdd9b125757f2c9dcf4548b2ae0795c73f6ada25cc94969da2dcb",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e4045092b57cdd9b125757f2c9dcf4548b2ae0795c73f6ada25cc94969da2dcb"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065911.841Z__braised-food-flushing__02.xml",
+      "serviceBytes": 78045,
+      "bytes": 78045,
+      "sha256": "03e5f9018804c67df2016fbdd39d229e5119a52f7b613e4cd5459c085721cf51",
+      "local": "/tmp/maps-android-unrated-20261023/readback/03e5f9018804c67df2016fbdd39d229e5119a52f7b613e4cd5459c085721cf51"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065918.915Z__braised-food-flushing__03.frame.json",
+      "serviceBytes": 9075,
+      "bytes": 9075,
+      "sha256": "e6dfdc9073ecbaa48067da7a948e2f0e02aa57a3f5e33534353389929df8ea3c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e6dfdc9073ecbaa48067da7a948e2f0e02aa57a3f5e33534353389929df8ea3c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065918.915Z__braised-food-flushing__03.ocr.json",
+      "serviceBytes": 24823,
+      "bytes": 24823,
+      "sha256": "c311e72b6913e01759d6d13b9515551ab3360bacdb1557eb93adb41bed4ebc1c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/c311e72b6913e01759d6d13b9515551ab3360bacdb1557eb93adb41bed4ebc1c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065918.915Z__braised-food-flushing__03.png",
+      "serviceBytes": 474502,
+      "bytes": 474502,
+      "sha256": "8bcbd76ff08449bb11d88d45aa5e06f9048e76ebf621a70ead1c53112e5f2e12",
+      "local": "/tmp/maps-android-unrated-20261023/readback/8bcbd76ff08449bb11d88d45aa5e06f9048e76ebf621a70ead1c53112e5f2e12"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065918.915Z__braised-food-flushing__03.xml",
+      "serviceBytes": 84426,
+      "bytes": 84426,
+      "sha256": "81a9ffe3b5276d4d74e26acbced7014d6d7997e3a5403ba30b82b5d2a93a3da7",
+      "local": "/tmp/maps-android-unrated-20261023/readback/81a9ffe3b5276d4d74e26acbced7014d6d7997e3a5403ba30b82b5d2a93a3da7"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065927.354Z__braised-food-flushing__04.frame.json",
+      "serviceBytes": 3996,
+      "bytes": 3996,
+      "sha256": "83e0a76462d76399da38b76b515aaefa571e189d8f75e42372d1245cdd034a7b",
+      "local": "/tmp/maps-android-unrated-20261023/readback/83e0a76462d76399da38b76b515aaefa571e189d8f75e42372d1245cdd034a7b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065927.354Z__braised-food-flushing__04.ocr.json",
+      "serviceBytes": 14827,
+      "bytes": 14827,
+      "sha256": "66416a4a3ba927f2bc77630b68c7465485c1163139761a4c2c014966a3b1274b",
+      "local": "/tmp/maps-android-unrated-20261023/readback/66416a4a3ba927f2bc77630b68c7465485c1163139761a4c2c014966a3b1274b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065927.354Z__braised-food-flushing__04.xml",
+      "serviceBytes": 72783,
+      "bytes": 72783,
+      "sha256": "aee85985301b1a8d35a31e3397db288cfb78dae45d82e7d40890da11fe6cf994",
+      "local": "/tmp/maps-android-unrated-20261023/readback/aee85985301b1a8d35a31e3397db288cfb78dae45d82e7d40890da11fe6cf994"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065933.740Z__braised-food-flushing__05.frame.json",
+      "serviceBytes": 5345,
+      "bytes": 5345,
+      "sha256": "8db28128e8913cbf5a5d7ede0d3fba9181971668eab5b7449453afeb69175516",
+      "local": "/tmp/maps-android-unrated-20261023/readback/8db28128e8913cbf5a5d7ede0d3fba9181971668eab5b7449453afeb69175516"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065933.740Z__braised-food-flushing__05.ocr.json",
+      "serviceBytes": 19596,
+      "bytes": 19596,
+      "sha256": "f185c85249d3f8afc130e2f96d70adf74a7a4f1428e66404bf641530a6643bef",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f185c85249d3f8afc130e2f96d70adf74a7a4f1428e66404bf641530a6643bef"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065911.841Z__braised-food-flushing__02.png",
+      "serviceBytes": 828389,
+      "bytes": 828389,
+      "sha256": "06b3a2c8e269c837a503039d4d422b3a2c54c2af1b6ba1eaf0da5a064c0d47b3",
+      "local": "/tmp/maps-android-unrated-20261023/readback/06b3a2c8e269c837a503039d4d422b3a2c54c2af1b6ba1eaf0da5a064c0d47b3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065933.740Z__braised-food-flushing__05.xml",
+      "serviceBytes": 75561,
+      "bytes": 75561,
+      "sha256": "cd62747d538770ad0c8f491083b5c201d26abc1904b43f89d91abcd6dee67e7a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/cd62747d538770ad0c8f491083b5c201d26abc1904b43f89d91abcd6dee67e7a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065940.902Z__braised-food-flushing__06.frame.json",
+      "serviceBytes": 7884,
+      "bytes": 7884,
+      "sha256": "249307ba8c9b3d59e7d814398fab74246f41d5085b0b18e4e35284e935c71f4c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/249307ba8c9b3d59e7d814398fab74246f41d5085b0b18e4e35284e935c71f4c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065940.902Z__braised-food-flushing__06.ocr.json",
+      "serviceBytes": 20166,
+      "bytes": 20166,
+      "sha256": "a027cbd393e01dceb69a52066c05213a9b19e2403fe58af1a2e66a19060eeb0a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/a027cbd393e01dceb69a52066c05213a9b19e2403fe58af1a2e66a19060eeb0a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065933.740Z__braised-food-flushing__05.png",
+      "serviceBytes": 535083,
+      "bytes": 535083,
+      "sha256": "677b33e20dfdfd48489c835b7e8687f8b9e7bad1643b14adbc7510f5564171e5",
+      "local": "/tmp/maps-android-unrated-20261023/readback/677b33e20dfdfd48489c835b7e8687f8b9e7bad1643b14adbc7510f5564171e5"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065927.354Z__braised-food-flushing__04.png",
+      "serviceBytes": 824814,
+      "bytes": 824814,
+      "sha256": "f01618f8755467ab8bacf9972f07274f7bb842afe1f51a088623b9bd9ebe562e",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f01618f8755467ab8bacf9972f07274f7bb842afe1f51a088623b9bd9ebe562e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065940.902Z__braised-food-flushing__06.xml",
+      "serviceBytes": 77556,
+      "bytes": 77556,
+      "sha256": "a2445b98507088c67a7dbeb44c40b18b70fe7dd38712af5fdbc12052b8efce30",
+      "local": "/tmp/maps-android-unrated-20261023/readback/a2445b98507088c67a7dbeb44c40b18b70fe7dd38712af5fdbc12052b8efce30"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065940.902Z__braised-food-flushing__06.png",
+      "serviceBytes": 654985,
+      "bytes": 654985,
+      "sha256": "bf1fadd08a3d120f5a9c93b32075bf8eb7192edb012dd2f770438bea57dad7ab",
+      "local": "/tmp/maps-android-unrated-20261023/readback/bf1fadd08a3d120f5a9c93b32075bf8eb7192edb012dd2f770438bea57dad7ab"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065947.715Z__braised-food-flushing__07.frame.json",
+      "serviceBytes": 6432,
+      "bytes": 6432,
+      "sha256": "47eee9153c8a8c58d6c5ff4fdc8eaa521d1ce9756836fc95e334ee032df00d3e",
+      "local": "/tmp/maps-android-unrated-20261023/readback/47eee9153c8a8c58d6c5ff4fdc8eaa521d1ce9756836fc95e334ee032df00d3e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065947.715Z__braised-food-flushing__07.ocr.json",
+      "serviceBytes": 18480,
+      "bytes": 18480,
+      "sha256": "7cecb00e19385a50c9d163cc33c780f604827a886be9aec6100635ff27f970d1",
+      "local": "/tmp/maps-android-unrated-20261023/readback/7cecb00e19385a50c9d163cc33c780f604827a886be9aec6100635ff27f970d1"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065947.715Z__braised-food-flushing__07.xml",
+      "serviceBytes": 84493,
+      "bytes": 84493,
+      "sha256": "64842a4ac54c29c23a23365c565c069f2a2273e75af6751829fcb172422ba300",
+      "local": "/tmp/maps-android-unrated-20261023/readback/64842a4ac54c29c23a23365c565c069f2a2273e75af6751829fcb172422ba300"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065947.715Z__braised-food-flushing__07.png",
+      "serviceBytes": 579142,
+      "bytes": 579142,
+      "sha256": "df627e84973ebd2d1f8028392b6197091f0f06caaa74798f8b2b5d9b229e2f1a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/df627e84973ebd2d1f8028392b6197091f0f06caaa74798f8b2b5d9b229e2f1a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065954.092Z__braised-food-flushing__08.frame.json",
+      "serviceBytes": 7483,
+      "bytes": 7483,
+      "sha256": "35fdcd2b3f86655b4deb42243f2e1b85d7293e728509be82dd9ac48c6dc9de78",
+      "local": "/tmp/maps-android-unrated-20261023/readback/35fdcd2b3f86655b4deb42243f2e1b85d7293e728509be82dd9ac48c6dc9de78"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065954.092Z__braised-food-flushing__08.ocr.json",
+      "serviceBytes": 20153,
+      "bytes": 20153,
+      "sha256": "0a2d89f5656d4c1b441965606ed2b74afcac165c169655159fb7c1d84306ad30",
+      "local": "/tmp/maps-android-unrated-20261023/readback/0a2d89f5656d4c1b441965606ed2b74afcac165c169655159fb7c1d84306ad30"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065954.092Z__braised-food-flushing__08.png",
+      "serviceBytes": 561012,
+      "bytes": 561012,
+      "sha256": "96cd59ce8738bd5f95c62540bcf2316898107912ff04d8c5ca8c8b51e733c69c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/96cd59ce8738bd5f95c62540bcf2316898107912ff04d8c5ca8c8b51e733c69c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065954.092Z__braised-food-flushing__08.xml",
+      "serviceBytes": 81544,
+      "bytes": 81544,
+      "sha256": "cdeb68b2f1c9fef736c970ea47dac281292362911430c143de2ae47e2d68383a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/cdeb68b2f1c9fef736c970ea47dac281292362911430c143de2ae47e2d68383a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070001.851Z__braised-food-flushing__09.frame.json",
+      "serviceBytes": 4263,
+      "bytes": 4263,
+      "sha256": "fd4113b5d6653943494c5fe2f4e660910d2f9ad0833e974ab41d776ff0021bd0",
+      "local": "/tmp/maps-android-unrated-20261023/readback/fd4113b5d6653943494c5fe2f4e660910d2f9ad0833e974ab41d776ff0021bd0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070001.851Z__braised-food-flushing__09.ocr.json",
+      "serviceBytes": 14978,
+      "bytes": 14978,
+      "sha256": "871ae31c001b494f151601818e98fdf95da4199b79f16dd5ceaa87f0e1beb297",
+      "local": "/tmp/maps-android-unrated-20261023/readback/871ae31c001b494f151601818e98fdf95da4199b79f16dd5ceaa87f0e1beb297"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070001.851Z__braised-food-flushing__09.xml",
+      "serviceBytes": 78401,
+      "bytes": 78401,
+      "sha256": "bdd1d5712f2240c7773b2b23cd337662e05a81c8a615243661271d501f36f622",
+      "local": "/tmp/maps-android-unrated-20261023/readback/bdd1d5712f2240c7773b2b23cd337662e05a81c8a615243661271d501f36f622"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070008.311Z__braised-food-flushing__10.frame.json",
+      "serviceBytes": 6968,
+      "bytes": 6968,
+      "sha256": "8019128cf9eea7aaec601f55e6b5347a268a4f6c1cc280be5e42e018e735cfe4",
+      "local": "/tmp/maps-android-unrated-20261023/readback/8019128cf9eea7aaec601f55e6b5347a268a4f6c1cc280be5e42e018e735cfe4"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070008.311Z__braised-food-flushing__10.ocr.json",
+      "serviceBytes": 21725,
+      "bytes": 21725,
+      "sha256": "a83f8ed3932e894757781ca77af837738f6a744f70468ba7f68b77a8aaa7f096",
+      "local": "/tmp/maps-android-unrated-20261023/readback/a83f8ed3932e894757781ca77af837738f6a744f70468ba7f68b77a8aaa7f096"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070008.311Z__braised-food-flushing__10.png",
+      "serviceBytes": 463968,
+      "bytes": 463968,
+      "sha256": "249f183102bd85cbf5435b504729e696e4587c3e27009db1f27f4ae388afe909",
+      "local": "/tmp/maps-android-unrated-20261023/readback/249f183102bd85cbf5435b504729e696e4587c3e27009db1f27f4ae388afe909"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070008.311Z__braised-food-flushing__10.xml",
+      "serviceBytes": 78711,
+      "bytes": 78711,
+      "sha256": "da6f45976b118466c4f94094f2aa248afd1387cc7f6aa558abdb37136791c590",
+      "local": "/tmp/maps-android-unrated-20261023/readback/da6f45976b118466c4f94094f2aa248afd1387cc7f6aa558abdb37136791c590"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070001.851Z__braised-food-flushing__09.png",
+      "serviceBytes": 650548,
+      "bytes": 650548,
+      "sha256": "6b90a5ee431f3b253a026ac431636ae6ec5365703ea0d19ad14b2350537e9105",
+      "local": "/tmp/maps-android-unrated-20261023/readback/6b90a5ee431f3b253a026ac431636ae6ec5365703ea0d19ad14b2350537e9105"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070016.602Z__braised-food-flushing__11.frame.json",
+      "serviceBytes": 3980,
+      "bytes": 3980,
+      "sha256": "6df5c3a6406acaa4b756a32acaf7fcf6199fa6dab835c1a95cf37c27b60d812e",
+      "local": "/tmp/maps-android-unrated-20261023/readback/6df5c3a6406acaa4b756a32acaf7fcf6199fa6dab835c1a95cf37c27b60d812e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070016.602Z__braised-food-flushing__11.ocr.json",
+      "serviceBytes": 11984,
+      "bytes": 11984,
+      "sha256": "c380f2f8dbd1619be10c2da6535950294d2f57d209feea459c046e991d8a607e",
+      "local": "/tmp/maps-android-unrated-20261023/readback/c380f2f8dbd1619be10c2da6535950294d2f57d209feea459c046e991d8a607e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070016.602Z__braised-food-flushing__11.png",
+      "serviceBytes": 748448,
+      "bytes": 748448,
+      "sha256": "d78224f84d650bf91ffda40f23c196cd3c519a6ff1e14fb748667b35916056e1",
+      "local": "/tmp/maps-android-unrated-20261023/readback/d78224f84d650bf91ffda40f23c196cd3c519a6ff1e14fb748667b35916056e1"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070021.778Z__braised-food-flushing__12.frame.json",
+      "serviceBytes": 5231,
+      "bytes": 5231,
+      "sha256": "42724f30f80e494bbb78bc4eef6ab8dc2d83fb212be4e5d24a5b0e06551de628",
+      "local": "/tmp/maps-android-unrated-20261023/readback/42724f30f80e494bbb78bc4eef6ab8dc2d83fb212be4e5d24a5b0e06551de628"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070016.602Z__braised-food-flushing__11.xml",
+      "serviceBytes": 72047,
+      "bytes": 72047,
+      "sha256": "09e6d234b995e03a4f3cb5ea6bee6c60aefb81e3d711ffde425fa16417842205",
+      "local": "/tmp/maps-android-unrated-20261023/readback/09e6d234b995e03a4f3cb5ea6bee6c60aefb81e3d711ffde425fa16417842205"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070021.778Z__braised-food-flushing__12.ocr.json",
+      "serviceBytes": 20783,
+      "bytes": 20783,
+      "sha256": "dd69a45ced75158bddcf82cd88faae10c07909b95504b85733136d18a18c2345",
+      "local": "/tmp/maps-android-unrated-20261023/readback/dd69a45ced75158bddcf82cd88faae10c07909b95504b85733136d18a18c2345"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070021.778Z__braised-food-flushing__12.png",
+      "serviceBytes": 510638,
+      "bytes": 510638,
+      "sha256": "5813c225f4928c7ae1fd219b63169f5fc447f67614346af6333ac9ff7691368a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/5813c225f4928c7ae1fd219b63169f5fc447f67614346af6333ac9ff7691368a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070021.778Z__braised-food-flushing__12.xml",
+      "serviceBytes": 74826,
+      "bytes": 74826,
+      "sha256": "01899264bb89e0bdf45d17963cff967d2b5cb13823b1e636937fc9cef03c4653",
+      "local": "/tmp/maps-android-unrated-20261023/readback/01899264bb89e0bdf45d17963cff967d2b5cb13823b1e636937fc9cef03c4653"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070027.971Z__braised-food-flushing__13.frame.json",
+      "serviceBytes": 7082,
+      "bytes": 7082,
+      "sha256": "d833001916da3615d089254ca01eda678198ac7842d4a48241a989d46c0e1df9",
+      "local": "/tmp/maps-android-unrated-20261023/readback/d833001916da3615d089254ca01eda678198ac7842d4a48241a989d46c0e1df9"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070027.971Z__braised-food-flushing__13.ocr.json",
+      "serviceBytes": 24253,
+      "bytes": 24253,
+      "sha256": "df1fc67c90a8e2507f993215b9e85e8d8faf1950a9862c11074d1bd3dca31e5f",
+      "local": "/tmp/maps-android-unrated-20261023/readback/df1fc67c90a8e2507f993215b9e85e8d8faf1950a9862c11074d1bd3dca31e5f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070027.971Z__braised-food-flushing__13.png",
+      "serviceBytes": 617068,
+      "bytes": 617068,
+      "sha256": "864eadd1dbd4e3d0a7eb12f2ebd4d54ed7c3a44c90cec6cf25cdfa4f6e2fa6c4",
+      "local": "/tmp/maps-android-unrated-20261023/readback/864eadd1dbd4e3d0a7eb12f2ebd4d54ed7c3a44c90cec6cf25cdfa4f6e2fa6c4"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070027.971Z__braised-food-flushing__13.xml",
+      "serviceBytes": 76821,
+      "bytes": 76821,
+      "sha256": "769e789054f64971b1950e30a49fdb4e0cb82edaee9b8293c69e76314298f1c5",
+      "local": "/tmp/maps-android-unrated-20261023/readback/769e789054f64971b1950e30a49fdb4e0cb82edaee9b8293c69e76314298f1c5"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070034.826Z__braised-food-flushing__14.frame.json",
+      "serviceBytes": 4917,
+      "bytes": 4917,
+      "sha256": "9c9d6a5ba29e69e4f8afd7ad0610f78429812c1302726b1fe85ddc3ff6044104",
+      "local": "/tmp/maps-android-unrated-20261023/readback/9c9d6a5ba29e69e4f8afd7ad0610f78429812c1302726b1fe85ddc3ff6044104"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070034.826Z__braised-food-flushing__14.ocr.json",
+      "serviceBytes": 19572,
+      "bytes": 19572,
+      "sha256": "3ebdd98042d92488fa95488d1e5cf223b8445446fdf07fa0089f687b02119793",
+      "local": "/tmp/maps-android-unrated-20261023/readback/3ebdd98042d92488fa95488d1e5cf223b8445446fdf07fa0089f687b02119793"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070034.826Z__braised-food-flushing__14.xml",
+      "serviceBytes": 84494,
+      "bytes": 84494,
+      "sha256": "e2d39e0a9579bb4f22875c3f6d6acba6ead4eb7a2a5b64ee93f6b11425b6e323",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e2d39e0a9579bb4f22875c3f6d6acba6ead4eb7a2a5b64ee93f6b11425b6e323"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070041.716Z__braised-food-flushing__15.frame.json",
+      "serviceBytes": 8339,
+      "bytes": 8339,
+      "sha256": "0bd75462d31c93f9444b32cb4bdfff48243c7cf7034b5a320f986f2cc019c293",
+      "local": "/tmp/maps-android-unrated-20261023/readback/0bd75462d31c93f9444b32cb4bdfff48243c7cf7034b5a320f986f2cc019c293"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070041.716Z__braised-food-flushing__15.ocr.json",
+      "serviceBytes": 20773,
+      "bytes": 20773,
+      "sha256": "e2b7a0c19810d09086536f84308db4fee31a46b37cd1ced3a58b0d14a495b5c4",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e2b7a0c19810d09086536f84308db4fee31a46b37cd1ced3a58b0d14a495b5c4"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070034.826Z__braised-food-flushing__14.png",
+      "serviceBytes": 550558,
+      "bytes": 550558,
+      "sha256": "029d182569f43b4bb0c58009b0683eeef34b16a4566da2ce9bd485b9f6ae817d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/029d182569f43b4bb0c58009b0683eeef34b16a4566da2ce9bd485b9f6ae817d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070041.716Z__braised-food-flushing__15.xml",
+      "serviceBytes": 81192,
+      "bytes": 81192,
+      "sha256": "b454cb62c1197abd8fb1ba526152d264e0a53e0ee7d65bef4ebf5aa7076f836f",
+      "local": "/tmp/maps-android-unrated-20261023/readback/b454cb62c1197abd8fb1ba526152d264e0a53e0ee7d65bef4ebf5aa7076f836f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070041.716Z__braised-food-flushing__15.png",
+      "serviceBytes": 408448,
+      "bytes": 408448,
+      "sha256": "448d6cb75b0083ac6987de062447423d35b03a894aa9517b215e17e892236351",
+      "local": "/tmp/maps-android-unrated-20261023/readback/448d6cb75b0083ac6987de062447423d35b03a894aa9517b215e17e892236351"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070049.476Z__braised-food-flushing__16.frame.json",
+      "serviceBytes": 4947,
+      "bytes": 4947,
+      "sha256": "a928a057f10d0d1d88c98ac1e62cdc7b995f08ea632cb7b05e3bd8862fdfaefc",
+      "local": "/tmp/maps-android-unrated-20261023/readback/a928a057f10d0d1d88c98ac1e62cdc7b995f08ea632cb7b05e3bd8862fdfaefc"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070049.476Z__braised-food-flushing__16.ocr.json",
+      "serviceBytes": 11271,
+      "bytes": 11271,
+      "sha256": "100ad2d8ab3f858d08b8bfd636e1bcbb24da7566805c6f2e3be3f6baf2a021bd",
+      "local": "/tmp/maps-android-unrated-20261023/readback/100ad2d8ab3f858d08b8bfd636e1bcbb24da7566805c6f2e3be3f6baf2a021bd"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070049.476Z__braised-food-flushing__16.png",
+      "serviceBytes": 647223,
+      "bytes": 647223,
+      "sha256": "a853e61c430828958aa5b1442ac9d65ba560ba63f6f6e9676d949fb27ef59f69",
+      "local": "/tmp/maps-android-unrated-20261023/readback/a853e61c430828958aa5b1442ac9d65ba560ba63f6f6e9676d949fb27ef59f69"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070049.476Z__braised-food-flushing__16.xml",
+      "serviceBytes": 73591,
+      "bytes": 73591,
+      "sha256": "e2d9c147d62352efd9e70230fffb43b99417bd479049bf7da12fb4545e1cadd4",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e2d9c147d62352efd9e70230fffb43b99417bd479049bf7da12fb4545e1cadd4"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070054.545Z__braised-food-flushing__17.frame.json",
+      "serviceBytes": 6036,
+      "bytes": 6036,
+      "sha256": "9305c5940f7a1ce179266479e231ea693068293757a27b4d7a38c4d14b010ccd",
+      "local": "/tmp/maps-android-unrated-20261023/readback/9305c5940f7a1ce179266479e231ea693068293757a27b4d7a38c4d14b010ccd"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070054.545Z__braised-food-flushing__17.ocr.json",
+      "serviceBytes": 20276,
+      "bytes": 20276,
+      "sha256": "868a71e4a7b913e09751cd1d80d2901bb2ab268455965a1d2be3ffafb65e9d89",
+      "local": "/tmp/maps-android-unrated-20261023/readback/868a71e4a7b913e09751cd1d80d2901bb2ab268455965a1d2be3ffafb65e9d89"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070054.545Z__braised-food-flushing__17.xml",
+      "serviceBytes": 76370,
+      "bytes": 76370,
+      "sha256": "652393d1c3639b177b5a5826c043c60a630bdb20eac4bf39d3069906bdc7331d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/652393d1c3639b177b5a5826c043c60a630bdb20eac4bf39d3069906bdc7331d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070100.937Z__braised-food-flushing__18.frame.json",
+      "serviceBytes": 7715,
+      "bytes": 7715,
+      "sha256": "e7652c96998e0b3545f5fc909ee403808f28dd4aee0ae93f9c2a7ce9691e8ec6",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e7652c96998e0b3545f5fc909ee403808f28dd4aee0ae93f9c2a7ce9691e8ec6"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070100.937Z__braised-food-flushing__18.ocr.json",
+      "serviceBytes": 17197,
+      "bytes": 17197,
+      "sha256": "815968dddbdd75c531f19f3f3cebcc427f50f4fd838c16006ff4020a8707719a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/815968dddbdd75c531f19f3f3cebcc427f50f4fd838c16006ff4020a8707719a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070054.545Z__braised-food-flushing__17.png",
+      "serviceBytes": 454049,
+      "bytes": 454049,
+      "sha256": "e454c77249d4cc7826f199975a239c9260a1883c6d3c2382cb79a497e26deeae",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e454c77249d4cc7826f199975a239c9260a1883c6d3c2382cb79a497e26deeae"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070100.937Z__braised-food-flushing__18.xml",
+      "serviceBytes": 75881,
+      "bytes": 75881,
+      "sha256": "56c71281764cda96c30ac554e2b4b2f05109123493bce329bdb1d424b629b8f5",
+      "local": "/tmp/maps-android-unrated-20261023/readback/56c71281764cda96c30ac554e2b4b2f05109123493bce329bdb1d424b629b8f5"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070100.937Z__braised-food-flushing__18.png",
+      "serviceBytes": 580658,
+      "bytes": 580658,
+      "sha256": "9e63a66700899549978d4e3dd65c881e09a00424ae4c7047b0bb1d0100099883",
+      "local": "/tmp/maps-android-unrated-20261023/readback/9e63a66700899549978d4e3dd65c881e09a00424ae4c7047b0bb1d0100099883"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070107.029Z__braised-food-flushing__19.frame.json",
+      "serviceBytes": 4535,
+      "bytes": 4535,
+      "sha256": "ad736b305b43555a96db2cae171f2a6db064a2672b86ad00f1171bbfc3c067a7",
+      "local": "/tmp/maps-android-unrated-20261023/readback/ad736b305b43555a96db2cae171f2a6db064a2672b86ad00f1171bbfc3c067a7"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070107.029Z__braised-food-flushing__19.ocr.json",
+      "serviceBytes": 15786,
+      "bytes": 15786,
+      "sha256": "37b5757e2b97280bbd7e55696c9bccd7ea2792dfa1f89986f75eeb9f0b50b43b",
+      "local": "/tmp/maps-android-unrated-20261023/readback/37b5757e2b97280bbd7e55696c9bccd7ea2792dfa1f89986f75eeb9f0b50b43b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070107.029Z__braised-food-flushing__19.png",
+      "serviceBytes": 700796,
+      "bytes": 700796,
+      "sha256": "b414cf5559dab7b8e17050d11a247e6d26c5cbed5060c84c2d3d210b62c3b627",
+      "local": "/tmp/maps-android-unrated-20261023/readback/b414cf5559dab7b8e17050d11a247e6d26c5cbed5060c84c2d3d210b62c3b627"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070107.029Z__braised-food-flushing__19.xml",
+      "serviceBytes": 82822,
+      "bytes": 82822,
+      "sha256": "a16e5ae663dc219aa62650e63fa19ef9770d0734f4314a96a46321c9b18d854d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/a16e5ae663dc219aa62650e63fa19ef9770d0734f4314a96a46321c9b18d854d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070113.991Z__braised-food-flushing__20.frame.json",
+      "serviceBytes": 6980,
+      "bytes": 6980,
+      "sha256": "7fd9e4b71dcf38d07cb148946a5415e7e843f99a401146a51a8e07fac214de0c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/7fd9e4b71dcf38d07cb148946a5415e7e843f99a401146a51a8e07fac214de0c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070113.991Z__braised-food-flushing__20.ocr.json",
+      "serviceBytes": 16622,
+      "bytes": 16622,
+      "sha256": "080167034276d86b2a6199c79bf3c96b40bed19c67660af5d95a4db8f5558088",
+      "local": "/tmp/maps-android-unrated-20261023/readback/080167034276d86b2a6199c79bf3c96b40bed19c67660af5d95a4db8f5558088"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070113.991Z__braised-food-flushing__20.xml",
+      "serviceBytes": 79515,
+      "bytes": 79515,
+      "sha256": "1f987dabec92522cfc48c3c8c7f3e1eb97f18a8284eba272b84c1cb09b157f07",
+      "local": "/tmp/maps-android-unrated-20261023/readback/1f987dabec92522cfc48c3c8c7f3e1eb97f18a8284eba272b84c1cb09b157f07"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070113.991Z__braised-food-flushing__20.png",
+      "serviceBytes": 524619,
+      "bytes": 524619,
+      "sha256": "f19d2e7062881e572254bc5f868e243dd4e9e746ebf1d2f1afe03a58a21caa82",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f19d2e7062881e572254bc5f868e243dd4e9e746ebf1d2f1afe03a58a21caa82"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070120.687Z__braised-food-flushing__21.frame.json",
+      "serviceBytes": 4064,
+      "bytes": 4064,
+      "sha256": "0785aea01d08c3d91211ecb7f7ade782959ea307d43efcc70b5ebe965b7467c4",
+      "local": "/tmp/maps-android-unrated-20261023/readback/0785aea01d08c3d91211ecb7f7ade782959ea307d43efcc70b5ebe965b7467c4"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070120.687Z__braised-food-flushing__21.ocr.json",
+      "serviceBytes": 18000,
+      "bytes": 18000,
+      "sha256": "bca3cd50184da782189d692d3b4b1c8f3e49e2a45252a2fecf316eeacb62a403",
+      "local": "/tmp/maps-android-unrated-20261023/readback/bca3cd50184da782189d692d3b4b1c8f3e49e2a45252a2fecf316eeacb62a403"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070120.687Z__braised-food-flushing__21.png",
+      "serviceBytes": 740703,
+      "bytes": 740703,
+      "sha256": "0778e4bc40e074bdbb33a4fd61a50e7fd42ca507803d35f6f4aa05063376efa6",
+      "local": "/tmp/maps-android-unrated-20261023/readback/0778e4bc40e074bdbb33a4fd61a50e7fd42ca507803d35f6f4aa05063376efa6"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070120.687Z__braised-food-flushing__21.xml",
+      "serviceBytes": 76766,
+      "bytes": 76766,
+      "sha256": "edf9c45b34c0ed54a8b2ee725bd60a15f4c62fec00cb53266058dd1d1436d9f1",
+      "local": "/tmp/maps-android-unrated-20261023/readback/edf9c45b34c0ed54a8b2ee725bd60a15f4c62fec00cb53266058dd1d1436d9f1"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070127.251Z__braised-food-flushing__22.frame.json",
+      "serviceBytes": 4441,
+      "bytes": 4441,
+      "sha256": "2094c3e20e6abe9ab313ed3fe628b9ea241a7253ab114a15306a2893c03aeb54",
+      "local": "/tmp/maps-android-unrated-20261023/readback/2094c3e20e6abe9ab313ed3fe628b9ea241a7253ab114a15306a2893c03aeb54"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070127.251Z__braised-food-flushing__22.ocr.json",
+      "serviceBytes": 20722,
+      "bytes": 20722,
+      "sha256": "e18f0745d963ac592a43df80c63620e69b5fdd3bf502bdce598f4dec36c3e540",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e18f0745d963ac592a43df80c63620e69b5fdd3bf502bdce598f4dec36c3e540"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070127.251Z__braised-food-flushing__22.png",
+      "serviceBytes": 441385,
+      "bytes": 441385,
+      "sha256": "bee99ce436345bb469cb5fd55856af21f18d9748ee60dfe8ba8f6842f6846e25",
+      "local": "/tmp/maps-android-unrated-20261023/readback/bee99ce436345bb469cb5fd55856af21f18d9748ee60dfe8ba8f6842f6846e25"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070127.251Z__braised-food-flushing__22.xml",
+      "serviceBytes": 79514,
+      "bytes": 79514,
+      "sha256": "555e723b7f655e34be477dd355f417f9143a29d48164f6e10b1845795af316cd",
+      "local": "/tmp/maps-android-unrated-20261023/readback/555e723b7f655e34be477dd355f417f9143a29d48164f6e10b1845795af316cd"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070136.209Z__braised-food-flushing__23.ocr.json",
+      "serviceBytes": 19179,
+      "bytes": 19179,
+      "sha256": "91dbb047a655ba11634bda0dc346eef9843dc5eaff2f18698e99001e993e0872",
+      "local": "/tmp/maps-android-unrated-20261023/readback/91dbb047a655ba11634bda0dc346eef9843dc5eaff2f18698e99001e993e0872"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070136.209Z__braised-food-flushing__23.frame.json",
+      "serviceBytes": 7065,
+      "bytes": 7065,
+      "sha256": "02332f59c208383403d1c222f6f6b5fa4fb2f73c2b556bce4728a745a613c6f1",
+      "local": "/tmp/maps-android-unrated-20261023/readback/02332f59c208383403d1c222f6f6b5fa4fb2f73c2b556bce4728a745a613c6f1"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070136.209Z__braised-food-flushing__23.png",
+      "serviceBytes": 576891,
+      "bytes": 576891,
+      "sha256": "4b6781370e39500b50ae704fea6b65ea5725483917f893d17ec634f9ede5bc56",
+      "local": "/tmp/maps-android-unrated-20261023/readback/4b6781370e39500b50ae704fea6b65ea5725483917f893d17ec634f9ede5bc56"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070136.209Z__braised-food-flushing__23.xml",
+      "serviceBytes": 74320,
+      "bytes": 74320,
+      "sha256": "27f9df4f8f1609e798434a3a23d5aeb2cac5de905ec8753a4ea1b344cbfb592a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/27f9df4f8f1609e798434a3a23d5aeb2cac5de905ec8753a4ea1b344cbfb592a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070143.152Z__braised-food-flushing__24.frame.json",
+      "serviceBytes": 5442,
+      "bytes": 5442,
+      "sha256": "cd76778f20b55848190a6db4b4c8259427f95ffa303b3dd73fc63fb3cc7b7f65",
+      "local": "/tmp/maps-android-unrated-20261023/readback/cd76778f20b55848190a6db4b4c8259427f95ffa303b3dd73fc63fb3cc7b7f65"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070143.152Z__braised-food-flushing__24.ocr.json",
+      "serviceBytes": 21819,
+      "bytes": 21819,
+      "sha256": "e13eadad0070a195e00e732a494443e9cee40d0e3da2ab87443f7ef436830d29",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e13eadad0070a195e00e732a494443e9cee40d0e3da2ab87443f7ef436830d29"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070143.152Z__braised-food-flushing__24.xml",
+      "serviceBytes": 82013,
+      "bytes": 82013,
+      "sha256": "2e2e2f09bcb8ee7b9b744dc25be84b70c4f63ae5121c1a4a5ccc20356c9d39c2",
+      "local": "/tmp/maps-android-unrated-20261023/readback/2e2e2f09bcb8ee7b9b744dc25be84b70c4f63ae5121c1a4a5ccc20356c9d39c2"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070143.152Z__braised-food-flushing__24.png",
+      "serviceBytes": 634438,
+      "bytes": 634438,
+      "sha256": "49ce05b97aa942e04a026f465c29fe44c6e5904aa2ab36e39570e7d55d957e4e",
+      "local": "/tmp/maps-android-unrated-20261023/readback/49ce05b97aa942e04a026f465c29fe44c6e5904aa2ab36e39570e7d55d957e4e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070150.594Z__braised-food-flushing__25.ocr.json",
+      "serviceBytes": 17287,
+      "bytes": 17287,
+      "sha256": "f6ceaeec9da6ad54c44c72536d4b70bc51d5719ec4175246100c58d7439e5989",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f6ceaeec9da6ad54c44c72536d4b70bc51d5719ec4175246100c58d7439e5989"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070150.594Z__braised-food-flushing__25.frame.json",
+      "serviceBytes": 7232,
+      "bytes": 7232,
+      "sha256": "4cee14c84a32f6401abd2a7b3c6337099d58c2a51c8a492d07b092a9d57daf78",
+      "local": "/tmp/maps-android-unrated-20261023/readback/4cee14c84a32f6401abd2a7b3c6337099d58c2a51c8a492d07b092a9d57daf78"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070150.594Z__braised-food-flushing__25.png",
+      "serviceBytes": 471107,
+      "bytes": 471107,
+      "sha256": "bd92410f172d9388ef0c6ac589a869f24c8c704edf212f58d86673112462d5f0",
+      "local": "/tmp/maps-android-unrated-20261023/readback/bd92410f172d9388ef0c6ac589a869f24c8c704edf212f58d86673112462d5f0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070150.594Z__braised-food-flushing__25.xml",
+      "serviceBytes": 79519,
+      "bytes": 79519,
+      "sha256": "43f7c1bb1fe381fb4e85b2c33bab362eed1ab9c55cf5481bed7057d867e49157",
+      "local": "/tmp/maps-android-unrated-20261023/readback/43f7c1bb1fe381fb4e85b2c33bab362eed1ab9c55cf5481bed7057d867e49157"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070157.580Z__braised-food-flushing__26.frame.json",
+      "serviceBytes": 4696,
+      "bytes": 4696,
+      "sha256": "49291401953750811c7e6a8441a1b47c43c25a212ef9fd4fe6e810071ae9a457",
+      "local": "/tmp/maps-android-unrated-20261023/readback/49291401953750811c7e6a8441a1b47c43c25a212ef9fd4fe6e810071ae9a457"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070157.580Z__braised-food-flushing__26.ocr.json",
+      "serviceBytes": 15374,
+      "bytes": 15374,
+      "sha256": "9c2195c7654eae1048c8a570145a2e66654f7b61eaebe7971a01455d6df28c1d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/9c2195c7654eae1048c8a570145a2e66654f7b61eaebe7971a01455d6df28c1d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070157.580Z__braised-food-flushing__26.xml",
+      "serviceBytes": 73605,
+      "bytes": 73605,
+      "sha256": "00ab8d4bffb6690c3a1b22e2a72bc19e02ee5493c022cc6891b8721f9b569caa",
+      "local": "/tmp/maps-android-unrated-20261023/readback/00ab8d4bffb6690c3a1b22e2a72bc19e02ee5493c022cc6891b8721f9b569caa"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070157.580Z__braised-food-flushing__26.png",
+      "serviceBytes": 794319,
+      "bytes": 794319,
+      "sha256": "b57fdccb053348c907ac2f39a6858308878f4ba062f7d90336306f86e6e3327f",
+      "local": "/tmp/maps-android-unrated-20261023/readback/b57fdccb053348c907ac2f39a6858308878f4ba062f7d90336306f86e6e3327f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070203.528Z__braised-food-flushing__27.frame.json",
+      "serviceBytes": 5957,
+      "bytes": 5957,
+      "sha256": "d9d6d8ab7df53cfe45b1bf534dd0a2be8a06bccb77cf599cc11a481c27ce2df5",
+      "local": "/tmp/maps-android-unrated-20261023/readback/d9d6d8ab7df53cfe45b1bf534dd0a2be8a06bccb77cf599cc11a481c27ce2df5"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070203.528Z__braised-food-flushing__27.ocr.json",
+      "serviceBytes": 19231,
+      "bytes": 19231,
+      "sha256": "b36c8781d6b7cdd4338007c222d57ed277bdd9b88e4fba4795c71a9f487886ca",
+      "local": "/tmp/maps-android-unrated-20261023/readback/b36c8781d6b7cdd4338007c222d57ed277bdd9b88e4fba4795c71a9f487886ca"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070203.528Z__braised-food-flushing__27.png",
+      "serviceBytes": 584477,
+      "bytes": 584477,
+      "sha256": "8ebfa0b3624c816e68c900673943487ef7dd09c7059afe5b4ee58a47bbbed4a7",
+      "local": "/tmp/maps-android-unrated-20261023/readback/8ebfa0b3624c816e68c900673943487ef7dd09c7059afe5b4ee58a47bbbed4a7"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070203.528Z__braised-food-flushing__27.xml",
+      "serviceBytes": 82012,
+      "bytes": 82012,
+      "sha256": "7b31ca188eee655bd6da985b4006a0017395fbe74c2937fe5a077d6399c2cbdd",
+      "local": "/tmp/maps-android-unrated-20261023/readback/7b31ca188eee655bd6da985b4006a0017395fbe74c2937fe5a077d6399c2cbdd"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070209.447Z__braised-food-flushing__28.frame.json",
+      "serviceBytes": 7746,
+      "bytes": 7746,
+      "sha256": "224b40165e6efbdd395780067c7bc8b5d606c6790efb71fc352cbf2667aace1c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/224b40165e6efbdd395780067c7bc8b5d606c6790efb71fc352cbf2667aace1c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070209.447Z__braised-food-flushing__28.ocr.json",
+      "serviceBytes": 18742,
+      "bytes": 18742,
+      "sha256": "80ce10832f96fdb65b5fe0bb7ee95bde022e22c74d3baec27b83b44501859ff2",
+      "local": "/tmp/maps-android-unrated-20261023/readback/80ce10832f96fdb65b5fe0bb7ee95bde022e22c74d3baec27b83b44501859ff2"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070209.447Z__braised-food-flushing__28.xml",
+      "serviceBytes": 78253,
+      "bytes": 78253,
+      "sha256": "8c52cdd4b6252f69b52b49dc53e4758fec031648c83d3a017cc3e921bdaa06bb",
+      "local": "/tmp/maps-android-unrated-20261023/readback/8c52cdd4b6252f69b52b49dc53e4758fec031648c83d3a017cc3e921bdaa06bb"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070215.386Z__braised-food-flushing__29.frame.json",
+      "serviceBytes": 4794,
+      "bytes": 4794,
+      "sha256": "72cb08af2f78e542a05198f302631d87c0d3b91acf5fa6b04759e926b60ad373",
+      "local": "/tmp/maps-android-unrated-20261023/readback/72cb08af2f78e542a05198f302631d87c0d3b91acf5fa6b04759e926b60ad373"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070209.447Z__braised-food-flushing__28.png",
+      "serviceBytes": 656982,
+      "bytes": 656982,
+      "sha256": "784722e9a0cda89d334de5f045ceaedf76202df8d837bc0c7929d184015be299",
+      "local": "/tmp/maps-android-unrated-20261023/readback/784722e9a0cda89d334de5f045ceaedf76202df8d837bc0c7929d184015be299"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070215.386Z__braised-food-flushing__29.ocr.json",
+      "serviceBytes": 12666,
+      "bytes": 12666,
+      "sha256": "428f71f81783906972b4911917992d85eba86b8a863e28419f141d20f409e9b8",
+      "local": "/tmp/maps-android-unrated-20261023/readback/428f71f81783906972b4911917992d85eba86b8a863e28419f141d20f409e9b8"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070215.386Z__braised-food-flushing__29.xml",
+      "serviceBytes": 76031,
+      "bytes": 76031,
+      "sha256": "7d376de98a9af5dd997be594a22dc43f6de0a8b400ca9faa9f02a4c7c3c44447",
+      "local": "/tmp/maps-android-unrated-20261023/readback/7d376de98a9af5dd997be594a22dc43f6de0a8b400ca9faa9f02a4c7c3c44447"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070215.386Z__braised-food-flushing__29.png",
+      "serviceBytes": 744800,
+      "bytes": 744800,
+      "sha256": "637b790f46ef70e8a8294f501909c56341c681985a0de7940f7216f9a5f7eaf6",
+      "local": "/tmp/maps-android-unrated-20261023/readback/637b790f46ef70e8a8294f501909c56341c681985a0de7940f7216f9a5f7eaf6"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070221.030Z__braised-food-flushing__30.frame.json",
+      "serviceBytes": 7314,
+      "bytes": 7314,
+      "sha256": "1a7775a64e7085f0be309644a34bc01a6d4ff18e88b660ce82bddad5f741b55d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/1a7775a64e7085f0be309644a34bc01a6d4ff18e88b660ce82bddad5f741b55d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070221.030Z__braised-food-flushing__30.ocr.json",
+      "serviceBytes": 18047,
+      "bytes": 18047,
+      "sha256": "224d48a54b22e9cdef4d4972df8384db4562e37596927c55ae48536d41b82711",
+      "local": "/tmp/maps-android-unrated-20261023/readback/224d48a54b22e9cdef4d4972df8384db4562e37596927c55ae48536d41b82711"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070221.030Z__braised-food-flushing__30.xml",
+      "serviceBytes": 78783,
+      "bytes": 78783,
+      "sha256": "9261f79098cda4993d754b05f1ed966d78a4411dfb58f263cd681e33d130599b",
+      "local": "/tmp/maps-android-unrated-20261023/readback/9261f79098cda4993d754b05f1ed966d78a4411dfb58f263cd681e33d130599b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070228.099Z__braised-food-flushing__31.frame.json",
+      "serviceBytes": 3775,
+      "bytes": 3775,
+      "sha256": "077043336a6fdcad7c63aa1924209989abc8d434af4a4e6d8aeb8a6012b97231",
+      "local": "/tmp/maps-android-unrated-20261023/readback/077043336a6fdcad7c63aa1924209989abc8d434af4a4e6d8aeb8a6012b97231"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070221.030Z__braised-food-flushing__30.png",
+      "serviceBytes": 437112,
+      "bytes": 437112,
+      "sha256": "1ae8be111227ee234d16e72dc2bce03ecd6365258d36ad93138cc40efdc9383a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/1ae8be111227ee234d16e72dc2bce03ecd6365258d36ad93138cc40efdc9383a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070228.099Z__braised-food-flushing__31.ocr.json",
+      "serviceBytes": 8964,
+      "bytes": 8964,
+      "sha256": "72b54311cb7d221cc864bba6b851c982843a7f00b30109075c5b23c873dc4328",
+      "local": "/tmp/maps-android-unrated-20261023/readback/72b54311cb7d221cc864bba6b851c982843a7f00b30109075c5b23c873dc4328"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070228.099Z__braised-food-flushing__31.png",
+      "serviceBytes": 749711,
+      "bytes": 749711,
+      "sha256": "86899fac36c7b3e135d96626f9bdde68194dcbf916e8e07dc6056cc2e25e43ec",
+      "local": "/tmp/maps-android-unrated-20261023/readback/86899fac36c7b3e135d96626f9bdde68194dcbf916e8e07dc6056cc2e25e43ec"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070228.099Z__braised-food-flushing__31.xml",
+      "serviceBytes": 72853,
+      "bytes": 72853,
+      "sha256": "c9c834b0b673eee60ee1d99aedd48d91c6d0161492f6f8a49b4e9291ce752536",
+      "local": "/tmp/maps-android-unrated-20261023/readback/c9c834b0b673eee60ee1d99aedd48d91c6d0161492f6f8a49b4e9291ce752536"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070232.894Z__braised-food-flushing__32.frame.json",
+      "serviceBytes": 4919,
+      "bytes": 4919,
+      "sha256": "8f74e34de1c76ebcebce5ed594fc617ea5e5e9708a9916987a9936ec32f0d4dc",
+      "local": "/tmp/maps-android-unrated-20261023/readback/8f74e34de1c76ebcebce5ed594fc617ea5e5e9708a9916987a9936ec32f0d4dc"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070232.894Z__braised-food-flushing__32.ocr.json",
+      "serviceBytes": 15480,
+      "bytes": 15480,
+      "sha256": "b08195e806e432dc037376642b5a54ac6bbe83199e32c36f20fd3a03ed327e4e",
+      "local": "/tmp/maps-android-unrated-20261023/readback/b08195e806e432dc037376642b5a54ac6bbe83199e32c36f20fd3a03ed327e4e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070232.894Z__braised-food-flushing__32.png",
+      "serviceBytes": 431590,
+      "bytes": 431590,
+      "sha256": "747e10282fafdeb81a77cf05fe3f46e91f10ca94e8587581440238842922caa8",
+      "local": "/tmp/maps-android-unrated-20261023/readback/747e10282fafdeb81a77cf05fe3f46e91f10ca94e8587581440238842922caa8"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070232.894Z__braised-food-flushing__32.xml",
+      "serviceBytes": 76367,
+      "bytes": 76367,
+      "sha256": "2d66b6adddf40e04d5de94e0939cff13b44c127f77f97ea4f261aaa690a0a0b4",
+      "local": "/tmp/maps-android-unrated-20261023/readback/2d66b6adddf40e04d5de94e0939cff13b44c127f77f97ea4f261aaa690a0a0b4"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070237.810Z__braised-food-flushing__33.frame.json",
+      "serviceBytes": 7234,
+      "bytes": 7234,
+      "sha256": "7ff7e3365090b118ae881984eff060b35f35569427eabec7c635cbf26f14dafc",
+      "local": "/tmp/maps-android-unrated-20261023/readback/7ff7e3365090b118ae881984eff060b35f35569427eabec7c635cbf26f14dafc"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070237.810Z__braised-food-flushing__33.ocr.json",
+      "serviceBytes": 23116,
+      "bytes": 23116,
+      "sha256": "4127206a8a743a2974f0490a33e4a0ecebdafbbfd34b275a404684e3c432ce65",
+      "local": "/tmp/maps-android-unrated-20261023/readback/4127206a8a743a2974f0490a33e4a0ecebdafbbfd34b275a404684e3c432ce65"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070237.810Z__braised-food-flushing__33.png",
+      "serviceBytes": 572321,
+      "bytes": 572321,
+      "sha256": "3e46828e31f28f2117f274cb7a9971243d168e51b21af55a2705851ec245a8af",
+      "local": "/tmp/maps-android-unrated-20261023/readback/3e46828e31f28f2117f274cb7a9971243d168e51b21af55a2705851ec245a8af"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070237.810Z__braised-food-flushing__33.xml",
+      "serviceBytes": 77555,
+      "bytes": 77555,
+      "sha256": "60ed7deb57d874bd64f48d1fa1300a7aee75f3f3eed319b03688209f96f458ab",
+      "local": "/tmp/maps-android-unrated-20261023/readback/60ed7deb57d874bd64f48d1fa1300a7aee75f3f3eed319b03688209f96f458ab"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070244.025Z__braised-food-flushing__34.frame.json",
+      "serviceBytes": 5613,
+      "bytes": 5613,
+      "sha256": "798f86fe5b38cea8bc48802973052a6d6692cf1ea119152472424923435d9da4",
+      "local": "/tmp/maps-android-unrated-20261023/readback/798f86fe5b38cea8bc48802973052a6d6692cf1ea119152472424923435d9da4"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070244.025Z__braised-food-flushing__34.ocr.json",
+      "serviceBytes": 20138,
+      "bytes": 20138,
+      "sha256": "1ead6fdd3180e47c56f35882224272f3348562ef414be2d269babf739ae12fa6",
+      "local": "/tmp/maps-android-unrated-20261023/readback/1ead6fdd3180e47c56f35882224272f3348562ef414be2d269babf739ae12fa6"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070244.025Z__braised-food-flushing__34.xml",
+      "serviceBytes": 81191,
+      "bytes": 81191,
+      "sha256": "fd64aff6b22c390edb13ac395ca098ceb4b169d4153b40c97e2663ec5a4aedc2",
+      "local": "/tmp/maps-android-unrated-20261023/readback/fd64aff6b22c390edb13ac395ca098ceb4b169d4153b40c97e2663ec5a4aedc2"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070244.025Z__braised-food-flushing__34.png",
+      "serviceBytes": 454232,
+      "bytes": 454232,
+      "sha256": "aa43bd3477c6255dfb0f4a761cb6e1d670c4a1ba23668fda718f3e4dd5f97298",
+      "local": "/tmp/maps-android-unrated-20261023/readback/aa43bd3477c6255dfb0f4a761cb6e1d670c4a1ba23668fda718f3e4dd5f97298"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070250.933Z__braised-food-flushing__35.frame.json",
+      "serviceBytes": 8892,
+      "bytes": 8892,
+      "sha256": "e1edcd2df23a52edf74f8fac19d333737a47ba86060747d7db2d1da41d038b74",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e1edcd2df23a52edf74f8fac19d333737a47ba86060747d7db2d1da41d038b74"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070250.933Z__braised-food-flushing__35.ocr.json",
+      "serviceBytes": 22720,
+      "bytes": 22720,
+      "sha256": "f2eab48b2674ff865d622adfd1bc424e39e153e2ec1ba4575124e2880f3a30be",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f2eab48b2674ff865d622adfd1bc424e39e153e2ec1ba4575124e2880f3a30be"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070250.933Z__braised-food-flushing__35.png",
+      "serviceBytes": 600103,
+      "bytes": 600103,
+      "sha256": "d745f8a4450574cbfad56a64976b8d2fabc02386ff5fd102cc015543d5bda47d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/d745f8a4450574cbfad56a64976b8d2fabc02386ff5fd102cc015543d5bda47d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070250.933Z__braised-food-flushing__35.xml",
+      "serviceBytes": 79173,
+      "bytes": 79173,
+      "sha256": "d526b562cc285363c15cba257703a313b7971d3b0f373ab959dadcd6d3a66f74",
+      "local": "/tmp/maps-android-unrated-20261023/readback/d526b562cc285363c15cba257703a313b7971d3b0f373ab959dadcd6d3a66f74"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070257.696Z__braised-food-flushing__36.frame.json",
+      "serviceBytes": 5990,
+      "bytes": 5990,
+      "sha256": "eb51edda5ced411571de63c8baa3dca5b3a1cda26a9756d0b780a0b998220ab4",
+      "local": "/tmp/maps-android-unrated-20261023/readback/eb51edda5ced411571de63c8baa3dca5b3a1cda26a9756d0b780a0b998220ab4"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070257.696Z__braised-food-flushing__36.ocr.json",
+      "serviceBytes": 21675,
+      "bytes": 21675,
+      "sha256": "19b6e4758c9981d73554b6cc1f1a1750dffeb965842190409b309403acf02473",
+      "local": "/tmp/maps-android-unrated-20261023/readback/19b6e4758c9981d73554b6cc1f1a1750dffeb965842190409b309403acf02473"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070257.696Z__braised-food-flushing__36.png",
+      "serviceBytes": 688472,
+      "bytes": 688472,
+      "sha256": "6bb69c0dbf3dad3d2a5c0a52c453706cb5633e28fbb1acf10ef7cede8e15025c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/6bb69c0dbf3dad3d2a5c0a52c453706cb5633e28fbb1acf10ef7cede8e15025c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070257.696Z__braised-food-flushing__36.xml",
+      "serviceBytes": 81949,
+      "bytes": 81949,
+      "sha256": "db5a662e94ab09b1300757a9dd44dbc0d512e05d28866c907c08f5c06e403c5d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/db5a662e94ab09b1300757a9dd44dbc0d512e05d28866c907c08f5c06e403c5d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070304.639Z__braised-food-flushing__37.ocr.json",
+      "serviceBytes": 20484,
+      "bytes": 20484,
+      "sha256": "1d47c033b8feb3fca3bfe00c8a48df2f37e2183ff370fc5323577f85d4c3977f",
+      "local": "/tmp/maps-android-unrated-20261023/readback/1d47c033b8feb3fca3bfe00c8a48df2f37e2183ff370fc5323577f85d4c3977f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070304.639Z__braised-food-flushing__37.frame.json",
+      "serviceBytes": 6726,
+      "bytes": 6726,
+      "sha256": "968d1f17453c448a0b2744514497ac56d7c7f57ddd93e3de0728e79cb0677794",
+      "local": "/tmp/maps-android-unrated-20261023/readback/968d1f17453c448a0b2744514497ac56d7c7f57ddd93e3de0728e79cb0677794"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070304.639Z__braised-food-flushing__37.png",
+      "serviceBytes": 496450,
+      "bytes": 496450,
+      "sha256": "afee8937b3d0d042ef577483f66851772f196931833732d945d5d16f579f3380",
+      "local": "/tmp/maps-android-unrated-20261023/readback/afee8937b3d0d042ef577483f66851772f196931833732d945d5d16f579f3380"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070304.639Z__braised-food-flushing__37.xml",
+      "serviceBytes": 76377,
+      "bytes": 76377,
+      "sha256": "39c5a5f391fa98a72be898156fa60a324905933ecb28173f0d81fcb71e1d2e4e",
+      "local": "/tmp/maps-android-unrated-20261023/readback/39c5a5f391fa98a72be898156fa60a324905933ecb28173f0d81fcb71e1d2e4e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070311.264Z__braised-food-flushing__38.frame.json",
+      "serviceBytes": 9185,
+      "bytes": 9185,
+      "sha256": "0f75606319dc2d43fdb6653fd8458fea00eeaf065664b2c23db666ec465a9564",
+      "local": "/tmp/maps-android-unrated-20261023/readback/0f75606319dc2d43fdb6653fd8458fea00eeaf065664b2c23db666ec465a9564"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070311.264Z__braised-food-flushing__38.ocr.json",
+      "serviceBytes": 23296,
+      "bytes": 23296,
+      "sha256": "34d7342018adc0dad6e55242cf2afa327c91857c8ec836c99b4d0f7cc4f33325",
+      "local": "/tmp/maps-android-unrated-20261023/readback/34d7342018adc0dad6e55242cf2afa327c91857c8ec836c99b4d0f7cc4f33325"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070311.264Z__braised-food-flushing__38.xml",
+      "serviceBytes": 74331,
+      "bytes": 74331,
+      "sha256": "f5e42a2c37437e912722d192468003dd558aa3671cf0f2e4cc20017dc2df5402",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f5e42a2c37437e912722d192468003dd558aa3671cf0f2e4cc20017dc2df5402"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070311.264Z__braised-food-flushing__38.png",
+      "serviceBytes": 548679,
+      "bytes": 548679,
+      "sha256": "897834ebe023d191f19cedad0227c4ed40a96d89ded85063716e2189a494d21a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/897834ebe023d191f19cedad0227c4ed40a96d89ded85063716e2189a494d21a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070317.524Z__braised-food-flushing__39.frame.json",
+      "serviceBytes": 5412,
+      "bytes": 5412,
+      "sha256": "68b2e868a81324cbb00d317bc775d0d29162c44f8de49ffae30ae444bc30ece7",
+      "local": "/tmp/maps-android-unrated-20261023/readback/68b2e868a81324cbb00d317bc775d0d29162c44f8de49ffae30ae444bc30ece7"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070317.524Z__braised-food-flushing__39.ocr.json",
+      "serviceBytes": 13924,
+      "bytes": 13924,
+      "sha256": "620885b147664530c12c72361a23c44520a9b6cd8e400be9944d435de9b9f810",
+      "local": "/tmp/maps-android-unrated-20261023/readback/620885b147664530c12c72361a23c44520a9b6cd8e400be9944d435de9b9f810"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070317.524Z__braised-food-flushing__39.xml",
+      "serviceBytes": 78031,
+      "bytes": 78031,
+      "sha256": "37cd746db12ba72b559098056c3091eb356d4912ec9f1c758df5a2ca1cd29044",
+      "local": "/tmp/maps-android-unrated-20261023/readback/37cd746db12ba72b559098056c3091eb356d4912ec9f1c758df5a2ca1cd29044"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070317.524Z__braised-food-flushing__39.png",
+      "serviceBytes": 578419,
+      "bytes": 578419,
+      "sha256": "3015890a26ff24fa28798f98e685eadf20ff5efdec179b66a8408223d47ad73c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/3015890a26ff24fa28798f98e685eadf20ff5efdec179b66a8408223d47ad73c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070322.827Z__braised-food-flushing__40.frame.json",
+      "serviceBytes": 5819,
+      "bytes": 5819,
+      "sha256": "c2a5451df1bad4f6189c5262d94bac6c397d5b3efc769426a9b18f184e225b94",
+      "local": "/tmp/maps-android-unrated-20261023/readback/c2a5451df1bad4f6189c5262d94bac6c397d5b3efc769426a9b18f184e225b94"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070322.827Z__braised-food-flushing__40.ocr.json",
+      "serviceBytes": 23304,
+      "bytes": 23304,
+      "sha256": "309e6a884083d47bd6974f13351e435e5378b4a2759bf4b935f88e7d0e594b25",
+      "local": "/tmp/maps-android-unrated-20261023/readback/309e6a884083d47bd6974f13351e435e5378b4a2759bf4b935f88e7d0e594b25"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070322.827Z__braised-food-flushing__40.png",
+      "serviceBytes": 397699,
+      "bytes": 397699,
+      "sha256": "5eb784b0f8ea543e2ab88acf497d689a23306c82ab12d889964c639aa55568b2",
+      "local": "/tmp/maps-android-unrated-20261023/readback/5eb784b0f8ea543e2ab88acf497d689a23306c82ab12d889964c639aa55568b2"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070322.827Z__braised-food-flushing__40.xml",
+      "serviceBytes": 75557,
+      "bytes": 75557,
+      "sha256": "31f44b18a0f038380e6ace15b22b21033a513b2db1c8a17871cf98ef6ab3c02c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/31f44b18a0f038380e6ace15b22b21033a513b2db1c8a17871cf98ef6ab3c02c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070330.102Z__braised-food-flushing__41.frame.json",
+      "serviceBytes": 7337,
+      "bytes": 7337,
+      "sha256": "7c8c8a99cfd3664a707584ba1447e5fa64c18ead11591c02b0f0e2651570669a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/7c8c8a99cfd3664a707584ba1447e5fa64c18ead11591c02b0f0e2651570669a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070330.102Z__braised-food-flushing__41.ocr.json",
+      "serviceBytes": 15838,
+      "bytes": 15838,
+      "sha256": "368dec8bdbf3284236a816ad732bb2ff68b4d3894cda15e1ed83c54d6c738389",
+      "local": "/tmp/maps-android-unrated-20261023/readback/368dec8bdbf3284236a816ad732bb2ff68b4d3894cda15e1ed83c54d6c738389"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070330.102Z__braised-food-flushing__41.png",
+      "serviceBytes": 603387,
+      "bytes": 603387,
+      "sha256": "f0f9d97cbd41142de5b8a3f1dbe134df9772ba1daa991954a8e5cc7ac820a026",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f0f9d97cbd41142de5b8a3f1dbe134df9772ba1daa991954a8e5cc7ac820a026"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070330.102Z__braised-food-flushing__41.xml",
+      "serviceBytes": 71231,
+      "bytes": 71231,
+      "sha256": "bdb6abf12c7b99e704145fb77fddd493d9fdb599f7d292038d0e5f0cf52b5e1a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/bdb6abf12c7b99e704145fb77fddd493d9fdb599f7d292038d0e5f0cf52b5e1a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070335.821Z__braised-food-flushing__42.frame.json",
+      "serviceBytes": 4667,
+      "bytes": 4667,
+      "sha256": "6055fe0daec746087717d1217c7b47806d7d42a734c19872f616e867448c9c0e",
+      "local": "/tmp/maps-android-unrated-20261023/readback/6055fe0daec746087717d1217c7b47806d7d42a734c19872f616e867448c9c0e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070335.821Z__braised-food-flushing__42.ocr.json",
+      "serviceBytes": 14191,
+      "bytes": 14191,
+      "sha256": "fbbe03c1c905d171c4e16e65b32fb6aab0e5aad478a3e976f87b09bcfe2748f0",
+      "local": "/tmp/maps-android-unrated-20261023/readback/fbbe03c1c905d171c4e16e65b32fb6aab0e5aad478a3e976f87b09bcfe2748f0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070335.821Z__braised-food-flushing__42.xml",
+      "serviceBytes": 78030,
+      "bytes": 78030,
+      "sha256": "c6fbeb0a792ddfc3815c47998d13427b2d1cba642d5496340eed84563965aeb1",
+      "local": "/tmp/maps-android-unrated-20261023/readback/c6fbeb0a792ddfc3815c47998d13427b2d1cba642d5496340eed84563965aeb1"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070335.821Z__braised-food-flushing__42.png",
+      "serviceBytes": 591677,
+      "bytes": 591677,
+      "sha256": "32fda7cc4120a0eae096012f3f4e2e13d6ddd4e70dc7c81de8b8cc6c1b859e56",
+      "local": "/tmp/maps-android-unrated-20261023/readback/32fda7cc4120a0eae096012f3f4e2e13d6ddd4e70dc7c81de8b8cc6c1b859e56"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070341.639Z__braised-food-flushing__43.frame.json",
+      "serviceBytes": 5625,
+      "bytes": 5625,
+      "sha256": "f6c2ebf699a52a946795213e597a774b27eb384da22f82af9b7fede095e5ed1c",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f6c2ebf699a52a946795213e597a774b27eb384da22f82af9b7fede095e5ed1c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070341.639Z__braised-food-flushing__43.ocr.json",
+      "serviceBytes": 11549,
+      "bytes": 11549,
+      "sha256": "257b24fc6ecac3b3cec163b9d0e017b31744918361b76c61b52bbea9603700bb",
+      "local": "/tmp/maps-android-unrated-20261023/readback/257b24fc6ecac3b3cec163b9d0e017b31744918361b76c61b52bbea9603700bb"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070341.639Z__braised-food-flushing__43.xml",
+      "serviceBytes": 80355,
+      "bytes": 80355,
+      "sha256": "24d1c589c1a78fb3dbc9c0aa58100fd10fd1a7243e8545b2e7c47c32535ce3ab",
+      "local": "/tmp/maps-android-unrated-20261023/readback/24d1c589c1a78fb3dbc9c0aa58100fd10fd1a7243e8545b2e7c47c32535ce3ab"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070341.639Z__braised-food-flushing__43.png",
+      "serviceBytes": 716496,
+      "bytes": 716496,
+      "sha256": "62cff50fb6533c01cfdc5f140493b9ac8bd01e2ee5a697f39fd9cec290815c86",
+      "local": "/tmp/maps-android-unrated-20261023/readback/62cff50fb6533c01cfdc5f140493b9ac8bd01e2ee5a697f39fd9cec290815c86"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070346.623Z__braised-food-flushing__44.frame.json",
+      "serviceBytes": 4390,
+      "bytes": 4390,
+      "sha256": "0654a7f97ab91b9f8c02edc8bfac896fadde0045b4ec81b100ae03d06d77d794",
+      "local": "/tmp/maps-android-unrated-20261023/readback/0654a7f97ab91b9f8c02edc8bfac896fadde0045b4ec81b100ae03d06d77d794"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070346.623Z__braised-food-flushing__44.ocr.json",
+      "serviceBytes": 18903,
+      "bytes": 18903,
+      "sha256": "6cc81bcab0b6f593d90eaaac69ed2ac921b86d7a9b3ee96cab8df1a0a4c2a4f1",
+      "local": "/tmp/maps-android-unrated-20261023/readback/6cc81bcab0b6f593d90eaaac69ed2ac921b86d7a9b3ee96cab8df1a0a4c2a4f1"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070346.623Z__braised-food-flushing__44.xml",
+      "serviceBytes": 81240,
+      "bytes": 81240,
+      "sha256": "7b8159f619a1d461d2e14864cc3bf7e7921d23be8da6e332b61d49bb5b86466a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/7b8159f619a1d461d2e14864cc3bf7e7921d23be8da6e332b61d49bb5b86466a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070346.623Z__braised-food-flushing__44.png",
+      "serviceBytes": 668820,
+      "bytes": 668820,
+      "sha256": "fdc4eab73136769bcfa69cc6c571fabd78572d7512fe972eb964622bb562403b",
+      "local": "/tmp/maps-android-unrated-20261023/readback/fdc4eab73136769bcfa69cc6c571fabd78572d7512fe972eb964622bb562403b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070353.726Z__braised-food-flushing__45.frame.json",
+      "serviceBytes": 7349,
+      "bytes": 7349,
+      "sha256": "5b045c10d7012c41f17b328838059e668c652b7f8d44cfd310a4cac033566ff9",
+      "local": "/tmp/maps-android-unrated-20261023/readback/5b045c10d7012c41f17b328838059e668c652b7f8d44cfd310a4cac033566ff9"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070353.726Z__braised-food-flushing__45.ocr.json",
+      "serviceBytes": 22611,
+      "bytes": 22611,
+      "sha256": "ed7e22b32d5cb9ae596c21aaf1f9e4516cfc20292cb5e01a5f1c7257d672b212",
+      "local": "/tmp/maps-android-unrated-20261023/readback/ed7e22b32d5cb9ae596c21aaf1f9e4516cfc20292cb5e01a5f1c7257d672b212"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070353.726Z__braised-food-flushing__45.png",
+      "serviceBytes": 505315,
+      "bytes": 505315,
+      "sha256": "4efe24cee3489e4f8eeccd0349431376277276bb04d5b3d372c134e5cee1d3fc",
+      "local": "/tmp/maps-android-unrated-20261023/readback/4efe24cee3489e4f8eeccd0349431376277276bb04d5b3d372c134e5cee1d3fc"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070353.726Z__braised-food-flushing__45.xml",
+      "serviceBytes": 76796,
+      "bytes": 76796,
+      "sha256": "3b8321025d56634e7af388ab5f53be4a24a444dff51f2520e88161bae8ed2603",
+      "local": "/tmp/maps-android-unrated-20261023/readback/3b8321025d56634e7af388ab5f53be4a24a444dff51f2520e88161bae8ed2603"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070401.041Z__braised-food-flushing__46.frame.json",
+      "serviceBytes": 5877,
+      "bytes": 5877,
+      "sha256": "2f8600b5cd8f2bcb552ad01868e821f33be9650ea92338f6e17bf7b5815c5c51",
+      "local": "/tmp/maps-android-unrated-20261023/readback/2f8600b5cd8f2bcb552ad01868e821f33be9650ea92338f6e17bf7b5815c5c51"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070401.041Z__braised-food-flushing__46.ocr.json",
+      "serviceBytes": 20867,
+      "bytes": 20867,
+      "sha256": "69f3de26113cd3a08b7a12df6ced22548c5d2fb5b6b99796b7bf8d142245abe5",
+      "local": "/tmp/maps-android-unrated-20261023/readback/69f3de26113cd3a08b7a12df6ced22548c5d2fb5b6b99796b7bf8d142245abe5"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070401.041Z__braised-food-flushing__46.png",
+      "serviceBytes": 580824,
+      "bytes": 580824,
+      "sha256": "ad2c652458c19cd32fa290bc4b38bbe1852da6943ff874297ad1c77ca21c331d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/ad2c652458c19cd32fa290bc4b38bbe1852da6943ff874297ad1c77ca21c331d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070401.041Z__braised-food-flushing__46.xml",
+      "serviceBytes": 74392,
+      "bytes": 74392,
+      "sha256": "35f22559cbe0d23d60a17aca9de1fdd8d886448a7e46566fbd653cce859ec4e8",
+      "local": "/tmp/maps-android-unrated-20261023/readback/35f22559cbe0d23d60a17aca9de1fdd8d886448a7e46566fbd653cce859ec4e8"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070406.911Z__braised-food-flushing__47.frame.json",
+      "serviceBytes": 6051,
+      "bytes": 6051,
+      "sha256": "8e29f72ab354468692777b11037d1a6e0895083f2f902b9977e0543bd1c5a4ad",
+      "local": "/tmp/maps-android-unrated-20261023/readback/8e29f72ab354468692777b11037d1a6e0895083f2f902b9977e0543bd1c5a4ad"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070406.911Z__braised-food-flushing__47.ocr.json",
+      "serviceBytes": 21148,
+      "bytes": 21148,
+      "sha256": "b93e4cee632f84f89134057a3f734dac65c77e1d8b4cc9340b1f15ac31592b7a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/b93e4cee632f84f89134057a3f734dac65c77e1d8b4cc9340b1f15ac31592b7a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070406.911Z__braised-food-flushing__47.png",
+      "serviceBytes": 444917,
+      "bytes": 444917,
+      "sha256": "ee94791700279d698c6a068141504355fed09c13e2be825e7f8e4c56fd86f729",
+      "local": "/tmp/maps-android-unrated-20261023/readback/ee94791700279d698c6a068141504355fed09c13e2be825e7f8e4c56fd86f729"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070406.911Z__braised-food-flushing__47.xml",
+      "serviceBytes": 75567,
+      "bytes": 75567,
+      "sha256": "97e1f4d3f9974733a5261b27faf5ad27c1204b5928fb48cc9b6a38f0daba43aa",
+      "local": "/tmp/maps-android-unrated-20261023/readback/97e1f4d3f9974733a5261b27faf5ad27c1204b5928fb48cc9b6a38f0daba43aa"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070413.176Z__braised-food-flushing__48.frame.json",
+      "serviceBytes": 7930,
+      "bytes": 7930,
+      "sha256": "571a13dc5ca1552a4ce9be742328c66f7b4580ff3bc462f55e67c0cdc98d80ca",
+      "local": "/tmp/maps-android-unrated-20261023/readback/571a13dc5ca1552a4ce9be742328c66f7b4580ff3bc462f55e67c0cdc98d80ca"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070413.176Z__braised-food-flushing__48.ocr.json",
+      "serviceBytes": 24025,
+      "bytes": 24025,
+      "sha256": "cea86f7bfd1872d16f6aaa9fe9675e128f3053711973a1b92fc2cb177aaaa337",
+      "local": "/tmp/maps-android-unrated-20261023/readback/cea86f7bfd1872d16f6aaa9fe9675e128f3053711973a1b92fc2cb177aaaa337"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070413.176Z__braised-food-flushing__48.xml",
+      "serviceBytes": 75883,
+      "bytes": 75883,
+      "sha256": "8f2a7f1c85da5e1efe39b2ae05155bd68d0c6d45136c6a9bcf8a31827d591f33",
+      "local": "/tmp/maps-android-unrated-20261023/readback/8f2a7f1c85da5e1efe39b2ae05155bd68d0c6d45136c6a9bcf8a31827d591f33"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0002-located.json",
+      "serviceBytes": 18571,
+      "bytes": 18571,
+      "sha256": "16b3f54203723f3e326b3ba9d239e01d5b92f3dea85e9df287d73644ef702c58",
+      "local": "/tmp/maps-android-unrated-20261023/readback/16b3f54203723f3e326b3ba9d239e01d5b92f3dea85e9df287d73644ef702c58"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070413.176Z__braised-food-flushing__48.png",
+      "serviceBytes": 504985,
+      "bytes": 504985,
+      "sha256": "e8a9b486653191d3e6c4be57275f6fbad74fa510d1e8f98fe017be59b7b6de02",
+      "local": "/tmp/maps-android-unrated-20261023/readback/e8a9b486653191d3e6c4be57275f6fbad74fa510d1e8f98fe017be59b7b6de02"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0003-searched.json",
+      "serviceBytes": 34050,
+      "bytes": 34050,
+      "sha256": "f536fc40de3c6e80c34d493baec17c2a9d23162cc3fee9b03c8f75ad49877450",
+      "local": "/tmp/maps-android-unrated-20261023/readback/f536fc40de3c6e80c34d493baec17c2a9d23162cc3fee9b03c8f75ad49877450"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0004-frames.json",
+      "serviceBytes": 56393,
+      "bytes": 56393,
+      "sha256": "ee93428171967309a63af8343bc0ce717efa22f040d15deef7cba4ad24313489",
+      "local": "/tmp/maps-android-unrated-20261023/readback/ee93428171967309a63af8343bc0ce717efa22f040d15deef7cba4ad24313489"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0005-frames.json",
+      "serviceBytes": 63032,
+      "bytes": 63032,
+      "sha256": "d6fc57c3fd9aa1918b87ab0f1850d993bd256f1bda9ea96d6d080898791f2e7f",
+      "local": "/tmp/maps-android-unrated-20261023/readback/d6fc57c3fd9aa1918b87ab0f1850d993bd256f1bda9ea96d6d080898791f2e7f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0006-frames.json",
+      "serviceBytes": 63025,
+      "bytes": 63025,
+      "sha256": "9454dcb0f387d83e6b1680e98e0946a9ac70bebb36c672f670b1f25de23ac222",
+      "local": "/tmp/maps-android-unrated-20261023/readback/9454dcb0f387d83e6b1680e98e0946a9ac70bebb36c672f670b1f25de23ac222"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0007-frames.json",
+      "serviceBytes": 63025,
+      "bytes": 63025,
+      "sha256": "d613a85da82b89fcfcd8921dc74c1949e27851487e9d6718fe812b99ac421230",
+      "local": "/tmp/maps-android-unrated-20261023/readback/d613a85da82b89fcfcd8921dc74c1949e27851487e9d6718fe812b99ac421230"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0009-frames.json",
+      "serviceBytes": 63027,
+      "bytes": 63027,
+      "sha256": "0bc9f927c302d26174fb231fade9e543fba1cfc4c7f37fcde73136f6aeab169f",
+      "local": "/tmp/maps-android-unrated-20261023/readback/0bc9f927c302d26174fb231fade9e543fba1cfc4c7f37fcde73136f6aeab169f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0008-frames.json",
+      "serviceBytes": 63023,
+      "bytes": 63023,
+      "sha256": "d43cee9dfdc808aca8f3b4245e95ad6fbb22ef29ced64f99dcfbfe151cf33557",
+      "local": "/tmp/maps-android-unrated-20261023/readback/d43cee9dfdc808aca8f3b4245e95ad6fbb22ef29ced64f99dcfbfe151cf33557"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0010-frames.json",
+      "serviceBytes": 63027,
+      "bytes": 63027,
+      "sha256": "731c9d0e8754ab9bf9d7733972dc0ede351ff9140d59aa908823c6adf60ff12d",
+      "local": "/tmp/maps-android-unrated-20261023/readback/731c9d0e8754ab9bf9d7733972dc0ede351ff9140d59aa908823c6adf60ff12d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0011-frames.json",
+      "serviceBytes": 63030,
+      "bytes": 63030,
+      "sha256": "b8e28efe3e8cc8b9805be6588307a319d1097753d31ef24a80b7e4d113ce0462",
+      "local": "/tmp/maps-android-unrated-20261023/readback/b8e28efe3e8cc8b9805be6588307a319d1097753d31ef24a80b7e4d113ce0462"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0012-frames.json",
+      "serviceBytes": 63033,
+      "bytes": 63033,
+      "sha256": "4ae7fceb8f24548848f6cccd10c67c6375f25eaae3199ed08c0ca783429a6831",
+      "local": "/tmp/maps-android-unrated-20261023/readback/4ae7fceb8f24548848f6cccd10c67c6375f25eaae3199ed08c0ca783429a6831"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0013-frames.json",
+      "serviceBytes": 63050,
+      "bytes": 63050,
+      "sha256": "a960ee7fdaacff7267413a25829b0c36450c004866c0809a55d4b513af98e65a",
+      "local": "/tmp/maps-android-unrated-20261023/readback/a960ee7fdaacff7267413a25829b0c36450c004866c0809a55d4b513af98e65a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0014-frames.json",
+      "serviceBytes": 63150,
+      "bytes": 63150,
+      "sha256": "1eabe5c970c2e55a21fdad5d4924f9905c04f608d63dcf21cd83eda8422db956",
+      "local": "/tmp/maps-android-unrated-20261023/readback/1eabe5c970c2e55a21fdad5d4924f9905c04f608d63dcf21cd83eda8422db956"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/commands-0015-query-final.json",
+      "serviceBytes": 63168,
+      "bytes": 63168,
+      "sha256": "81847bf70a83917be7655947d1f092d3ee25d3494f14566313d85d839e6601f3",
+      "local": "/tmp/maps-android-unrated-20261023/readback/81847bf70a83917be7655947d1f092d3ee25d3494f14566313d85d839e6601f3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/queries.csv",
+      "serviceBytes": 1002,
+      "bytes": 1002,
+      "sha256": "dd775f15341cba0ce07287d27091a0eb681265146a519120e9cdc6ffc2fc630e",
+      "local": "/tmp/maps-android-unrated-20261023/readback/dd775f15341cba0ce07287d27091a0eb681265146a519120e9cdc6ffc2fc630e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/query.json",
+      "serviceBytes": 172277,
+      "bytes": 172277,
+      "sha256": "1a6843cbb3c39fd0eb3d5dad9f07608bc8a26ca0766c61f8d783600ed1712da6",
+      "local": "/tmp/maps-android-unrated-20261023/readback/1a6843cbb3c39fd0eb3d5dad9f07608bc8a26ca0766c61f8d783600ed1712da6"
+    }
+  ]
+}

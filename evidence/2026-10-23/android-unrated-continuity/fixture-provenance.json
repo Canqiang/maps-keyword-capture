@@ -1,0 +1,26 @@
+[
+  {
+    "path": "tests/fixtures/android/sheet-recovery-20261023/keke-45.xml",
+    "bytes": 76310,
+    "sha256": "916cf7c21c57d96425270b97d08f5e49c5026ec15a4d9f0459e4bfee8aedb40c",
+    "gitBytesEqual": true
+  },
+  {
+    "path": "tests/fixtures/android/sheet-recovery-20261023/keke-45.ocr.json",
+    "bytes": 19266,
+    "sha256": "cd7688459b284f0b03fbcea8a60f75e158d918688baf3b7097ccb2b96b66e5d9",
+    "gitBytesEqual": true
+  },
+  {
+    "path": "tests/fixtures/android/sheet-recovery-20261023/keke-46.xml",
+    "bytes": 74282,
+    "sha256": "d30a79a0766ebaa6c842efd4519bff6d096dbb81b13a840a02f3a8c6744a992b",
+    "gitBytesEqual": true
+  },
+  {
+    "path": "tests/fixtures/android/sheet-recovery-20261023/keke-46.ocr.json",
+    "bytes": 13020,
+    "sha256": "2030a3221513b73b93fa612d566b89fddff8279cbf5e8d1b841ba6ff350bab00",
+    "gitBytesEqual": true
+  }
+]

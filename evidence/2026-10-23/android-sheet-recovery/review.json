@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-23T06:26:42.020178+00:00",
+  "reviewer": "review_search_scroll",
+  "initialFindings": [
+    "Single exact OCR anchor could contradict native movement",
+    "Geometric containment alone did not establish native list ancestry/enabled state"
+  ],
+  "resolved": [
+    "Added exact-anchor contradiction veto and regression",
+    "Use inspectNativeResultActions with parsed ancestry and enabled/visible flags; negative overlay/disabled tests"
+  ],
+  "finalVerdict": "No remaining blockers",
+  "independentTargetedTests": 308,
+  "additionalFindings": [
+    "Full suite caught broad native fallback bypassing historical quote/CJK negative gates",
+    "Clean Latin branch suffix/extension could be ignored by prefix-only gate",
+    "Malformed optional OCR words could crash primary parser"
+  ],
+  "additionalFixes": [
+    "Complete confident header and metadata gate",
+    "Full Latin/numeric tokens from immutable word evidence; only bounded low-confidence garble aligned to CJK counterpart excluded",
+    "Optional words validated before copy; malformed evidence omitted"
+  ],
+  "finalTargetedReviewTests": 26,
+  "fullSuite": {
+    "files": 93,
+    "tests": 1783,
+    "status": "passed"
+  }
+}

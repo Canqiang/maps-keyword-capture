@@ -1,0 +1,75 @@
+{
+  "scope": "8 actual PNGs visually inspected; all49 PNGs structurally decoded separately. No claim of full visual inspection or newly verified ad examples.",
+  "samples": [
+    {
+      "frameId": "q0001:frame-001",
+      "objectKey": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T065905.438Z__braised-food-flushing__01.png",
+      "bytes": 671216,
+      "sha256": "e4045092b57cdd9b125757f2c9dcf4548b2ae0795c73f6ada25cc94969da2dcb",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-unrated-continuity-2026-10-23/readback/e4045092b57cdd9b125757f2c9dcf4548b2ae0795c73f6ada25cc94969da2dcb",
+      "finding": "Exact query visible; KEKE first listing4.6/9. English identity matches; Chinese OCR is noisy and remains raw."
+    },
+    {
+      "frameId": "q0001:frame-024",
+      "objectKey": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070143.152Z__braised-food-flushing__24.png",
+      "bytes": 634438,
+      "sha256": "49ce05b97aa942e04a026f465c29fe44c6e5904aa2ab36e39570e7d55d957e4e",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-unrated-continuity-2026-10-23/readback/49ce05b97aa942e04a026f465c29fe44c6e5904aa2ab36e39570e7d55d957e4e",
+      "finding": "Chun xiang ju4.9/55 before bounded backward correction."
+    },
+    {
+      "frameId": "q0001:frame-027",
+      "objectKey": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070203.528Z__braised-food-flushing__27.png",
+      "bytes": 584477,
+      "sha256": "8ebfa0b3624c816e68c900673943487ef7dd09c7059afe5b4ee58a47bbbed4a7",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-unrated-continuity-2026-10-23/readback/8ebfa0b3624c816e68c900673943487ef7dd09c7059afe5b4ee58a47bbbed4a7",
+      "finding": "Same4.9/55 card after correction, matching photos and snippets; selected sequence resumes."
+    },
+    {
+      "frameId": "q0001:frame-033",
+      "objectKey": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070237.810Z__braised-food-flushing__33.png",
+      "bytes": 572321,
+      "sha256": "3e46828e31f28f2117f274cb7a9971243d168e51b21af55a2705851ec245a8af",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-unrated-continuity-2026-10-23/readback/3e46828e31f28f2117f274cb7a9971243d168e51b21af55a2705851ec245a8af",
+      "finding": "Longjiang4.1/18 clearly visible; Nan Xiang4.5/7300 follows."
+    },
+    {
+      "frameId": "q0001:frame-043",
+      "objectKey": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070341.639Z__braised-food-flushing__43.png",
+      "bytes": 716496,
+      "sha256": "62cff50fb6533c01cfdc5f140493b9ac8bd01e2ee5a697f39fd9cec290815c86",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-unrated-continuity-2026-10-23/readback/62cff50fb6533c01cfdc5f140493b9ac8bd01e2ee5a697f39fd9cec290815c86",
+      "finding": "Ji You explicit No reviews and0.6mi, followed by JiBeiChuan4.7/842."
+    },
+    {
+      "frameId": "q0001:frame-044",
+      "objectKey": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070346.623Z__braised-food-flushing__44.png",
+      "bytes": 668820,
+      "sha256": "fdc4eab73136769bcfa69cc6c571fabd78572d7512fe972eb964622bb562403b",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-unrated-continuity-2026-10-23/readback/fdc4eab73136769bcfa69cc6c571fabd78572d7512fe972eb964622bb562403b",
+      "finding": "Ji You header and no-review line have fully left screen; next JiBeiChuan fully visible. This fresh run does not exercise v23 clipped no-review fallback."
+    },
+    {
+      "frameId": "q0001:frame-047",
+      "objectKey": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070406.911Z__braised-food-flushing__47.png",
+      "bytes": 444917,
+      "sha256": "ee94791700279d698c6a068141504355fed09c13e2be825e7f8e4c56fd86f729",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-unrated-continuity-2026-10-23/readback/ee94791700279d698c6a068141504355fed09c13e2be825e7f8e4c56fd86f729",
+      "finding": "Master of Braised Delicacies4.7/9 header visible; raw Chinese OCR noise retained."
+    },
+    {
+      "frameId": "q0001:frame-048",
+      "objectKey": "android-maps/2026-10-23/run_20261023T065827Z_319040/q0001/20261023T070413.176Z__braised-food-flushing__48.png",
+      "bytes": 504985,
+      "sha256": "e8a9b486653191d3e6c4be57275f6fbad74fa510d1e8f98fe017be59b7b6de02",
+      "local": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-unrated-continuity-2026-10-23/readback/e8a9b486653191d3e6c4be57275f6fbad74fa510d1e8f98fe017be59b7b6de02",
+      "finding": "Same Master card followed by Old Luo Yang4.7/628. Terminal displayed20 is visible; no list end asserted."
+    }
+  ],
+  "geography": "mapsLocationStatus remains unverified",
+  "liveBranches": {
+    "nativeSheetRecoveries": [],
+    "supplementaryRatingRereads": 0,
+    "clippedNoReviewFallback": "not exercised in fresh run; original v22 frame45/46 fixtures covered by13 tests"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "scope": "Same-source parse/reconcile of all selected OCR/XML; not fresh OCR or full visual QA",
+  "selectedFrames": 44,
+  "exactListingEquality": true,
+  "sequenceVerified": false,
+  "rankingReliable": false,
+  "warnings": [
+    "anchored_card_unmatched: q0001:frame-045 -> q0001:frame-046",
+    "unknown_cards_precede_organic_ranks"
+  ],
+  "rows": 19,
+  "lastEndOfResults": false,
+  "changedFrames": [],
+  "withoutNativeControls": {
+    "sequenceVerified": false,
+    "rankingReliable": false,
+    "warnings": [
+      "anchored_card_unmatched: q0001:frame-045 -> q0001:frame-046",
+      "unknown_cards_precede_organic_ranks"
+    ],
+    "rows": 19
+  },
+  "withoutReread": {
+    "sequenceVerified": false,
+    "warnings": [
+      "anchored_card_unmatched: q0001:frame-045 -> q0001:frame-046",
+      "unknown_cards_precede_organic_ranks"
+    ],
+    "rows": 19
+  }
+}
