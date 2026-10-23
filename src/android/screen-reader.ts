@@ -712,9 +712,45 @@ function nativeActionContinuity(previous: ScreenFrame, frame: ScreenFrame, heigh
     });
     return JSON.stringify(tokens(x,y,-delta))===JSON.stringify(tokens(y,x,delta));
   };
-  const ratingProof=previous.cards.some(x=>stem(x)!==null && header(x,previous.nativeListBounds!) && x.rating!==null && x.reviewCount!==null && x.ratingBounds &&
+  // Mixed-script titles need character-level uncertainty, not an alias or a
+  // fuzzy name threshold. The English suffix itself must move with the controls.
+  const mixedSuffix=(x: ScreenCard,y: ScreenCard): boolean => {
+    const extract=(c: ScreenCard) => {
+      const words=c.nameWords;
+      if (!words?.length || !c.nameBounds ||
+        normalizeText(words.map(w=>w.text).join(' '))!==normalizeText(c.name ?? '') ||
+        !words.every(w=>Number.isFinite(w.confidence) && w.confidence>=0 && w.confidence<=100 &&
+          Object.values(w.bounds).every(Number.isFinite) && w.bounds.right>w.bounds.left && w.bounds.bottom>w.bounds.top &&
+          w.bounds.left>=c.nameBounds!.left && w.bounds.right<=c.nameBounds!.right &&
+          w.bounds.top>=c.nameBounds!.top && w.bounds.bottom<=c.nameBounds!.bottom)) return null;
+      const first=words.findIndex(w=>/[a-z]/iu.test(w.text));
+      if (first<1) return null;
+      const prefix=words.slice(0,first), suffix=words.slice(first);
+      if (!prefix.every(w=>/^[一-鿿0-9\s\p{P}]+$/u.test(w.text)) || suffix.length<2 ||
+        !suffix.every(w=>/^[a-z]+(?:['’][a-z]+)?$/iu.test(w.text) && w.confidence>=80)) return null;
+      const english=suffix.map(w=>w.text.toLowerCase().replace(/['’]/gu,''));
+      if (english.join('').length<8) return null;
+      const chinese=prefix.flatMap(w=>[...w.text].filter(c=>/[一-鿿]/u.test(c)).map(char=>({char,confidence:w.confidence})));
+      if (chinese.length<3) return null;
+      return {suffix,english,chinese,numbers:prefix.flatMap(w=>w.text.match(/[0-9]+/gu) ?? [])};
+    };
+    const left=extract(x),right=extract(y);
+    if (!left || !right || JSON.stringify(left.english)!==JSON.stringify(right.english) ||
+      JSON.stringify(left.numbers)!==JSON.stringify(right.numbers) || left.chinese.length!==right.chinese.length) return false;
+    // Only observed script equivalents are allowed to differ confidently. A
+    // low-confidence word elsewhere cannot excuse a changed branch character.
+    const script=(s:string)=>s==='過'?'过':s==='線'?'线':s;
+    if (!left.chinese.every((c,i)=>script(c.char)===script(right.chinese[i]!.char) ||
+      Math.min(c.confidence,right.chinese[i]!.confidence)<40)) return false;
+    return left.suffix.every((w,i)=>{
+      const v=right.suffix[i]!;
+      return Math.abs(w.bounds.left-v.bounds.left)<=2 && Math.abs(w.bounds.right-v.bounds.right)<=2 &&
+        Math.abs((v.bounds.top-w.bounds.top)-delta)<=4 && Math.abs((v.bounds.bottom-w.bounds.bottom)-delta)<=4;
+    });
+  };
+  const ratingProof=previous.cards.some(x=>header(x,previous.nativeListBounds!) && x.rating!==null && x.reviewCount!==null && x.ratingBounds &&
     previous.cards.filter(c=>key(c)===key(x)).length===1 && frame.cards.filter(c=>key(c)===key(x)).length===1 &&
-    frame.cards.some(y=>stem(y)===stem(x) && header(y,frame.nativeListBounds!) && lexical(x,y) && x.category===y.category && x.priceText===y.priceText && x.distanceText===y.distanceText && key(y)===key(x) && y.ratingBounds && x.resultType!=='unknown' && x.resultType===y.resultType &&
+    frame.cards.some(y=>header(y,frame.nativeListBounds!) && ((stem(x)!==null && stem(y)===stem(x) && lexical(x,y)) || mixedSuffix(x,y)) && x.category===y.category && x.priceText===y.priceText && x.distanceText===y.distanceText && key(y)===key(x) && y.ratingBounds && x.resultType!=='unknown' && x.resultType===y.resultType &&
       ![...x.warnings,...y.warnings].some(w=>['low_rating_confidence','native_ad_evidence_unresolved','uncertain_ad_label'].includes(w)) &&
       Math.abs(x.ratingBounds!.left-y.ratingBounds.left)<=4 && Math.abs(x.ratingBounds!.right-y.ratingBounds.right)<=4 &&
       Math.abs((y.ratingBounds.top-x.ratingBounds!.top)-delta)<=12));

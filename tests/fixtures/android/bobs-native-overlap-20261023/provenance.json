@@ -1,0 +1,170 @@
+{
+  "runId": "run_20261023T085308Z_8c652b",
+  "screens": [
+    {
+      "png": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.png",
+        "bytes": 638906,
+        "sha256": "148c123f0459aff99ca8666e284765ad9667d9c0826e6ba9c6e004751aef678d",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.png",
+        "verifiedAt": "2026-10-23T08:57:25.116Z",
+        "storageError": null
+      },
+      "xml": {
+        "kind": "ui_xml",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.xml",
+        "bytes": 79172,
+        "sha256": "ed1d005a6cca1bd33fa01e715c02cc78dd3328177acdd56d29700f6cac6b5688",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.xml",
+        "verifiedAt": "2026-10-23T08:57:25.153Z",
+        "storageError": null
+      },
+      "width": 720,
+      "height": 1280,
+      "capturedAt": "2026-10-23T08:57:25.042Z",
+      "role": "capture",
+      "analysis": {
+        "kind": "results",
+        "queryVisible": true,
+        "texts": [
+          "braised food flushing",
+          "Close",
+          "Close",
+          "Wheelchair accessible",
+          "Directions",
+          "Order",
+          "Menu",
+          "Call",
+          "braised food flushing",
+          "braised food flushing",
+          "Clear"
+        ],
+        "adLabels": [],
+        "warnings": [
+          "Ranking is not evaluated; text order and repeated text are not place identities or ranks.",
+          "Visible ad labels are evidence only; advertisement coverage is not evaluated.",
+          "Screenshot capture layout compatibility is validated for the supplied Google Maps 26.41 search screens only; semantic ranks remain not_evaluated."
+        ]
+      },
+      "ocrProcess": {
+        "kind": "ocr_process_log",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.ocr-process.json",
+        "bytes": 1106,
+        "sha256": "0806e09d548084b2bdc237a165351d2253ef0219a7f00b25fc67ca5dbf9e3541",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.ocr-process.json",
+        "verifiedAt": "2026-10-23T08:57:27.089Z",
+        "storageError": null
+      },
+      "frameId": "q0001:frame-034",
+      "ocr": {
+        "kind": "ocr_json",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.ocr.json",
+        "bytes": 20419,
+        "sha256": "3695c62b5b758d8efcdc874699f8124ed4f6a826d6c2b403670e7321dcfb6b27",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.ocr.json",
+        "verifiedAt": "2026-10-23T08:57:27.112Z",
+        "storageError": null
+      },
+      "screenFrame": {
+        "kind": "screen_frame",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.frame.json",
+        "bytes": 8968,
+        "sha256": "2cdf718f06ea62ed39f49a47b2250accf397b5eefc7efd9dd222644af9d9986e",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085725.042Z__braised-food-flushing__34.frame.json",
+        "verifiedAt": "2026-10-23T08:57:27.178Z",
+        "storageError": null
+      },
+      "cardsRecognized": 2
+    },
+    {
+      "png": {
+        "kind": "png",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.png",
+        "bytes": 569645,
+        "sha256": "f9d4056d2e87da3a5c4fff26e368b70da6d588a3f2beb499833f88f47ac466f0",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.png",
+        "verifiedAt": "2026-10-23T08:57:30.709Z",
+        "storageError": null
+      },
+      "xml": {
+        "kind": "ui_xml",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.xml",
+        "bytes": 83623,
+        "sha256": "9e546add9a7739609107212fb903824db8336c107a1d7dfabdf6b1dd0b819e37",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.xml",
+        "verifiedAt": "2026-10-23T08:57:30.737Z",
+        "storageError": null
+      },
+      "width": 720,
+      "height": 1280,
+      "capturedAt": "2026-10-23T08:57:30.627Z",
+      "role": "capture",
+      "analysis": {
+        "kind": "results",
+        "queryVisible": true,
+        "texts": [
+          "braised food flushing",
+          "Close",
+          "Close",
+          "Directions",
+          "Order",
+          "Menu",
+          "Call",
+          "Directions",
+          "Reserve",
+          "Order",
+          "Menu",
+          "braised food flushing",
+          "braised food flushing",
+          "Clear"
+        ],
+        "adLabels": [],
+        "warnings": [
+          "Ranking is not evaluated; text order and repeated text are not place identities or ranks.",
+          "Visible ad labels are evidence only; advertisement coverage is not evaluated.",
+          "Screenshot capture layout compatibility is validated for the supplied Google Maps 26.41 search screens only; semantic ranks remain not_evaluated."
+        ]
+      },
+      "ocrProcess": {
+        "kind": "ocr_process_log",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.ocr-process.json",
+        "bytes": 1106,
+        "sha256": "69c145f8b358281cd6e94aef9de34796eb0bf34181b0ea54d3145bcf838cd02a",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.ocr-process.json",
+        "verifiedAt": "2026-10-23T08:57:33.283Z",
+        "storageError": null
+      },
+      "frameId": "q0001:frame-035",
+      "ocr": {
+        "kind": "ocr_json",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.ocr.json",
+        "bytes": 25865,
+        "sha256": "e0ab7d8dfbe7b20a1a35a0720d8466a8e60b1dde4d1883c13ffe18ca0e67b91f",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.ocr.json",
+        "verifiedAt": "2026-10-23T08:57:33.325Z",
+        "storageError": null
+      },
+      "screenFrame": {
+        "kind": "screen_frame",
+        "relativePath": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.frame.json",
+        "bytes": 6966,
+        "sha256": "6b4f77e62c39c7ab8d3c1d7b18047737682e77db3bdbe120e1f64411ec53afda",
+        "storageStatus": "verified",
+        "objectKey": "android-maps/2026-10-23/run_20261023T085308Z_8c652b/q0001/20261023T085730.627Z__braised-food-flushing__35.frame.json",
+        "verifiedAt": "2026-10-23T08:57:33.431Z",
+        "storageError": null
+      },
+      "cardsRecognized": 1
+    }
+  ]
+}

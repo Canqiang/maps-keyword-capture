@@ -1,0 +1,1053 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "f9d4056d2e87da3a5c4fff26e368b70da6d588a3f2beb499833f88f47ac466f0",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "COLLEGE POINT”",
+      "confidence": 71.52,
+      "bounds": {
+        "left": 148,
+        "top": 14.666666666666666,
+        "right": 347.3333333333333,
+        "bottom": 46.333333333333336
+      },
+      "words": [
+        {
+          "text": "COLLEGE",
+          "confidence": 95.832802,
+          "bounds": {
+            "left": 148,
+            "top": 14.666666666666666,
+            "right": 252.66666666666666,
+            "bottom": 46.333333333333336
+          }
+        },
+        {
+          "text": "POINT”",
+          "confidence": 47.215343,
+          "bounds": {
+            "left": 265.6666666666667,
+            "top": 14.666666666666666,
+            "right": 347.3333333333333,
+            "bottom": 45.333333333333336
+          }
+        }
+      ]
+    },
+    {
+      "text": "4:57 六 o 59 M4",
+      "confidence": 60.76,
+      "bounds": {
+        "left": 71.66666666666667,
+        "top": 48,
+        "right": 627,
+        "bottom": 81
+      },
+      "words": [
+        {
+          "text": "4:57",
+          "confidence": 96.88044,
+          "bounds": {
+            "left": 71.66666666666667,
+            "top": 57.666666666666664,
+            "right": 125,
+            "bottom": 78.33333333333333
+          }
+        },
+        {
+          "text": "六",
+          "confidence": 32.400223,
+          "bounds": {
+            "left": 209.66666666666666,
+            "top": 66.33333333333333,
+            "right": 224,
+            "bottom": 73
+          }
+        },
+        {
+          "text": "o",
+          "confidence": 56.886238,
+          "bounds": {
+            "left": 439.3333333333333,
+            "top": 48,
+            "right": 457,
+            "bottom": 75
+          }
+        },
+        {
+          "text": "59",
+          "confidence": 45.950665,
+          "bounds": {
+            "left": 493.6666666666667,
+            "top": 61.333333333333336,
+            "right": 511.3333333333333,
+            "bottom": 79
+          }
+        },
+        {
+          "text": "M4",
+          "confidence": 71.68969,
+          "bounds": {
+            "left": 569,
+            "top": 55.333333333333336,
+            "right": 627,
+            "bottom": 81
+          }
+        }
+      ]
+    },
+    {
+      "text": "i ant HI SSS 要",
+      "confidence": 15.95,
+      "bounds": {
+        "left": 136.66666666666666,
+        "top": 48.666666666666664,
+        "right": 666.6666666666666,
+        "bottom": 115.33333333333333
+      },
+      "words": [
+        {
+          "text": "i",
+          "confidence": 34.65197,
+          "bounds": {
+            "left": 136.66666666666666,
+            "top": 48.666666666666664,
+            "right": 184.33333333333334,
+            "bottom": 107.33333333333333
+          }
+        },
+        {
+          "text": "ant",
+          "confidence": 10.281029,
+          "bounds": {
+            "left": 172.66666666666666,
+            "top": 72,
+            "right": 224.33333333333334,
+            "bottom": 115.33333333333333
+          }
+        },
+        {
+          "text": "HI",
+          "confidence": 19.931252,
+          "bounds": {
+            "left": 243.66666666666666,
+            "top": 52.666666666666664,
+            "right": 387,
+            "bottom": 104.33333333333333
+          }
+        },
+        {
+          "text": "SSS",
+          "confidence": 0,
+          "bounds": {
+            "left": 428.6666666666667,
+            "top": 79.33333333333333,
+            "right": 542.6666666666666,
+            "bottom": 113.33333333333333
+          }
+        },
+        {
+          "text": "要",
+          "confidence": 14.905807,
+          "bounds": {
+            "left": 629.3333333333334,
+            "top": 55,
+            "right": 666.6666666666666,
+            "bottom": 113
+          }
+        }
+      ]
+    },
+    {
+      "text": "MSH 當",
+      "confidence": 19.71,
+      "bounds": {
+        "left": 179,
+        "top": 110,
+        "right": 720,
+        "bottom": 161
+      },
+      "words": [
+        {
+          "text": "MSH",
+          "confidence": 13.646393,
+          "bounds": {
+            "left": 179,
+            "top": 110,
+            "right": 277,
+            "bottom": 151.66666666666666
+          }
+        },
+        {
+          "text": "當",
+          "confidence": 25.770752,
+          "bounds": {
+            "left": 409,
+            "top": 111.33333333333333,
+            "right": 720,
+            "bottom": 161
+          }
+        }
+      ]
+    },
+    {
+      "text": "braised food flushing x",
+      "confidence": 92.9,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 211,
+        "right": 660.6666666666666,
+        "bottom": 253.33333333333334
+      },
+      "words": [
+        {
+          "text": "braised",
+          "confidence": 96.57048,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 211,
+            "right": 187.33333333333334,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "food",
+          "confidence": 96.534859,
+          "bounds": {
+            "left": 201,
+            "top": 211,
+            "right": 294.3333333333333,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "flushing",
+          "confidence": 96.588524,
+          "bounds": {
+            "left": 308,
+            "top": 211,
+            "right": 465,
+            "bottom": 253.33333333333334
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 81.918869,
+          "bounds": {
+            "left": 635,
+            "top": 211.33333333333334,
+            "right": 660.6666666666666,
+            "bottom": 236.66666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "GR WX SS UB",
+      "confidence": 18.8,
+      "bounds": {
+        "left": 38.666666666666664,
+        "top": 272.3333333333333,
+        "right": 720,
+        "bottom": 312.6666666666667
+      },
+      "words": [
+        {
+          "text": "GR",
+          "confidence": 27.094482,
+          "bounds": {
+            "left": 38.666666666666664,
+            "top": 272.3333333333333,
+            "right": 196.66666666666666,
+            "bottom": 312.6666666666667
+          }
+        },
+        {
+          "text": "WX",
+          "confidence": 18.789528,
+          "bounds": {
+            "left": 294,
+            "top": 272.3333333333333,
+            "right": 381.6666666666667,
+            "bottom": 312.6666666666667
+          }
+        },
+        {
+          "text": "SS",
+          "confidence": 29.328262,
+          "bounds": {
+            "left": 455.3333333333333,
+            "top": 272.3333333333333,
+            "right": 516,
+            "bottom": 312.6666666666667
+          }
+        },
+        {
+          "text": "UB",
+          "confidence": 0,
+          "bounds": {
+            "left": 523,
+            "top": 273.6666666666667,
+            "right": 720,
+            "bottom": 302
+          }
+        }
+      ]
+    },
+    {
+      "text": "@ | lhe braised beef is melt in your mouth",
+      "confidence": 82.36,
+      "bounds": {
+        "left": 50,
+        "top": 326.6666666666667,
+        "right": 585,
+        "bottom": 359.3333333333333
+      },
+      "words": [
+        {
+          "text": "@",
+          "confidence": 91.588203,
+          "bounds": {
+            "left": 50,
+            "top": 342.6666666666667,
+            "right": 66,
+            "bottom": 359.3333333333333
+          }
+        },
+        {
+          "text": "|",
+          "confidence": 28.783585,
+          "bounds": {
+            "left": 94.33333333333333,
+            "top": 329,
+            "right": 96.33333333333333,
+            "bottom": 335
+          }
+        },
+        {
+          "text": "lhe",
+          "confidence": 28.783585,
+          "bounds": {
+            "left": 99.33333333333333,
+            "top": 327.3333333333333,
+            "right": 150.33333333333334,
+            "bottom": 349.3333333333333
+          }
+        },
+        {
+          "text": "braised",
+          "confidence": 96.710823,
+          "bounds": {
+            "left": 161,
+            "top": 326.6666666666667,
+            "right": 252.66666666666666,
+            "bottom": 349.3333333333333
+          }
+        },
+        {
+          "text": "beef",
+          "confidence": 94.830315,
+          "bounds": {
+            "left": 263,
+            "top": 327,
+            "right": 318.6666666666667,
+            "bottom": 349.3333333333333
+          }
+        },
+        {
+          "text": "is",
+          "confidence": 96.683388,
+          "bounds": {
+            "left": 327.6666666666667,
+            "top": 327.3333333333333,
+            "right": 344.6666666666667,
+            "bottom": 349.3333333333333
+          }
+        },
+        {
+          "text": "melt",
+          "confidence": 96.41555,
+          "bounds": {
+            "left": 355,
+            "top": 327.3333333333333,
+            "right": 407,
+            "bottom": 349.3333333333333
+          }
+        },
+        {
+          "text": "in",
+          "confidence": 96.41555,
+          "bounds": {
+            "left": 416.6666666666667,
+            "top": 327.3333333333333,
+            "right": 435,
+            "bottom": 349
+          }
+        },
+        {
+          "text": "your",
+          "confidence": 96.489502,
+          "bounds": {
+            "left": 444.6666666666667,
+            "top": 334,
+            "right": 498.6666666666667,
+            "bottom": 355
+          }
+        },
+        {
+          "text": "mouth",
+          "confidence": 96.862,
+          "bounds": {
+            "left": 508,
+            "top": 327.3333333333333,
+            "right": 585,
+            "bottom": 349.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "全 tender.\"",
+      "confidence": 54.08,
+      "bounds": {
+        "left": 43.666666666666664,
+        "top": 361.3333333333333,
+        "right": 188.33333333333334,
+        "bottom": 384.3333333333333
+      },
+      "words": [
+        {
+          "text": "全",
+          "confidence": 32.258133,
+          "bounds": {
+            "left": 43.666666666666664,
+            "top": 361.3333333333333,
+            "right": 72.33333333333333,
+            "bottom": 374
+          }
+        },
+        {
+          "text": "tender.\"",
+          "confidence": 75.910645,
+          "bounds": {
+            "left": 93,
+            "top": 362.3333333333333,
+            "right": 188.33333333333334,
+            "bottom": 384.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions Ya Order ME) Menu",
+      "confidence": 70.63,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 451.6666666666667,
+        "right": 636,
+        "bottom": 482.3333333333333
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 44.928894,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 451.6666666666667,
+            "right": 97.33333333333333,
+            "bottom": 482.3333333333333
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.414009,
+          "bounds": {
+            "left": 118,
+            "top": 455,
+            "right": 242,
+            "bottom": 477.6666666666667
+          }
+        },
+        {
+          "text": "Ya",
+          "confidence": 48.879665,
+          "bounds": {
+            "left": 320,
+            "top": 451.6666666666667,
+            "right": 348,
+            "bottom": 482.3333333333333
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 91.086143,
+          "bounds": {
+            "left": 369,
+            "top": 455,
+            "right": 441,
+            "bottom": 477.6666666666667
+          }
+        },
+        {
+          "text": "ME)",
+          "confidence": 47.584961,
+          "bounds": {
+            "left": 515,
+            "top": 455.6666666666667,
+            "right": 549,
+            "bottom": 481.3333333333333
+          }
+        },
+        {
+          "text": "Menu",
+          "confidence": 95.863838,
+          "bounds": {
+            "left": 568,
+            "top": 456.6666666666667,
+            "right": 636,
+            "bottom": 477.6666666666667
+          }
+        }
+      ]
+    },
+    {
+      "text": "2 哥 砂 負 . 過 本 米 線 Bob’s Noodle",
+      "confidence": 72.35,
+      "bounds": {
+        "left": 41.666666666666664,
+        "top": 585.6666666666666,
+        "right": 562,
+        "bottom": 620.3333333333334
+      },
+      "words": [
+        {
+          "text": "2",
+          "confidence": 93.188225,
+          "bounds": {
+            "left": 41.666666666666664,
+            "top": 590.6666666666666,
+            "right": 57.333333333333336,
+            "bottom": 617
+          }
+        },
+        {
+          "text": "哥",
+          "confidence": 86.435532,
+          "bounds": {
+            "left": 71.66666666666667,
+            "top": 587.3333333333334,
+            "right": 93.33333333333333,
+            "bottom": 620.3333333333334
+          }
+        },
+        {
+          "text": "砂",
+          "confidence": 81.734718,
+          "bounds": {
+            "left": 121.66666666666667,
+            "top": 585.6666666666666,
+            "right": 150.66666666666666,
+            "bottom": 620
+          }
+        },
+        {
+          "text": "負",
+          "confidence": 57.442078,
+          "bounds": {
+            "left": 154,
+            "top": 587,
+            "right": 173,
+            "bottom": 620.3333333333334
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 48.020473,
+          "bounds": {
+            "left": 185,
+            "top": 587,
+            "right": 208.33333333333334,
+            "bottom": 607.3333333333334
+          }
+        },
+        {
+          "text": "過",
+          "confidence": 86.70166,
+          "bounds": {
+            "left": 208.33333333333334,
+            "top": 586,
+            "right": 234.66666666666666,
+            "bottom": 619
+          }
+        },
+        {
+          "text": "本",
+          "confidence": 0,
+          "bounds": {
+            "left": 245,
+            "top": 585.6666666666666,
+            "right": 270.6666666666667,
+            "bottom": 620
+          }
+        },
+        {
+          "text": "米",
+          "confidence": 73.359207,
+          "bounds": {
+            "left": 281.6666666666667,
+            "top": 586,
+            "right": 322.6666666666667,
+            "bottom": 620.3333333333334
+          }
+        },
+        {
+          "text": "線",
+          "confidence": 87.658813,
+          "bounds": {
+            "left": 329,
+            "top": 585.6666666666666,
+            "right": 342.6666666666667,
+            "bottom": 620.3333333333334
+          }
+        },
+        {
+          "text": "Bob’s",
+          "confidence": 85.589546,
+          "bounds": {
+            "left": 354.6666666666667,
+            "top": 590.6666666666666,
+            "right": 437,
+            "bottom": 617.6666666666666
+          }
+        },
+        {
+          "text": "Noodle",
+          "confidence": 95.712914,
+          "bounds": {
+            "left": 448.6666666666667,
+            "top": 591,
+            "right": 562,
+            "bottom": 617.6666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.6% (135) - $10-20 - Chinese",
+      "confidence": 83.75,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 634.3333333333334,
+        "right": 421.3333333333333,
+        "bottom": 661
+      },
+      "words": [
+        {
+          "text": "4.6%",
+          "confidence": 68.797707,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 635,
+            "right": 98.66666666666667,
+            "bottom": 658
+          }
+        },
+        {
+          "text": "(135)",
+          "confidence": 93.158981,
+          "bounds": {
+            "left": 113.33333333333333,
+            "top": 635,
+            "right": 171.33333333333334,
+            "bottom": 661
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 78.23658,
+          "bounds": {
+            "left": 186.66666666666666,
+            "top": 646.6666666666666,
+            "right": 187,
+            "bottom": 650
+          }
+        },
+        {
+          "text": "$10-20",
+          "confidence": 78.23658,
+          "bounds": {
+            "left": 198.33333333333334,
+            "top": 634.3333333333334,
+            "right": 294,
+            "bottom": 659.6666666666666
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 87.85537,
+          "bounds": {
+            "left": 306,
+            "top": 646.6666666666666,
+            "right": 309,
+            "bottom": 650
+          }
+        },
+        {
+          "text": "Chinese",
+          "confidence": 96.243111,
+          "bounds": {
+            "left": 320.3333333333333,
+            "top": 635.3333333333334,
+            "right": 421.3333333333333,
+            "bottom": 657.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "Closed . Opens 10:30 AM - 0.5 mi",
+      "confidence": 92.32,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 675,
+        "right": 462,
+        "bottom": 703
+      },
+      "words": [
+        {
+          "text": "Closed",
+          "confidence": 93.0084,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 675,
+            "right": 127,
+            "bottom": 697.3333333333334
+          }
+        },
+        {
+          "text": ".",
+          "confidence": 84.137085,
+          "bounds": {
+            "left": 141.33333333333334,
+            "top": 686.6666666666666,
+            "right": 141.66666666666666,
+            "bottom": 690
+          }
+        },
+        {
+          "text": "Opens",
+          "confidence": 96.182365,
+          "bounds": {
+            "left": 151.33333333333334,
+            "top": 676.6666666666666,
+            "right": 232.66666666666666,
+            "bottom": 703
+          }
+        },
+        {
+          "text": "10:30",
+          "confidence": 95.660507,
+          "bounds": {
+            "left": 243,
+            "top": 676.6666666666666,
+            "right": 311,
+            "bottom": 697.3333333333334
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 93.230476,
+          "bounds": {
+            "left": 320.6666666666667,
+            "top": 677,
+            "right": 359,
+            "bottom": 697
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 86.006645,
+          "bounds": {
+            "left": 372,
+            "top": 686.6666666666666,
+            "right": 375,
+            "bottom": 690
+          }
+        },
+        {
+          "text": "0.5",
+          "confidence": 93.998016,
+          "bounds": {
+            "left": 386.6666666666667,
+            "top": 676.6666666666666,
+            "right": 425,
+            "bottom": 697.3333333333334
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.309738,
+          "bounds": {
+            "left": 436,
+            "top": 675.3333333333334,
+            "right": 462,
+            "bottom": 697
+          }
+        }
+      ]
+    },
+    {
+      "text": "@ ‘And the braised meat is good too, Super",
+      "confidence": 92.71,
+      "bounds": {
+        "left": 50,
+        "top": 1015.6666666666666,
+        "right": 611.6666666666666,
+        "bottom": 1048.3333333333333
+      },
+      "words": [
+        {
+          "text": "@",
+          "confidence": 92.607574,
+          "bounds": {
+            "left": 50,
+            "top": 1031.6666666666667,
+            "right": 66,
+            "bottom": 1048.3333333333333
+          }
+        },
+        {
+          "text": "‘And",
+          "confidence": 69.62883,
+          "bounds": {
+            "left": 94.33333333333333,
+            "top": 1016.3333333333334,
+            "right": 151.66666666666666,
+            "bottom": 1038.3333333333333
+          }
+        },
+        {
+          "text": "the",
+          "confidence": 93.817841,
+          "bounds": {
+            "left": 162,
+            "top": 1016.3333333333334,
+            "right": 201.33333333333334,
+            "bottom": 1038.3333333333333
+          }
+        },
+        {
+          "text": "braised",
+          "confidence": 95.320343,
+          "bounds": {
+            "left": 212,
+            "top": 1015.6666666666666,
+            "right": 302.6666666666667,
+            "bottom": 1038.3333333333333
+          }
+        },
+        {
+          "text": "meat",
+          "confidence": 96.74649,
+          "bounds": {
+            "left": 313,
+            "top": 1019.3333333333334,
+            "right": 374,
+            "bottom": 1038.3333333333333
+          }
+        },
+        {
+          "text": "is",
+          "confidence": 96.292412,
+          "bounds": {
+            "left": 383.6666666666667,
+            "top": 1016.3333333333334,
+            "right": 400.6666666666667,
+            "bottom": 1038.3333333333333
+          }
+        },
+        {
+          "text": "good",
+          "confidence": 96.218445,
+          "bounds": {
+            "left": 410.3333333333333,
+            "top": 1016.3333333333334,
+            "right": 472.6666666666667,
+            "bottom": 1044.3333333333333
+          }
+        },
+        {
+          "text": "too,",
+          "confidence": 96.765991,
+          "bounds": {
+            "left": 483,
+            "top": 1019.3333333333334,
+            "right": 527.6666666666666,
+            "bottom": 1041.3333333333333
+          }
+        },
+        {
+          "text": "Super",
+          "confidence": 96.947571,
+          "bounds": {
+            "left": 538.3333333333334,
+            "top": 1017.6666666666666,
+            "right": 611.6666666666666,
+            "bottom": 1044
+          }
+        }
+      ]
+    },
+    {
+      "text": "™ tender and packed with flavor.\"",
+      "confidence": 84.27,
+      "bounds": {
+        "left": 43.666666666666664,
+        "top": 1050.3333333333333,
+        "right": 482.3333333333333,
+        "bottom": 1079
+      },
+      "words": [
+        {
+          "text": "™",
+          "confidence": 27.647552,
+          "bounds": {
+            "left": 43.666666666666664,
+            "top": 1050.3333333333333,
+            "right": 72.33333333333333,
+            "bottom": 1063
+          }
+        },
+        {
+          "text": "tender",
+          "confidence": 95.869804,
+          "bounds": {
+            "left": 93,
+            "top": 1051.3333333333333,
+            "right": 175.66666666666666,
+            "bottom": 1073.3333333333333
+          }
+        },
+        {
+          "text": "and",
+          "confidence": 95.869804,
+          "bounds": {
+            "left": 184.66666666666666,
+            "top": 1051.3333333333333,
+            "right": 228.66666666666666,
+            "bottom": 1073.3333333333333
+          }
+        },
+        {
+          "text": "packed",
+          "confidence": 96.078285,
+          "bounds": {
+            "left": 240,
+            "top": 1051.3333333333333,
+            "right": 329.6666666666667,
+            "bottom": 1079
+          }
+        },
+        {
+          "text": "with",
+          "confidence": 96.367104,
+          "bounds": {
+            "left": 339.6666666666667,
+            "top": 1051.3333333333333,
+            "right": 390,
+            "bottom": 1073
+          }
+        },
+        {
+          "text": "flavor.\"",
+          "confidence": 93.78344,
+          "bounds": {
+            "left": 400,
+            "top": 1051.3333333333333,
+            "right": 482.3333333333333,
+            "bottom": 1073.3333333333333
+          }
+        }
+      ]
+    },
+    {
+      "text": "人 Directions 名 Reserve Ya Order",
+      "confidence": 76.65,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 1140.6666666666667,
+        "right": 668,
+        "bottom": 1171.3333333333333
+      },
+      "words": [
+        {
+          "text": "人",
+          "confidence": 79.20118,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 1140.6666666666667,
+            "right": 97.33333333333333,
+            "bottom": 1171.3333333333333
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.478592,
+          "bounds": {
+            "left": 118,
+            "top": 1144,
+            "right": 242,
+            "bottom": 1166.6666666666667
+          }
+        },
+        {
+          "text": "名",
+          "confidence": 46.066231,
+          "bounds": {
+            "left": 320,
+            "top": 1140.6666666666667,
+            "right": 348,
+            "bottom": 1171.3333333333333
+          }
+        },
+        {
+          "text": "Reserve",
+          "confidence": 95.69606,
+          "bounds": {
+            "left": 370,
+            "top": 1145.6666666666667,
+            "right": 470,
+            "bottom": 1166.6666666666667
+          }
+        },
+        {
+          "text": "Ya",
+          "confidence": 55.240513,
+          "bounds": {
+            "left": 547,
+            "top": 1140.6666666666667,
+            "right": 575,
+            "bottom": 1171.3333333333333
+          }
+        },
+        {
+          "text": "Order",
+          "confidence": 88.19899,
+          "bounds": {
+            "left": 596,
+            "top": 1144,
+            "right": 668,
+            "bottom": 1166.6666666666667
+          }
+        }
+      ]
+    }
+  ],
+  "ratingRereads": []
+}

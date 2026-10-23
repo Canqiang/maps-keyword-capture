@@ -21,7 +21,7 @@ Regression tests cover wall timeout, cancellation, process exit, malformed outpu
 
 The native probe uses a fresh Job/database, KEKE and OnlyBear original centers, and one full keyword list per worker. A verification-only barrier waits until both emulators are ready while retaining the existing staggered startup. Acceptance requires actual overlapping search/capture intervals, both complete lists and original exits 0, one search submission each, independent artifact/database readback, and unchanged protected workloads/configuration. This is not a 270-search production capacity test. Production Android remains suspended; no promotion or existing collector changes are authorized by this repair.
 
-Native verification: pending candidate build/run. This checkpoint is not a passing runtime verdict.
+Native verification checkpoints below are separate attempts; neither constitutes complete dual-worker acceptance.
 
 ## First native v25 attempt and additional bounded startup change
 
@@ -31,3 +31,16 @@ Source `b5f4776c2a0e62c5d4c8c89edabbea5e697cae28`, ACR `ch15ah`, image `sha256:b
 - OnlyBear exited1 before search/OCR: `POST /session` exceeded the generic 30s client deadline. Outcome-unknown quarantine was retained; no second session/search request was sent. The raw Appium tail ends before the timeout and cannot prove the eventual server outcome, exact slow stage or resource causality.
 - Independent Azure-login readback:187 objects,185 exact writer receipts plus two service-size-only scan roots;32 PNGs decoded,119 JSON,32 XML and four CSVs/13 rows checked. This first run did not pass complete concurrency acceptance.
 - A separate startup budget now gives only `POST /session` up to90s (validated upper bound120s), retaining cancellation, no retry and outcome-unknown quarantine. Ordinary commands retain30s, query deadlines and OCR deadlines are unchanged. This is a bounded cold-start experiment, not a proven diagnosis of the Appium server's slow stage. Targeted red→green tests and independent review passed; another fresh dual native probe is required.
+
+
+## Second native probe and v27 continuity candidate
+
+Source `eef9fae3e1fa1bb4bd57835a878d9529ca674643`, ACR `ch15ak`, image `sha256:2d87a1f44e1732dc01fb906453ae2af0b9368bcab5017a104e031617d885458a`, Job/database `maps-android-ocr-v26-20261023` (listing method remains v25).
+
+Both workers actually overlapped search/capture for96.099s. All52 OCR invocations succeeded (KEKE35, OnlyBear17), with no primary/optional timeout. Both sessions were created below30s, so the90s startup path was not exercised live. All1,331 device commands were recovered (1,245 Appium HTTP,86 ADB), with no failures and one session/search submission each. OnlyBear completed12 organic results, own display/natural rank2, exit0. KEKE stopped partial/exit2 at frame34→35, retaining15 diagnostic rows and null rank. Gates closed for both workers but ranking acceptance failed.
+
+Independent Azure-login readback verified299 objects:297 exact writer receipts plus two scan roots checked against service metadata,54 PNGs structurally decoded,187 JSON,54 XML and four CSVs/27 rows. Database observations/evidence links matched. Seven original PNGs were visually sampled, including each target, Longjiang4.1/18, Bob’s Noodle frames34/35 and OnlyBear’s terminal footer. No fresh positive advertisement occurred; historical ad replay remains separate evidence.
+
+The remaining pair is the same Bob’s Noodle4.6/135 header. Two uniquely placed native buttons and both English words move exactly−417px; English confidence exceeds85 and horizontal spans agree. Chinese OCR differs in uncertain characters plus explicit simplified/traditional variants. v27 adds a narrow motion proof requiring full unclipped headers, matching rating/category/price/distance, unique rating tuples, matching classifications, every English suffix word and numeric prefix, high-confidence English word geometry, and character-position-specific uncertainty for differing CJK characters. Only过/過 and线/線 are explicit confident script equivalents. No alias, broad fuzzy-name threshold or retry-budget change is introduced.
+
+Actual-pair regression failed before the change and passes after it;13 negative cases reject conflicting brands, branches, numbers, confident CJK changes, geometry, classification and ambiguous evidence. Independent review ran65 relevant historical/new tests with no blockers. Replaying all33 selected historical frames now preserves continuous14 distinct rows (the duplicate Bob’s occurrence is joined), but the old run still lacks list completion and remains partial. A fresh complete native dual probe is required.
