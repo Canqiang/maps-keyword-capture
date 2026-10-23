@@ -1,0 +1,33 @@
+{
+  "scope": "4 actual native PNGs visually viewed; separate from20 fully decoded PNGs and all receipts",
+  "samples": [
+    {
+      "worker": 1,
+      "frame": 1,
+      "objectKey": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072753.398Z__bubble-tea-garden-city__01.png",
+      "sha256": "a67c8117b18c78d7f8b99c541ec41fdf4011d6aea4ee5d7a9bfb7cd3b3ed3828",
+      "finding": "No Sponsored header; OnlyBear follows Smo Tea."
+    },
+    {
+      "worker": 1,
+      "frame": 2,
+      "objectKey": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072759.715Z__bubble-tea-garden-city__02.png",
+      "sha256": "9e8674809e94bd7311512685eb42848c3ee8323ae0e7cb2a49ff3578670ad500",
+      "finding": "OnlyBear4.7/102 and following Boba Baar4.9/517 match stored fields."
+    },
+    {
+      "worker": 1,
+      "frame": 17,
+      "objectKey": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072934.537Z__bubble-tea-garden-city__17.png",
+      "sha256": "f07c9714a17e552cc6aed1f8c844986f74ec570891bf3ca5aeba95820341c585",
+      "finding": "Kiko Ramen4.7/597 and explicit Looking for someplace else? / Add a missing place footer visible."
+    },
+    {
+      "worker": 0,
+      "role": "diagnostic",
+      "objectKey": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/20261023T072522.463Z__braised-food-flushing__01.png",
+      "sha256": "f53055b94002562ba18874da614c358dce9babcd96ba09a195bd52bb694e6d10",
+      "finding": "Exact query and KEKE appear in partially expanded result sheet after stale read; no semantic rank was accepted."
+    }
+  ]
+}

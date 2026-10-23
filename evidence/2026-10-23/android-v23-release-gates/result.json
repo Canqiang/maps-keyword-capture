@@ -1,0 +1,30 @@
+{
+  "source": "bd894e7f9c6e69f98bd06f40bba7eeb2b56d7f09",
+  "imageDigest": "sha256:8220c787f89e9c370122e73e42a17945dc09e3d5e8ac3e90a26a43c1b138df53",
+  "runtimeModifiedThisTurn": false,
+  "onlyBearStandalone": "passed:12 organic,rank2,list_end,exit0",
+  "historicalAdReplay": "passed on current parser:1 ad +12 organic,OnlyBear display3/organic2",
+  "freshLiveAdSample": false,
+  "dualWorkerAcceptance": "failed:worker0 stale element reference,exit1;worker1 ranked12 organic,exit0",
+  "simultaneousSearchOverlapSeconds": 0,
+  "nativeQueries": 3,
+  "nativeRankedQueries": 2,
+  "nativeFailedQueries": 1,
+  "azureReadbackObjects": 184,
+  "exactWriterReceipts": 181,
+  "serviceSizeOnlyScanRoots": 3,
+  "pngFullyDecoded": 37,
+  "visualNativeSamples": 7,
+  "visualHistoricalAdSamples": 1,
+  "commandEntries": 1061,
+  "failedCommands": 1,
+  "protectedWorkloads": 7,
+  "protectedConfigMaps": 82,
+  "isolatedDualGateRetained": true,
+  "newRegressionTests": {
+    "files": 4,
+    "tests": 71,
+    "status": "passed"
+  },
+  "productionPromoted": false
+}

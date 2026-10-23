@@ -1,0 +1,24 @@
+{
+  "scope": "3 fresh native PNGs visually inspected; all17 PNGs structurally checked separately. Historical ad PNG separately viewed.",
+  "samples": [
+    {
+      "frame": 1,
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/q0001/20261023T071939.495Z__bubble-tea-garden-city__01.png",
+      "sha256": "ba44dc3ea40bd21159357bf69e469d26ca3ec921e030406050fd551a5babaeb6",
+      "finding": "Smo Tea first; Only Bear second; no Sponsored label visible."
+    },
+    {
+      "frame": 2,
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/q0001/20261023T071945.844Z__bubble-tea-garden-city__02.png",
+      "sha256": "45260de3fdf3e32bf7ee00793751aa7cfa0ef30eba50f8c6c6488d308a806b7b",
+      "finding": "Only Bear4.7/102 is fully visible and matches parsed fields."
+    },
+    {
+      "frame": 16,
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/q0001/20261023T072116.008Z__bubble-tea-garden-city__16.png",
+      "sha256": "0781de416865042659e9839ef7b627c9a2e60cc224fc15f6b47d28677ec6a9dc",
+      "finding": "Explicit Looking for someplace else? / Add a missing place footer; Kiko Ramen4.7/597 preceding it."
+    }
+  ],
+  "historicalAd": "Original frame1 shows Sponsored Gong Cha3.9/217. Current v23 replay preserves ad display1/organicRank null and OnlyBear display3/organic2 across17 selected frames. Historical capture, not live v23 ad exposure."
+}

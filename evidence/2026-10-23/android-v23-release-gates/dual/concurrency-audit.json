@@ -1,0 +1,47 @@
+{
+  "status": "failed_acceptance",
+  "sameSourceAndDigest": true,
+  "frozenCatalogSha256": "1662301865d30e9536a8d7b1e0aae9d0728aa46858144e14ce83cf241524763e",
+  "uniqueStoreAssignment": true,
+  "workers": [
+    {
+      "index": 0,
+      "pod": "maps-android-dual-v23-20261023-0-98mk2",
+      "podIP": "10.0.66.126",
+      "tracking": {
+        "containerID": "containerd://9f2b22c202e7a58742c33e705127676a76fa33b9cc3e40cbf778f25eca847179",
+        "exitCode": 1,
+        "finishedAt": "2026-10-23T07:25:23Z",
+        "reason": "Error",
+        "startedAt": "2026-10-23T07:24:38Z"
+      },
+      "root": "/runtime/monitor-workers/0",
+      "emulatorStartedAt": "2026-10-23T07:22:35.254562+00:00",
+      "emulatorReadyAt": "2026-10-23T07:24:37.323003+00:00"
+    },
+    {
+      "index": 1,
+      "pod": "maps-android-dual-v23-20261023-1-t86hc",
+      "podIP": "10.0.66.129",
+      "tracking": {
+        "containerID": "containerd://a968d7fb06e8d8f09d009f44f8d8f2eb1ef64a73dc2693946fa300d0ffb3e623",
+        "exitCode": 0,
+        "finishedAt": "2026-10-23T07:29:39Z",
+        "reason": "Completed",
+        "startedAt": "2026-10-23T07:27:14Z"
+      },
+      "root": "/runtime/monitor-workers/1",
+      "emulatorStartedAt": "2026-10-23T07:25:35.273464+00:00",
+      "emulatorReadyAt": "2026-10-23T07:27:11.325815+00:00"
+    }
+  ],
+  "trackingProcessOverlapSeconds": 0,
+  "simultaneousSearchValidated": false,
+  "note": "First worker failed before second emulator began booting; two scheduled Pods do not establish concurrent-search acceptance. No resource-causality claim.",
+  "observedNodeSamplePeaks": {
+    "cpuMilli": 1428,
+    "memoryMi": 6824,
+    "sampleCount": 23,
+    "scope": "sampled node metrics only; not actual peak or full concurrent capacity proof"
+  }
+}

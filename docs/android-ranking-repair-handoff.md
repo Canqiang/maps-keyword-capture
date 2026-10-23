@@ -1,8 +1,22 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-23. **KEKE single-query Top20 acceptance now passed; production Android remains suspended.** Panel-state/native-motion safeguards and the explicit no-review clipped-header fix are implemented. Full evidence readback and native acceptance are recorded separately from branch-specific fixture coverage. No fleet promotion or push/merge was performed. Historical failures below remain immutable evidence.
+Last updated: 2026-10-23. **Same-version OnlyBear acceptance passed; two-worker acceptance failed; production Android remains suspended.** The new failure is a confirmed post-submit stale search-field read, with durable Appium evidence. Current v23 still preserves the historical ad/display/natural-rank contract, but the new runs contained no positive ad sample. No runtime code, production image or schedule was changed in this follow-up.
 
-## Latest verified checkpoint (2026-10-23, finished15:04:17 Asia/Shanghai)
+## Latest verified checkpoint (2026-10-23, two-worker run ended15:29:39 Asia/Shanghai)
+
+Same runtime source `bd894e7f9c6e69f98bd06f40bba7eeb2b56d7f09`, ACR `ch15ad`, digest `sha256:8220c787f89e9c370122e73e42a17945dc09e3d5e8ac3e90a26a43c1b138df53`, listing method v23. Local branch `codex/android-search-scroll-20261023`; no new runtime build or promotion.
+
+- **OnlyBear single-worker passed:** `bubble tea garden city` at its existing center, explicit list end,12 organic/0 ads/0 unknown, target display2 / organic2, original exit0 at15:21:20.16 ranking PNGs +1 location;462 command sequences, no command failures.82 Azure objects independently read back,81 exact bytes/SHA receipts plus service-length scan root.
+- **Advertisement contract passed historical replay only:** current v23 exactly reproduces17 selected original frames with Sponsored Gong Cha display1 / organicRank null and OnlyBear display3 / organic2 (1 ad +12 organic).72 original artifact receipts rechecked locally. No ad appeared in the fresh samples; positive live v23 ad coverage remains open.
+- **Two-worker Job failed:** worker0 KEKE original exit1 at15:25:23; worker1 OnlyBear original exit0 at15:29:39 with12 organic and target rank2. Roots, Pod IPs, indexes and store assignments are separate; both use the same frozen catalog. Tracking-process overlap0seconds: KEKE failed before worker1 emulator boot began. Do not call this a concurrent-load success or attribute the failure to resource contention.
+- **Confirmed new defect:** command115 submitted the search once successfully. Command118 (`search.results`, `GET element/displayed`) returned404 / `stale element reference` for Maps `search_omnibox_text_box`. Diagnostic screenshot already shows the exact query/results. `searchField()` currently makes this transient post-submit read terminal before settled-source validation. Restoration/capture/cleanup completed. This evidence does not establish the cause of every older protocol error.
+- **Next repair and gate:** narrowly reacquire fresh native evidence after a stale post-submit read within existing budgets; never repeat uncertain submission or relax query/ownership/consent guards. Add one-stale-success, exhausted-stale, changed/ambiguous-query and unrelated-protocol negative tests. Then rerun on a new version and require actual overlapping search/screenshot intervals with both exits0 before full-catalog acceptance.
+- **Evidence/database:** dual readback102 objects/100 exact receipts,20 PNGs decoded and CSV2 queries/12 rows checked.128 KEKE commands fully recovered (one failure) and471 OnlyBear commands (zero failures). All3 new DB observations match their manifests; failed KEKE retains null rank. The isolated dual gate remains active/finished[1]; no gate was cleared or failed round retried.
+- **Protection:** all7 protected Maps workload specs and82 pre-existing ConfigMap hashes unchanged. Source keywords/history/Web/UI/daily collectors unchanged. Current focused regression suites4 files/71 tests passed; prior full-suite results remain historical. Geographic status stays unverified.
+
+See [same-version release-gate report and executable handoff](../evidence/2026-10-23/android-v23-release-gates/README.md) and [failed command diagnosis](../evidence/2026-10-23/android-v23-release-gates/dual/failure-diagnosis.json). The complete KEKE sample below remains valid historical evidence, not proof that the intermittent search-state race is resolved.
+
+## Historical KEKE Top20 checkpoint (2026-10-23, finished15:04:17 Asia/Shanghai)
 
 Runtime source `bd894e7f9c6e69f98bd06f40bba7eeb2b56d7f09`, ACR `ch15ad`, digest `sha256:8220c787f89e9c370122e73e42a17945dc09e3d5e8ac3e90a26a43c1b138df53`, listing method v23. Local branch `codex/android-search-scroll-20261023`; no push/merge or production promotion.
 

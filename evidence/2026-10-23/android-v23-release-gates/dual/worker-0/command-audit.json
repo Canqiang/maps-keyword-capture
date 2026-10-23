@@ -1,0 +1,67 @@
+{
+  "checkpoints": [
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/commands-0001-started.json",
+      "bytes": 5654,
+      "sha256": "f16fe3c24d235ebed167475a8062f68fe66a86f58c789f69da7468fd202c9bb7",
+      "total": 29,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/commands-0004-closed.json",
+      "bytes": 29160,
+      "sha256": "0b36487f82dcb69afecd8283aead9ba329c46b96d596d6dda38bafffb65f68f0",
+      "total": 128,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/commands-0003-query-final.json",
+      "bytes": 28923,
+      "sha256": "aaf891dbc4748c8f35085f61539230de494f13de350c897abc452ac37f02c056",
+      "total": 127,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/commands-0002-located.json",
+      "bytes": 16027,
+      "sha256": "dfb37c07b9c8c7e82c1cd46f1a3420ba3d307a89c1843daea9d9b26cbae96d72",
+      "total": 76,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    }
+  ],
+  "uniqueCommands": 128,
+  "total": 128,
+  "fullRunSequenceRecovered": true,
+  "failedCommands": [
+    {
+      "sequence": 118,
+      "at": "2026-10-23T07:25:21.686Z",
+      "stage": "search.results",
+      "command": "GET element/displayed",
+      "durationMs": 299,
+      "outcome": "failed",
+      "httpStatus": 404,
+      "responseType": "object",
+      "w3cError": "stale element reference",
+      "errorCode": "APPIUM_PROTOCOL_ERROR",
+      "reason": "http_error"
+    }
+  ],
+  "phaseCounts": {
+    "preflight": 26,
+    "start": 3,
+    "location": 40,
+    "snapshot": 14,
+    "search": 24,
+    "search.prepare-ime": 14,
+    "search.submit": 1,
+    "search.results": 3,
+    "search.restore-ime": 2,
+    "close": 1
+  },
+  "xmlParsed": 2
+}

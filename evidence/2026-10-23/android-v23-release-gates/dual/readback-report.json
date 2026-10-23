@@ -1,0 +1,805 @@
+{
+  "at": "2026-10-23T07:30:20.262Z",
+  "authentication": "Azure CLI identity; not collector SAS",
+  "finals": [
+    {
+      "surface": "android",
+      "scanId": "android_scan_20261023T072439Z_20392c",
+      "status": "failed",
+      "exitCode": 1,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 0,
+        "notFound": 0,
+        "needsReview": 0,
+        "failed": 1,
+        "skipped": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/android/2026-10-23/point/android_scan_20261023T072439Z_20392c/catalog.json",
+        "bytes": 2305,
+        "sha256": "1662301865d30e9536a8d7b1e0aae9d0728aa46858144e14ce83cf241524763e",
+        "storageStatus": "verified",
+        "objectKey": "tracking/android/2026-10-23/point/android_scan_20261023T072439Z_20392c/catalog.json",
+        "verifiedAt": "2026-10-23T07:24:40.014Z",
+        "storageError": null,
+        "version": "108d2dda-2b70-4e90-9c8b-288db834b9b4",
+        "storeIds": [
+          "keke-flushing"
+        ],
+        "execution": {
+          "surface": "android",
+          "tier": "point",
+          "shardIndex": 0,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "retained"
+    },
+    {
+      "surface": "android",
+      "scanId": "android_scan_20261023T072714Z_c34fd5",
+      "status": "completed",
+      "exitCode": 0,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 1,
+        "notFound": 0,
+        "needsReview": 0,
+        "failed": 0,
+        "skipped": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/android/2026-10-23/point/android_scan_20261023T072714Z_c34fd5/catalog.json",
+        "bytes": 2305,
+        "sha256": "1662301865d30e9536a8d7b1e0aae9d0728aa46858144e14ce83cf241524763e",
+        "storageStatus": "verified",
+        "objectKey": "tracking/android/2026-10-23/point/android_scan_20261023T072714Z_c34fd5/catalog.json",
+        "verifiedAt": "2026-10-23T07:27:14.770Z",
+        "storageError": null,
+        "version": "108d2dda-2b70-4e90-9c8b-288db834b9b4",
+        "storeIds": [
+          "only-bear"
+        ],
+        "execution": {
+          "surface": "android",
+          "tier": "point",
+          "shardIndex": 1,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "worker_finished"
+    }
+  ],
+  "prefixes": [
+    "tracking/android/2026-10-23/point/android_scan_20261023T072439Z_20392c",
+    "android-maps/2026-10-23/run_20261023T072440Z_ba374f",
+    "tracking/android/2026-10-23/point/android_scan_20261023T072714Z_c34fd5",
+    "android-maps/2026-10-23/run_20261023T072714Z_517439"
+  ],
+  "objects": 102,
+  "receiptsVerified": 100,
+  "errors": [],
+  "inventory": [
+    {
+      "key": "tracking/android/2026-10-23/point/android_scan_20261023T072439Z_20392c/catalog.json",
+      "serviceBytes": 2305,
+      "bytes": 2305,
+      "sha256": "1662301865d30e9536a8d7b1e0aae9d0728aa46858144e14ce83cf241524763e",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/1662301865d30e9536a8d7b1e0aae9d0728aa46858144e14ce83cf241524763e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/input.json",
+      "serviceBytes": 1296,
+      "bytes": 1296,
+      "sha256": "35b0368e7ed6d8a71b2b7e9d2e01a485450dda964a5914cc37048e18cd2d4bc0",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/35b0368e7ed6d8a71b2b7e9d2e01a485450dda964a5914cc37048e18cd2d4bc0"
+    },
+    {
+      "key": "tracking/android/2026-10-23/point/android_scan_20261023T072439Z_20392c/scan.json",
+      "serviceBytes": 1754,
+      "bytes": 1754,
+      "sha256": "90fff215e0319f1320fff3beac313d7c00d647dd0f0f2289996a06135f24e502",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/90fff215e0319f1320fff3beac313d7c00d647dd0f0f2289996a06135f24e502"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/device.json",
+      "serviceBytes": 330,
+      "bytes": 330,
+      "sha256": "a3546a029fb76913733b97f4b80d6994362d142188e171abff121cee0ccfc935",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/a3546a029fb76913733b97f4b80d6994362d142188e171abff121cee0ccfc935"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/commands-0001-started.json",
+      "serviceBytes": 5654,
+      "bytes": 5654,
+      "sha256": "f16fe3c24d235ebed167475a8062f68fe66a86f58c789f69da7468fd202c9bb7",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/f16fe3c24d235ebed167475a8062f68fe66a86f58c789f69da7468fd202c9bb7"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/commands-0004-closed.json",
+      "serviceBytes": 29160,
+      "bytes": 29160,
+      "sha256": "0b36487f82dcb69afecd8283aead9ba329c46b96d596d6dda38bafffb65f68f0",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/0b36487f82dcb69afecd8283aead9ba329c46b96d596d6dda38bafffb65f68f0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/listings.csv",
+      "serviceBytes": 261,
+      "bytes": 261,
+      "sha256": "fb77db7364b563fb43b4ce2234296ab7efd026df3b871fc09aed0a031ae818a3",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/fb77db7364b563fb43b4ce2234296ab7efd026df3b871fc09aed0a031ae818a3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/manifest.json",
+      "serviceBytes": 16596,
+      "bytes": 16596,
+      "sha256": "ab96c870a0bc7d36c62bf14085342264aceb67afc5d72c32eda5b48ed8a938a6",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/ab96c870a0bc7d36c62bf14085342264aceb67afc5d72c32eda5b48ed8a938a6"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/20261023T072513.110Z__braised-food-flushing__location.xml",
+      "serviceBytes": 107705,
+      "bytes": 107705,
+      "sha256": "294c4928cb65345790ac19688463bafd68eae11d64a490a9a2098b47b23b3bbc",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/294c4928cb65345790ac19688463bafd68eae11d64a490a9a2098b47b23b3bbc"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/commands-0003-query-final.json",
+      "serviceBytes": 28923,
+      "bytes": 28923,
+      "sha256": "aaf891dbc4748c8f35085f61539230de494f13de350c897abc452ac37f02c056",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/aaf891dbc4748c8f35085f61539230de494f13de350c897abc452ac37f02c056"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/commands-0002-located.json",
+      "serviceBytes": 16027,
+      "bytes": 16027,
+      "sha256": "dfb37c07b9c8c7e82c1cd46f1a3420ba3d307a89c1843daea9d9b26cbae96d72",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/dfb37c07b9c8c7e82c1cd46f1a3420ba3d307a89c1843daea9d9b26cbae96d72"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/20261023T072522.463Z__braised-food-flushing__01.xml",
+      "serviceBytes": 78426,
+      "bytes": 78426,
+      "sha256": "fc6027594c71f123ddafb4d6ba64853b6faec30722e17c55cac692684f2a88dd",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/fc6027594c71f123ddafb4d6ba64853b6faec30722e17c55cac692684f2a88dd"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/query.json",
+      "serviceBytes": 7436,
+      "bytes": 7436,
+      "sha256": "6baf66427657efdf234cbe8ea80f334b66df75ea97d36c14841f2d91df3ad541",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/6baf66427657efdf234cbe8ea80f334b66df75ea97d36c14841f2d91df3ad541"
+    },
+    {
+      "key": "tracking/android/2026-10-23/point/android_scan_20261023T072714Z_c34fd5/catalog.json",
+      "serviceBytes": 2305,
+      "bytes": 2305,
+      "sha256": "1662301865d30e9536a8d7b1e0aae9d0728aa46858144e14ce83cf241524763e",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/1662301865d30e9536a8d7b1e0aae9d0728aa46858144e14ce83cf241524763e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/queries.csv",
+      "serviceBytes": 1008,
+      "bytes": 1008,
+      "sha256": "f13a1f3f0d42f7c8ca62faf996ddc7775ce3c43784fe1e378bf1e4f57453247e",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/f13a1f3f0d42f7c8ca62faf996ddc7775ce3c43784fe1e378bf1e4f57453247e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/20261023T072513.110Z__braised-food-flushing__location.png",
+      "serviceBytes": 431223,
+      "bytes": 431223,
+      "sha256": "91731295c84216814b9431f7b4df001fed4e1cc1c77a9af30b1c76279eefb91b",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/91731295c84216814b9431f7b4df001fed4e1cc1c77a9af30b1c76279eefb91b"
+    },
+    {
+      "key": "tracking/android/2026-10-23/point/android_scan_20261023T072714Z_c34fd5/scan.json",
+      "serviceBytes": 1754,
+      "bytes": 1754,
+      "sha256": "2eba454dc0471c9d4f22fdab5aeea18bde518b1df54f2f975454991374b3219c",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/2eba454dc0471c9d4f22fdab5aeea18bde518b1df54f2f975454991374b3219c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072440Z_ba374f/q0001/20261023T072522.463Z__braised-food-flushing__01.png",
+      "serviceBytes": 587385,
+      "bytes": 587385,
+      "sha256": "f53055b94002562ba18874da614c358dce9babcd96ba09a195bd52bb694e6d10",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/f53055b94002562ba18874da614c358dce9babcd96ba09a195bd52bb694e6d10"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/commands-0001-started.json",
+      "serviceBytes": 5656,
+      "bytes": 5656,
+      "sha256": "282845dd8ef36483ea455215e85d8c4a3c78e8075088fdf7979bbfcee5ad21bd",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/282845dd8ef36483ea455215e85d8c4a3c78e8075088fdf7979bbfcee5ad21bd"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/commands-0008-closed.json",
+      "serviceBytes": 63014,
+      "bytes": 63014,
+      "sha256": "7a8c1b1281a1140c321ce769503356de7ab40f2338e97e65b153d256133b23b1",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/7a8c1b1281a1140c321ce769503356de7ab40f2338e97e65b153d256133b23b1"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/device.json",
+      "serviceBytes": 330,
+      "bytes": 330,
+      "sha256": "a3546a029fb76913733b97f4b80d6994362d142188e171abff121cee0ccfc935",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/a3546a029fb76913733b97f4b80d6994362d142188e171abff121cee0ccfc935"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/input.json",
+      "serviceBytes": 1239,
+      "bytes": 1239,
+      "sha256": "0c8e4c3b6addc85c900aaa893cf8b009328beaf019366815a5ced4ddca09a920",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/0c8e4c3b6addc85c900aaa893cf8b009328beaf019366815a5ced4ddca09a920"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/listings.csv",
+      "serviceBytes": 3180,
+      "bytes": 3180,
+      "sha256": "f077db0eb8af4d050a16b7fbe92bde4dfe875807269749619d9e988e4a9b598d",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/f077db0eb8af4d050a16b7fbe92bde4dfe875807269749619d9e988e4a9b598d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072753.398Z__bubble-tea-garden-city__01.ocr.json",
+      "serviceBytes": 30271,
+      "bytes": 30271,
+      "sha256": "b5ac9cac77db77aa91c2023adb844a2ecc2eb71aff74e92f5bb3594d588d8c8a",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/b5ac9cac77db77aa91c2023adb844a2ecc2eb71aff74e92f5bb3594d588d8c8a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072753.398Z__bubble-tea-garden-city__01.frame.json",
+      "serviceBytes": 7984,
+      "bytes": 7984,
+      "sha256": "fe3f30a434ebfd3c358730a663d17fdfdfe488e1bb038e42c95904fd21cb534b",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/fe3f30a434ebfd3c358730a663d17fdfdfe488e1bb038e42c95904fd21cb534b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/manifest.json",
+      "serviceBytes": 121432,
+      "bytes": 121432,
+      "sha256": "2662b50d4244b035882d3d2674863caac539920013c87fa421977bbc7308cac7",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/2662b50d4244b035882d3d2674863caac539920013c87fa421977bbc7308cac7"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072743.329Z__bubble-tea-garden-city__location.png",
+      "serviceBytes": 450031,
+      "bytes": 450031,
+      "sha256": "f299e09594076e7808a03117f63ed6492829f1345864117bf11e24fbc9d1df38",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/f299e09594076e7808a03117f63ed6492829f1345864117bf11e24fbc9d1df38"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072743.329Z__bubble-tea-garden-city__location.xml",
+      "serviceBytes": 117557,
+      "bytes": 117557,
+      "sha256": "53715554b4f8d9968f72064a492461b922bd2e8302e597d9594aa3c1badbbfc2",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/53715554b4f8d9968f72064a492461b922bd2e8302e597d9594aa3c1badbbfc2"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072753.398Z__bubble-tea-garden-city__01.xml",
+      "serviceBytes": 80398,
+      "bytes": 80398,
+      "sha256": "532d431235901c059ea5def83a19e45d4a03532f539ec8198d394182f0a1430d",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/532d431235901c059ea5def83a19e45d4a03532f539ec8198d394182f0a1430d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072759.715Z__bubble-tea-garden-city__02.frame.json",
+      "serviceBytes": 8033,
+      "bytes": 8033,
+      "sha256": "6586e0a3bbebf1ab6ed8e0440a6e027b7f20291e90c5a3eb33f416ab0de81e6a",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/6586e0a3bbebf1ab6ed8e0440a6e027b7f20291e90c5a3eb33f416ab0de81e6a"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072759.715Z__bubble-tea-garden-city__02.ocr.json",
+      "serviceBytes": 29892,
+      "bytes": 29892,
+      "sha256": "cd7ed5ae9b9d4a10a37fb72fcc7369daf969d63f219d010aa3beae9ddd98b031",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/cd7ed5ae9b9d4a10a37fb72fcc7369daf969d63f219d010aa3beae9ddd98b031"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072753.398Z__bubble-tea-garden-city__01.png",
+      "serviceBytes": 171409,
+      "bytes": 171409,
+      "sha256": "a67c8117b18c78d7f8b99c541ec41fdf4011d6aea4ee5d7a9bfb7cd3b3ed3828",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/a67c8117b18c78d7f8b99c541ec41fdf4011d6aea4ee5d7a9bfb7cd3b3ed3828"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072759.715Z__bubble-tea-garden-city__02.xml",
+      "serviceBytes": 78009,
+      "bytes": 78009,
+      "sha256": "5e51182e72a66bf50a75401db268714015b3f4807b2b4af6597f25f6b9a336bd",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/5e51182e72a66bf50a75401db268714015b3f4807b2b4af6597f25f6b9a336bd"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072759.715Z__bubble-tea-garden-city__02.png",
+      "serviceBytes": 168223,
+      "bytes": 168223,
+      "sha256": "9e8674809e94bd7311512685eb42848c3ee8323ae0e7cb2a49ff3578670ad500",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/9e8674809e94bd7311512685eb42848c3ee8323ae0e7cb2a49ff3578670ad500"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072805.765Z__bubble-tea-garden-city__03.ocr.json",
+      "serviceBytes": 34097,
+      "bytes": 34097,
+      "sha256": "1b54ba54834951a54d3a723557246b14da6827accff5c98d07de6216b307f4fc",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/1b54ba54834951a54d3a723557246b14da6827accff5c98d07de6216b307f4fc"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072805.765Z__bubble-tea-garden-city__03.frame.json",
+      "serviceBytes": 8390,
+      "bytes": 8390,
+      "sha256": "8e2a4496dda4097937148746e595616dabd839c2909b9842640c190d69b3eb6b",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/8e2a4496dda4097937148746e595616dabd839c2909b9842640c190d69b3eb6b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072805.765Z__bubble-tea-garden-city__03.png",
+      "serviceBytes": 174786,
+      "bytes": 174786,
+      "sha256": "eb1da7192febc57e30b219b61b7b5bb7739134cbda68ee09986e3b2ac54ac599",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/eb1da7192febc57e30b219b61b7b5bb7739134cbda68ee09986e3b2ac54ac599"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072805.765Z__bubble-tea-garden-city__03.xml",
+      "serviceBytes": 76324,
+      "bytes": 76324,
+      "sha256": "593da27333af4f36c38f60e830696f7222e77ffec909fe3fe855faf682898b11",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/593da27333af4f36c38f60e830696f7222e77ffec909fe3fe855faf682898b11"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072812.427Z__bubble-tea-garden-city__04.frame.json",
+      "serviceBytes": 7381,
+      "bytes": 7381,
+      "sha256": "0e7e820332ac52e18d53dddce1d626ce9d15de2239aebda62f2718f59fd0cb44",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/0e7e820332ac52e18d53dddce1d626ce9d15de2239aebda62f2718f59fd0cb44"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072812.427Z__bubble-tea-garden-city__04.ocr.json",
+      "serviceBytes": 31708,
+      "bytes": 31708,
+      "sha256": "ad1447debdbae57fec60827fcb0634ff2cc7a47fe470449dc4b5d3f1abc84dbc",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/ad1447debdbae57fec60827fcb0634ff2cc7a47fe470449dc4b5d3f1abc84dbc"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072812.427Z__bubble-tea-garden-city__04.xml",
+      "serviceBytes": 75581,
+      "bytes": 75581,
+      "sha256": "6242cacdfd132ebb752b267480d3d71b9c7bad15dbccdb05b666b61470be20f3",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/6242cacdfd132ebb752b267480d3d71b9c7bad15dbccdb05b666b61470be20f3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072818.373Z__bubble-tea-garden-city__05.frame.json",
+      "serviceBytes": 7528,
+      "bytes": 7528,
+      "sha256": "47dc20ae529072957317b2444ed1cc7db703bfbab0063db3872925313f4de3b5",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/47dc20ae529072957317b2444ed1cc7db703bfbab0063db3872925313f4de3b5"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072818.373Z__bubble-tea-garden-city__05.ocr.json",
+      "serviceBytes": 29944,
+      "bytes": 29944,
+      "sha256": "a5eb7fec63b7c39b79da9f4d632923f5eaeddbc6997cd153b3595b1192a6d7e1",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/a5eb7fec63b7c39b79da9f4d632923f5eaeddbc6997cd153b3595b1192a6d7e1"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072812.427Z__bubble-tea-garden-city__04.png",
+      "serviceBytes": 167553,
+      "bytes": 167553,
+      "sha256": "1ceb8a46e3fd6330c4c3bcc3b133442e2bfeaedf5ad1cd46ad475431b0781778",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/1ceb8a46e3fd6330c4c3bcc3b133442e2bfeaedf5ad1cd46ad475431b0781778"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072818.373Z__bubble-tea-garden-city__05.xml",
+      "serviceBytes": 74798,
+      "bytes": 74798,
+      "sha256": "745052bbdcf1072908b463bbf82d21be33c9482cd3ec290ff950b14f8224b4f0",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/745052bbdcf1072908b463bbf82d21be33c9482cd3ec290ff950b14f8224b4f0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072818.373Z__bubble-tea-garden-city__05.png",
+      "serviceBytes": 157570,
+      "bytes": 157570,
+      "sha256": "743f75a2f1c0948c57b8fc9f4c9cf9176da01f029fb501bcafdaf59435002626",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/743f75a2f1c0948c57b8fc9f4c9cf9176da01f029fb501bcafdaf59435002626"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072824.364Z__bubble-tea-garden-city__06.frame.json",
+      "serviceBytes": 7734,
+      "bytes": 7734,
+      "sha256": "b6f20fc8f7f0e5cda7182225a1de1cfc1cc41dfc55c55db1201519ce5a8503d0",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/b6f20fc8f7f0e5cda7182225a1de1cfc1cc41dfc55c55db1201519ce5a8503d0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072824.364Z__bubble-tea-garden-city__06.ocr.json",
+      "serviceBytes": 29605,
+      "bytes": 29605,
+      "sha256": "a707d4ea313178c0493c3d52a1217928947374bd3b218d5482867dd2a40267b0",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/a707d4ea313178c0493c3d52a1217928947374bd3b218d5482867dd2a40267b0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072824.364Z__bubble-tea-garden-city__06.png",
+      "serviceBytes": 167928,
+      "bytes": 167928,
+      "sha256": "a64a4aa2d3a5d1787e0155f588bd4f8c80e39fc1f1535e4ad7f4b0d5d133194f",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/a64a4aa2d3a5d1787e0155f588bd4f8c80e39fc1f1535e4ad7f4b0d5d133194f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072824.364Z__bubble-tea-garden-city__06.xml",
+      "serviceBytes": 83997,
+      "bytes": 83997,
+      "sha256": "d16b93d2bb52bf46cf3f45366506ff02d0df41c39ebc376eeaf47f306977e04e",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/d16b93d2bb52bf46cf3f45366506ff02d0df41c39ebc376eeaf47f306977e04e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072830.585Z__bubble-tea-garden-city__07.frame.json",
+      "serviceBytes": 7561,
+      "bytes": 7561,
+      "sha256": "58ab1d3208837fb1ea85b78cc29b45741c8f4ab8d42b5c4fb1aa58a0a8fe64c3",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/58ab1d3208837fb1ea85b78cc29b45741c8f4ab8d42b5c4fb1aa58a0a8fe64c3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072830.585Z__bubble-tea-garden-city__07.ocr.json",
+      "serviceBytes": 30578,
+      "bytes": 30578,
+      "sha256": "c55b336d7d3743ef8283f93c0a026dc73e921b6a4549ebc8e8aa8c35a1978b59",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/c55b336d7d3743ef8283f93c0a026dc73e921b6a4549ebc8e8aa8c35a1978b59"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072830.585Z__bubble-tea-garden-city__07.png",
+      "serviceBytes": 171761,
+      "bytes": 171761,
+      "sha256": "218b77fcecde5250cc7faca91b480fc09e845fb9cf7dad1f4d0555ffa07d7ee3",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/218b77fcecde5250cc7faca91b480fc09e845fb9cf7dad1f4d0555ffa07d7ee3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072830.585Z__bubble-tea-garden-city__07.xml",
+      "serviceBytes": 77113,
+      "bytes": 77113,
+      "sha256": "ae69d3b7588fcb7f0ce9bea67e7a5ed117a77bb810b28e64002f973ea11d9d70",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/ae69d3b7588fcb7f0ce9bea67e7a5ed117a77bb810b28e64002f973ea11d9d70"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072836.705Z__bubble-tea-garden-city__08.frame.json",
+      "serviceBytes": 6710,
+      "bytes": 6710,
+      "sha256": "95703695d2f82fb66f7348b639becaeb9f0228dc87eba0fd414a706e5b4619bb",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/95703695d2f82fb66f7348b639becaeb9f0228dc87eba0fd414a706e5b4619bb"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072836.705Z__bubble-tea-garden-city__08.ocr.json",
+      "serviceBytes": 36088,
+      "bytes": 36088,
+      "sha256": "04104fea1cb686d37ab5ecdab99420e2ff1fa2645092764f7079184852e2040e",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/04104fea1cb686d37ab5ecdab99420e2ff1fa2645092764f7079184852e2040e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072836.705Z__bubble-tea-garden-city__08.png",
+      "serviceBytes": 170236,
+      "bytes": 170236,
+      "sha256": "97e26d861a2fdb3451e3fbe6fca088fce1a918b31f08da800c64c0f331a6ed0b",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/97e26d861a2fdb3451e3fbe6fca088fce1a918b31f08da800c64c0f331a6ed0b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072836.705Z__bubble-tea-garden-city__08.xml",
+      "serviceBytes": 79531,
+      "bytes": 79531,
+      "sha256": "7bbd34096eac87a59e55fa9b4309aec0f2446ed33ab6b42b415b386bed35da05",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/7bbd34096eac87a59e55fa9b4309aec0f2446ed33ab6b42b415b386bed35da05"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072843.387Z__bubble-tea-garden-city__09.frame.json",
+      "serviceBytes": 6882,
+      "bytes": 6882,
+      "sha256": "5086a7597db564e55e6b87155138a82af6c045210151f626168781e71cb00b0e",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/5086a7597db564e55e6b87155138a82af6c045210151f626168781e71cb00b0e"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072843.387Z__bubble-tea-garden-city__09.ocr.json",
+      "serviceBytes": 26875,
+      "bytes": 26875,
+      "sha256": "efc20291a581f5a46334f1dc05da6a2e36737e905e2f7e36db5385fa8743ea72",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/efc20291a581f5a46334f1dc05da6a2e36737e905e2f7e36db5385fa8743ea72"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072843.387Z__bubble-tea-garden-city__09.png",
+      "serviceBytes": 158266,
+      "bytes": 158266,
+      "sha256": "f061eb749b8ad725ccaaccd7bab95555340cb2a4757ff11eb2be814049dd5288",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/f061eb749b8ad725ccaaccd7bab95555340cb2a4757ff11eb2be814049dd5288"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072843.387Z__bubble-tea-garden-city__09.xml",
+      "serviceBytes": 85636,
+      "bytes": 85636,
+      "sha256": "ec32063a5a5c6730b4693fdcb8fca8faf4ed2f03dc14c9df66cabfa1a06a045b",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/ec32063a5a5c6730b4693fdcb8fca8faf4ed2f03dc14c9df66cabfa1a06a045b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072849.353Z__bubble-tea-garden-city__10.frame.json",
+      "serviceBytes": 7780,
+      "bytes": 7780,
+      "sha256": "a514e397745d5b8d79cf180ea3d254f3da3906b8a6e7e42b4e3eba41041d8942",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/a514e397745d5b8d79cf180ea3d254f3da3906b8a6e7e42b4e3eba41041d8942"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072849.353Z__bubble-tea-garden-city__10.ocr.json",
+      "serviceBytes": 32239,
+      "bytes": 32239,
+      "sha256": "ce89dca1f5432fb56b5e5d8ab50a2362dec7335ab55a772b3ced463d1ea31b87",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/ce89dca1f5432fb56b5e5d8ab50a2362dec7335ab55a772b3ced463d1ea31b87"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072849.353Z__bubble-tea-garden-city__10.png",
+      "serviceBytes": 164659,
+      "bytes": 164659,
+      "sha256": "1365903bc5c11eb8ef40b119e0ba760fe3fdbdc7b0e1647bb35013e19e17d7c0",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/1365903bc5c11eb8ef40b119e0ba760fe3fdbdc7b0e1647bb35013e19e17d7c0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072849.353Z__bubble-tea-garden-city__10.xml",
+      "serviceBytes": 81554,
+      "bytes": 81554,
+      "sha256": "4e6e7aa987708627e292dd14f116e1a7c80741d2f252fee05406b3df7cc1fa9f",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/4e6e7aa987708627e292dd14f116e1a7c80741d2f252fee05406b3df7cc1fa9f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072856.404Z__bubble-tea-garden-city__11.frame.json",
+      "serviceBytes": 9479,
+      "bytes": 9479,
+      "sha256": "825a275d31bbe9d3ce2d1c536446f29b4ae5fc4556d00328305f9914ec048bbb",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/825a275d31bbe9d3ce2d1c536446f29b4ae5fc4556d00328305f9914ec048bbb"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072856.404Z__bubble-tea-garden-city__11.ocr.json",
+      "serviceBytes": 33758,
+      "bytes": 33758,
+      "sha256": "820162db6427bfa19fcb54e7f87e1406ad4cae211da68d71b6c9cd18b0329306",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/820162db6427bfa19fcb54e7f87e1406ad4cae211da68d71b6c9cd18b0329306"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072856.404Z__bubble-tea-garden-city__11.png",
+      "serviceBytes": 176789,
+      "bytes": 176789,
+      "sha256": "ad6f3bf41befbb0f317dfad6cde9be61a264a8d820a1227ecee6737cbea27ae0",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/ad6f3bf41befbb0f317dfad6cde9be61a264a8d820a1227ecee6737cbea27ae0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072856.404Z__bubble-tea-garden-city__11.xml",
+      "serviceBytes": 76378,
+      "bytes": 76378,
+      "sha256": "bffb777346e80966200304e767628d213caa6333c6a634d6c27771c666080090",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/bffb777346e80966200304e767628d213caa6333c6a634d6c27771c666080090"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072903.149Z__bubble-tea-garden-city__12.frame.json",
+      "serviceBytes": 9366,
+      "bytes": 9366,
+      "sha256": "67ea5cedccf828b1d04e178be6c40537b5025dfb4993355c94b592ebba6e471c",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/67ea5cedccf828b1d04e178be6c40537b5025dfb4993355c94b592ebba6e471c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072903.149Z__bubble-tea-garden-city__12.ocr.json",
+      "serviceBytes": 35047,
+      "bytes": 35047,
+      "sha256": "117db0f0a960c80b53e99076720162ca21bda669cdfc803f581a00d8d9d68885",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/117db0f0a960c80b53e99076720162ca21bda669cdfc803f581a00d8d9d68885"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072903.149Z__bubble-tea-garden-city__12.png",
+      "serviceBytes": 173224,
+      "bytes": 173224,
+      "sha256": "824bc0c0bc4361b07808d9fba7a8f2b349a38115e2c4d6608d70429056490205",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/824bc0c0bc4361b07808d9fba7a8f2b349a38115e2c4d6608d70429056490205"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072903.149Z__bubble-tea-garden-city__12.xml",
+      "serviceBytes": 77126,
+      "bytes": 77126,
+      "sha256": "fe5d03d4e1e8c7be75d0052c7d870f65465e43e96ef28f10932d558acde04792",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/fe5d03d4e1e8c7be75d0052c7d870f65465e43e96ef28f10932d558acde04792"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072910.721Z__bubble-tea-garden-city__13.frame.json",
+      "serviceBytes": 8156,
+      "bytes": 8156,
+      "sha256": "3e0f959340825d103c2c345cc39d4b1f53f979fb4cae28f4098de852fd9f9bf6",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/3e0f959340825d103c2c345cc39d4b1f53f979fb4cae28f4098de852fd9f9bf6"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072910.721Z__bubble-tea-garden-city__13.ocr.json",
+      "serviceBytes": 29248,
+      "bytes": 29248,
+      "sha256": "231dedb7c09dc3860048562cfacebbba966be104dfa9b595dafc079a273cb62f",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/231dedb7c09dc3860048562cfacebbba966be104dfa9b595dafc079a273cb62f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072910.721Z__bubble-tea-garden-city__13.png",
+      "serviceBytes": 162056,
+      "bytes": 162056,
+      "sha256": "4ec9d669d83e6d11564c25a11fe866744e25893dd9a438c944b8ab41db03756f",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/4ec9d669d83e6d11564c25a11fe866744e25893dd9a438c944b8ab41db03756f"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072910.721Z__bubble-tea-garden-city__13.xml",
+      "serviceBytes": 80727,
+      "bytes": 80727,
+      "sha256": "f421840858c76a0ff1d0628e740c8bbb027369c4da7ff8ac4356255d15b32965",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/f421840858c76a0ff1d0628e740c8bbb027369c4da7ff8ac4356255d15b32965"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072916.430Z__bubble-tea-garden-city__14.frame.json",
+      "serviceBytes": 6857,
+      "bytes": 6857,
+      "sha256": "18e851f5d3854388c262a92b47519f02118b932edab3dac4b06a5a153e3147d3",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/18e851f5d3854388c262a92b47519f02118b932edab3dac4b06a5a153e3147d3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072916.430Z__bubble-tea-garden-city__14.ocr.json",
+      "serviceBytes": 28468,
+      "bytes": 28468,
+      "sha256": "d866b6f68af4f9aeb21a10f6e6e7781d44a22cb46d9af27a727b3cd82402f247",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/d866b6f68af4f9aeb21a10f6e6e7781d44a22cb46d9af27a727b3cd82402f247"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072916.430Z__bubble-tea-garden-city__14.png",
+      "serviceBytes": 161545,
+      "bytes": 161545,
+      "sha256": "8dda34ba0b6a80b51e121928f04bc21c9a2296e978f91a6e5ca33f14943baa03",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/8dda34ba0b6a80b51e121928f04bc21c9a2296e978f91a6e5ca33f14943baa03"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072916.430Z__bubble-tea-garden-city__14.xml",
+      "serviceBytes": 79883,
+      "bytes": 79883,
+      "sha256": "7c6df77225e1d2e05f90656b49175f9e4fff534cae5d7ace9a91746ecd99f52b",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/7c6df77225e1d2e05f90656b49175f9e4fff534cae5d7ace9a91746ecd99f52b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072922.285Z__bubble-tea-garden-city__15.frame.json",
+      "serviceBytes": 7273,
+      "bytes": 7273,
+      "sha256": "b5eac92f9aef985240d5486596013a60c3481f761baa379488aebf29b5b5f729",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/b5eac92f9aef985240d5486596013a60c3481f761baa379488aebf29b5b5f729"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072922.285Z__bubble-tea-garden-city__15.ocr.json",
+      "serviceBytes": 30659,
+      "bytes": 30659,
+      "sha256": "525b969a892e6e1edb343af72869b516cabec33c743133ec05652dcac1b4a4af",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/525b969a892e6e1edb343af72869b516cabec33c743133ec05652dcac1b4a4af"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072922.285Z__bubble-tea-garden-city__15.png",
+      "serviceBytes": 171966,
+      "bytes": 171966,
+      "sha256": "8e4c1c5d70e6f0c331d8e69444061582eafbb49434db98e9111101e894da9960",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/8e4c1c5d70e6f0c331d8e69444061582eafbb49434db98e9111101e894da9960"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072922.285Z__bubble-tea-garden-city__15.xml",
+      "serviceBytes": 76319,
+      "bytes": 76319,
+      "sha256": "5311373f84840a206ef1794f61528173bb3120d03bbda6cd2fe118825a1c284d",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/5311373f84840a206ef1794f61528173bb3120d03bbda6cd2fe118825a1c284d"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072928.315Z__bubble-tea-garden-city__16.frame.json",
+      "serviceBytes": 7264,
+      "bytes": 7264,
+      "sha256": "bd98864c98a53003ba000b2d03dfb8df0dd3c18f6faf64da6b52f1a9a39c587c",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/bd98864c98a53003ba000b2d03dfb8df0dd3c18f6faf64da6b52f1a9a39c587c"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072928.315Z__bubble-tea-garden-city__16.png",
+      "serviceBytes": 155540,
+      "bytes": 155540,
+      "sha256": "b0a46ef4422522e54b240de64a68ba4da8ceff08091719c245caf439c1cdceee",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/b0a46ef4422522e54b240de64a68ba4da8ceff08091719c245caf439c1cdceee"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072928.315Z__bubble-tea-garden-city__16.ocr.json",
+      "serviceBytes": 26648,
+      "bytes": 26648,
+      "sha256": "cb2a0e123737f983f4e67ed38aa518e3be0c488c402bebe06dcedee2116a0243",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/cb2a0e123737f983f4e67ed38aa518e3be0c488c402bebe06dcedee2116a0243"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072928.315Z__bubble-tea-garden-city__16.xml",
+      "serviceBytes": 79584,
+      "bytes": 79584,
+      "sha256": "5a994d102ee39b97281ce2821e62eaa224adbf708bc17b3505bf88939a2927b9",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/5a994d102ee39b97281ce2821e62eaa224adbf708bc17b3505bf88939a2927b9"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072934.537Z__bubble-tea-garden-city__17.frame.json",
+      "serviceBytes": 5491,
+      "bytes": 5491,
+      "sha256": "5b6901e290c3489799b5e3ba7501aa96784aafa6b2df6b18d24199101aeb2d14",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/5b6901e290c3489799b5e3ba7501aa96784aafa6b2df6b18d24199101aeb2d14"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072934.537Z__bubble-tea-garden-city__17.ocr.json",
+      "serviceBytes": 24861,
+      "bytes": 24861,
+      "sha256": "f4a6a2ea1aa50051410e2c9abf8be8619782f3c801f31bc8ef392e94c27d7cc6",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/f4a6a2ea1aa50051410e2c9abf8be8619782f3c801f31bc8ef392e94c27d7cc6"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072934.537Z__bubble-tea-garden-city__17.png",
+      "serviceBytes": 155851,
+      "bytes": 155851,
+      "sha256": "f07c9714a17e552cc6aed1f8c844986f74ec570891bf3ca5aeba95820341c585",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/f07c9714a17e552cc6aed1f8c844986f74ec570891bf3ca5aeba95820341c585"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/20261023T072934.537Z__bubble-tea-garden-city__17.xml",
+      "serviceBytes": 74956,
+      "bytes": 74956,
+      "sha256": "02c264966a24eee9963b11e2d7d3a310e11b048247b2323b08e9034232154ad0",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/02c264966a24eee9963b11e2d7d3a310e11b048247b2323b08e9034232154ad0"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/commands-0002-located.json",
+      "serviceBytes": 13855,
+      "bytes": 13855,
+      "sha256": "9dfbab7b6ac8c18b277c7b322b61060948e79097ea14da477bbff620a580b2d2",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/9dfbab7b6ac8c18b277c7b322b61060948e79097ea14da477bbff620a580b2d2"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/commands-0003-searched.json",
+      "serviceBytes": 29306,
+      "bytes": 29306,
+      "sha256": "284a19d3b6cb9660548afb989cb9cedfc5597a3e4b702bbea821f76f01ddfd38",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/284a19d3b6cb9660548afb989cb9cedfc5597a3e4b702bbea821f76f01ddfd38"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/commands-0004-frames.json",
+      "serviceBytes": 56802,
+      "bytes": 56802,
+      "sha256": "790c7ccd5f6dfee832b70bc54946eee8f8f9e2ff93c1e307c4943e03eb311ffa",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/790c7ccd5f6dfee832b70bc54946eee8f8f9e2ff93c1e307c4943e03eb311ffa"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/commands-0005-frames.json",
+      "serviceBytes": 62952,
+      "bytes": 62952,
+      "sha256": "fa2dc914f6449fa4404fd8521c2cf929483eef661322e2df18bbf476e3e667d3",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/fa2dc914f6449fa4404fd8521c2cf929483eef661322e2df18bbf476e3e667d3"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/commands-0006-frames.json",
+      "serviceBytes": 63014,
+      "bytes": 63014,
+      "sha256": "67a1b4f80706c28006d88060cad5559fb8f905c989244ac18a268d2477dd79ca",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/67a1b4f80706c28006d88060cad5559fb8f905c989244ac18a268d2477dd79ca"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/commands-0007-query-final.json",
+      "serviceBytes": 63014,
+      "bytes": 63014,
+      "sha256": "3af0701f1cdef44fee3bd9c51516e5bb25af51c8ab492f50fa47976987a643ad",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/3af0701f1cdef44fee3bd9c51516e5bb25af51c8ab492f50fa47976987a643ad"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/q0001/query.json",
+      "serviceBytes": 69417,
+      "bytes": 69417,
+      "sha256": "3210f3f6b45756b2e15973c8292780357d26b2fe83a8279df2b253b7bd883831",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/3210f3f6b45756b2e15973c8292780357d26b2fe83a8279df2b253b7bd883831"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T072714Z_517439/queries.csv",
+      "serviceBytes": 997,
+      "bytes": 997,
+      "sha256": "b33f07090916104eb069bad434289002290d2d23aa461339254b62c8011342a8",
+      "local": "/tmp/maps-android-dual-v23-20261023/readback/b33f07090916104eb069bad434289002290d2d23aa461339254b62c8011342a8"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "runtimeSource": "bd894e7f9c6e69f98bd06f40bba7eeb2b56d7f09",
+  "repositoryHead": "9e1cdb676ebb6409ea9e684f0e948eef4f8c39aa",
+  "runtimePathsMatch": true,
+  "scope": [
+    "src",
+    "deploy",
+    "tests",
+    ".github"
+  ],
+  "imageRebuilt": false
+}

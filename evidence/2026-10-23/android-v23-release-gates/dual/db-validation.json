@@ -1,0 +1,70 @@
+{
+  "status": "matched",
+  "scope": "Read-only database observation/gate check, including expected failed record; not an all-success verdict",
+  "checks": [
+    {
+      "database": "maps-android-onlybear-v23-20261023",
+      "storeId": "only-bear",
+      "observationId": "v2|android|only-bear|run_20261023T071850Z_2b42a1||q0001|",
+      "manifestRunId": "run_20261023T071850Z_2b42a1",
+      "rank": {
+        "status": "ranked",
+        "displayPosition": 2,
+        "organicRank": 2,
+        "targetOccurrences": [
+          {
+            "displayPosition": 2,
+            "organicRank": 2,
+            "resultType": "organic"
+          }
+        ],
+        "adDisplayPositions": [],
+        "listingsObserved": 12,
+        "listingStatus": "complete",
+        "stopReason": "list_end"
+      },
+      "evidenceLinksMatch": true
+    },
+    {
+      "database": "maps-android-dual-v23-20261023",
+      "storeId": "keke-flushing",
+      "observationId": "v2|android|keke-flushing|run_20261023T072440Z_ba374f||q0001|",
+      "manifestRunId": "run_20261023T072440Z_ba374f",
+      "rank": {
+        "status": "failed",
+        "displayPosition": null,
+        "organicRank": null,
+        "targetOccurrences": [],
+        "adDisplayPositions": [],
+        "listingsObserved": 0,
+        "listingStatus": "not_evaluated",
+        "stopReason": "appium_protocol_error"
+      },
+      "evidenceLinksMatch": true
+    },
+    {
+      "database": "maps-android-dual-v23-20261023",
+      "storeId": "only-bear",
+      "observationId": "v2|android|only-bear|run_20261023T072714Z_517439||q0001|",
+      "manifestRunId": "run_20261023T072714Z_517439",
+      "rank": {
+        "status": "ranked",
+        "displayPosition": 2,
+        "organicRank": 2,
+        "targetOccurrences": [
+          {
+            "displayPosition": 2,
+            "organicRank": 2,
+            "resultType": "organic"
+          }
+        ],
+        "adDisplayPositions": [],
+        "listingsObserved": 12,
+        "listingStatus": "complete",
+        "stopReason": "list_end"
+      },
+      "evidenceLinksMatch": true
+    }
+  ],
+  "isolatedDualGateRetained": true
+}

@@ -1,0 +1,87 @@
+{
+  "checkpoints": [
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/commands-0001-started.json",
+      "bytes": 5652,
+      "sha256": "c3ce9bc483d9364c7981befad7a384ce55b82324eb23598cdeca00dd877d4cd4",
+      "total": 29,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/commands-0008-closed.json",
+      "bytes": 63009,
+      "sha256": "1678e650b3906dc0687a230ee50be27fcf4ca1672eb92e5e10e9c43b74c73b1e",
+      "total": 462,
+      "droppedRecent": 206,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/q0001/commands-0002-located.json",
+      "bytes": 13476,
+      "sha256": "94f432cb87ab4461893c5f8adc5364a87ce9ba4553982c66e2a0e4671987ae98",
+      "total": 62,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/q0001/commands-0004-frames.json",
+      "bytes": 59624,
+      "sha256": "7b082cd448b0172de04434c5edf6152e0274ddb3f5678b52b40043dd7d18cfe4",
+      "total": 251,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/q0001/commands-0003-searched.json",
+      "bytes": 32127,
+      "sha256": "2985db078c8beef6b34031608a9634096d05f46eccfbdeffa5bfeacf71c6579f",
+      "total": 139,
+      "droppedRecent": 0,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/q0001/commands-0005-frames.json",
+      "bytes": 63029,
+      "sha256": "c270fed61a5ee5aabbe1e423be88af9fb55efe2bab015bef8825a34c2889456e",
+      "total": 356,
+      "droppedRecent": 100,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/q0001/commands-0006-frames.json",
+      "bytes": 63009,
+      "sha256": "1d236395aa3a7d52e59172c6d21b77899d32ea9a48e60ce9dd2aea22c7efbf88",
+      "total": 461,
+      "droppedRecent": 205,
+      "droppedFailures": 0
+    },
+    {
+      "objectKey": "android-maps/2026-10-23/run_20261023T071850Z_2b42a1/q0001/commands-0007-query-final.json",
+      "bytes": 63009,
+      "sha256": "1d236395aa3a7d52e59172c6d21b77899d32ea9a48e60ce9dd2aea22c7efbf88",
+      "total": 461,
+      "droppedRecent": 205,
+      "droppedFailures": 0
+    }
+  ],
+  "uniqueCommands": 462,
+  "total": 462,
+  "fullRunSequenceRecovered": true,
+  "failedCommands": [],
+  "phaseCounts": {
+    "preflight": 26,
+    "start": 3,
+    "snapshot": 119,
+    "scroll": 210,
+    "close": 1,
+    "location": 26,
+    "search": 24,
+    "search.prepare-ime": 28,
+    "search.submit": 1,
+    "search.results": 11,
+    "search.expand": 11,
+    "search.restore-ime": 2
+  },
+  "xmlParsed": 17
+}
