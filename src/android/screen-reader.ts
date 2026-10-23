@@ -1,6 +1,6 @@
 import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { inspectNativeAdvertisementMarkers, inspectNativeResultList } from './ui.js';
+import { inspectNativeAdvertisementMarkers, inspectNativeResultList, inspectNativeMissingPlaceFooter } from './ui.js';
 
 /**
  * Screen reader v4: full-screen OCR is the primary listing evidence.
@@ -155,6 +155,25 @@ export function joinSplitRatingLines(input: OcrLine[]): OcrLine[] {
   return [...lines.filter((_, i) => !used.has(i)), ...out];
 }
 
+/** Retain raw OCR artifacts; exclude only a scrollbar-shaped pipe at the far
+ * right edge from derived rating geometry. Never remove names or ad words. */
+function withoutRatingScrollbar(line: OcrLine, width: number): OcrLine {
+  if (!RATING.test(line.text) || !Array.isArray(line.words) || line.words.length < 3) return line;
+  if (!line.words.every(w => w && typeof w.text === 'string' && Number.isFinite(w.confidence) && w.confidence >= 0 && w.confidence <= 100 && w.bounds &&
+    Object.values(w.bounds).every(Number.isFinite) && w.bounds.left >= line.bounds.left && w.bounds.right <= line.bounds.right &&
+    w.bounds.top >= line.bounds.top && w.bounds.bottom <= line.bounds.bottom && w.bounds.right > w.bounds.left && w.bounds.bottom > w.bounds.top) ||
+    line.words.map(w => w.text).join(' ') !== line.text) return line;
+  const bars = line.words.filter(w => w.text === '|' && w.bounds.left >= width - 12 && w.bounds.right <= width &&
+    w.bounds.right - w.bounds.left <= 8 && w.bounds.bottom - w.bounds.top >= 40);
+  if (bars.length !== 1) return line;
+  const words = line.words.filter(w => w !== bars[0]);
+  if (words.some(w => w.bounds.right > width - 40)) return line;
+  return { ...line, text: words.map(w => w.text).join(' '), words,
+    confidence: words.reduce((sum,w) => sum + w.confidence,0) / words.length,
+    bounds: { left: Math.min(...words.map(w=>w.bounds.left)), right: Math.max(...words.map(w=>w.bounds.right)),
+      top: Math.min(...words.map(w=>w.bounds.top)), bottom: Math.max(...words.map(w=>w.bounds.bottom)) } };
+}
+
 /** Parse one OCR'd screenshot into the result cards visible inside the result sheet. */
 export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: string, capturedAt: string, sourceXml?: string): ScreenFrame {
   const frame: ScreenFrame = { frameId, capturedAt, imageSha256: ocr.imageSha256, queryVisible: false, sheetTop: null, topStateVerified: false, endOfResults: false, cards: [], warnings: [] };
@@ -164,7 +183,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
   // a supported, settled list. Unknown/photo layouts receive no positive proof.
   const native = inspected && inspected.bounds.left >= 0 && inspected.bounds.top >= 0 &&
     inspected.bounds.right <= ocr.imageWidth && inspected.bounds.bottom <= ocr.imageHeight ? inspected : null;
-  const lines = joinSplitRatingLines(ocr.lines).sort((a, b) => a.bounds.top - b.bounds.top || a.bounds.left - b.bounds.left);
+  const lines = joinSplitRatingLines(ocr.lines.map(line => withoutRatingScrollbar(line, ocr.imageWidth))).sort((a, b) => a.bounds.top - b.bounds.top || a.bounds.left - b.bounds.left);
   const query = normalizeText(keyword);
   // The result sheet starts at its own copy of the query. Map labels above it are never results.
   const headers = lines.filter(line => {
@@ -341,6 +360,11 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
     if (!frame.topStateVerified) frame.warnings.push('native_list_top_contradicted');
   }
   frame.endOfResults = frame.queryVisible && sheet.some(line => line.confidence >= 60 && /^(?:you['’]ve reached the end of the list[.!]?|no more results[.!]?)$/iu.test(line.text.trim()) && line.bounds.top >= (frame.cards.at(-1)?.bounds.bottom ?? Infinity));
+  const footer = sourceXml && native ? inspectNativeMissingPlaceFooter(sourceXml, keyword) : null;
+  if (footer && frame.cards.length && footer.top >= frame.cards.at(-1)!.bounds.bottom && sheet.some(line =>
+    line.confidence >= 60 && normalizeText(line.text) === 'looking for someplace else?' &&
+    line.bounds.top >= footer.top - 4 && line.bounds.bottom <= footer.bottom + 4 &&
+    line.bounds.left >= footer.left - 4 && line.bounds.right <= footer.right + 4)) frame.endOfResults = true;
   if (frame.warnings.includes('native_trailing_ad_header_pending')) frame.endOfResults = false;
   if (!frame.cards.length) frame.warnings.push('no_cards_recognized');
   return frame;

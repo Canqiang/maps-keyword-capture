@@ -329,3 +329,13 @@ Second-candidate changes:
 - New real-frame positive and negative regressions cover changed facts, missing anchors, inconsistent movement and conflicting ad classification. IME regressions cover unavailable/binding-timeout/focus-loss/ambiguous submission/cancellation/restoration failure.
 
 Second-candidate real-device acceptance remains pending below. Keep the Android production schedule suspended until acceptance; do not replace historical failures with replay results.
+
+## 2026-10-23 — Third bounded candidate: scrollbar geometry and terminal footer
+
+Candidate2 fixed actual OnlyBear submission: exact query, display3 / organic2, one visually confirmed Sponsored Gong Cha. It remained partial because Maps' actual `Looking for someplace else?` / `Add a missing place` footer was not recognized, despite native `canScrollForward=false`. The dual-worker KEKE run stopped in OCR after about30seconds during worker1 startup; this is a possible resource-contention event, not a confirmed parser regression.
+
+A same-image, single-worker KEKE retest preserved three frames and stopped on a distinct reproducible geometry error: the scrollbar at x712–716 was OCR'd as `|` on the rating line, expanding its bounds from the actual y344–371 to y318–379. This prevented the existing conservative clipped-header overlap rule from associating Woodam with its preceding full card.
+
+The third candidate derives rating geometry without only a thin/tall `|` at the far right edge, with all other words well inside the content area. Raw PNG/OCR remain immutable. Near-top card classification stays unknown locally; prior-frame geometric/identity proof is still required to restore it. No ad text is excluded. The new terminal-footer route requires the exact native query, supported native list, no forward action, same-list enabled title and missing-place button, and matching OCR title below the final card. Stationary screenshots alone remain insufficient. Regression tests cover missing/scrollable/wrong-query/absent-OCR footer and interior/text/wide-bar negatives.
+
+See [verification evidence](../evidence/2026-10-23/android-search-scroll/README.md) for each immutable run and limits. This checkpoint is source evidence only until the final candidate's real App validation is recorded.

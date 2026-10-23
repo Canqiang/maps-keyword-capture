@@ -970,3 +970,17 @@ export function inspectNativeResultList(xml: string, exactKeyword: string): Nati
     expansionTargetY: target !== null && target >= 0 && target < list.bounds!.top ? target : null,
   };
 }
+
+/** Observed Maps terminal footer; a stationary list alone never proves its end. */
+export function inspectNativeMissingPlaceFooter(xml: string, exactKeyword: string): UiNode['bounds'] {
+  const info = inspectNativeResultList(xml, exactKeyword);
+  if (!info || info.canScrollForward !== false) return null;
+  const nodes = parseEvidence(xml).filter(n => n.packageName === MAPS_PACKAGE);
+  const lists = liveSearchLists(nodes, normalized(exactKeyword), exactKeyword);
+  if (lists.length !== 1) return null;
+  const visible = (n: EvidenceNode) => n.enabled && n.bounds !== null && insideBounds(n.bounds, info.bounds) && withinMaps(n, lists[0]!);
+  const titles = nodes.filter(n => visible(n) && n.className === 'android.widget.TextView' && n.text === 'Looking for someplace else?');
+  const buttons = nodes.filter(n => visible(n) && n.className === 'android.widget.Button' && n.description === 'Add a missing place');
+  if (titles.length !== 1 || buttons.length !== 1 || buttons[0]!.bounds!.top < titles[0]!.bounds!.bottom) return null;
+  return { ...titles[0]!.bounds! };
+}
