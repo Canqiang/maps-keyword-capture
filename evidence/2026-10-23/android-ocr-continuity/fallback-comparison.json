@@ -1,0 +1,10 @@
+{
+  "scope": "Counterfactual same-source replay with only the new fallback disabled; not a second live run.",
+  "changedBoundaries": [],
+  "beforeTerminal": {
+    "priorSequenceVerified": true,
+    "currentSequenceVerified": true,
+    "priorRows": 14,
+    "currentRows": 14
+  }
+}

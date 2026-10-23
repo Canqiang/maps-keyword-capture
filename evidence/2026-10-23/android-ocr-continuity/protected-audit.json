@@ -1,0 +1,145 @@
+{
+  "at": "2026-10-23T05:28:12.162779+00:00",
+  "checks": [
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-keyword-monitor-daily",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-release-gate-20261023",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-targets-web-2h",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-tracking-ingest-daily",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-tracking-web-2h",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "Deployment",
+      "name": "maps-tracking-ui",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "CronJob",
+      "name": "maps-targets-android-daily",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-budget-keywords-20260920t060538z",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-detail-smoke-20260930t01501790704257z-6579-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-discovery-smoke-20260923t022732z-77cd31-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-keke-probe-20261014t020453z",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-keyword-monitor-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-keyword-monitor-keke-20261014-v1",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-registry-smoke-20260928t093029z-5c5b85-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-registry-smoke-20260928t095213z-f1b8c7-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-release-verify-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-repair-keywords-20260918t031502z-f91c6",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-targets-liya90-v1-476d4c50",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-tracking-config",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-release-verify-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-targets-liya90-v1-476d4c50",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-tracking-android-config",
+      "sameData": true
+    }
+  ],
+  "allUnchanged": true
+}

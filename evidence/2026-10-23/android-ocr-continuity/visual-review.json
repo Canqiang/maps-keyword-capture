@@ -1,0 +1,31 @@
+{
+  "scope": "4 actually viewed PNGs; separate from full receipt hash/structural validation. No ad observed; not general ad-classification acceptance.",
+  "samples": [
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052045.428Z__braised-food-flushing__01.png",
+      "bytes": 670590,
+      "sha256": "af50c1ea630b00f22828468fff9b676242baa08d10ac109063ed70b0b8610dc7"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052354.100Z__braised-food-flushing__29.png",
+      "bytes": 769479,
+      "sha256": "c51a565822ac892ea26bab8b45bdf4f90310998e765e565a819b811d707a7841"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052432.636Z__braised-food-flushing__35.png",
+      "bytes": 567555,
+      "sha256": "82840553e71c120c82e62fc98f7cdc772249f3dcb9f0ce8c5ad2e651ab5cb777"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T052002Z_9dc461/q0001/20261023T052438.689Z__braised-food-flushing__36.png",
+      "bytes": 439861,
+      "sha256": "91fa2daa2213045d37bd8e057a9e89379fb809d18a7435ad08aaedd74b42689c"
+    }
+  ],
+  "findings": [
+    "Frame01: exact query; KEKE first visible,4.6/9; final ranking remains withheld after later sequence failure.",
+    "Frame29: Braised Canaan visible with4.8/75, no duplicate in accepted prefix.",
+    "Frames35/36: Longjiang remains visible at4.1/18; OCR36 invents4.19%, so parser returns no cards. The new guard does not guess a numeric correction.",
+    "GPS device receipt matched and viewport followed; Google backend locality remains unverified."
+  ]
+}

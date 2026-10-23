@@ -1,0 +1,12 @@
+{
+  "scope": "Reparse all selected original OCR/XML, same-source reconciliation, not new OCR or visual QA.",
+  "selectedFrames": 34,
+  "exactListingEquality": true,
+  "sequenceVerified": false,
+  "rankingReliable": false,
+  "warnings": [
+    "anchored_card_missing: q0001:frame-035 -> q0001:frame-036"
+  ],
+  "rows": 14,
+  "lastEndOfResults": false
+}

@@ -1,0 +1,57 @@
+{
+  "sourceCommit": "beab53842f3a115c257e42f46b435ca3f3894593",
+  "typescriptTests": 1727,
+  "pythonTests": 30,
+  "typecheck": "passed",
+  "contracts": "passed",
+  "build": "passed",
+  "targetedTests": 46,
+  "review": "Two read-only reviews; no blockers after geometry validation and full prefix replay.",
+  "logs": [
+    {
+      "file": "tests.log",
+      "bytes": 1526,
+      "sha256": "04f1740517e325d641289127aa4b9a2ddaf3127a593e7eb2013d416d500bfa46"
+    },
+    {
+      "file": "device.log",
+      "bytes": 171,
+      "sha256": "c287d366ff03debefe546555647124564d27132d90a15f84f15356b240fb1235"
+    },
+    {
+      "file": "python-tests.log",
+      "bytes": 129,
+      "sha256": "5d00f3ffd3553dcd69b3cc3985fac22c72a75ffc541ee6adb779d9cdb87ed69b"
+    },
+    {
+      "file": "typecheck.log",
+      "bytes": 56,
+      "sha256": "2fb8a356cc8f2b96ed4995e0e0becaedd52e4906c93577eb0d36d89dd8591895"
+    },
+    {
+      "file": "contracts.log",
+      "bytes": 93,
+      "sha256": "88d12e0dbb3028e42a7914875f1103c58652e8381959492c6b03dbffb57b0437"
+    },
+    {
+      "file": "build-local.log",
+      "bytes": 66,
+      "sha256": "65002ab640b0283ca90925a2e0ad8e9f0436c9d052d8e0c826fcf5d0c24f9e07"
+    },
+    {
+      "file": "red.log",
+      "bytes": 1324,
+      "sha256": "83f71c3a8d3a6aa0a65ff758d7c79bb98b86c238da157cb8baa4ffa4bfed795d"
+    },
+    {
+      "file": "bounds-red.log",
+      "bytes": 1368,
+      "sha256": "96cee2b2f38a6f20d9b56d26586a443544e49124ef5fd8289e0d103c8b8b76b1"
+    },
+    {
+      "file": "targeted-final.log",
+      "bytes": 193,
+      "sha256": "c39c0f7af3fdd305faf7ca6387bf6e9ad260ce9b45b9cabbbf407da826e341cb"
+    }
+  ]
+}
