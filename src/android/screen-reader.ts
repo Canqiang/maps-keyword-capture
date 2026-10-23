@@ -1,6 +1,6 @@
 import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { inspectNativeAdvertisementMarkers, inspectNativeResultList, inspectNativeMissingPlaceFooter } from './ui.js';
+import { inspectNativeAdvertisementMarkers, inspectNativeResultList, inspectNativeMissingPlaceFooter, inspectNativeResultActions } from './ui.js';
 
 /**
  * Screen reader v4: full-screen OCR is the primary listing evidence.
@@ -35,6 +35,8 @@ export interface ScreenCard {
   /** Raw OCR geometry retained for bounded cross-frame movement checks. */
   ratingBounds?: Rect;
   nameBounds?: Rect | null;
+  /** Original word-level screenshot evidence for conservative bilingual OCR drift checks. */
+  nameWords?: OcrWord[];
 }
 export interface ScreenFrame {
   frameId: string; capturedAt: string; imageSha256: string;
@@ -50,6 +52,8 @@ export interface ScreenFrame {
   anchors?: Array<{ text: string; bounds: Rect }>;
   /** Captured right after a bounded backward correction: content may legitimately have moved down. */
   afterBackwardCorrection?: boolean;
+  /** Fully visible, exact native action controls; geometry only, never merchant identity. */
+  nativeActionAnchors?: Array<{ text: string; bounds: Rect }>;
 }
 export interface RankedListing {
   displayPosition: number; organicRank: number | null;
@@ -275,6 +279,11 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
       nameBounds = { left: Math.min(...parts.map(part => part.bounds.left)), top: parts[0]!.bounds.top,
         right: Math.max(...parts.map(part => part.bounds.right)), bottom: parts.at(-1)!.bounds.bottom };
       card.nameBounds = nameBounds;
+      const validWords = parts.every(part=>Array.isArray(part.words) && part.words.length>0 && part.words.every(word=>
+        word !== null && typeof word === 'object' && typeof word.text === 'string' && typeof word.confidence === 'number' && Number.isFinite(word.confidence) &&
+        word.bounds !== null && typeof word.bounds === 'object' && ['left','top','right','bottom'].every(key=>
+          typeof word.bounds[key as keyof Rect] === 'number' && Number.isFinite(word.bounds[key as keyof Rect]))));
+      if (validWords) card.nameWords = parts.flatMap(part=>part.words!.map(word=>({...word,bounds:{...word.bounds}})));
       card.nameConfidence = Math.round(parts.reduce((sum, part) => sum + part.confidence, 0) / parts.length * 100) / 100;
       card.bounds.top = parts[0]!.bounds.top;
       if (card.nameConfidence < 40) card.warnings.push('low_name_confidence');
@@ -380,6 +389,7 @@ export function parseScreenFrame(ocr: ScreenOcr, keyword: string, frameId: strin
       }
     }
   }
+  if (native && sourceXml) frame.nativeActionAnchors = inspectNativeResultActions(sourceXml, keyword);
   frame.anchors = sheet.filter(line => line.confidence >= 55 && normalizeText(line.text).length >= 10 && !/^[^a-z0-9一-鿿]*$/u.test(normalizeText(line.text)))
     .map(line => ({ text: normalizeText(line.text), bounds: { ...line.bounds } }));
   frame.topStateVerified = frame.queryVisible && sheet.some(line => line.confidence >= 40 && /\brelevance\b/iu.test(line.text) && line.bounds.bottom <= (frame.cards[0]?.bounds.top ?? Infinity));
@@ -636,6 +646,73 @@ function quotedSnippetContinuity(previous: ScreenFrame, frame: ScreenFrame): num
   return delta;
 }
 
+/** Two distinct, uniquely placed native controls must move together, corroborated by
+ * a unique unchanged OCR rating/count row. This measures motion; anchoredIdentity
+ * still checks the actual card before any occurrence is joined. */
+function nativeActionContinuity(previous: ScreenFrame, frame: ScreenFrame, height: number): number | null {
+  const a = previous.nativeActionAnchors ?? [], b = frame.nativeActionAnchors ?? [];
+  const same = (x: typeof a[number], y: typeof a[number]) => x.text === y.text &&
+    Math.abs(x.bounds.left-y.bounds.left) <= 2 && Math.abs(x.bounds.right-y.bounds.right) <= 2 &&
+    Math.abs((x.bounds.bottom-x.bounds.top)-(y.bounds.bottom-y.bounds.top)) <= 2;
+  const moves: number[] = [], labels = new Set<string>();
+  for (const x of a) {
+    const matches=b.filter(y=>same(x,y));
+    if (a.filter(y=>same(x,y)).length !== 1 || matches.length !== 1) continue;
+    const delta=matches[0]!.bounds.top-x.bounds.top;
+    if (delta < -height*MAX_ANCHORED_ADVANCE || delta > (frame.afterBackwardCorrection ? height*0.5 : 2)) return null;
+    moves.push(delta); labels.add(x.text);
+  }
+  if (labels.size < 2 || !moves.every(delta=>Math.abs(delta-moves[0]!)<=2)) return null;
+  const delta=moves[0]!;
+  // Even a single exact OCR line can contradict the proposed movement.
+  for (const x of previous.anchors ?? []) {
+    const matches=(frame.anchors ?? []).filter(y=>y.text===x.text);
+    if (matches.length!==1 || previous.anchors!.filter(y=>y.text===x.text).length!==1) continue;
+    const y=matches[0]!, moved=y.bounds.top-x.bounds.top;
+    if (Math.abs(y.bounds.left-x.bounds.left)<=4 && Math.abs(y.bounds.right-x.bounds.right)<=4 &&
+      moved>=-height*MAX_ANCHORED_ADVANCE && moved<=(frame.afterBackwardCorrection?height*0.5:2) && Math.abs(moved-delta)>12) return null;
+  }
+  const key=(c: ScreenCard)=>`${c.rating}/${c.reviewCount}`;
+  // Conservative lexical gate for this additional native-control path: retain
+  // a substantial exact Latin prefix in both screenshot names. Controls cannot
+  // rescue unrelated names or bypass the stricter short-CJK/quoted-snippet paths.
+  const stem=(c: ScreenCard): string | null => {
+    const words=normalizeText(c.name ?? '').match(/^[a-z]+(?:\s+[a-z]+){2}/u)?.[0];
+    return words && words.replaceAll(' ','').length>=8 ? words : null;
+  };
+  const header=(c: ScreenCard,list: Rect): boolean => !!c.nameBounds && !!c.ratingBounds &&
+    (c.nameConfidence ?? 0)>=40 && c.warnings.length===0 &&
+    [c.nameBounds,c.ratingBounds].every(b=>Object.values(b).every(Number.isFinite) && b.left>=list.left && b.right<=list.right &&
+      b.top>=list.top && b.bottom<=list.bottom && b.right>b.left && b.bottom>b.top) && c.nameBounds.bottom<=c.ratingBounds.top;
+  const lexical=(x: ScreenCard,y: ScreenCard): boolean => {
+    if (!x.nameWords?.length || !y.nameWords?.length ||
+      normalizeText(x.nameWords.map(w=>w.text).join(' '))!==normalizeText(x.name!) ||
+      normalizeText(y.nameWords.map(w=>w.text).join(' '))!==normalizeText(y.name!)) return false;
+    const valid=(c: ScreenCard)=>c.nameWords!.every(w=>Number.isFinite(w.confidence) && w.confidence>=0 && w.confidence<=100 &&
+      Object.values(w.bounds).every(Number.isFinite) && w.bounds.right>w.bounds.left && w.bounds.bottom>w.bounds.top &&
+      w.bounds.left>=c.nameBounds!.left && w.bounds.right<=c.nameBounds!.right && w.bounds.top>=c.nameBounds!.top && w.bounds.bottom<=c.nameBounds!.bottom);
+    if (!valid(x)||!valid(y)) return false;
+    const tokens=(card: ScreenCard,other: ScreenCard,movement: number)=>card.nameWords!.flatMap(w=>{
+      // The observed '#aic' (confidence4.46) occupies exactly the prior high-confidence
+      // two-character Chinese word. Never discard a clean branch suffix or any number.
+      const garble=w.confidence<20 && /^[^a-z0-9一-鿿\s]+[a-z]{1,6}$/iu.test(w.text);
+      const counterparts=other.nameWords!.filter(v=>v.confidence>=80 && /^[一-鿿]{2,}$/u.test(v.text) &&
+        Math.abs(v.bounds.left-w.bounds.left)<=2 && Math.abs(v.bounds.right-w.bounds.right)<=2 &&
+        Math.abs((w.bounds.top-v.bounds.top)-movement)<=4 && Math.abs((w.bounds.bottom-v.bounds.bottom)-movement)<=4);
+      if (garble && counterparts.length===1) return [];
+      return normalizeText(w.text).match(/[a-z0-9]+/gu) ?? [];
+    });
+    return JSON.stringify(tokens(x,y,-delta))===JSON.stringify(tokens(y,x,delta));
+  };
+  const ratingProof=previous.cards.some(x=>stem(x)!==null && header(x,previous.nativeListBounds!) && x.rating!==null && x.reviewCount!==null && x.ratingBounds &&
+    previous.cards.filter(c=>key(c)===key(x)).length===1 && frame.cards.filter(c=>key(c)===key(x)).length===1 &&
+    frame.cards.some(y=>stem(y)===stem(x) && header(y,frame.nativeListBounds!) && lexical(x,y) && x.category===y.category && x.priceText===y.priceText && x.distanceText===y.distanceText && key(y)===key(x) && y.ratingBounds && x.resultType!=='unknown' && x.resultType===y.resultType &&
+      ![...x.warnings,...y.warnings].some(w=>['low_rating_confidence','native_ad_evidence_unresolved','uncertain_ad_label'].includes(w)) &&
+      Math.abs(x.ratingBounds!.left-y.ratingBounds.left)<=4 && Math.abs(x.ratingBounds!.right-y.ratingBounds.right)<=4 &&
+      Math.abs((y.ratingBounds.top-x.ratingBounds!.top)-delta)<=12));
+  return ratingProof ? delta : null;
+}
+
 export function anchoredContinuity(previous: ScreenFrame | undefined, frame: ScreenFrame): number | null {
   const before = previous?.nativeListBounds, after = frame.nativeListBounds;
   if (!previous || !before || !after || previous.sheetBoundarySource !== 'native_result_list' || frame.sheetBoundarySource !== 'native_result_list' ||
@@ -663,6 +740,8 @@ export function anchoredContinuity(previous: ScreenFrame | undefined, frame: Scr
   // two similar rating rows alone cannot establish this additional proof.
   const exact = measure(false);
   if (exact.count >= 2) return exact.delta;
+  const nativeDelta = nativeActionContinuity(previous, frame, height);
+  if (nativeDelta !== null) return nativeDelta;
   // This recovery concerns one visible merchant, not empty modules or multi-card placement.
   if (previous.cards.length !== 1 || frame.cards.length !== 1 || previous.cards[0]!.rating === null || previous.cards[0]!.reviewCount === null || previous.cards[0]!.rating !== frame.cards[0]!.rating || previous.cards[0]!.reviewCount !== frame.cards[0]!.reviewCount) return quotedSnippetContinuity(previous, frame);
   const tolerant = measure(true);

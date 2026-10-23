@@ -17,7 +17,7 @@ export interface AndroidScreenEvidence {
   capturedAt: string; role: 'capture' | 'diagnostic' | 'location'; analysis: ScreenAnalysis;
   frameId?: string; ocr?: AndroidArtifact; screenFrame?: AndroidArtifact; cardsRecognized?: number;
   /** Set when a backward correction removed this frame from the reconciled sequence; the evidence stays. */
-  discarded?: 'ordered_overlap_missing';
+  discarded?: 'ordered_overlap_missing' | 'sheet_top_restart';
 }
 export interface AndroidListingQuality {
   adCount: number; organicCount: number; unknownCount: number; rankingReliable: boolean; frames: number; warnings: string[];
@@ -29,6 +29,8 @@ export interface AndroidQueryEvidence extends AndroidTask {
   nativeFrameRefreshes?: Array<{ reason: 'source_changed'; afterFrameId: string; refreshFrameId: string | null }>;
   /** Backward corrections after a missing ordered overlap: the discarded frame and the last kept frame. */
   nativeFrameCorrections?: Array<{ reason: 'ordered_overlap_missing'; afterFrameId: string; discardedFrameId: string }>;
+  /** One verified-top re-expansion may replace an entire sequence, retaining all artifacts. */
+  nativeSheetRecoveries?: Array<{ reason: 'collapsed_after_backward'; afterFrameId: string; supersededFrameIds: string[]; status: 'attempted' | 'completed'; restartFrameId: string | null }>;
   /** ranked: the target was found; not_found: a complete list without it; not_found_in_prefix: a partial list without it. */
   rankingStatus: 'ranked' | 'not_found' | 'not_found_in_prefix' | 'not_evaluated';
   organicRank: number | null; displayPosition: number | null;
@@ -217,7 +219,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
     surface: 'google_maps_android_app', adapterVersion: 'android-screen-ocr/v4', profileHash: null, startedAt: started.toISOString(), finishedAt: started.toISOString(),
     executionStatus: 'completed', persistenceMode: store.mode, device: null,
     rankingStatus: 'evaluated', mapsLocationStatus: 'unverified',
-    queries: config.tasks.map((task, index) => ({ ...task, location: { ...task.location }, queryId: queryIdFor(index), nativeFrameRefreshes: [], nativeFrameCorrections: [], rankingStatus: 'not_evaluated', organicRank: null, displayPosition: null, targetMatch: null, targetMatches: [], targetAliases: targetAliases(task), listingStatus: 'not_evaluated', listings: [], listingQuality: null, evidenceStatus: 'skipped', locationEvidence: null, locationScreen: null, screens: [], error: null, stopReason: 'not_started' })),
+    queries: config.tasks.map((task, index) => ({ ...task, location: { ...task.location }, queryId: queryIdFor(index), nativeFrameRefreshes: [], nativeFrameCorrections: [], nativeSheetRecoveries: [], rankingStatus: 'not_evaluated', organicRank: null, displayPosition: null, targetMatch: null, targetMatches: [], targetAliases: targetAliases(task), listingStatus: 'not_evaluated', listings: [], listingQuality: null, evidenceStatus: 'skipped', locationEvidence: null, locationScreen: null, screens: [], error: null, stopReason: 'not_started' })),
     artifacts: [], counts: { total: config.tasks.length, captured: 0, needsReview: 0, failed: 0, skipped: config.tasks.length, screenshots: 0, locationScreenshots: 0, completeListingQueries: 0, partialListingQueries: 0, rankedQueries: 0, listings: 0, ads: 0, organic: 0, unknown: 0 }, errors: [],
     evidenceLimits: [
       'Listings come from full-screen OCR of each result-sheet screenshot: a card is a rating line, the name line above it and the status line below it. Native UI XML is retained as auxiliary evidence only.',
@@ -307,7 +309,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       locale: info.locale, timezone: info.timezone,
       ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v21', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v22', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -343,6 +345,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
         stage = 'snapshot';
         let swipes = 0, unchangedFrames = 0, refreshPending = false, correctionPending = false;
         const frames: ScreenFrame[] = [];
+        let restartPending = false;
         const seenHashes = new Set<string>();
         for (let shot = 0; shot < config.maxScreenshotsPerQuery; shot++) {
           checkQuery(); snapshotAttempted = true;
@@ -374,6 +377,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
             frame.topStateVerified = false; frame.warnings.push('native_list_top_contradicted');
           }
           evidence.screenFrame = await saveArtifact('screen_frame', `${base}.frame.json`, JSON.stringify(frame, null, 2));
+          if (restartPending) { query.nativeSheetRecoveries!.at(-1)!.restartFrameId = frameId; restartPending = false; }
           if (refreshedWithoutGesture) query.nativeFrameRefreshes!.at(-1)!.refreshFrameId = frameId;
           evidence.cardsRecognized = frame.cards.length;
           const before = reconcileScreenFrames(frames, config.maxDisplayedResults).listings.length;
@@ -392,8 +396,33 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           // back a bounded distance and capturing again. The skipped frame stays as evidence but
           // leaves the reconciled sequence; the fresh frame must pass the unchanged overlap rules.
           const previousKept = frames.at(-2);
-          if (previousKept && frame.cards.length && nativeList && !refreshedWithoutGesture && query.nativeFrameCorrections!.length < MAX_OVERLAP_CORRECTIONS &&
+          const oldBounds = previousKept?.nativeListBounds;
+          const changedSheet = oldBounds && nativeList && Math.abs(oldBounds.top - nativeList.bounds.top) > 2;
+          // A backward correction can reach the native top and collapse the sheet.
+          // Re-expand at most once, then rebuild ranks from a fresh first frame.
+          // Neither the changed viewport nor its old prefix is joined to the restart.
+          if (frame.afterBackwardCorrection && changedSheet && nativeList.canScrollBackward === false &&
+            query.nativeSheetRecoveries!.length === 0 && device.restoreResultsAtTop) {
+            if (shot + 1 >= config.maxScreenshotsPerQuery) { query.stopReason = 'screenshot_budget'; break; }
+            if (swipes >= config.maxScrolls) { query.stopReason = 'scroll_budget'; break; }
+            checkQuery(); stage = 'restore_sheet';
+            const recovery = { reason: 'collapsed_after_backward' as const, afterFrameId: frameId,
+              supersededFrameIds: frames.map(x=>x.frameId), status: 'attempted' as 'attempted' | 'completed', restartFrameId: null as string | null };
+            query.nativeSheetRecoveries!.push(recovery);
+            await saveCommands('sheet-recovery-start',query);
+            await device.restoreResultsAtTop(scrollEvidence(frame,source.xml,nativeList.bounds));
+            checkQuery(); recovery.status = 'completed';
+            for (const screen of query.screens) if (screen.frameId && recovery.supersededFrameIds.includes(screen.frameId)) screen.discarded = 'sheet_top_restart';
+            frames.length = 0; seenHashes.clear(); unchangedFrames = 0;
+            query.listings = []; query.listingQuality = null; query.listingStatus = 'partial'; query.evidenceStatus = 'needs_review';
+            restartPending = true; swipes++; stage = 'snapshot';
+            await saveCommands('sheet-recovery-complete',query);
+            continue;
+          }
+          if (previousKept && frame.cards.length && nativeList?.canScrollBackward === true && !refreshedWithoutGesture && query.nativeFrameCorrections!.length < MAX_OVERLAP_CORRECTIONS &&
             reconciled.warnings.includes(`ordered_overlap_missing: ${previousKept.frameId} -> ${frameId}`)) {
+            if (shot + 1 >= config.maxScreenshotsPerQuery) { query.stopReason = 'screenshot_budget'; break; }
+            if (swipes >= config.maxScrolls) { query.stopReason = 'scroll_budget'; break; }
             frames.pop(); evidence.discarded = 'ordered_overlap_missing';
             query.nativeFrameCorrections!.push({ reason: 'ordered_overlap_missing', afterFrameId: previousKept.frameId, discardedFrameId: frameId });
             const kept = reconcileScreenFrames(frames, config.maxDisplayedResults);

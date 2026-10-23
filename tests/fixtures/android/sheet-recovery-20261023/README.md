@@ -1,0 +1,1 @@
+Receipt-verified XML and immutable full-screen OCR from run_20261023T055758Z_214478, frames 1–3. PNG receipts and full provenance: evidence/2026-10-23/android-rating-reread/remaining-native-boundary.json. No synthetic merchant evidence.

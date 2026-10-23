@@ -821,6 +821,20 @@ export class NativeMapsDevice implements AndroidDevice {
     }
   }
 
+  async restoreResultsAtTop(evidence: NativeScrollEvidence): Promise<void> {
+    this.phase = 'scroll.restore-top';
+    if (!this.activeKeyword || this.searchFailed || !this.scrollSnapshotProof ||
+      nativeLayoutSignature(this.scrollSnapshotProof.xml) !== nativeLayoutSignature(evidence.sourceXml)) {
+      fail('SOURCE_CHANGED', 'Sheet recovery requires the latest captured native source');
+    }
+    await this.foreground();
+    const xml = await this.nativeXml();
+    if (nativeLayoutSignature(xml) !== nativeLayoutSignature(evidence.sourceXml)) fail('SOURCE_CHANGED', 'Sheet changed before top recovery');
+    const list = inspectNativeResultList(xml, this.activeKeyword);
+    if (!list || list.canScrollBackward !== false) fail('LIST_TOP_UNVERIFIED', 'Sheet recovery cannot manufacture a list top');
+    await this.prepareResults();
+  }
+
   private async resultListElement(list: NativeResultList): Promise<string> {
     const result = await this.command('POST', '/elements', { using: 'id', value: list.resourceId });
     if (!Array.isArray(result) || result.length !== 1) fail('UNKNOWN_SCROLL_LAYOUT', 'The vertical native result list is not unique');

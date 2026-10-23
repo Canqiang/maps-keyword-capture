@@ -1373,6 +1373,35 @@ describe('NativeMapsDevice bounded native result list gestures', () => {
     });
     await device.close();
   });
+  it.each(['ok','changed source','not at top','no snapshot'] as const)('top-sheet recovery requires fresh captured top and only expands once: %s',async kind=>{
+    let expanded=true;
+    const appium=await appiumFixture({source:()=>rankingFixture(expanded?'04-expanded-sheet':'02-expanded-source'),onDrag:()=>{expanded=true;}});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url},{adb:adbFixture().adb});
+    await device.start();await device.search('hot pot near me');
+    expanded=false;
+    const snap=kind==='no snapshot'?{xml:rankingFixture('02-expanded-source')}:await device.snapshot();
+    const evidence={sourceXml:snap.xml,listBounds:null,anchors:[]};
+    if(kind==='changed source')expanded=true;
+    if(kind==='not at top')evidence.sourceXml=rankingFixture('05-scroll-1');
+    if(kind==='ok'){
+      await device.restoreResultsAtTop(evidence);
+      expect((await device.snapshot()).xml).toBe(rankingFixture('04-expanded-sheet'));
+      expect(appium.calls.filter(c=>c.body?.script==='mobile: dragGesture')).toHaveLength(1);
+    }else{
+      await expect(device.restoreResultsAtTop(evidence)).rejects.toMatchObject({code:'SOURCE_CHANGED'});
+      expect(appium.calls.filter(c=>c.body?.script==='mobile: dragGesture')).toHaveLength(0);
+    }
+    expect(appium.calls.filter(c=>c.body?.script==='mobile: performEditorAction')).toHaveLength(1);
+    await device.close();
+  });
+  it('refuses top recovery from a freshly captured scrolled list without a gesture',async()=>{
+    const appium=await appiumFixture({source:()=>rankingFixture('05-scroll-1')});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url},{adb:adbFixture().adb});
+    await device.start();await device.search('hot pot near me');const snap=await device.snapshot();
+    await expect(device.restoreResultsAtTop({sourceXml:snap.xml,listBounds:null,anchors:[]})).rejects.toMatchObject({code:'LIST_TOP_UNVERIFIED'});
+    expect(appium.calls.filter(c=>c.body?.script==='mobile: dragGesture'||c.path.endsWith('/actions'))).toHaveLength(0);
+    await device.close();
+  });
   it('returns only an advisory continuation and requires fresh native evidence after touch scrolling', async () => {
     let moved = false;
     const appium = await appiumFixture({ source: () => rankingFixture(moved ? '05-scroll-1' : '04-expanded-sheet'),

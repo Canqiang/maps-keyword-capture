@@ -532,8 +532,8 @@ describe('bounded native-source refresh before any gesture', () => {
   // these two tests pair the synthetic OCR with a real probe-5 list frame for the same exact query.
   const liveList = async () => (await readFile(new URL('./fixtures/android/repair-probe-20261021/candidate5-q0002-02.xml', import.meta.url), 'utf8'));
   it('corrects a missing ordered overlap with one backward gesture, discards the skipped frame, and keeps the sequence (probe 6/7 page jump)', async () => {
-    const source = await liveList(); let shots = 0; const directions: string[] = [];
-    const s = await setup({ snapshot: async () => ({ png: pngWith(++shots, 720, 1280), xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
+    const source = await liveList(), scrolled=(await readFile(new URL('./fixtures/android/sheet-recovery-20261023/keke-2.xml',import.meta.url),'utf8')).replaceAll('braised food flushing','chinese food'); let shots = 0; const directions: string[] = [];
+    const s = await setup({ snapshot: async () => ({ png: pngWith(++shots, 720, 1280), xml: shots===1 ? source : scrolled, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
       swipeResults: async (_evidence, direction) => { directions.push(direction ?? 'forward'); } });
     s.config.tasks[0]!.keyword = 'chinese food'; s.config.maxDisplayedResults = 3; s.config.maxScreenshotsPerQuery = 8;
     const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([seated('A'), jumped('C'), seated('A', 'B'), seated('B', 'C')]) });
@@ -544,9 +544,31 @@ describe('bounded native-source refresh before any gesture', () => {
     expect(q.listings.map(row => row.name)).toEqual(['A', 'B', 'C']);
     expect(q).toMatchObject({ listingStatus: 'complete', stopReason: 'target_reached', listingQuality: { rankingReliable: true, sequenceVerified: true, frames: 3 } });
   });
+  it.each(['ok','failed recovery','budget exhausted','scroll exhausted','repeat collapse'] as const)('re-expands native top with retained evidence and bounded recovery: %s', async kind=>{
+    const root=new URL('./fixtures/android/sheet-recovery-20261023/',import.meta.url);
+    const xmls=await Promise.all((kind==='repeat collapse'?[1,2,3,1,2,3]:[1,2,3,1]).map(n=>readFile(new URL(`keke-${n}.xml`,root),'utf8')));
+    const ocrs=await Promise.all((kind==='repeat collapse'?[1,2,3,1,2,3]:[1,2,3,1]).map(async n=>JSON.parse(await readFile(new URL(`keke-${n}.ocr.json`,root),'utf8'))));
+    // Force missing overlap independently of the new native-control continuity fix.
+    for(const n of [1,4])if(ocrs[n])ocrs[n].lines=ocrs[n].lines.map((l:any)=>({...l,text:l.text.replace('(547)','(777)')}));
+    let shot=0; const directions:string[]=[]; const restore=vi.fn(async()=>{if(kind==='failed recovery')throw Object.assign(new Error('test uncertain outcome'),{code:'APPIUM_PROTOCOL_ERROR'});});
+    const s=await setup({snapshot:async()=>({png:pngWith(++shot,720,1280),xml:xmls[Math.min(shot-1,xmls.length-1)]!,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()}),
+      restoreResultsAtTop:restore,swipeResults:async(_e,d)=>{directions.push(d??'forward');}});
+    s.config.ocrScale=ocrs[0].scale;s.config.tasks[0]!.keyword='braised food flushing';s.config.maxDisplayedResults=20;s.config.maxScreenshotsPerQuery=kind==='budget exhausted'?3:kind==='repeat collapse'?6:4;
+    if(kind==='scroll exhausted')s.config.maxScrolls=2;
+    let i=0;const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:async req=>({...ocrs[i++],imageSha256:shaOf(req.png)})});
+    const q=r.manifest.queries[0]!;
+    if(kind==='failed recovery'){expect(restore).toHaveBeenCalledTimes(1);expect(q.stopReason).toBe('appium_protocol_error');expect(q.organicRank).toBeNull();expect(q.nativeSheetRecoveries![0]!.status).toBe('attempted');return;}
+    if(kind==='budget exhausted'||kind==='scroll exhausted'){expect(restore).not.toHaveBeenCalled();expect(q.stopReason).toBe(kind==='budget exhausted'?'screenshot_budget':'scroll_budget');expect(q.organicRank).toBeNull();return;}
+    if(kind==='repeat collapse'){expect(restore).toHaveBeenCalledTimes(1);expect(q.nativeSheetRecoveries).toHaveLength(1);expect(directions).toEqual(['forward','backward','forward','backward']);expect(r.exitCode).toBe(2);return;}
+    expect(restore).toHaveBeenCalledTimes(1);expect(directions).toEqual(['forward','backward']);
+    expect(q.screens.map(x=>x.discarded??null)).toEqual(['sheet_top_restart','ordered_overlap_missing','sheet_top_restart',null]);
+    expect(q.nativeSheetRecoveries).toEqual([{reason:'collapsed_after_backward',afterFrameId:'q0001:frame-003',supersededFrameIds:['q0001:frame-001','q0001:frame-003'],status:'completed',restartFrameId:'q0001:frame-004'}]);
+    expect(q.listings).toHaveLength(2);expect(q.listings.every(row=>row.frameIds.every(id=>id==='q0001:frame-004'))).toBe(true);
+    expect(q.stopReason).toBe('screenshot_budget');expect(r.exitCode).toBe(2);
+  });
   it('spends at most two backward corrections per query and then keeps the unqualified partial', async () => {
-    const source = await liveList(); let shots = 0; const directions: string[] = [];
-    const s = await setup({ snapshot: async () => ({ png: pngWith(++shots, 720, 1280), xml: source, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
+    const source = await liveList(), scrolled=(await readFile(new URL('./fixtures/android/sheet-recovery-20261023/keke-2.xml',import.meta.url),'utf8')).replaceAll('braised food flushing','chinese food'); let shots = 0; const directions: string[] = [];
+    const s = await setup({ snapshot: async () => ({ png: pngWith(++shots, 720, 1280), xml: shots===1 ? source : scrolled, packageName: 'com.google.android.apps.maps', capturedAt: new Date().toISOString() }),
       swipeResults: async (_evidence, direction) => { directions.push(direction ?? 'forward'); } });
     s.config.tasks[0]!.keyword = 'chinese food'; s.config.maxScreenshotsPerQuery = 8;
     const r = await runAndroidCapture(s.config, s.device, new LocalArtifactStore(s.root), { screenRecognizer: recognizerFor([seated('A'), jumped('C'), jumped('D'), jumped('E')]) });

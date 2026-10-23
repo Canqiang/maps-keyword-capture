@@ -82,6 +82,8 @@ export interface AndroidDevice {
   /** One bounded exact-query native list gesture. Persisted evidence must still match live XML.
    * `backward` is the bounded correction after a missing ordered overlap; it never replaces reconciliation. */
   swipeResults(evidence?: NativeScrollEvidence, direction?: 'forward' | 'backward'): Promise<void>;
+  /** Re-expand only a freshly observed exact-query native list top. Never resubmit a query. */
+  restoreResultsAtTop?(evidence: NativeScrollEvidence): Promise<void>;
   close(): Promise<void>;
 }
 export interface UiNode {

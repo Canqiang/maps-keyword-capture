@@ -984,3 +984,19 @@ export function inspectNativeMissingPlaceFooter(xml: string, exactKeyword: strin
   if (titles.length !== 1 || buttons.length !== 1 || buttons[0]!.bounds!.top < titles[0]!.bounds!.bottom) return null;
   return { ...titles[0]!.bounds! };
 }
+
+/** Fully visible enabled action buttons belonging to the exact native result list.
+ * Coordinates alone are insufficient: overlay/map controls must not prove list motion. */
+export function inspectNativeResultActions(xml: string, exactKeyword: string): Array<{ text: string; bounds: NonNullable<UiNode['bounds']> }> {
+  if (!inspectNativeResultList(xml, exactKeyword)) return [];
+  const nodes = parseEvidence(xml), lists = liveSearchLists(nodes, normalized(exactKeyword), exactKeyword);
+  if (lists.length !== 1 || !lists[0]!.bounds) return [];
+  const list = lists[0]!, bounds = list.bounds!;
+  const labels = new Set(['directions', 'order', 'menu', 'call', 'website', 'reserve', 'save', 'share']);
+  return nodes.flatMap(node => {
+    const b=node.bounds, text=[node.description,node.text].map(normalized).find(t=>labels.has(t));
+    return text && node.enabled && node.clickable && node.packageName === MAPS_PACKAGE && withinMaps(node,list) && b &&
+      insideBounds(b,bounds) && b.top>bounds.top && b.bottom<bounds.bottom && b.right-b.left>=40 && b.bottom-b.top>=32
+      ? [{text,bounds:{...b}}] : [];
+  });
+}
