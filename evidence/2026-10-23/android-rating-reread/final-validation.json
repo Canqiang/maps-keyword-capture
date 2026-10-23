@@ -1,0 +1,98 @@
+{
+  "sourceCommit": "d03fa2a19dde775c91a4be7b4c82ed32ea4d4b66",
+  "acrBuild": "ch15a2",
+  "imageDigest": "sha256:0f0d1825f1d9ee35c984969aa97e82c88c28c2bc8d560fcb6b23975eb7e9ac08",
+  "job": "maps-android-rating-20261023",
+  "database": "maps-android-rating-20261023",
+  "runId": "run_20261023T055758Z_214478",
+  "profileHash": "b391d7405bd55aaf5b0c1fcc265419d3fa1c8de74b31bdfe947c87ef5dcd43d6",
+  "listingMethod": "full_screen_ocr_native_context_ordered_overlap/v21",
+  "originalExitCode": 2,
+  "startedAt": "2026-10-23T05:57:56Z",
+  "finishedAt": "2026-10-23T05:58:59Z",
+  "targetedRepair": "Original frame36 same-PNG PSM7/13 reread observes4.1/18; full34 historical selected frames replay to14 continuous occurrences. No numeric truncation.",
+  "liveAcceptance": "partial; stopped after3captures before historical35/36. No supplementary rereads triggered; this run cannot exercise the requested recovery live.",
+  "currentStopReason": "unknown_scroll_layout",
+  "rankingScreens": 3,
+  "selectedFrames": 1,
+  "diagnosticPrefixRows": 2,
+  "publishedTargetRank": null,
+  "rankingReliable": false,
+  "nativeBoundary": "frame1 listTop272 -> frame2 top274 with name/status drift and missing overlap; backward correction frame3 top456/backward=false, overlap still rejected; another backward request is guarded.",
+  "azureObjects": 27,
+  "exactReceiptsVerified": 26,
+  "scanRootWithoutExternalExactReceipt": 1,
+  "commandCheckpoints": 5,
+  "commands": 185,
+  "fullCommandSequenceRecovered": true,
+  "failedCommands": 0,
+  "oldAppiumCause": "not reproduced; no Appium command failure in this run",
+  "protectedWorkloads": 7,
+  "protectedConfigMaps": 22,
+  "productionPromoted": false,
+  "software": {
+    "sourceCommit": "d03fa2a19dde775c91a4be7b4c82ed32ea4d4b66",
+    "typescriptTests": 1747,
+    "typescriptFiles": 92,
+    "pythonTests": 33,
+    "ciTests": 9,
+    "typecheck": "passed",
+    "contracts": "passed",
+    "build": "passed",
+    "review": "Independent review found optional deadline bug; reproduced red, fixed, integration green, rereview no blockers.",
+    "initialFailure": "Unconstrained parallel device suite: IME focus-window timeout,201/202; full maxWorkers2 rerun1747/1747 passed. No device code changed.",
+    "logs": [
+      {
+        "file": "tests-final.log",
+        "bytes": 1526,
+        "sha256": "962a94bcf3e67d5eb4a3ee8ef96713a9d0dbaa037e5df830387297173d2f79ae"
+      },
+      {
+        "file": "python-tests.log",
+        "bytes": 132,
+        "sha256": "22acf59b509f0162204c67b32b012c4ff51be693f5386b3b6e3102b94fcdbf3b"
+      },
+      {
+        "file": "ci-tests.log",
+        "bytes": 864,
+        "sha256": "325ef1ae808571ff7efc5c571509c8c1ba059b2b7be056d7fbfccf8b1c41d796"
+      },
+      {
+        "file": "typecheck.log",
+        "bytes": 56,
+        "sha256": "2fb8a356cc8f2b96ed4995e0e0becaedd52e4906c93577eb0d36d89dd8591895"
+      },
+      {
+        "file": "contracts.log",
+        "bytes": 93,
+        "sha256": "88d12e0dbb3028e42a7914875f1103c58652e8381959492c6b03dbffb57b0437"
+      },
+      {
+        "file": "build-local.log",
+        "bytes": 66,
+        "sha256": "65002ab640b0283ca90925a2e0ad8e9f0436c9d052d8e0c826fcf5d0c24f9e07"
+      },
+      {
+        "file": "red.log",
+        "bytes": 1255,
+        "sha256": "12b9fbb4ac591ea1f706adba63ff8e76cd75c49b3363cca56825fcf15c3ff652"
+      },
+      {
+        "file": "deadline-red.log",
+        "bytes": 1153,
+        "sha256": "18031831bc382ba93d01af8db4b438b25da7765e080d5e60f8ab3da6e5340436"
+      },
+      {
+        "file": "targeted-final.log",
+        "bytes": 193,
+        "sha256": "da9022fa495fcbe2e7b197a6730cf3d086460c65a9f0606a045bee6d19362813"
+      },
+      {
+        "file": "device.log",
+        "bytes": 1742,
+        "sha256": "7f9e0e9abf15c9856584f589a2a93d76c783065481c88433caa3f090eff11910"
+      }
+    ]
+  },
+  "googleBackendLocation": "unverified"
+}

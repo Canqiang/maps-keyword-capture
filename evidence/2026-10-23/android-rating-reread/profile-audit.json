@@ -1,0 +1,25 @@
+{
+  "profileHash": "b391d7405bd55aaf5b0c1fcc265419d3fa1c8de74b31bdfe947c87ef5dcd43d6",
+  "profile": {
+    "surface": "google_maps_android_app",
+    "adapterVersion": "android-screen-ocr/v4",
+    "androidVersion": "15",
+    "appVersion": "26.41.03.993332563",
+    "appPackage": "com.google.android.apps.maps",
+    "emulator": true,
+    "locale": "en-US",
+    "timezone": "America/New_York",
+    "display": {
+      "widthPixels": 720,
+      "heightPixels": 1280,
+      "densityDpi": 320,
+      "fontScale": 1
+    },
+    "locationMethod": "adb_emulator_geo_fix",
+    "captureMethod": "appium_uiautomator2_screenshot_ui_xml",
+    "listingMethod": "full_screen_ocr_native_context_ordered_overlap/v21",
+    "ocrLanguages": "eng+chi_sim+chi_tra",
+    "ocrScale": 3
+  },
+  "matched": true
+}

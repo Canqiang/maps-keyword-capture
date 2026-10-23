@@ -1,0 +1,26 @@
+{
+  "scope": "All3ranking PNGs actually viewed; location PNG only structurally checked. Separate from all-object hashes. Historical frame36 also viewed.",
+  "findings": [
+    "Frame1 showsKEKE4.6/9 andNongGengJi4.6/547.",
+    "Frame2 visually showssameNongGengJi card with photos/review; native list top moves272to274 and OCRname/status drift.",
+    "Frame3 after backward correction visibly has a partly collapsed result sheet; native top456/backwardfalse. It is not terminal list evidence.",
+    "No ads observed; not advertisement-classification acceptance."
+  ],
+  "samples": [
+    {
+      "key": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055842.318Z__braised-food-flushing__01.png",
+      "bytes": 671601,
+      "sha256": "b26c8fca462b96084a27914f4684fa8042b115583a3db39d560d3c7fc4086e5b"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055854.280Z__braised-food-flushing__03.png",
+      "bytes": 593499,
+      "sha256": "a11409431a0835b730913c066ecffb8c40d2ec9de6b049e3162668b774f625ef"
+    },
+    {
+      "key": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055848.418Z__braised-food-flushing__02.png",
+      "bytes": 825751,
+      "sha256": "ac24489136cefdd9c26c981362454b05697adaeb4586529b690b81c95986d0ff"
+    }
+  ]
+}

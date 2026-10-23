@@ -1,0 +1,16 @@
+{
+  "scope": "Same-source parse/reconcile of all selected OCR/XML; not fresh OCR or full visual QA",
+  "selectedFrames": 1,
+  "exactListingEquality": true,
+  "sequenceVerified": true,
+  "rankingReliable": true,
+  "warnings": [],
+  "rows": 2,
+  "lastEndOfResults": false,
+  "changedFrames": [],
+  "withoutReread": {
+    "sequenceVerified": true,
+    "warnings": [],
+    "rows": 2
+  }
+}

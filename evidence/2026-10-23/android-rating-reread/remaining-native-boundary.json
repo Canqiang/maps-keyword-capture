@@ -1,0 +1,253 @@
+{
+  "stopReason": "unknown_scroll_layout",
+  "nativeFrameRefreshes": [],
+  "nativeFrameCorrections": [
+    {
+      "reason": "ordered_overlap_missing",
+      "afterFrameId": "q0001:frame-001",
+      "discardedFrameId": "q0001:frame-002"
+    },
+    {
+      "reason": "ordered_overlap_missing",
+      "afterFrameId": "q0001:frame-001",
+      "discardedFrameId": "q0001:frame-003"
+    }
+  ],
+  "frames": [
+    {
+      "frameId": "q0001:frame-001",
+      "discarded": false,
+      "native": {
+        "resourceId": "com.google.android.apps.maps:id/search_list_layout",
+        "bounds": {
+          "left": 0,
+          "top": 272,
+          "right": 720,
+          "bottom": 1232
+        },
+        "canScrollBackward": false,
+        "canScrollForward": true,
+        "sheetHandleBounds": {
+          "left": 320,
+          "top": 168,
+          "right": 400,
+          "bottom": 176
+        },
+        "expansionTargetY": 160
+      },
+      "frame": {
+        "warnings": [],
+        "topStateVerified": true,
+        "afterBackwardCorrection": false,
+        "cards": [
+          {
+            "name": "可 可 小 鹵 KEKE BRAISED DELI",
+            "rating": 4.6,
+            "reviewCount": 9
+          },
+          {
+            "name": "Nong Geng Ji 农耕 记 . 湖南 菜",
+            "rating": 4.6,
+            "reviewCount": 547
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "kind": "png",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055842.318Z__braised-food-flushing__01.png",
+          "bytes": 671601,
+          "sha256": "b26c8fca462b96084a27914f4684fa8042b115583a3db39d560d3c7fc4086e5b",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055842.318Z__braised-food-flushing__01.png",
+          "verifiedAt": "2026-10-23T05:58:42.392Z",
+          "storageError": null
+        },
+        {
+          "kind": "ui_xml",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055842.318Z__braised-food-flushing__01.xml",
+          "bytes": 84001,
+          "sha256": "58cad5fd29b2be657269686e6247c617e45fce9262a3cfd7881dade575a4e949",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055842.318Z__braised-food-flushing__01.xml",
+          "verifiedAt": "2026-10-23T05:58:42.415Z",
+          "storageError": null
+        },
+        {
+          "kind": "ocr_json",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055842.318Z__braised-food-flushing__01.ocr.json",
+          "bytes": 20180,
+          "sha256": "6589ef6c24f40be553a9196608566b984fe37f3b631d757da71526080f9852c5",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055842.318Z__braised-food-flushing__01.ocr.json",
+          "verifiedAt": "2026-10-23T05:58:45.802Z",
+          "storageError": null
+        },
+        {
+          "kind": "screen_frame",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055842.318Z__braised-food-flushing__01.frame.json",
+          "bytes": 4052,
+          "sha256": "bfeb14e6c447fc5d9de7cde48f92a9ad3cc1ca55c8920718d97c8dc10e77a317",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055842.318Z__braised-food-flushing__01.frame.json",
+          "verifiedAt": "2026-10-23T05:58:45.854Z",
+          "storageError": null
+        }
+      ]
+    },
+    {
+      "frameId": "q0001:frame-002",
+      "discarded": "ordered_overlap_missing",
+      "native": {
+        "resourceId": "com.google.android.apps.maps:id/search_list_layout",
+        "bounds": {
+          "left": 0,
+          "top": 274,
+          "right": 720,
+          "bottom": 1232
+        },
+        "canScrollBackward": true,
+        "canScrollForward": true,
+        "sheetHandleBounds": {
+          "left": 320,
+          "top": 168,
+          "right": 400,
+          "bottom": 176
+        },
+        "expansionTargetY": 160
+      },
+      "frame": {
+        "warnings": [
+          "native_list_top_contradicted"
+        ],
+        "topStateVerified": false,
+        "afterBackwardCorrection": false,
+        "cards": [
+          {
+            "name": "Nong Geng Ji #aic - 湖南 荣",
+            "rating": 4.6,
+            "reviewCount": 547
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "kind": "png",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055848.418Z__braised-food-flushing__02.png",
+          "bytes": 825751,
+          "sha256": "ac24489136cefdd9c26c981362454b05697adaeb4586529b690b81c95986d0ff",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055848.418Z__braised-food-flushing__02.png",
+          "verifiedAt": "2026-10-23T05:58:48.516Z",
+          "storageError": null
+        },
+        {
+          "kind": "ui_xml",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055848.418Z__braised-food-flushing__02.xml",
+          "bytes": 78045,
+          "sha256": "9620456ee1556086c6391be8a3daaeeeee258b9b653b94360f238acb61cc3573",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055848.418Z__braised-food-flushing__02.xml",
+          "verifiedAt": "2026-10-23T05:58:48.565Z",
+          "storageError": null
+        },
+        {
+          "kind": "ocr_json",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055848.418Z__braised-food-flushing__02.ocr.json",
+          "bytes": 14509,
+          "sha256": "c3349dad8f94e6e285bfe6ed06e658e229c550e0d70750c5911dac1c80874cc3",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055848.418Z__braised-food-flushing__02.ocr.json",
+          "verifiedAt": "2026-10-23T05:58:51.627Z",
+          "storageError": null
+        },
+        {
+          "kind": "screen_frame",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055848.418Z__braised-food-flushing__02.frame.json",
+          "bytes": 3162,
+          "sha256": "8e69aa52aa7fd9b8364ea75df4a10a314a46f5d5a65e11a5dae4f3939ba6ad73",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055848.418Z__braised-food-flushing__02.frame.json",
+          "verifiedAt": "2026-10-23T05:58:51.696Z",
+          "storageError": null
+        }
+      ]
+    },
+    {
+      "frameId": "q0001:frame-003",
+      "discarded": "ordered_overlap_missing",
+      "native": {
+        "resourceId": "com.google.android.apps.maps:id/search_list_layout",
+        "bounds": {
+          "left": 0,
+          "top": 456,
+          "right": 720,
+          "bottom": 1232
+        },
+        "canScrollBackward": false,
+        "canScrollForward": true,
+        "sheetHandleBounds": {
+          "left": 320,
+          "top": 352,
+          "right": 400,
+          "bottom": 360
+        },
+        "expansionTargetY": 160
+      },
+      "frame": {
+        "warnings": [],
+        "topStateVerified": true,
+        "afterBackwardCorrection": true,
+        "cards": [
+          {
+            "name": "可 可 小 鹵 KEKE BRAISED DELI",
+            "rating": 4.6,
+            "reviewCount": 9
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "kind": "png",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055854.280Z__braised-food-flushing__03.png",
+          "bytes": 593499,
+          "sha256": "a11409431a0835b730913c066ecffb8c40d2ec9de6b049e3162668b774f625ef",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055854.280Z__braised-food-flushing__03.png",
+          "verifiedAt": "2026-10-23T05:58:54.359Z",
+          "storageError": null
+        },
+        {
+          "kind": "ui_xml",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055854.280Z__braised-food-flushing__03.xml",
+          "bytes": 78426,
+          "sha256": "dba97932a602fcf66fe4d2128f720074c4e442f94c41ddedc0e2f7543da80731",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055854.280Z__braised-food-flushing__03.xml",
+          "verifiedAt": "2026-10-23T05:58:54.382Z",
+          "storageError": null
+        },
+        {
+          "kind": "ocr_json",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055854.280Z__braised-food-flushing__03.ocr.json",
+          "bytes": 23563,
+          "sha256": "328d543c7a8b9fcbdf473f0843d6c1ebf96098a7e1658040fd330e398a730cbd",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055854.280Z__braised-food-flushing__03.ocr.json",
+          "verifiedAt": "2026-10-23T05:58:58.516Z",
+          "storageError": null
+        },
+        {
+          "kind": "screen_frame",
+          "relativePath": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055854.280Z__braised-food-flushing__03.frame.json",
+          "bytes": 2650,
+          "sha256": "2fdfcb59e2c0fb779dc2992f786c3894a78d7e3d181c12d3aef70de38bba6a73",
+          "storageStatus": "verified",
+          "objectKey": "android-maps/2026-10-23/run_20261023T055758Z_214478/q0001/20261023T055854.280Z__braised-food-flushing__03.frame.json",
+          "verifiedAt": "2026-10-23T05:58:58.578Z",
+          "storageError": null
+        }
+      ]
+    }
+  ]
+}

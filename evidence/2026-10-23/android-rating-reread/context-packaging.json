@@ -1,0 +1,6 @@
+{
+  "sourceCommit": "d03fa2a19dde775c91a4be7b4c82ed32ea4d4b66",
+  "change": "Staging root .dockerignore replaced by tracked deploy/android/Dockerfile.dockerignore for ACR CLI upload; runtime source unchanged.",
+  "ignoreSha256": "6f1969df7927b57fbc36dc45a24b9d05730be92a5ff17c427591c7312fe807d9",
+  "failedBuild": "ch15a1"
+}
