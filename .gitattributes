@@ -1,3 +1,5 @@
 # Preserve receipt-verified Android XML bytes across all checkout platforms.
 tests/fixtures/android/grid-v3-20261020/*.xml -text
 tests/fixtures/android/repair-probe-20261021/*.xml -text whitespace=cr-at-eol
+
+tests/fixtures/android/sheet-recovery-20261023/*.xml -text whitespace=cr-at-eol
