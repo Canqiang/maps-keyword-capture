@@ -101,5 +101,5 @@ export interface ScreenAnalysis {
 }
 export type AndroidArtifact = StorageState & {
   relativePath: string; bytes: number; sha256: string;
-  kind: 'png' | 'ui_xml' | 'query_json' | 'csv' | 'input' | 'device' | 'ocr_json' | 'screen_frame' | 'command_log';
+  kind: 'png' | 'ui_xml' | 'query_json' | 'csv' | 'input' | 'device' | 'ocr_json' | 'screen_frame' | 'command_log' | 'ocr_process_log';
 };

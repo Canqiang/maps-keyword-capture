@@ -31,6 +31,20 @@ class ParseWordsTest(unittest.TestCase):
         self.assertEqual(lines[1]['confidence'], 89.75)
         self.assertEqual(len(lines[0]['words']), 2)
 
+    def test_engine_uses_one_thread_and_reports_timeout_without_engine_text(self):
+        from unittest.mock import patch
+        import time, contextlib
+        output = io.StringIO()
+        with patch.object(screen_ocr.subprocess, 'run', side_effect=subprocess.TimeoutExpired('private-command', 0.01, stderr='private-secret')) as run, contextlib.redirect_stderr(output):
+            with self.assertRaises(subprocess.TimeoutExpired):
+                screen_ocr.run_engine(['tesseract', 'private.png', 'stdout', '--psm', '4'], time.monotonic()+1)
+        self.assertEqual(run.call_args.kwargs['env']['OMP_THREAD_LIMIT'], '1')
+        events = [json.loads(line) for line in output.getvalue().splitlines()]
+        self.assertEqual(events[-1]['stage'], 'full_screen')
+        self.assertTrue(events[-1]['timedOut'])
+        self.assertEqual(events[-1]['errorClass'], 'TimeoutExpired')
+        self.assertNotIn('private-', output.getvalue())
+
     def test_rejects_geometry_outside_the_screenshot(self):
         with self.assertRaises(ValueError):
             screen_ocr.parse_words('\n'.join([HEADER, word(1, 1, 1, 1400, 10, 100, 10, 50, 'x')]), 2, 720, 1280)

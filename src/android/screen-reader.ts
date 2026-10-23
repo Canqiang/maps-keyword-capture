@@ -1,5 +1,5 @@
-import { execFile } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import type { OcrProcessReport } from './ocr-process.js';
+export { recognizeScreenProcess as recognizeScreen } from './ocr-process.js';
 import { inspectNativeAdvertisementMarkers, inspectNativeResultList, inspectNativeMissingPlaceFooter, inspectNativeResultActions } from './ui.js';
 
 /**
@@ -21,7 +21,7 @@ export interface ScreenOcr {
   lines: OcrLine[];
   ratingRereads?: Array<{lineIndex: number; crop: Rect; languages: string; scale: number; error?: string; passes: Array<{psm: number; lines: OcrLine[]}>}>;
 }
-export interface ScreenRecognizeRequest { png: Buffer; timeoutMs: number; languages: string; scale?: number; signal?: AbortSignal }
+export interface ScreenRecognizeRequest { png: Buffer; timeoutMs: number; languages: string; scale?: number; signal?: AbortSignal; onDiagnostics?: (report: OcrProcessReport) => Promise<void> }
 export type ScreenRecognizer = (request: ScreenRecognizeRequest) => Promise<ScreenOcr>;
 
 export interface ScreenCard {
@@ -1003,19 +1003,6 @@ export function matchTarget(listings: RankedListing[], aliases: string[]): { mat
   }
   return { match: matches.find(match => match.organicRank !== null) ?? matches[0] ?? null, matches };
 }
-
-/** Local bounded process: Tesseract over the whole screenshot; no shell, no remote OCR. */
-export const recognizeScreen: ScreenRecognizer = request => new Promise((resolve, reject) => {
-  const deadlineEpochMs = Date.now() + request.timeoutMs - 500; // account for startup; reserve output/exit headroom
-  const child = execFile('python3', [fileURLToPath(new URL('../../deploy/android/linux/screen_ocr.py', import.meta.url))], {
-    timeout: request.timeoutMs, maxBuffer: 16 * 1024 * 1024, killSignal: 'SIGKILL', ...(request.signal ? { signal: request.signal } : {}),
-  }, (error, stdout, stderr) => {
-    if (error) { reject(new Error(`OCR process failed: ${error.message}; ${stderr.slice(0, 500)}`)); return; }
-    try { resolve(JSON.parse(stdout) as ScreenOcr); } catch { reject(new Error('OCR process returned invalid JSON')); }
-  });
-  child.stdin?.on('error', error => reject(error));
-  child.stdin?.end(JSON.stringify({ pngBase64: request.png.toString('base64'), timeoutMs: request.timeoutMs, deadlineEpochMs, languages: request.languages, scale: request.scale ?? 2 }));
-});
 
 export function validateScreenOcr(value: unknown): asserts value is ScreenOcr {
   const ocr = value as ScreenOcr;

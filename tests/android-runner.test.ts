@@ -55,6 +55,21 @@ const emptyScreen=()=>(png:Buffer)=>({schemaVersion:'android-screen-ocr/v1' as c
 const recognizerFor=(screens:Array<(png:Buffer)=>any>)=>{let i=0;return async(request:{png:Buffer})=>screens[Math.min(i++,screens.length-1)]!(request.png);};
 
 describe('native screenshot evidence runner',()=>{
+ it('saves OCR failure diagnostics beside the immutable screenshot and fails closed on log storage failure',async()=>{
+  for(const storageFailure of [false,true]){
+   let searches=0;const s=await setup({search:async()=>{searches++}});const local=new LocalArtifactStore(s.root);
+   const store:ArtifactStore={mode:'local_only',rootDirectory:s.root,absolutePath:p=>local.absolutePath(p),writeFile:async(p,b)=>{if(storageFailure&&p.endsWith('.ocr-process.json'))throw Error('storage failure');return local.writeFile(p,b);},persist:(f,o)=>local.persist(f,o)};
+   const r=await runAndroidCapture(s.config,s.device,store,{screenRecognizer:async request=>{
+    await request.onDiagnostics?.({schemaVersion:'android-ocr-process/v1',imageSha256:shaOf(request.png),startedAt:new Date().toISOString(),durationMs:30,timeoutMs:30,threadLimit:1,outcome:'failed',failureReason:'timeout',exitCode:null,signal:'SIGKILL',timedOut:true,cancelled:false,stderrBytes:0,stderrSha256:shaOf(Buffer.alloc(0)),stages:[],lastStage:'full_screen'});
+    throw Error('private OCR error');
+   }});
+   const q=r.manifest.queries[0]!;expect(searches).toBe(1);expect(q.screens[0]?.png).toBeDefined();expect(q.listingStatus).not.toBe('complete');expect(r.exitCode).toBe(2);
+   const log=r.manifest.artifacts.find(a=>a.kind==='ocr_process_log');expect(log).toBeDefined();
+   if(!storageFailure){expect(q.screens[0]?.ocrProcess?.relativePath).toBe(log?.relativePath);expect(JSON.parse(await readFile(local.absolutePath(log!.relativePath),'utf8')).timedOut).toBe(true);}
+   else expect(log?.storageStatus).toBe('failed');
+   expect(JSON.stringify(r)).not.toContain('private OCR error');
+  }
+ });
  it('never starts a second query after the first final command checkpoint fails',async()=>{
   const journal=new CommandJournal();let locations=0;
   const s=await setup({commandDiagnostics:()=>journal.snapshot(),setLocation:async requested=>{locations++;return preparedLocation(requested);}});

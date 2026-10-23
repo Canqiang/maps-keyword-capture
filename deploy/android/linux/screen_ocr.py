@@ -12,6 +12,7 @@ import hashlib
 import io
 import json
 import math
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -67,15 +68,40 @@ def group_lines(words):
     return lines
 
 
-def run_engine(args, deadline):
-    remaining = deadline - time.monotonic()
-    if remaining <= 0:
-        raise TimeoutError('OCR deadline exceeded')
-    result = subprocess.run(args, capture_output=True, text=True, timeout=remaining, check=True)
-    if len(result.stdout.encode()) + len(result.stderr.encode()) > MAX_OUTPUT:
-        raise ValueError('OCR output budget exceeded')
-    return result.stdout
+def emit_stage(stage, event, **fields):
+    print(json.dumps({'schemaVersion': 'android-ocr-stage/v1', 'stage': stage, 'event': event, **fields}), file=sys.stderr, flush=True)
 
+
+def run_engine(args, deadline):
+    stage = 'version' if '--version' in args else 'languages' if '--list-langs' in args else 'engine'
+    if '--psm' in args:
+        psm = args[args.index('--psm')+1]
+        stage = {'4': 'full_screen', '7': 'rating_psm7', '13': 'rating_psm13'}.get(psm, 'engine')
+    began = time.monotonic()
+    emit_stage(stage, 'start')
+    result = None
+    error = None
+    try:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError('OCR deadline exceeded')
+        # A collector has one CPU. Default OpenMP threads cause severe quota
+        # throttling; fixed one-thread OCR preserves the same image/scale/model.
+        result = subprocess.run(args, capture_output=True, text=True, timeout=remaining, check=True,
+                                env=dict(os.environ, OMP_THREAD_LIMIT='1'))
+        if len(result.stdout.encode()) + len(result.stderr.encode()) > MAX_OUTPUT:
+            raise ValueError('OCR output budget exceeded')
+        return result.stdout
+    except (subprocess.SubprocessError, TimeoutError, ValueError, OSError) as exc:
+        error = exc
+        raise
+    finally:
+        fields = {'durationMs': round((time.monotonic()-began)*1000),
+                  'exitCode': result.returncode if result else error.returncode if isinstance(error, subprocess.CalledProcessError) else None,
+                  'timedOut': isinstance(error, (subprocess.TimeoutExpired, TimeoutError))}
+        if error:
+            fields['errorClass'] = type(error).__name__ if type(error).__name__ in ['TimeoutExpired', 'TimeoutError', 'CalledProcessError', 'ValueError', 'OSError'] else 'Error'
+        emit_stage(stage, 'end', **fields)
 
 
 # Deliberately only malformed numeric heads followed by a parenthesized count.
@@ -185,5 +211,6 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as error:
-        print(f'OCR failed: {type(error).__name__}: {str(error)[:400]}', file=sys.stderr)
+        emit_stage('request', 'end', errorClass=type(error).__name__ if type(error).__name__ in ['TimeoutExpired', 'TimeoutError', 'CalledProcessError', 'ValueError', 'OSError'] else 'Error', timedOut=isinstance(error, (subprocess.TimeoutExpired, TimeoutError)))
+        print('OCR failed; inspect structured stage diagnostics', file=sys.stderr)
         sys.exit(1)

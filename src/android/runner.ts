@@ -15,7 +15,7 @@ export type AndroidManifestReceipt = StorageState & WrittenFile;
 export interface AndroidScreenEvidence {
   png: AndroidArtifact; xml: AndroidArtifact; width: number; height: number;
   capturedAt: string; role: 'capture' | 'diagnostic' | 'location'; analysis: ScreenAnalysis;
-  frameId?: string; ocr?: AndroidArtifact; screenFrame?: AndroidArtifact; cardsRecognized?: number;
+  frameId?: string; ocr?: AndroidArtifact; ocrProcess?: AndroidArtifact; screenFrame?: AndroidArtifact; cardsRecognized?: number;
   /** Set when a backward correction removed this frame from the reconciled sequence; the evidence stays. */
   discarded?: 'ordered_overlap_missing' | 'sheet_top_restart';
 }
@@ -309,7 +309,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       locale: info.locale, timezone: info.timezone,
       ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v24', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v25', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -360,6 +360,10 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           const ocr = await (options.screenRecognizer ?? recognizeScreen)({
             png: Buffer.from(source.png), timeoutMs: Math.max(1, Math.min(config.ocrTimeoutMs, deadline - Date.now())), languages: config.ocrLanguages, scale: config.ocrScale,
             ...(options.signal ? { signal: options.signal } : {}),
+            onDiagnostics: async report => {
+              if (report.imageSha256 !== evidence.png.sha256) throw new CaptureFailure('ocr_diagnostic_provenance_mismatch');
+              evidence.ocrProcess = await saveArtifact('ocr_process_log', `${evidence.png.relativePath.slice(0, -4)}.ocr-process.json`, JSON.stringify(report, null, 2));
+            },
           });
           checkQuery();
           try { validateScreenOcr(ocr); } catch { throw new CaptureFailure('invalid_screen_ocr'); }
