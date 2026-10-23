@@ -513,11 +513,19 @@ function clippedPrefixOverlap(previous: ScreenFrame, frame: ScreenFrame, count: 
     !previous.queryVisible || !frame.queryVisible || previous.warnings.includes('native_ad_evidence_unresolved') || frame.warnings.includes('native_ad_evidence_unresolved') ||
     beforeList.left !== afterList.left || beforeList.right !== afterList.right || beforeList.bottom !== afterList.bottom || Math.abs(beforeList.top - afterList.top) > 2) return false;
   const before = previous.cards.slice(-count), after = frame.cards.slice(0, count), a = before[0]!, b = after[0]!;
+  // An explicit "No reviews" row is not a missing numeric rating. A clipped
+  // unrated header can join only with an independent following rated card in
+  // the same ordered overlap; a lone null/null tuple never proves identity.
+  const noReview = (card: ScreenCard) => card.rating === null && card.reviewCount === 0 && NO_REVIEWS.test(card.ratingLineText);
+  const unrated = noReview(a) && noReview(b) && count >= 2 && a.resultType === 'organic' && a.warnings.length === 0 &&
+    a.nameBounds && a.distanceMeters !== null && normalizeText(a.ratingLineText) === normalizeText(b.ratingLineText) &&
+    previous.cards.filter(noReview).length === 1 && frame.cards.filter(noReview).length === 1 &&
+    before.slice(1).some((card,i)=>card.rating !== null && card.reviewCount !== null && after[i+1]!.rating !== null);
   if (b.resultType !== 'unknown' || !b.warnings.some(warning => ['name_clipped_at_top', 'card_header_clipped'].includes(warning)) ||
     b.warnings.some(warning => !['name_clipped_at_top', 'card_header_clipped'].includes(warning)) || b.bounds.top - afterList.top > 35 ||
     a.name === null || (a.nameConfidence ?? 0) < 40 || a.resultType === 'unknown' || a.warnings.includes('low_rating_confidence') ||
     (b.name !== null && ((b.nameConfidence ?? 0) < 40 || nameKey(a.name) !== nameKey(b.name))) ||
-    a.rating === null || a.reviewCount === null || a.category === null ||
+    (a.rating === null && !unrated) || a.reviewCount === null || a.category === null ||
     a.rating !== b.rating || a.reviewCount !== b.reviewCount || a.distanceMeters !== b.distanceMeters || a.category !== b.category || !a.ratingBounds || !b.ratingBounds) return false;
   if (a.distanceMeters === null && normalizeText(a.ratingLineText) !== normalizeText(b.ratingLineText)) return false;
   const delta = b.ratingBounds.top - a.ratingBounds.top;
