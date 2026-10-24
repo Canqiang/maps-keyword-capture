@@ -1,12 +1,18 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-24. **v32 fixed the exact clipped zero-review separator case locally, but its fresh KEKE run hit an earlier uncertain Chinese-word OCR overlap. v33 repairs only that corroborated low-confidence script drift. Fresh validation pending; production Android remains suspended.**
+Last updated: 2026-10-24. **v33 passed the isolated two-worker representative capture gate: KEKE reached its configured first 20 results and OnlyBear reached an explicit list end with 13 results. Full-catalog capacity, fresh positive-ad coverage and backend geographic acceptance remain separate. Production Android remains suspended.**
 
-## Candidate checkpoint — v33 (verification pending)
+## Verified checkpoint — v33 (representative two-query gate passed)
 
-- Original v32 frames 1→2 / 4→5 retain a three-word clean English prefix, exactly moving word boxes and native controls, unique 4.6/546 metadata, price/category/distance, while Chinese words become low-confidence Latin fragments. The failed overlap triggers correction and exhausts the one-time panel restart.
-- Extend only the existing native-control lexical proof: require three high-confidence prefix words to move with the controls, then corroborate uncertain script boxes against a high-confidence Chinese box or a uniquely matching very-low-confidence punctuated reading. Never ignore digits, Roman branch suffixes (including #III/#IV), confident changed words, contradictory motion or ads.
-- Exact fixture regression red→green; branch/geometry/ad negatives and independent review remain required. Saved history is unchanged; no repeated search submission or broader recovery budget.
+See [repair, exact evidence, acceptance and remaining gates](../evidence/2026-10-24/android-low-confidence-script/README.md).
+
+- Source `6cf43d39997db04da82eee635c04566ddaa71a64`, repair `8a09846`, ACR `ch15bb`, digest `sha256:accac5a72cfc69f1b47ab3eb758c1b66aede231770dd4ddc68e0ea37a96d155e`; isolated Job/database `maps-android-v33-20261024`.
+- Exact v32 low-confidence Chinese→Latin drift is repaired only with three high-confidence English prefix words, matching word/native-control motion and unique metadata. Numeric/Roman suffixes, confident changed branches, contradictory geometry and ad ambiguity remain rejected. No repeated submission or broader recovery budget.
+- KEKE: 20 organic rows, target display/natural 1, `target_reached`, exit 0 at 14:43:04 Beijing / 02:43:04 New York. This is the configured first 20, not exhaustion of the Maps list. OnlyBear: 13 organic rows, target display/natural 2, explicit `list_end`, exit 0 at 14:40:10 / 02:40:10.
+- Actual search/capture overlap 83.052 seconds; all 66 OCRs succeeded, no OCR timeouts/process failures. All 1,675 command sequences recovered, zero failures, one submission each. Same-source selected-frame replay and isolated database evidence match; no restarts and both workers finished.
+- Independent Azure-login readback: 374 objects, 372 exact writer byte/SHA-256 receipts plus two service-length-only roots; all 68 PNGs decode, 234 JSON and four CSVs checked against two query / 33 listing rows. Eleven original PNGs visually inspected; full hash scope is separate from visual sampling.
+- Full suite: 100 files / 1,915 tests, contracts/typecheck/build passed; 73 focused tests and independent 15-test review passed. Original fixture proves the new fallback. Baseline v32 also accepts the fresh v33 frames, so this fresh run did not require that exact repair branch.
+- All 111 protected checks unchanged (seven workload specs / 104 ConfigMap data hashes). Complete logs and screenshots retained. Local commits only; no push/merge/promotion. No positive ad in this fresh run; v30's verified positive example remains separate. GPS/backend geography and nine-store/two-hour capacity are not accepted by these samples. Background startup ANR records precede search and do not prove a foreground failure or resource cause.
 
 ## Verified checkpoint — v32 (ranking acceptance failed)
 

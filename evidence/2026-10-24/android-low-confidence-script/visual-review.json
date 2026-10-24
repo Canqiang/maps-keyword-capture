@@ -1,0 +1,73 @@
+{
+  "status": "passed_with_scope_limits",
+  "actualPngSamples": 11,
+  "samples": [
+    {
+      "file": "visual/worker-0-frame-01.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_a6fe3e/q0001/20261024T063849.925Z__braised-food-flushing__01.png",
+      "sha256": "b0aa8c6d0d88be2324b2b41e1439c9874c4e48bdaa63c1a887a8d997342d6f30",
+      "finding": "KEKE 4.6/9 first; Nong Geng Ji 4.6/546 follows."
+    },
+    {
+      "file": "visual/worker-0-frame-50.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_a6fe3e/q0001/20261024T064301.789Z__braised-food-flushing__50.png",
+      "sha256": "a3988ba05b255c7cc23e50962adabcf0ac7a8d0a518785728a422ccaa4d233da",
+      "finding": "121 Master Hong Noodle House 4.9/265 followed by Old Luo Yang 4.7/628, accepted row 20. Configured target reached; not list end."
+    },
+    {
+      "file": "visual/worker-1-frame-01.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_2f3ff4/q0001/20261024T063852.371Z__bubble-tea-garden-city__01.png",
+      "sha256": "6e8f3cc7c344fa4a902fdfa8a53a205164738c517bad0c72c5939012e2cf6694",
+      "finding": "SmoTea 4.9/491 then OnlyBear 4.7/102; no ad label in this sample."
+    },
+    {
+      "file": "visual/worker-1-frame-16.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_2f3ff4/q0001/20261024T064006.882Z__bubble-tea-garden-city__16.png",
+      "sha256": "1d43e11ee3ac27e7656e290a043b2eb74865de5bbf92f8b9d1c088bd17a05fc3",
+      "finding": "Kiko Ramen 4.7/598 followed by explicit Looking for someplace else / Add a missing place end footer."
+    },
+    {
+      "file": "visual/worker-0-frame-26.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_a6fe3e/q0001/20261024T064108.560Z__braised-food-flushing__26.png",
+      "sha256": "15ba392f76f24c61436b061a391762a6173c4a935805ffc67c02f8e5f1d61284",
+      "finding": "Discarded correction frame: Nan Xiang 4.5/7301 and Longjiang Pork Feet Rice 4.1/18; jump not silently joined."
+    },
+    {
+      "file": "visual/worker-0-frame-28.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_a6fe3e/q0001/20261024T064117.922Z__braised-food-flushing__28.png",
+      "sha256": "663a4ec671dec93df78d40e81de802f7820a064953f5013c3a029669703d84f1",
+      "finding": "Recovered overlap: Crown One 4.0/429 then Nan Xiang 4.5/7301."
+    },
+    {
+      "file": "visual/worker-0-frame-31.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_a6fe3e/q0001/20261024T064132.940Z__braised-food-flushing__31.png",
+      "sha256": "d6789ec6170b44017c03278d045813604ec32648060633bb03325f0c5d8197ad",
+      "finding": "Nan Xiang and Longjiang 4.1/18 visible; rating is not 4.19."
+    },
+    {
+      "file": "visual/worker-0-frame-39.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_a6fe3e/q0001/20261024T064209.947Z__braised-food-flushing__39.png",
+      "sha256": "e44450c042d866c92695d4d913ac3dfb8c706d591b214f2c0510179495493e68",
+      "finding": "Bob's Noodle 4.6/135 then Ji You Braised Food with No reviews, Restaurant, 0.6 mi."
+    },
+    {
+      "file": "visual/worker-0-frame-40.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_a6fe3e/q0001/20261024T064215.207Z__braised-food-flushing__40.png",
+      "sha256": "64a18e82446bbb31fa756849ab4ca26b27a99b5e3f9f835819c5e6ac92202b6f",
+      "finding": "Ji You No reviews fully visible; no invented zero rating."
+    },
+    {
+      "file": "visual/worker-0-location.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_a6fe3e/q0001/20261024T063835.454Z__braised-food-flushing__location.png",
+      "sha256": "20ce4bd60141e4a916940cd11490a7454e803ce843fc3fe602c222e3f60d7463",
+      "finding": "Native home blue dot in Flushing; not independent Google backend locality proof."
+    },
+    {
+      "file": "visual/worker-1-location.png",
+      "objectKey": "android-maps/2026-10-24/run_20261024T063746Z_2f3ff4/q0001/20261024T063831.866Z__bubble-tea-garden-city__location.png",
+      "sha256": "142ffaace6fa8378c410020138e71d039c1d48082f166d7f95bba0f84aa48803",
+      "finding": "Native home blue dot in Mineola; not independent Google backend locality proof."
+    }
+  ],
+  "scope": "11 original PNGs visually inspected across both stores, correction, rating, no-review, list-end and GPS evidence. Other automatically selected images were not visually reviewed. No apparent capture/parser mismatch in these samples. Full receipt/structure validation is separate. No positive ad in this fresh run."
+}

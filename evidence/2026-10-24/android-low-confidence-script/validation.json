@@ -1,0 +1,14 @@
+{
+  "source": "6cf43d39997db04da82eee635c04566ddaa71a64",
+  "runtimeFixCommit": "8a09846",
+  "testFiles": 100,
+  "fullTests": 1915,
+  "focusedTests": 73,
+  "independentReviewTests": 15,
+  "contracts": true,
+  "typecheck": true,
+  "build": true,
+  "review": "Punctuated Roman suffix exclusion added and independently verified; no remaining blockers",
+  "gitFixtureReceiptFiles": 8,
+  "scope": "Software proof; fresh native acceptance is separately recorded in outcome-audit.json and verification.json."
+}

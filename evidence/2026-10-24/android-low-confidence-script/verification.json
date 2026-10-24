@@ -1,0 +1,28 @@
+{
+  "status": "passed_representative_two_query_gate",
+  "runtimeSource": "6cf43d39997db04da82eee635c04566ddaa71a64",
+  "imageDigest": "sha256:accac5a72cfc69f1b47ab3eb758c1b66aede231770dd4ddc68e0ea37a96d155e",
+  "job": "maps-android-v33-20261024",
+  "outcomeReport": "outcome-audit.json",
+  "independentAzureObjects": 374,
+  "exactWriterSizeAndSha256Receipts": 372,
+  "serviceLengthOnlyScanRoots": 2,
+  "pngDecoded": 68,
+  "visualPngSamples": 11,
+  "ocrAttemptsSucceeded": 66,
+  "commandSequencesRecovered": 1675,
+  "searchCaptureOverlapSeconds": 83.052,
+  "protectedChecksUnchanged": 111,
+  "fullCatalogCapacityAccepted": false,
+  "geography": "unverified",
+  "freshPositiveAdCase": false,
+  "productionPromoted": false,
+  "pushedOrMerged": false,
+  "limits": [
+    "KEKE reached configured first 20; only OnlyBear reached explicit list end.",
+    "Immutable original v32 fixture proves the new low-confidence-script branch; baseline v32 also accepts fresh v33 frames, so this live run did not require that branch.",
+    "Background startup ANR records precede both searches; broader startup reliability and resource causality remain unproven.",
+    "Full nine-store / two-hour capacity and geographic acceptance remain open."
+  ],
+  "durableEvidence": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-low-confidence-script-2026-10-24"
+}

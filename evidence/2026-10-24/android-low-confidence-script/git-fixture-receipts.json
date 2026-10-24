@@ -1,0 +1,12 @@
+{
+  "verified": [
+    "tests/fixtures/android/low-confidence-script-20261024/keke-1.ocr.json",
+    "tests/fixtures/android/low-confidence-script-20261024/keke-1.xml",
+    "tests/fixtures/android/low-confidence-script-20261024/keke-2.ocr.json",
+    "tests/fixtures/android/low-confidence-script-20261024/keke-2.xml",
+    "tests/fixtures/android/no-review-separators-20261024/keke-44.ocr.json",
+    "tests/fixtures/android/no-review-separators-20261024/keke-44.xml",
+    "tests/fixtures/android/no-review-separators-20261024/keke-45.ocr.json",
+    "tests/fixtures/android/no-review-separators-20261024/keke-45.xml"
+  ]
+}

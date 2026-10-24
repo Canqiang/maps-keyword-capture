@@ -1,0 +1,89 @@
+{
+  "at": "2026-10-24T06:44:30.015Z",
+  "authentication": "Azure CLI identity; not collector SAS",
+  "finals": [
+    {
+      "surface": "android",
+      "scanId": "android_scan_20261024T063746Z_4e8040",
+      "status": "completed",
+      "exitCode": 0,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 1,
+        "notFound": 0,
+        "needsReview": 0,
+        "failed": 0,
+        "skipped": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/android/2026-10-24/point/android_scan_20261024T063746Z_4e8040/catalog.json",
+        "bytes": 2300,
+        "sha256": "a41f14996d41bb95aeec63516c560b2025c9d9771dc2830d2749d6c822e5c9f6",
+        "storageStatus": "verified",
+        "objectKey": "tracking/android/2026-10-24/point/android_scan_20261024T063746Z_4e8040/catalog.json",
+        "verifiedAt": "2026-10-24T06:37:46.980Z",
+        "storageError": null,
+        "version": "bbf0ead7-f9ec-42b0-836b-b41388c6452c",
+        "storeIds": [
+          "keke-flushing"
+        ],
+        "execution": {
+          "surface": "android",
+          "tier": "point",
+          "shardIndex": 0,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "worker_finished"
+    },
+    {
+      "surface": "android",
+      "scanId": "android_scan_20261024T063746Z_2ebc0b",
+      "status": "completed",
+      "exitCode": 0,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 1,
+        "notFound": 0,
+        "needsReview": 0,
+        "failed": 0,
+        "skipped": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/android/2026-10-24/point/android_scan_20261024T063746Z_2ebc0b/catalog.json",
+        "bytes": 2300,
+        "sha256": "a41f14996d41bb95aeec63516c560b2025c9d9771dc2830d2749d6c822e5c9f6",
+        "storageStatus": "verified",
+        "objectKey": "tracking/android/2026-10-24/point/android_scan_20261024T063746Z_2ebc0b/catalog.json",
+        "verifiedAt": "2026-10-24T06:37:46.825Z",
+        "storageError": null,
+        "version": "bbf0ead7-f9ec-42b0-836b-b41388c6452c",
+        "storeIds": [
+          "only-bear"
+        ],
+        "execution": {
+          "surface": "android",
+          "tier": "point",
+          "shardIndex": 1,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "worker_finished"
+    }
+  ],
+  "prefixes": [
+    "tracking/android/2026-10-24/point/android_scan_20261024T063746Z_4e8040",
+    "android-maps/2026-10-24/run_20261024T063746Z_a6fe3e",
+    "tracking/android/2026-10-24/point/android_scan_20261024T063746Z_2ebc0b",
+    "android-maps/2026-10-24/run_20261024T063746Z_2f3ff4"
+  ],
+  "objects": 374,
+  "receiptsVerified": 372,
+  "errors": []
+}

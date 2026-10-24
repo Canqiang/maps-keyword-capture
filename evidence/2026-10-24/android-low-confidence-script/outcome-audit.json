@@ -1,0 +1,160 @@
+{
+  "status": "passed",
+  "workers": [
+    {
+      "worker": 0,
+      "storeId": "keke-flushing",
+      "runId": "run_20261024T063746Z_a6fe3e",
+      "originalExit": 0,
+      "startedAt": "2026-10-24T06:35:57Z",
+      "finishedAt": "2026-10-24T06:43:04Z",
+      "executionStatus": "completed",
+      "listingStatus": "complete",
+      "stopReason": "target_reached",
+      "quality": {
+        "adCount": 0,
+        "organicCount": 20,
+        "unknownCount": 0,
+        "rankingReliable": true,
+        "frames": 48,
+        "warnings": [],
+        "sequenceVerified": true,
+        "classificationComplete": true,
+        "screenshotCoverageComplete": true,
+        "organicCoverage": 20,
+        "truncatedCount": 0,
+        "endOfResults": false
+      },
+      "organicRank": 1,
+      "displayPosition": 1,
+      "rows": 20,
+      "counts": {
+        "total": 1,
+        "captured": 1,
+        "needsReview": 0,
+        "failed": 0,
+        "skipped": 0,
+        "screenshots": 50,
+        "locationScreenshots": 1,
+        "completeListingQueries": 1,
+        "partialListingQueries": 0,
+        "rankedQueries": 1,
+        "listings": 20,
+        "ads": 0,
+        "organic": 20,
+        "unknown": 0
+      },
+      "queryPng": 50,
+      "ocrAttempts": 50,
+      "commands": 1168,
+      "appiumHttpCommands": 1125,
+      "commandFailures": [],
+      "sessionCreates": [
+        {
+          "sequence": 27,
+          "at": "2026-10-24T06:38:18.917Z",
+          "stage": "start",
+          "command": "POST session",
+          "durationMs": 27434,
+          "outcome": "ok",
+          "httpStatus": 200,
+          "responseType": "object"
+        }
+      ],
+      "searchSubmissions": 1,
+      "completeRankingAcceptance": true,
+      "databaseEvidenceMatched": true
+    },
+    {
+      "worker": 1,
+      "storeId": "only-bear",
+      "runId": "run_20261024T063746Z_2f3ff4",
+      "originalExit": 0,
+      "startedAt": "2026-10-24T06:37:45Z",
+      "finishedAt": "2026-10-24T06:40:10Z",
+      "executionStatus": "completed",
+      "listingStatus": "complete",
+      "stopReason": "list_end",
+      "quality": {
+        "adCount": 0,
+        "organicCount": 13,
+        "unknownCount": 0,
+        "rankingReliable": true,
+        "frames": 16,
+        "warnings": [],
+        "sequenceVerified": true,
+        "classificationComplete": true,
+        "screenshotCoverageComplete": true,
+        "organicCoverage": 13,
+        "truncatedCount": 0,
+        "endOfResults": true
+      },
+      "organicRank": 2,
+      "displayPosition": 2,
+      "rows": 13,
+      "counts": {
+        "total": 1,
+        "captured": 1,
+        "needsReview": 0,
+        "failed": 0,
+        "skipped": 0,
+        "screenshots": 16,
+        "locationScreenshots": 1,
+        "completeListingQueries": 1,
+        "partialListingQueries": 0,
+        "rankedQueries": 1,
+        "listings": 13,
+        "ads": 0,
+        "organic": 13,
+        "unknown": 0
+      },
+      "queryPng": 16,
+      "ocrAttempts": 16,
+      "commands": 507,
+      "appiumHttpCommands": 455,
+      "commandFailures": [],
+      "sessionCreates": [
+        {
+          "sequence": 27,
+          "at": "2026-10-24T06:38:12.310Z",
+          "stage": "start",
+          "command": "POST session",
+          "durationMs": 24970,
+          "outcome": "ok",
+          "httpStatus": 200,
+          "responseType": "object"
+        }
+      ],
+      "searchSubmissions": 1,
+      "completeRankingAcceptance": true,
+      "databaseEvidenceMatched": true
+    }
+  ],
+  "searchCaptureIntervals": [
+    {
+      "worker": 0,
+      "submitAt": "2026-10-24T06:38:41.788Z",
+      "lastCaptureAt": "2026-10-24T06:43:01.789000+00:00"
+    },
+    {
+      "worker": 1,
+      "submitAt": "2026-10-24T06:38:43.830Z",
+      "lastCaptureAt": "2026-10-24T06:40:06.882000+00:00"
+    }
+  ],
+  "searchCaptureOverlapSeconds": 83.052,
+  "simultaneousSearchValidated": true,
+  "gate": {
+    "_id": "android-maps-pilot/maps-android-v33-20261024",
+    "roundId": "bbf0ead7-f9ec-42b0-836b-b41388c6452c",
+    "shardCount": 2,
+    "finished": [
+      0,
+      1
+    ],
+    "active": false
+  },
+  "allDatabaseEvidenceMatched": true,
+  "geography": "unverified",
+  "fullCatalogAcceptance": false
+}

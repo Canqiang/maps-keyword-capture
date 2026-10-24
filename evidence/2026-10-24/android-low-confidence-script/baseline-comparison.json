@@ -1,0 +1,40 @@
+[
+  {
+    "worker": 0,
+    "store": "keke-flushing",
+    "baselineSource": "e7ae528",
+    "currentSource": "6cf43d3",
+    "frames": 48,
+    "baseline": {
+      "rankingReliable": true,
+      "sequenceVerified": true,
+      "warnings": [],
+      "rows": 20
+    },
+    "current": {
+      "rankingReliable": true,
+      "sequenceVerified": true,
+      "rows": 20
+    },
+    "scope": "Same immutable fresh OCR/XML replay; not rerunning old UI gestures or OCR"
+  },
+  {
+    "worker": 1,
+    "store": "only-bear",
+    "baselineSource": "e7ae528",
+    "currentSource": "6cf43d3",
+    "frames": 16,
+    "baseline": {
+      "rankingReliable": true,
+      "sequenceVerified": true,
+      "warnings": [],
+      "rows": 13
+    },
+    "current": {
+      "rankingReliable": true,
+      "sequenceVerified": true,
+      "rows": 13
+    },
+    "scope": "Same immutable fresh OCR/XML replay; not rerunning old UI gestures or OCR"
+  }
+]
