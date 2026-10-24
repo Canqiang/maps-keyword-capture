@@ -893,14 +893,19 @@ export function analyzeScreen(xml: string, keyword: string): ScreenAnalysis {
       hasLabel(node, ['no results', 'no results found', 'no results found in this area'])) &&
     has(['try a different search', 'try searching for something else', 'try another search']);
 
+  const systemNodes=allNodes.filter(n=>n.packageName==='android');
+  const mapsAnr=systemNodes.some(n=>n.resourceId==='android:id/alertTitle'&&n.text==="Maps isn't responding") &&
+    systemNodes.some(n=>n.resourceId==='android:id/aerr_close'&&n.enabled&&n.clickable&&n.text==='Close app') &&
+    systemNodes.some(n=>n.resourceId==='android:id/aerr_wait'&&n.enabled&&n.clickable&&n.text==='Wait');
   let kind: ScreenKind = 'unknown';
-  if (challenge && !consent) kind = 'blocked';
+  if (mapsAnr) kind='app_not_responding';
+  else if (challenge && !consent) kind = 'blocked';
   else if (consent && !challenge) kind = 'consent';
   else if (!challenge && !consent) {
     const candidates = [detail && 'detail', results && 'results', photoDiscovery && 'photo_discovery', noResults && 'no_results'].filter(Boolean) as ScreenKind[];
     if (candidates.length === 1) kind = candidates[0]!;
   }
-  if (loading && kind !== 'blocked' && kind !== 'consent') {
+  if (loading && kind !== 'blocked' && kind !== 'consent' && kind !== 'app_not_responding') {
     kind = 'unknown';
     warnings.push('A visible loading indicator prevents treating this screen as settled evidence.');
   }

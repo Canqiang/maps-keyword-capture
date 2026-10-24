@@ -74,6 +74,8 @@ export interface NativeScrollEvidence {
 export interface AndroidDevice {
   /** Bounded metadata only; reading this performs no device command. */
   commandDiagnostics?(): import('./command-diagnostics.js').CommandReport;
+  /** Bounded read-only system evidence; no app mutation or recovery. */
+  appDiagnostics?(): Promise<import('./app-diagnostics.js').AppDiagnosticReport>;
   preflight(): Promise<AndroidDeviceInfo>;
   start(): Promise<void>;
   setLocation(location: ObservationLocation): Promise<LocationEvidence>;
@@ -91,7 +93,7 @@ export interface UiNode {
   packageName: string; clickable: boolean;
   bounds: { left: number; top: number; right: number; bottom: number } | null;
 }
-export type ScreenKind = 'results' | 'photo_discovery' | 'detail' | 'no_results' | 'blocked' | 'consent' | 'unknown';
+export type ScreenKind = 'results' | 'photo_discovery' | 'detail' | 'no_results' | 'blocked' | 'consent' | 'app_not_responding' | 'unknown';
 export interface ScreenAnalysis {
   kind: ScreenKind;
   queryVisible: boolean;
@@ -101,5 +103,5 @@ export interface ScreenAnalysis {
 }
 export type AndroidArtifact = StorageState & {
   relativePath: string; bytes: number; sha256: string;
-  kind: 'png' | 'ui_xml' | 'query_json' | 'csv' | 'input' | 'device' | 'ocr_json' | 'screen_frame' | 'command_log' | 'ocr_process_log';
+  kind: 'png' | 'ui_xml' | 'query_json' | 'csv' | 'input' | 'device' | 'ocr_json' | 'screen_frame' | 'command_log' | 'ocr_process_log' | 'app_diagnostics';
 };

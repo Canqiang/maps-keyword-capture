@@ -1,8 +1,16 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-24. **v29 repairs short CJK continuity and bounded pre-submit input readiness. KEKE now passes its configured 20-result native capture with 48 successful OCRs and target natural rank 1. Full dual-worker acceptance still fails: OnlyBear submitted once, then Google Maps displayed an ANR dialog. Production Android remains suspended.**
+Last updated: 2026-10-24. **v30 adds explicit native Maps ANR handling and bounded system diagnostics. Native two-worker verification is pending; v29 remains the last completed gate, with KEKE passing and OnlyBear failing after an ANR. Production Android remains suspended.**
 
-## Current checkpoint — v29
+## Candidate checkpoint — v30 (verification pending)
+
+- Preserve `app-health-final.json` before closing the native session: four fixed read-only ADB calls, 5 seconds each within a 20-second final-evidence budget, cancellation preserved, redacted and bounded output, safe error codes, timings and source-output digests. A historical `lastanr` must be correlated to this query's timestamps before attribution.
+- Recognize only the exact Android-owned Maps ANR modal with both enabled Close app / Wait controls. Search readiness rejects it; paired snapshots retain diagnostic evidence. Never OCR the modal, infer ranks behind it, click either action, or submit again.
+- Preserve original layout/search failure context while classifying an evidenced ANR. Cancellation, storage and timeout errors keep priority.
+- Verification scope: same isolated KEKE + OnlyBear center queries, two workers, existing resource envelope and stagger, new candidate image/database/Job only. Existing daily/Web/UI/config/catalog/history remain unchanged.
+- Acceptance remains both representative lists complete, one submission each, actual capture overlap, complete command/OCR/system evidence, independent Azure/database readback and unchanged protected services. ANR detection alone is not a native-app stability fix.
+
+## Previous checkpoint — v29
 
 See [complete diagnosis, native outcomes, evidence scope and next steps](../evidence/2026-10-24/android-readiness-cjk/README.md).
 

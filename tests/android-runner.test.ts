@@ -55,6 +55,28 @@ const emptyScreen=()=>(png:Buffer)=>({schemaVersion:'android-screen-ocr/v1' as c
 const recognizerFor=(screens:Array<(png:Buffer)=>any>)=>{let i=0;return async(request:{png:Buffer})=>screens[Math.min(i++,screens.length-1)]!(request.png);};
 
 describe('native screenshot evidence runner',()=>{
+ it('keeps cancellation authoritative if it arrives while an ANR screenshot is persisted',async()=>{
+  const source=await readFile(new URL('./fixtures/android/maps-anr-20261024/dialog.xml',import.meta.url),'utf8');const controller=new AbortController();
+  const s=await setup({snapshot:async()=>({png,xml:source,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()})});const local=new LocalArtifactStore(s.root);
+  const store:ArtifactStore={mode:'local_only',rootDirectory:s.root,absolutePath:p=>local.absolutePath(p),writeFile:(p,b)=>local.writeFile(p,b),persist:async(f,o)=>{const r=await local.persist(f,o);if(f.relativePath.endsWith('__01.xml'))controller.abort();return r;}};
+  const r=await runAndroidCapture(s.config,s.device,store,{signal:controller.signal});expect(r.manifest.queries[0]?.stopReason).toBe('cancelled');expect(r.manifest.queries[0]?.organicRank).toBeNull();
+ });
+
+ it('never sends an ANR capture frame to OCR and preserves it as diagnostic evidence',async()=>{
+  const source=await readFile(new URL('./fixtures/android/maps-anr-20261024/dialog.xml',import.meta.url),'utf8');let ocr=0;
+  const s=await setup({snapshot:async()=>({png,xml:source,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()})});
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root),{screenRecognizer:async()=>{ocr++;throw Error('unexpected');}});
+  expect(ocr).toBe(0);expect(r.manifest.queries[0]?.stopReason).toBe('app_not_responding');expect(r.manifest.queries[0]?.screens[0]?.role).toBe('diagnostic');
+ });
+ it('persists the original ANR screen and system diagnostics before cleanup without retrying search',async()=>{
+  const anrXml=await readFile(new URL('./fixtures/android/maps-anr-20261024/dialog.xml',import.meta.url),'utf8');let searches=0,ocr=0;const events:string[]=[];
+  const report={schemaVersion:'android-app-diagnostics/v1',startedAt:new Date().toISOString(),finishedAt:new Date().toISOString(),commands:[]};
+  const s=await setup({search:async()=>{searches++;throw {code:'UNKNOWN_SEARCH_LAYOUT'};},snapshot:async()=>({png,xml:anrXml,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()}),close:async()=>{events.push('close');},...({appDiagnostics:async()=>{events.push('diagnostics');return report;}} as any)});
+  const local=new LocalArtifactStore(s.root);const r=await runAndroidCapture(s.config,s.device,local,{screenRecognizer:async()=>{ocr++;throw Error('must not OCR modal');}});const q=r.manifest.queries[0]!;
+  expect(q.stopReason).toBe('app_not_responding');expect(q.screens[0]?.analysis.kind).toBe('app_not_responding');expect(q.organicRank).toBeNull();expect(searches).toBe(1);expect(ocr).toBe(0);expect(events).toEqual(['diagnostics','close']);
+  const a=r.manifest.artifacts.find(a=>(a.kind as string)==='app_diagnostics');expect(a).toBeDefined();expect(JSON.parse(await readFile(local.absolutePath(a!.relativePath),'utf8'))).toEqual(report);
+ });
+
  it('saves OCR failure diagnostics beside the immutable screenshot and fails closed on log storage failure',async()=>{
   for(const storageFailure of [false,true]){
    let searches=0;const s=await setup({search:async()=>{searches++}});const local=new LocalArtifactStore(s.root);

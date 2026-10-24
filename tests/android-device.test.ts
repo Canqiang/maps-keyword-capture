@@ -583,6 +583,22 @@ describe('NativeMapsDevice location evidence', () => {
 });
 
 describe('NativeMapsDevice native readiness and screenshot pairing', () => {
+  it('does not accept the system ANR modal as submitted-search readiness',async()=>{
+    const original=readFileSync(new URL('./fixtures/android/maps-anr-20261024/dialog.xml',import.meta.url),'utf8');
+    const appium=await appiumFixture({source:()=>original});const device=new NativeMapsDevice({...config,appiumUrl:appium.url,keywordTimeoutMs:5000},{adb:adbFixture().adb});
+    await device.start();await expect(device.search('sushi')).rejects.toMatchObject({code:'APP_NOT_RESPONDING'});
+    expect(device.commandDiagnostics().recent.filter(c=>c.command==='mobile:performEditorAction')).toHaveLength(1);await device.close();
+  });
+
+  it('returns a paired diagnostic-only system ANR after a successful search without a second submit',async()=>{
+    let anr=false;const original=readFileSync(new URL('./fixtures/android/maps-anr-20261024/dialog.xml',import.meta.url),'utf8');
+    const appium=await appiumFixture({source:(_r,keyword)=>anr?original:resultsXml(keyword)});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url,keywordTimeoutMs:5000},{adb:adbFixture().adb});
+    await device.start();await device.search('sushi');anr=true;
+    const screen=await device.snapshot();expect(screen.xml).toBe(original);expect(screen.png.equals(png)).toBe(true);
+    expect(device.commandDiagnostics().recent.filter(c=>c.command==='mobile:performEditorAction')).toHaveLength(1);await device.close();
+  });
+
   it('preserves a stable unsupported post-search screen for review without waiting for the full query deadline', async () => {
     let unsupported = false;
     const appium = await appiumFixture({ source: (_read, keyword) => unsupported

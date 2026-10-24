@@ -41,6 +41,7 @@ export interface AndroidQueryEvidence extends AndroidTask {
   locationEvidence: LocationEvidence | null;
   locationScreen: AndroidScreenEvidence | null;
   screens: AndroidScreenEvidence[];
+  failureContext?: { initialErrorCode: string; diagnosticScreenshot: string };
   error: CaptureError | null;
   stopReason: string | null;
 }
@@ -145,7 +146,7 @@ function pngDimensions(bytes: Buffer): { width: number; height: number } {
 }
 
 function safeError(error: unknown, fallback: string): CaptureError {
-  const nativeCodes = new Set(['CANCELLED', 'QUERY_TIMEOUT', 'COMMAND_TIMEOUT', 'WRONG_FOREGROUND', 'UNKNOWN_SEARCH_LAYOUT', 'QUERY_NOT_VISIBLE', 'INVALID_SCREENSHOT', 'INVALID_UI_SOURCE', 'APPIUM_PROTOCOL_ERROR', 'ADB_COMMAND_FAILED', 'SESSION_OUTCOME_UNKNOWN', 'LIST_TOP_UNVERIFIED', 'UNKNOWN_SCROLL_LAYOUT', 'SOURCE_CHANGED', 'UNKNOWN_RESULT_SHEET', 'RESULT_SHEET_NOT_EXPANDED', 'DISPLAY_UNAVAILABLE']);
+  const nativeCodes = new Set(['APP_NOT_RESPONDING', 'CANCELLED', 'QUERY_TIMEOUT', 'COMMAND_TIMEOUT', 'WRONG_FOREGROUND', 'UNKNOWN_SEARCH_LAYOUT', 'QUERY_NOT_VISIBLE', 'INVALID_SCREENSHOT', 'INVALID_UI_SOURCE', 'APPIUM_PROTOCOL_ERROR', 'ADB_COMMAND_FAILED', 'SESSION_OUTCOME_UNKNOWN', 'LIST_TOP_UNVERIFIED', 'UNKNOWN_SCROLL_LAYOUT', 'SOURCE_CHANGED', 'UNKNOWN_RESULT_SHEET', 'RESULT_SHEET_NOT_EXPANDED', 'DISPLAY_UNAVAILABLE']);
   const candidate = error !== null && typeof error === 'object' && 'code' in error ? (error as { code: unknown }).code : null;
   const code = error instanceof CaptureFailure ? error.code : typeof candidate === 'string' && nativeCodes.has(candidate) ? candidate.toLowerCase() : fallback;
   return { code, message: `Android capture stopped: ${code}. Inspect local device or storage logs for details.` };
@@ -280,7 +281,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
     const base = `${prefix}/${query.queryId}/${stamp}__${keywordSlug(query.keyword)}__${suffix}`;
     const png = await saveArtifact('png', `${base}.png`, screen.png);
     const xml = await saveArtifact('ui_xml', `${base}.xml`, screen.xml);
-    const evidence: AndroidScreenEvidence = { png, xml, ...dimensions, capturedAt: screen.capturedAt, role: invalidUi && role !== 'location' ? 'diagnostic' : role, analysis };
+    const evidence: AndroidScreenEvidence = { png, xml, ...dimensions, capturedAt: screen.capturedAt, role: (invalidUi || analysis.kind === 'app_not_responding') && role !== 'location' ? 'diagnostic' : role, analysis };
     if (role === 'location') query.locationScreen = evidence;
     else query.screens.push(evidence);
     if (invalidUi) throw new CaptureFailure('invalid_ui_xml');
@@ -309,7 +310,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       locale: info.locale, timezone: info.timezone,
       ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v29', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v30', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();
@@ -354,6 +355,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           const evidence = await saveScreen(query, source, 'capture');
           checkQuery();
           const analysis = evidence.analysis;
+          if (analysis.kind === 'app_not_responding') throw new CaptureFailure('app_not_responding');
           if (analysis.kind === 'blocked' || analysis.kind === 'consent') throw new CaptureFailure(`screen_${analysis.kind}`);
           stage = 'screen_ocr';
           const frameId = `${query.queryId}:frame-${String(shot + 1).padStart(3, '0')}`;
@@ -514,6 +516,13 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
           try { await saveScreen(query, await device.snapshot(), 'diagnostic'); }
           catch { /* The primary failure remains authoritative; partial artifacts remain in the ledger. */ }
         }
+        const anr=[...query.screens,...(query.locationScreen?[query.locationScreen]:[])].find(s=>s.analysis.kind==='app_not_responding');
+        if(anr){
+          query.failureContext={initialErrorCode:query.error.code,diagnosticScreenshot:anr.png.relativePath};
+          if(['app_not_responding','unknown_search_layout','search_failed','location_screen_unverified'].includes(query.error.code)){
+            query.error=safeError(new CaptureFailure('app_not_responding'),'app_not_responding');query.stopReason=query.error.code;
+          }
+        }
         manifest.errors.push(query.error);
         break;
       } finally {
@@ -524,6 +533,10 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
   } catch (error) { manifest.errors.push(safeError(error, 'device_setup_failed')); }
   finally {
     if (release) {
+      if(manifest.device && device.appDiagnostics && !storageBroken && !options.signal?.aborted){
+        try {await saveArtifact('app_diagnostics',`${prefix}/app-health-final.json`,JSON.stringify(await device.appDiagnostics(),null,2));}
+        catch(error){manifest.errors.push(safeError(error,'app_diagnostics_failed'));}
+      }
       let cleanupConfirmed = false;
       try { await device.close(); cleanupConfirmed = true; }
       catch (error) {

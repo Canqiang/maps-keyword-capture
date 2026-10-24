@@ -1,3 +1,4 @@
+import { collectAppDiagnostics, type AppDiagnosticReport } from './app-diagnostics.js';
 import { CommandJournal, commandLabel, adbLabel, type CommandReport } from './command-diagnostics.js';
 import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -192,11 +193,11 @@ export class NativeMapsDevice implements AndroidDevice {
     finally { clearTimeout(timer); if (onAbort) cancellation?.removeEventListener('abort', onAbort); }
   }
 
-  private async adb(args: string[]): Promise<string> {
+  private async adb(args: string[], budgetMs = this.commandTimeoutMs): Promise<string> {
     const began = performance.now(), stage = this.phase;
     let failure: unknown;
     try {
-      const result = await this.bounded((signal, timeoutMs) => this.execute(this.config.adbPath, ['-H', '127.0.0.1', '-P', '5037', '-s', this.config.serial, ...args], { signal, timeoutMs }));
+      const result = await this.bounded((signal, timeoutMs) => this.execute(this.config.adbPath, ['-H', '127.0.0.1', '-P', '5037', '-s', this.config.serial, ...args], { signal, timeoutMs }), budgetMs);
       return result.stdout.toString('utf8').trim();
     } catch (error) {
       failure = error;
@@ -729,12 +730,17 @@ export class NativeMapsDevice implements AndroidDevice {
     return xml;
   }
 
-  private readyNativeXml(xml: string, allowUnknownEvidence = false): boolean {
-    if (!this.activeKeyword) return !this.locationProofExpected || this.homeState(xml) === 'following';
+  private readyNativeXml(xml: string, allowUnknownEvidence = false, allowAnrEvidence = false): boolean {
     let analysis;
     let nodes;
-    try { analysis = analyzeScreen(xml, this.activeKeyword); nodes = parseUiNodes(xml); }
+    try { analysis = analyzeScreen(xml, this.activeKeyword ?? ''); nodes = parseUiNodes(xml); }
     catch { fail('INVALID_UI_SOURCE', 'Native Maps hierarchy could not be validated'); }
+    // Return a system ANR only for paired diagnostic capture, never search readiness.
+    if (analysis.kind === 'app_not_responding') {
+      if (allowAnrEvidence) return true;
+      fail('APP_NOT_RESPONDING', 'Maps system ANR requires diagnostic capture');
+    }
+    if (!this.activeKeyword) return !this.locationProofExpected || this.homeState(xml) === 'following';
     if (analysis.kind === 'blocked' || analysis.kind === 'consent') fail('SEARCH_INTERRUPTED', 'Maps requires interaction; preserve diagnostics and review the native screen');
     // The parser rejects loading/unknown layouts. Exact source text additionally avoids
     // accepting normalized query matches or an unchanged EditText alone as ready results.
@@ -766,12 +772,12 @@ export class NativeMapsDevice implements AndroidDevice {
     await this.bounded(() => new Promise<void>((resolve) => setTimeout(resolve, 50)));
   }
 
-  private async stableNativeXml(diagnostic: boolean, allowUnknownEvidence = false): Promise<string> {
+  private async stableNativeXml(diagnostic: boolean, allowUnknownEvidence = false, allowAnrEvidence = false): Promise<string> {
     let previous: string | undefined;
     while (true) {
       await this.foreground();
       const xml = await this.nativeXml();
-      const ready = diagnostic || this.readyNativeXml(xml, allowUnknownEvidence);
+      const ready = diagnostic || this.readyNativeXml(xml, allowUnknownEvidence, allowAnrEvidence);
       if (ready && xml === previous) return xml;
       previous = ready ? xml : undefined;
       await this.observationPause();
@@ -789,6 +795,15 @@ export class NativeMapsDevice implements AndroidDevice {
     return png;
   }
 
+  async appDiagnostics(): Promise<AppDiagnosticReport> {
+    const previousDeadline=this.queryDeadline, previousPhase=this.phase;
+    this.phase='app.diagnostics';
+    // Separate, bounded cleanup evidence budget; cancellation remains authoritative.
+    this.queryDeadline=Date.now()+20_000;
+    try { return await collectAppDiagnostics(args=>this.adb(args,Math.min(5_000,this.commandTimeoutMs))); }
+    finally {this.queryDeadline=previousDeadline;this.phase=previousPhase;}
+  }
+
   async snapshot(): Promise<NativeScreen> {
     this.phase = 'snapshot';
     this.scrollSnapshotProof = undefined;
@@ -801,13 +816,13 @@ export class NativeMapsDevice implements AndroidDevice {
     } else if (this.queryDeadline === undefined) this.queryDeadline = Date.now() + this.config.keywordTimeoutMs;
     try {
       while (true) {
-        const xml = await this.stableNativeXml(diagnostic, true);
+        const xml = await this.stableNativeXml(diagnostic, true, true);
         const png = await this.nativePng();
         const after = await this.nativeXml();
         await this.foreground();
         // XML and PNG are separate Appium requests: discard a raced pair instead of
         // attaching the new query/state's XML to a screenshot from another state.
-        if (after === xml && (diagnostic || this.readyNativeXml(after, true))) {
+        if (after === xml && (diagnostic || this.readyNativeXml(after, true, true))) {
           if (!diagnostic) this.scrollSnapshotProof = { xml, imageSha256: createHash('sha256').update(png).digest('hex'), width: png.readUInt32BE(16), height: png.readUInt32BE(20) };
           return { png, xml, packageName: MAPS, capturedAt: new Date().toISOString() };
         }
