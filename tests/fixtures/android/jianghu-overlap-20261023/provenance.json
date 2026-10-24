@@ -1,0 +1,42 @@
+[
+  {
+    "kind": "ocr_json",
+    "relativePath": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094236.174Z__braised-food-flushing__23.ocr.json",
+    "bytes": 15548,
+    "sha256": "2f4d4cfd7806663ee619a3bc1d8ad1559329b98c2d17754d617b7f646f908c6e",
+    "storageStatus": "verified",
+    "objectKey": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094236.174Z__braised-food-flushing__23.ocr.json",
+    "verifiedAt": "2026-10-23T09:42:38.012Z",
+    "storageError": null
+  },
+  {
+    "kind": "ui_xml",
+    "relativePath": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094236.174Z__braised-food-flushing__23.xml",
+    "bytes": 80320,
+    "sha256": "3c8644e06b0b93d1575a3c00ccf3c334cef9a8bc21f29374c1edb497b9caddd0",
+    "storageStatus": "verified",
+    "objectKey": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094236.174Z__braised-food-flushing__23.xml",
+    "verifiedAt": "2026-10-23T09:42:36.265Z",
+    "storageError": null
+  },
+  {
+    "kind": "ocr_json",
+    "relativePath": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094240.715Z__braised-food-flushing__24.ocr.json",
+    "bytes": 11830,
+    "sha256": "ee9487980a0fa2e8eb7d9ee33b6495baad451fa15419b2932d3ab74fb2f3e4a7",
+    "storageStatus": "verified",
+    "objectKey": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094240.715Z__braised-food-flushing__24.ocr.json",
+    "verifiedAt": "2026-10-23T09:42:42.480Z",
+    "storageError": null
+  },
+  {
+    "kind": "ui_xml",
+    "relativePath": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094240.715Z__braised-food-flushing__24.xml",
+    "bytes": 78248,
+    "sha256": "8b13b01f171209be8e810638677a548ceb2c8881893a7ecf6fcc84fe5fbaeaf4",
+    "storageStatus": "verified",
+    "objectKey": "android-maps/2026-10-23/run_20261023T093932Z_e0f859/q0001/20261023T094240.715Z__braised-food-flushing__24.xml",
+    "verifiedAt": "2026-10-23T09:42:40.824Z",
+    "storageError": null
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "reviewer": "review_search_scroll",
+  "blockers": [],
+  "independentTests": 238,
+  "originalFixtureHashesVerified": 4,
+  "scope": "CJK identity/ad guards and input readiness cancellation/deadline behavior; native acceptance still pending"
+}

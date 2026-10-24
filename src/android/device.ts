@@ -566,23 +566,30 @@ export class NativeMapsDevice implements AndroidDevice {
     // A native click can finish before Maps opens/focuses its editable child.
     // Observe only: never repeat the click or type into an unfocused wrapper.
     const previousDeadline = this.queryDeadline;
-    const focusDeadline = Date.now() + Math.min(5_000, this.config.keywordTimeoutMs / 4);
+    // Observe readiness for up to one normal command budget, reserving half
+    // the query for typing/submission/results. Never impose a shorter five-second
+    // transport cutoff on a valid but slow native read.
+    const focusDeadline = Date.now() + Math.min(30_000, this.commandTimeoutMs, this.config.keywordTimeoutMs / 2);
     this.queryDeadline = Math.min(previousDeadline ?? Infinity, focusDeadline);
     try {
       while (true) {
         await this.foreground();
         try { return await this.searchInput(await this.searchField()); }
         catch (error) {
-          if (!(error instanceof AndroidDeviceError) || error.code !== 'UNKNOWN_SEARCH_LAYOUT' || Date.now() >= focusDeadline) throw error;
+          // A transport timeout is evidence of a timed-out read, not of a bad
+          // layout. Only completed reads that observe no unique input can poll.
+          if (!(error instanceof AndroidDeviceError) || error.code !== 'UNKNOWN_SEARCH_LAYOUT') throw error;
+          if (Date.now() >= focusDeadline) throw error;
         }
-        await this.observationPause();
+        try { await this.observationPause(); }
+        catch (error) {
+          if (error instanceof AndroidDeviceError && error.code === 'QUERY_TIMEOUT' &&
+            (previousDeadline === undefined || focusDeadline < previousDeadline)) {
+            fail('UNKNOWN_SEARCH_LAYOUT', 'Completed native reads did not observe a usable focused input within the readiness window');
+          }
+          throw error;
+        }
       }
-    } catch (error) {
-      if (error instanceof AndroidDeviceError && error.code === 'QUERY_TIMEOUT' &&
-        (previousDeadline === undefined || focusDeadline < previousDeadline)) {
-        fail('UNKNOWN_SEARCH_LAYOUT', 'The bounded native input focus window expired before a usable input was observed');
-      }
-      throw error;
     } finally { this.queryDeadline = previousDeadline; }
   }
 

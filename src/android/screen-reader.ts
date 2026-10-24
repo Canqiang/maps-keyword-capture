@@ -446,6 +446,43 @@ function compatibleNames(a: ScreenCard, b: ScreenCard): boolean {
   if (a.name === null || b.name === null || (a.nameConfidence ?? 0) < 40 || (b.nameConfidence ?? 0) < 40) return true;
   return ![a, b].some(card => card.warnings.includes('card_header_clipped')) || clippedNamesAgree(nameKey(a.name), nameKey(b.name));
 }
+/** A short CJK title near the sheet edge must not use broad fuzzy matching.
+ * One uncertain interior glyph can be corroborated by its exact word box and
+ * an unchanged prefix moving with independently measured rating/list motion.
+ * Both complete title boxes must still be inside the native viewport.
+ */
+function uncertainCjkTitle(a: ScreenCard, b: ScreenCard, previous: ScreenFrame, current: ScreenFrame, delta: number): boolean {
+  if (a.resultType !== 'organic' || a.warnings.length || b.resultType !== 'unknown' ||
+    b.warnings.length !== 1 || b.warnings[0] !== 'card_header_clipped' || a.adLabel || b.adLabel ||
+    a.rating === null || a.reviewCount === null || a.rating !== b.rating || a.reviewCount !== b.reviewCount ||
+    a.category === null || a.category !== b.category || a.priceText !== b.priceText ||
+    a.distanceText === null || a.distanceText !== b.distanceText || !Number.isFinite(delta)) return false;
+  const valid = (c: ScreenCard, f: ScreenFrame) => {
+    const bounds=f.nativeListBounds;
+    if (!bounds || !c.nameBounds || !c.ratingBounds || !c.nameWords?.length || (c.nameConfidence??0)<40 ||
+      c.nameWords.map(w=>w.text).join('').replace(/\s/gu,'') !== (c.name??'').replace(/\s/gu,'')) return false;
+    const contained=(x:Rect,y:Rect)=>Object.values(x).every(Number.isFinite) && x.right>x.left && x.bottom>x.top &&
+      x.left>=y.left && x.right<=y.right && x.top>=y.top && x.bottom<=y.bottom;
+    return contained(c.nameBounds,bounds) && contained(c.ratingBounds,bounds) && c.nameBounds.bottom<=c.ratingBounds.top &&
+      c.nameWords.every(w=>/^[一-鿿]+$/u.test(w.text) && Number.isFinite(w.confidence) && w.confidence>=0 && w.confidence<=100 && contained(w.bounds,c.nameBounds!));
+  };
+  if (!valid(a,previous) || !valid(b,current) ||
+    [previous,current].some(f=>f.warnings.includes('native_ad_evidence_unresolved') ||
+      f.cards.filter(c=>c.rating===a.rating && c.reviewCount===a.reviewCount).length!==1)) return false;
+  const x=a.nameWords!,y=b.nameWords!;
+  if(x.length!==y.length || x.length<4 || x.map(w=>w.text).join('').length<5) return false;
+  const differences=x.flatMap((w,i)=>w.text===y[i]!.text?[]:[i]);
+  if(differences.length!==1) return false;
+  const i=differences[0]!;
+  if(i===0 || i===x.length-1 || x[i]!.text.length!==1 || y[i]!.text.length!==1 ||
+    Math.min(x[i]!.confidence,y[i]!.confidence)>=40 || Math.max(x[i]!.confidence,y[i]!.confidence)<60 ||
+    x.some((w,k)=>k!==i && (w.confidence<40 || y[k]!.confidence<40))) return false;
+  const moves=(u:Rect,v:Rect)=>Math.abs(u.left-v.left)<=2 && Math.abs(u.right-v.right)<=2 &&
+    Math.abs((v.top-u.top)-delta)<=4 && Math.abs((v.bottom-u.bottom)-delta)<=4;
+  return moves(x[i]!.bounds,y[i]!.bounds) && moves(x[0]!.bounds,y[0]!.bounds) &&
+    moves(a.ratingBounds!,b.ratingBounds!);
+}
+
 /** Candidate15: at a clipped header, two confident readings of one merchant may differ in a garbled
  * middle (scheduled run q0013 frame 25: `Kennedy's nck & Sandwiches`; probe 14 卤味 frame 36: a misread
  * CJK prefix before `Master of Braised Delicacies`). The shared start and end must cover at least 12
@@ -973,7 +1010,8 @@ export function reconcileScreenFrames(frames: ScreenFrame[], maxDisplayedResults
           // Candidate15 (scheduled run q0012 frame 6): a rating line cut by the list top keeps only its bottom edge.
           const topClipped = !!frame.nativeListBounds && card.ratingBounds.top <= frame.nativeListBounds.top + 2;
           const at = before.cards.findIndex((a, k) => !used.has(k) && a.ratingBounds !== null && a.ratingBounds !== undefined &&
-            a.warnings.every(warning => geometric.includes(warning)) && compatibleNames(a, card) &&
+            a.warnings.every(warning => geometric.includes(warning)) &&
+            (compatibleNames(a, card) || uncertainCjkTitle(a, card, before, frame, m.delta!)) &&
             (Math.abs(a.ratingBounds.top - expected) <= 12 || (topClipped && Math.abs(a.ratingBounds.bottom - (card.ratingBounds!.bottom - m.delta!)) <= 12)) &&
             Math.abs(a.ratingBounds.left - card.ratingBounds!.left) <= 4 &&
             ((a.rating !== null && a.reviewCount !== null && a.rating === card.rating && a.reviewCount === card.reviewCount) ||

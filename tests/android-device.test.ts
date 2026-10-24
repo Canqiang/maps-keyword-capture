@@ -80,7 +80,7 @@ function adbFixture(overrides: Record<string, string> = {}) {
   return { adb, calls, helperBound: () => helperBound };
 }
 
-async function appiumFixture(options: { sessionDelayMs?: number; stallSettings?: boolean; foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string; editorActionTypesLiteral?: boolean | (() => boolean); inputAfterTyping?: { text?: string; focused?: boolean; enabled?: boolean; displayed?: boolean; packageName?: string; foreground?: string }; submitOutcome?: 'timeout' | 'http-error'; queryAfterSubmit?: string; elementFault?: { suffix: string; remaining: number; error?: string; beforeSubmit?: boolean } } = {}) {
+async function appiumFixture(options: { sessionDelayMs?: number; focusReadDelayMs?: number; entryClickDelayMs?: number; stallSettings?: boolean; foreground?: string; missingField?: boolean; staleQuery?: boolean; stall?: boolean; redirect?: string; screenshot?: string; deleteFailures?: number; sessionAlreadyGone?: boolean; source?: (read: number, keyword: string, following: boolean) => string; onScreenshot?: () => void; nestedInput?: boolean; inputFocused?: boolean | (() => boolean); stallFocusedAttribute?: boolean; wrapperFocused?: boolean; queryInDescription?: boolean; wrapperResourceId?: string; initialQuery?: string; initiallyFollowing?: boolean; stuckRecenter?: boolean; locationLookup?: (selector: string, following: boolean) => { following?: boolean; result: unknown } | undefined; stallRecenterClick?: boolean; onScroll?: () => boolean; actionOutcome?: 'timeout' | 'http-error' | 'non-null'; onDrag?: () => void; listRect?: () => { x: number; y: number; width: number; height: number }; listResourceId?: string; editorActionTypesLiteral?: boolean | (() => boolean); inputAfterTyping?: { text?: string; focused?: boolean; enabled?: boolean; displayed?: boolean; packageName?: string; foreground?: string }; submitOutcome?: 'timeout' | 'http-error'; queryAfterSubmit?: string; elementFault?: { suffix: string; remaining: number; error?: string; beforeSubmit?: boolean } } = {}) {
   const calls: { method: string; path: string; body: any }[] = [];
   let typed = options.initialQuery ?? '';
   let following = options.initiallyFollowing ?? false;
@@ -100,7 +100,9 @@ async function appiumFixture(options: { sessionDelayMs?: number; stallSettings?:
     if (options.stallRecenterClick && path.endsWith('/recenter-parent/click')) return;
     if (options.stall || (path.endsWith('/actions') && options.actionOutcome === 'timeout')) return;
     if (path.endsWith('/actions') && options.actionOutcome === 'http-error') { res.writeHead(500, { 'content-type': 'application/json' }).end(JSON.stringify({ value: { error: 'unknown error', message: 'unknown action outcome' } })); return; }
+    if(options.entryClickDelayMs && path.endsWith('/search-field/click')) await new Promise(r=>setTimeout(r,options.entryClickDelayMs));
     if (options.stallFocusedAttribute && path.endsWith('/attribute/focused')) return;
+    if (options.focusReadDelayMs && path.endsWith('/actual-input/attribute/focused') && !hasTyped) await new Promise(r=>setTimeout(r,options.focusReadDelayMs));
     if (options.redirect) { res.writeHead(302, { location: options.redirect }).end(); return; }
     const fault = options.elementFault;
     if (fault && (submitted || fault.beforeSubmit) && req.method === 'GET' && path.includes('/element/') && path.endsWith(fault.suffix) && fault.remaining-- > 0) {
@@ -849,13 +851,52 @@ describe('NativeMapsDevice observed Maps editable input', () => {
     expect(appium.calls.slice(0, typing).filter(call => call.path.endsWith('/actual-input/attribute/focused'))).toHaveLength(3);
     await device.close();
   });
+  it('allows a slow successful pre-submit focus read without repeating the entry click or submission', async () => {
+    const appium = await appiumFixture({nestedInput:true,focusReadDelayMs:600});
+    const device = new NativeMapsDevice({...config,appiumUrl:appium.url,keywordTimeoutMs:2000},{adb:adbFixture().adb,commandTimeoutMs:1500});
+    await device.start(); await device.search('bubble tea garden city');
+    expect(appium.calls.filter(c=>c.path.endsWith('/click'))).toHaveLength(1);
+    expect(appium.calls.filter(c=>c.body?.script==='mobile: performEditorAction')).toHaveLength(1);
+    expect(appium.calls.filter(c=>c.path.endsWith('/value'))).toHaveLength(1);
+    await device.close();
+  });
+  it('preserves a stalled focus-read timeout without resubmitting or disguising it as a layout error', async () => {
+    const appium=await appiumFixture({nestedInput:true,stallFocusedAttribute:true});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url},{adb:adbFixture().adb,commandTimeoutMs:800});
+    await device.start();
+    await expect(device.search('bubble tea garden city')).rejects.toMatchObject({code:'QUERY_TIMEOUT'});
+    expect(appium.calls.filter(c=>c.path.endsWith('/click'))).toHaveLength(1);
+    expect(appium.calls.some(c=>c.path.endsWith('/value')||c.body?.script==='mobile: performEditorAction')).toBe(false);
+    await device.close();
+  });
+  it('honors the remaining global query deadline while observing pre-submit focus', async () => {
+    const appium=await appiumFixture({nestedInput:true,entryClickDelayMs:400,stallFocusedAttribute:true});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url,keywordTimeoutMs:600},{adb:adbFixture().adb,commandTimeoutMs:1000});
+    await device.start(); const began=Date.now();
+    await expect(device.search('bubble tea garden city')).rejects.toMatchObject({code:'QUERY_TIMEOUT'});
+    expect(Date.now()-began).toBeLessThan(1000);
+    expect(appium.calls.filter(c=>c.path.endsWith('/click'))).toHaveLength(1);
+    expect(appium.calls.some(c=>c.path.endsWith('/value')||c.body?.script==='mobile: performEditorAction')).toBe(false);
+    await device.close();
+  });
+  it('cancels a pending input read without typing or resubmitting', async () => {
+    const appium=await appiumFixture({nestedInput:true,stallFocusedAttribute:true});
+    const controller=new AbortController();
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url},{adb:adbFixture().adb,signal:controller.signal});
+    await device.start(); const timer=setTimeout(()=>controller.abort(),150);
+    try { await expect(device.search('bubble tea garden city')).rejects.toMatchObject({code:'CANCELLED'}); }
+    finally { clearTimeout(timer); }
+    expect(appium.calls.filter(c=>c.path.endsWith('/click'))).toHaveLength(1);
+    expect(appium.calls.some(c=>c.path.endsWith('/value')||c.body?.script==='mobile: performEditorAction')).toBe(false);
+    await device.close();
+  });
   it('bounds a stalled native focus attribute and never types without focus proof', async () => {
     const appium = await appiumFixture({ nestedInput: true, stallFocusedAttribute: true });
     const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
     await device.start();
     const started = Date.now();
-    await expect(device.search('sushi')).rejects.toMatchObject({ code: 'UNKNOWN_SEARCH_LAYOUT' });
-    expect(Date.now() - started).toBeLessThan(750);
+    await expect(device.search('sushi')).rejects.toMatchObject({ code: 'QUERY_TIMEOUT' });
+    expect(Date.now() - started).toBeLessThan(1500);
     expect(appium.calls.filter(call => call.path.endsWith('/click'))).toHaveLength(1);
     expect(appium.calls.some(call => call.path.endsWith('/clear') || call.path.endsWith('/value'))).toBe(false);
     await device.close();
@@ -864,7 +905,7 @@ describe('NativeMapsDevice observed Maps editable input', () => {
     const appium = await appiumFixture(options);
     const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });
     await device.start();
-    await expect(device.search('sushi')).rejects.toMatchObject({ code: 'UNKNOWN_SEARCH_LAYOUT' });
+    await expect(device.search('sushi')).rejects.toMatchObject({ code: expect.stringMatching(/^(UNKNOWN_SEARCH_LAYOUT|QUERY_TIMEOUT)$/) });
     expect(appium.calls.some((call) => call.path.endsWith('/value') || call.path.endsWith('/clear'))).toBe(false);
     await device.close();
   });

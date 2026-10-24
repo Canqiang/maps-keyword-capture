@@ -1,0 +1,17 @@
+{
+  "typescriptFiles": 97,
+  "typescriptTests": 1866,
+  "focusedTests": 238,
+  "typecheck": true,
+  "contracts": true,
+  "build": true,
+  "fullTestLog": "/tmp/maps-android-v29-20261024/tests-full.log",
+  "npmArgumentNote": "npm ignored --maxWorkers=2; complete default-worker suite nevertheless passed; warning retained in log.",
+  "originalPairRegression": "failed before implementation, passed after;13 negative identity cases passed",
+  "historicalSelectedFrames": 24,
+  "historicalReplayedDistinctRows": 11,
+  "historicalComplete": false,
+  "historicalAdSelectedFrames": 17,
+  "historicalAdExactRows": 13,
+  "historicalAdArtifactsRehashed": 94
+}
