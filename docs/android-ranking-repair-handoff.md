@@ -1,21 +1,33 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-24. **v31 resolved the native compass-follow blockage and achieved concurrent OCR without errors, but KEKE stopped partial on a separator-only OCR difference in a clipped zero-review card. v32 repairs that exact overlap case; fresh validation is pending. Production Android remains suspended.**
+Last updated: 2026-10-24. **v32 fixed the exact clipped zero-review separator case locally, but its fresh KEKE run hit an earlier uncertain Chinese-word OCR overlap. v33 repairs only that corroborated low-confidence script drift. Fresh validation pending; production Android remains suspended.**
 
-## Candidate checkpoint — v32 (verification pending)
+## Candidate checkpoint — v33 (verification pending)
+
+- Original v32 frames 1→2 / 4→5 retain a three-word clean English prefix, exactly moving word boxes and native controls, unique 4.6/546 metadata, price/category/distance, while Chinese words become low-confidence Latin fragments. The failed overlap triggers correction and exhausts the one-time panel restart.
+- Extend only the existing native-control lexical proof: require three high-confidence prefix words to move with the controls, then corroborate uncertain script boxes against a high-confidence Chinese box or a uniquely matching very-low-confidence punctuated reading. Never ignore digits, Roman branch suffixes (including #III/#IV), confident changed words, contradictory motion or ads.
+- Exact fixture regression red→green; branch/geometry/ad negatives and independent review remain required. Saved history is unchanged; no repeated search submission or broader recovery budget.
+
+## Verified checkpoint — v32 (ranking acceptance failed)
+
+See [v32 evidence and new early-overlap diagnosis](../evidence/2026-10-24/android-no-review-separators/README.md). OnlyBear complete / rank 2 / exit 0; KEKE partial / null ranks / exit 2. All 22 OCRs succeeded, 719 command sequences recovered, 145 writer receipts verified, 30.168 seconds overlapping capture.
 
 - v31 KEKE frames44→45: the explicit zero-review row changed a spaced dot to a spaced hyphen (`Restaurant . 0.6 mi` → `Restaurant - 0.6 mi`). Its title was clipped; strict raw-line equality prevented joining it despite matched native geometry and an independent following4.7/842 merchant.
 - Canonicalize only the existing known separator boundaries for this explicit zero-review overlap branch. Preserve every content token and decimal; require the existing name confidence, unique zero-review occurrence, exact category/distance, independent rated anchor, geometry and no-ad-ambiguity guards.
 - The exact original regression fails before the fix and passes after; decimal/content/ad/anchor negative cases remain closed. No historical ranks or screenshots are rewritten.
 
-## Candidate checkpoint — v31 (verification pending)
+## Verified checkpoint — v31 (ranking acceptance failed)
+
+See [v31 native results and evidence](../evidence/2026-10-24/android-compass-follow/README.md). Both locations prepared; 80.865 seconds of overlapping capture and 61 successful OCRs. OnlyBear completed 13 organic rows / rank 2 / exit 0; KEKE stopped partial on frame 44→45 / exit 2. All 1,521 command sequences and 348 exact writer receipts independently verified.
 
 - Live KEKE XML showed a blank native home with `Exit compass mode`. The previous readiness guard accepted only `Enter compass mode`, so a transition after GPS preparation left location screenshot capture polling until the keyword deadline. The three read-only XMLs are identical; the separate diagnostic PNG is not presented as a verified PNG/XML pair.
 - Both exact compass labels now share one ownership/enabled/uniqueness check across device preparation and runner screenshot verification. Conflicting recenter, duplicates, foreign/disabled controls or entered queries remain invalid. Neither following-mode control is clicked.
 - Pre-search location snapshots now use at most 10 seconds, also respecting shorter command/keyword budgets and cancellation. Existing search-capture deadlines are unchanged.
 - Local compass regression proof and fresh native verification are tracked separately. No production resource, schedule, location, keyword or historical-data changes are included.
 
-## Candidate checkpoint — v30 (verification pending)
+## Verified checkpoint — v30 (ranking acceptance failed)
+
+See [v30 native results and evidence limits](../evidence/2026-10-24/android-app-anr/README.md). OnlyBear completed a fresh positive-ad list (1 ad + 13 organic, target display 3 / organic 2); KEKE failed before search on compass-mode readiness. Its long wait exceeded bounded journal coverage; only 546 of 8,817 commands were recovered.
 
 - Preserve `app-health-final.json` before closing the native session: four fixed read-only ADB calls, 5 seconds each within a 20-second final-evidence budget, cancellation preserved, redacted and bounded output, safe error codes, timings and source-output digests. A historical `lastanr` must be correlated to this query's timestamps before attribution.
 - Recognize only the exact Android-owned Maps ANR modal with both enabled Close app / Wait controls. Search readiness rejects it; paired snapshots retain diagnostic evidence. Never OCR the modal, infer ranks behind it, click either action, or submit again.

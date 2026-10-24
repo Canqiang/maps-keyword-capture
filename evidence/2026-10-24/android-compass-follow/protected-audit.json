@@ -1,0 +1,661 @@
+{
+  "at": "2026-10-24T06:07:52.511386+00:00",
+  "checks": [
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-keyword-monitor-daily",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-release-gate-20261023",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-targets-web-2h",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-tracking-ingest-daily",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "CronJob",
+      "name": "maps-tracking-web-2h",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "Deployment",
+      "name": "maps-tracking-ui",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "CronJob",
+      "name": "maps-targets-android-daily",
+      "sameUID": true,
+      "sameSpec": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "ai-marketing-integration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "app-brokers-0",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "app-controllers-1",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "app-entity-topic-operator-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "app-entity-user-operator-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "app-kafka-metrics-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "application-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "brand-site-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "brand-site-frontend-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "configuration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "customer-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "deliverect-crawler-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "deliverect-integration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "elastalert2-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "file-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "gbp-integration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "influencer-integration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "jenkins-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "jenkins-env",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "jenkins-job-configs",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "kafka-ui-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "kiosk-app-api-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "kube-root-ca.crt",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "litellm-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "location-hub-app-api-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "log-entity-topic-operator-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "log-entity-user-operator-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "log-kafka-metrics-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "log-log-brokers-0",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "log-log-controllers-1",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "loyalty-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-budget-keywords-20260920t060538z",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-detail-smoke-20260930t01501790704257z-6579-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-discovery-smoke-20260923t022732z-77cd31-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-keke-probe-20261014t020453z",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-keyword-monitor-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-keyword-monitor-keke-20261014-v1",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-registry-smoke-20260928t093029z-5c5b85-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-registry-smoke-20260928t095213z-f1b8c7-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-release-verify-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-repair-keywords-20260918t031502z-f91c6",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-seejoy-focus5-20261023025948",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-targets-liya90-v1-476d4c50",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "maps-tracking-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "marketing-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "menu-analysis-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "menu-assistant-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "menu-prompts",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "merchant-site-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "milvus",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "milvus-minio",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "mobile-app-api-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "monitor-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "notification-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "official-site-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "official-site-frontend-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "operation-assistant-api-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "order-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "redis-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "report-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "review-integration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "seo-brand-site-frontend-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "square-integration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "stripe-integration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "tenant-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "twilio-integration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "user-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "web-ordering-site-config",
+      "sameData": true
+    },
+    {
+      "namespace": "uat",
+      "kind": "ConfigMap",
+      "name": "xprinter-integration-service-config",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "kube-root-ca.crt",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-command-log-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-dual-v23-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-keke-solo-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-ocr-continuity-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-ocr-v25-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-ocr-v26-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-ocr-v27-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-ocr-v28-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-onlybear-v23-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-rating-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-search-scroll-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-search-scroll-v2-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-search-scroll-v3-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-sheet-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-stale-v24-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-unrated-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v23-db-readback-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v24-db-readback-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v25-db-readback-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v26-db-readback-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v27-db-readback-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v28-db-readback-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v29-20261024",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v29-db-readback-20261024",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v30-20261024",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v30-db-readback-20261024",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-android-v31-20261024",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-ocr-replay-v24-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-release-verify-20261023",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-targets-liya90-v1-476d4c50",
+      "sameData": true
+    },
+    {
+      "namespace": "android-maps-pilot",
+      "kind": "ConfigMap",
+      "name": "maps-tracking-android-config",
+      "sameData": true
+    }
+  ],
+  "allUnchanged": true
+}

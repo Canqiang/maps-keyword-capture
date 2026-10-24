@@ -740,14 +740,34 @@ function nativeActionContinuity(previous: ScreenFrame, frame: ScreenFrame, heigh
       Object.values(w.bounds).every(Number.isFinite) && w.bounds.right>w.bounds.left && w.bounds.bottom>w.bounds.top &&
       w.bounds.left>=c.nameBounds!.left && w.bounds.right<=c.nameBounds!.right && w.bounds.top>=c.nameBounds!.top && w.bounds.bottom<=c.nameBounds!.bottom);
     if (!valid(x)||!valid(y)) return false;
+    const wordMoves=(a:NonNullable<ScreenCard['nameWords']>[number],b:NonNullable<ScreenCard['nameWords']>[number],movement:number)=>
+      Math.abs(a.bounds.left-b.bounds.left)<=2 && Math.abs(a.bounds.right-b.bounds.right)<=2 &&
+      Math.abs((a.bounds.top-b.bounds.top)-movement)<=4 && Math.abs((a.bounds.bottom-b.bounds.bottom)-movement)<=4;
+    const prefixProof=x.nameWords!.length>=3 && y.nameWords!.length>=3 && x.nameWords!.slice(0,3).every((w,i)=>{
+      const v=y.nameWords![i]!;
+      return /^[a-z]+$/iu.test(w.text) && w.confidence>=80 && v.confidence>=80 &&
+        w.text.toLowerCase()===v.text.toLowerCase() && wordMoves(v,w,delta);
+    });
+    const punctuatedGarble=(text:string)=>/^[^a-z0-9一-鿿\s]+[a-z]{1,6}$/iu.test(text) &&
+      !/^[ivxlcdm]+$/iu.test(text.match(/[a-z]+$/iu)?.[0]??'');
     const tokens=(card: ScreenCard,other: ScreenCard,movement: number)=>card.nameWords!.flatMap(w=>{
       // The observed '#aic' (confidence4.46) occupies exactly the prior high-confidence
       // two-character Chinese word. Never discard a clean branch suffix or any number.
-      const garble=w.confidence<20 && /^[^a-z0-9一-鿿\s]+[a-z]{1,6}$/iu.test(w.text);
+      const garble=w.confidence<20 && punctuatedGarble(w.text);
       const counterparts=other.nameWords!.filter(v=>v.confidence>=80 && /^[一-鿿]{2,}$/u.test(v.text) &&
         Math.abs(v.bounds.left-w.bounds.left)<=2 && Math.abs(v.bounds.right-w.bounds.right)<=2 &&
         Math.abs((w.bounds.top-v.bounds.top)-movement)<=4 && Math.abs((w.bounds.bottom-v.bounds.bottom)-movement)<=4);
       if (garble && counterparts.length===1) return [];
+      // v32: two uncertain readings can occupy the same Chinese word box (#aic/Rfid),
+      // while a second Chinese box becomes HRS. Require independently moving clean
+      // English prefix words; never discard numbers, Roman branch suffixes or a
+      // confident changed Latin word. Native controls and full metadata still gate this path.
+      const letters=/^[a-z]{3,6}$/iu.test(w.text) && !/^[ivxlcdm]+$/iu.test(w.text);
+      if (prefixProof && letters && w.confidence<40 && counterparts.length===1) return [];
+      const uncertain=other.nameWords!.filter(v=>w.confidence<20 && v.confidence<20 && wordMoves(w,v,movement) &&
+        ((garble && /^[a-z]{3,6}$/iu.test(v.text) && !/^[ivxlcdm]+$/iu.test(v.text)) ||
+         (letters && punctuatedGarble(v.text))));
+      if (prefixProof && uncertain.length===1) return [];
       return normalizeText(w.text).match(/[a-z0-9]+/gu) ?? [];
     });
     return JSON.stringify(tokens(x,y,-delta))===JSON.stringify(tokens(y,x,delta));

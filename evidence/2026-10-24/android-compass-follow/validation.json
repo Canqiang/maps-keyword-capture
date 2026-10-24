@@ -1,0 +1,11 @@
+{
+  "source": "cff132d70ef81d21e36e48e30c311ea0aa219283",
+  "focusedTests": 341,
+  "testFiles": 99,
+  "fullTests": 1894,
+  "contracts": true,
+  "typecheck": true,
+  "build": true,
+  "review": "No blockers; independently reran15follow-state/budget regressions",
+  "scope": "Local tests; native validation pending"
+}

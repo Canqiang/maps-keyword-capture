@@ -1,0 +1,11 @@
+{
+  "objects": 147,
+  "exactWriterReceipts": 145,
+  "serviceLengthOnlyRoots": 2,
+  "receiptMismatches": 0,
+  "protectedChecks": 109,
+  "protectedUnchanged": true,
+  "commandSequencesRecovered": 719,
+  "searchOverlapSeconds": 30.168,
+  "sameSourceReplay": true
+}

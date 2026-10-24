@@ -1,0 +1,163 @@
+{
+  "status": "failed_complete_ranking_acceptance",
+  "workers": [
+    {
+      "worker": 0,
+      "storeId": "keke-flushing",
+      "runId": "run_20261024T060148Z_342351",
+      "originalExit": 2,
+      "startedAt": "2026-10-24T05:59:47Z",
+      "finishedAt": "2026-10-24T06:06:44Z",
+      "executionStatus": "needs_review",
+      "listingStatus": "partial",
+      "stopReason": "ranking_unreliable",
+      "quality": {
+        "adCount": 0,
+        "organicCount": 18,
+        "unknownCount": 1,
+        "rankingReliable": false,
+        "frames": 43,
+        "warnings": [
+          "anchored_card_unmatched: q0001:frame-044 -> q0001:frame-045",
+          "unknown_cards_precede_organic_ranks"
+        ],
+        "sequenceVerified": false,
+        "classificationComplete": false,
+        "screenshotCoverageComplete": true,
+        "organicCoverage": 0,
+        "truncatedCount": 0,
+        "endOfResults": false
+      },
+      "organicRank": null,
+      "displayPosition": null,
+      "rows": 19,
+      "counts": {
+        "total": 1,
+        "captured": 0,
+        "needsReview": 1,
+        "failed": 0,
+        "skipped": 0,
+        "screenshots": 45,
+        "locationScreenshots": 1,
+        "completeListingQueries": 0,
+        "partialListingQueries": 1,
+        "rankedQueries": 0,
+        "listings": 19,
+        "ads": 0,
+        "organic": 18,
+        "unknown": 1
+      },
+      "queryPng": 45,
+      "ocrAttempts": 45,
+      "commands": 1065,
+      "appiumHttpCommands": 1022,
+      "commandFailures": [],
+      "sessionCreates": [
+        {
+          "sequence": 27,
+          "at": "2026-10-24T06:02:18.509Z",
+          "stage": "start",
+          "command": "POST session",
+          "durationMs": 22663,
+          "outcome": "ok",
+          "httpStatus": 200,
+          "responseType": "object"
+        }
+      ],
+      "searchSubmissions": 1,
+      "completeRankingAcceptance": false,
+      "databaseEvidenceMatched": true
+    },
+    {
+      "worker": 1,
+      "storeId": "only-bear",
+      "runId": "run_20261024T060148Z_cc9947",
+      "originalExit": 0,
+      "startedAt": "2026-10-24T06:01:47Z",
+      "finishedAt": "2026-10-24T06:04:07Z",
+      "executionStatus": "completed",
+      "listingStatus": "complete",
+      "stopReason": "list_end",
+      "quality": {
+        "adCount": 0,
+        "organicCount": 13,
+        "unknownCount": 0,
+        "rankingReliable": true,
+        "frames": 16,
+        "warnings": [],
+        "sequenceVerified": true,
+        "classificationComplete": true,
+        "screenshotCoverageComplete": true,
+        "organicCoverage": 13,
+        "truncatedCount": 0,
+        "endOfResults": true
+      },
+      "organicRank": 2,
+      "displayPosition": 2,
+      "rows": 13,
+      "counts": {
+        "total": 1,
+        "captured": 1,
+        "needsReview": 0,
+        "failed": 0,
+        "skipped": 0,
+        "screenshots": 16,
+        "locationScreenshots": 1,
+        "completeListingQueries": 1,
+        "partialListingQueries": 0,
+        "rankedQueries": 1,
+        "listings": 13,
+        "ads": 0,
+        "organic": 13,
+        "unknown": 0
+      },
+      "queryPng": 16,
+      "ocrAttempts": 16,
+      "commands": 456,
+      "appiumHttpCommands": 414,
+      "commandFailures": [],
+      "sessionCreates": [
+        {
+          "sequence": 27,
+          "at": "2026-10-24T06:02:18.980Z",
+          "stage": "start",
+          "command": "POST session",
+          "durationMs": 28907,
+          "outcome": "ok",
+          "httpStatus": 200,
+          "responseType": "object"
+        }
+      ],
+      "searchSubmissions": 1,
+      "completeRankingAcceptance": true,
+      "databaseEvidenceMatched": true
+    }
+  ],
+  "searchCaptureIntervals": [
+    {
+      "worker": 0,
+      "submitAt": "2026-10-24T06:02:42.828Z",
+      "lastCaptureAt": "2026-10-24T06:06:41.225000+00:00"
+    },
+    {
+      "worker": 1,
+      "submitAt": "2026-10-24T06:02:43.497Z",
+      "lastCaptureAt": "2026-10-24T06:04:04.362000+00:00"
+    }
+  ],
+  "searchCaptureOverlapSeconds": 80.865,
+  "simultaneousSearchValidated": true,
+  "gate": {
+    "_id": "android-maps-pilot/maps-android-v31-20261024",
+    "roundId": "e6eeb2ac-9303-4dac-b15a-76fbc29ff271",
+    "shardCount": 2,
+    "finished": [
+      0,
+      1
+    ],
+    "active": false
+  },
+  "allDatabaseEvidenceMatched": true,
+  "geography": "unverified",
+  "fullCatalogAcceptance": false
+}

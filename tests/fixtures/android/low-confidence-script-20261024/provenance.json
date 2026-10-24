@@ -1,0 +1,29 @@
+{
+  "source": "e7ae528cc46bcbe2d94319d9e67df689ab20882a",
+  "objects": [
+    {
+      "file": "keke-1.ocr.json",
+      "key": "android-maps/2026-10-24/run_20261024T062037Z_6a5652/q0001/20261024T062132.693Z__braised-food-flushing__01.ocr.json",
+      "bytes": 20324,
+      "sha256": "4c03b82ec5049cdcd58bf887ff9a8b274b052cdb8aec07c403d43f2a25d5fac1"
+    },
+    {
+      "file": "keke-1.xml",
+      "key": "android-maps/2026-10-24/run_20261024T062037Z_6a5652/q0001/20261024T062132.693Z__braised-food-flushing__01.xml",
+      "bytes": 84001,
+      "sha256": "7d98db33fefd5dfbf12f51f3a3aecd382252a3caca5a922e91cc0a771168c3e3"
+    },
+    {
+      "file": "keke-2.ocr.json",
+      "key": "android-maps/2026-10-24/run_20261024T062037Z_6a5652/q0001/20261024T062139.540Z__braised-food-flushing__02.ocr.json",
+      "bytes": 21166,
+      "sha256": "fd702b2578473b4a6c2666c58d96268fc7a51ae4e60694cf21bffe2150f47b8d"
+    },
+    {
+      "file": "keke-2.xml",
+      "key": "android-maps/2026-10-24/run_20261024T062037Z_6a5652/q0001/20261024T062139.540Z__braised-food-flushing__02.xml",
+      "bytes": 78045,
+      "sha256": "29546582209b0df3fa44a8886e13d8474b66a0d48d0df33108c8c1675b0e3dca"
+    }
+  ]
+}

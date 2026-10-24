@@ -1,0 +1,20 @@
+{
+  "source": "e7ae528cc46bcbe2d94319d9e67df689ab20882a",
+  "focusedTests": 19,
+  "independentReviewTests": 32,
+  "testFiles": 99,
+  "fullTests": 1900,
+  "contracts": true,
+  "typecheck": true,
+  "build": true,
+  "initialFullRun": "1899 passed, scan API expected503 received400; unchanged isolated rerun9passed and full rerun1900passed; transient cause unconfirmed, initial log retained",
+  "review": "No blockers; original four fixture hashes independently checked",
+  "scope": "Local tests; native validation pending",
+  "reviewFollowup": {
+    "noBlockers": true,
+    "runtimeDelta": "no-review separator canonicalization and listing method version only",
+    "testAnomalyCause": "Unconfirmed; ephemeral port server replacement and unread response bodies make client connection reuse plausible; no Web API code changed",
+    "suggestedSeparateFollowup": "Consume test HTTP bodies and preserve response body/port diagnostics on unexpected status",
+    "promotion": "Two-query result cannot establish full-catalog production acceptance"
+  }
+}

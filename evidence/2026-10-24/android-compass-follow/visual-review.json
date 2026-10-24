@@ -1,0 +1,18 @@
+{
+  "viewed": [
+    "worker-0-frame-01.png",
+    "worker-1-frame-01.png",
+    "worker-1-frame-16.png",
+    "worker-0-location.png",
+    "worker-1-location.png",
+    "raw-frame-044",
+    "raw-frame-045"
+  ],
+  "findings": [
+    "KEKE first card readable:4.6/9; ranking remains null because terminal continuity failed.",
+    "OnlyBear visibly second after SmoTea;4.7/102. Final Looking for someplace else end marker readable.",
+    "Location screenshots show blue-dot native homes in Flushing and Mineola; geographic contract remains unverified.",
+    "Frames44/45 show clipped JiYou zero-review row with separator-only OCR drift and independent JiBeiChuan anchor."
+  ],
+  "scope": "Selected visual samples only; full receipt/decode checks are separate."
+}

@@ -1,0 +1,11 @@
+{
+  "viewed": [
+    "KEKE frames1,2,4,5,6",
+    "OnlyBear frames1,16"
+  ],
+  "findings": [
+    "Original KEKE PNGs show the same Nong Geng Ji card shifting305px; OCR title became low-confidence Latin fragments. Correction collapsed the panel, and the bounded one-time restart was exhausted.",
+    "OnlyBear first PNG shows SmoTea thenOnlyBear4.7/102; terminal footer visible. No ad in this query."
+  ],
+  "scope": "Seven actual original PNGs visually viewed; full hash/PNG decode checks separate."
+}
