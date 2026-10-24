@@ -8,7 +8,7 @@ import { dateFolder, keywordSlug } from '../naming.js';
 import type { CaptureError, StorageState } from '../contracts.js';
 import type { ArtifactStore, WrittenFile } from '../storage/types.js';
 import type { AndroidArtifact, AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, AndroidTask, LocationEvidence, NativeScreen, NativeScrollEvidence, ScreenAnalysis } from './contracts.js';
-import { analyzeScreen, hasBlankNativeSearchWrapper, inspectNativeResultList, parseUiNodes } from './ui.js';
+import { analyzeScreen, hasBlankNativeSearchWrapper, nativeLocationControlState, inspectNativeResultList, parseUiNodes } from './ui.js';
 import { hasMeasuredScreenProgress, matchTarget, onlyPendingLowConfidence, parseScreenFrame, reconcileScreenFrames, recognizeScreen, targetAliases, validateScreenOcr, type RankedListing, type ScreenFrame, type ScreenRecognizer, type TargetMatch } from './screen-reader.js';
 
 export type AndroidManifestReceipt = StorageState & WrittenFile;
@@ -179,12 +179,12 @@ function listingsCsv(queries: AndroidQueryEvidence[]): string {
 function locationScreenFollowsDevice(xml: string, analysis: ScreenAnalysis): boolean {
   if (analysis.kind !== 'unknown' || analysis.queryVisible) return false;
   const nodes = parseUiNodes(xml).filter((node) => node.packageName === 'com.google.android.apps.maps');
-  const normalize = (value: string): string => value.normalize('NFKC').replace(/\s+/gu, ' ').trim().toLowerCase();
+
   const fields = nodes.filter((node) => /:id\/search_omnibox_(?:text_box(?:_search)?|edit_text)$/.test(node.resourceId));
   if (!hasBlankNativeSearchWrapper(xml) || fields.length !== 1 || fields[0]!.bounds === null) return false;
   if (nodes.some((node) => /(?:ProgressBar|CircularProgressIndicator|LinearProgressIndicator)$/.test(node.className) ||
       /:id\/(?:search_list_layout|search_results_list|search_results|results_list)$/.test(node.resourceId))) return false;
-  return nodes.some((node) => node.bounds !== null && normalize(node.description) === 'enter compass mode');
+  return nativeLocationControlState(xml, true) === 'following';
 }
 
 /** Motion support comes from the already persisted frame. It is not ranking
@@ -310,7 +310,7 @@ export async function runAndroidCapture(config: AndroidCaptureConfig, device: An
       locale: info.locale, timezone: info.timezone,
       ...(info.display === undefined ? {} : { display: info.display }),
       locationMethod: 'adb_emulator_geo_fix', captureMethod: 'appium_uiautomator2_screenshot_ui_xml',
-      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v30', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
+      listingMethod: 'full_screen_ocr_native_context_ordered_overlap/v31', ocrLanguages: config.ocrLanguages, ocrScale: config.ocrScale,
     });
     await saveArtifact('device', `${prefix}/device.json`, JSON.stringify(info, null, 2));
     checkActive();

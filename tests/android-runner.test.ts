@@ -208,6 +208,17 @@ describe('v2 location preparation gates',()=>{
   const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root));
   expect(searches).toBe(1);expect(r.manifest.queries[0]?.stopReason).not.toBe('location_screen_unverified');expect(r.manifest.queries[0]?.screens).toHaveLength(1);
  });
+ it('accepts actual compass-follow location evidence before a single search',async()=>{
+  const source=await readFile(new URL('./fixtures/android/home-compass-20261024/home.xml',import.meta.url),'utf8');
+  let searches=0,shots=0;const s=await setup({search:async()=>{searches++;}});
+  s.device.snapshot=async()=>({png,xml:shots++===0?source:xml,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()});
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root));expect(searches).toBe(1);expect(r.manifest.queries[0]?.stopReason).not.toBe('location_screen_unverified');
+ });
+ it('rejects ambiguous compass controls at location screenshot time',async()=>{
+  const source=homeXml.replace('</hierarchy>','<node package="com.google.android.apps.maps" content-desc="Exit compass mode" bounds="[50,50][100,100]"/></hierarchy>');
+  let searches=0;const s=await setup({search:async()=>{searches++;}});s.device.snapshot=async()=>({png,xml:source,packageName:'com.google.android.apps.maps',capturedAt:new Date().toISOString()});
+  const r=await runAndroidCapture(s.config,s.device,new LocalArtifactStore(s.root));expect(searches).toBe(0);expect(r.manifest.queries[0]?.stopReason).toBe('location_screen_unverified');
+ });
  it.each(['entered','not-following','no-native-hint'])('rejects a changed dynamic home screen: %s',async variant=>{
   const original=await readFile(new URL('./fixtures/android/home-dynamic-hint.xml',import.meta.url),'utf8');
   const source=variant==='entered'?original.replace('text="" content-desc="Try gas stations, ATMs"','text="hot pot" content-desc="Try gas stations, ATMs"'):variant==='not-following'?original.replaceAll('Enter compass mode','Your location'):original.replaceAll('showing-hint="true"','showing-hint="false"');

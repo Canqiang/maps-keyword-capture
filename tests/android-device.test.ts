@@ -1050,6 +1050,28 @@ describe('NativeMapsDevice automatic point preparation', () => {
     expect(appium.calls.filter(call => call.path.endsWith('/close-results/click'))).toHaveLength(2);
     await device.close();
   });
+  it('bounds a lost location snapshot separately from the long keyword budget',async()=>{
+    let lost=false;const appium=await appiumFixture({initiallyFollowing:true,source:()=>lost?homeXml(true).replaceAll('Enter compass mode','Your location'):homeXml(true)});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url,keywordTimeoutMs:5000},{adb:adbFixture().adb,commandTimeoutMs:500});
+    await device.start();expect(await device.setLocation(location)).toMatchObject({preparation:{viewportStatus:'following'}});
+    lost=true;const started=Date.now();await expect(device.snapshot()).rejects.toMatchObject({code:'QUERY_TIMEOUT'});expect(Date.now()-started).toBeLessThan(1500);await device.close();
+  });
+  it('accepts the actual compass-follow home without toggling or losing its paired location proof', async () => {
+    const source=readFileSync(new URL('./fixtures/android/home-compass-20261024/home.xml',import.meta.url),'utf8');
+    const appium=await appiumFixture({initiallyFollowing:true,source:()=>source});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url},{adb:adbFixture().adb});
+    await device.start();
+    expect(await device.setLocation(location)).toMatchObject({deviceLocationStatus:'matched',preparation:{viewportStatus:'following',viewportAction:'already_following'}});
+    expect((await device.snapshot()).xml).toBe(source);
+    expect(appium.calls.some(c=>c.path.endsWith('/click'))).toBe(false);await device.close();
+  });
+  it('preserves location proof when north-up follow changes to compass follow before snapshot', async()=>{
+    let compass=false;const original=readFileSync(new URL('./fixtures/android/home-compass-20261024/home.xml',import.meta.url),'utf8');
+    const appium=await appiumFixture({initiallyFollowing:true,source:()=>compass?original:original.replaceAll('Exit compass mode','Enter compass mode')});
+    const device=new NativeMapsDevice({...config,appiumUrl:appium.url,keywordTimeoutMs:1500},{adb:adbFixture().adb});
+    await device.start();expect(await device.setLocation(location)).toMatchObject({deviceLocationStatus:'matched',preparation:{viewportStatus:'following'}});
+    compass=true;expect((await device.snapshot()).xml).toBe(original);expect(appium.calls.some(c=>c.path.endsWith('/click'))).toBe(false);await device.close();
+  });
   it('does not click Enter compass mode when the map already follows location', async () => {
     const appium = await appiumFixture({ initiallyFollowing: true });
     const device = new NativeMapsDevice({ ...config, appiumUrl: appium.url }, { adb: adbFixture().adb });

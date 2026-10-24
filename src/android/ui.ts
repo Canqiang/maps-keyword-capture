@@ -140,6 +140,18 @@ export function hasBlankNativeSearchWrapper(xml: string): boolean {
     node.bounds !== null && insideBounds(node.bounds, wrapper.bounds!)));
 }
 
+/** Exact native location control modes; compass orientation still follows the device.
+ * Unknown, disabled, foreign, duplicate or conflicting controls never prove follow state.
+ */
+export function nativeLocationControlState(xml: string, requireBounds = false): 'following' | 'recenter' | null {
+  const labels = ['Enter compass mode', 'Exit compass mode', 'Re-center map to your location'];
+  const controls = parseEvidence(xml).filter(node => labels.includes(node.description));
+  if (controls.length !== 1) return null;
+  const control = controls[0]!;
+  if (control.packageName !== MAPS_PACKAGE || !control.enabled || (requireBounds && !control.bounds)) return null;
+  return control.description === 'Re-center map to your location' ? 'recenter' : 'following';
+}
+
 function labels(node: UiNode): string[] {
   return [node.text, node.description].filter((value) => value.trim());
 }

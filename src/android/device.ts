@@ -3,7 +3,7 @@ import { CommandJournal, commandLabel, adbLabel, type CommandReport } from './co
 import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import type { AndroidCaptureConfig, AndroidDevice, AndroidDeviceInfo, LocationEvidence, NativeScreen, NativeScrollEvidence, ObservationLocation } from './contracts.js';
-import { analyzeScreen, hasBlankNativeSearchWrapper, inspectNativeResultList, nativeLayoutSignature, parseUiNodes, type NativeResultList } from './ui.js';
+import { analyzeScreen, hasBlankNativeSearchWrapper, nativeLocationControlState, inspectNativeResultList, nativeLayoutSignature, parseUiNodes, type NativeResultList } from './ui.js';
 
 export type AdbExecutor = (file: string, args: string[], options: { timeoutMs: number; signal: AbortSignal }) => Promise<{ stdout: Buffer; stderr: Buffer }>;
 export interface NativeMapsTransport { adb?: AdbExecutor; commandTimeoutMs?: number; sessionStartTimeoutMs?: number; signal?: AbortSignal }
@@ -368,8 +368,8 @@ export class NativeMapsDevice implements AndroidDevice {
       } finally { this.queryDeadline = preparationDeadline; }
       if (evidence.deviceLocationStatus !== 'matched') fail('GPS_READBACK_UNVERIFIED', 'No fresh matching GPS fix arrived within the preparation budget');
       preparation.viewportAction = await this.prepareViewport();
-      // Enter compass mode means this control already follows location; clicking
-      // it would switch modes. It is an observation only, never a click target.
+      // Both compass labels describe following the device with different orientation.
+      // Observe the unique control only; never toggle either following mode.
       let previous: string | undefined;
       while (true) {
         await this.foreground();
@@ -416,9 +416,7 @@ export class NativeMapsDevice implements AndroidDevice {
     if (!hasBlankNativeSearchWrapper(xml)
       || !nodes.some(node => node.resourceId === `${MAPS}:id/explore_tab_strip_button` && node.description === 'Explore')
       || nodes.some(node => CLOSE_IDS.includes(node.resourceId) || /:id\/(?:search_results_list|search_list_layout)$/.test(node.resourceId))) return null;
-    const controls = nodes.filter(node => [RECENTER, FOLLOWING].includes(node.description));
-    if (controls.length !== 1) return null;
-    return controls[0]!.description === FOLLOWING ? 'following' : 'recenter';
+    return nativeLocationControlState(xml);
   }
 
   private async locationControl(label: typeof RECENTER | typeof FOLLOWING): Promise<string> {
@@ -426,7 +424,8 @@ export class NativeMapsDevice implements AndroidDevice {
   }
 
   private locationSelector(label: typeof RECENTER | typeof FOLLOWING): { using: string; value: string } {
-    return { using: 'xpath', value: `//*[@package="${MAPS}" and @content-desc="${label}" and @enabled="true"]/parent::*[@package="${MAPS}" and @clickable="true" and @enabled="true"]` };
+    const description = label === FOLLOWING ? '(@content-desc="Enter compass mode" or @content-desc="Exit compass mode")' : `@content-desc="${label}"`;
+    return { using: 'xpath', value: `//*[@package="${MAPS}" and ${description} and @enabled="true"]/parent::*[@package="${MAPS}" and @clickable="true" and @enabled="true"]` };
   }
 
   private async optionalRecenterControl(): Promise<string | null> {
@@ -813,7 +812,10 @@ export class NativeMapsDevice implements AndroidDevice {
     if (diagnostic) {
       this.diagnosticPending = false;
       this.queryDeadline = Date.now() + Math.min(this.commandTimeoutMs, 10_000);
-    } else if (this.queryDeadline === undefined) this.queryDeadline = Date.now() + this.config.keywordTimeoutMs;
+    } else if (this.queryDeadline === undefined) {
+      // Pre-search location evidence must not inherit the much longer keyword capture budget.
+      this.queryDeadline = Date.now() + (this.locationProofExpected ? Math.min(this.commandTimeoutMs, 10_000, this.config.keywordTimeoutMs) : this.config.keywordTimeoutMs);
+    }
     try {
       while (true) {
         const xml = await this.stableNativeXml(diagnostic, true, true);

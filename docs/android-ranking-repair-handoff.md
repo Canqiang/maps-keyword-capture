@@ -1,6 +1,13 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-24. **v30 adds explicit native Maps ANR handling and bounded system diagnostics. Native two-worker verification is pending; v29 remains the last completed gate, with KEKE passing and OnlyBear failing after an ANR. Production Android remains suspended.**
+Last updated: 2026-10-24. **v31 fixes a separately observed compass-follow state that blocked KEKE's pre-search location screenshot. v30 OnlyBear completed a fresh positive-ad capture (display3/natural2); KEKE v30 is still awaiting its original timeout. Full v31 dual-worker verification is pending. Production Android remains suspended.**
+
+## Candidate checkpoint — v31 (verification pending)
+
+- Live KEKE XML showed a blank native home with `Exit compass mode`. The previous readiness guard accepted only `Enter compass mode`, so a transition after GPS preparation left location screenshot capture polling until the keyword deadline. The three read-only XMLs are identical; the separate diagnostic PNG is not presented as a verified PNG/XML pair.
+- Both exact compass labels now share one ownership/enabled/uniqueness check across device preparation and runner screenshot verification. Conflicting recenter, duplicates, foreign/disabled controls or entered queries remain invalid. Neither following-mode control is clicked.
+- Pre-search location snapshots now use at most 10 seconds, also respecting shorter command/keyword budgets and cancellation. Existing search-capture deadlines are unchanged.
+- Local compass regression proof and fresh native verification are tracked separately. No production resource, schedule, location, keyword or historical-data changes are included.
 
 ## Candidate checkpoint — v30 (verification pending)
 
