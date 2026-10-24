@@ -27,3 +27,23 @@ describe('explicit no-review card at clipped sheet top',()=>{
   expect(reconcileScreenFrames([a,b],20).rankingReliable).toBe(false);
  });
 });
+
+const separatorRoot=new URL('./fixtures/android/no-review-separators-20261024/',import.meta.url);
+const separatorFrame=(n:number)=>parseScreenFrame(JSON.parse(readFileSync(new URL(`keke-${n}.ocr.json`,separatorRoot),'utf8')),'braised food flushing',`f${n}`,'time',readFileSync(new URL(`keke-${n}.xml`,separatorRoot),'utf8'));
+describe('actual v31 clipped no-review separator variation',()=>{
+ it('joins the same zero-review occurrence despite dot versus hyphen separators',()=>{
+  const a=separatorFrame(44),b=separatorFrame(45);a.topStateVerified=true;
+  expect(a.cards[0]!.ratingLineText).not.toBe(b.cards[0]!.ratingLineText);
+  const r=reconcileScreenFrames([a,b],20);expect(r).toMatchObject({rankingReliable:true,sequenceVerified:true,unknownCount:0,organicCount:2});
+  expect(r.listings.map(l=>l.name)).toEqual(['Ji You Braised Food','JiBeiChuan Noodles(Flushing)']);expect(r.listings[0]).toMatchObject({rating:null,reviewCount:0,organicRank:1,frameIds:['f44','f45']});
+ });
+ it.each(['decimal changed','decimal punctuation','extra token','no anchor','ad conflict'])('does not repair content or evidence mismatch: %s',kind=>{
+  const a=separatorFrame(44),b=separatorFrame(45);a.topStateVerified=true;
+  if(kind==='decimal changed')b.cards[0]!.ratingLineText=b.cards[0]!.ratingLineText.replace('0.6','0.8');
+  if(kind==='decimal punctuation')b.cards[0]!.ratingLineText=b.cards[0]!.ratingLineText.replace('0.6','0-6');
+  if(kind==='extra token')b.cards[0]!.ratingLineText+=' - Sponsored';
+  if(kind==='no anchor'){a.cards.pop();b.cards.pop();a.anchors=[];b.anchors=[];}
+  if(kind==='ad conflict')a.cards[0]!.resultType='ad';
+  expect(reconcileScreenFrames([a,b],20).rankingReliable).toBe(false);
+ });
+});

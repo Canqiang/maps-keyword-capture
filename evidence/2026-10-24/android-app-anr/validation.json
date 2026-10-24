@@ -1,0 +1,17 @@
+{
+  "source": "2958f81d0855509ef2b87409183a280b2a726724",
+  "focusedTests": 326,
+  "testFiles": 98,
+  "fullTests": 1879,
+  "typecheck": true,
+  "contractTests": true,
+  "build": true,
+  "review": "No remaining blockers after separate snapshot-only ANR permission and failure-priority repairs",
+  "scope": "Local tests and review; native acceptance pending",
+  "logs": [
+    "tests-final-v30-focused.log",
+    "tests-frozen-full.log",
+    "typecheck-frozen.log",
+    "build-frozen.log"
+  ]
+}

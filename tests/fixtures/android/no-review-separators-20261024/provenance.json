@@ -1,0 +1,50 @@
+{
+  "runId": "run_20261024T060148Z_342351",
+  "source": "cff132d70ef81d21e36e48e30c311ea0aa219283",
+  "artifacts": [
+    {
+      "kind": "ocr_json",
+      "relativePath": "android-maps/2026-10-24/run_20261024T060148Z_342351/q0001/20261024T060636.459Z__braised-food-flushing__44.ocr.json",
+      "bytes": 19761,
+      "sha256": "dbd4e96d623ef44ce0c414c3c907787452b8cc35fc472ba49b7efec149ec52e8",
+      "storageStatus": "verified",
+      "objectKey": "android-maps/2026-10-24/run_20261024T060148Z_342351/q0001/20261024T060636.459Z__braised-food-flushing__44.ocr.json",
+      "verifiedAt": "2026-10-24T06:06:38.740Z",
+      "storageError": null,
+      "fixture": "keke-44.ocr.json"
+    },
+    {
+      "kind": "ui_xml",
+      "relativePath": "android-maps/2026-10-24/run_20261024T060148Z_342351/q0001/20261024T060636.459Z__braised-food-flushing__44.xml",
+      "bytes": 84342,
+      "sha256": "4186beb3d8570d06ca00278cb9d8558a342d7d47ef008c0d754d06c02cce99cd",
+      "storageStatus": "verified",
+      "objectKey": "android-maps/2026-10-24/run_20261024T060148Z_342351/q0001/20261024T060636.459Z__braised-food-flushing__44.xml",
+      "verifiedAt": "2026-10-24T06:06:36.585Z",
+      "storageError": null,
+      "fixture": "keke-44.xml"
+    },
+    {
+      "kind": "ocr_json",
+      "relativePath": "android-maps/2026-10-24/run_20261024T060148Z_342351/q0001/20261024T060641.225Z__braised-food-flushing__45.ocr.json",
+      "bytes": 13119,
+      "sha256": "aacab3f268263b12b688ff7e551c1036a97c6c488d3b543ea71e9cf4a6213b97",
+      "storageStatus": "verified",
+      "objectKey": "android-maps/2026-10-24/run_20261024T060148Z_342351/q0001/20261024T060641.225Z__braised-food-flushing__45.ocr.json",
+      "verifiedAt": "2026-10-24T06:06:43.252Z",
+      "storageError": null,
+      "fixture": "keke-45.ocr.json"
+    },
+    {
+      "kind": "ui_xml",
+      "relativePath": "android-maps/2026-10-24/run_20261024T060148Z_342351/q0001/20261024T060641.225Z__braised-food-flushing__45.xml",
+      "bytes": 74282,
+      "sha256": "8a785389506794397f20e0ebaa53d8036a38b9529fd6fc7f0f1c4c87b5b2faeb",
+      "storageStatus": "verified",
+      "objectKey": "android-maps/2026-10-24/run_20261024T060148Z_342351/q0001/20261024T060641.225Z__braised-food-flushing__45.xml",
+      "verifiedAt": "2026-10-24T06:06:41.351Z",
+      "storageError": null,
+      "fixture": "keke-45.xml"
+    }
+  ]
+}

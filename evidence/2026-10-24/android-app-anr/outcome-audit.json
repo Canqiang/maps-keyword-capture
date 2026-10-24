@@ -1,0 +1,161 @@
+{
+  "status": "failed_complete_ranking_acceptance",
+  "workers": [
+    {
+      "worker": 0,
+      "storeId": "keke-flushing",
+      "runId": "run_20261024T054400Z_4493ce",
+      "originalExit": 1,
+      "startedAt": "2026-10-24T05:41:59Z",
+      "finishedAt": "2026-10-24T05:54:45Z",
+      "executionStatus": "failed",
+      "listingStatus": "not_evaluated",
+      "stopReason": "query_timeout",
+      "quality": {},
+      "organicRank": null,
+      "displayPosition": null,
+      "rows": 0,
+      "counts": {
+        "total": 1,
+        "captured": 0,
+        "needsReview": 0,
+        "failed": 1,
+        "skipped": 0,
+        "screenshots": 0,
+        "locationScreenshots": 0,
+        "completeListingQueries": 0,
+        "partialListingQueries": 0,
+        "rankedQueries": 0,
+        "listings": 0,
+        "ads": 0,
+        "organic": 0,
+        "unknown": 0
+      },
+      "queryPng": 0,
+      "ocrAttempts": 0,
+      "commands": 546,
+      "totalCommands": 8817,
+      "fullRunSequenceRecovered": false,
+      "appiumHttpCommands": 516,
+      "commandFailures": [
+        {
+          "sequence": 8812,
+          "at": "2026-10-24T05:54:44.930Z",
+          "stage": "snapshot",
+          "command": "GET source",
+          "durationMs": 25,
+          "outcome": "failed",
+          "errorCode": "QUERY_TIMEOUT",
+          "reason": "transport_error"
+        }
+      ],
+      "sessionCreates": [
+        {
+          "sequence": 27,
+          "at": "2026-10-24T05:44:30.325Z",
+          "stage": "start",
+          "command": "POST session",
+          "durationMs": 24929,
+          "outcome": "ok",
+          "httpStatus": 200,
+          "responseType": "object"
+        }
+      ],
+      "searchSubmissions": 0,
+      "completeRankingAcceptance": false,
+      "databaseEvidenceMatched": true
+    },
+    {
+      "worker": 1,
+      "storeId": "only-bear",
+      "runId": "run_20261024T054400Z_8d2b42",
+      "originalExit": 0,
+      "startedAt": "2026-10-24T05:43:59Z",
+      "finishedAt": "2026-10-24T05:46:38Z",
+      "executionStatus": "completed",
+      "listingStatus": "complete",
+      "stopReason": "list_end",
+      "quality": {
+        "adCount": 1,
+        "organicCount": 13,
+        "unknownCount": 0,
+        "rankingReliable": true,
+        "frames": 18,
+        "warnings": [],
+        "sequenceVerified": true,
+        "classificationComplete": true,
+        "screenshotCoverageComplete": true,
+        "organicCoverage": 13,
+        "truncatedCount": 0,
+        "endOfResults": true
+      },
+      "organicRank": 2,
+      "displayPosition": 3,
+      "rows": 14,
+      "counts": {
+        "total": 1,
+        "captured": 1,
+        "needsReview": 0,
+        "failed": 0,
+        "skipped": 0,
+        "screenshots": 19,
+        "locationScreenshots": 1,
+        "completeListingQueries": 1,
+        "partialListingQueries": 0,
+        "rankedQueries": 1,
+        "listings": 14,
+        "ads": 1,
+        "organic": 13,
+        "unknown": 0
+      },
+      "queryPng": 19,
+      "ocrAttempts": 19,
+      "commands": 527,
+      "totalCommands": 527,
+      "fullRunSequenceRecovered": true,
+      "appiumHttpCommands": 476,
+      "commandFailures": [],
+      "sessionCreates": [
+        {
+          "sequence": 27,
+          "at": "2026-10-24T05:44:25.028Z",
+          "stage": "start",
+          "command": "POST session",
+          "durationMs": 23738,
+          "outcome": "ok",
+          "httpStatus": 200,
+          "responseType": "object"
+        }
+      ],
+      "searchSubmissions": 1,
+      "completeRankingAcceptance": true,
+      "databaseEvidenceMatched": true
+    }
+  ],
+  "searchCaptureIntervals": [
+    {
+      "worker": 0,
+      "submitAt": null,
+      "lastCaptureAt": null
+    },
+    {
+      "worker": 1,
+      "submitAt": "2026-10-24T05:45:04.896Z",
+      "lastCaptureAt": "2026-10-24T05:46:35.374000+00:00"
+    }
+  ],
+  "searchCaptureOverlapSeconds": 0,
+  "simultaneousSearchValidated": false,
+  "gate": {
+    "_id": "android-maps-pilot/maps-android-v30-20261024",
+    "roundId": "bc418be9-f5cc-4fc6-b70b-745156a782c8",
+    "shardCount": 2,
+    "finished": [
+      1
+    ],
+    "active": true
+  },
+  "allDatabaseEvidenceMatched": true,
+  "geography": "unverified",
+  "fullCatalogAcceptance": false
+}

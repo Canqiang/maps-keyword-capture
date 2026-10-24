@@ -1,0 +1,13 @@
+{
+  "scope": "Two original PNGs independently downloaded with exact writer receipts, visually inspected",
+  "frames": [
+    1,
+    2
+  ],
+  "findings": [
+    "Frame1 Sponsored Gong Cha 3.9/217 before organic Smo Tea 4.9/491",
+    "Frame2 Only Bear Chicken & Boba 4.7/102 follows Smo Tea",
+    "Selected rows: Gong Cha ad display1 organic null; OnlyBear display3 organic2"
+  ],
+  "limits": "Remaining artifacts not yet independently read back; not full-run acceptance or proven customer-local ranking"
+}

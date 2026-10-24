@@ -1,0 +1,537 @@
+{
+  "schemaVersion": "android-screen-ocr/v1",
+  "imageSha256": "4b2b1cbfc9025b30065d4b52ae9b482d42df9f31a6c437b7a4681442c9f621aa",
+  "imageWidth": 720,
+  "imageHeight": 1280,
+  "engine": "tesseract",
+  "engineVersion": "tesseract 5.3.0",
+  "languages": "eng+chi_sim+chi_tra",
+  "scale": 3,
+  "lines": [
+    {
+      "text": "braised food flushing x",
+      "confidence": 92.82,
+      "bounds": {
+        "left": 42.666666666666664,
+        "top": 211,
+        "right": 661,
+        "bottom": 253.33333333333334
+      },
+      "words": [
+        {
+          "text": "braised",
+          "confidence": 96.57048,
+          "bounds": {
+            "left": 42.666666666666664,
+            "top": 211,
+            "right": 187.33333333333334,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "food",
+          "confidence": 96.534859,
+          "bounds": {
+            "left": 201,
+            "top": 211,
+            "right": 294.3333333333333,
+            "bottom": 243.66666666666666
+          }
+        },
+        {
+          "text": "flushing",
+          "confidence": 96.588524,
+          "bounds": {
+            "left": 308,
+            "top": 211,
+            "right": 465,
+            "bottom": 253.33333333333334
+          }
+        },
+        {
+          "text": "x",
+          "confidence": 81.6054,
+          "bounds": {
+            "left": 635,
+            "top": 211.33333333333334,
+            "right": 661,
+            "bottom": 237
+          }
+        }
+      ]
+    },
+    {
+      "text": "No reviews - Restaurant - 0.6 mi",
+      "confidence": 88.85,
+      "bounds": {
+        "left": 42.333333333333336,
+        "top": 274,
+        "right": 440.3333333333333,
+        "bottom": 293.3333333333333
+      },
+      "words": [
+        {
+          "text": "No",
+          "confidence": 93.777336,
+          "bounds": {
+            "left": 42.333333333333336,
+            "top": 274,
+            "right": 75,
+            "bottom": 293.3333333333333
+          }
+        },
+        {
+          "text": "reviews",
+          "confidence": 91.970711,
+          "bounds": {
+            "left": 85,
+            "top": 274,
+            "right": 177.66666666666666,
+            "bottom": 293.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 71.30864,
+          "bounds": {
+            "left": 190,
+            "top": 282.6666666666667,
+            "right": 193.33333333333334,
+            "bottom": 286
+          }
+        },
+        {
+          "text": "Restaurant",
+          "confidence": 91.090317,
+          "bounds": {
+            "left": 205.33333333333334,
+            "top": 274,
+            "right": 340,
+            "bottom": 293.3333333333333
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 88.263901,
+          "bounds": {
+            "left": 351,
+            "top": 282.6666666666667,
+            "right": 354.3333333333333,
+            "bottom": 286
+          }
+        },
+        {
+          "text": "0.6",
+          "confidence": 93.974213,
+          "bounds": {
+            "left": 365.6666666666667,
+            "top": 274,
+            "right": 404.3333333333333,
+            "bottom": 293.3333333333333
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 91.562614,
+          "bounds": {
+            "left": 415,
+            "top": 274,
+            "right": 440.3333333333333,
+            "bottom": 293
+          }
+        }
+      ]
+    },
+    {
+      "text": "® Directions < Share 内 Save",
+      "confidence": 74.67,
+      "bounds": {
+        "left": 66.66666666666667,
+        "top": 643.6666666666666,
+        "right": 626,
+        "bottom": 674.3333333333334
+      },
+      "words": [
+        {
+          "text": "®",
+          "confidence": 56.184296,
+          "bounds": {
+            "left": 66.66666666666667,
+            "top": 643.6666666666666,
+            "right": 97.33333333333333,
+            "bottom": 674.3333333333334
+          }
+        },
+        {
+          "text": "Directions",
+          "confidence": 95.910858,
+          "bounds": {
+            "left": 118,
+            "top": 647,
+            "right": 242,
+            "bottom": 669.6666666666666
+          }
+        },
+        {
+          "text": "<",
+          "confidence": 27.165009,
+          "bounds": {
+            "left": 320,
+            "top": 643.6666666666666,
+            "right": 348,
+            "bottom": 674.3333333333334
+          }
+        },
+        {
+          "text": "Share",
+          "confidence": 96.980232,
+          "bounds": {
+            "left": 369,
+            "top": 646.6666666666666,
+            "right": 440,
+            "bottom": 669.6666666666666
+          }
+        },
+        {
+          "text": "内",
+          "confidence": 75.360031,
+          "bounds": {
+            "left": 521,
+            "top": 645,
+            "right": 543,
+            "bottom": 672.6666666666666
+          }
+        },
+        {
+          "text": "Save",
+          "confidence": 96.438507,
+          "bounds": {
+            "left": 567,
+            "top": 648.3333333333334,
+            "right": 626,
+            "bottom": 669.6666666666666
+          }
+        }
+      ]
+    },
+    {
+      "text": "JiBeiChuan Noodles(Flushing)",
+      "confidence": 91.2,
+      "bounds": {
+        "left": 41,
+        "top": 779,
+        "right": 520.3333333333334,
+        "bottom": 815.3333333333334
+      },
+      "words": [
+        {
+          "text": "JiBeiChuan",
+          "confidence": 90.081573,
+          "bounds": {
+            "left": 41,
+            "top": 780.6666666666666,
+            "right": 222,
+            "bottom": 807.6666666666666
+          }
+        },
+        {
+          "text": "Noodles(Flushing)",
+          "confidence": 92.314919,
+          "bounds": {
+            "left": 234.66666666666666,
+            "top": 779,
+            "right": 520.3333333333334,
+            "bottom": 815.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "4.7% (842) - $10-20 - & - Chinese Noodles",
+      "confidence": 77.36,
+      "bounds": {
+        "left": 41.333333333333336,
+        "top": 826,
+        "right": 589.6666666666666,
+        "bottom": 853
+      },
+      "words": [
+        {
+          "text": "4.7%",
+          "confidence": 61.56562,
+          "bounds": {
+            "left": 41.333333333333336,
+            "top": 829,
+            "right": 76.33333333333333,
+            "bottom": 849
+          }
+        },
+        {
+          "text": "(842)",
+          "confidence": 92.860481,
+          "bounds": {
+            "left": 111.33333333333333,
+            "top": 827,
+            "right": 172.33333333333334,
+            "bottom": 853
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 42.841591,
+          "bounds": {
+            "left": 187.66666666666666,
+            "top": 838.6666666666666,
+            "right": 188.33333333333334,
+            "bottom": 842
+          }
+        },
+        {
+          "text": "$10-20",
+          "confidence": 42.841591,
+          "bounds": {
+            "left": 199.33333333333334,
+            "top": 826,
+            "right": 295,
+            "bottom": 851.6666666666666
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 82.913483,
+          "bounds": {
+            "left": 307,
+            "top": 838.6666666666666,
+            "right": 310.3333333333333,
+            "bottom": 842
+          }
+        },
+        {
+          "text": "&",
+          "confidence": 92.988571,
+          "bounds": {
+            "left": 326.6666666666667,
+            "top": 826,
+            "right": 347,
+            "bottom": 852.3333333333334
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 86.984512,
+          "bounds": {
+            "left": 362,
+            "top": 838.6666666666666,
+            "right": 365.3333333333333,
+            "bottom": 842
+          }
+        },
+        {
+          "text": "Chinese",
+          "confidence": 96.801964,
+          "bounds": {
+            "left": 376.3333333333333,
+            "top": 827.3333333333334,
+            "right": 477.3333333333333,
+            "bottom": 849.3333333333334
+          }
+        },
+        {
+          "text": "Noodles",
+          "confidence": 96.439735,
+          "bounds": {
+            "left": 488.3333333333333,
+            "top": 827.3333333333334,
+            "right": 589.6666666666666,
+            "bottom": 849.3333333333334
+          }
+        }
+      ]
+    },
+    {
+      "text": "‘Opens 10:30 AM - 0.4 mi",
+      "confidence": 73.13,
+      "bounds": {
+        "left": 138,
+        "top": 867.3333333333334,
+        "right": 462,
+        "bottom": 895
+      },
+      "words": [
+        {
+          "text": "‘Opens",
+          "confidence": 0,
+          "bounds": {
+            "left": 138,
+            "top": 868.6666666666666,
+            "right": 232.66666666666666,
+            "bottom": 895
+          }
+        },
+        {
+          "text": "10:30",
+          "confidence": 95.906982,
+          "bounds": {
+            "left": 243,
+            "top": 868.6666666666666,
+            "right": 311,
+            "bottom": 889.3333333333334
+          }
+        },
+        {
+          "text": "AM",
+          "confidence": 92.200264,
+          "bounds": {
+            "left": 320.6666666666667,
+            "top": 869,
+            "right": 359,
+            "bottom": 889
+          }
+        },
+        {
+          "text": "-",
+          "confidence": 57.867855,
+          "bounds": {
+            "left": 372,
+            "top": 878.6666666666666,
+            "right": 375.3333333333333,
+            "bottom": 882
+          }
+        },
+        {
+          "text": "0.4",
+          "confidence": 96.407486,
+          "bounds": {
+            "left": 386.6666666666667,
+            "top": 868.6666666666666,
+            "right": 425.6666666666667,
+            "bottom": 889.3333333333334
+          }
+        },
+        {
+          "text": "mi",
+          "confidence": 96.407486,
+          "bounds": {
+            "left": 436,
+            "top": 867.3333333333334,
+            "right": 462,
+            "bottom": 889
+          }
+        }
+      ]
+    },
+    {
+      "text": "a ‘Definitely a top choice in Flushina for a quick",
+      "confidence": 79.25,
+      "bounds": {
+        "left": 49.666666666666664,
+        "top": 1208,
+        "right": 665.3333333333334,
+        "bottom": 1232
+      },
+      "words": [
+        {
+          "text": "a",
+          "confidence": 56.506302,
+          "bounds": {
+            "left": 49.666666666666664,
+            "top": 1223.6666666666667,
+            "right": 66.33333333333333,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "‘Definitely",
+          "confidence": 0,
+          "bounds": {
+            "left": 94.33333333333333,
+            "top": 1208,
+            "right": 222.66666666666666,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 84.952347,
+          "bounds": {
+            "left": 231.33333333333334,
+            "top": 1215,
+            "right": 243.66666666666666,
+            "bottom": 1230.3333333333333
+          }
+        },
+        {
+          "text": "top",
+          "confidence": 84.952347,
+          "bounds": {
+            "left": 253,
+            "top": 1211.3333333333333,
+            "right": 292.6666666666667,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "choice",
+          "confidence": 96.259552,
+          "bounds": {
+            "left": 302.3333333333333,
+            "top": 1208.3333333333333,
+            "right": 383.3333333333333,
+            "bottom": 1230.3333333333333
+          }
+        },
+        {
+          "text": "in",
+          "confidence": 93.255783,
+          "bounds": {
+            "left": 393.6666666666667,
+            "top": 1208.3333333333333,
+            "right": 412,
+            "bottom": 1230
+          }
+        },
+        {
+          "text": "Flushina",
+          "confidence": 88.31987,
+          "bounds": {
+            "left": 423.3333333333333,
+            "top": 1208.3333333333333,
+            "right": 523.3333333333334,
+            "bottom": 1232
+          }
+        },
+        {
+          "text": "for",
+          "confidence": 95.061661,
+          "bounds": {
+            "left": 534,
+            "top": 1208,
+            "right": 568.6666666666666,
+            "bottom": 1230.3333333333333
+          }
+        },
+        {
+          "text": "a",
+          "confidence": 96.511482,
+          "bounds": {
+            "left": 577.3333333333334,
+            "top": 1215,
+            "right": 589.6666666666666,
+            "bottom": 1230.3333333333333
+          }
+        },
+        {
+          "text": "quick",
+          "confidence": 96.662018,
+          "bounds": {
+            "left": 599.3333333333334,
+            "top": 1208.3333333333333,
+            "right": 665.3333333333334,
+            "bottom": 1232
+          }
+        }
+      ]
+    }
+  ],
+  "ratingRereads": []
+}

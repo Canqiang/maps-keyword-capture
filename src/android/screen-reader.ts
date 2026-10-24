@@ -555,7 +555,10 @@ function clippedPrefixOverlap(previous: ScreenFrame, frame: ScreenFrame, count: 
   // the same ordered overlap; a lone null/null tuple never proves identity.
   const noReview = (card: ScreenCard) => card.rating === null && card.reviewCount === 0 && NO_REVIEWS.test(card.ratingLineText);
   const unrated = noReview(a) && noReview(b) && count >= 2 && a.resultType === 'organic' && a.warnings.length === 0 &&
-    a.nameBounds && a.distanceMeters !== null && normalizeText(a.ratingLineText) === normalizeText(b.ratingLineText) &&
+    a.nameBounds && a.distanceMeters !== null &&
+    // OCR may alternate a spaced dot/hyphen between identical no-review fields.
+    // Keep decimals and every content token; geometry and the next rated card still prove the overlap.
+    normalizeText(a.ratingLineText).split(SEPARATOR).join(' | ') === normalizeText(b.ratingLineText).split(SEPARATOR).join(' | ') &&
     previous.cards.filter(noReview).length === 1 && frame.cards.filter(noReview).length === 1 &&
     before.slice(1).some((card,i)=>card.rating !== null && card.reviewCount !== null && after[i+1]!.rating !== null);
   if (b.resultType !== 'unknown' || !b.warnings.some(warning => ['name_clipped_at_top', 'card_header_clipped'].includes(warning)) ||

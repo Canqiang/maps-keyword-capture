@@ -1,0 +1,11 @@
+{
+  "source": "2958f81d0855509ef2b87409183a280b2a726724",
+  "image": "sha256:0b98fcde8ac1353b9c23bc8006819c72f01f0548d83577646191ba34f128aea9",
+  "objects": 126,
+  "exactWriterReceipts": 124,
+  "serviceSizeOnlyRoots": 2,
+  "readbackErrors": [],
+  "protectedChecks": 105,
+  "allProtectedUnchanged": true,
+  "fullEvidence": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/android-app-anr-2026-10-24"
+}

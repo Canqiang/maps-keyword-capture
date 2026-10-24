@@ -1,6 +1,12 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-24. **v31 fixes a separately observed compass-follow state that blocked KEKE's pre-search location screenshot. v30 OnlyBear completed a fresh positive-ad capture (display3/natural2); KEKE v30 is still awaiting its original timeout. Full v31 dual-worker verification is pending. Production Android remains suspended.**
+Last updated: 2026-10-24. **v31 resolved the native compass-follow blockage and achieved concurrent OCR without errors, but KEKE stopped partial on a separator-only OCR difference in a clipped zero-review card. v32 repairs that exact overlap case; fresh validation is pending. Production Android remains suspended.**
+
+## Candidate checkpoint — v32 (verification pending)
+
+- v31 KEKE frames44→45: the explicit zero-review row changed a spaced dot to a spaced hyphen (`Restaurant . 0.6 mi` → `Restaurant - 0.6 mi`). Its title was clipped; strict raw-line equality prevented joining it despite matched native geometry and an independent following4.7/842 merchant.
+- Canonicalize only the existing known separator boundaries for this explicit zero-review overlap branch. Preserve every content token and decimal; require the existing name confidence, unique zero-review occurrence, exact category/distance, independent rated anchor, geometry and no-ad-ambiguity guards.
+- The exact original regression fails before the fix and passes after; decimal/content/ad/anchor negative cases remain closed. No historical ranks or screenshots are rewritten.
 
 ## Candidate checkpoint — v31 (verification pending)
 
