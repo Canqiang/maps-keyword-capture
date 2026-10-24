@@ -1,0 +1,26 @@
+[
+  {
+    "file": "tests/fixtures/android/jianghu-overlap-20261023/frame-023.ocr.json",
+    "originalWorkingCopySha256": "2f4d4cfd7806663ee619a3bc1d8ad1559329b98c2d17754d617b7f646f908c6e",
+    "gitBlobSha256": "2f4d4cfd7806663ee619a3bc1d8ad1559329b98c2d17754d617b7f646f908c6e",
+    "gitTextNormalization": false
+  },
+  {
+    "file": "tests/fixtures/android/jianghu-overlap-20261023/frame-024.ocr.json",
+    "originalWorkingCopySha256": "ee9487980a0fa2e8eb7d9ee33b6495baad451fa15419b2932d3ab74fb2f3e4a7",
+    "gitBlobSha256": "ee9487980a0fa2e8eb7d9ee33b6495baad451fa15419b2932d3ab74fb2f3e4a7",
+    "gitTextNormalization": false
+  },
+  {
+    "file": "tests/fixtures/android/jianghu-overlap-20261023/frame-024.xml",
+    "originalWorkingCopySha256": "8b13b01f171209be8e810638677a548ceb2c8881893a7ecf6fcc84fe5fbaeaf4",
+    "gitBlobSha256": "31e61842f75ef3019587124be5b36b349b12ea7a16110a93315cce9907c95924",
+    "gitTextNormalization": true
+  },
+  {
+    "file": "tests/fixtures/android/jianghu-overlap-20261023/frame-023.xml",
+    "originalWorkingCopySha256": "3c8644e06b0b93d1575a3c00ccf3c334cef9a8bc21f29374c1edb497b9caddd0",
+    "gitBlobSha256": "c85adacd31e789b44bec63e3f3831cb645f778209184f09d8e6384f5526bfc26",
+    "gitTextNormalization": true
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "recordedAt": "2026-10-24T05:14:43.886776+00:00",
+  "manifestReceiptVerified": true,
+  "keyword": "bubble tea garden city",
+  "failureSurface": "native Maps ANR dialog after successful search submission",
+  "diagnosticPng": {
+    "kind": "png",
+    "relativePath": "android-maps/2026-10-24/run_20261024T050956Z_748e97/q0001/20261024T051118.558Z__bubble-tea-garden-city__01.png",
+    "bytes": 169830,
+    "sha256": "745c9f895f73f9fae938268a75e1c266b66c584f14cb91ec3447ab3f4c5b3809",
+    "storageStatus": "verified",
+    "objectKey": "android-maps/2026-10-24/run_20261024T050956Z_748e97/q0001/20261024T051118.558Z__bubble-tea-garden-city__01.png",
+    "verifiedAt": "2026-10-24T05:11:18.621Z",
+    "storageError": null
+  },
+  "diagnosticXml": {
+    "kind": "ui_xml",
+    "relativePath": "android-maps/2026-10-24/run_20261024T050956Z_748e97/q0001/20261024T051118.558Z__bubble-tea-garden-city__01.xml",
+    "bytes": 9508,
+    "sha256": "f382f833fd4da197df5ec7282e57cf109f393f9ab88a15c4e570f7a264df7059",
+    "storageStatus": "verified",
+    "objectKey": "android-maps/2026-10-24/run_20261024T050956Z_748e97/q0001/20261024T051118.558Z__bubble-tea-garden-city__01.xml",
+    "verifiedAt": "2026-10-24T05:11:18.681Z",
+    "storageError": null
+  },
+  "visibleText": [
+    "Maps isn't responding",
+    "Close app",
+    "Wait"
+  ],
+  "searchSubmissions": [
+    {
+      "sequence": 159,
+      "at": "2026-10-24T05:11:11.751Z",
+      "stage": "search.submit",
+      "command": "mobile:performEditorAction",
+      "durationMs": 6048,
+      "outcome": "ok",
+      "httpStatus": 200,
+      "responseType": "null"
+    }
+  ],
+  "commands": 174,
+  "commandFailures": [],
+  "ocrAttempts": 0,
+  "rawCollectorStopReason": "unknown_search_layout",
+  "visualReview": "Actual original PNG inspected: query and result list visible behind Maps is not responding modal; Close app and Wait buttons. No ranking acceptance.",
+  "causeBoundary": "Google Maps ANR observed. Exact app/system root cause is not established; earlier Appium block-I/O startup delay is separate evidence, not proven ANR causation.",
+  "nextStep": "Preserve Android logcat/ANR traces before owned runtime termination; investigate app cold-start and I/O sensitivity. Never dismiss dialog and trust stale results, repeat search, or turn diagnostic rows into rank."
+}

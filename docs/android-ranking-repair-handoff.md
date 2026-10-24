@@ -1,8 +1,20 @@
 # Android Maps ranking repair — handoff
 
-Last updated: 2026-10-23. **OCR process bounds and durable diagnostics are implemented and tested. Four isolated native probes completed162 OCR invocations without process failure; two probes exercised actual dual-worker search/capture. Complete dual-worker ranking acceptance is still NOT passed. Latest v28 stopped at a short Chinese-name continuity boundary for KEKE and a pre-submit input-read timeout for OnlyBear. Production Android remains suspended.**
+Last updated: 2026-10-24. **v29 repairs short CJK continuity and bounded pre-submit input readiness. KEKE now passes its configured 20-result native capture with 48 successful OCRs and target natural rank 1. Full dual-worker acceptance still fails: OnlyBear submitted once, then Google Maps displayed an ANR dialog. Production Android remains suspended.**
 
-## Current OCR repair checkpoint — v28, final audit
+## Current checkpoint — v29
+
+See [complete diagnosis, native outcomes, evidence scope and next steps](../evidence/2026-10-24/android-readiness-cjk/README.md).
+
+- Source `aaccc64b9943939ab206169afc489b7fe8e5fb18`; ACR `ch15b7`; image `sha256:70c2a495f654d562716df13a369f0bd1430627e8fb6e616a8738a7ccbf70dfa0`; isolated Job/database `maps-android-v29-20261024`.
+- Narrow uncertain-CJK fallback requires independent placement, word confidence and geometry, unique exact rating/count/category/price/distance, and no ad ambiguity. Input readiness has a bounded larger read window while preserving transport/global timeout and cancellation; no repeated mutation or submission.
+- KEKE completed 20 organic rows / target rank 1, exit 0 at 13:15:00 Beijing. All 48 OCRs succeeded (max 2.442 s); 46 selected frames exactly replay. Original short-glyph regression passes; the exact new fallback was not needed in this fresh run. Rating reread was needed and recovered true 4.1/18 at frame 33.
+- OnlyBear exit 1 at 13:11:19: **Maps isn't responding** after a single successful submission, 0 OCR / null rank. Prior five-second input timeout did not recur. Exact ANR cause is unconfirmed; startup disk-I/O waiting is observed but not proven causal. Preserve logcat/ANR traces next; do not mask the modal or repeat the search.
+- Both workers were admitted together, but OnlyBear had no captured OCR frames: no successful dual-capture acceptance. All 1,302 command sequences recovered, zero failures, one submission per query. 280 Azure objects independently read; 278 exact writer receipt checks plus two service-length-only roots. All 51 PNGs decoded; seven visually sampled; both database observations matched.
+- 97 files / 1,866 TypeScript tests plus typecheck/contracts/build passed; 238 focused tests and independent review passed. No production schedule/resource/catalog changes; protected workload/config hashes unchanged. Local commits only; no push/merge/promotion.
+- Next gate: app ANR diagnostics/stability, complete overlapping two-worker capture, then separate capacity/fresh-positive-ad/geography acceptance. Full evidence is retained; failed gate remains.
+
+## Historical OCR repair checkpoint — v28, final audit
 
 See [diagnosis, all four probe outcomes, evidence and next-owner steps](../evidence/2026-10-23/android-ocr-concurrency/README.md). Runtime source `3b4bfd4b90b0b548b445d46a7cd26b54d06a586b`, ACR `ch15ap`, digest `sha256:54f8bc6f739ba0462a3c29b8d1c5b90fd9a351ba8245407933039d66f0af7b40`, listing method v28; isolated Job/database `maps-android-ocr-v28-20261023`. Local commits only, no promotion/push/merge.
 

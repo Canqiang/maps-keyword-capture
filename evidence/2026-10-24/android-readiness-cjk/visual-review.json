@@ -1,0 +1,61 @@
+{
+  "actualOriginalPngsViewed": 7,
+  "samples": [
+    {
+      "worker": 0,
+      "frameId": "q0001:frame-001",
+      "objectKey": "android-maps/2026-10-24/run_20261024T050956Z_57d9c3/q0001/20261024T051101.371Z__braised-food-flushing__01.png",
+      "sha256": "be958c6582f61e8c39f37b5d4135ec98b39ce526e934848abe4c6efd24076c02",
+      "file": "samples/keke-001.png",
+      "finding": "KEKE at top; 4.6/9, no visible sponsored label; query present."
+    },
+    {
+      "worker": 0,
+      "frameId": "q0001:frame-022",
+      "objectKey": "android-maps/2026-10-24/run_20261024T050956Z_57d9c3/q0001/20261024T051251.684Z__braised-food-flushing__22.png",
+      "sha256": "cb0c8797d06211950d0ce95fc9d182118c399bc4b496cbaed06a936c8c88a5a8",
+      "file": "samples/keke-022.png",
+      "finding": "Braised Canaan 4.8/75 followed by Jianghu title; clipped next-card header retained."
+    },
+    {
+      "worker": 0,
+      "frameId": "q0001:frame-023",
+      "objectKey": "android-maps/2026-10-24/run_20261024T050956Z_57d9c3/q0001/20261024T051256.309Z__braised-food-flushing__23.png",
+      "sha256": "41aac51a8a0e858bdc592b46a2dc80b9b9bed804d00015420c356d3ac6b1c0b0",
+      "file": "samples/keke-023.png",
+      "finding": "Same two merchants; Jianghu header 4.8/273 visible."
+    },
+    {
+      "worker": 0,
+      "frameId": "q0001:frame-032",
+      "objectKey": "android-maps/2026-10-24/run_20261024T050956Z_57d9c3/q0001/20261024T051339.812Z__braised-food-flushing__32.png",
+      "sha256": "78935344e8adfe5bc2e1a841969c9e8165f7634a82f03a5d194f59a3dd0fd728",
+      "file": "samples/keke-032.png",
+      "finding": "Longjiang 4.1/18 and next 698 Cafe 4.2/298 visible."
+    },
+    {
+      "worker": 0,
+      "frameId": "q0001:frame-033",
+      "objectKey": "android-maps/2026-10-24/run_20261024T050956Z_57d9c3/q0001/20261024T051344.023Z__braised-food-flushing__33.png",
+      "sha256": "4e2dd0b15a4600c04ed0e6ed5b757f3a902eac7a55d0ff87de477af9efab5d30",
+      "file": "samples/keke-033.png",
+      "finding": "Longjiang still 4.1/18. Same-image rating reread restores malformed primary OCR; no inferred rounding."
+    },
+    {
+      "worker": 0,
+      "frameId": "q0001:frame-048",
+      "objectKey": "android-maps/2026-10-24/run_20261024T050956Z_57d9c3/q0001/20261024T051458.193Z__braised-food-flushing__48.png",
+      "sha256": "ce0d398082341edf79f37fe4b72cc0563e83603f964670e3b0cda97484a7a3a5",
+      "file": "samples/keke-048.png",
+      "finding": "Ji You explicit No reviews; Bob\u2019s Noodle 4.6/135. Configured twentieth occurrence visible; no list-end claim."
+    },
+    {
+      "worker": 1,
+      "objectKey": "android-maps/2026-10-24/run_20261024T050956Z_748e97/q0001/20261024T051118.558Z__bubble-tea-garden-city__01.png",
+      "sha256": "745c9f895f73f9fae938268a75e1c266b66c584f14cb91ec3447ab3f4c5b3809",
+      "file": "samples/onlybear-anr.png",
+      "finding": "Maps is not responding system modal overlays exact submitted query/results. No ranked capture accepted."
+    }
+  ],
+  "limits": "Seven actual PNGs visually sampled; all 51 PNGs structurally decoded separately. No fresh positive ad, all-store, geography or full-list exhaustion acceptance. Raw Chinese titles retain OCR noise; exact textual fidelity is not claimed."
+}

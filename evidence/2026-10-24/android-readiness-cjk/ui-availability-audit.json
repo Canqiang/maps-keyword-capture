@@ -1,0 +1,27 @@
+{
+  "deployment": "maps-tracking-ui",
+  "desiredReplicas": 1,
+  "readyReplicas": 1,
+  "availableReplicas": 1,
+  "observedGeneration": 19,
+  "generation": 19,
+  "conditions": [
+    {
+      "lastTransitionTime": "2026-10-20T10:44:21Z",
+      "lastUpdateTime": "2026-10-20T10:44:21Z",
+      "message": "Deployment has minimum availability.",
+      "reason": "MinimumReplicasAvailable",
+      "status": "True",
+      "type": "Available"
+    },
+    {
+      "lastTransitionTime": "2026-10-20T10:44:16Z",
+      "lastUpdateTime": "2026-10-23T02:36:33Z",
+      "message": "ReplicaSet \"maps-tracking-ui-68d8fd96bf\" has successfully progressed.",
+      "reason": "NewReplicaSetAvailable",
+      "status": "True",
+      "type": "Progressing"
+    }
+  ],
+  "scope": "Kubernetes availability snapshot, not all service functionality or business acceptance"
+}

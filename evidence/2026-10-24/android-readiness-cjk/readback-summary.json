@@ -1,0 +1,90 @@
+{
+  "at": "2026-10-24T05:16:28.125Z",
+  "authentication": "Azure CLI identity; not collector SAS",
+  "finals": [
+    {
+      "surface": "android",
+      "scanId": "android_scan_20261024T050956Z_c17900",
+      "status": "completed",
+      "exitCode": 0,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 1,
+        "notFound": 0,
+        "needsReview": 0,
+        "failed": 0,
+        "skipped": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/android/2026-10-24/point/android_scan_20261024T050956Z_c17900/catalog.json",
+        "bytes": 2300,
+        "sha256": "80cfdd95baaff4d1e3350a26982d709803ead28d5d14f7f8a8ac98f0605b8d4a",
+        "storageStatus": "verified",
+        "objectKey": "tracking/android/2026-10-24/point/android_scan_20261024T050956Z_c17900/catalog.json",
+        "verifiedAt": "2026-10-24T05:09:56.712Z",
+        "storageError": null,
+        "version": "3c4ca5d6-b23b-458c-8cd4-77ba7374048f",
+        "storeIds": [
+          "keke-flushing"
+        ],
+        "execution": {
+          "surface": "android",
+          "tier": "point",
+          "shardIndex": 0,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "worker_finished"
+    },
+    {
+      "surface": "android",
+      "scanId": "android_scan_20261024T050956Z_c5e5a7",
+      "status": "failed",
+      "exitCode": 1,
+      "queries": {
+        "planned": 1,
+        "dispatched": 1,
+        "observed": 1,
+        "ranked": 0,
+        "notFound": 0,
+        "needsReview": 0,
+        "failed": 1,
+        "skipped": 0
+      },
+      "catalogSnapshot": {
+        "relativePath": "tracking/android/2026-10-24/point/android_scan_20261024T050956Z_c5e5a7/catalog.json",
+        "bytes": 2300,
+        "sha256": "80cfdd95baaff4d1e3350a26982d709803ead28d5d14f7f8a8ac98f0605b8d4a",
+        "storageStatus": "verified",
+        "objectKey": "tracking/android/2026-10-24/point/android_scan_20261024T050956Z_c5e5a7/catalog.json",
+        "verifiedAt": "2026-10-24T05:09:56.740Z",
+        "storageError": null,
+        "version": "3c4ca5d6-b23b-458c-8cd4-77ba7374048f",
+        "storeIds": [
+          "only-bear"
+        ],
+        "execution": {
+          "surface": "android",
+          "tier": "point",
+          "shardIndex": 1,
+          "shardCount": 2,
+          "storeId": null
+        }
+      },
+      "gateStatus": "retained"
+    }
+  ],
+  "prefixes": [
+    "tracking/android/2026-10-24/point/android_scan_20261024T050956Z_c17900",
+    "android-maps/2026-10-24/run_20261024T050956Z_57d9c3",
+    "tracking/android/2026-10-24/point/android_scan_20261024T050956Z_c5e5a7",
+    "android-maps/2026-10-24/run_20261024T050956Z_748e97"
+  ],
+  "objects": 280,
+  "receiptsVerified": 278,
+  "errors": [],
+  "inventoryLocation": "Durable local evidence readback-report.json; every object includes key, size, SHA-256 and local path."
+}

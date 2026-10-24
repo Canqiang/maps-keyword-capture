@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-10-24T05:10:55.695817+00:00",
+  "sourceCommit": "aaccc64b9943939ab206169afc489b7fe8e5fb18",
+  "job": "maps-android-v29-20261024",
+  "observation": "Appium startup experienced block I/O wait; both runtimes subsequently became ready without restart.",
+  "waitChannel": "blk_mq_get_tag",
+  "disk": {
+    "bursting": null,
+    "iops": 500,
+    "mbps": 100,
+    "name": "pvc-c0a89602-d3ba-4612-82c0-6fe9e1b1eee6",
+    "sizeGiB": null,
+    "sku": "StandardSSD_LRS",
+    "state": "Attached"
+  },
+  "diskFreeGiBApprox": 30,
+  "workerReadyAt": [
+    "2026-10-24T05:07:38.955542+00:00",
+    "2026-10-24T05:09:51.320985+00:00"
+  ],
+  "barrierReleaseAt": [
+    "2026-10-24T05:09:55.161Z",
+    "2026-10-24T05:09:55.159Z"
+  ],
+  "scope": "Cold-start delay only; exact Azure throttling/fault cause is not established. No disk/node/resource changes."
+}
