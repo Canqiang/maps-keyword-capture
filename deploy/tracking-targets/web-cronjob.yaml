@@ -94,7 +94,7 @@ spec:
                 - { name: dshm, mountPath: /dev/shm }
           volumes:
             - name: config
-              configMap: { name: maps-targets-liya90-v1-476d4c50 }
+              configMap: { name: maps-targets-web-located-beb1467 }
             - { name: work, emptyDir: { sizeLimit: 2Gi } }
             - { name: tmp, emptyDir: { sizeLimit: 1Gi } }
             - { name: dshm, emptyDir: { medium: Memory, sizeLimit: 512Mi } }

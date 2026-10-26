@@ -1,0 +1,420 @@
+{
+  "status": "passed",
+  "sourceCommit": "beb1467864c1981897f5d70e605b2cdde41c687b",
+  "imageDigest": "sha256:778c35dfba14d67dba76752d8edf95d72468dccb328a744037dba9a68bd2d476",
+  "prefix": "verification/web-location-20261026-beb1467/",
+  "verifiedObjects": 144,
+  "manifests": 15,
+  "referencedArtifacts": 128,
+  "summaryObjects": 1,
+  "pngsDecoded": 68,
+  "queries": 15,
+  "stores": 9,
+  "listingRows": 225,
+  "types": {
+    "organic": 221,
+    "ad": 4
+  },
+  "scope": "Azure login readback of all summary/manifest/referenced objects, exact sizes and SHA-256; all JSON/CSV rows and PNG decoding",
+  "cases": [
+    {
+      "index": 0,
+      "storeId": "only-bear",
+      "pointId": "onlybear-center",
+      "keyword": "bubble tea near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Only Bear Chicken & Boba",
+          "displayPosition": 1,
+          "organicRank": 1,
+          "screenshotIds": [
+            "qa01_shot01"
+          ]
+        }
+      ],
+      "ads": [],
+      "medianListingDistanceKm": 1.1,
+      "maxListingDistanceKm": 4.6
+    },
+    {
+      "index": 1,
+      "storeId": "only-bear",
+      "pointId": "onlybear-center",
+      "keyword": "boba near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Only Bear Chicken & Boba",
+          "displayPosition": 1,
+          "organicRank": 1,
+          "screenshotIds": [
+            "qa01_shot01"
+          ]
+        }
+      ],
+      "ads": [],
+      "medianListingDistanceKm": 1.1,
+      "maxListingDistanceKm": 4.6
+    },
+    {
+      "index": 2,
+      "storeId": "only-bear",
+      "pointId": "onlybear-3km",
+      "keyword": "bubble tea near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Only Bear Chicken & Boba",
+          "displayPosition": 5,
+          "organicRank": 5,
+          "screenshotIds": [
+            "qa01_shot02"
+          ]
+        }
+      ],
+      "ads": [],
+      "medianListingDistanceKm": 3.07,
+      "maxListingDistanceKm": 5.99
+    },
+    {
+      "index": 3,
+      "storeId": "only-bear",
+      "pointId": "onlybear-3km",
+      "keyword": "boba near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Only Bear Chicken & Boba",
+          "displayPosition": 6,
+          "organicRank": 6,
+          "screenshotIds": [
+            "qa01_shot02"
+          ]
+        }
+      ],
+      "ads": [],
+      "medianListingDistanceKm": 3.3,
+      "maxListingDistanceKm": 6.61
+    },
+    {
+      "index": 4,
+      "storeId": "only-bear",
+      "pointId": "onlybear-5km",
+      "keyword": "bubble tea near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Only Bear Chicken & Boba",
+          "displayPosition": 11,
+          "organicRank": 11,
+          "screenshotIds": [
+            "qa01_shot03",
+            "qa01_shot04"
+          ]
+        }
+      ],
+      "ads": [],
+      "medianListingDistanceKm": 3.55,
+      "maxListingDistanceKm": 13.3
+    },
+    {
+      "index": 5,
+      "storeId": "only-bear",
+      "pointId": "onlybear-5km",
+      "keyword": "boba near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Only Bear Chicken & Boba",
+          "displayPosition": 9,
+          "organicRank": 9,
+          "screenshotIds": [
+            "qa01_shot02"
+          ]
+        }
+      ],
+      "ads": [],
+      "medianListingDistanceKm": 3.55,
+      "maxListingDistanceKm": 13.3
+    },
+    {
+      "index": 6,
+      "storeId": "only-bear",
+      "pointId": "onlybear-3km",
+      "keyword": "bubble tea",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Only Bear Chicken & Boba",
+          "displayPosition": 8,
+          "organicRank": 7,
+          "screenshotIds": [
+            "qa01_shot03"
+          ]
+        }
+      ],
+      "ads": [
+        {
+          "name": "Gong Cha",
+          "displayPosition": 1,
+          "adLabel": "Sponsored",
+          "screenshotIds": [
+            "qa01_shot01"
+          ]
+        }
+      ],
+      "medianListingDistanceKm": 3.0,
+      "maxListingDistanceKm": 5.99
+    },
+    {
+      "index": 7,
+      "storeId": "choice-clinton-hill",
+      "pointId": "choice-market-center",
+      "keyword": "coffee near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Choice Market",
+          "displayPosition": 1,
+          "organicRank": 1,
+          "screenshotIds": [
+            "qa01_shot01"
+          ]
+        }
+      ],
+      "ads": [],
+      "medianListingDistanceKm": 0.4,
+      "maxListingDistanceKm": 0.81
+    },
+    {
+      "index": 8,
+      "storeId": "choice-upper-west-side",
+      "pointId": "uws-center",
+      "keyword": "coffee near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Choice Brooklyn - Upper West Side",
+          "displayPosition": 1,
+          "organicRank": 1,
+          "screenshotIds": [
+            "qa01_shot01"
+          ]
+        }
+      ],
+      "ads": [],
+      "medianListingDistanceKm": 0.26,
+      "maxListingDistanceKm": 0.45
+    },
+    {
+      "index": 9,
+      "storeId": "keke-flushing",
+      "pointId": "keke-center",
+      "keyword": "chinese food near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [],
+      "ads": [],
+      "medianListingDistanceKm": 0.66,
+      "maxListingDistanceKm": 0.81
+    },
+    {
+      "index": 10,
+      "storeId": "place-2bb885ba4a9411eed9118fa9abddea3a",
+      "pointId": "connexion-spa-center",
+      "keyword": "massage",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [],
+      "ads": [
+        {
+          "name": "AW Massage Spa 百利痛症",
+          "displayPosition": 1,
+          "adLabel": "Sponsored",
+          "screenshotIds": [
+            "qa01_shot01"
+          ]
+        },
+        {
+          "name": "Overture Spa",
+          "displayPosition": 2,
+          "adLabel": "Sponsored",
+          "screenshotIds": [
+            "qa01_shot01"
+          ]
+        }
+      ],
+      "medianListingDistanceKm": 0.39,
+      "maxListingDistanceKm": 11.12
+    },
+    {
+      "index": 11,
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "pointId": "seejoy-center",
+      "keyword": "hot pot near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "SEE JOY 喜聚",
+          "displayPosition": 5,
+          "organicRank": 5,
+          "screenshotIds": [
+            "qa01_shot02"
+          ]
+        }
+      ],
+      "ads": [],
+      "medianListingDistanceKm": 1.55,
+      "maxListingDistanceKm": 12.27
+    },
+    {
+      "index": 12,
+      "storeId": "place-ac78f6908231da8da688f4a25e980087",
+      "pointId": "szechuan-opera-center",
+      "keyword": "restaurants near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [],
+      "ads": [],
+      "medianListingDistanceKm": 0.13,
+      "maxListingDistanceKm": 4.13
+    },
+    {
+      "index": 13,
+      "storeId": "place-d83da948f2e65da8928b14abe3d39d13",
+      "pointId": "royal-queen-center",
+      "keyword": "chinese food near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [],
+      "ads": [],
+      "medianListingDistanceKm": 0.16,
+      "maxListingDistanceKm": 0.34
+    },
+    {
+      "index": 14,
+      "storeId": "szechuan-gourmet",
+      "pointId": "szechuan-center",
+      "keyword": "chinese food near me",
+      "status": "captured",
+      "stopReason": "limit_reached",
+      "exitCode": 0,
+      "listings": 15,
+      "own": [
+        {
+          "name": "Szechuan Gourmet",
+          "displayPosition": 5,
+          "organicRank": 4,
+          "screenshotIds": [
+            "qa01_shot02"
+          ]
+        }
+      ],
+      "ads": [
+        {
+          "name": "Dim Sum Bloom Manhattan 98st",
+          "displayPosition": 1,
+          "adLabel": "Sponsored",
+          "screenshotIds": [
+            "qa01_shot01"
+          ]
+        }
+      ],
+      "medianListingDistanceKm": 0.26,
+      "maxListingDistanceKm": 0.59
+    }
+  ],
+  "originalRuntime": {
+    "pod": "maps-web-location-verify-20261026-beb1467-zts67",
+    "uid": "eab8750c-7d28-4264-b17b-98d8d066d2b4",
+    "imageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:778c35dfba14d67dba76752d8edf95d72468dccb328a744037dba9a68bd2d476",
+    "restarts": 0,
+    "originalExitCode": 0,
+    "terminated": {
+      "containerID": "containerd://225543c6bb1b127966171fe67e5be5a7b40374ec27eaf3b07015129b010cd7fd",
+      "exitCode": 0,
+      "finishedAt": "2026-10-26T04:29:14Z",
+      "reason": "Completed",
+      "startedAt": "2026-10-26T04:22:50Z"
+    }
+  },
+  "visualScope": {
+    "pngsReviewed": 14,
+    "pngsDecoded": 68,
+    "stores": 9,
+    "rowComparisons": 56,
+    "allFourAdsVisuallyConfirmed": true,
+    "limitations": [
+      "OnlyBear center, 3km and 5km screenshots show Nassau/Garden City/New Hyde Park surroundings and matching listings.",
+      "All viewed names, ratings, addresses and Sponsored labels match structured rows; absent review counts remain null.",
+      "All four ad rows are visually labelled Sponsored and have null organicRank.",
+      "Chinese cuisine chips are automatically applied in the chinese-food samples; structured applied-filter coverage remains a known limitation.",
+      "Limited-view notice visible in OnlyBear 5km screenshot. Google can expand results beyond the point neighborhood; no strict-radius guarantee."
+    ]
+  },
+  "testScope": {
+    "files": 102,
+    "tests": 1931,
+    "focusedTests": 23,
+    "verifierTests": 15,
+    "verifierMutationRejections": 14,
+    "deploymentConfigurationFollowup": {
+      "files": 4,
+      "tests": 40,
+      "status": "passed"
+    }
+  },
+  "release": {
+    "appliedAt": "2026-10-26T04:39:21.270874+00:00",
+    "status": "verified",
+    "newImage": "sha256:778c35dfba14d67dba76752d8edf95d72468dccb328a744037dba9a68bd2d476",
+    "newConfigMap": "maps-targets-web-located-beb1467",
+    "configMapUid": "9338aa08-ca68-4a16-9e12-35c46baec8ec",
+    "activeJobUnchanged": true,
+    "activeJobUid": "6a36711b-6c19-4803-8260-b289046f003b",
+    "futureSlot": "2026-10-26T06:15:00Z",
+    "scope": "Three future CronJob template values and one new immutable configuration; existing Job, schedule, resource limits, other workloads, original configs, catalog, shared SEO source and history preserved."
+  },
+  "protectedResourceChecks": 19,
+  "fullScheduledRoundAcceptance": "pending 2026-10-26T06:15:00Z",
+  "evidenceRoot": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/web-geography-fix-2026-10-26"
+}

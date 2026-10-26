@@ -1,6 +1,6 @@
 # Nine-store fixed-point monitoring deployment
 
-**2026-10-26 current state:** target Web completed an independently checked 620-search round in83m38s and is now configured every two hours in America/New_York. Only its schedule changed; collector image/configuration/resources remain unchanged. The next12:15/14:15 Beijing triggers are under bounded verification. Production Android remains **suspended**: the isolated27-search v33 probe ended18complete/9needs_review, with no expansion authorized. See [current execution/evidence ledger](../../evidence/2026-10-26/two-hour-rollout/README.md) and [Android resource plan](../../docs/android-two-hour-capacity-plan.md). Historical deployment notes follow.
+**2026-10-26 current state:** Web runs every two hours in America/New_York. At 12:39 Beijing the future Job template was switched to the independently verified GPS-first image/configuration; the active 12:15 Job remains on its original version. The first new-method full round is scheduled for 14:15 Beijing and is not yet accepted. Nine-store / 15-query image validation passed; full-round capacity remains a separate gate. Production Android remains **suspended**, with no expansion authorized. See [location repair and exact release evidence](../../evidence/2026-10-26/web-geography-fix/README.md), [two-hour monitoring ledger](../../evidence/2026-10-26/two-hour-rollout/README.md), and [Android resource plan](../../docs/android-two-hour-capacity-plan.md). Historical deployment notes follow.
 
 **2026-10-22:** `maps-targets-web-2h` (uat) runs every three hours and `maps-targets-android-daily` (android-maps-pilot) once a day; both read stores, monitored keywords and points from Mongo `monitor-target-stores-v1` (the UI settings page). Android uses `android-configmap.yaml` (`android-tracking.json`: Android skips best variants) and the Secrets `maps-targets-source` / `maps-targets-storage`, copied from the uat Secrets `maps-keyword-monitor-source` / `maps-keyword-monitor-storage`. Scheduled Android scans use the capture profile proven on the verification Pod (`VERIFIED_CAPTURE_PROFILE`: Top 20, 90 screenshots, 89 gestures, 10 min, OCR scale 3 / 30 s).
 
@@ -10,7 +10,7 @@ The exact approved catalog is `liya-90-v1.json` (90 merchant/query pairs, 27 exp
 
 ## Frozen execution catalog
 
-In **each namespace**, create the same ConfigMap named `maps-targets-liya90-v1-476d4c50`, containing the exact `tracking.json` and `liya-90-v1.json` files in this directory, and set `immutable: true` at creation. Do not overwrite a previous version. The catalog SHA-256 is:
+For the current **Web** template, use immutable ConfigMap `maps-targets-web-located-beb1467`, containing `tracking.json` and `liya-90-v1.json`. The Web configuration opts into `surfaces.web.mapSearchMode=located_ui`. Never overwrite the previous immutable ConfigMap or retarget an active Job. Retain the separate existing Android configuration and suspension; do not copy this Web configuration into Android. The following pinned-catalog details describe the original catalog mode; current Web uses the configured Mongo store source. The historical catalog SHA-256 is:
 
 ```
 476d4c506730f165951e505ee59c9ed27e6157313d87728b75679678e940068c

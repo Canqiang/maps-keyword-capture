@@ -1,4 +1,3 @@
-import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
@@ -7,7 +6,6 @@ import { parseTargetCatalog } from '../src/domain/target-catalog.js';
 const root=new URL('../deploy/tracking-targets/',import.meta.url);
 const read=(file:string)=>readFileSync(new URL(file,root),'utf8');
 const catalogBytes=readFileSync(new URL('liya-90-v1.json',root));
-const hash=createHash('sha256').update(catalogBytes).digest('hex');
 const settings=parseTrackingConfig(JSON.parse(read('tracking.json')));
 const androidSettings=parseTrackingConfig(JSON.parse(read('android-tracking.json')));
 const catalog=parseTargetCatalog(JSON.parse(catalogBytes.toString('utf8')));
@@ -27,10 +25,12 @@ describe('isolated nine-store scheduler candidates',()=>{
   // Both read stores from Mongo (what the settings page saves); no report catalog is pinned.
   expect(main.args).not.toContain('--catalog');expect(main.args).not.toContain('--catalog-sha256');
   expect((surface==='web'?settings:androidSettings).storeSource).toEqual({provider:'mongo',collection:'monitor-target-stores-v1'});
+  if(surface==='web')expect(settings.surfaces.web.mapSearchMode).toBe('located_ui');
+  else expect(androidSettings.surfaces.web.mapSearchMode).toBeUndefined();
   if(surface==='android')expect(androidSettings.surfaces.android.point).toMatchObject({everyHours:24,bestVariants:false});
   expect(option(main.args,'--surface')).toBe(surface);expect(option(main.args,'--shard-count')).toBe(String(job.completions));
   expect(option(main.args,'--shard-strategy')).toBe('balanced');expect(option(main.args,'--tier')).toBe('point');
-  expect(pod.volumes.find((v:any)=>v.name==='config').configMap.name).toBe(surface==='web'?'maps-targets-liya90-v1-'+hash.slice(0,8):'maps-tracking-android-config');
+  expect(pod.volumes.find((v:any)=>v.name==='config').configMap.name).toBe(surface==='web'?'maps-targets-web-located-beb1467':'maps-tracking-android-config');
   expect(pod).toMatchObject({automountServiceAccountToken:false,restartPolicy:'Never',terminationGracePeriodSeconds:300});
   expect(main.securityContext).toMatchObject({allowPrivilegeEscalation:false,readOnlyRootFilesystem:true});
   expect(main.securityContext.runAsNonRoot??pod.securityContext?.runAsNonRoot).toBe(true);

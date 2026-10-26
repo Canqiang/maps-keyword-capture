@@ -23,7 +23,8 @@
         "enabled": false,
         "atHour": 2,
         "keywords": "all"
-      }
+      },
+      "mapSearchMode": "located_ui"
     },
     "android": {
       "point": {
