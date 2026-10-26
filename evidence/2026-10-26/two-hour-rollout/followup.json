@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-26T03:28:42.487473+00:00",
+  "id": "uat",
+  "status": "ACTIVE",
+  "name": "\u9a8c\u8bc1 Web \u6bcf\u4e24\u5c0f\u65f6\u91c7\u96c6\u7684\u9996\u4e24\u8f6e",
+  "targetThreadId": "01a0ad00-ac77-7b61-93d6-b789dc702448",
+  "targetScheduledTimes": [
+    "2026-10-26T04:15:00Z",
+    "2026-10-26T06:15:00Z"
+  ],
+  "observed": false,
+  "scope": "Read-only followup of these two Web rounds; pause after verification or terminal blocker."
+}

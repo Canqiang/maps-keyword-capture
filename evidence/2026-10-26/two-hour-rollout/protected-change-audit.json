@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-26T02:59:14.350473+00:00",
+  "checks": [
+    {
+      "kind": "CronJob",
+      "name": "maps-keyword-monitor-daily",
+      "allowedChanges": [],
+      "sameUID": true,
+      "onlyExpectedChanges": true
+    },
+    {
+      "kind": "CronJob",
+      "name": "maps-release-gate-20261023",
+      "allowedChanges": [],
+      "sameUID": true,
+      "onlyExpectedChanges": true
+    },
+    {
+      "kind": "CronJob",
+      "name": "maps-targets-web-2h",
+      "allowedChanges": [
+        "spec.schedule"
+      ],
+      "sameUID": true,
+      "onlyExpectedChanges": true
+    },
+    {
+      "kind": "CronJob",
+      "name": "maps-tracking-ingest-daily",
+      "allowedChanges": [],
+      "sameUID": true,
+      "onlyExpectedChanges": true
+    },
+    {
+      "kind": "CronJob",
+      "name": "maps-tracking-web-2h",
+      "allowedChanges": [],
+      "sameUID": true,
+      "onlyExpectedChanges": true
+    },
+    {
+      "kind": "Deployment",
+      "name": "maps-tracking-ui",
+      "allowedChanges": [
+        "spec.template.spec.containers[ui].image"
+      ],
+      "sameUID": true,
+      "onlyExpectedChanges": true
+    }
+  ],
+  "unchangedOtherChecks": 107,
+  "allExpected": true
+}

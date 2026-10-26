@@ -14,9 +14,10 @@ export type PageState =
 export interface MapView { latitude: number; longitude: number; zoom: number }
 
 /**
- * Query-only search uses the `?api=1&query=` entry URL. With a map view the search is anchored to a
- * viewport instead: `/maps/search/<keyword>/@lat,lng,<zoom>z`, which is what moves the organic
- * results to that area (browser geolocation only moves ads; measured 2026-10-20).
+ * Query-only search uses the `?api=1&query=` entry URL. A map view uses the coordinate-bearing
+ * `/maps/search/<keyword>/@lat,lng,<zoom>z` URL to request a camera position. Camera coordinates
+ * do not prove backend search locality: the 2026-10-26 OnlyBear near-me sample returned Flushing
+ * listings with a Garden City camera. Keep geographic acceptance separate from capture success.
  */
 export function buildSearchUrl(keyword: string, locale: string, mapView?: MapView): string {
   const hl = locale.split('-')[0] ?? 'en';

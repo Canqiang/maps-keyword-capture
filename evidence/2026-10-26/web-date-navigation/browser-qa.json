@@ -1,0 +1,6 @@
+{
+  "at": "2026-10-26T02:00:20.412Z",
+  "checks": 6,
+  "errors": [],
+  "scope": "Actual committed UI with read-only proxy to live UAT API; archive setting intercepted only in browser"
+}

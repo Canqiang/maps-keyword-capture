@@ -1,0 +1,68 @@
+{
+  "sourceCommit": "c8191fb44fec5c1f2e0421089d6ad0587bc4e774",
+  "buildRunId": "ch15bn",
+  "imageDigest": "sha256:309e96931dd7fd667d518da2d4e029574a5f9d493eb0e07e9a294d5a816d3aa4",
+  "uiHtmlSHA256": "d129172f7510c9205c75a508a7b24d8e4b856e516debe231260e1fe49eb1a786",
+  "apiReadback": [
+    {
+      "to": "2026-10-22",
+      "timezone": "America/New_York",
+      "count": 15,
+      "latest": {
+        "observedAt": "2026-10-23T02:00:40.842Z",
+        "rank": {
+          "status": "ranked",
+          "displayPosition": 9,
+          "organicRank": 9,
+          "listingsObserved": 15,
+          "listingStatus": "captured",
+          "stopReason": "limit_reached",
+          "targetOccurrences": [
+            {
+              "displayPosition": 9,
+              "organicRank": 9,
+              "resultType": "organic",
+              "occurrenceId": "occ_64d0d647e97eae74"
+            }
+          ],
+          "adDisplayPositions": []
+        },
+        "localDate": "2026-10-22"
+      },
+      "cursor": null
+    },
+    {
+      "to": "2026-10-25",
+      "timezone": "America/New_York",
+      "count": 39,
+      "latest": {
+        "observedAt": "2026-10-26T01:57:48.552Z",
+        "rank": {
+          "status": "not_found",
+          "displayPosition": null,
+          "organicRank": null,
+          "listingsObserved": 15,
+          "listingStatus": "captured",
+          "stopReason": "limit_reached",
+          "targetOccurrences": [],
+          "adDisplayPositions": []
+        },
+        "localDate": "2026-10-25"
+      },
+      "cursor": null
+    },
+    {
+      "evidenceHttp": 200,
+      "pngSignature": true,
+      "bytes": 805424,
+      "sha256": "2902580cd1e0f452a321350b825967c573a867d5835c8de436a7ffc8a14bee9a"
+    }
+  ],
+  "protectedSpecsUnchanged": [
+    "maps-keyword-monitor-daily",
+    "maps-targets-web-2h",
+    "maps-targets-android-daily",
+    "maps-targets-web-2h-29882955"
+  ],
+  "scope": "UI image only; schedules/collector images/configuration unchanged at this checkpoint"
+}

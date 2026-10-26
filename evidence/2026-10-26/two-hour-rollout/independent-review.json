@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-26T03:00:14.478887+00:00",
+  "reviewer": "twohour_release_review",
+  "method": "Independent in-memory mutation review reported in this task; no cluster writes",
+  "baseFinalReconciliationErrors": 0,
+  "rejectedMutations": [
+    "wrong selected attempt",
+    "truncated top10 projection",
+    "display rank999",
+    "ranked changed to unreliable",
+    "invented geographic matched status",
+    "ad position999",
+    "wrong point coordinate",
+    "missing screenshot"
+  ],
+  "decision": "Schedule-only operational change allowed under fresh live guards; not geographic-locality acceptance"
+}

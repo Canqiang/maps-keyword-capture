@@ -1,0 +1,9 @@
+# Web camera versus search locality — observed 2026-10-26
+
+The OnlyBear 3 km `bubble tea near me` screenshot shows a Garden City map camera, but leading results are ChaHalo Flushing, heytea Prince Street, Teapulse, BK LEMON TEA and CoCo Main St Flushing. The 3 km result contains 15 embedded business coordinates about 16.3–16.7 km from its camera; at 5 km the corresponding range is 10.9–11.2 km, with the same first five names in order. These are distances from the observation point, not from the store center.
+
+The Web implementation constructs the coordinate-bearing search URL before navigation. It does not subsequently confirm an area-search action or enable update-on-map-movement. `observedMapView` is parsed from URL camera coordinates; it is not a Google backend search-location receipt. Every query uses a fresh browser context without persisted cookies/storage state or geolocation permission, so cross-store profile carryover is not established. Shared egress or Google's interpretation may contribute, but the cause is not proven.
+
+These files are unchanged between deployed collector source `c48f94f4c4bbfd77496060e96982f3f3ff31d8c8` and the date-navigation release. This is separate from the new UI date fix and schedule change. All nine stores currently lack `expectedArea`; existing outcomes remain `geography_unverified`. Do not advertise these samples as confirmed customer-local ranks, including when execution/storage checks pass.
+
+Next acceptance step: isolated same-egress comparison of the current URL method and a visibly confirmed area-search action, retaining before/after UI, exact query, result identities, business coordinates and controls. Configure an agreed passive geographic reference separately; `expectedArea` validates evidence and does not relocate searches. No production capture profile, keyword or historical data was changed for this finding.

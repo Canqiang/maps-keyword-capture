@@ -1,5 +1,7 @@
 # Android Maps ranking repair — handoff
 
+2026-10-26 follow-up: the same v33 image finished an isolated 27-query / nine-store / three-point probe: **18 complete, nine needs review, both original exits 2**. Full structured journals, receipts and isolated DB records were verified; raw Appium logs are bounded tails. GPS device receipts match all points, but backend geography remains unverified. Additional Chinese merchant-name OCR errors were found in visual samples. The user chose no expansion and prioritizes Web; production Android remains suspended. See the [current rollout ledger](../evidence/2026-10-26/two-hour-rollout/README.md) and [resource plan](android-two-hour-capacity-plan.md).
+
 Last updated: 2026-10-24. **v33 passed the isolated two-worker representative capture gate: KEKE reached its configured first 20 results and OnlyBear reached an explicit list end with 13 results. Full-catalog capacity, fresh positive-ad coverage and backend geographic acceptance remain separate. Production Android remains suspended.**
 
 ## Verified checkpoint — v33 (representative two-query gate passed)

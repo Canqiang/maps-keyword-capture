@@ -1,0 +1,94 @@
+{
+  "verifiedAt": "2026-10-26T03:04:07.612081+00:00",
+  "job": "maps-targets-web-2h-29882955",
+  "runtimeSource": "c48f94f4c4bbfd77496060e96982f3f3ff31d8c8",
+  "adapter": "maps-feed-card/v6",
+  "imageDigest": "sha256:849d6cb8ff961bbe6c9af866dcea3ae8977544cd42eddaa915785fe731489fda",
+  "jobStart": "2026-10-26T01:15:00Z",
+  "jobCompletion": "2026-10-26T02:38:38Z",
+  "seconds": 5018,
+  "workers": 3,
+  "originalExitCodes": [
+    0,
+    0,
+    0
+  ],
+  "restarts": [
+    0,
+    0,
+    0
+  ],
+  "stores": 9,
+  "queries": 620,
+  "batchManifests": 47,
+  "captureOutcomes": {
+    "captured": 617,
+    "nonRanking": 3,
+    "otherPartial": 0,
+    "blocked": 0,
+    "failed": 0,
+    "skipped": 0
+  },
+  "ownStoreStatuses": {
+    "not_found": 452,
+    "ranked": 165,
+    "not_evaluated": 3
+  },
+  "artifactScope": {
+    "downloadedObjects": 4723,
+    "exactWriterBytesSha256": 4720,
+    "serviceLengthAndTerminalContentOnly": [
+      "tracking/web/2026-10-25/point/scan_20261026T011502Z_39abcd/scan.json",
+      "tracking/web/2026-10-25/point/scan_20261026T011502Z_2a9f66/scan.json",
+      "tracking/web/2026-10-25/point/scan_20261026T011502Z_1a8e76/scan.json"
+    ],
+    "mutableProgressManifestsExcluded": 47,
+    "pngDecoded": 2763,
+    "jsonCsvQueries": 620,
+    "csvListingRows": 9129,
+    "ads": 79,
+    "organic": 9050,
+    "missingReviewCount": 9127,
+    "visualPng": 15,
+    "visualStores": 9
+  },
+  "dbExactPlanMatches": 620,
+  "errors": [],
+  "nonRankingQueries": [
+    {
+      "storeId": "keke-flushing",
+      "pointSlug": "kekem5km",
+      "keyword": "spicy duck neck",
+      "reason": "non_ranking_result"
+    },
+    {
+      "storeId": "keke-flushing",
+      "pointSlug": "kekemcenter",
+      "keyword": "spicy duck neck",
+      "reason": "non_ranking_result"
+    },
+    {
+      "storeId": "keke-flushing",
+      "pointSlug": "kekemcenter",
+      "keyword": "\u53ef\u53ef\u5c0f\u5364 \u6cd5\u62c9\u76db",
+      "reason": "non_ranking_result"
+    }
+  ],
+  "schedule": {
+    "changedAt": "2026-10-26T02:54:45.210979+00:00",
+    "schedule": "15 */2 * * *",
+    "timezone": "America/New_York",
+    "onlyChangedField": "spec.schedule",
+    "observedFullRunSeconds": 5018.0,
+    "expectedFirstSlot": "2026-10-26T04:15:00Z",
+    "firstNewScheduleTriggerObserved": false
+  },
+  "geographicAcceptance": "unverified; camera can differ from result geography",
+  "azureContainer": "fbrdevstorage/maps-keyword-capture-uat",
+  "prefixes": [
+    "tracking/web/2026-10-25/point/scan_20261026T011502Z_39abcd",
+    "tracking/web/2026-10-25/point/scan_20261026T011502Z_2a9f66",
+    "tracking/web/2026-10-25/point/scan_20261026T011502Z_1a8e76"
+  ],
+  "protectedChanges": "Only UI image and Web schedule; existing daily/native/history ingestion specs and ConfigMap hashes unchanged"
+}
