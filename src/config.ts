@@ -45,6 +45,7 @@ const schema = z.object({
   schemaVersion: z.literal('1'),
   expectedArea: expectedAreaSchema.optional(),
   mapView: mapViewSchema.optional(),
+  mapSearchMode: z.enum(['url', 'located_ui']).optional(),
   keywords: z.array(z.string().refine((k) => k.trim().length > 0, { message: 'keyword must not be blank' })).min(1).max(20),
   maxResultsPerKeyword: z.number().int().min(1).max(60).default(15),
   maxScrollsPerKeyword: z.number().int().min(0).max(50).default(6),
@@ -58,7 +59,9 @@ const schema = z.object({
     height: z.number().int().min(600).max(2160),
   }).strict().default({ width: 1440, height: 1000 }),
   outputDirectory: z.string().min(1).default('./outputs'),
-}).strict();
+}).strict().superRefine((value, ctx) => {
+  if (value.mapSearchMode === 'located_ui' && !value.mapView) ctx.addIssue({ code: 'custom', path: ['mapView'], message: 'located_ui requires a configured mapView' });
+});
 
 export function parseConfig(raw: unknown): LoadedConfig {
   const parsed = schema.safeParse(raw);
@@ -71,6 +74,7 @@ export function parseConfig(raw: unknown): LoadedConfig {
     schemaVersion: d.schemaVersion,
     ...(d.expectedArea ? { expectedArea: d.expectedArea } : {}),
     ...(d.mapView ? { mapView: d.mapView } : {}),
+    ...(d.mapSearchMode ? { mapSearchMode: d.mapSearchMode } : {}),
     keywords: d.keywords,
     maxResultsPerKeyword: d.maxResultsPerKeyword,
     maxScrollsPerKeyword: d.maxScrollsPerKeyword,

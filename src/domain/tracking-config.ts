@@ -111,7 +111,7 @@ const schema = z.object({
   /** Where stores come from: inline in this file, or the `stores` collection managed through the UI. */
   storeSource: z.object({ provider: z.enum(['config', 'mongo']), collection: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,62}$/u).default('stores') }).strict().default({ provider: 'config', collection: 'stores' }),
   stores: z.array(storeSchema).max(2000).default([]),
-  surfaces: z.object({ web: surfaceSchema, android: surfaceSchema }).strict(),
+  surfaces: z.object({ web: surfaceSchema.extend({ mapSearchMode: z.enum(['url', 'located_ui']).optional() }), android: surfaceSchema }).strict(),
   database: z.object({ provider: z.literal('mongo'), database: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,62}$/u), collection: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,62}$/u).default('observations') }).strict(),
 }).strict();
 

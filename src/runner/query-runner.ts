@@ -13,6 +13,7 @@ import { resultToCsv } from '../export/csv.js';
 import { observationIdFor } from '../ids.js';
 import { isoWithOffset, queryAttemptRelativeDir, resultBaseName, screenshotFileName } from '../naming.js';
 import { newSearchContext } from '../browser/launch.js';
+import { openLocatedSearch, SearchLocationError } from '../browser/located-search.js';
 import {
   buildSearchUrl, detectPageState, hasQuerySignal, nextScrollTop, openSearch, queryMatches, scrollFeedTo, waitForFeedChange, transientHintVisible,
 } from '../browser/maps-adapter.js';
@@ -102,6 +103,8 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
   let observedQueryText: string | null = null;
   let resultSurface: NonNullable<QueryQuality['resultSurface']> = 'unknown';
   let placeDetails: QueryQuality['placeDetails'];
+  let searchLocation: KeywordResult['context']['searchLocation'];
+  let geolocationPermission: KeywordResult['context']['geolocationPermission'] = 'not_granted';
 
   async function saveScreenshot(png: Buffer, kind: 'results' | 'diagnostic', observationId: string | null): Promise<ScreenshotArtifact> {
     const n = screenshots.filter((s) => s.kind === 'results').length + 1;
@@ -126,15 +129,29 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     // Inside the try: a browser crash here is a transient failure like any other, not an
     // exception that escapes before the attempt can record its own terminal result.
     context = await newSearchContext(deps.browser, config);
+    if (config.mapSearchMode === 'located_ui') geolocationPermission = 'granted';
     const page: Page = await context.newPage();
     const url = deps.searchUrlFor?.(input.keyword) ?? buildSearchUrl(input.keyword, config.locale, config.mapView);
     const open = deps.openSearchImpl ?? openSearch;
     let opened: Awaited<ReturnType<typeof openSearch>>;
     try {
-      opened = await open(page, url, Math.max(1000, Math.min(30_000, remaining())));
+      if (config.mapSearchMode === 'located_ui') {
+        const located = await openLocatedSearch(page, input.keyword, config.locale, config.mapView!, Math.max(1, Math.min(30_000, remaining())), deps.signal);
+        searchLocation = located.searchLocation; opened = located;
+      } else opened = await open(page, url, Math.max(1000, Math.min(30_000, remaining())));
     } catch (err) {
-      if (input.allowTransientThrow) throw new TransientBrowserError(`navigation failed for ${input.queryId}`, err);
-      stop = { kind: 'failed', reason: 'error', error: errorOf(err, 'navigation_failed') };
+      if (err instanceof SearchLocationError) {
+        searchLocation = err.evidence;
+        stop = { kind: 'incomplete', reason: deps.signal?.aborted ? 'cancelled' : err.evidence.submissionAttempted ? 'error' : 'location_unverified', error: errorOf(err, 'search_location_failed') };
+        const png = await page.screenshot({ type: 'png', timeout: 2000 }).catch(() => null);
+        if (png) {
+          try { await saveScreenshot(png, 'diagnostic', null); }
+          catch (error) { warnings.push({ code: 'diagnostic_screenshot_failed', message: String(error), observationIds: [] }); }
+        }
+      } else {
+        if (input.allowTransientThrow) throw new TransientBrowserError(`navigation failed for ${input.queryId}`, err);
+        stop = { kind: 'failed', reason: 'error', error: errorOf(err, 'navigation_failed') };
+      }
       opened = { state: { kind: 'unknown', detail: 'navigation failed' }, finalUrl: page.url() };
     }
     finalUrl = opened.finalUrl;
@@ -346,7 +363,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     }
   } catch (err) {
     if (err instanceof TransientBrowserError) throw err;
-    if (input.allowTransientThrow && observations.length === 0 && /Target (page|context|browser) has been closed|crashed/i.test(String(err))) {
+    if (input.allowTransientThrow && !searchLocation?.submissionAttempted && observations.length === 0 && /Target (page|context|browser) has been closed|crashed/i.test(String(err))) {
       throw new TransientBrowserError('browser context failed before any evidence', err);
     }
     stop = { kind: observations.length === 0 ? 'failed' : 'incomplete', reason: 'error', error: errorOf(err, 'unexpected_error') } as StopCause;
@@ -404,7 +421,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     context: {
       locale: config.locale, browserTimezoneId: config.browserTimezoneId, viewport: config.viewport, deviceScaleFactor: 1,
       locationMode: config.mapView ? 'map_view' as const : 'query_only' as const, configuredMapView: config.mapView ? { ...config.mapView } : null, observedMapView: parseObservedMapView(finalUrl),
-      loggedIn: false as const, geolocationPermission: 'not_granted' as const, egressRegion: null, egressSource: null, observedLocationText: null, filters: [],
+      loggedIn: false as const, geolocationPermission, ...(searchLocation ? { searchLocation } : {}), egressRegion: null, egressSource: null, observedLocationText: null, filters: [],
     },
     quality: { verifiedPrefixLength: state.committed.length, classificationComplete, screenshotCoverageComplete, warnings, observedQueryText, queryCorrectionText: null, resultSurface, geographicRelevance, ...(placeDetails ? { placeDetails } : {}) },
     listings, screenshots, observationArtifactIds,

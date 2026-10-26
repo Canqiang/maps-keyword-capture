@@ -115,7 +115,9 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
     // Storage paths allow only [A-Za-z0-9_/-]; encode the point's signs (r+2c-2 → rp2cm2). The observation keeps the real ID.
     const pointPath = batch.pointId.replaceAll('+', 'p').replaceAll('-', 'm');
     const scoped = new NamespacedBatchStore(deps.store, `${prefix}/${batch.storeId}/${pointPath}/${String(index + 1).padStart(3, '0')}`);
-    const { config } = parseConfig({ schemaVersion: '1', ...deps.capture, keywords: batch.config.keywords, mapView: batch.config.mapView, ...(batch.config.expectedArea ? { expectedArea: batch.config.expectedArea } : {}), outputDirectory: scoped.rootDirectory });
+    const { config } = parseConfig({ schemaVersion: '1', ...deps.capture,
+      ...(deps.config.surfaces.web.mapSearchMode ? { mapSearchMode: deps.config.surfaces.web.mapSearchMode } : {}),
+      keywords: batch.config.keywords, mapView: batch.config.mapView, ...(batch.config.expectedArea ? { expectedArea: batch.config.expectedArea } : {}), outputDirectory: scoped.rootDirectory });
     summary.queries.dispatched += batch.config.keywords.length;
     let out: BatchOutput;
     try {

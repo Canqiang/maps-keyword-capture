@@ -198,3 +198,13 @@ describe('runWebScan', () => {
   });
 
 });
+
+it('carries the frozen Web location mode into every batch without changing the Android contract', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'tracking-location-'));
+  const located = parseTrackingConfig({ ...config, surfaces: { ...config.surfaces, web: { ...config.surfaces.web, mapSearchMode: 'located_ui' } } });
+  const { runner, calls } = fakeRunner();
+  await runWebScan({ config: located, tier: 'point', store: new LocalArtifactStore(root), observations: new MemoryObservationStore(), batchRunner: runner, capture: { mapSearchMode: 'url' } });
+  expect(calls.length).toBeGreaterThan(0);
+  expect(calls.every(c => c.config.mapSearchMode === 'located_ui')).toBe(true);
+  expect(() => parseTrackingConfig({ ...config, surfaces: { ...config.surfaces, android: { ...config.surfaces.android, mapSearchMode: 'located_ui' } } })).toThrow();
+});

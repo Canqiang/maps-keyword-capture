@@ -22,12 +22,22 @@ export async function launchBrowser(): Promise<Browser> {
 }
 
 export async function newSearchContext(browser: Browser, config: CaptureConfig): Promise<BrowserContext> {
-  return browser.newContext({
+  const located = config.mapSearchMode === 'located_ui';
+  if (located && !config.mapView) throw new Error('located_ui requires a configured mapView');
+  const context = await browser.newContext({
     viewport: config.viewport,
     deviceScaleFactor: 1,
     locale: config.locale,
     timezoneId: config.browserTimezoneId,
     permissions: [],
+    ...(located ? { geolocation: { latitude: config.mapView!.latitude, longitude: config.mapView!.longitude, accuracy: 10 } } : {}),
     javaScriptEnabled: true,
   });
+  try {
+    if (located) await context.grantPermissions(['geolocation'], { origin: 'https://www.google.com' });
+    return context;
+  } catch (error) {
+    await context.close().catch(() => undefined);
+    throw error;
+  }
 }

@@ -42,11 +42,13 @@ export interface CaptureConfig {
   /** Optional comparison area; does not set browser geolocation or map view. */
   expectedArea?: ExpectedArea;
   /**
-   * Optional area-search anchor: the search opens with the map centred here at this zoom
-   * (`/maps/search/<keyword>/@lat,lng,zoomz`), so results are ranked for that viewport.
+   * Requested camera/observation point. URL camera coordinates alone do not establish
+   * the location used to rank results. located_ui prepares browser GPS before searching.
    * Omit for query-only search, which leaves the location to Google's own guess.
    */
   mapView?: { latitude: number; longitude: number; zoom: number };
+  /** Opt-in; omission preserves the legacy URL-only search and its profile identity. */
+  mapSearchMode?: 'url' | 'located_ui';
 }
 
 export type ListingClassification =
@@ -165,7 +167,7 @@ export type IncompleteReason =
   | "scroll_limit" | "load_stalled" | "timeout" | "error"
   | "unsupported_layout" | "unstable_results" | "sequence_ambiguous"
   | "screenshot_limit" | "artifact_limit" | "query_mismatch"
-  | "classification_unknown" | "non_ranking_result" | "cancelled" | "batch_timeout";
+  | "classification_unknown" | "non_ranking_result" | "location_unverified" | "cancelled" | "batch_timeout";
 export type SkipReason =
   | "batch_blocked" | "browser_startup_failed" | "storage_unavailable"
   | "unsupported_layout" | "batch_timeout" | "cancelled";
@@ -177,6 +179,20 @@ export type CollectionOutcome =
   | { status: "blocked"; stopReason: BlockReason; error: CaptureError | null }
   | { status: "failed"; stopReason: IncompleteReason | "browser_startup_failed"; error: CaptureError };
 
+export interface WebSearchLocationEvidence {
+  method: 'browser_gps_before_search/v1';
+  status: 'prepared' | 'failed';
+  requested: { latitude: number; longitude: number; accuracy: number };
+  observed: { latitude: number; longitude: number; accuracy: number } | null;
+  checkedAt: string | null;
+  googleAcknowledged: boolean;
+  preparedMapView: { latitude: number; longitude: number; zoom: number } | null;
+  /** Attempted is set before the click; submitted only after the click completes. Never retried. */
+  submissionAttempted: boolean;
+  submitted: boolean;
+  failure: string | null;
+}
+
 export interface SearchContext {
   locale: string;
   browserTimezoneId: string;
@@ -187,7 +203,9 @@ export interface SearchContext {
   /** The resulting map view is not proof of the searcher's location. */
   observedMapView: { latitude: number; longitude: number; zoom: number | null } | null;
   loggedIn: false;
-  geolocationPermission: "not_granted";
+  geolocationPermission: "not_granted" | "granted";
+  /** Device/browser and UI evidence, not a claim about Google's backend ranking locality. */
+  searchLocation?: WebSearchLocationEvidence;
   egressRegion: string | null;
   egressSource: string | null;
   observedLocationText: string | null;
