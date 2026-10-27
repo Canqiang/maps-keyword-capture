@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-27T08:37:31.924043+00:00",
+  "deploymentReady": true,
+  "onlyDeploymentImageChanged": true,
+  "servedHtmlMatchesTestedBuild": true,
+  "servedHtmlSha256": "0474b82934111b7e881d29a411b467e09ea870736e2e5eb01d3d4d30da0a9933",
+  "authenticatedTimelineReadback": [
+    {
+      "point": "onlybear-center",
+      "count": 15,
+      "nextCursor": null
+    },
+    {
+      "point": "onlybear-3km",
+      "count": 15,
+      "nextCursor": null
+    },
+    {
+      "point": "onlybear-5km",
+      "count": 14,
+      "nextCursor": null
+    }
+  ],
+  "readbackObservations": 44,
+  "collectorCronJobSpecsUnchanged": 7,
+  "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:97bf4d7a4df65922ec99aaa1e6a2330a711bb0f9d11d03b4544896b242854abb",
+  "collectorPodsPreserved": 3
+}

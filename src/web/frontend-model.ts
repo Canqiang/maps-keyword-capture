@@ -3,6 +3,7 @@ export interface FrontendObservation {
   observationId: string; localDate: string; observedAt: string; keyword: string; keywordKey: string;
   eligible: boolean; metricOrganicRank: number | null; cohortKey: string | null;
   rank: { status: string; organicRank: number | null };
+  quality?: { geographicRelevance?: { status?: string } | null } | null;
 }
 interface TargetStore {
   keywords: { core: string[]; longTail: string[] };
@@ -22,12 +23,36 @@ export function createFrontendModel() {
   const present = (row?: FrontendObservation | null) => {
     if (!row) return { label: '无记录', short: '—', kind: 'gray', qualified: false };
     if (row.eligible && row.metricOrganicRank !== null) return { label: '自然排名 ' + row.metricOrganicRank, short: String(row.metricOrganicRank), kind: row.metricOrganicRank <= 3 ? 'green' : 'purple', qualified: true };
-    if (row.eligible) return { label: row.rank.status === 'ad_only' ? '仅广告 · 确认自然未见' : '确认未见', short: '未见', kind: 'amber', qualified: true };
-    const states: Record<string,string> = { failed:'采集失败',blocked:'采集受阻',ad_only:'仅见广告',not_found:'未确认未见',not_found_in_prefix:'已采部分未见',not_evaluated:'非排名列表',identity_unresolved:'商家匹配待核',unreliable:'排名证据不足' };
+    if (row.eligible) return { label: '未见', short: '未见', kind: 'amber', qualified: true };
+    const states: Record<string,string> = { failed:'采集失败',blocked:'采集受阻',ad_only:'仅见广告',not_found:'未见*',not_found_in_prefix:'未见*',not_evaluated:'非排名列表',identity_unresolved:'商家匹配待核',unreliable:'排名证据不足' };
     if (row.rank.status === 'ranked' && Number.isInteger(row.rank.organicRank) && row.rank.organicRank! > 0) return { label:'观测 '+row.rank.organicRank, short:String(row.rank.organicRank)+'*', kind:'amber', qualified:false };
     const shorts: Record<string,string> = { failed:'失败',blocked:'受阻',ad_only:'仅广告',not_found:'未见*',not_found_in_prefix:'未见*',not_evaluated:'非列表',identity_unresolved:'待核',unreliable:'待核' };
     const label = states[row.rank.status] || '排名不可用';
     return { label, short: shorts[row.rank.status] || '不可用', kind: row.rank.status === 'failed' || row.rank.status === 'blocked' ? 'red' : 'gray', qualified:false };
+  };
+  /** Geographic qualification is independent of collection eligibility and GPS receipts. */
+  const geography = (row?: FrontendObservation | null): string => {
+    if (!row) return '';
+    const status = row.quality?.geographicRelevance?.status;
+    return status === 'matched' ? '' : status === 'outside' ? '地域不符' : status === 'mixed' ? '地域混合' : '地域未核实';
+  };
+  const scopeNote = (row?: FrontendObservation | null): string => {
+    if (!row) return '';
+    if (row.eligible && row.metricOrganicRank === null) return '本次采集范围内未见本店自然结果；不代表整个区域未上榜，也不是第 16 或 21 名。';
+    if (row.rank.status === 'not_found' || row.rank.status === 'not_found_in_prefix') return '已采部分未见本店自然结果，但采集证据不足，不能判断完整采集范围。';
+    return '';
+  };
+  const adNote = (row?: FrontendObservation | null): string => row?.rank.status === 'ad_only' ? '仅见本店广告，广告不计自然排名。' : '';
+  const hint = (row?: FrontendObservation | null): string => [present(row).label, scopeNote(row), adNote(row), geography(row)].filter(Boolean).join(' · ');
+  /** Visible annotations: compact table cells retain geography and evidence warnings. */
+  const notes = (row?: FrontendObservation | null, compact = false): string => {
+    if (!row) return '';
+    const geo = geography(row), scope = scopeNote(row), ad = adNote(row);
+    const incomplete = !row.eligible && (row.rank.status === 'not_found' || row.rank.status === 'not_found_in_prefix');
+    return (scope && !compact ? '<small class="observation-annotation">' + escape(scope) + '</small>' : '')
+      + (incomplete && compact ? '<small class="observation-annotation">采集证据不足</small>' : '')
+      + (ad ? '<small class="observation-annotation">' + escape(compact ? '仅见本店广告' : ad) + '</small>' : '')
+      + (geo ? '<small class="observation-annotation geography-warning" title="地域按结果证据单独判断；坐标或 GPS 回执不代表 Google 搜索后端地域已核实。">' + escape(geo) + '</small>' : '');
   };
   const compare = (before?: FrontendObservation, after?: FrontendObservation) => {
     if (!before || !after) return { comparable:false,delta:null,reason:'请选择两个确切的采集记录' };
@@ -99,5 +124,5 @@ export function createFrontendModel() {
     });
     return [...choices, ...observed.filter(o => !planned.some(p => p.id === o.pointId))];
   };
-  return { escape,key,daily,present,compare,days,segments,series,stats,volume,movement,bestVariant,evidenceUrl,activeKeywords,targetFor,pointChoices };
+  return { escape,key,daily,present,geography,notes,hint,compare,days,segments,series,stats,volume,movement,bestVariant,evidenceUrl,activeKeywords,targetFor,pointChoices };
 }

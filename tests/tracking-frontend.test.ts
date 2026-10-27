@@ -15,7 +15,7 @@ describe('frontend history presentation', () => {
  });
  it('does not manufacture qualified ranks, absence penalties, or comparable deltas', () => {
   expect(m.present(o('a','2026-10-19',3,{eligible:false}))).toMatchObject({label:'观测 3', qualified:false});
-  expect(m.present(o('a','2026-10-19',null)).label).toBe('确认未见');
+  expect(m.present(o('a','2026-10-19',null)).label).toBe('未见');
   expect(m.compare(o('a','2026-10-18',9),o('b','2026-10-19',4))).toMatchObject({comparable:true,delta:5});
   expect(m.compare(o('a','2026-10-18',9),o('b','2026-10-19',4,{cohortKey:'changed'}))).toMatchObject({comparable:false,delta:null});
   expect(m.compare(o('a','2026-10-18',9),o('b','2026-10-19',4,{eligible:false})).delta).toBeNull();
@@ -166,5 +166,76 @@ describe('evidence card ordering and location semantics', () => {
   const row=unreliableAndroidCard();
   const html=renderEvidenceCard({...row,surface:'web',locationMode:'map_view'});
   expect(html.slice(0,html.indexOf('<div class="shots'))).not.toContain('Maps 搜索后端定位：');
+ });
+});
+
+
+describe('absence scope and geographic qualification in the served UI', () => {
+ it('uses one absence label while preserving qualified versus incomplete evidence', () => {
+  expect(m.present(o('absent','2026-10-27',null))).toMatchObject({label:'未见',short:'未见',qualified:true});
+  for (const status of ['not_found','not_found_in_prefix']) {
+   expect(m.present(o('partial','2026-10-27',null,{eligible:false,rank:{status,organicRank:null}}))).toMatchObject({label:'未见*',short:'未见*',qualified:false});
+  }
+  const ad = o('ad','2026-10-27',null,{rank:{status:'ad_only',organicRank:null}});
+  expect(m.present(ad).label).toBe('未见');
+  expect(m.notes(ad)).toContain('仅见本店广告');
+  expect(m.present(null)).toMatchObject({label:'无记录',qualified:false});
+  expect(m.notes(null)).toBe('');
+ });
+ it.each([undefined,null,{geographicRelevance:null},{geographicRelevance:{status:'unverified'}},
+  {geographicRelevance:{status:'unexpected'}},
+  {locationEvidence:{deviceLocationStatus:'matched',mapsLocationStatus:'matched'}}
+ ])('does not infer geographic verification from eligibility or GPS: %j', quality => {
+  const base=unreliableAndroidCard();
+  const row={...base,surface:'web',eligible:true,metricOrganicRank:null,rank:{status:'not_found',organicRank:null},quality};
+  const html=renderEvidenceCard(row);
+  const visible=html.slice(0,html.indexOf('<details class="quality">'));
+  expect(visible).toContain('地域未核实');
+  expect(visible).toContain('本次采集范围内未见本店自然结果');
+  expect(visible).not.toContain('确认未见');
+  expect(row.eligible).toBe(true);
+ });
+ it.each([['outside','地域不符'],['mixed','地域混合'],['matched','']])('preserves geographic result %s independently of rank', (status,label) => {
+  const row=o('geo','2026-10-27',3,{quality:{geographicRelevance:{status}}});
+  expect(m.geography(row)).toBe(label);
+  expect(m.present(row).short).toBe('3');
+  if(status==='matched') expect(m.notes(row)).not.toContain('地域未核实');
+ });
+ it('shows uncertainty for ranked records too and distinguishes incomplete absence', () => {
+  expect(m.notes(o('rank','2026-10-27',3))).toContain('地域未核实');
+  expect(m.notes(o('partial','2026-10-27',null,{eligible:false,rank:{status:'not_found_in_prefix',organicRank:null}}))).toContain('证据不足');
+ });
+});
+
+
+describe('overview absence annotations', () => {
+ const script=UI_HTML.match(/<script>([\s\S]*)<\/script>/)![1]!;
+ const cell=script.split('\n').find(l=>l.startsWith('function overviewCell('))!;
+ const render=(rows: unknown[])=>runInNewContext(cell+';overviewCell(rows,null,{id:"only-bear"},{id:"center",label:"中心"},null)', {
+  rows,M:m,E:m.escape,href:()=> '#exact-evidence',params:()=>({}),when:(s:string)=>s,spark:()=>'',
+ });
+ it('renders geographic uncertainty next to the current absence, with scope in its tooltip', () => {
+  const row=o('current','2026-10-27',null);
+  const html=render([row]);
+  expect(html).toContain('>未见</a>');
+  expect(html).toContain('>地域未核实</small>');
+  expect(html).toContain('本次采集范围内未见本店自然结果');
+  expect(html).not.toContain('确认未见');
+  expect(html).toContain('#exact-evidence');
+ });
+ it('uses the latest geographic status and does not resurrect a previous verified one', () => {
+  const old=o('a','2026-10-26',3,{quality:{geographicRelevance:{status:'matched'}}});
+  const latest=o('b','2026-10-27',null,{eligible:false,rank:{status:'not_found_in_prefix',organicRank:null}});
+  const html=render([old,latest]);
+  expect(html).toContain('>未见*</a>');
+  expect(html).toContain('>采集证据不足</small>');
+  expect(html).toContain('>地域未核实</small>');
+  expect(html).not.toContain('ov-delta up');
+ });
+ it('does not annotate an uncollected cell as an absence or geographic finding', () => {
+  const html=render([]);
+  expect(html).toContain('无记录');
+  expect(html).not.toContain('地域');
+  expect(html).not.toContain('未见');
  });
 });
