@@ -1,0 +1,137 @@
+apiVersion: v1
+kind: ConfigMap
+immutable: true
+metadata:
+  name: maps-keke-extra-daily-20261102-v1
+  namespace: uat
+  labels:
+    app.kubernetes.io/name: maps-keke-extra-daily
+    app.kubernetes.io/component: daily
+data:
+  monitor.json: |
+    {
+      "schemaVersion": "1",
+      "sourceBaseUrl": "http://operation-assistant-api.uat.svc.cluster.local:80",
+      "stores": [
+        {
+          "storeId": "keke-flushing",
+          "merchantId": "29742a52-d824-469b-a395-52084345b7ad",
+          "placeId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+          "name": "Keke Food 可可小卤 — Flushing"
+        }
+      ],
+      "maxKeywordsPerStore": 40,
+      "batchSize": 20,
+      "sourceTimeoutMs": 15000,
+      "outputDirectory": "/work/outputs",
+      "capture": {
+        "maxResultsPerKeyword": 15,
+        "maxScrollsPerKeyword": 10,
+        "maxScreenshotsPerKeyword": 8,
+        "keywordTimeoutMs": 90000,
+        "locale": "en-US",
+        "browserTimezoneId": "America/New_York",
+        "filenameTimezone": "Asia/Shanghai",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        }
+      },
+      "monitoringKeywordSets": [
+        {
+          "id": "keke-unlocated-extra-20261102-v1",
+          "merchantId": "29742a52-d824-469b-a395-52084345b7ad",
+          "placeId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+          "keywords": [
+            {
+              "keyword": "chinese food near me",
+              "group": "exploration"
+            },
+            {
+              "keyword": "chinese food",
+              "group": "exploration"
+            },
+            {
+              "keyword": "deli",
+              "group": "exploration"
+            },
+            {
+              "keyword": "chinese deli near me",
+              "group": "exploration"
+            },
+            {
+              "keyword": "chinese deli",
+              "group": "exploration"
+            },
+            {
+              "keyword": "braised chicken",
+              "group": "exploration"
+            },
+            {
+              "keyword": "pork trotters",
+              "group": "exploration"
+            },
+            {
+              "keyword": "卤味",
+              "group": "exploration"
+            },
+            {
+              "keyword": "spicy duck neck",
+              "group": "exploration"
+            },
+            {
+              "keyword": "braised food pickup",
+              "group": "exploration"
+            },
+            {
+              "keyword": "braised food",
+              "group": "exploration"
+            },
+            {
+              "keyword": "chinese take out near me",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best chinese food near me",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best chinese food",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best deli",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best chinese deli near me",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best chinese deli",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best braised chicken",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best pork trotters",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best 卤味",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best spicy duck neck",
+              "group": "exploration"
+            },
+            {
+              "keyword": "best braised food pickup",
+              "group": "exploration"
+            }
+          ]
+        }
+      ]
+    }

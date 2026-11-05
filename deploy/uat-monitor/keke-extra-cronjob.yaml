@@ -1,0 +1,100 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: maps-keke-extra-daily
+  namespace: uat
+  labels: &id001
+    app.kubernetes.io/name: maps-keke-extra-daily
+    app.kubernetes.io/component: daily
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 7
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 5400
+      backoffLimit: 0
+      template:
+        metadata:
+          labels: *id001
+        spec:
+          automountServiceAccountToken: false
+          containers:
+          - args:
+            - /bin/sh
+            - -ec
+            - exec node dist/monitor/cli.js --config /config/monitor.json --storage
+              azure --run-key "keke-extra-$$(TZ=Asia/Shanghai date +%F)"
+            env:
+            - name: EGRESS_PROFILE_ID
+              value: aks-fbrdev-eastus2-aiapp
+            - name: AZURE_STORAGE_CONTAINER
+              value: maps-keyword-capture-uat
+            - name: AZURE_STORAGE_CONTAINER_SAS_URL
+              valueFrom:
+                secretKeyRef:
+                  key: AZURE_STORAGE_CONTAINER_SAS_URL
+                  name: maps-keyword-monitor-storage
+            - name: IMAGE_DIGEST
+              value: sha256:0acda7e20e94871a108b046b6d57c99e39e218bcbcaa2428a4ffcdb687e7e4c5
+            image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:0acda7e20e94871a108b046b6d57c99e39e218bcbcaa2428a4ffcdb687e7e4c5
+            imagePullPolicy: IfNotPresent
+            name: monitor
+            resources:
+              limits:
+                cpu: '2'
+                ephemeral-storage: 3Gi
+                memory: 2Gi
+              requests:
+                cpu: 250m
+                ephemeral-storage: 1Gi
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                - ALL
+              readOnlyRootFilesystem: true
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            volumeMounts:
+            - mountPath: /config
+              name: config
+              readOnly: true
+            - mountPath: /work
+              name: work
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /dev/shm
+              name: dshm
+          dnsPolicy: ClusterFirst
+          nodeSelector:
+            envpool: uatops
+          restartPolicy: Never
+          schedulerName: default-scheduler
+          securityContext:
+            fsGroup: 1001
+            runAsGroup: 1001
+            runAsNonRoot: true
+            runAsUser: 1001
+          terminationGracePeriodSeconds: 300
+          volumes:
+          - configMap:
+              defaultMode: 420
+              name: maps-keke-extra-daily-20261102-v1
+            name: config
+          - emptyDir:
+              sizeLimit: 2Gi
+            name: work
+          - emptyDir:
+              sizeLimit: 1Gi
+            name: tmp
+          - emptyDir:
+              medium: Memory
+              sizeLimit: 512Mi
+            name: dshm
+      ttlSecondsAfterFinished: 600
+  schedule: 0 0 * * *
+  startingDeadlineSeconds: 3600
+  successfulJobsHistoryLimit: 7
+  suspend: false
+  timeZone: Asia/Shanghai
