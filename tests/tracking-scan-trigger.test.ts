@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createScanTrigger, parseScanTargets, ScanTriggerError, type KubeApi } from '../src/web/scan-trigger.js';
 import { startServer } from '../src/web/server.js';
 import { parseTrackingConfig } from '../src/domain/tracking-config.js';
-import { MemoryTrackingRepository } from '../src/domain/repository.js';
+import { MemoryTrackingRepository, type TrackingRepository } from '../src/domain/repository.js';
 
 vi.mock('../src/web/ui.js', () => ({ UI_HTML: '<html>private UI</html>' }));
 const raw = JSON.parse(await readFile(new URL('../docs/tracking-config.example.json', import.meta.url), 'utf8'));
@@ -16,7 +16,7 @@ function fakeApi(jobs: unknown[] = []) {
   const leases = new Map<string, any>();
   let revision = 0;
   const cron = (name: string, suspend: boolean) => ({ metadata: { name, uid: 'u-' + name }, spec: { schedule: '0 */2 * * *', timeZone: 'America/New_York', suspend,
-    jobTemplate: { metadata: { labels: { 'app.kubernetes.io/component': name } }, spec: { completions: 2, parallelism: 2, template: { spec: { containers: [{ name: 'tracking', image: 'img' }] } } } } }, status: { lastScheduleTime: '2026-10-21T04:00:00Z' } });
+    jobTemplate: { metadata: { labels: { 'app.kubernetes.io/component': name } }, spec: { completions: 2, parallelism: 2, template: { spec: { containers: [{ name: 'tracking', image: 'img' }] } } } } }, status: { lastScheduleTime: '2026-10-21T04:00:00Z', lastSuccessfulTime: '2026-10-21T03:40:00Z' } });
   const api: KubeApi = {
     async get(path) {
       if (path.endsWith('/cronjobs/maps-tracking-web-2h')) return cron('maps-tracking-web-2h', false);
@@ -58,7 +58,7 @@ describe('scan trigger', () => {
     const { api, posted } = fakeApi([{ metadata: { name: 'maps-tracking-web-2h-29875800', creationTimestamp: '2026-10-21T02:00:00Z' }, spec: { completions: 2 }, status: { succeeded: 2, conditions: [{ type: 'Complete', status: 'True', lastTransitionTime: '2026-10-21T02:15:00Z' }] } }]);
     const trigger = createScanTrigger(targets, api, 'uat', { now: () => new Date('2026-10-21T05:07:00Z') });
     const before = await trigger.targets();
-    expect(before).toMatchObject([{ id: 'keke', schedule: '0 */2 * * *', suspended: false, running: false, lastScheduleTime: '2026-10-21T04:00:00Z' }, { id: 'liya', suspended: true, running: false }]);
+    expect(before).toMatchObject([{ id: 'keke', schedule: '0 */2 * * *', suspended: false, running: false, lastScheduleTime: '2026-10-21T04:00:00Z', lastSuccessfulTime: '2026-10-21T03:40:00Z' }, { id: 'liya', suspended: true, running: false }]);
     const job = await trigger.trigger('keke');
     expect(job).toMatchObject({ target: 'keke', status: 'running', manual: true, active: 1, completions: 2 });
     expect(job.name).toMatch(/^maps-tracking-web-2h-manual-202610210507-[0-9a-f]{4}$/);
@@ -146,5 +146,18 @@ describe('scan API', () => {
     await new Promise(resolve => server!.once('listening', resolve));
     const none = 'http://127.0.0.1:' + (server.address() as AddressInfo).port;
     expect((await fetch(none + '/api/scans')).status).toBe(503);
+  });
+  it('reports data freshness for the global interruption banner', async () => {
+    const { api } = fakeApi();
+    const scans = createScanTrigger(targets, api, 'uat');
+    const repo = {
+      summaries: async () => [{ storeId: 'keke-flushing', surface: 'web' as const, lastObservedAt: '2026-10-21T01:00:00Z', keywords: 1, ranked: 1, top3: 0, averageOrganicRank: 2, unavailable: 0 }],
+    } as unknown as TrackingRepository;
+    server = startServer({ config: parseTrackingConfig(raw), repo, scans, now: () => new Date('2026-10-21T06:00:00Z') }, 0);
+    await new Promise(resolve => server!.once('listening', resolve));
+    const base = 'http://127.0.0.1:' + (server.address() as AddressInfo).port;
+    const health = await (await fetch(base + '/api/scans/health')).json();
+    expect(health).toMatchObject({ latestObservationAt: '2026-10-21T01:00:00Z', staleHours: 5, stale: true });
+    expect(health.targets.find((t: { id: string }) => t.id === 'liya')).toMatchObject({ lastSuccessfulTime: '2026-10-21T03:40:00Z', suspended: true });
   });
 });

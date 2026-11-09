@@ -22,6 +22,8 @@ describe('isolated nine-store scheduler candidates',()=>{
   expect(cron.spec).toMatchObject({schedule:surface==='web'?'15 */2 * * *':'0 21 * * *',timeZone:'America/New_York',concurrencyPolicy:'Forbid'});
   // Android: the namespace quota admits two emulator Pods (android-quota.yaml).
   expect(job).toMatchObject({completionMode:'Indexed',completions:surface==='web'?3:2,parallelism:surface==='web'?3:2,backoffLimitPerIndex:0,activeDeadlineSeconds:surface==='web'?6600:64800});
+  // Failed web runs must stay inspectable after they end; Pods/logs used to vanish after 10 minutes.
+  expect(job.ttlSecondsAfterFinished).toBe(surface==='web'?86400:600);
   // Both read stores from Mongo (what the settings page saves); no report catalog is pinned.
   expect(main.args).not.toContain('--catalog');expect(main.args).not.toContain('--catalog-sha256');
   expect((surface==='web'?settings:androidSettings).storeSource).toEqual({provider:'mongo',collection:'monitor-target-stores-v1'});
@@ -75,5 +77,17 @@ describe('isolated nine-store scheduler candidates',()=>{
    const pod=cron.spec.jobTemplate.spec.template.spec;
    for(const c of [...(pod.initContainers??[]),...pod.containers])expect(c.image).toMatch(/@sha256:REPLACE_DIGEST_(WEB|ANDROID)$/);
   }
+ });
+ it('alerts on failed and stale web scans from kube-state-metrics',()=>{
+  const rule=parse(read('alerting.yaml'));
+  expect(rule).toMatchObject({apiVersion:'monitoring.coreos.com/v1',kind:'PrometheusRule',metadata:{name:'maps-keyword-capture-scan',namespace:'monitoring'}});
+  const alerts=rule.spec.groups.flatMap((g:any)=>g.rules);
+  expect(alerts.map((r:any)=>r.alert)).toEqual(['MapsTargetsScanJobFailed','MapsTargetsScanStale','MapsTargetsScanScheduleStalled']);
+  const expr=JSON.stringify(alerts);
+  expect(expr).toContain('kube_job_failed');
+  expect(expr).toContain('kube_cronjob_status_last_successful_time');
+  expect(expr).toContain('kube_cronjob_status_last_schedule_time');
+  expect(expr).toContain('kube_cronjob_spec_suspend');
+  for(const a of alerts){expect(a.annotations.runbook_url).toContain('scan-consistency-handoff');expect(a.for).toBeTruthy();expect(a.labels.severity).toBeTruthy();}
  });
 });

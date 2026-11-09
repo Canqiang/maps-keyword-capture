@@ -23,6 +23,8 @@ export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; 
 
 const EVIDENCE_KEY = /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u;
 const MAX_BODY = 256 * 1024;
+/** A monitored surface with no fresh observations for longer than this is surfaced as an interruption. */
+const SCAN_STALE_HOURS = 4;
 
 class HttpError extends Error { constructor(readonly status: number, message: string) { super(message); } }
 
@@ -182,6 +184,17 @@ export function createHandler(deps: ServerDeps) {
           if (parts.length === 2 && req.method === 'GET') {
             const [targets, jobs] = await Promise.all([deps.scans.targets(), deps.scans.jobs()]);
             return send(req, res, 200, { targets, jobs, now: now().toISOString() });
+          }
+          if (parts.length === 3 && parts[2] === 'health' && req.method === 'GET') {
+            // Data freshness is the ground truth for "collection is running": CronJob status alone
+            // cannot distinguish a quarantined scan gate from a merely delayed schedule.
+            const [targets, summaries] = await Promise.all([deps.scans.targets(), deps.repo.summaries({ surface: 'web' })]);
+            const latestObservationAt = summaries.reduce<string | null>((latest, summary) => summary.lastObservedAt && (latest === null || summary.lastObservedAt > latest) ? summary.lastObservedAt : latest, null);
+            const at = now();
+            const staleHours = latestObservationAt === null ? null : Math.max(0, (at.getTime() - Date.parse(latestObservationAt)) / 3_600_000);
+            return send(req, res, 200, { now: at.toISOString(), targets, latestObservationAt,
+              staleHours: staleHours === null ? null : Math.round(staleHours * 10) / 10,
+              stale: staleHours === null || staleHours > SCAN_STALE_HOURS });
           }
           if (parts.length === 4 && parts[3] === 'trigger' && req.method === 'POST') {
             await readJson(req);

@@ -22,6 +22,13 @@ Each scan publishes those exact bytes as `<scan-prefix>/catalog.json` before bro
 
 Import archived identities into the isolated `monitor-target-stores-v1` collection before the approved catalog import, as described in `docs/tracking-live-history.md`. The catalog's store IDs must match those retained historical identities. Observations still append to `maps-rank-tracking.observations`; this catalog does not replace the old `stores` collection. Database ingestion alone does not prove historical screenshots are available: publish and independently verify the retained original evidence keys too.
 
+## Scan visibility and recovery
+
+- `alerting.yaml` (PrometheusRule) alerts when a `maps-targets-web-2h` Job fails or when the CronJob has no successful run for 4 hours, and warns when the CronJob stops scheduling. It relies on kube-prometheus-stack + kube-state-metrics and must be selected by that cluster's Prometheus rule selector.
+- `web-cronjob.yaml` keeps finished Jobs and Pod logs for one day (`ttlSecondsAfterFinished: 86400`). The previous 10-minute TTL deleted the only evidence of the 2026-11-07 scan-gate quarantine.
+- The tracking UI shows a global "采集可能已中断" banner when the newest web observation is older than 4 hours. It reads `GET /api/scans/health` and also displays each CronJob target's `lastSuccessfulTime`.
+- None of these changes release a quarantined gate automatically. Recovery still follows the operator procedure in [scan consistency handoff](../../docs/scan-consistency-handoff.md).
+
 ## Images and credentials
 
 Build on the remote build service/CI and push to ACR. Render `REPLACE_DIGEST_WEB` and `REPLACE_DIGEST_ANDROID` to the independently verified digest of the corresponding source build, including `IMAGE_DIGEST` environment entries. These placeholder files must not be applied unchanged. Kubernetes pulls the built image from ACR; it does not run directly from a Git checkout. A local Docker daemon or local image cache is unnecessary.
