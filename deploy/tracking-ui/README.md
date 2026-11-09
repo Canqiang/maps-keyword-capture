@@ -21,6 +21,8 @@ Configuration: `TRACKING_SCAN_TARGETS` is a JSON array of `{ "id", "title", "cro
 
 ## Deploy
 
+Deployed 2026-11-09 from commit `1b6766e` (ACR run `ch1663`) with digest `sha256:9a3bb9542ae9eac6811230fa8b507fe2e5d35a538db809e29566f56bf09e1cfc`: the timeline API now returns lean rows and the service gzips text responses, so the 14-day four-point keyword overview loads in about 5 s instead of a minute or more. The live Deployment mounts ConfigMap `maps-targets-liya90-v1-476d4c50`; do not `kubectl apply` the older manifest below without confirming its volume and image.
+
 Deployed 2026-10-21 14:40 Asia/Shanghai from `deploy/tracking-targets/ui.yaml` + `ui-rbac.yaml` with image digest `sha256:0a9d412be44ccb8429b7410b69ffe6fb56270e3f7d91408925f0f22672c398e5`: sign-in page, session cookie, the collect-now button, and real OpenStreetMap base maps (Leaflet 1.9.4 from cdnjs) under the point and grid views with Local Falcon style rank pins, true 1 / 3 / 5 km distance rings and a legend; the former SVG sketches remain as the fallback when the library cannot load.
 
 ```bash
