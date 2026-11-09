@@ -47,6 +47,8 @@ python3 -c "import json;[print(json.dumps(s)) for s in json.load(open('deploy/tr
 | GET / PUT | `/api/stores/:id` | Read / replace (storeId cannot change) |
 | PUT | `/api/stores/:id/active` | `{ "active": false }` pauses tracking |
 | GET | `/api/stores/:id/latest?surface=web&point=r0c0` | Latest rank per keyword with the previous one |
+| GET | `/api/stores/:id/timeline?surface=web&point=…&from=YYYY-MM-DD&to=YYYY-MM-DD` | Paginated history rows for the overview and per-date matrix (lean projection; full record via `/observations/:id`) |
+| GET | `/api/stores/:id/observations/:id?surface=web` | One observation with listings, quality detail and screenshot keys |
 | GET | `/api/stores/:id/trend?surface=web&keyword=…&days=14` | Rank history |
 | GET | `/api/stores/:id/grid?surface=web&keyword=…&date=YYYY-MM-DD` | Grid cells and metrics for one day |
 | GET | `/api/evidence?key=…png` | Screenshot from the evidence container |

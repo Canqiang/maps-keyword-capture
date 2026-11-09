@@ -5,6 +5,23 @@ import type { StoredStore } from './repository.js';
 export interface TimelineOptions { surface: Surface; pointId: string; from: string; to: string; keywordKey?: string; limit: number; cursor?: string }
 export interface TimelinePage { items: RankObservation[]; nextCursor: string | null; complete: boolean }
 export interface HistoryObservation extends RankObservation { eligible: boolean; metricOrganicRank: number | null; cohortKey: string | null }
+/** Timeline rows carry only what the history views render; the full record stays behind /observations/:id. */
+export interface TimelineObservation {
+  observationId: string; surface: Surface; storeId: string; placeId: string;
+  keyword: string; keywordKey: string; keywordTier: RankObservation['keywordTier']; pointId: string;
+  point: RankObservation['point']; locationMode: RankObservation['locationMode'];
+  observedAt: string; localDate: string; scanId: string; queryId: string;
+  gridSpec?: { center: { latitude: number; longitude: number }; radiusKm: number; size: number }; gridRunId?: string;
+  rank: Pick<RankObservation['rank'], 'status' | 'displayPosition' | 'organicRank' | 'listingsObserved' | 'listingStatus' | 'stopReason'>;
+  quality?: {
+    rankingReliable: boolean | null; sequenceVerified: boolean | null; classificationComplete: boolean | null;
+    screenshotCoverageComplete: boolean | null; identityResolved: boolean | null; organicCoverage: number | null;
+    endOfResults: boolean | null; geographicRelevance: { status: string } | null;
+  };
+  evidence: { manifestKey: string | null };
+  source: { adapterVersion: string | null; profileHash: string | null };
+  eligible: boolean; metricOrganicRank: number | null; cohortKey: string | null;
+}
 export interface ObservedPoint {
   pointId: string; point: RankObservation['point']; locationMode: RankObservation['locationMode'];
   coordinateStatus: 'recorded' | 'unavailable'; coordinateVariants: number;
@@ -101,5 +118,29 @@ export function historyObservation(row: RankObservation): HistoryObservation {
     evidence: { manifestKey: evidenceKey(row.evidence.manifestKey), resultKey: evidenceKey(row.evidence.resultKey), screenshotKeys: row.evidence.screenshotKeys.map(evidenceKey).filter((key): key is string => key !== null && key.endsWith('.png')) },
     source: { adapterVersion: row.source.adapterVersion, profileHash: row.source.profileHash, ...(row.source.attemptId === undefined ? {} : { attemptId: row.source.attemptId }), ...(row.source.queryAttemptId === undefined ? {} : { queryAttemptId: row.source.queryAttemptId }) },
     ingestedAt: row.ingestedAt, eligible: rank !== undefined, metricOrganicRank: rank ?? null, cohortKey: observationCohortKey(row),
+  };
+}
+
+/**
+ * The timeline list view needs identifiers, rank outcome, cohort and the evidence manifest for
+ * scan grouping. Full listings, screenshot keys, quality detail and catalog snapshots are an
+ * order of magnitude larger and are only read on the evidence page.
+ */
+export function historyTimelineObservation(row: RankObservation): TimelineObservation {
+  const rank = organicRankForMetrics(row), q = row.quality;
+  return {
+    observationId: row.observationId, surface: row.surface, storeId: row.storeId, placeId: row.placeId,
+    keyword: row.keyword, keywordKey: row.keywordKey, keywordTier: row.keywordTier, pointId: row.pointId,
+    point: { latitude: row.point.latitude, longitude: row.point.longitude, distanceKm: row.point.distanceKm, ring: row.point.ring, ...(row.point.zoom === undefined ? {} : { zoom: row.point.zoom }) },
+    locationMode: row.locationMode, observedAt: row.observedAt, localDate: row.localDate, scanId: row.scanId, queryId: row.queryId,
+    ...(row.gridSpec ? { gridSpec: { center: { latitude: row.gridSpec.center.latitude, longitude: row.gridSpec.center.longitude }, radiusKm: row.gridSpec.radiusKm, size: row.gridSpec.size } } : {}),
+    ...(row.gridRunId ? { gridRunId: row.gridRunId } : {}),
+    rank: { status: row.rank.status, displayPosition: row.rank.displayPosition, organicRank: row.rank.organicRank, listingsObserved: row.rank.listingsObserved, listingStatus: row.rank.listingStatus, stopReason: row.rank.stopReason },
+    ...(q ? { quality: { rankingReliable: q.rankingReliable, sequenceVerified: q.sequenceVerified, classificationComplete: q.classificationComplete,
+      screenshotCoverageComplete: q.screenshotCoverageComplete, identityResolved: q.identityResolved, organicCoverage: q.organicCoverage, endOfResults: q.endOfResults,
+      geographicRelevance: q.geographicRelevance ? { status: q.geographicRelevance.status } : null } } : {}),
+    evidence: { manifestKey: evidenceKey(row.evidence.manifestKey) },
+    source: { adapterVersion: row.source.adapterVersion, profileHash: row.source.profileHash },
+    eligible: rank !== undefined, metricOrganicRank: rank ?? null, cohortKey: observationCohortKey(row),
   };
 }

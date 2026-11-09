@@ -61,6 +61,9 @@ export class MongoObservationStore implements ObservationStore {
     if (!this.indexed) {
       await collection.createIndexes([
         { key: { storeId: 1, keywordKey: 1, surface: 1, pointId: 1, observedAt: -1 }, name: 'trend' },
+        // The history timeline reads one point over a date range in observation order; without this
+        // index the server sorts every observation of the point in memory before applying the limit.
+        { key: { storeId: 1, placeId: 1, surface: 1, pointId: 1, observedAt: 1, observationId: 1 }, name: 'timeline' },
         { key: { scanId: 1 }, name: 'scan' },
         { key: { storeId: 1, localDate: 1, surface: 1 }, name: 'daily' },
       ]);

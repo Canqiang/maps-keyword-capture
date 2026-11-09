@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
+import { gzip } from 'node:zlib';
 import { pathToFileURL } from 'node:url';
 import { keywordKey, type Surface } from '../domain/model.js';
-import { decodeHistoryCursor, historyObservation, type TimelineOptions } from '../domain/history.js';
+import { decodeHistoryCursor, historyObservation, historyTimelineObservation, type TimelineOptions } from '../domain/history.js';
 import { discoverGridRuns, gridHistory } from './grid-history.js';
 import { MongoTrackingRepository, type TrackingRepository } from '../domain/repository.js';
 import { loadTrackingConfig, type TrackingConfig } from '../domain/tracking-config.js';
@@ -25,9 +26,33 @@ const MAX_BODY = 256 * 1024;
 
 class HttpError extends Error { constructor(readonly status: number, message: string) { super(message); } }
 
-function send(res: ServerResponse, status: number, body: unknown, type = 'application/json; charset=utf-8'): void {
+const COMPRESSIBLE = /^(?:application\/json|text\/)/u;
+const COMPRESS_MIN_BYTES = 1024;
+function gzipPayload(input: Buffer): Promise<Buffer> {
+  return new Promise((resolve, reject) => gzip(input, (error, result) => error ? reject(error) : resolve(result)));
+}
+/**
+ * JSON and HTML are mostly repetitive ranks and coordinates; the history views download tens of
+ * megabytes per store without gzip. Compress text above a small threshold and leave images alone.
+ */
+async function send(req: IncomingMessage, res: ServerResponse, status: number, body: unknown, type = 'application/json; charset=utf-8'): Promise<void> {
   const payload = typeof body === 'string' || Buffer.isBuffer(body) ? body : JSON.stringify(body);
-  res.writeHead(status, { 'content-type': type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' });
+  const headers: Record<string, string | number> = { 'content-type': type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' };
+  if (COMPRESSIBLE.test(type)) {
+    headers.vary = 'accept-encoding';
+    const size = typeof payload === 'string' ? Buffer.byteLength(payload) : payload.length;
+    if (size >= COMPRESS_MIN_BYTES && /\bgzip\b/u.test(String(req.headers?.['accept-encoding'] ?? ''))) {
+      try {
+        const compressed = await gzipPayload(typeof payload === 'string' ? Buffer.from(payload, 'utf8') : payload);
+        headers['content-encoding'] = 'gzip';
+        headers['content-length'] = compressed.length;
+        res.writeHead(status, headers);
+        res.end(compressed);
+        return;
+      } catch { /* fall back to identity */ }
+    }
+  }
+  res.writeHead(status, headers);
   res.end(payload);
 }
 async function readJson(req: IncomingMessage): Promise<unknown> {
@@ -115,13 +140,13 @@ export function createHandler(deps: ServerDeps) {
         pathname = url.pathname;
         parts = url.pathname.split('/').filter(Boolean).map(decodeURIComponent);
       } catch { throw new HttpError(400, 'malformed URL path'); }
-      if (req.method === 'GET' && url.pathname === '/healthz') return send(res, 200, { ok: true });
+      if (req.method === 'GET' && url.pathname === '/healthz') return send(req, res, 200, { ok: true });
       const auth = deps.auth;
       const signedIn = !auth || auth.accepts(req.headers.authorization) || auth.acceptsSession(req.headers.cookie);
       if (auth && url.pathname === '/login') {
         if (req.method === 'GET') {
           if (signedIn) return redirect(res, '/');
-          return send(res, 200, loginPage({ error: url.searchParams.get('error') === '1', ...(url.searchParams.get('next') ? { next: url.searchParams.get('next')! } : {}) }), 'text/html; charset=utf-8');
+          return send(req, res, 200, loginPage({ error: url.searchParams.get('error') === '1', ...(url.searchParams.get('next') ? { next: url.searchParams.get('next')! } : {}) }), 'text/html; charset=utf-8');
         }
         if (req.method === 'POST') {
           const form = await readForm(req);
@@ -142,40 +167,40 @@ export function createHandler(deps: ServerDeps) {
       if (!signedIn) {
         if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) return redirect(res, '/login');
         res.setHeader('www-authenticate', 'Basic realm="Maps tracking", charset="UTF-8"');
-        return send(res, 401, { error: 'authentication required' });
+        return send(req, res, 401, { error: 'authentication required' });
       }
-      if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) return send(res, 200, UI_HTML, 'text/html; charset=utf-8');
+      if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) return send(req, res, 200, UI_HTML, 'text/html; charset=utf-8');
       if (parts[0] !== 'api') throw new HttpError(404, 'not found');
       if (deps.readOnly && !['GET', 'HEAD', 'OPTIONS'].includes(req.method ?? '')) throw new HttpError(403, 'this preview is read-only');
       if (req.method === 'GET' && parts[1] === 'settings' && parts.length === 2) {
         const { stores: _stores, ...settings } = deps.config;
-        return send(res, 200, { ...settings, readOnly: deps.readOnly ?? false, scans: Boolean(deps.scans) && !deps.readOnly, signedIn: Boolean(auth), ...(deps.previewInfo ? { previewInfo: deps.previewInfo } : {}) });
+        return send(req, res, 200, { ...settings, readOnly: deps.readOnly ?? false, scans: Boolean(deps.scans) && !deps.readOnly, signedIn: Boolean(auth), ...(deps.previewInfo ? { previewInfo: deps.previewInfo } : {}) });
       }
       if (parts[1] === 'scans') {
         if (!deps.scans) throw new HttpError(503, '此环境没有配置采集触发');
         try {
           if (parts.length === 2 && req.method === 'GET') {
             const [targets, jobs] = await Promise.all([deps.scans.targets(), deps.scans.jobs()]);
-            return send(res, 200, { targets, jobs, now: now().toISOString() });
+            return send(req, res, 200, { targets, jobs, now: now().toISOString() });
           }
           if (parts.length === 4 && parts[3] === 'trigger' && req.method === 'POST') {
             await readJson(req);
             const job = await deps.scans.trigger(parts[2]!);
             deps.log?.({ stage: 'scan_triggered', target: parts[2], job: job.name });
-            return send(res, 202, job);
+            return send(req, res, 202, job);
           }
         } catch (error) { if (error instanceof ScanTriggerError) throw new HttpError(error.status, error.message); throw error; }
       }
       if (parts[1] === 'seo' && parts[2] === 'stores' && req.method === 'GET') {
         if (!deps.seo) throw new HttpError(404, 'SEO keyword library is not configured');
         const tracked = new Map((await deps.repo.listStores({ includeInactive: true })).map(s => [s.placeId, s]));
-        if (parts.length === 3) return send(res, 200, (await deps.seo.stores()).map(s => ({ ...s, trackedStoreId: tracked.get(s.placeId)?.storeId ?? null })));
+        if (parts.length === 3) return send(req, res, 200, (await deps.seo.stores()).map(s => ({ ...s, trackedStoreId: tracked.get(s.placeId)?.storeId ?? null })));
         if (parts.length === 4) {
           const library = await deps.seo.store(parts[3]!);
           if (!library) throw new HttpError(404, 'store not found in the SEO keyword library');
           const store = tracked.get(library.placeId);
           const monitored = new Set((store?.keywordTargets ?? []).map(t => keywordKey(t.keyword)));
-          return send(res, 200, { ...library, trackedStoreId: store?.storeId ?? null, keywords: library.keywords.map(k => ({ ...k, monitored: monitored.has(keywordKey(k.keyword)) })) });
+          return send(req, res, 200, { ...library, trackedStoreId: store?.storeId ?? null, keywords: library.keywords.map(k => ({ ...k, monitored: monitored.has(keywordKey(k.keyword)) })) });
         }
       }
       if (parts[1] === 'stores' && parts.length === 2) {
@@ -184,10 +209,10 @@ export function createHandler(deps: ServerDeps) {
           const byId = new Map(summaries.map(s => [s.storeId, s]));
           const surface = surfaceOf(url.searchParams.get('surface'));
           const rosters = await Promise.all(stores.map(store => deps.repo.rosterLatest(store.storeId, surface)));
-          return send(res, 200, stores.map((store, index) => ({ ...store, summary: byId.get(store.storeId) ?? null, rosterLatest: rosters[index] ?? null })));
+          return send(req, res, 200, stores.map((store, index) => ({ ...store, summary: byId.get(store.storeId) ?? null, rosterLatest: rosters[index] ?? null })));
         }
         if (req.method === 'POST') {
-          try { return send(res, 201, await deps.repo.saveStore(await readJson(req), now(), { by: deps.actor ?? null })); }
+          try { return send(req, res, 201, await deps.repo.saveStore(await readJson(req), now(), { by: deps.actor ?? null })); }
           catch (error) { if (error instanceof HttpError) throw error; throw new HttpError(400, error instanceof Error ? error.message : 'invalid store'); }
         }
       }
@@ -195,48 +220,48 @@ export function createHandler(deps: ServerDeps) {
         const storeId = parts[2];
         const store = await deps.repo.getStore(storeId);
         if (!store) throw new HttpError(404, 'store not found');
-        if (parts.length === 3 && req.method === 'GET') return send(res, 200, store);
+        if (parts.length === 3 && req.method === 'GET') return send(req, res, 200, store);
         if (parts.length === 3 && req.method === 'PUT') {
           const body = await readJson(req) as Record<string, unknown>;
           if (body.storeId !== undefined && body.storeId !== storeId) throw new HttpError(400, 'storeId cannot change');
           const retained = Object.fromEntries(['expectedArea', 'fixedPoints', 'monitoringCatalog', 'keywordTargets'].filter(key => key in store).map(key => [key, (store as unknown as Record<string, unknown>)[key]]));
-          try { return send(res, 200, await deps.repo.saveStore({ ...retained, ...body, storeId }, now(), { by: deps.actor ?? null })); }
+          try { return send(req, res, 200, await deps.repo.saveStore({ ...retained, ...body, storeId }, now(), { by: deps.actor ?? null })); }
           catch (error) { throw new HttpError(400, error instanceof Error ? error.message : 'invalid store'); }
         }
         if (parts.length === 4 && parts[3] === 'active' && req.method === 'PUT') {
           const body = await readJson(req) as { active?: unknown };
           if (typeof body.active !== 'boolean') throw new HttpError(400, 'active must be boolean');
-          return send(res, 200, await deps.repo.setActive(storeId, body.active, now(), deps.actor ?? null));
+          return send(req, res, 200, await deps.repo.setActive(storeId, body.active, now(), deps.actor ?? null));
         }
         if (parts.length === 4 && parts[3] === 'changes' && req.method === 'GET') {
-          return send(res, 200, { storeId, changes: await deps.repo.storeChanges(storeId, 20) });
+          return send(req, res, 200, { storeId, changes: await deps.repo.storeChanges(storeId, 20) });
         }
         if (parts.length === 4 && parts[3] === 'timeline' && req.method === 'GET') {
           const options = timelineOptions(url, now(), deps.config.timezone, store.fixedPoints?.find(p => p.distanceKm === 0)?.id);
           try { decodeHistoryCursor(storeId, options); } catch { throw new HttpError(400, 'invalid timeline cursor for this selection'); }
           const page = await deps.repo.timeline(storeId, options);
-          return send(res, 200, { storeId, surface: options.surface, pointId: options.pointId, from: options.from, to: options.to, timezone: deps.config.timezone,
-            ...(options.keywordKey ? { keywordKey: options.keywordKey } : {}), ...page, items: page.items.map(historyObservation) });
+          return send(req, res, 200, { storeId, surface: options.surface, pointId: options.pointId, from: options.from, to: options.to, timezone: deps.config.timezone,
+            ...(options.keywordKey ? { keywordKey: options.keywordKey } : {}), ...page, items: page.items.map(historyTimelineObservation) });
         }
         if (parts.length === 5 && parts[3] === 'observations' && req.method === 'GET') {
           const row = await deps.repo.observation(storeId, parts[4]!, explicitSurface(url.searchParams.get('surface')));
           if (!row) throw new HttpError(404, 'observation not found for this store and surface');
-          return send(res, 200, historyObservation(row));
+          return send(req, res, 200, historyObservation(row));
         }
         if (parts.length === 4 && parts[3] === 'points' && req.method === 'GET') {
           const surface = explicitSurface(url.searchParams.get('surface'));
-          return send(res, 200, { storeId, surface, ...await deps.repo.points(storeId, surface) });
+          return send(req, res, 200, { storeId, surface, ...await deps.repo.points(storeId, surface) });
         }
         if (parts.length === 4 && parts[3] === 'grid-runs' && req.method === 'GET') {
           const surface = explicitSurface(url.searchParams.get('surface')), keyword = url.searchParams.get('keyword'), localDate = url.searchParams.get('date');
           if (!keyword || !localDate || !validDate(localDate)) throw new HttpError(400, 'keyword and a real date=YYYY-MM-DD are required');
           const all = await deps.repo.day(storeId, keywordKey(keyword), { surface, localDate }), rows = all.slice(0, 5000);
-          return send(res, 200, { storeId, surface, keywordKey: keywordKey(keyword), localDate, runs: discoverGridRuns(rows, deps.config, store), legacyObservations: rows.filter(row => !row.gridRunId && (row.gridSpec || row.pointId !== 'r0c0')).length, truncated: all.length > 5000 });
+          return send(req, res, 200, { storeId, surface, keywordKey: keywordKey(keyword), localDate, runs: discoverGridRuns(rows, deps.config, store), legacyObservations: rows.filter(row => !row.gridRunId && (row.gridSpec || row.pointId !== 'r0c0')).length, truncated: all.length > 5000 });
         }
         if (parts.length === 4 && parts[3] === 'latest' && req.method === 'GET') {
           const surface = url.searchParams.get('surface');
           const pointId = url.searchParams.get('point');
-          return send(res, 200, await deps.repo.latest(storeId, { ...(surface ? { surface: surfaceOf(surface) } : {}), ...(pointId ? { pointId } : {}) }));
+          return send(req, res, 200, await deps.repo.latest(storeId, { ...(surface ? { surface: surfaceOf(surface) } : {}), ...(pointId ? { pointId } : {}) }));
         }
         if (parts.length === 4 && parts[3] === 'trend' && req.method === 'GET') {
           const keyword = url.searchParams.get('keyword');
@@ -244,28 +269,28 @@ export function createHandler(deps: ServerDeps) {
           const days = Math.min(90, Math.max(1, Number(url.searchParams.get('days') ?? 7) || 7));
           const since = new Date(now().getTime() - days * 86_400_000).toISOString();
           const pointId = url.searchParams.get('point');
-          return send(res, 200, await deps.repo.trend(storeId, keywordKey(keyword), { surface: surfaceOf(url.searchParams.get('surface')), ...(pointId ? { pointId } : {}), since }));
+          return send(req, res, 200, await deps.repo.trend(storeId, keywordKey(keyword), { surface: surfaceOf(url.searchParams.get('surface')), ...(pointId ? { pointId } : {}), since }));
         }
         if (parts.length === 4 && parts[3] === 'grid' && req.method === 'GET') {
           const keyword = url.searchParams.get('keyword'), localDate = url.searchParams.get('date'), gridRunId = url.searchParams.get('gridRunId');
           if (!keyword || !localDate || !validDate(localDate)) throw new HttpError(400, 'keyword and date=YYYY-MM-DD are required');
           const all = await deps.repo.day(storeId, keywordKey(keyword), { surface: surfaceOf(url.searchParams.get('surface')), localDate }), rows = all.slice(0, 5000);
           if (gridRunId && !rows.some(row => row.gridRunId === gridRunId)) throw new HttpError(404, 'grid run not found in this selection');
-          return send(res, 200, { ...gridHistory(rows, deps.config, store, gridRunId ?? undefined), truncated: all.length > 5000 });
+          return send(req, res, 200, { ...gridHistory(rows, deps.config, store, gridRunId ?? undefined), truncated: all.length > 5000 });
         }
       }
       if (req.method === 'GET' && parts[1] === 'evidence' && parts.length === 2) {
         const key = url.searchParams.get('key') ?? '';
         if (!EVIDENCE_KEY.test(key) || key.split('/').some(segment => segment === '..' || segment === '.' || segment === '')) throw new HttpError(400, 'not an evidence screenshot key');
         if (!deps.evidence) throw new HttpError(503, 'evidence storage is not configured');
-        try { return send(res, 200, await deps.evidence.get(key), 'image/png'); }
+        try { return send(req, res, 200, await deps.evidence.get(key), 'image/png'); }
         catch { throw new HttpError(404, 'screenshot not found'); }
       }
       throw new HttpError(404, 'not found');
     } catch (error) {
       const status = error instanceof HttpError ? error.status : 500;
       if (status === 500) deps.log?.({ stage: 'http_error', path: pathname, error: error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***').slice(0, 200) : 'unknown' });
-      send(res, status, { error: status === 500 ? 'internal error' : (error as Error).message });
+      return send(req, res, status, { error: status === 500 ? 'internal error' : (error as Error).message });
     }
   };
 }
@@ -273,7 +298,7 @@ export function createHandler(deps: ServerDeps) {
 export function startServer(deps: ServerDeps, port: number): Server {
   const handler = createHandler(deps);
   const server = createServer((req, res) => { void handler(req, res).catch(() => {
-    if (!res.headersSent) send(res, 500, { error: 'internal error' });
+    if (!res.headersSent) void send(req, res, 500, { error: 'internal error' }).catch(() => res.destroy());
     else res.destroy();
   }); });
   server.listen(port);

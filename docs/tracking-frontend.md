@@ -36,6 +36,10 @@ This uses the existing Azure CLI login through `AzureCliCredential`, never accou
 
 The preview is an explicitly dated archive, not a live operational monitor. Rebuilding a snapshot is separate from changing the capture configuration. The source audit must identify date ranges, catalog provenance, missing location/quality data and whether original images were hash-checked in full or only when read.
 
+## Payload and compression
+
+`GET /api/stores/:id/timeline` returns lean rows: identity, keyword and point, rank outcome, cohort and the evidence manifest needed to group scan rounds. Listings, screenshot keys, quality detail and catalog snapshots stay behind `GET /api/stores/:id/observations/:id`, so a 14-day, four-point keyword overview is about 21 MB of JSON instead of 65 MB, and about 500 KB on the wire. JSON and HTML responses above 1 KB are gzip-compressed when the client accepts it. The read path also ensures a `timeline` index (`storeId, placeId, surface, pointId, observedAt, observationId`) so one point's history is read in order instead of sorting every observation in memory.
+
 ## Validation
 
 Run `npm run typecheck`, `npm test` and `npm run build`. New focused suites cover timeline pagination and ownership, unavailable grid cells, archive read-only enforcement and receipts, and client day/cohort/evidence identity logic. Browser acceptance additionally checks desktop/mobile layout and real original PNG selection; unit fixtures alone do not establish live collector acceptance.

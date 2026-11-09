@@ -55,6 +55,22 @@ describe('historical evidence API', () => {
     expect(second.body).toMatchObject({ complete: true, nextCursor: null });
     expect((await call(timeline.replace('surface=web', 'surface=android') + '&cursor=' + first.body.nextCursor)).status).toBe(400);
   });
+  it('sends lean timeline rows while the evidence endpoint keeps the full record', async () => {
+    const row = make('lean');
+    row.topListings = [{ displayPosition: 1, organicRank: 1, resultType: 'organic', name: 'Crown One', placeId: null, rating: 4, reviewCount: 428, distanceText: null }];
+    const { call } = await start([row]);
+    const item = (await call(timeline)).body.items[0];
+    expect(item).toMatchObject({ observationId: 'lean', eligible: true, evidence: { manifestKey: 'tracking/web/manifest.json' }, quality: { rankingReliable: true }, rank: { status: 'ranked', organicRank: 2 } });
+    expect(item.topListings).toBeUndefined();
+    expect(item.evidence.screenshotKeys).toBeUndefined();
+    expect(item.quality.warnings).toBeUndefined();
+    expect(item.source).toEqual({ adapterVersion: 'v1', profileHash: 'profile' });
+    expect(item.ingestedAt).toBeUndefined();
+    const full = (await call(`${path}/observations/lean?surface=web`)).body;
+    expect(full.topListings).toHaveLength(1);
+    expect(full.evidence.screenshotKeys).toEqual(['tracking/web/lean.png']);
+    expect(full.ingestedAt).toBe('2026-10-20T12:00:00Z');
+  });
   it('requires an explicit surface and a real bounded date range', async () => {
     const { call } = await start();
     for (const suffix of ['/timeline', '/points', '/observations/id', '/grid-runs?keyword=x&date=2026-10-20']) expect((await call(path + suffix)).status).toBe(400);

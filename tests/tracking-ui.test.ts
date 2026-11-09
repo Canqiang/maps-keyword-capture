@@ -87,6 +87,17 @@ describe('tracking ui server', () => {
     expect(list.body[0]).toMatchObject({ storeId: 'keke-flushing', summary: { ranked: 1, top3: 1 } });
     expect((await call('/healthz')).body).toEqual({ ok: true });
   });
+  it('compresses text responses for clients that accept gzip', async () => {
+    await start();
+    const base = `http://127.0.0.1:${(server!.address() as AddressInfo).port}`;
+    const page = await fetch(base + '/', { headers: { 'accept-encoding': 'gzip' } });
+    expect(page.headers.get('content-encoding')).toBe('gzip');
+    expect(page.headers.get('vary')).toMatch(/accept-encoding/i);
+    expect(await page.text()).toContain('Maps Rank Tracker');
+    const identity = await fetch(base + '/', { headers: { 'accept-encoding': 'identity' } });
+    expect(identity.headers.get('content-encoding')).toBeNull();
+    expect(await identity.text()).toContain('Maps Rank Tracker');
+  });
   it('creates, edits and pauses stores with validation', async () => {
     const { call } = await start();
     const created = await call('/api/stores', { method: 'POST', body: JSON.stringify({ ...keke, storeId: 'only-bear', name: 'Only Bear', placeId: 'ChIJbear' }) });
