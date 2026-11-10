@@ -215,7 +215,7 @@ describe('daily monitor', () => {
     expect(out.exitCode).toBe(1); expect(deps.batchRunner).not.toHaveBeenCalled();
     expect(out.manifest?.stores.map(s => s.status)).toEqual(['failed', 'skipped']);
   });
-  it('reuses the real collector with verified raw PNG/JSON/CSV evidence in dated store namespaces', async () => {
+  it('reuses the collector with verified structured evidence and omits images without a resolved Top10 target', async () => {
     const deps = await setup();
     const url = await writeFixture({ query: 'one 0', cards: namedCards(3), endMarkerInitially: true });
     const out = await runDailyMonitor({ ...deps, config: { ...deps.config, stores: [first], maxKeywordsPerStore: 1 }, batchRunner: batch => runBatch({ ...batch, searchUrlFor: () => url }) });
@@ -223,7 +223,7 @@ describe('daily monitor', () => {
     expect(out.manifest?.counts.captured).toBe(1);
     expect(out.manifest?.stores[0]?.batches[0]?.ownStore[0]?.summary.status).toBe('identity_unresolved');
     const keys = [...deps.gateway.objects.keys()];
-    expect(keys.some(k => k.startsWith('2026-09-18/one/') && k.endsWith('.png'))).toBe(true);
+    expect(keys.some(k => k.startsWith('2026-09-18/one/') && k.endsWith('.png'))).toBe(false);
     expect(keys.some(k => k.startsWith('2026-09-18/one/') && k.endsWith('.csv'))).toBe(true);
     const receipt = out.manifest!.stores[0]!.batches[0]!.manifestReceipt!;
     const batchManifest = JSON.parse((await deps.gateway.get(receipt.objectKey!)).toString()) as BatchManifest;

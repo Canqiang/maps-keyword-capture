@@ -11,6 +11,8 @@ import { AzureBlobGateway, containerClientFromEnv } from '../storage/azure-gatew
 import { UI_HTML } from './ui.js';
 import { createBasicAuth, type BasicAuth } from './auth.js';
 import { MongoSeoKeywordLibrary, type SeoKeywordLibrary } from './seo-library.js';
+import { EvidenceCache } from './evidence-cache.js';
+import { competitorHistory } from './competitors.js';
 import { loginPage } from './login.js';
 import { createScanTrigger, inClusterKubeApi, parseScanTargets, ScanTriggerError, type ScanTrigger } from './scan-trigger.js';
 
@@ -133,6 +135,7 @@ function timelineOptions(url: URL, now: Date, timezone: string, defaultPointId =
 
 export function createHandler(deps: ServerDeps) {
   const now = deps.now ?? (() => new Date());
+  const imageCache = deps.evidence ? new EvidenceCache(deps.evidence) : null;
   return async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
     let pathname = '/';
     try {
@@ -249,10 +252,18 @@ export function createHandler(deps: ServerDeps) {
         if (parts.length === 4 && parts[3] === 'changes' && req.method === 'GET') {
           return send(req, res, 200, { storeId, changes: await deps.repo.storeChanges(storeId, 20) });
         }
+        if (parts.length === 4 && parts[3] === 'competitors' && req.method === 'GET') {
+          const options = timelineOptions(url, now(), deps.config.timezone, store.fixedPoints?.find(p => p.distanceKm === 0)?.id);
+          if (!options.keywordKey) throw new HttpError(400, 'keyword is required');
+          try { decodeHistoryCursor(storeId, options); } catch { throw new HttpError(400, 'invalid competitor cursor for this selection'); }
+          const page = await deps.repo.timeline(storeId, options);
+          return send(req, res, 200, { storeId, targetPlaceId: store.placeId, surface: options.surface, pointId: options.pointId,
+            keywordKey: options.keywordKey, nextCursor: page.nextCursor, complete: page.complete, ...competitorHistory(page.items) });
+        }
         if (parts.length === 4 && parts[3] === 'timeline' && req.method === 'GET') {
           const options = timelineOptions(url, now(), deps.config.timezone, store.fixedPoints?.find(p => p.distanceKm === 0)?.id);
           try { decodeHistoryCursor(storeId, options); } catch { throw new HttpError(400, 'invalid timeline cursor for this selection'); }
-          const page = await deps.repo.timeline(storeId, options);
+          const page = await deps.repo.timeline(storeId, { ...options, summaryOnly: true });
           return send(req, res, 200, { storeId, surface: options.surface, pointId: options.pointId, from: options.from, to: options.to, timezone: deps.config.timezone,
             ...(options.keywordKey ? { keywordKey: options.keywordKey } : {}), ...page, items: page.items.map(historyTimelineObservation) });
         }
@@ -296,7 +307,16 @@ export function createHandler(deps: ServerDeps) {
         const key = url.searchParams.get('key') ?? '';
         if (!EVIDENCE_KEY.test(key) || key.split('/').some(segment => segment === '..' || segment === '.' || segment === '')) throw new HttpError(400, 'not an evidence screenshot key');
         if (!deps.evidence) throw new HttpError(503, 'evidence storage is not configured');
-        try { return send(req, res, 200, await deps.evidence.get(key), 'image/png'); }
+        try {
+          const image = await imageCache!.get(key);
+          // Private revalidation: no PNG body on repeat views, but auth still runs before a 304.
+          const headers = { 'cache-control': 'private, no-cache', etag: image.etag, 'x-content-type-options': 'nosniff', vary: 'Cookie, Authorization' };
+          if (req.headers['if-none-match']?.split(',').some(tag => tag.trim().replace(/^W\//, '') === image.etag)) {
+            res.writeHead(304, headers); res.end(); return;
+          }
+          res.writeHead(200, { ...headers, 'content-type': 'image/png', 'content-length': image.body.length });
+          res.end(image.body); return;
+        }
         catch { throw new HttpError(404, 'screenshot not found'); }
       }
       throw new HttpError(404, 'not found');

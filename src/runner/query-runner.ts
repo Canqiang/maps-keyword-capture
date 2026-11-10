@@ -17,6 +17,7 @@ import { openLocatedSearch, SearchLocationError } from '../browser/located-searc
 import {
   buildSearchUrl, detectPageState, hasQuerySignal, nextScrollTop, openSearch, queryMatches, scrollFeedTo, waitForFeedChange, transientHintVisible,
 } from '../browser/maps-adapter.js';
+import { canonicalPlaceId } from '../monitor/identity.js';
 import { captureStableObservation } from '../browser/stability.js';
 import type { ArtifactStore } from '../storage/types.js';
 
@@ -91,6 +92,9 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
   const stage = (name: string, extra: Record<string, unknown> = {}) =>
     log({ stage: name, runId: deps.runId, attemptId: deps.attemptId, queryId: input.queryId, queryAttemptId: input.queryAttemptId, elapsedMs: Date.now() - startedMs, ...extra });
 
+  const selective = config.screenshotPolicy;
+  const targetCards = () => assignRanks(state.committed).ranked.filter(r =>
+    r.organicRank !== null && r.organicRank <= 10 && canonicalPlaceId(toListing(r, [])) === selective?.targetPlaceId);
   const screenshots: ScreenshotArtifact[] = [];
   const observations: Observation[] = [];
   const artifacts: Artifact[] = [];
@@ -121,16 +125,23 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     };
     screenshots.push(shot);
     artifacts.push(shot);
+    // Remote stores report upload/readback failures as receipts rather than exceptions.
+    // Retain that receipt, but never use it to satisfy required target coverage.
+    if (selective && storage.storageStatus !== 'verified' && storage.storageStatus !== 'local_only') {
+      throw new Error('screenshot_persistence_failed');
+    }
     return shot;
   }
 
   let context: BrowserContext | null = null;
+  let activePage: Page | null = null;
   try {
     // Inside the try: a browser crash here is a transient failure like any other, not an
     // exception that escapes before the attempt can record its own terminal result.
     context = await newSearchContext(deps.browser, config);
     if (config.mapSearchMode === 'located_ui') geolocationPermission = 'granted';
     const page: Page = await context.newPage();
+    activePage = page;
     const url = deps.searchUrlFor?.(input.keyword) ?? buildSearchUrl(input.keyword, config.locale, config.mapView);
     const open = deps.openSearchImpl ?? openSearch;
     let opened: Awaited<ReturnType<typeof openSearch>>;
@@ -204,6 +215,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       const viewSettle = deps.viewSettle ?? DEFAULT_VIEW_SETTLE;
       const obs = await captureStableObservation(page, {
         deadlineAt: input.deadlineAt,
+        ...(selective ? { captureImage: false } : {}),
         viewSettleIntervalMs: viewSettle.intervalMs,
         viewSettleBudgetMs: observations.length === 0 ? viewSettle.firstBudgetMs : viewSettle.laterBudgetMs,
         viewBlocker: () => transientHintVisible(page),
@@ -257,7 +269,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
         break;
       }
       const snapshot: FeedSnapshot = obs.snapshot;
-      if (!obs.viewSettled && !warnedUnsettled) {
+      if (!selective && !obs.viewSettled && !warnedUnsettled) {
         warnedUnsettled = true;
         warnings.push({ code: 'map_unsettled', message: 'the view was still repainting or showing a transient hint when a screenshot was taken; list evidence is unaffected', observationIds: [] });
       }
@@ -297,11 +309,28 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
 
       const committedIds = new Set(state.committed.map((e) => e.card.occurrenceId));
       const visibleCommitted = cards.filter((c) => c.fullyVisible && committedIds.has(c.occurrenceId));
-      const shouldSave = observations.length === 0 || visibleCommitted.some((c) => !coverage.has(occKey(c)));
+      const targetKeys = new Set(targetCards().map(r => occKey(r.committed.card)));
+      const shouldSave = selective
+        ? !state.failure && visibleCommitted.some(c => targetKeys.has(occKey(c)) && !coverage.has(occKey(c)))
+        : observations.length === 0 || visibleCommitted.some((c) => !coverage.has(occKey(c)));
       const resultsSaved = () => screenshots.filter((s) => s.kind === 'results').length;
       const screenshotIds: string[] = [];
       if (shouldSave && resultsSaved() < config.maxScreenshotsPerKeyword) {
-        const shot = await saveScreenshot(obs.png, 'results', observationId);
+        let png = obs.png;
+        if (selective) {
+          const image = await captureStableObservation(page, { deadlineAt: input.deadlineAt,
+            viewSettleBudgetMs: viewSettle.firstBudgetMs, viewSettleIntervalMs: viewSettle.intervalMs,
+            viewBlocker: () => transientHintVisible(page), ...(deps.signal ? { signal: deps.signal } : {}) });
+          if (!image?.accepted || image.preSignature !== obs.preSignature || image.postSignature !== obs.postSignature) {
+            stop = { kind: 'incomplete', reason: 'unstable_results', error: null }; break;
+          }
+          png = image.png;
+          if (!image.viewSettled && !warnedUnsettled) {
+            warnedUnsettled = true;
+            warnings.push({ code: 'map_unsettled', message: 'the view was still repainting when the target screenshot was taken; list signatures matched', observationIds: [observationId] });
+          }
+        }
+        const shot = await saveScreenshot(png, 'results', observationId);
         screenshotIds.push(shot.id);
         for (const c of visibleCommitted) coverage.set(occKey(c), [...(coverage.get(occKey(c)) ?? []), shot.id]);
       }
@@ -327,7 +356,8 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
         state.committed.length >= limit ? 'limit_reached'
           : snapshot.endOfList && layout.cards.every((c) => committedIndices.has(c.index)) ? 'end_of_results'
             : null;
-      const allCovered = state.committed.every((e) => coverage.has(occKey(e.card)));
+      const requiredCards = selective ? targetCards().map(r => r.committed) : state.committed;
+      const allCovered = requiredCards.every((e) => coverage.has(occKey(e.card)));
       if (completeReason) {
         if (allCovered || resultsSaved() >= config.maxScreenshotsPerKeyword) { stop = { kind: 'complete', reason: completeReason }; break; }
         if (scrolls >= config.maxScrollsPerKeyword) { stop = { kind: 'incomplete', reason: 'scroll_limit', error: null }; break; }
@@ -341,7 +371,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       // Recover an uncovered card already passed, or finish the remaining evidence at a known end.
       // Oversized cards cannot fit a single screenshot and must retain incomplete coverage.
       const recoveryCard = resultsSaved() < config.maxScreenshotsPerKeyword ? cards.find((card) =>
-        committedIds.has(card.occurrenceId) && !coverage.has(occKey(card)) && !card.fullyVisible
+        committedIds.has(card.occurrenceId) && (!selective || targetKeys.has(occKey(card))) && !coverage.has(occKey(card)) && !card.fullyVisible
         && card.bounds.height <= snapshot.paneBounds.height && !coverageRecoveryAttempted.has(occKey(card))
         && (completeReason !== null || card.bounds.y < snapshot.paneBounds.y)) : undefined;
       const target = recoveryCard
@@ -368,15 +398,35 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
     }
     stop = { kind: observations.length === 0 ? 'failed' : 'incomplete', reason: 'error', error: errorOf(err, 'unexpected_error') } as StopCause;
   } finally {
+    if (selective && stop && (stop.kind !== 'complete' || !assignRanks(state.committed).classificationComplete || state.failure !== null || targetCards().some(r => !coverage.has(occKey(r.committed.card)))) && activePage && !screenshots.some(s => s.kind === 'diagnostic')) {
+      const png = await activePage.screenshot({ type: 'png', timeout: 2000 }).catch(() => null);
+      if (png) try { await saveScreenshot(png, 'diagnostic', null); }
+      catch (error) { warnings.push({ code: 'diagnostic_screenshot_failed', message: String(error), observationIds: [] }); }
+    }
     await context?.close().catch(() => undefined);
   }
 
   const { ranked, classificationComplete } = assignRanks(state.committed);
   const screenshotCoverageComplete = ranked.every((r) => (coverage.get(occKey(r.committed.card)) ?? []).length > 0);
   const listings = ranked.map((r) => toListing(r, coverage.get(occKey(r.committed.card)) ?? []));
+  const targets = targetCards();
+  const persistedShots = new Set(screenshots.filter(s => s.kind === 'results' &&
+    (s.storageStatus === 'verified' || s.storageStatus === 'local_only')).map(s => s.id));
+  const policySatisfied = selective ? targets.every(r =>
+    (coverage.get(occKey(r.committed.card)) ?? []).some(id => persistedShots.has(id))) : undefined;
+  const structuredComplete = stop?.kind === 'complete' && classificationComplete && state.failure === null;
+  const screenshotPolicy: QueryQuality['screenshotPolicy'] = selective ? {
+    version: 'target-organic-top10/v1', targetPlaceId: selective.targetPlaceId,
+    decision: !structuredComplete ? (screenshots.some(s => s.kind === 'diagnostic' &&
+      (s.storageStatus === 'verified' || s.storageStatus === 'local_only')) ? 'diagnostic' : 'failed')
+      : !policySatisfied ? 'failed' : targets.length ? 'captured' : 'omitted_by_policy',
+    triggerRank: targets[0]?.organicRank ?? null,
+    satisfied: structuredComplete && policySatisfied === true,
+  } : undefined;
   const outcome = deriveOutcome({
     stop: stop ?? { kind: 'failed', reason: 'error', error: { code: 'no_stop', message: 'attempt ended without a stop cause' } },
     sequenceVerified: state.failure === null,
+    ...(screenshotPolicy ? { screenshotPolicySatisfied: screenshotPolicy.satisfied } : {}),
     classificationComplete, screenshotCoverageComplete, listingCount: listings.length,
   });
   stage('stop', { status: outcome.status, stopReason: outcome.stopReason, listings: listings.length });
@@ -423,7 +473,7 @@ export async function runQueryAttempt(deps: QueryRunnerDeps, input: QueryAttempt
       locationMode: config.mapView ? 'map_view' as const : 'query_only' as const, configuredMapView: config.mapView ? { ...config.mapView } : null, observedMapView: parseObservedMapView(finalUrl),
       loggedIn: false as const, geolocationPermission, ...(searchLocation ? { searchLocation } : {}), egressRegion: null, egressSource: null, observedLocationText: null, filters: [],
     },
-    quality: { verifiedPrefixLength: state.committed.length, classificationComplete, screenshotCoverageComplete, warnings, observedQueryText, queryCorrectionText: null, resultSurface, geographicRelevance, ...(placeDetails ? { placeDetails } : {}) },
+    quality: { ...(screenshotPolicy ? { screenshotPolicy } : {}), verifiedPrefixLength: state.committed.length, classificationComplete, screenshotCoverageComplete, warnings, observedQueryText, queryCorrectionText: null, resultSurface, geographicRelevance, ...(placeDetails ? { placeDetails } : {}) },
     listings, screenshots, observationArtifactIds,
   };
 

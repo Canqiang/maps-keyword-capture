@@ -70,3 +70,14 @@ describe('read-only historical snapshot',()=>{
   expect(loaded.repo.observations[0]?.quality).toBeUndefined();
  });
 });
+
+it('preserves selective screenshot receipt through archive roundtrip',async()=>{
+ const f=await fixture();const row=f.data.observations[0]!;
+ const policy={version:'target-organic-top10/v1',targetPlaceId:row.placeId,decision:'omitted_by_policy',triggerRank:null,satisfied:true};
+ Object.assign(row,{quality:{rankingReliable:true,sequenceVerified:true,classificationComplete:true,screenshotCoverageComplete:false,identityResolved:true,organicCoverage:15,endOfResults:false,resultSurface:'results_list',geographicRelevance:null,screenshotPolicy:policy,warnings:[]}});
+ row.rank.organicRank=11;row.evidence.screenshotKeys=[];
+ await writeFile(f.file,JSON.stringify(f.data));const loaded=await loadSnapshot(f.file);
+ const restored=await loaded.repo.observation(row.storeId,row.observationId,'web');
+ expect(restored?.quality?.screenshotPolicy).toEqual(policy);
+ const {organicRankForMetrics}=await import('../src/domain/model.js');expect(organicRankForMetrics(restored!)).toBe(11);
+});

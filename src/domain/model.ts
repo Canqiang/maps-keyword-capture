@@ -1,5 +1,5 @@
 import type { GridRing, GridSpec } from '../grid/grid.js';
-import type { GeographicRelevance } from '../contracts.js';
+import type { GeographicRelevance, ScreenshotPolicyReceipt } from '../contracts.js';
 import type { FixedPoint, KeywordTarget, MonitoringCatalog } from './tracking-config.js';
 
 /**
@@ -29,6 +29,7 @@ export interface ObservationQuality {
   sequenceVerified: boolean | null;
   classificationComplete: boolean | null;
   screenshotCoverageComplete: boolean | null;
+  screenshotPolicy?: ScreenshotPolicyReceipt;
   identityResolved: boolean | null;
   organicCoverage: number | null;
   endOfResults: boolean | null;
@@ -83,7 +84,7 @@ export const ABSENCE_RESULT_LIMIT = 15;
 export function organicRankForMetrics(o: RankObservation, resultLimit = ABSENCE_RESULT_LIMIT): number | null | undefined {
   const q = o.quality;
   if (!q || q.rankingReliable !== true || q.sequenceVerified !== true || q.classificationComplete !== true
-    || q.screenshotCoverageComplete !== true || q.identityResolved !== true) return undefined;
+    || !(q.screenshotCoverageComplete === true || (q.screenshotPolicy?.version === 'target-organic-top10/v1' && q.screenshotPolicy.satisfied === true)) || q.identityResolved !== true) return undefined;
   if (q.geographicRelevance?.status === 'outside' || q.geographicRelevance?.status === 'mixed') return undefined;
   if (o.rank.status === 'ranked' && Number.isSafeInteger(o.rank.organicRank) && o.rank.organicRank! > 0) return o.rank.organicRank;
   if ((o.rank.status === 'not_found' || o.rank.status === 'ad_only')

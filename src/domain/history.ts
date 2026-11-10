@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { keywordKey, observationCohortKey, organicRankForMetrics, type RankObservation, type Surface } from './model.js';
 import type { StoredStore } from './repository.js';
 
-export interface TimelineOptions { surface: Surface; pointId: string; from: string; to: string; keywordKey?: string; limit: number; cursor?: string }
+export interface TimelineOptions { surface: Surface; pointId: string; from: string; to: string; keywordKey?: string; limit: number; cursor?: string; summaryOnly?: boolean }
 export interface TimelinePage { items: RankObservation[]; nextCursor: string | null; complete: boolean }
 export interface HistoryObservation extends RankObservation { eligible: boolean; metricOrganicRank: number | null; cohortKey: string | null }
 /** Timeline rows carry only what the history views render; the full record stays behind /observations/:id. */
@@ -15,6 +15,7 @@ export interface TimelineObservation {
   rank: Pick<RankObservation['rank'], 'status' | 'displayPosition' | 'organicRank' | 'listingsObserved' | 'listingStatus' | 'stopReason'>;
   quality?: {
     rankingReliable: boolean | null; sequenceVerified: boolean | null; classificationComplete: boolean | null;
+    screenshotPolicy?: NonNullable<RankObservation['quality']>['screenshotPolicy'];
     screenshotCoverageComplete: boolean | null; identityResolved: boolean | null; organicCoverage: number | null;
     endOfResults: boolean | null; geographicRelevance: { status: string } | null;
   };
@@ -109,7 +110,7 @@ export function historyObservation(row: RankObservation): HistoryObservation {
     rank: { status: row.rank.status, displayPosition: row.rank.displayPosition, organicRank: row.rank.organicRank, listingsObserved: row.rank.listingsObserved, listingStatus: row.rank.listingStatus, stopReason: row.rank.stopReason,
       ...(row.rank.targetOccurrences ? { targetOccurrences: row.rank.targetOccurrences.map(o => ({ displayPosition: o.displayPosition, organicRank: o.organicRank, resultType: o.resultType, ...(o.occurrenceId === undefined ? {} : { occurrenceId: o.occurrenceId }) })) } : {}),
       ...(row.rank.adDisplayPositions ? { adDisplayPositions: row.rank.adDisplayPositions.slice() } : {}) },
-    ...(q ? { quality: { rankingReliable: q.rankingReliable, sequenceVerified: q.sequenceVerified, classificationComplete: q.classificationComplete, screenshotCoverageComplete: q.screenshotCoverageComplete,
+    ...(q ? { quality: { ...(q.screenshotPolicy ? { screenshotPolicy: q.screenshotPolicy } : {}), rankingReliable: q.rankingReliable, sequenceVerified: q.sequenceVerified, classificationComplete: q.classificationComplete, screenshotCoverageComplete: q.screenshotCoverageComplete,
       identityResolved: q.identityResolved, organicCoverage: q.organicCoverage, endOfResults: q.endOfResults, resultSurface: q.resultSurface,
       geographicRelevance: geo ? { status: geo.status, expectedArea: geo.expectedArea ? { label: geo.expectedArea.label, latitude: geo.expectedArea.latitude, longitude: geo.expectedArea.longitude, radiusKm: geo.expectedArea.radiusKm, source: geo.expectedArea.source } : null,
         scope: geo.scope, checkedCount: geo.checkedCount, insideCount: geo.insideCount, outsideCount: geo.outsideCount, unknownCount: geo.unknownCount, reason: geo.reason } : null,
@@ -136,7 +137,7 @@ export function historyTimelineObservation(row: RankObservation): TimelineObserv
     ...(row.gridSpec ? { gridSpec: { center: { latitude: row.gridSpec.center.latitude, longitude: row.gridSpec.center.longitude }, radiusKm: row.gridSpec.radiusKm, size: row.gridSpec.size } } : {}),
     ...(row.gridRunId ? { gridRunId: row.gridRunId } : {}),
     rank: { status: row.rank.status, displayPosition: row.rank.displayPosition, organicRank: row.rank.organicRank, listingsObserved: row.rank.listingsObserved, listingStatus: row.rank.listingStatus, stopReason: row.rank.stopReason },
-    ...(q ? { quality: { rankingReliable: q.rankingReliable, sequenceVerified: q.sequenceVerified, classificationComplete: q.classificationComplete,
+    ...(q ? { quality: { ...(q.screenshotPolicy ? { screenshotPolicy: q.screenshotPolicy } : {}), rankingReliable: q.rankingReliable, sequenceVerified: q.sequenceVerified, classificationComplete: q.classificationComplete,
       screenshotCoverageComplete: q.screenshotCoverageComplete, identityResolved: q.identityResolved, organicCoverage: q.organicCoverage, endOfResults: q.endOfResults,
       geographicRelevance: q.geographicRelevance ? { status: q.geographicRelevance.status } : null } } : {}),
     evidence: { manifestKey: evidenceKey(row.evidence.manifestKey) },

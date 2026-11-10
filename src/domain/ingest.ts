@@ -99,8 +99,20 @@ export function ingestWebBatch(input: WebIngestInput, context: IngestContext): R
     const resultSurface = sourceQuality?.resultSurface ?? null;
     const identityResolved = result ? matched.length > 0 || listings.every(l => canonicalPlaceId(l) !== null) : null;
     const geographicRelevance = sourceQuality?.geographicRelevance ?? null;
+    const screenshotPolicy = sourceQuality?.screenshotPolicy;
+    const top10Targets = matched.filter(l => l.resultType === 'organic' && l.organicRank !== null && l.organicRank <= 10);
+    const policyVerified = result?.status === 'captured' && entry.status === 'captured' && screenshotPolicy?.version === 'target-organic-top10/v1'
+      && screenshotPolicy.targetPlaceId === input.store.placeId && screenshotPolicy.satisfied === true
+      && (screenshotPolicy.decision === 'omitted_by_policy'
+        ? top10Targets.length === 0 && screenshotPolicy.triggerRank === null
+        : screenshotPolicy.decision === 'captured' && top10Targets.length > 0
+          && screenshotPolicy.triggerRank === top10Targets[0]!.organicRank
+          && top10Targets.every(l => l.screenshotIds.some(id => result.screenshots.some(s => s.id === id && s.kind === 'results'
+            && s.queryId === result.queryId && s.queryAttemptId === result.queryAttemptId
+            && s.bytes > 0 && (s.storageStatus === 'verified' || s.storageStatus === 'local_only')))));
     const quality: ObservationQuality = {
-      rankingReliable: allVerified([sequenceVerified, classificationComplete, screenshotCoverageComplete,
+      ...(screenshotPolicy ? { screenshotPolicy: { ...screenshotPolicy, satisfied: policyVerified } } : {}),
+      rankingReliable: allVerified([sequenceVerified, classificationComplete, screenshotPolicy ? policyVerified : screenshotCoverageComplete,
         result ? sourceQuality?.verifiedPrefixLength === listings.length : null,
         resultSurface === null ? null : resultSurface === 'results_list']),
       sequenceVerified, classificationComplete, screenshotCoverageComplete, identityResolved,
@@ -136,7 +148,7 @@ export function ingestWebBatch(input: WebIngestInput, context: IngestContext): R
       ...(context.gridRunId ? { gridRunId: context.gridRunId } : {}),
       locationMode: result?.context.locationMode ?? 'query_only', observedAt, localDate: dateFolder(new Date(observedAt), context.timezone), scanId: input.manifest.runId, queryId: entry.queryId,
       rank: { status, ...targetRank(status, occurrences), listingsObserved: listings.length, listingStatus: entry.status, stopReason: entry.stopReason ?? null },
-      quality, topListings: listings.slice(0, TOP_LISTINGS).map(webListing),
+      quality, topListings: listings.map(webListing),
       evidence: { manifestKey: input.manifestKey ?? null, resultKey, screenshotKeys },
       source: { adapterVersion: input.manifest.metadata.adapterVersion ?? null, profileHash: input.manifest.metadata.profileHash ?? null, attemptId: input.manifest.attemptId, queryAttemptId: entry.selectedQueryAttemptId }, ingestedAt: now,
     };
