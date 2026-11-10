@@ -1,0 +1,97 @@
+{
+  "status": "passed",
+  "source": "25fcf73caf090053f4902185161b98cddfd6d48a",
+  "imageDigest": "sha256:a40597d94ea088ce1dc5a9c5153a16ee6f52f07a54b05a57cef047a703ae8872",
+  "originalPodExit": 0,
+  "restarts": 0,
+  "queries": 3,
+  "listingRows": 45,
+  "screenshots": 2,
+  "independentIdentity": "Azure CLI login via AzureCliCredential, not Pod SAS",
+  "downloadedObjects": 18,
+  "writerSizeShaVerifiedObjects": 15,
+  "nonReceiptObjects": [
+    "tracking/web/2026-11-10/point/scan_20261110T085224Z_51d72c/keke-flushing/kekemcenter/001/run_20261110T085224Z_92b2e2/att_cd2e7def/manifest.progress.json",
+    "tracking/web/2026-11-10/point/scan_20261110T085224Z_51d72c/only-bear/onlybearmcenter/002/run_20261110T085241Z_2a3c13/att_e644ddb0/manifest.progress.json",
+    "tracking/web/2026-11-10/point/scan_20261110T085224Z_51d72c/scan.json"
+  ],
+  "nonReceiptScope": "scan root compared to terminal summary; progress manifests downloaded but not writer-hash certified",
+  "productionDatabaseWrites": false,
+  "cases": [
+    {
+      "keyword": "chinese food near me",
+      "policy": {
+        "version": "target-organic-top10/v1",
+        "targetPlaceId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+        "decision": "omitted_by_policy",
+        "triggerRank": null,
+        "satisfied": true
+      },
+      "listings": 15,
+      "screenshots": 0,
+      "pngs": [],
+      "geography": "unverified"
+    },
+    {
+      "keyword": "chinese deli near me",
+      "policy": {
+        "version": "target-organic-top10/v1",
+        "targetPlaceId": "ChIJRTD3Ws5hwokRES78IFU7zW0",
+        "decision": "captured",
+        "triggerRank": 1,
+        "satisfied": true
+      },
+      "listings": 15,
+      "screenshots": 1,
+      "pngs": [
+        "90f18b9dcc7fd29f87eaf86bef8ca95c71c0ca6dc693e800cc750c9a6bca16d7.png"
+      ],
+      "geography": "unverified"
+    },
+    {
+      "keyword": "bubble tea near me",
+      "policy": {
+        "version": "target-organic-top10/v1",
+        "targetPlaceId": "ChIJgR0AKI2HwokRcMm_K7J7Phw",
+        "decision": "captured",
+        "triggerRank": 1,
+        "satisfied": true
+      },
+      "listings": 15,
+      "screenshots": 1,
+      "pngs": [
+        "c851283b2c44e192eb52acd38ed0bb240bdd45d4f27fba8d048dd6465a6ddb07.png"
+      ],
+      "geography": "unverified"
+    }
+  ],
+  "deployedResources": [
+    "maps-tracking-ui",
+    "maps-targets-web-2h",
+    "maps-keyword-monitor-daily",
+    "maps-keke-extra-daily",
+    "maps-tracking-ingest-daily"
+  ],
+  "checks": {
+    "typecheck": true,
+    "contractTypes": true,
+    "build": true,
+    "unitTests": 1997,
+    "testFiles": 111,
+    "githubChecksRun": 42785522012
+  },
+  "publicUI": {
+    "url": "https://maps.connexup-uat.net/",
+    "health": 200,
+    "authenticatedCompetitorAPI": 200,
+    "browserErrors": [],
+    "realData": "OnlyBear 36 observations / 3 fixed points",
+    "visualReview": "both probe PNGs and real UAT competitor page reviewed"
+  },
+  "deploymentScope": "images and IMAGE_DIGEST only; existing Job specs/configs/schedules/resources preserved",
+  "limits": [
+    "3-query isolated probe is not full scheduled-round acceptance",
+    "Geographic relevance remains unverified",
+    "Legacy indexes can be truncated; unknown metrics retain gaps"
+  ]
+}

@@ -44,11 +44,11 @@ spec:
             runAsGroup: 1001
           containers:
             - name: ingest
-              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:3c58dd3499acba8e6330a32b94ee79aec8cd8b43248470d98e9f8e5aab4ab2be
+              image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:a40597d94ea088ce1dc5a9c5153a16ee6f52f07a54b05a57cef047a703ae8872
               args: ["node", "dist/domain/cli.js", "ingest-daily", "--config", "/config/tracking.json", "--mongo-uri-env", "MAPS_TRACKING_MONGO_URI"]
               env:
                 - name: IMAGE_DIGEST
-                  value: sha256:3c58dd3499acba8e6330a32b94ee79aec8cd8b43248470d98e9f8e5aab4ab2be
+                  value: sha256:a40597d94ea088ce1dc5a9c5153a16ee6f52f07a54b05a57cef047a703ae8872
                 - name: AZURE_STORAGE_CONTAINER
                   value: maps-keyword-capture-uat
                 # Read + list SAS (stored access policy maps-uat-ingest-reader); the monitor's write SAS cannot list.

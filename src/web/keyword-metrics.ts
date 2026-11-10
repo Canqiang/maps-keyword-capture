@@ -23,7 +23,7 @@ export function createKeywordMetricsModel() {
   const qualified = (row: HistoryObservation): boolean => {
     const q=row.quality;
     return row.locationMode!=='query_only' && !!row.cohortKey && !!q && q.rankingReliable===true && q.sequenceVerified===true
-      && q.classificationComplete===true && q.screenshotCoverageComplete===true && q.identityResolved===true
+      && q.classificationComplete===true && (q.screenshotCoverageComplete===true||(q.screenshotPolicy?.version==='target-organic-top10/v1'&&q.screenshotPolicy.satisfied===true)) && q.identityResolved===true
       && !['outside','mixed'].includes(q.geographicRelevance?.status??'');
   };
   const rounds = (rows: HistoryObservation[], pointIds: string[], complete = true): KeywordMetricRound[] => {

@@ -210,7 +210,7 @@ export async function runDailyMonitor(deps: DailyDeps): Promise<DailyOutput> {
           let out: BatchOutput;
           let executionFailed = false;
           try {
-            out = await (deps.batchRunner ?? runBatch)({ config: { ...deps.config.capture, ...(row.expectedArea ? { expectedArea: row.expectedArea } : {}), schemaVersion: '1', keywords: batch.keywords, outputDirectory: scoped.rootDirectory }, store: scoped, signal: controller.signal, initialUnsupportedLayoutStreak: unsupportedStreak, log });
+            out = await (deps.batchRunner ?? runBatch)({ config: { ...deps.config.capture, screenshotPolicy: { mode: 'target_organic_top10', targetPlaceId: row.placeId }, ...(row.expectedArea ? { expectedArea: row.expectedArea } : {}), schemaVersion: '1', keywords: batch.keywords, outputDirectory: scoped.rootDirectory }, store: scoped, signal: controller.signal, initialUnsupportedLayoutStreak: unsupportedStreak, log });
           } catch (error) {
             if (error instanceof BatchExecutionError) {
               out = error.output;

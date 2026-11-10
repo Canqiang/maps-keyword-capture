@@ -24,6 +24,14 @@ export interface GeographicRelevance {
   reason: 'expected_area_not_configured' | 'no_observations' | 'incomplete_coordinates' | 'all_observed_places_inside' | 'all_observed_places_outside' | 'observed_places_mixed';
 }
 
+export interface ScreenshotPolicyReceipt {
+  version: 'target-organic-top10/v1';
+  targetPlaceId: string;
+  decision: 'captured' | 'omitted_by_policy' | 'diagnostic' | 'failed';
+  triggerRank: number | null;
+  satisfied: boolean;
+}
+
 export interface CaptureConfig {
   schemaVersion: "1";
   keywords: string[];
@@ -33,6 +41,8 @@ export interface CaptureConfig {
   maxScrollsPerKeyword: number;
   /** Upper bound on saved results screenshots per query attempt. Default 5. */
   maxScreenshotsPerKeyword: number;
+  /** Omission preserves legacy full-list screenshot coverage. */
+  screenshotPolicy?: { mode: 'target_organic_top10'; targetPlaceId: string };
   keywordTimeoutMs: number;
   locale: string;
   browserTimezoneId: string;
@@ -230,6 +240,7 @@ export interface QueryQuality {
   verifiedPrefixLength: number;
   classificationComplete: boolean;
   screenshotCoverageComplete: boolean;
+  screenshotPolicy?: ScreenshotPolicyReceipt;
   /** Preserve evidence for human review; warnings are not automatic diagnoses. */
   warnings: { code: string; message: string; observationIds: string[] }[];
   observedQueryText: string | null;

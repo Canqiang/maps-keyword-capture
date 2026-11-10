@@ -75,6 +75,7 @@ export async function runBatch(deps: BatchDeps): Promise<BatchOutput> {
   const metadata: RunMetadata = {
     configHash: hashJson(config),
     profileHash: hashJson({ surface: 'google-maps-desktop', locale: config.locale, browserTimezoneId: config.browserTimezoneId, viewport: config.viewport, deviceScaleFactor: 1, locationMode: config.mapView ? 'map_view' : 'query_only', adapterVersion: ADAPTER_VERSION,
+      ...(config.screenshotPolicy ? { evidencePolicy: 'target-organic-top10/v1' } : {}),
       ...(config.mapSearchMode === 'located_ui' ? { searchLocationMethod: 'browser_gps_before_search/v1' } : {}) }),
     adapterVersion: ADAPTER_VERSION,
     sourceCommit: process.env['GIT_COMMIT'] ?? null,

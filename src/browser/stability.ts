@@ -23,6 +23,7 @@ export interface StableObservation {
 export async function captureStableObservation(
   page: Page,
   opts: {
+    captureImage?: boolean;
     deadlineAt: number; settleMs?: number; maxAttempts?: number;
     /** Pause between view screenshots. */
     viewSettleIntervalMs?: number;
@@ -56,6 +57,11 @@ export async function captureStableObservation(
       // observation look like a stable page that was never screenshotted.
       last = { snapshot: s2, png: Buffer.alloc(0), preSignature: snapshotSignature(s1), postSignature: pre, accepted: false, rejectionReason: 'unstable_results', attempts: attempt, viewSettled: false };
       continue;
+    }
+    if (opts.captureImage === false) {
+      // Two independently read DOM signatures establish structured evidence, not pixel coverage.
+      return { snapshot: s2, png: Buffer.alloc(0), preSignature: snapshotSignature(s1), postSignature: pre,
+        accepted: true, rejectionReason: null, attempts: attempt, viewSettled: false };
     }
     // The feed is stable; now let the rest of the view settle. Map tiles arrive in batches with
     // short pauses between them, so one identical pair is not proof; require several identical

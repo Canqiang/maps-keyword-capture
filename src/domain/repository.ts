@@ -304,7 +304,7 @@ export class MongoTrackingRepository implements TrackingRepository {
     const match = { storeId, placeId: store.placeId, surface: options.surface, pointId: options.pointId, localDate: { $gte: options.from, $lte: options.to },
       ...(options.keywordKey ? { keywordKey: options.keywordKey } : {}),
       ...(cursor ? { $or: [{ observedAt: { $gt: cursor.observedAt } }, { observedAt: cursor.observedAt, observationId: { $gt: cursor.observationId } }] } : {}) };
-    const rows = await (await this.obsCol()).find(match, { sort: { observedAt: 1, observationId: 1 }, limit: options.limit + 1, projection: { _id: 0 } }).toArray();
+    const rows = await (await this.obsCol()).find(match, { sort: { observedAt: 1, observationId: 1 }, limit: options.limit + 1, projection: { _id: 0, ...(options.summaryOnly ? { topListings: 0, 'evidence.screenshotKeys': 0, 'evidence.resultKey': 0, 'quality.warnings': 0, monitoringTarget: 0 } : {}) } }).toArray();
     return historyPage(storeId, rows, options);
   }
   async observation(storeId: string, observationId: string, surface: Surface) {

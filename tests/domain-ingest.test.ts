@@ -176,3 +176,27 @@ describe('Android ingestion qualification', () => {
     expect(observation).toMatchObject({ quality: { rankingReliable: true } });
   });
 });
+
+
+describe('selective screenshot ingestion', () => {
+  it('accepts structured evidence without pretending full screenshot coverage and retains all listings', () => {
+    const r = result(Array.from({length:15},(_,i)=>listing(i+1,i+1,i===14?target:'ChIJother'+i)));
+    r.screenshots=[];for(const l of r.listings)l.screenshotIds=[];
+    r.quality.screenshotCoverageComplete=false;
+    r.quality.screenshotPolicy={version:'target-organic-top10/v1',targetPlaceId:target,decision:'omitted_by_policy',triggerRank:null,satisfied:true};
+    const o=ingest(r);expect(o.topListings).toHaveLength(15);expect(o.quality?.screenshotCoverageComplete).toBe(false);
+    expect(metrics(o)).toBe(15);
+  });
+  it('rejects a falsely omitted Top10 target or image receipt for a different target', () => {
+    const r=result();r.screenshots=[];r.listings[0]!.screenshotIds=[];r.quality.screenshotCoverageComplete=false;
+    r.quality.screenshotPolicy={version:'target-organic-top10/v1',targetPlaceId:target,decision:'omitted_by_policy',triggerRank:null,satisfied:true};
+    expect(metrics(ingest(r))).toBeUndefined();
+    r.quality.screenshotPolicy={...r.quality.screenshotPolicy,decision:'captured',triggerRank:1,targetPlaceId:'ChIJdifferent'};
+    expect(metrics(ingest(r))).toBeUndefined();
+  });
+  it('rejects claimed capture without same-attempt screenshot refs', () => {
+    const r=result();r.screenshots=[];r.quality.screenshotCoverageComplete=false;
+    r.quality.screenshotPolicy={version:'target-organic-top10/v1',targetPlaceId:target,decision:'captured',triggerRank:1,satisfied:true};
+    expect(metrics(ingest(r))).toBeUndefined();
+  });
+});

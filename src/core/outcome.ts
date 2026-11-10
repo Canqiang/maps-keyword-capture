@@ -11,6 +11,7 @@ export interface OutcomeInput {
   sequenceVerified: boolean;
   classificationComplete: boolean;
   screenshotCoverageComplete: boolean;
+  screenshotPolicySatisfied?: boolean;
   listingCount: number;
 }
 
@@ -19,7 +20,7 @@ export function deriveOutcome(input: OutcomeInput): CollectionOutcome {
   switch (stop.kind) {
     case 'complete':
       if (!input.classificationComplete) return { status: 'partial', stopReason: 'classification_unknown', error: null };
-      if (!input.screenshotCoverageComplete) return { status: 'partial', stopReason: 'screenshot_limit', error: null };
+      if (!(input.screenshotPolicySatisfied ?? input.screenshotCoverageComplete)) return { status: 'partial', stopReason: 'screenshot_limit', error: null };
       if (!input.sequenceVerified) return { status: 'partial', stopReason: 'sequence_ambiguous', error: null };
       return { status: 'captured', stopReason: stop.reason, error: null };
     case 'incomplete':

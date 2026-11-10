@@ -13,7 +13,7 @@ export interface ScanJobView {
   createdAt: string | null; startedAt: string | null; finishedAt: string | null;
   active: number; succeeded: number; failed: number; completions: number | null; manual: boolean;
 }
-export interface ScanTargetView extends ScanTarget { schedule: string | null; timeZone: string | null; suspended: boolean | null; running: boolean; lastScheduleTime: string | null }
+export interface ScanTargetView extends ScanTarget { schedule: string | null; timeZone: string | null; suspended: boolean | null; running: boolean; lastScheduleTime: string | null; /** Last CronJob-owned Job that reported Complete; null when the target never succeeded. */ lastSuccessfulTime: string | null }
 export interface ScanTrigger {
   targets(): Promise<ScanTargetView[]>;
   jobs(): Promise<ScanJobView[]>;
@@ -108,9 +108,10 @@ export function createScanTrigger(targets: ScanTarget[], api: KubeApi, namespace
   return {
     async targets() {
       return Promise.all(targets.map(async target => {
-        const [cron, jobs] = await Promise.all([api.get(`${base}/cronjobs/${target.cronJob}`).catch(() => null) as Promise<{ spec?: { schedule?: string; timeZone?: string; suspend?: boolean }; status?: { lastScheduleTime?: string } } | null>, jobsOf(target)]);
+        const [cron, jobs] = await Promise.all([api.get(`${base}/cronjobs/${target.cronJob}`).catch(() => null) as Promise<{ spec?: { schedule?: string; timeZone?: string; suspend?: boolean }; status?: { lastScheduleTime?: string; lastSuccessfulTime?: string } } | null>, jobsOf(target)]);
         return { ...target, schedule: cron?.spec?.schedule ?? null, timeZone: cron?.spec?.timeZone ?? null, suspended: cron ? Boolean(cron.spec?.suspend) : null,
-          lastScheduleTime: cron?.status?.lastScheduleTime ?? null, running: jobs.some(job => job.status === 'running' || job.status === 'pending') };
+          lastScheduleTime: cron?.status?.lastScheduleTime ?? null, lastSuccessfulTime: cron?.status?.lastSuccessfulTime ?? null,
+          running: jobs.some(job => job.status === 'running' || job.status === 'pending') };
       }));
     },
     async jobs() { return (await Promise.all(targets.map(async target => (await jobsOf(target)).slice(0, recent)))).flat(); },

@@ -29,8 +29,9 @@ spec:
       backoffLimitPerIndex: 0
       maxFailedIndexes: 3
       activeDeadlineSeconds: 6600
-      # Delete the finished Job and its Pods 10 minutes after it ends (success or failure); results live in Azure/Mongo.
-      ttlSecondsAfterFinished: 600
+      # Keep finished Jobs (and their Pod logs) for one day so failed runs can be inspected after
+      # the fact; the 2026-11-07 outage was invisible because failures disappeared after 10 minutes.
+      ttlSecondsAfterFinished: 86400
       template:
         metadata:
           labels: *labels

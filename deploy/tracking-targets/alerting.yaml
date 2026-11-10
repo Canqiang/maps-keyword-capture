@@ -1,0 +1,78 @@
+# Scan interruption alerts for the UAT keyword collector.
+#
+# Apply to the cluster that runs kube-prometheus-stack; the PrometheusRule must be selected by the
+# Prometheus ruleNamespaceSelector/ruleSelector. In the current dev cluster
+# `kube-prometheus-stack-dev-prometheus` selects all rule namespaces (`ruleSelector: {}`), and the
+# rule lives in `monitoring` with the stack's release label so it survives a future selector change.
+#
+# Why these alerts exist: on 2026-11-07 the AKS node image upgrade evicted an in-flight scan. The
+# scan gate intentionally stayed quarantined, every later CronJob run failed immediately, and the
+# failed Jobs were TTL-deleted after 10 minutes. Collection was lost for ~2 days before a person
+# noticed empty pages. `MapsTargetsScanStale` is the durable signal that does not depend on a Job
+# object still existing.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: maps-keyword-capture-scan
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: maps-keyword-capture
+    app.kubernetes.io/component: scan-alerting
+    release: kube-prometheus-stack-dev
+spec:
+  groups:
+    - name: maps-keyword-capture.scan
+      rules:
+        - alert: MapsTargetsScanJobFailed
+          # Only recent jobs: with the one-day TTL, old failed Jobs stay visible and must not keep
+          # firing a critical alert after collection has already recovered.
+          expr: |
+            kube_job_failed{namespace="uat", job_name=~"maps-targets-web-2h-.*"} > 0
+            and on (namespace, job_name)
+            (time() - kube_job_created{namespace="uat", job_name=~"maps-targets-web-2h-.*"} < 3 * 3600)
+          for: 2m
+          labels:
+            severity: critical
+            service: maps-keyword-capture
+          annotations:
+            summary: "Maps 关键词采集 Job 失败（{{ $labels.job_name }}）"
+            description: >-
+              uat/maps-targets-web-2h 的一次 Job 失败。常见原因：扫描门被另一轮占用（未释放）、
+              浏览器/CAPTCHA、或 Azure 存储投递失败。查看 Pod 日志与 scan-execution-gates-v1 后
+              按 runbook 处理；不要只因为时间久而清门。
+            runbook_url: "https://github.com/Canqiang/maps-keyword-capture/blob/main/docs/scan-consistency-handoff.md"
+        - alert: MapsTargetsScanStale
+          # Durable freshness signal: last successful CronJob-owned Job is too old. Fires even when
+          # no failed Job object exists any more, which is exactly how the 2026-11-07 outage hid.
+          expr: |
+            (time() - kube_cronjob_status_last_successful_time{namespace="uat", cronjob="maps-targets-web-2h"}) > 4 * 3600
+            and on (namespace, cronjob)
+            kube_cronjob_spec_suspend{namespace="uat", cronjob="maps-targets-web-2h"} == 0
+          for: 10m
+          labels:
+            severity: critical
+            service: maps-keyword-capture
+          annotations:
+            summary: "Maps 关键词采集超过 4 小时没有成功轮次"
+            description: >-
+              uat/maps-targets-web-2h 最近一次成功已超过 4 小时（计划每 2 小时一轮）。检查
+              CronJob 失败记录、scan-execution-gates-v1 的 active 门和 Pod 日志；门被隔离时需要
+              运维按 runbook 条件释放。
+            runbook_url: "https://github.com/Canqiang/maps-keyword-capture/blob/main/docs/scan-consistency-handoff.md"
+        - alert: MapsTargetsScanScheduleStalled
+          # Detects a CronJob that stopped scheduling altogether (controller problem, accidental
+          # suspend, or a manual Job holding concurrencyPolicy=Forbid for too long).
+          expr: |
+            (time() - kube_cronjob_status_last_schedule_time{namespace="uat", cronjob="maps-targets-web-2h"}) > 5 * 3600
+            and on (namespace, cronjob)
+            kube_cronjob_spec_suspend{namespace="uat", cronjob="maps-targets-web-2h"} == 0
+          for: 10m
+          labels:
+            severity: warning
+            service: maps-keyword-capture
+          annotations:
+            summary: "Maps 关键词采集定时器超过 5 小时未调度"
+            description: >-
+              uat/maps-targets-web-2h 的计划时间没有推进。检查 CronJob suspend、active Job 是否
+              长时间未结束（Forbid），以及 cronjob 控制器的状态。
+            runbook_url: "https://github.com/Canqiang/maps-keyword-capture/blob/main/docs/scan-consistency-handoff.md"

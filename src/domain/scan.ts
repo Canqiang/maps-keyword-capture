@@ -117,6 +117,7 @@ export async function runWebScan(deps: WebScanDeps): Promise<WebScanSummary> {
     const scoped = new NamespacedBatchStore(deps.store, `${prefix}/${batch.storeId}/${pointPath}/${String(index + 1).padStart(3, '0')}`);
     const { config } = parseConfig({ schemaVersion: '1', ...deps.capture,
       ...(deps.config.surfaces.web.mapSearchMode ? { mapSearchMode: deps.config.surfaces.web.mapSearchMode } : {}),
+      screenshotPolicy: { mode: 'target_organic_top10', targetPlaceId: deps.config.stores.find(s => s.storeId === batch.storeId)!.placeId },
       keywords: batch.config.keywords, mapView: batch.config.mapView, ...(batch.config.expectedArea ? { expectedArea: batch.config.expectedArea } : {}), outputDirectory: scoped.rootDirectory });
     summary.queries.dispatched += batch.config.keywords.length;
     let out: BatchOutput;

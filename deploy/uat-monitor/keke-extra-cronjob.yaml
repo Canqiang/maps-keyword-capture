@@ -35,8 +35,8 @@ spec:
                   key: AZURE_STORAGE_CONTAINER_SAS_URL
                   name: maps-keyword-monitor-storage
             - name: IMAGE_DIGEST
-              value: sha256:0acda7e20e94871a108b046b6d57c99e39e218bcbcaa2428a4ffcdb687e7e4c5
-            image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:0acda7e20e94871a108b046b6d57c99e39e218bcbcaa2428a4ffcdb687e7e4c5
+              value: sha256:a40597d94ea088ce1dc5a9c5153a16ee6f52f07a54b05a57cef047a703ae8872
+            image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:a40597d94ea088ce1dc5a9c5153a16ee6f52f07a54b05a57cef047a703ae8872
             imagePullPolicy: IfNotPresent
             name: monitor
             resources:
