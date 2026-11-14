@@ -20,11 +20,19 @@ spec:
           automountServiceAccountToken: false
           containers:
           - args:
-            - /bin/sh
-            - -ec
-            - exec node dist/monitor/cli.js --config /config/monitor.json --storage
-              azure --run-key "keke-extra-$$(TZ=Asia/Shanghai date +%F)"
+            - node
+            - dist/monitor/cli.js
+            - --config
+            - /config/monitor.json
+            - --storage
+            - azure
+            - --run-key
+            - $(MONITOR_JOB_NAME)
             env:
+            - name: MONITOR_JOB_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.labels['batch.kubernetes.io/job-name']"
             - name: EGRESS_PROFILE_ID
               value: aks-fbrdev-eastus2-aiapp
             - name: AZURE_STORAGE_CONTAINER
@@ -93,8 +101,8 @@ spec:
               sizeLimit: 512Mi
             name: dshm
       ttlSecondsAfterFinished: 600
-  schedule: 0 0 * * *
-  startingDeadlineSeconds: 3600
+  schedule: 0 */2 * * *
+  startingDeadlineSeconds: 1800
   successfulJobsHistoryLimit: 7
   suspend: false
   timeZone: Asia/Shanghai

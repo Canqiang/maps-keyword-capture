@@ -1,9 +1,12 @@
+import type { VolumeRow } from '../volume/sync.js';
 /** Shared, dependency-free history presentation logic, also embedded in the browser. */
 export interface FrontendObservation {
   observationId: string; localDate: string; observedAt: string; keyword: string; keywordKey: string;
   eligible: boolean; metricOrganicRank: number | null; cohortKey: string | null;
   rank: { status: string; organicRank: number | null };
   quality?: { geographicRelevance?: { status?: string } | null } | null;
+  storeId?: string; placeId?: string; surface?: string; pointId?: string; locationMode?: string;
+  source?: { profileHash?: string | null; adapterVersion?: string | null } | null;
 }
 interface TargetStore {
   keywords: { core: string[]; longTail: string[] };
@@ -11,6 +14,7 @@ interface TargetStore {
 }
 interface PlannedPoint { id: string; label: string; latitude: number; longitude: number; distanceKm: number }
 interface PointChoice { pointId: string; label?: string; planned?: boolean; point: { latitude: number | null; longitude: number | null; distanceKm: number | null }; observations?: number }
+interface VolumeDisplay { value: number | null; market: string | null; text: string; live?: VolumeRow; report?: string | null }
 export function createFrontendModel() {
   const escape = (value: unknown): string => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
   const key = (s: string): string => s.normalize('NFKC').trim().replace(/\s+/g, ' ').toLowerCase();
@@ -89,6 +93,30 @@ export function createFrontendModel() {
     }
     return result;
   };
+  /** Display-only unlocated observations: shared collection provenance does not establish geographic comparability. */
+  const unlocatedSeries = (rows: FrontendObservation[], maxGapHours = 36): FrontendObservation[][] => {
+    const sorted = rows.map(row => {
+      const time = Date.parse(row.observedAt);
+      return { row, time, order: Number.isFinite(time) ? new Date(time).toISOString() : row.observedAt };
+    }).sort((a,b) => a.order.localeCompare(b.order) || a.row.observationId.localeCompare(b.row.observationId));
+    const result: FrontendObservation[][] = [];
+    let previous: { identity: string; time: number } | null = null;
+    for (const { row, time } of sorted) {
+      const fields = [row.storeId, row.placeId, row.surface, row.keywordKey, row.pointId,
+        row.locationMode, row.source?.profileHash, row.source?.adapterVersion];
+      if (row.locationMode !== 'query_only' || !row.eligible || row.rank.status !== 'ranked'
+        || !Number.isInteger(row.metricOrganicRank) || row.metricOrganicRank! <= 0 || !Number.isFinite(time)
+        || !fields.every(value => typeof value === 'string' && value.trim().length > 0)) {
+        previous = null;
+        continue;
+      }
+      const identity = JSON.stringify(fields), gap = previous ? time - previous.time : 0;
+      if (previous && identity === previous.identity && gap > 0 && gap <= maxGapHours * 3600000) result[result.length-1]!.push(row);
+      else result.push([row]);
+      previous = { identity, time };
+    }
+    return result;
+  };
   /** Range statistics over every attempt; unqualified attempts are counted, never averaged. */
   const stats = (rows: FrontendObservation[]) => {
     const ranks = rows.filter(o => o.eligible && o.metricOrganicRank !== null).map(o => o.metricOrganicRank!).sort((a,b) => a-b);
@@ -103,6 +131,16 @@ export function createFrontendModel() {
     const match = /^\s*([\d,]+)\s*次\/月\s*(.*?)\s*(?:·.*)?$/u.exec(text);
     if (!match) return { value: null, market: null, text: text.trim() };
     return { value: Number(match[1]!.replace(/,/g, '')), market: match[2] || null, text: text.trim() };
+  };
+  const searchVolume = (row?: VolumeRow, report?: string | null): VolumeDisplay | null => row ? { value: row.value, market: row.locationName, text: row.source, live: row, ...(report ? { report } : {}) } : volume(report);
+  const volumeHtml = (v: VolumeDisplay | null): string => {
+    if (!v) return '<span class="muted">未同步</span>';
+    const r = v.live;
+    if (!r) return '<span>' + (v.value === null ? '报告无数值' : v.value.toLocaleString('en-US')) + '</span><small class="block muted" title="' + escape(v.text) + '">报告快照 · ' + escape(v.market || '地区未提供') + '</small>';
+    const label = r.value !== null ? r.value.toLocaleString('en-US') : r.lastAttemptStatus === 'error' ? '同步失败' : '暂无数据';
+    const stamp = (t: string | null) => t ? t.replace('T',' ').replace(/\.\d{3}Z$/u,' UTC') : '尚未成功';
+    const stale = r.syncedAt && Date.now() - Date.parse(r.syncedAt) > 9 * 86400000;
+    return '<b>' + escape(label) + '</b><small class="block muted">' + escape(r.source) + '</small><small class="block muted">' + escape(r.locationName) + ' · ' + escape(r.language) + '</small><small class="block muted">数据截至 ' + escape(r.dataThrough || '上游未提供月份') + '</small><small class="block muted">同步 ' + escape(stamp(r.syncedAt)) + '</small>' + (r.lastAttemptStatus !== 'available' && r.value !== null ? '<small class="block muted">' + (r.lastAttemptStatus === 'error' ? '更新失败' : '本次未返回数值') + '，保留上次值 · 检查 ' + escape(stamp(r.attemptedAt)) + '</small>' : '') + (stale ? '<small class="block muted">数据待更新</small>' : '') + (r.value === null && v.report ? '<small class="block muted">报告参考（非本次返回）：' + escape(v.report) + '</small>' : '');
   };
   /** Newest attempt of one keyword at one point, and the change since the earliest qualified rank of the same cohort. */
   const movement = (rows: FrontendObservation[]): { latest: FrontendObservation | null; delta: number | null } => {
@@ -124,5 +162,5 @@ export function createFrontendModel() {
     });
     return [...choices, ...observed.filter(o => !planned.some(p => p.id === o.pointId))];
   };
-  return { escape,key,daily,present,geography,notes,hint,compare,days,segments,series,stats,volume,movement,bestVariant,evidenceUrl,activeKeywords,targetFor,pointChoices };
+  return { escape,key,daily,present,geography,notes,hint,compare,days,segments,series,unlocatedSeries,stats,volume,searchVolume,volumeHtml,movement,bestVariant,evidenceUrl,activeKeywords,targetFor,pointChoices };
 }

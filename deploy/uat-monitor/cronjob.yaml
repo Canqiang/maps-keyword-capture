@@ -1,4 +1,4 @@
-# UAT only. Keep suspended until scoped acceptance and independent Azure readback are recorded.
+# UAT unlocated monitoring every two hours. Historical resource name is retained.
 # See docs/uat-monitor-operations.md for the release acceptance boundary.
 apiVersion: batch/v1
 kind: CronJob
@@ -9,18 +9,18 @@ metadata:
     app.kubernetes.io/name: maps-keyword-monitor
     app.kubernetes.io/component: daily
 spec:
-  schedule: "0 0 * * *"
+  schedule: "0 */2 * * *"
   timeZone: Asia/Shanghai
-  suspend: true
+  suspend: false
   concurrencyPolicy: Forbid
-  startingDeadlineSeconds: 3600
+  startingDeadlineSeconds: 1800
   successfulJobsHistoryLimit: 7
   failedJobsHistoryLimit: 7
   jobTemplate:
     spec:
       backoffLimit: 0
-      # 14-hour application deadline plus 600s for termination/finalization margin.
-      activeDeadlineSeconds: 51000
+      # Bound each round to 110 minutes; Forbid prevents overlap if shutdown takes longer.
+      activeDeadlineSeconds: 6600
       # Delete the finished Job and its Pods 10 minutes after it ends (success or failure); results live in Azure/Mongo.
       ttlSecondsAfterFinished: 600
       template:
@@ -45,8 +45,13 @@ spec:
           containers:
             - name: monitor
               image: fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:a40597d94ea088ce1dc5a9c5153a16ee6f52f07a54b05a57cef047a703ae8872
-              args: ["node", "dist/monitor/cli.js", "--config", "/config/monitor.json", "--storage", "azure"]
+              args: ["node", "dist/monitor/cli.js", "--config", "/config/monitor.json", "--storage", "azure", "--run-key", "$(MONITOR_JOB_NAME)"]
               env:
+                # Stable across Pod retries, distinct for each scheduled Job (including DST changes).
+                - name: MONITOR_JOB_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: "metadata.labels['batch.kubernetes.io/job-name']"
                 - name: IMAGE_DIGEST
                   value: sha256:a40597d94ea088ce1dc5a9c5153a16ee6f52f07a54b05a57cef047a703ae8872
                 - name: KEYWORD_MONGO_URI

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { MongoVolumeStore, type VolumeReader } from '../volume/store.js';
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import { gzip } from 'node:zlib';
 import { pathToFileURL } from 'node:url';
@@ -21,7 +22,7 @@ import { createScanTrigger, inClusterKubeApi, parseScanTargets, ScanTriggerError
  * single-page UI, and a read-only proxy for screenshots in the private evidence container.
  */
 export interface EvidenceReader { get(key: string): Promise<Buffer> }
-export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; evidence?: EvidenceReader; auth?: BasicAuth; /** Recorded as the author of configuration changes (the signed-in account). */ actor?: string; /** Read-only SEO keyword library for imports. */ seo?: SeoKeywordLibrary; scans?: ScanTrigger; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
+export interface ServerDeps { config: TrackingConfig; repo: TrackingRepository; volumes?: VolumeReader; evidence?: EvidenceReader; auth?: BasicAuth; /** Recorded as the author of configuration changes (the signed-in account). */ actor?: string; /** Read-only SEO keyword library for imports. */ seo?: SeoKeywordLibrary; scans?: ScanTrigger; readOnly?: boolean; previewInfo?: Record<string, unknown>; now?: () => Date; log?: (event: Record<string, unknown>) => void }
 
 const EVIDENCE_KEY = /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}-\d{2})\/[A-Za-z0-9_.+\-/%一-鿿]+\.png$/u;
 const MAX_BODY = 256 * 1024;
@@ -236,7 +237,11 @@ export function createHandler(deps: ServerDeps) {
         const storeId = parts[2];
         const store = await deps.repo.getStore(storeId);
         if (!store) throw new HttpError(404, 'store not found');
-        if (parts.length === 3 && req.method === 'GET') return send(req, res, 200, store);
+        if (parts.length === 3 && req.method === 'GET') {
+          if (!deps.volumes) return send(req, res, 200, store);
+          try { return send(req, res, 200, { ...store, searchVolumes: await deps.volumes.get(storeId) }); }
+          catch { return send(req, res, 200, { ...store, searchVolumeUnavailable: true }); }
+        }
         if (parts.length === 3 && req.method === 'PUT') {
           const body = await readJson(req) as Record<string, unknown>;
           if (body.storeId !== undefined && body.storeId !== storeId) throw new HttpError(400, 'storeId cannot change');
@@ -355,9 +360,10 @@ async function main(): Promise<void> {
   const scans = cluster ? createScanTrigger(targets, cluster.api, cluster.namespace) : undefined;
   const seoUri = process.env[uriEnv];
   const seo = seoUri && process.env.TRACKING_SEO_LIBRARY !== 'off' ? new MongoSeoKeywordLibrary({ uri: seoUri, database: process.env.TRACKING_SEO_DATABASE ?? 'seo-integration', collection: process.env.TRACKING_SEO_COLLECTION ?? 'local_keywords' }) : undefined;
-  const server = startServer({ config, repo, ...(seo ? { seo } : {}), ...(evidence ? { evidence } : {}), ...(auth ? { auth, actor: process.env.TRACKING_AUTH_USER! } : {}), ...(scans ? { scans } : {}), log }, port);
+  const volumes = process.env.TRACKING_SEARCH_VOLUME === 'on' ? new MongoVolumeStore(uri, config.database.database) : undefined;
+  const server = startServer({ config, repo, ...(volumes ? { volumes } : {}), ...(seo ? { seo } : {}), ...(evidence ? { evidence } : {}), ...(auth ? { auth, actor: process.env.TRACKING_AUTH_USER! } : {}), ...(scans ? { scans } : {}), log }, port);
   log({ stage: 'listening', port, stores: config.storeSource.provider, evidence: Boolean(evidence), scanTargets: targets.map(t => t.cronJob) });
-  const stop = () => { server.close(); void repo.close().finally(() => process.exit(0)); };
+  const stop = () => { server.close(); void Promise.all([repo.close(), volumes?.close()]).finally(() => process.exit(0)); };
   process.once('SIGTERM', stop); process.once('SIGINT', stop);
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main().catch(error => { process.stderr.write(`${error instanceof Error ? error.message.replace(/mongodb(\+srv)?:\/\/[^\s]*/gu, 'mongodb://***') : 'startup failed'}\n`); process.exit(1); });
