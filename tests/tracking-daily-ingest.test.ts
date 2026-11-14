@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 import { DAILY_MANIFEST_KEY, dateRange, ingestDailyMonitor, recentBeijingDates, type BlobSource } from '../src/domain/daily-ingest.js';
 import { MemoryObservationStore } from '../src/domain/observation-store.js';
+import { observationCohortKey } from '../src/domain/model.js';
 import { parseTrackingConfig } from '../src/domain/tracking-config.js';
 
 const config = parseTrackingConfig({
@@ -16,12 +17,12 @@ const config = parseTrackingConfig({
 const sha = (b: Buffer) => createHash('sha256').update(b).digest('hex');
 
 /** One daily-monitor batch in the container layout `<date>/<store>/<daily run>/batches/<batch>/<run>/<attempt>/`. */
-function batch(blobs: Map<string, Buffer>, options: { date: string; storeId: string; run: string; keywords: Array<{ keyword: string; rank?: number | null; status?: 'captured' | 'failed' | 'blocked'; resultMissing?: boolean; corrupt?: boolean }>; placeId?: string }) {
+function batch(blobs: Map<string, Buffer>, options: { date: string; storeId: string; run: string; keywords: Array<{ keyword: string; rank?: number | null; status?: 'captured' | 'failed' | 'blocked'; resultMissing?: boolean; corrupt?: boolean }>; placeId?: string; startedAt?: string }) {
   const prefix = `${options.date}/${options.storeId}/run_daily_${options.date.replaceAll('-', '')}/batches/b01-abc/${options.run}/att_x/`;
   const queries: unknown[] = [], artifacts: unknown[] = [];
   for (const [i, k] of options.keywords.entries()) {
     const queryId = `q${String(i + 1).padStart(4, '0')}`, status = k.status ?? 'captured';
-    const startedAt = `${options.date}T00:${String(10 + i).padStart(2, '0')}:00.000+08:00`;
+    const startedAt = options.startedAt ?? `${options.date}T00:${String(10 + i).padStart(2, '0')}:00.000+08:00`;
     if (status === 'failed') { queries.push({ queryId, keyword: k.keyword, status, stopReason: 'error', selectedQueryAttemptId: null, attempts: [], resultFile: null, artifactIds: [], persistenceStatus: 'not_requested' }); continue; }
     const file = `${queryId}/qa01/${queryId}.json`;
     const listings = status === 'blocked' ? [] : [{ displayPosition: 1, organicRank: 1, resultType: 'organic', adLabel: null, name: 'Other', mapsUrl: null, placeId: 'ChIJother', rating: 4, reviewCount: 1 },
@@ -83,6 +84,33 @@ describe('daily monitor ingestion', () => {
     // Re-running the same date is a no-op.
     const again = await ingestDailyMonitor(config, source(blobs), store, { dates: ['2026-10-16'] });
     expect(again.observations).toEqual({ prepared: 5, inserted: 0, existing: 5 });
+  });
+  it('keeps every same-keyword intraday observation and its own evidence without rewriting the earlier import', async () => {
+    const blobs = new Map<string, Buffer>(), store = new MemoryObservationStore();
+    const firstKey = batch(blobs, { date: '2026-11-13', storeId: 'keke-flushing', run: 'run_firstslot', startedAt: '2026-11-13T00:10:00+08:00', keywords: [{ keyword: 'chinese food flushing', rank: 5 }] });
+    const first = await ingestDailyMonitor(config, source(blobs), store, { dates: ['2026-11-13'], now: () => new Date('2026-11-13T01:30:00+08:00') });
+    expect(first.observations).toEqual({ prepared: 1, inserted: 1, existing: 0 });
+    const firstObservation = structuredClone([...store.documents.values()][0]!);
+    const secondKey = batch(blobs, { date: '2026-11-13', storeId: 'keke-flushing', run: 'run_secondslot', startedAt: '2026-11-13T02:10:00+08:00', keywords: [{ keyword: 'chinese food flushing', rank: 2 }] });
+    const second = await ingestDailyMonitor(config, source(blobs), store, { dates: ['2026-11-13'], now: () => new Date('2026-11-13T03:30:00+08:00') });
+    expect(second.observations).toEqual({ prepared: 2, inserted: 1, existing: 1 });
+    expect(store.documents.get(firstObservation.observationId)).toEqual(firstObservation);
+    const rows = [...store.documents.values()].sort((a, b) => a.observedAt.localeCompare(b.observedAt));
+    expect(rows.map(o => o.observedAt)).toEqual(['2026-11-12T16:10:00.000Z', '2026-11-12T18:10:00.000Z']);
+    expect(rows.map(o => o.localDate)).toEqual(['2026-11-12', '2026-11-12']);
+    expect(rows.map(o => o.rank.organicRank)).toEqual([5, 2]);
+    expect(rows.map(o => o.evidence.manifestKey)).toEqual([firstKey, secondKey]);
+    expect(new Set(rows.map(o => o.evidence.resultKey)).size).toBe(2);
+    expect(new Set(rows.map(o => o.evidence.screenshotKeys[0])).size).toBe(2);
+    for (const row of rows) {
+      expect(row).toMatchObject({ pointId: 'r0c0', locationMode: 'query_only', keyword: 'chinese food flushing' });
+      // Legacy imports may carry configured center coordinates; query_only still forbids a
+      // comparable location cohort and must not become a fixed-point observation.
+      expect(observationCohortKey(row)).toBeNull();
+    }
+    const repeat = await ingestDailyMonitor(config, source(blobs), store, { dates: ['2026-11-13'] });
+    expect(repeat.observations).toEqual({ prepared: 2, inserted: 0, existing: 2 });
+    expect(store.documents.get(firstObservation.observationId)).toEqual(firstObservation);
   });
   it('withholds a batch whose selected result is missing, tampered or unverified, and honours the store filter', async () => {
     const blobs = new Map<string, Buffer>();

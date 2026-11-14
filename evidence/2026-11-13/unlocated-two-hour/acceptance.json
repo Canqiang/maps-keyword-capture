@@ -1,0 +1,112 @@
+{
+  "checkedAt": "2026-11-13T09:51:21.856090+00:00",
+  "status": "deployed_and_bounded_probes_verified",
+  "collectorSchedule": "0 */2 * * *",
+  "timezone": "Asia/Shanghai",
+  "ingestSchedule": "30 1-23/2 * * *",
+  "nextPlannedBeijingSlot": "2026-11-13T18:00:00+08:00",
+  "newAutomaticSlotObserved": false,
+  "scope": "Configuration-only cadence release; unchanged image/config/source/keywords/resources/UI; two3querymanualprobes, not full two-hour load proof",
+  "tests": {
+    "files": 114,
+    "passed": 2023,
+    "typecheck": "passed",
+    "targeted": 38
+  },
+  "probe": {
+    "runs": [
+      {
+        "job": "maps-unlocated-probe-1-20261113",
+        "dailyRunId": "run_20261113T094244Z_ebdc9d",
+        "runKey": "maps-unlocated-probe-1-20261113",
+        "startedAt": "2026-11-13T09:42:44.823Z",
+        "finishedAt": "2026-11-13T09:43:17.332Z",
+        "counts": {
+          "stores": 1,
+          "batches": 1,
+          "selected": 3,
+          "captured": 3,
+          "partial": 0,
+          "blocked": 0,
+          "failed": 0,
+          "skipped": 0,
+          "sourceFailed": 0,
+          "empty": 0,
+          "nonRanking": 0
+        },
+        "manifestKey": "2026-11-13/daily/run_20261113T094244Z_ebdc9d/manifest.json",
+        "originalExitCode": 0,
+        "restarts": 0
+      },
+      {
+        "job": "maps-unlocated-probe-2-20261113",
+        "dailyRunId": "run_20261113T094422Z_3e5eba",
+        "runKey": "maps-unlocated-probe-2-20261113",
+        "startedAt": "2026-11-13T09:44:22.108Z",
+        "finishedAt": "2026-11-13T09:44:54.335Z",
+        "counts": {
+          "stores": 1,
+          "batches": 1,
+          "selected": 3,
+          "captured": 3,
+          "partial": 0,
+          "blocked": 0,
+          "failed": 0,
+          "skipped": 0,
+          "sourceFailed": 0,
+          "empty": 0,
+          "nonRanking": 0
+        },
+        "manifestKey": "2026-11-13/daily/run_20261113T094422Z_3e5eba/manifest.json",
+        "originalExitCode": 0,
+        "restarts": 0
+      }
+    ],
+    "receiptObjects": 30,
+    "claimsRead": 2,
+    "jsonRowsReconciled": 6,
+    "pngStructure": 4,
+    "screenshotsVisuallyReviewed": 0,
+    "originalCollectorExits": [
+      0,
+      0
+    ],
+    "ingestOriginalExit": 0,
+    "ingested": 6,
+    "existing": 754,
+    "historicalRowsIndependentlyCompared": 3,
+    "publicApiNewRows": 2
+  },
+  "rollout": {
+    "checkedAt": "2026-11-13T09:50:22.417237+00:00",
+    "patchedMatchesDryRun": [
+      "maps-keyword-monitor-daily",
+      "maps-keke-extra-daily",
+      "maps-tracking-ingest-daily"
+    ],
+    "unchangedCronSpecsAndUIDs": [
+      "maps-release-gate-20261023",
+      "maps-search-volume-weekly",
+      "maps-targets-web-2h",
+      "maps-tracking-web-2h",
+      "milvus-etcd-compact"
+    ],
+    "activeLocatedJobSpecUnchanged": "maps-targets-web-2h-29909355",
+    "locatedJobStatus": {
+      "active": 2,
+      "completedIndexes": "2",
+      "failedIndexes": "",
+      "ready": 2,
+      "startTime": "2026-11-13T09:15:00Z",
+      "succeeded": 1,
+      "terminating": 0,
+      "uncountedTerminatedPods": {}
+    }
+  },
+  "limitations": [
+    "geography remains unverified; query_only is not comparable to fixed GPS points",
+    "ingest runs90minutes after scheduled collection; late batches wait for next pass",
+    "Forbid avoids overlaps and can skip/defer a slot",
+    "high-frequency24round two-day ingest load not yet measured"
+  ]
+}

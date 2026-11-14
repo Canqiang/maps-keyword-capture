@@ -1,0 +1,64 @@
+{
+  "checkedAt": "2026-11-14T08:52:11.321841+00:00",
+  "status": "passed",
+  "scope": "Unlocated observational trend display; UI deployment only",
+  "rollout": {
+    "checkedAt": "2026-11-14T08:49:33.793001+00:00",
+    "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:38bdfd4dc2a4eb3e9b64594b6c499d6914ca8cee1677cd964cff1b62c508dd1c",
+    "previousImage": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:897cb59a1121af0eaf2db867c353df1f1319f4c5eead7c3d9e6bccb6e8134ea6",
+    "buildRun": "ch16b7",
+    "sourceVersion": "unlocated-ui-snapshot-08911598d884c19c",
+    "readyPods": [
+      "maps-tracking-ui-746cd74d74-kbg85"
+    ],
+    "cronSpecsAndUIDsUnchanged": 8,
+    "retainedJobSpecsUnchanged": 11,
+    "deploymentChangedFields": [
+      "spec.template.spec.containers[ui].image"
+    ]
+  },
+  "tests": {
+    "fullFiles": 116,
+    "fullTestsPassed": 2061,
+    "focusedTestsPassed": 78,
+    "newTests": 38,
+    "typecheck": "passed",
+    "build": "passed",
+    "initialFullRun": "2059 passed; one unchanged Android wall-clock deadline test timed out",
+    "isolatedAndroidRerun": "229 passed",
+    "finalFullRun": "2061 passed",
+    "independentReview": "No blocking findings; clipping robustness issue fixed and focused tests independently rerun"
+  },
+  "publicReadback": {
+    "checkedAt": "2026-11-14T08:50:06.537873+00:00",
+    "publicHtmlContainsFix": true,
+    "httpStatuses": [
+      200,
+      200
+    ],
+    "unchangedExistingObservations": 23,
+    "publicObservations": 23,
+    "cohortsRemainNull": true,
+    "htmlSha256": "39e7cf0afae99bf622ca827f25d345dc143ca421490fc7489d286aa366d62139"
+  },
+  "visual": {
+    "scope": "Live UI Pod via read-only local port-forward; public HTTPS HTML/API independently verified",
+    "paths": 2,
+    "color": "magenta",
+    "dash": "4px, 3px",
+    "geographyWarning": true,
+    "pageErrors": [],
+    "knownBrowserLimitation": "Local direct public Chromium navigation ERR_CONNECTION_CLOSED; public HTTPS HTML/API independently 200; visual check used live Pod through loopback port-forward, closed afterwards"
+  },
+  "preserved": {
+    "existingObservations": 23,
+    "cohortKey": null,
+    "geographicDelta": null,
+    "collectorAndWeeklyVolumeCronSpecsUnchanged": 8,
+    "sourceChangesFromPreviousLiveUi": [
+      "src/web/frontend-model.ts",
+      "src/web/ui.ts"
+    ]
+  },
+  "evidenceRoot": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/unlocated-trend-lines-2026-11-14"
+}

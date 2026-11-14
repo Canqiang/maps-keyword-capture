@@ -2,7 +2,8 @@
 # evidence container (today's and yesterday's Beijing-date folders), verifies each selected result
 # against its artifact receipt, and appends the missing RankObservations (query-only, point r0c0) to
 # MongoDB maps-rank-tracking.observations. Existing rows are never replaced, so re-runs are no-ops.
-# The daily monitor starts at 00:00 Asia/Shanghai and takes about two hours; this runs at 04:00.
+# Unlocated collection runs every two hours; import 90 minutes after each planned start.
+# Late batches are picked up on the next pass; today and yesterday remain append-only.
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -12,7 +13,7 @@ metadata:
     app.kubernetes.io/name: maps-keyword-capture
     app.kubernetes.io/component: tracking-ingest
 spec:
-  schedule: "0 4 * * *"
+  schedule: "30 1-23/2 * * *"
   timeZone: Asia/Shanghai
   concurrencyPolicy: Forbid
   startingDeadlineSeconds: 3600

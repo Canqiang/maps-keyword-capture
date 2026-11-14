@@ -134,6 +134,29 @@ describe('daily monitor', () => {
     const out = await runDailyMonitor(deps);
     expect(out.exitCode).toBe(1); expect(deps.batchRunner).not.toHaveBeenCalled();
   });
+  it('collects distinct scheduled Job keys within one Beijing day while a repeat of either Job remains a no-op', async () => {
+    const deps = await setup();
+    const runConfig = { ...deps.config, stores: [first], maxKeywordsPerStore: 1 };
+    const jobOne = 'maps-keyword-monitor-daily-29910600';
+    const jobTwo = 'maps-keyword-monitor-daily-29910720';
+    const one = await runDailyMonitor({ ...deps, config: runConfig, runKey: jobOne, now: () => new Date('2026-11-12T16:00:00Z') });
+    const originalBytes = await deps.gateway.get(one.manifestReceipt!.objectKey!);
+    const sameJob = await runDailyMonitor({ ...deps, config: runConfig, runKey: jobOne, now: () => new Date('2026-11-12T16:05:00Z') });
+    expect(sameJob.status).toBe('duplicate_skipped');
+    const two = await runDailyMonitor({ ...deps, config: runConfig, runKey: jobTwo, now: () => new Date('2026-11-12T18:00:00Z') });
+    expect([one.exitCode, two.exitCode]).toEqual([0, 0]);
+    expect([one.manifest!.date, two.manifest!.date]).toEqual(['2026-11-13', '2026-11-13']);
+    expect(one.manifest!.dailyRunId).not.toBe(two.manifest!.dailyRunId);
+    expect([one.manifest!.counts.selected, two.manifest!.counts.selected]).toEqual([1, 1]);
+    expect(deps.source.read).toHaveBeenCalledTimes(2);
+    expect(deps.batchRunner).toHaveBeenCalledTimes(2);
+    expect(await deps.gateway.get(one.manifestReceipt!.objectKey!)).toEqual(originalBytes);
+    expect(deps.gateway.objects.has(`claims/${jobOne}.json`)).toBe(true);
+    expect(deps.gateway.objects.has(`claims/${jobTwo}.json`)).toBe(true);
+    const repeatLater = await runDailyMonitor({ ...deps, config: runConfig, runKey: jobTwo, now: () => new Date('2026-11-13T16:00:00Z') });
+    expect(repeatLater.status).toBe('duplicate_skipped');
+    expect(deps.batchRunner).toHaveBeenCalledTimes(2);
+  });
   it('accounts for source failures and empty stores without claiming empty success', async () => {
     const deps = await setup();
     const record = await deps.source.read(second); record.keywords = [];

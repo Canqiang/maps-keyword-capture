@@ -36,6 +36,7 @@ spec:
           env:
             - { name: PORT, value: "8080" }
             - { name: TRACKING_CONFIG, value: /config/tracking.json }
+            - { name: TRACKING_SEARCH_VOLUME, value: "on" }
             - { name: HOME, value: /tmp }
             - name: TRACKING_SCAN_TARGETS
               value: '[{"id":"keke-2h","title":"Keke 两小时追踪（Web）","cronJob":"maps-tracking-web-2h","description":"42 个关键词，约 15 分钟"},{"id":"liya90-web","title":"九家店目标清单（Web）","cronJob":"maps-targets-web-2h","description":"270 次搜索，两个分片，约 1 小时 50 分钟"}]'

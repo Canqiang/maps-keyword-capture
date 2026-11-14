@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { parseMonitorConfig } from '../src/monitor/config.js';
+import { parseMonitorArgs } from '../src/monitor/cli-options.js';
 
 const readYaml = (name: string) => parse(readFileSync(new URL(`../deploy/uat-monitor/${name}`, import.meta.url), 'utf8'));
 
@@ -17,11 +18,30 @@ const linkedStores = [
 ].map(([storeId, merchantId, placeId, name]) => ({ storeId, merchantId, placeId, name }));
 
 describe('UAT daily monitor deployment', () => {
-  it('starts suspended at Beijing midnight with bounded, non-overlapping jobs', () => {
+  it('gives the primary and supplement separate stable Job claims at the same scheduled slot', () => {
+    const keys: string[] = [];
+    for (const [filename, name, deadline] of [
+      ['cronjob.yaml', 'maps-keyword-monitor-daily', 6600],
+      ['keke-extra-cronjob.yaml', 'maps-keke-extra-daily', 5400],
+    ] as const) {
+      const cron = readYaml(filename), main = cron.spec.jobTemplate.spec.template.spec.containers[0];
+      expect(cron.metadata.name).toBe(name);
+      expect(cron.spec).toMatchObject({ schedule: '0 */2 * * *', timeZone: 'Asia/Shanghai', suspend: false, concurrencyPolicy: 'Forbid', startingDeadlineSeconds: 1800 });
+      expect(cron.spec.jobTemplate.spec).toMatchObject({ activeDeadlineSeconds: deadline, backoffLimit: 0 });
+      expect(main.args).toEqual(['node', 'dist/monitor/cli.js', '--config', '/config/monitor.json', '--storage', 'azure', '--run-key', '$(MONITOR_JOB_NAME)']);
+      expect(main.env.find((e: { name: string }) => e.name === 'MONITOR_JOB_NAME')).toEqual({ name: 'MONITOR_JOB_NAME', valueFrom: { fieldRef: { fieldPath: "metadata.labels['batch.kubernetes.io/job-name']" } } });
+      const jobName = `${name}-29910600`;
+      const args = main.args.slice(2).map((arg: string) => arg.replaceAll('$(MONITOR_JOB_NAME)', jobName));
+      expect(parseMonitorArgs(args)).toEqual({ configPath: '/config/monitor.json', storage: 'azure', runKey: jobName });
+      keys.push(parseMonitorArgs(args).runKey!);
+    }
+    expect(new Set(keys).size).toBe(2);
+  });
+  it('runs unlocated monitoring every two hours with a deadline shorter than its cadence', () => {
     const cron = readYaml('cronjob.yaml');
     expect(cron).toMatchObject({ apiVersion: 'batch/v1', kind: 'CronJob', metadata: { name: 'maps-keyword-monitor-daily', namespace: 'uat' } });
-    expect(cron.spec).toMatchObject({ schedule: '0 0 * * *', timeZone: 'Asia/Shanghai', suspend: true, concurrencyPolicy: 'Forbid', startingDeadlineSeconds: 3600, successfulJobsHistoryLimit: 7, failedJobsHistoryLimit: 7 });
-    expect(cron.spec.jobTemplate.spec).toMatchObject({ backoffLimit: 0, activeDeadlineSeconds: 14 * 3600 + 600 });
+    expect(cron.spec).toMatchObject({ schedule: '0 */2 * * *', timeZone: 'Asia/Shanghai', suspend: false, concurrencyPolicy: 'Forbid', startingDeadlineSeconds: 1800, successfulJobsHistoryLimit: 7, failedJobsHistoryLimit: 7 });
+    expect(cron.spec.jobTemplate.spec).toMatchObject({ backoffLimit: 0, activeDeadlineSeconds: 6600 });
     expect(cron.spec.jobTemplate.spec.template.spec).toMatchObject({ restartPolicy: 'Never', terminationGracePeriodSeconds: 300, automountServiceAccountToken: false, nodeSelector: { envpool: 'uatops' } });
   });
 
@@ -51,7 +71,8 @@ describe('UAT daily monitor deployment', () => {
     const pod = readYaml('cronjob.yaml').spec.jobTemplate.spec.template.spec;
     expect(pod.containers).toHaveLength(1);
     const container = pod.containers[0];
-    expect(container.args).toEqual(['node', 'dist/monitor/cli.js', '--config', '/config/monitor.json', '--storage', 'azure']);
+    expect(container.args).toEqual(['node', 'dist/monitor/cli.js', '--config', '/config/monitor.json', '--storage', 'azure', '--run-key', '$(MONITOR_JOB_NAME)']);
+    expect(container.env).toContainEqual({ name: 'MONITOR_JOB_NAME', valueFrom: { fieldRef: { fieldPath: "metadata.labels['batch.kubernetes.io/job-name']" } } });
     expect(container.image).toMatch(/^fbrdevacr\.azurecr\.io\/ai\/maps-keyword-capture@sha256:[a-f0-9]{64}$/);
     expect(container.env).toContainEqual({ name: 'IMAGE_DIGEST', value: container.image.split('@')[1] });
     expect(container.env).toContainEqual({ name: 'KEYWORD_MONGO_URI', valueFrom: { secretKeyRef: { name: 'maps-keyword-monitor-source', key: 'KEYWORD_MONGO_URI' } } });

@@ -1,0 +1,108 @@
+{
+  "checkedAt": "2026-11-12T03:46:15.675522+00:00",
+  "status": "accepted",
+  "run": {
+    "id": "743381e3-506a-4dc5-8e5d-e002619ea403",
+    "status": "completed",
+    "checkedAt": "2026-11-12T03:40:05.302Z",
+    "finishedAt": "2026-11-12T03:40:26.794Z",
+    "distinctQueries": 446,
+    "available": 261,
+    "noData": 185,
+    "failures": 0,
+    "requestedQueries": 4,
+    "reusedQueries": 442
+  },
+  "storeRows": {
+    "available": 299,
+    "noData": 185,
+    "error": 0
+  },
+  "stores": [
+    {
+      "storeId": "choice-clinton-hill",
+      "total": 57,
+      "available": 57,
+      "noData": 0
+    },
+    {
+      "storeId": "choice-upper-west-side",
+      "total": 57,
+      "available": 49,
+      "noData": 8
+    },
+    {
+      "storeId": "keke-flushing",
+      "total": 68,
+      "available": 27,
+      "noData": 41
+    },
+    {
+      "storeId": "only-bear",
+      "total": 67,
+      "available": 26,
+      "noData": 41
+    },
+    {
+      "storeId": "place-2bb885ba4a9411eed9118fa9abddea3a",
+      "total": 47,
+      "available": 24,
+      "noData": 23
+    },
+    {
+      "storeId": "place-48c801ebd7000c93e5ce5213a735b2c3",
+      "total": 58,
+      "available": 40,
+      "noData": 18
+    },
+    {
+      "storeId": "place-ac78f6908231da8da688f4a25e980087",
+      "total": 34,
+      "available": 19,
+      "noData": 15
+    },
+    {
+      "storeId": "place-d83da948f2e65da8928b14abe3d39d13",
+      "total": 57,
+      "available": 34,
+      "noData": 23
+    },
+    {
+      "storeId": "szechuan-gourmet",
+      "total": 39,
+      "available": 23,
+      "noData": 16
+    }
+  ],
+  "podExit": 0,
+  "restarts": 0,
+  "actualImageID": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:897cb59a1121af0eaf2db867c353df1f1319f4c5eead7c3d9e6bccb6e8134ea6",
+  "sourceSnapshot": "volume-snapshot-1063801ce86f233a",
+  "verification": {
+    "frozenStoreCatalogUnchanged": true,
+    "all484StoreRowsComparedToOriginalMcpResponses": true,
+    "reusedRowsOriginalHistoryAndTimestampsVerified": true,
+    "keywordKeySourceRegionLanguageMonthlyPeriodTimesChecked": true,
+    "mismatches": [],
+    "all9StoreApiResponsesMatched": true,
+    "visualSamples": [
+      "keke overview source, region, period, timestamps, rank columns"
+    ],
+    "all7OriginalCronSpecsAndUidsUnchanged": true
+  },
+  "tests": {
+    "files": 114,
+    "passed": 2020,
+    "typecheck": "passed",
+    "contractTypecheck": "passed"
+  },
+  "weekly": {
+    "name": "maps-search-volume-weekly",
+    "uid": "46b03534-4c92-4b9a-ac6a-9f164453388f",
+    "schedule": "30 10 * * 1",
+    "timeZone": "Asia/Shanghai",
+    "suspend": false,
+    "nextExpectedBeijing": "2026-11-16 10:30",
+    "nextScheduledRunObserved": false
+  }
+}
