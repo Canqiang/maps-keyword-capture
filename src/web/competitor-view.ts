@@ -5,27 +5,47 @@ type History = ReturnType<typeof competitorHistory>;
 export function createCompetitorPresentation() {
   const esc = (s: unknown) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]!);
   const colors = ['#6d3bd1','#087f8c','#cc6419','#28744c','#bc3971','#4768af'];
+  /** Existing compact provenance is sufficient for an observational line, not a geographic cohort. */
+  function unlocatedIdentity(row: History['rows'][number]): string | null {
+    try {
+      const profile: unknown = JSON.parse(row.profile), scope: unknown = JSON.parse(row.scopeKey);
+      if (!Array.isArray(profile) || profile.length !== 3 || profile[2] !== 'query_only'
+        || !Array.isArray(scope) || scope.length !== 4
+        || ![...profile, ...scope, row.pointId].every(v => typeof v === 'string' && v.trim().length > 0)) return null;
+      return JSON.stringify([scope, row.pointId, profile]);
+    } catch { return null; }
+  }
   function chart(data: History, selected: string[], link: (id: string) => string, when: (time: string) => string): string {
-    const rows = data.rows;
-    if (!rows.length) return '<div class="empty">所选关键词、点位和日期没有记录。</div>';
+    if (!data.rows.length) return '<div class="empty">所选关键词、点位和日期没有记录。</div>';
+    const rows = data.rows.filter(row => Number.isFinite(Date.parse(row.observedAt)))
+      .sort((a,b) => Date.parse(a.observedAt)-Date.parse(b.observedAt) || a.observationId.localeCompare(b.observationId));
+    if (!rows.length) return '<div class="empty">缺少有效采集时间，暂时无法绘制排名趋势。</div>';
+    // An invalid timestamp cannot be placed as a gap; retain valid dots without inferring continuity.
+    const validTimes = rows.length === data.rows.length, timeCounts = new Map<number, number>();
+    for (const row of rows) { const t = Date.parse(row.observedAt); timeCounts.set(t, (timeCounts.get(t) ?? 0)+1); }
     const start = Date.parse(rows[0]!.observedAt), end = Date.parse(rows.at(-1)!.observedAt);
-    const ranks = rows.flatMap(row => row.values.filter(v=>selected.includes(v.placeId)).map(v=>v.organicRank??1));
+    const ranks = rows.flatMap(row => row.values.filter(v=>selected.includes(v.placeId) && Number.isSafeInteger(v.organicRank) && v.organicRank! > 0).map(v=>v.organicRank!));
     const maxRank = Math.max(15, ...ranks), x = (t: string) => 60 + (Date.parse(t)-start)/Math.max(1,end-start)*780;
     const y = (rank: number) => 30+(rank-1)/Math.max(1,maxRank-1)*260;
     const ticks = [...new Set([1,3,5,10,15,maxRank])].filter(n=>n<=maxRank);
-    let svg = '<svg style="display:block;width:100%;height:auto;min-width:640px" viewBox="0 0 900 350" role="img" aria-label="竞品自然排名变化；名次越小越靠前">'+ticks.map(n=>'<line x1="60" x2="840" y1="'+y(n)+'" y2="'+y(n)+'" stroke="#ece8f0"/><text x="42" y="'+(y(n)+4)+'" text-anchor="end" fill="#777">'+n+'</text>').join('');
+    let svg = '<svg style="display:block;width:100%;height:auto;min-width:640px" viewBox="0 0 900 350" role="img" aria-label="竞品自然排名变化；名次越小越靠前；同色虚线仅表示未定位观测趋势，地域未核实">'+ticks.map(n=>'<line x1="60" x2="840" y1="'+y(n)+'" y2="'+y(n)+'" stroke="#ece8f0"/><text x="42" y="'+(y(n)+4)+'" text-anchor="end" fill="#777">'+n+'</text>').join('');
     selected.forEach((id, index)=>{
       const color=colors[index%colors.length]!;
-      let previous: {x:number;y:number;cohort:string;time:number} | null=null;
+      let previous: {x:number;y:number;cohort:string|null;unlocated:string|null;time:number} | null=null;
       for(const row of rows) {
         const value=row.values.find(v=>v.placeId===id), rank=value?.organicRank;
-        if(!row.eligible || rank==null) {previous=null;continue;}
-        const px=x(row.observedAt),py=y(rank),time=Date.parse(row.observedAt);
-        if(previous && row.cohortKey && previous.cohort===row.cohortKey && time-previous.time<=3*3600000)
-          svg+='<line x1="'+previous.x+'" y1="'+previous.y+'" x2="'+px+'" y2="'+py+'" stroke="'+color+'" stroke-width="2"/>';
+        if(!row.eligible || !Number.isSafeInteger(rank) || rank! <= 0) {previous=null;continue;}
+        const px=x(row.observedAt),py=y(rank!),time=Date.parse(row.observedAt),unlocated=unlocatedIdentity(row);
+        const reliableTime=validTimes && timeCounts.get(time)===1, gap=previous?time-previous.time:0;
+        if(previous && reliableTime && gap>0) {
+          if(unlocated && previous.unlocated===unlocated && gap<=36*3600000)
+            svg+='<line class="competitor-unlocated-line" x1="'+previous.x+'" y1="'+previous.y+'" x2="'+px+'" y2="'+py+'" stroke="'+color+'" stroke-width="2" stroke-dasharray="4 3"/>';
+          else if(!unlocated && !previous.unlocated && row.cohortKey && previous.cohort===row.cohortKey && gap<=3*3600000)
+            svg+='<line x1="'+previous.x+'" y1="'+previous.y+'" x2="'+px+'" y2="'+py+'" stroke="'+color+'" stroke-width="2"/>';
+        }
         const name=data.businesses.find(b=>b.placeId===id)?.name||id;
         svg+='<a href="'+esc(link(row.observationId))+'"><circle cx="'+px+'" cy="'+py+'" r="4" fill="'+color+'"><title>'+esc(name+' · '+when(row.observedAt)+' · 自然第 '+rank+' 名'+(row.geography!=='matched'?' · 地域未核实':''))+'</title></circle></a>';
-        previous=row.cohortKey?{x:px,y:py,cohort:row.cohortKey,time}:null;
+        previous=reliableTime&&(unlocated||row.cohortKey)?{x:px,y:py,cohort:unlocated?null:row.cohortKey,unlocated,time}:null;
       }
     });
     svg+='<text x="60" y="325" fill="#777">'+esc(when(rows[0]!.observedAt))+'</text><text x="840" y="325" text-anchor="end" fill="#777">'+esc(when(rows.at(-1)!.observedAt))+'</text></svg>';
@@ -99,7 +119,7 @@ async function competitorView(r,v){
   const selectionKey='maps-competitors-v1:'+JSON.stringify([r.id,r.surface,pointIds.slice().sort(),M.key(r.keyword)]);
   try{const saved=JSON.parse(localStorage.getItem(selectionKey)||'null');if(Array.isArray(saved)&&saved.length<=6&&saved.every(id=>typeof id==='string'&&/^ChIJ[\w-]+$/.test(id)))selected=saved;}catch{}
   const link=id=>href('evidence',r.id,params(r,{observation:id}));
-  const metricText={solv:'SoLV：进入自然前 3 的有效点占比，越高越好。',arp:'ARP：自然前 20 中已见排名的平均值，越低越好；未见点不计入，需同时看有效点数。',atrp:'ATRP：全部选定点的平均排名，越低越好；只有确认自然前 20 未见或列表到底，才能按 21 计入。',rank:'自然排名：按单个点位逐次比较，名次越小越好。广告另列。'};
+  const metricText={solv:'SoLV：进入自然前 3 的有效点占比，越高越好。',arp:'ARP：自然前 20 中已见排名的平均值，越低越好；未见点不计入，需同时看有效点数。',atrp:'ATRP：全部选定点的平均排名，越低越好；只有确认自然前 20 未见或列表到底，才能按 21 计入。',rank:'自然排名：按单个点位逐次比较，名次越小越好。广告另列。同色虚线仅表示未定位观测趋势，地域未核实。'};
   function render(){
     let own=data.businesses.find(b=>b.placeId===store.placeId);
     if(own)own.name=store.name;else{own={placeId:store.placeId,name:store.name,appearances:0};data.businesses.unshift(own);}

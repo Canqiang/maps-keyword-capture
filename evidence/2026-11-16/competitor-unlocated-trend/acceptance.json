@@ -1,0 +1,74 @@
+{
+  "checkedAt": "2026-11-16T02:46:50.683374+00:00",
+  "status": "passed_ui_only",
+  "branch": "codex/competitor-unlocated-trend",
+  "gitBase": "e0a5624f74cee4747a2be584a7cdeb393c1bd3c9",
+  "sourceVersion": "competitor-line-snapshot-8aa1b1c712686827",
+  "sourceVersionIsGitCommit": false,
+  "runtimeSourceChange": [
+    "src/web/competitor-view.ts"
+  ],
+  "frozenSourceMatchesCheckout": true,
+  "rollout": {
+    "checkedAt": "2026-11-16T02:40:26.843033+00:00",
+    "image": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:d400a3f2bc4fd0d838b1bbb60582510fc415eb6f2c1ea5e648a087a50939c25c",
+    "previousImage": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:38bdfd4dc2a4eb3e9b64594b6c499d6914ca8cee1677cd964cff1b62c508dd1c",
+    "buildRun": "ch16bb",
+    "sourceVersion": "competitor-line-snapshot-8aa1b1c712686827",
+    "readyPods": [
+      "maps-tracking-ui-56c6f75cf8-vppkr"
+    ],
+    "cronSpecsAndUIDsUnchanged": 8,
+    "retainedJobSpecsUnchanged": 9,
+    "deploymentChangedFields": [
+      "spec.template.spec.containers[ui].image"
+    ]
+  },
+  "validation": {
+    "localFullTestFiles": 117,
+    "localFullTests": 2096,
+    "newUnitTests": 34,
+    "newBrowserIntegrationTests": 1,
+    "independentReviewer": "No blocking findings; 46 unit tests and 6 browser integration tests passed",
+    "typecheck": "passed",
+    "build": "passed",
+    "runtimeSourceChange": [
+      "src/web/competitor-view.ts"
+    ],
+    "noApiSchemaChange": true,
+    "noMetricLogicChange": true,
+    "historyRowsInFrozenCheck": 40,
+    "merchantsInVisualCheck": 4,
+    "expectedColoredDashedSegments": 139,
+    "expectedObservedRankDots": 152
+  },
+  "publicBrowser": {
+    "scope": "Live public UAT browser",
+    "checkedAt": "2026-11-16T02:45:34.511Z",
+    "url": "https://maps.connexup-uat.net/#competitors/keke-flushing?surface=web&point=r0c0&scope=one&metric=rank&keyword=%E6%B3%95%E6%8B%89%E7%9B%9B%20%E5%8D%A4%E5%91%B3&from=2026-11-02&to=2026-11-15",
+    "pod": "maps-tracking-ui-56c6f75cf8-vppkr",
+    "selectedMerchants": 4,
+    "observationDots": 152,
+    "selectedTogglePass": true,
+    "queryOnlyMetricsExcluded": true,
+    "noExtraCompetitorFetch": true,
+    "noEvidenceFetch": true,
+    "pageErrors": []
+  },
+  "dashedSegments": 139,
+  "merchantColors": 4,
+  "publicHistoricalApiResponseUnchanged": true,
+  "visualReview": [
+    "public desktop competitor panel",
+    "public 390px mobile viewport"
+  ],
+  "limitations": [
+    "Unlocated lines show observations, not verified customer-local rankings.",
+    "No interpolation or historical backfill.",
+    "Query-only rows still excluded from SoLV/ARP/ATRP.",
+    "Mobile chart retains horizontal scrolling.",
+    "Initial public read transient and two browser harness timeouts retained; final public browser run passed."
+  ],
+  "evidenceRoot": "/Users/xander/.codex/visualizations/2026/09/17/01a0ad00-ac77-7b61-93d6-b789dc702448/competitor-unlocated-trend-2026-11-16",
+  "commitAndPush": "At deployment verification time, neither commit nor push had been performed. Subsequent source commit is recorded by Git history; this acceptance does not attest remote push."
+}
