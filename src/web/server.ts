@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 import { keywordKey, type Surface } from '../domain/model.js';
 import { decodeHistoryCursor, historyObservation, historyTimelineObservation, type TimelineOptions } from '../domain/history.js';
 import { discoverGridRuns, gridHistory } from './grid-history.js';
-import { MongoTrackingRepository, type TrackingRepository } from '../domain/repository.js';
+import { MongoTrackingRepository, type StorePortfolio, type StoreSummary, type TrackingRepository } from '../domain/repository.js';
 import { loadTrackingConfig, type TrackingConfig } from '../domain/tracking-config.js';
 import { AzureBlobGateway, containerClientFromEnv } from '../storage/azure-gateway.js';
 import { UI_HTML } from './ui.js';
@@ -28,6 +28,44 @@ const EVIDENCE_KEY = /^(?:tracking|android-maps|maps-keyword-capture|\d{4}-\d{2}
 const MAX_BODY = 256 * 1024;
 /** A monitored surface with no fresh observations for longer than this is surfaced as an interruption. */
 const SCAN_STALE_HOURS = 4;
+const SUMMARY_TTL_MS = 5_000;
+
+interface PortfolioSnapshot {
+  summaries: StoreSummary[];
+  stores?: StorePortfolio[];
+}
+
+/** Share the same observation read between the two homepage requests, including overlapping reads. */
+function portfolioReader(repo: TrackingRepository, now: () => Date) {
+  const entries = new Map<Surface, { result: Promise<PortfolioSnapshot>; expiresAt: number }>();
+
+  async function load(surface: Surface): Promise<PortfolioSnapshot> {
+    if (repo.portfolio) {
+      const stores = await repo.portfolio(surface);
+      return { stores, summaries: stores.flatMap(store => store.summary ? [store.summary] : []) };
+    }
+    return { summaries: await repo.summaries({ surface }) };
+  }
+
+  return {
+    async get(surface: Surface) {
+      const cached = entries.get(surface);
+      if (cached && now().getTime() < cached.expiresAt) return cached.result;
+      const entry = { result: load(surface), expiresAt: Infinity };
+      entries.set(surface, entry);
+      try {
+        const snapshot = await entry.result;
+        entry.expiresAt = now().getTime() + SUMMARY_TTL_MS;
+        return snapshot;
+      } catch (error) {
+        // An edit can detach an unfinished read and start a replacement before this one fails.
+        if (entries.get(surface) === entry) entries.delete(surface);
+        throw error;
+      }
+    },
+    clear: () => entries.clear(),
+  };
+}
 
 class HttpError extends Error { constructor(readonly status: number, message: string) { super(message); } }
 
@@ -136,6 +174,7 @@ function timelineOptions(url: URL, now: Date, timezone: string, defaultPointId =
 
 export function createHandler(deps: ServerDeps) {
   const now = deps.now ?? (() => new Date());
+  const portfolio = portfolioReader(deps.repo, now);
   const imageCache = deps.evidence ? new EvidenceCache(deps.evidence) : null;
   return async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
     let pathname = '/';
@@ -192,7 +231,7 @@ export function createHandler(deps: ServerDeps) {
           if (parts.length === 3 && parts[2] === 'health' && req.method === 'GET') {
             // Data freshness is the ground truth for "collection is running": CronJob status alone
             // cannot distinguish a quarantined scan gate from a merely delayed schedule.
-            const [targets, summaries] = await Promise.all([deps.scans.targets(), deps.repo.summaries({ surface: 'web' })]);
+            const [targets, { summaries }] = await Promise.all([deps.scans.targets(), portfolio.get('web')]);
             const latestObservationAt = summaries.reduce<string | null>((latest, summary) => summary.lastObservedAt && (latest === null || summary.lastObservedAt > latest) ? summary.lastObservedAt : latest, null);
             const at = now();
             const staleHours = latestObservationAt === null ? null : Math.max(0, (at.getTime() - Date.parse(latestObservationAt)) / 3_600_000);
@@ -222,15 +261,18 @@ export function createHandler(deps: ServerDeps) {
       }
       if (parts[1] === 'stores' && parts.length === 2) {
         if (req.method === 'GET') {
-          const [stores, summaries] = await Promise.all([deps.repo.listStores({ includeInactive: true }), deps.repo.summaries({ surface: surfaceOf(url.searchParams.get('surface')) })]);
-          const byId = new Map(summaries.map(s => [s.storeId, s]));
           const surface = surfaceOf(url.searchParams.get('surface'));
+          const snapshot = await portfolio.get(surface);
+          if (snapshot.stores) return send(req, res, 200, snapshot.stores);
+          const stores = await deps.repo.listStores({ includeInactive: true });
+          const byId = new Map(snapshot.summaries.map(s => [s.storeId, s]));
           const rosters = await Promise.all(stores.map(store => deps.repo.rosterLatest(store.storeId, surface)));
           return send(req, res, 200, stores.map((store, index) => ({ ...store, summary: byId.get(store.storeId) ?? null, rosterLatest: rosters[index] ?? null })));
         }
         if (req.method === 'POST') {
           try { return send(req, res, 201, await deps.repo.saveStore(await readJson(req), now(), { by: deps.actor ?? null })); }
           catch (error) { if (error instanceof HttpError) throw error; throw new HttpError(400, error instanceof Error ? error.message : 'invalid store'); }
+          finally { portfolio.clear(); }
         }
       }
       if (parts[1] === 'stores' && parts[2]) {
@@ -248,11 +290,13 @@ export function createHandler(deps: ServerDeps) {
           const retained = Object.fromEntries(['expectedArea', 'fixedPoints', 'monitoringCatalog', 'keywordTargets'].filter(key => key in store).map(key => [key, (store as unknown as Record<string, unknown>)[key]]));
           try { return send(req, res, 200, await deps.repo.saveStore({ ...retained, ...body, storeId }, now(), { by: deps.actor ?? null })); }
           catch (error) { throw new HttpError(400, error instanceof Error ? error.message : 'invalid store'); }
+          finally { portfolio.clear(); }
         }
         if (parts.length === 4 && parts[3] === 'active' && req.method === 'PUT') {
           const body = await readJson(req) as { active?: unknown };
           if (typeof body.active !== 'boolean') throw new HttpError(400, 'active must be boolean');
-          return send(req, res, 200, await deps.repo.setActive(storeId, body.active, now(), deps.actor ?? null));
+          try { return send(req, res, 200, await deps.repo.setActive(storeId, body.active, now(), deps.actor ?? null)); }
+          finally { portfolio.clear(); }
         }
         if (parts.length === 4 && parts[3] === 'changes' && req.method === 'GET') {
           return send(req, res, 200, { storeId, changes: await deps.repo.storeChanges(storeId, 20) });

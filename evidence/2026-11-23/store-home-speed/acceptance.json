@@ -1,0 +1,184 @@
+{
+  "uatSourceSnapshot": "home-query-922bc4d71d4a47b4",
+  "uatBaseCommit": "f619e3e3e77a44e8a453d620e7e4884dc11886fb",
+  "sourceSHA256": {
+    "src/web/server.ts": "9a0fecd4ba66371cc69a6cbf49b7b5f992acc16970f1c6015c61d2cd77ff2322",
+    "src/domain/repository.ts": "35dd7de5a9f207bf2ef2e30561db14fcacc3d8a1a59bf0d1453db8772e898c33"
+  },
+  "rollout": {
+    "at": "2026-11-23T03:15:58.712415+00:00",
+    "build": "ch16gt",
+    "old": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:d400a3f2bc4fd0d838b1bbb60582510fc415eb6f2c1ea5e648a087a50939c25c",
+    "new": "fbrdevacr.azurecr.io/ai/maps-keyword-capture@sha256:f465c1baa6cfda1cf75652eda490fdd51230a732c5b6ddc2d93f47e66749a5a3",
+    "source": "home-query-922bc4d71d4a47b4",
+    "readyPods": [
+      "maps-tracking-ui-574fffc44d-r6bwt"
+    ],
+    "unchangedSchedules": [
+      "maps-keke-extra-daily",
+      "maps-keyword-monitor-daily",
+      "maps-release-gate-20261023",
+      "maps-search-volume-weekly",
+      "maps-targets-web-2h",
+      "maps-tracking-ingest-daily",
+      "maps-tracking-web-2h"
+    ],
+    "retainedJobs": [
+      "maps-search-volume-weekly-29923350"
+    ]
+  },
+  "concurrentRequests": [
+    {
+      "label": "before",
+      "wallMs": 30068,
+      "responses": [
+        {
+          "path": "/api/stores?surface=web",
+          "status": 500,
+          "ms": 30066
+        },
+        {
+          "path": "/api/scans/health",
+          "status": 500,
+          "ms": 30040
+        }
+      ]
+    },
+    {
+      "label": "after",
+      "wallMs": 764,
+      "responses": [
+        {
+          "path": "/api/stores?surface=web",
+          "status": 200,
+          "ms": 760
+        },
+        {
+          "path": "/api/scans/health",
+          "status": 200,
+          "ms": 725
+        }
+      ]
+    },
+    {
+      "label": "afterRepeat",
+      "wallMs": 578,
+      "responses": [
+        {
+          "path": "/api/stores?surface=web",
+          "status": 200,
+          "ms": 574
+        },
+        {
+          "path": "/api/scans/health",
+          "status": 200,
+          "ms": 523
+        }
+      ]
+    }
+  ],
+  "storeListResponseSHA256": "416eb4bd3231173e51f7de0fe13c61ce5c560038a21ee15a3f19c49364b2e7ed",
+  "validation": {
+    "scope": "UAT UI Pod loopback, HTTP JSON, GET only, no ingress or DOM",
+    "uiPairWallMsBefore": 30068,
+    "uiPairWallMsAfter": 764,
+    "deploymentUIDUnchanged": true,
+    "deploymentExceptUiImageUnchanged": true,
+    "mapCronJobCount": 7,
+    "allMapCronJobSpecsAndUIDsUnchanged": true,
+    "jobSpecAndUidDrift": [],
+    "expiredJobs": [],
+    "newJobs": [
+      "maps-targets-web-2h-29923395"
+    ],
+    "http": {
+      "/api/stores?surface=web": {
+        "status": 200,
+        "millis": 760,
+        "beforeIndividualStatus": 200,
+        "beforeIndividualMillis": 11591
+      },
+      "/api/scans/health": {
+        "status": 200,
+        "millis": 725,
+        "beforeIndividualStatus": 200,
+        "beforeIndividualMillis": 10813
+      }
+    },
+    "historicalDataDrift": [],
+    "fullResponseDigestUnchanged": true,
+    "stores": 10,
+    "storeIdsUnchanged": true,
+    "staticStoreDrift": [],
+    "healthFreshness": {
+      "latestObservationAt": [
+        "2026-11-23T01:50:56.116Z",
+        "2026-11-23T01:50:56.116Z"
+      ],
+      "stale": [
+        false,
+        false
+      ],
+      "staleHours": [
+        1.3,
+        1.4
+      ]
+    },
+    "healthTargetChanges": [
+      "liya90-web"
+    ],
+    "healthTargetsUnchanged": true,
+    "latestAcrossSummariesMatchesHealth": true
+  },
+  "latest": {
+    "store": "keke-flushing",
+    "surface": "web",
+    "aMs": 8465,
+    "bMs": 193,
+    "status": [
+      200,
+      200
+    ],
+    "words": [
+      68,
+      68
+    ],
+    "previousRanksWithTime": [
+      67,
+      67
+    ],
+    "allSemanticRowsMatch": true,
+    "orderedKeysMatch": true,
+    "addedKeys": [],
+    "removedKeys": [],
+    "changes": {}
+  },
+  "browser": {
+    "origin": "https://maps.connexup-uat.net",
+    "at": "2026-11-23T03:16:38.367Z",
+    "elapsedToListMs": 4374,
+    "visibleTableRows": 9,
+    "health": 200,
+    "events": [
+      {
+        "path": "/api/settings",
+        "code": 200,
+        "ms": 3296
+      },
+      {
+        "path": "/api/scans/health",
+        "code": 200,
+        "ms": 4083
+      },
+      {
+        "path": "/api/stores",
+        "code": 200,
+        "ms": 4316
+      }
+    ],
+    "errors": [],
+    "problem": null
+  },
+  "uatSourceTestFiles": 119,
+  "uatSourceTestsPassed": 2104
+}
