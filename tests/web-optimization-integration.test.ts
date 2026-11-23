@@ -15,13 +15,43 @@ let server:Server,browser:Browser,base:string,reads=0;const hits:string[]=[];
 const auth=createBasicAuth('test','local-only')!;
 const headers={authorization:'Basic '+Buffer.from('test:local-only').toString('base64')};
 beforeAll(async()=>{
- const repo=new MemoryTrackingRepository(rows);await repo.saveStore(store);
+ const unlocated=rows.map((row,i):RankObservation=>({...row,observationId:'unlocated-'+i,pointId:'r0c0',locationMode:'query_only',
+   observedAt:['2026-11-08T06:00:00Z','2026-11-09T06:00:00Z','2026-11-10T06:00:00Z','2026-11-10T08:00:00Z'][i]!,
+   localDate:['2026-11-08','2026-11-09','2026-11-10','2026-11-10'][i]!,
+   topListings:row.topListings.map(l=>i===2&&l.placeId==='ChIJRival'?{...l,organicRank:null}:l)}));
+ const repo=new MemoryTrackingRepository([...rows,...unlocated]);await repo.saveStore(store);
  server=createServer((req,res)=>{hits.push(req.url||'');void createHandlerOnce(req,res);});
  const createHandlerOnce=createHandler({config,repo,auth,readOnly:true,evidence:{get:async()=>{reads++;return Buffer.from('test-image');}}});
  server.listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));base='http://127.0.0.1:'+(server.address() as AddressInfo).port;
  browser=await chromium.launch({channel:'chromium',headless:true});
 });
 afterAll(async()=>{await browser?.close();if(server)await new Promise<void>(r=>server.close(()=>r()));});
+it('connects unlocated rivals with dashed observation lines while preserving per-business gaps and metric exclusion',async()=>{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ await context.addCookies([{name:auth.cookieName,value:auth.issueSession(),url:base}]);
+ const page=await context.newPage();const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+ try {
+  await page.goto(base+'/#competitors/'+store.storeId+'?surface=web&point=r0c0&keyword=tea&from=2026-11-08&to=2026-11-10&metric=rank&scope=one');
+  await page.waitForSelector('#competitor-chart circle',{timeout:5000});
+  const dashed=page.locator('#competitor-chart line[stroke-dasharray]');
+  expect(await dashed.count()).toBe(4);
+  expect(await page.locator('#competitor-chart circle').count()).toBe(7);
+  expect(await page.locator('#competitor-data').innerText()).toContain('虚线');
+  expect(await page.locator('#competitor-data').innerText()).toContain('地域未核实');
+  const requests=hits.filter(x=>x.includes('/competitors?')).length;
+  await page.locator('#competitor-data details summary').click();
+  await page.locator('[data-competitor="ChIJRival"]').uncheck();
+  expect(await dashed.count()).toBe(3);
+  await page.locator('[data-metric="solv"]').click();
+  expect(await page.locator('#competitor-chart circle').count()).toBe(0);
+  await page.locator('[data-metric="rank"]').click();
+  expect(await dashed.count()).toBe(3);
+  await page.setViewportSize({width:390,height:844});
+  expect(await page.locator('#competitor-apply').isVisible()).toBe(true);
+  expect(hits.filter(x=>x.includes('/competitors?')).length).toBe(requests);
+  expect(await page.locator('#app img').count()).toBe(0);expect(errors).toEqual([]);
+ } finally {await context.close();}
+});
 it('authenticates conditional image requests and sends 304 without re-reading Azure',async()=>{
  const url=base+'/api/evidence?key=tracking/web/shot.png';
  const first=await fetch(url,{headers});expect(first.status).toBe(200);expect(first.headers.get('cache-control')).toBe('private, no-cache');

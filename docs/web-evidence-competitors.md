@@ -93,9 +93,33 @@ observations initially, with an explicit continuation button. It does not load
 screenshots for the trend chart.
 
 Business identity uses canonical Place IDs. Natural ranks and advertising
-display positions stay separate. Failed/unqualified observations, missing ranks,
-profile changes and gaps longer than three hours break lines. Geography remains
-visible and unverified when evidence does not establish it.
+display positions stay separate. Failed/unqualified observations, missing ranks
+and profile changes break lines. Located comparable ranks retain solid lines
+with a three-hour gap limit. Geography remains visible and unverified when
+evidence does not establish it.
+
+### Unlocated competitor continuity (2026-11-16)
+
+Query-only observations have no geographic cohort and previously appeared only
+as dots in the competitor chart. The renderer now connects the same merchant's
+observed natural ranks with same-color dashed lines when the exact store/target/
+surface/keyword scope, point and source profile/adapter/query-only mode match.
+It validates the existing compact API provenance; no database or API schema
+change is needed. Missing or malformed provenance remains unconnected.
+
+Each merchant breaks independently on absent/unknown ranks or ad-only records.
+Unqualified records, method/identity changes, invalid or duplicate timestamps,
+and gaps above 36 hours also break the dashed trend. The 36-hour limit preserves
+older daily observations without bridging multi-day missing periods. Rankings
+remain actual discrete observations; nothing is interpolated or backfilled.
+
+The chart labels dashed lines as unlocated observational trends with geography
+unverified. `cohortKey` stays null, and query-only rows remain excluded from
+SoLV/ARP/ATRP; a dashed line is not proof of comparable customer-local rankings.
+Selection changes reuse already loaded records and load no screenshots. The
+release affects only the UI image; collection schedules, words, points, resources
+and historical evidence remain unchanged. Live UAT acceptance is recorded in
+`evidence/2026-11-16/competitor-unlocated-trend/README.md`.
 
 New Web observations retain every collected listing in Mongo, within the same
 result limit. Older observations may retain only the first ten listings. Missing
