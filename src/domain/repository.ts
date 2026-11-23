@@ -32,7 +32,10 @@ export function describeStoreChange(previous: StoredStore | null, next: Tracking
     keywordsAdded: [...after].filter(([k]) => !before.has(k)).map(([, v]) => v), keywordsRemoved: [...before].filter(([k]) => !after.has(k)).map(([, v]) => v) };
 }
 
+export type StorePortfolio = StoredStore & { summary: StoreSummary | null; rosterLatest: RosterLatest | null };
+
 export interface TrackingRepository {
+  portfolio?(surface: Surface): Promise<StorePortfolio[]>;
   listStores(options?: { includeInactive?: boolean }): Promise<StoredStore[]>;
   getStore(storeId: string): Promise<StoredStore | null>;
   /** Create or replace; validation happens here so every writer gets the same rules. Every save is appended to the change log. */
@@ -75,7 +78,7 @@ function toLatest(rows: RankObservation[]): LatestRank[] {
   const tierOrder = (tier: LatestRank['keywordTier']): number => (tier === 'core' ? 0 : tier === 'longTail' ? 1 : 2);
   return out.sort((a, b) => tierOrder(a.keywordTier) - tierOrder(b.keywordTier) || (a.organicRank ?? 99) - (b.organicRank ?? 99) || a.keyword.localeCompare(b.keyword));
 }
-function summarize(storeId: string, surface: Surface, latest: LatestRank[]): StoreSummary {
+function summarize(storeId: string, surface: Surface, latest: Pick<LatestRank, 'eligible' | 'organicRank' | 'observedAt'>[]): StoreSummary {
   const usable = latest.filter(l => l.eligible);
   const ranks = usable.map(l => l.organicRank).filter((r): r is number => r !== null);
   return { storeId, surface, lastObservedAt: latest.reduce<string | null>((max, l) => (max === null || l.observedAt > max ? l.observedAt : max), null), keywords: usable.length, ranked: ranks.length, unavailable: latest.length - usable.length,
@@ -93,7 +96,7 @@ function pointCoordinatesFilter(store: StoredStore, pointId: string) {
   const point = pointDefinition(store, pointId);
   return point ? { 'point.latitude': { $gte: point.latitude - 0.000001, $lte: point.latitude + 0.000001 }, 'point.longitude': { $gte: point.longitude - 0.000001, $lte: point.longitude + 0.000001 } } : {};
 }
-function activeLatest(store: StoredStore, rows: LatestRank[]): LatestRank[] {
+function activeLatest<T extends { keywordKey: string }>(store: StoredStore, rows: T[]): T[] {
   if (!store.keywordTargets) return rows;
   const active = new Set(store.keywordTargets.map(t => keywordKey(t.keyword)));
   return rows.filter(row => active.has(row.keywordKey));
@@ -198,6 +201,23 @@ export class MemoryTrackingRepository implements TrackingRepository {
   async close() { /* nothing to release */ }
 }
 
+// Limit concurrent commands while a store list is being loaded from the shared Mongo server.
+async function mapInBatches<T, R>(items: T[], size: number, load: (item: T) => Promise<R>): Promise<R[]> {
+  const result: R[] = [];
+  for (let offset = 0; offset < items.length; offset += size) {
+    result.push(...await Promise.all(items.slice(offset, offset + size).map(load)));
+  }
+  return result;
+}
+
+function summarizeObservations(store: StoredStore, surface: Surface, rows: RankObservation[]): StoreSummary {
+  const metrics = activeLatest(store, rows).map(row => {
+    const rank = organicRankForMetrics(row);
+    return { observedAt: row.observedAt, eligible: rank !== undefined, organicRank: rank ?? null };
+  });
+  return summarize(store.storeId, surface, metrics);
+}
+
 export interface MongoTrackingRepositoryOptions {
   uri: string; database: string; storesCollection?: string; observationsCollection?: string; timeoutMs?: number;
   createClient?: (uri: string, options: MongoClientOptions) => MongoClient;
@@ -260,20 +280,46 @@ export class MongoTrackingRepository implements TrackingRepository {
     if (result.modifiedCount) await (await this.changesCol()).insertOne({ storeId, at: now.toISOString(), by, action: active ? 'activate' : 'pause', fields: ['active'], keywordsAdded: [], keywordsRemoved: [] });
     return this.getStore(storeId);
   }
+  private async recentPerKeyword(
+    store: StoredStore, surface: Surface, pointId: string,
+    options: { count: 1 | 2; matchCoordinates: boolean },
+  ): Promise<RankObservation[]> {
+    const col = await this.obsCol();
+    const scope = { storeId: store.storeId, surface, pointId };
+    // Discover historical as well as configured keywords from the existing trend index.
+    // Place and coordinate predicates belong on the observation lookup below: including them
+    // in distinct would force Mongo to fetch historical documents just to enumerate keywords.
+    const keywords = await col.distinct('keywordKey', scope);
+    const match = { ...scope, placeId: store.placeId, ...(options.matchCoordinates ? pointCoordinatesFilter(store, pointId) : {}) };
+    const projection = options.count === 1
+      ? { _id: 0, observedAt: 1, observationId: 1, keywordKey: 1, rank: 1, quality: 1 }
+      : { _id: 0 };
+    const groups = await mapInBatches(keywords, 4, async keyword => {
+      const filter = { ...match, keywordKey: keyword };
+      // Read one extra timestamp to detect a tie that straddles the cutoff. Sorting by
+      // observedAt alone uses the trend index instead of sorting the entire keyword history.
+      const rows = await col.find(filter, { sort: { observedAt: -1 }, limit: options.count + 1, projection }).toArray();
+      const boundary = rows[options.count - 1]?.observedAt;
+      if (boundary !== undefined && boundary === rows[options.count]?.observedAt) {
+        const newer = rows.filter(row => row.observedAt > boundary);
+        const tied = await col.find({ ...filter, observedAt: boundary }, {
+          sort: { observationId: -1 }, limit: options.count - newer.length, projection,
+        }).toArray();
+        return [...newer, ...tied];
+      }
+      return rows.sort((a, b) => compareObservations(b, a)).slice(0, options.count);
+    });
+    return groups.flat();
+  }
   async latest(storeId: string, options: { surface?: Surface; pointId?: string } = {}) {
     const store = await this.getStore(storeId);
-    if (!store || ((options.pointId ?? defaultPointId(store)) === 'r0c0' && !store.center)) return [];
-    const col = await this.obsCol();
+    if (!store) return [];
     const pointId = options.pointId ?? defaultPointId(store);
-    const match: Record<string, unknown> = { storeId, placeId: store.placeId, pointId, ...(options.surface ? { surface: options.surface } : {}),
-      ...pointCoordinatesFilter(store, pointId) };
-    // Two newest per keyword, surface and point.
-    const rows = await col.aggregate<RankObservation>([
-      { $match: match }, { $sort: { observedAt: -1, observationId: -1 } },
-      { $group: { _id: { s: '$surface', k: '$keywordKey', p: '$pointId' }, docs: { $push: '$$ROOT' } } },
-      { $project: { docs: { $slice: ['$docs', 2] } } }, { $unwind: '$docs' }, { $replaceRoot: { newRoot: '$docs' } }, { $project: { _id: 0 } },
-    ], { allowDiskUse: true }).toArray();
-    return toLatest(rows);
+    if (pointId === 'r0c0' && !store.center) return [];
+    const surfaces: Surface[] = options.surface ? [options.surface] : ['web', 'android'];
+    const groups = await Promise.all(surfaces.map(surface =>
+      this.recentPerKeyword(store, surface, pointId, { count: 2, matchCoordinates: true })));
+    return toLatest(groups.flat());
   }
   async trend(storeId: string, keywordKey: string, options: { surface: Surface; pointId?: string; since: string }) {
     const store = await this.getStore(storeId);
@@ -293,10 +339,29 @@ export class MongoTrackingRepository implements TrackingRepository {
     const docs = await (await this.obsCol()).find({ storeId, placeId: store.placeId, keywordKey, surface: options.surface, localDate: options.localDate }, { sort: { observedAt: -1, observationId: -1 }, projection: { _id: 0 }, limit: 5001 }).toArray();
     return docs as unknown as RankObservation[];
   }
+  private async summaryRows(store: StoredStore, surface: Surface): Promise<RankObservation[]> {
+    const pointId = defaultPointId(store);
+    if (pointId === 'r0c0' && !store.center) return [];
+    return this.recentPerKeyword(store, surface, pointId, { count: 1, matchCoordinates: true });
+  }
   async summaries(options: { surface?: Surface } = {}) {
     const surface = options.surface ?? 'web';
     const stores = await this.listStores({ includeInactive: true });
-    return Promise.all(stores.map(async s => summarize(s.storeId, surface, activeLatest(s, await this.latest(s.storeId, { surface })))));
+    return mapInBatches(stores, 3, async store =>
+      summarizeObservations(store, surface, await this.summaryRows(store, surface)));
+  }
+  async portfolio(surface: Surface): Promise<StorePortfolio[]> {
+    const stores = await this.listStores({ includeInactive: true });
+    return mapInBatches(stores, 3, async store => {
+      const pointId = defaultPointId(store);
+      const rows = await this.summaryRows(store, surface);
+      // Legacy roster counts also include unlocated observations; the latest ranking summary
+      // requires a matching coordinate. A configured fixed point normally serves both views.
+      const sameScope = store.fixedPoints && (pointId !== 'r0c0' || store.center);
+      const rosterRows = sameScope ? rows
+        : await this.recentPerKeyword(store, surface, pointId, { count: 1, matchCoordinates: Boolean(store.fixedPoints) });
+      return { ...store, summary: summarizeObservations(store, surface, rows), rosterLatest: summarizeRoster(store, surface, rosterRows) };
+    });
   }
   async timeline(storeId: string, options: TimelineOptions): Promise<TimelinePage> {
     const cursor = decodeHistoryCursor(storeId, options), store = await this.getStore(storeId);
@@ -329,10 +394,7 @@ export class MongoTrackingRepository implements TrackingRepository {
   async rosterLatest(storeId: string, surface: Surface): Promise<RosterLatest | null> {
     const store = await this.getStore(storeId);
     if (!store) return null;
-    const rows = await (await this.obsCol()).aggregate<RankObservation>([
-      { $match: { storeId, placeId: store.placeId, surface, pointId: defaultPointId(store), ...(store.fixedPoints ? pointCoordinatesFilter(store, defaultPointId(store)) : {}) } }, { $sort: { observedAt: -1, observationId: -1 } },
-      { $group: { _id: '$keywordKey', row: { $first: '$$ROOT' } } }, { $replaceRoot: { newRoot: '$row' } }, { $project: { _id: 0 } },
-    ], { allowDiskUse: true }).toArray();
+    const rows = await this.recentPerKeyword(store, surface, defaultPointId(store), { count: 1, matchCoordinates: Boolean(store.fixedPoints) });
     return summarizeRoster(store, surface, rows);
   }
   async close() { try { await this.client.close(); } finally { this.connected = null; } }
